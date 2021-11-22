@@ -4,18 +4,18 @@
             "email": "Email"
         },
         "form": {
-            "cancel": "Cancelar",
-            "edit": "Editar favorito",
-            "goBack": "Volver al listado",
-            "legend": "Detalles del favorito",
-            "new": "Crear un nuevo favorito",
-            "save": "Guardar favorito"
+            "cancel": "Cancel·lar",
+            "edit": "Editar favorit",
+            "goBack": "Tornar al llistat",
+            "legend": "Detalls del favorit",
+            "new": "Crear un nou favorit",
+            "save": "Guardar favorit"
         },
         "home": {
-            "createLabel": "Crear favorito",
-            "title": "Favoritos"
+            "createLabel": "Crear favorit",
+            "title": "Subscripcions temàtiques"
         },
-        "name": "Favorito"
+        "name": "Subscripcions temàtiques"
     },
     "structuralResourcesTree": {
         "noRecordsFound": "No s'ha trobat cap tema ni operació"

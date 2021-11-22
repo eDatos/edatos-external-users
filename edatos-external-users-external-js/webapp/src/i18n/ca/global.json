@@ -45,59 +45,59 @@
     },
     "entity": {
         "action": {
-            "back": "Volver",
-            "cancel": "Cancelar",
+            "back": "Tornar",
+            "cancel": "Cancel·lar",
             "delete": "Eliminar",
             "edit": "Editar",
             "restore": "Restaurar",
-            "open": "Abrir",
+            "open": "Obrir",
             "save": "Guardar",
-            "view": "Ver",
-            "filtersReset": "Reiniciar filtros",
+            "view": "Veure",
+            "filtersReset": "Reiniciar filtres",
             "eliminar": "Eliminar",
             "recuperar": "Recuperar",
-            "close": "Cerrar",
+            "close": "Tancar",
             "confirm": "Confirmar",
             "crear": "Crear",
             "modificar": "Modificar",
-            "publishInternally": "Publicar internamente",
-            "publishExternally": "Publicar externamente",
-            "change-password": "Cambiar contraseña",
-            "data-protection-policy": "Política de protección de datos",
-            "unsubscribe": "Darse de baja",
-            "about": "Acerca de"
+            "publishInternally": "Publicar internament",
+            "publishExternally": "Publicar externament",
+            "change-password": "Canviar contrasenya",
+            "data-protection-policy": "Política de protecció de dades",
+            "unsubscribe": "Donar-se de baixa",
+            "about": "Sobre"
         },
         "delete": {
-            "title": "Confirmar operación de borrado"
+            "title": "Confirmar operació d'esborrat"
         },
         "restore": {
-            "title": "Confirmar restauración"
+            "title": "Confirmar restauració"
         },
         "recuperar": {
-            "title": "Confirmar recuperación"
+            "title": "Confirmar recuperació"
         },
         "eliminar": {
-            "title": "Confirmar eliminación"
+            "title": "Confirmar eliminació"
         },
         "crear": {
-            "title": "Confirmar creación"
+            "title": "Confirmar creació"
         },
         "modificar": {
-            "title": "Confirmar modificación"
+            "title": "Confirmar modificació"
         },
         "validation": {
-            "required": "Este campo es obligatorio.",
-            "minlength": "Este campo requiere al menos {{requiredLength}} caracteres.",
-            "maxlength": "Este campo no puede superar más de {{max}} caracteres.",
-            "min": "Este campo debe ser mayor que {{min}}.",
-            "max": "Este campo no puede ser mayor que {{max}}.",
-            "minbytes": "Este campo debe tener como mínimo {{min}} bytes.",
-            "maxbytes": "Este campo no puede tener más de {{max}} bytes.",
-            "pattern": "Este campo debe seguir el patrón {{pattern}}.",
-            "number": "Este campo debe ser un número.",
-            "datetimelocal": "Este campo debe ser una fecha y hora.",
-            "ZonedDateTimelocal": "Este campo debe ser una fecha y hora.",
-            "not-valid": "El valor de este campo no es válido"
+            "required": "Aquest camp és obligatori.",
+            "minlength": "Aquest camp requereix almenys {{requiredLength}} caracteres.",
+            "maxlength": "Aquest camp no pot superar més de {{max}} caracteres.",
+            "min": "Aquest camp ha de ser major que {{min}}.",
+            "max": "Aquest camp no pot ser major que {{max}}.",
+            "minbytes": "Aquest camp ha de tenir com a mínim {{min}} bytes.",
+            "maxbytes": "Aquest camp no pot tenir més de {{max}} bytes.",
+            "pattern": "Aquest camp ha de seguir el patró {{pattern}}.",
+            "number": "Aquest camp ha de ser un número.",
+            "datetimelocal": "Aquest camp ha de ser una data i hora.",
+            "ZonedDateTimelocal": "Aquest camp ha de ser una data i hora.",
+            "not-valid": "El valor d'aquest camp no és vàlid"
         },
         "list": {
             "empty": {

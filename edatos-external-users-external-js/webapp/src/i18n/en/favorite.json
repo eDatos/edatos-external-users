@@ -1,4 +1,14 @@
 {
+    "favorite": {
+        "entity": {
+            "email": "Email"
+        },
+        "home": {
+            "createLabel": "Crear favorito",
+            "title": "Thematic subscriptions"
+        },
+        "name": "Thematic subscriptions "
+    },
     "structuralResourcesTree": {
         "noRecordsFound": "No subject or operation found"
     }
