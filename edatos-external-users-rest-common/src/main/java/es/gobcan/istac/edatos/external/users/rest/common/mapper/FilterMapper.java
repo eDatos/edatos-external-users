@@ -65,7 +65,7 @@ public abstract class FilterMapper implements EntityMapper<FilterDto, FilterEnti
         if (permalink == null) {
             return null;
         }
-        return metadataProperties.getVisualizerPath() + URL_PERMALINK + permalink;
+        return metadataProperties.getVisualizerPath() + PATH_PERMALINK + permalink;
     }
 
     @Named("externalUserFromId")
