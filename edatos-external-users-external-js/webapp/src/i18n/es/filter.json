@@ -7,7 +7,8 @@
             "name": "Nombre",
             "notes": "Notas",
             "permalink": "URL",
-            "owner": "Propietario"
+            "owner": "Propietario",
+            "lastModifiedDate": "Fecha de modificación"
         },
         "form": {
             "cancel": "Cancelar",
@@ -20,7 +21,7 @@
             "delete": "Eliminar"
         },
         "home": {
-            "createLabel": "Crear consulta personalizada",
+            "createLabel": "Consulta personalizada",
             "title": "Consultas personalizadas"
         },
         "list": {

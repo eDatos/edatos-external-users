@@ -19,7 +19,7 @@ import es.gobcan.istac.edatos.external.users.rest.common.mapper.resolver.Generic
 @Mapper(componentModel = "spring", config = AuditingMapperConfig.class, uses = {GenericMapperResolver.class, ExternalUserMapper.class})
 public abstract class FilterMapper implements EntityMapper<FilterDto, FilterEntity> {
 
-    private static final String URL_PERMALINK = "/data.html?permalink=";
+    private static final String PATH_PERMALINK = "/data.html?permalink=";
 
     @Autowired
     private ExternalUserRepository externalUserRepository;
@@ -65,7 +65,7 @@ public abstract class FilterMapper implements EntityMapper<FilterDto, FilterEnti
         if (permalink == null) {
             return null;
         }
-        return metadataProperties.getVisualizerPath() + URL_PERMALINK + permalink;
+        return metadataProperties.getVisualizerPath() + PATH_PERMALINK + permalink;
     }
 
     @Named("externalUserFromId")
