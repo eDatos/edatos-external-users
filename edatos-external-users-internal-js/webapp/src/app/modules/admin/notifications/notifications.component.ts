@@ -32,7 +32,9 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     }
 
     public ngOnDestroy() {
-        this.eventManager.destroy(this.subscription);
+        if (this.subscription) {
+            this.eventManager.destroy(this.subscription);
+        }
     }
 
     public send() {
