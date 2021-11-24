@@ -125,7 +125,14 @@ jhipster:
         version: V_1_1 # To use HTTP/2 you will need SSL support (see above the "server.ssl" configuration)
         cache: # Used by the CachingHttpHeadersFilter
             timeToLiveInDays: 1461
-
+    security:
+        authentication:
+            jwt:
+                secret: 166deddd007daacd095972fad770947e96a537c4
+                # 10 hours and 1 minute
+                token-validity-in-seconds: 36001
+                # 30 days
+                token-validity-in-seconds-for-remember-me: 2592000
 # ===================================================================
 # Change log levels
 # ===================================================================
