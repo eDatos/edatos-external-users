@@ -8,7 +8,7 @@
     </div>
     <div class="page-body">
         <arte-spinner *ngIf="!filters"></arte-spinner>
-        <ng-container *ngIf="filters">
+        <ng-container *ngIf="filtersLoaded">
             <ng-container *ngIf="filters.length > 0;else emptyList">
                 <div class="page-table-container-fluid">
                     <arte-table

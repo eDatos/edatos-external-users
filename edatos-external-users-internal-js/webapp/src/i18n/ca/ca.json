@@ -444,7 +444,7 @@
         "rol": "Rol",
         "roles": "Rols",
         "serviceEnum": {
-            "FILTERS": "Filtres",
+            "FILTERS": "Consulta personalitzada",
             "FAVORITES": "Favorits"
         },
         "status": {
