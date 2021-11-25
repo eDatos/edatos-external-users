@@ -1,5 +1,11 @@
 /* BEGIN FORMULARIO */
 
+@keyframes animate-border-color {
+    0%   { border-color: transparent; }
+    65%  { border-color: black; }
+    100% { border-color: #c4c4c4; }
+}
+
 fieldset:enabled {
     .form-group.required label.form-label,
     label.form-label.required {
@@ -35,6 +41,8 @@ fieldset:enabled {
     .form-row {
         // TODO: actualzar el uso de form-group-inline y quitar
         width: 100%;
+        width: -moz-available;          /* WebKit-based browsers will ignore this. */
+        width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
     }
 
     & > [class*='col-'] {
@@ -46,7 +54,13 @@ fieldset:enabled {
     .ui-inputtext {
         min-height: 40px;
         background: none !important;
+        border-bottom: 2px solid transparent;
+        
+        &:enabled:hover {
+            animation: animate-border-color 0.15s forwards;
+        }
     }
+
     /* END PRIMENG */
 }
 
