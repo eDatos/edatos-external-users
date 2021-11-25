@@ -444,7 +444,7 @@
         "rol": "Role",
         "roles": "Roles",
         "serviceEnum": {
-            "FILTERS": "Filters",
+            "FILTERS": "Custom queries",
             "FAVORITES": "Favorites"
         },
         "status": {
