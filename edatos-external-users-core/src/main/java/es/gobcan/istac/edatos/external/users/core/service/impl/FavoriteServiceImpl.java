@@ -134,7 +134,7 @@ public class FavoriteServiceImpl implements FavoriteService {
 
     @Override
     public Map<String, Long> getCategorySubscribers() {
-        return favoriteRepository.getCategoriesSubscribers().stream().collect(Collectors.toMap(ImmutablePair::getLeft, ImmutablePair::getRight));
+        return favoriteRepository.getCategoriesSubscribers().stream().collect(Collectors.toMap(subscriber -> subscriber.getLeft().toString(), ImmutablePair::getRight));
     }
 
     @Override
