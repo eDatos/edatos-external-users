@@ -172,13 +172,6 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
                     }
                     return this.categoryToCategoryTreeNode(category, children);
                 })
-                .sort((a, b) => {
-                    if (a.data instanceof Category && b.data instanceof Category) {
-                        return a.data.index < b.data.index ? -1 : 1;
-                    } else {
-                        return a.data.name.val! < b.data.name.val! ? -1 : 1;
-                    }
-                })
         );
     }
 

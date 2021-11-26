@@ -1,8 +1,12 @@
 package es.gobcan.istac.edatos.external.users.rest.external.resources;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
+import es.gobcan.istac.edatos.external.users.core.domain.ExternalOperationEntity;
+import es.gobcan.istac.edatos.external.users.core.service.ExternalOperationService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -40,12 +44,18 @@ public class CategoryResource extends AbstractResource {
     private final CategoryMapper categoryMapper;
     private final ExternalCategoryService externalCategoryService;
     private final ExternalCategoryMapper externalCategoryMapper;
+    private final ExternalOperationService externalOperationService;
 
-    public CategoryResource(CategoryService categoryService, ExternalCategoryService externalCategoryService, CategoryMapper categoryMapper, ExternalCategoryMapper externalCategoryMapper) {
+    public CategoryResource(CategoryService categoryService,
+        ExternalCategoryService externalCategoryService,
+        CategoryMapper categoryMapper,
+        ExternalCategoryMapper externalCategoryMapper,
+        ExternalOperationService externalOperationService) {
         this.categoryService = categoryService;
         this.externalCategoryService = externalCategoryService;
         this.categoryMapper = categoryMapper;
         this.externalCategoryMapper = externalCategoryMapper;
+        this.externalOperationService = externalOperationService;
     }
 
     @GetMapping("/{id}")
@@ -70,7 +80,11 @@ public class CategoryResource extends AbstractResource {
     @GetMapping("/tree")
     @PreAuthorize("@secCheckerExternal.canAccessCategory(authentication)")
     public ResponseEntity<List<CategoryDto>> getCategoryTree() {
-        return ResponseEntity.ok(categoryMapper.toDtos(categoryService.getTree()));
+        List<CategoryEntity> tree = categoryService.getTree();
+        List<CategoryEntity> all = categoryService.findAll();
+        Map<CategoryEntity, List<ExternalCategoryEntity>> externalCategories = categoryService.getCategoryExternalCategories();
+        List<ExternalOperationEntity> externalOperations = externalOperationService.findAllEnabled();
+        return ResponseEntity.ok(categoryMapper.toDtos(all, tree, externalCategories, externalOperations, new HashMap<>()));
     }
 
     @Timed

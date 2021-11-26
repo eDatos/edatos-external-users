@@ -38,6 +38,11 @@ public class ExternalOperationServiceImpl implements ExternalOperationService {
     }
 
     @Override
+    public List<ExternalOperationEntity> findAllEnabled() {
+        return externalOperationRepository.findByEnabledTrue();
+    }
+
+    @Override
     public Page<ExternalOperationEntity> find(String query, Pageable pageable) {
         DetachedCriteria criteria = queryUtil.queryToExternalOperationCriteria(query, pageable);
         return externalOperationRepository.findAll(criteria, pageable);
