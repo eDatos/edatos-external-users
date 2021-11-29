@@ -175,13 +175,25 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
         );
     }
 
+    private sortChildren(a, b): -1 | 1 {
+        if (a.data instanceof Category && b.data instanceof Category) {
+            return a.data.index < b.data.index ? -1 : 1;
+        } else if (a.data instanceof ExternalOperation && b.data instanceof Category) {
+            return 1;
+        } else if (a.data instanceof Category && b.data instanceof ExternalOperation) {
+            return -1;
+        } else {
+            return a.data.id < b.data.id ? -1 : 1;
+        }
+    }
+
     private categoryToCategoryTreeNode(category: Category, children: CategoryTreeNode[]): CategoryTreeNode {
         const node: CategoryTreeNode = {
             label: category.name.val,
             collapsedIcon: 'fa fa-folder',
             expandedIcon: 'fa fa-folder-open',
             expanded: true,
-            children,
+            children: children.sort(this.sortChildren),
             data: category,
             selectable: !this.disabled,
             editMode: null,
