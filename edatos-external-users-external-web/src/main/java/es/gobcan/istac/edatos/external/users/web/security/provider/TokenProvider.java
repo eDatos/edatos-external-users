@@ -1,6 +1,6 @@
 package es.gobcan.istac.edatos.external.users.web.security.provider;
 
-import es.gobcan.istac.edatos.external.users.core.repository.DisabledTokenRepository;
+import es.gobcan.istac.edatos.external.users.core.service.DisabledTokenService;
 import es.gobcan.istac.edatos.external.users.web.config.JHipsterExtraProperties;
 import io.github.jhipster.config.JHipsterProperties;
 import io.jsonwebtoken.*;
@@ -42,13 +42,13 @@ public class TokenProvider {
     private final JHipsterProperties jHipsterProperties;
 
     private final JHipsterExtraProperties jHipsterExtraProperties;
-    
-    private final DisabledTokenRepository disabledTokenRepository;
 
-    public TokenProvider(JHipsterProperties jHipsterProperties, JHipsterExtraProperties jHipsterExtraProperties, DisabledTokenRepository disabledTokenRepository) {
+    private final DisabledTokenService disabledTokenService;
+
+    public TokenProvider(JHipsterProperties jHipsterProperties, JHipsterExtraProperties jHipsterExtraProperties, DisabledTokenService disabledTokenService) {
         this.jHipsterProperties = jHipsterProperties;
         this.jHipsterExtraProperties = jHipsterExtraProperties;
-        this.disabledTokenRepository = disabledTokenRepository;
+        this.disabledTokenService = disabledTokenService;
     }
 
     @PostConstruct
@@ -88,7 +88,7 @@ public class TokenProvider {
     public Jws<Claims> validateToken(String authToken) {
         Jws<Claims> claimsJws = null;
         try {
-            boolean thereIsATokenAndItIsDisabled = StringUtils.hasText(authToken) && disabledTokenRepository.exists(authToken);
+            boolean thereIsATokenAndItIsDisabled = StringUtils.hasText(authToken) && disabledTokenService.exists(authToken);
             if(thereIsATokenAndItIsDisabled) {
                 throw new CredentialsExpiredException("The authentication token is disabled. Login again.");
             }

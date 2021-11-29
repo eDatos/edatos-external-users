@@ -25,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 import es.gobcan.istac.edatos.external.users.core.config.MetadataProperties;
+import es.gobcan.istac.edatos.external.users.core.service.DisabledTokenService;
 import es.gobcan.istac.edatos.external.users.core.service.HtmlService;
 import es.gobcan.istac.edatos.external.users.core.service.MetadataConfigurationService;
 
@@ -39,6 +40,9 @@ public class DefaultController {
 
     @Autowired
     private HtmlService htmlService;
+
+    @Autowired
+    private DisabledTokenService disabledTokenService;
 
     private final Logger log = LoggerFactory.getLogger(DefaultController.class);
 
@@ -75,7 +79,7 @@ public class DefaultController {
             @CookieValue(value = "authenticationtoken", required = false) String token) throws UnsupportedEncodingException {
 
         String location;
-        if (StringUtils.isNotBlank(token)) {
+        if (StringUtils.isNotBlank(token) && !disabledTokenService.exists(token)) {
             location = UriBuilder.fromUri(origin).queryParam("token", token).build().toString();
         } else {
             location = force ? metadataService.retrieveExternalUsersExternalWebApplicationUrlBase() + "/#/login?origin=" + URLEncoder.encode(origin, "UTF-8") : origin;
