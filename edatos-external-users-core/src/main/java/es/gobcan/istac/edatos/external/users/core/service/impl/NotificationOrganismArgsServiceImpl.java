@@ -49,10 +49,8 @@ public final class NotificationOrganismArgsServiceImpl implements NotificationOr
     }
 
     private String[] istacOrganism(ExternalUserEntity externalUserEntity, String lopd) {
-        // EDATOS-3347 ISTAC must provide the logo
-        // String logoCode = generateTextI18n("notice.message.logo.istac");
-
-        String[] args = {"", externalUserEntity.getName(), externalUserEntity.getSurname1(), externalUserEntity.getEmail(), lopd};
+        String logoCode = generateTextI18n("notice.message.logo.istac");
+        String[] args = {logoCode, externalUserEntity.getName(), externalUserEntity.getSurname1(), externalUserEntity.getEmail(), lopd};
         return args;
     }
 

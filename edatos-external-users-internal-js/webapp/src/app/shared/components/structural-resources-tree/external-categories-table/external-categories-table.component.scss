@@ -5,6 +5,7 @@
         .ui-table-thead > tr > th,
         .ui-table-tbody > tr > td {
             padding: 0.5em;
+            word-break: break-word;
 
             &:first-child {
                 width: 4em;
