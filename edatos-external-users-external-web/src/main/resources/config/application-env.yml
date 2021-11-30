@@ -21,11 +21,11 @@ spring:
 environment:
     edatos:
         configuration:
-            db:
-                driverName: FILL_ME
-                url: FILL_ME
-                username: FILL_ME
-                password: FILL_ME
+            db:                           # Datos de conexión contra la base de datos common_metadata
+                driverName: FILL_ME       # Ejemplo: org.postgresql.Driver
+                url: FILL_ME              # Ejemplo: postgresql://localhost:5432/metamac_common_metadata_bd
+                username: FILL_ME         # Ejemplo: metamac_common_metadata_bd
+                password: FILL_ME_WITH_ENCRYPTED_PASSWORD
 
 # ===================================================================        
 # Application debug properties
