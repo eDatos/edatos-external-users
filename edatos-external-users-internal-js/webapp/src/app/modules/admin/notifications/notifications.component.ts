@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ExternalUser, Notification } from '@app/core/model';
 import { ExternalUserService } from '@app/core/service';
 import { NotificationService } from '@app/shared/service';
@@ -6,6 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ArteEventManager } from 'arte-ng/services';
 import { MessageService } from 'primeng/api';
 import { Observable, Subscription } from 'rxjs';
+import { AutocompleteShortListComponent } from 'arte-ng';
 
 @Component({
     selector: 'app-notifications',
@@ -17,6 +18,9 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     public externalUsers: ExternalUser[] = [];
     public notification: Notification;
     public selectedReceivers: string[] = [];
+
+    @ViewChild(AutocompleteShortListComponent)
+    public selectedReceiversComponent: AutocompleteShortListComponent;
 
     constructor(
         private eventManager: ArteEventManager,
@@ -55,8 +59,15 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
     private subscribeToSendResponse(result: Observable<Notification>) {
         result.subscribe(
-            (res: Notification) => this.onSaveSuccess(),
-            (res: Response) => this.onSaveError()
+            (res: Notification) => {
+                this.onSaveSuccess();
+                this.selectedReceivers = [];
+                this.selectedReceiversComponent.writeValue([]);
+                this.notification = new Notification();
+            },
+            (res: Response) => {
+                this.onSaveError();
+            }
         );
     }
 
