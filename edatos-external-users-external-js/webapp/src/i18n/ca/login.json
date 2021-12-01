@@ -4,7 +4,7 @@
             "title": "Inici de sessió"
         },
         "form": {
-            "username": "Usuari",
+            "email": "Correu electrònic",
             "password": "Contrasenya"
         },
         "action": {
