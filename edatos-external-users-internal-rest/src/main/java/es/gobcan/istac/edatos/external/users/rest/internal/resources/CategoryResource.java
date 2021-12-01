@@ -101,13 +101,7 @@ public class CategoryResource extends AbstractResource {
     @PreAuthorize("@secChecker.canAccessCategory(authentication)")
     public ResponseEntity<List<CategoryDto>> getCategoryTree() {
         List<CategoryEntity> tree = categoryService.getTree();
-        List<CategoryEntity> all = categoryService.findAll();
-        Map<CategoryEntity, List<ExternalCategoryEntity>> externalCategories = categoryService.getCategoryExternalCategories();
-        List<ExternalOperationEntity> externalOperations = externalOperationService.findAll();
-        Map<String, Long> suscribers = new HashMap<>();
-        suscribers.putAll(favoriteService.getCategorySubscribers());
-        suscribers.putAll(favoriteService.getOperationSubscribers());
-        return ResponseEntity.ok(categoryMapper.toDtos(all, tree, externalCategories, externalOperations, suscribers));
+        return ResponseEntity.ok(getTreeWithSubscribers(tree));
     }
 
     @Timed
@@ -115,8 +109,8 @@ public class CategoryResource extends AbstractResource {
     @PreAuthorize("@secChecker.canUpdateCategory(authentication)")
     public ResponseEntity<List<CategoryDto>> updateCategory(@RequestBody List<CategoryDto> category) {
         List<CategoryEntity> categoryEntity = categoryMapper.toEntities(category);
-        List<CategoryDto> response = categoryMapper.toDtos(categoryService.updateTree(categoryEntity));
-        return ResponseEntity.ok(response);
+        List<CategoryEntity> updatedTree = categoryService.updateTree(categoryEntity);
+        return ResponseEntity.ok(getTreeWithSubscribers(updatedTree));
     }
 
     @Timed
@@ -126,5 +120,15 @@ public class CategoryResource extends AbstractResource {
         categoryService.delete(id);
         auditPublisher.publish(AuditConstants.CATEGORY_DELETE, id.toString());
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+
+    List<CategoryDto> getTreeWithSubscribers(List<CategoryEntity> tree) {
+        List<CategoryEntity> all = categoryService.findAll();
+        Map<CategoryEntity, List<ExternalCategoryEntity>> externalCategories = categoryService.getCategoryExternalCategories();
+        List<ExternalOperationEntity> externalOperations = externalOperationService.findAllEnabled();
+        Map<String, Long> suscribers = new HashMap<>();
+        suscribers.putAll(favoriteService.getCategorySubscribers());
+        suscribers.putAll(favoriteService.getOperationSubscribers());
+        return categoryMapper.toDtos(all, tree, externalCategories, externalOperations, suscribers);
     }
 }
