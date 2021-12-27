@@ -58,8 +58,7 @@ export class SignupFormComponent implements OnInit {
         if (this.passwordDoNotMatch()) {
             this.validUser = false;
         } else {
-            this.accountUserService.create(this.captchaContainerEl, this.user).then((response) => this.onSaveSuccess(response));
-            this.isSaving = false;
+            this.accountUserService.create(this.captchaContainerEl, this.user).then((response) => this.onSaveSuccess(response)).finally(() => this.isSaving = false);
         }
     }
 
@@ -76,7 +75,7 @@ export class SignupFormComponent implements OnInit {
             key: 'customAlertKey',
             severity: 'success',
             summary: this.translateService.instant('signup.messages.onSuccessSumary'),
-            detail: this.translateService.instant('signup.messages.onSuccess'),
+            detail: this.translateService.instant('signup.messages.onRequest'),
             life: 5000,
         });
         this.isSaving = false;

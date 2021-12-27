@@ -17,6 +17,10 @@ export class AccountUserService {
         return this.captchaService.postRequestWithCaptcha(el, User, `${this.resourceUrl}/signup`, user, "signup");
     }
 
+    confirmRegistration(token: string): Observable<User> {
+        return this.http.get<User>(`${this.resourceUrl}/signup/confirm?token=` + token).pipe(map((res) => convert(User, res)));
+    }
+
     login(el: (ElementRef | string), credentials: Credentials): Promise<Credentials> {
         return this.captchaService.postRequestWithCaptcha(el, User, `api/login`, credentials, "login");
     }

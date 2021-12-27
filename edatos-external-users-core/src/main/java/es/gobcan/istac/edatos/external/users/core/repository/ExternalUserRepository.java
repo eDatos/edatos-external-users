@@ -1,5 +1,6 @@
 package es.gobcan.istac.edatos.external.users.core.repository;
 
+import java.time.Instant;
 import java.util.Optional;
 
 import org.hibernate.criterion.DetachedCriteria;
@@ -15,6 +16,8 @@ public interface ExternalUserRepository extends JpaRepository<ExternalUserEntity
 
     Optional<ExternalUserEntity> findOneByEmail(String email);
 
+    Optional<ExternalUserEntity> findOneByRegistrationToken(String token);
+
     Optional<ExternalUserEntity> findOneByEmailAndIdNot(String email, Long id);
 
     Optional<ExternalUserEntity> findOneByEmailAndDeletionDateIsNull(String login);
@@ -25,9 +28,9 @@ public interface ExternalUserRepository extends JpaRepository<ExternalUserEntity
 
     Page<ExternalUserEntity> findAll(DetachedCriteria criteria, Pageable pageable);
 
-    Optional<ExternalUserEntity> findOneByEmailAndDeletionDateIsNotNull(String email);
+    Optional<ExternalUserEntity> findOneByEmailIgnoreCaseAndDeletionDateIsNullAndEnabledTrue(String email);
 
-    Optional<ExternalUserEntity> findOneByEmailIgnoreCaseAndDeletionDateIsNull(String email);
+    void deleteAllByEnabledFalseAndCreatedDateIsBefore(Instant date);
 
     Boolean existsByEmailIgnoreCase(String email);
 

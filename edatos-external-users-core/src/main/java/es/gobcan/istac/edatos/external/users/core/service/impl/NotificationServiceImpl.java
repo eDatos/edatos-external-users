@@ -34,6 +34,7 @@ public class NotificationServiceImpl implements NotificationService {
     private final Logger log = LoggerFactory.getLogger(NotificationServiceImpl.class);
 
     private static String RESET_PASSWORD_URL = "/#/reset-password/change-password?key=";
+    private static String CONFIRM_REGISTRATION_URL = "/#/login?registration-key=";
 
     @Autowired
     private MessageSource messageSource;
@@ -84,6 +85,39 @@ public class NotificationServiceImpl implements NotificationService {
         String codeSubject = "notice.subject.reset_password.title";
         String messageCode = "notice.message.reset_password.text";
         String baseUrl = metadataConfigurationService.retrieveBaseUrl() + RESET_PASSWORD_URL + externalUserEntity.getResetKey();
+        ArrayList<String> argsList = new ArrayList<String>(Arrays.asList(notificationOrganismArgsService.argsByOrganism(getOrganism(), externalUserEntity, getLopd())));
+        argsList.add(baseUrl);
+
+        createNotificationWithReceiver(codeSubject, messageCode, externalUserEntity.getEmail(), argsList.toArray(new String[argsList.size()]));
+    }
+
+    @Override
+    public void createRegisterExternalUserAccountNotification(ExternalUserEntity externalUserEntity) {
+        String codeSubject = "notice.subject.confirm_signup.title";
+        String messageCode = "notice.message.confirm_signup.text";
+        String baseUrl = metadataConfigurationService.retrieveBaseUrl() + CONFIRM_REGISTRATION_URL + externalUserEntity.getRegistrationToken();
+        ArrayList<String> argsList = new ArrayList<String>(Arrays.asList(notificationOrganismArgsService.argsByOrganism(getOrganism(), externalUserEntity, getLopd())));
+        argsList.add(baseUrl);
+
+        createNotificationWithReceiver(codeSubject, messageCode, externalUserEntity.getEmail(), argsList.toArray(new String[argsList.size()]));
+    }
+
+    @Override
+    public void createExternalUserAlreadyRegisteredNotification(ExternalUserEntity externalUserEntity) {
+        String codeSubject = "notice.subject.email_in_use.title";
+        String messageCode = "notice.message.email_in_use.text";
+        String baseUrl = metadataConfigurationService.retrieveBaseUrl() + RESET_PASSWORD_URL + externalUserEntity.getResetKey();
+        ArrayList<String> argsList = new ArrayList<String>(Arrays.asList(notificationOrganismArgsService.argsByOrganism(getOrganism(), externalUserEntity, getLopd())));
+        argsList.add(baseUrl);
+
+        createNotificationWithReceiver(codeSubject, messageCode, externalUserEntity.getEmail(), argsList.toArray(new String[argsList.size()]));
+    }
+
+    @Override
+    public void createExternalUserRegistrationAlreadyRequested(ExternalUserEntity externalUserEntity) {
+        String codeSubject = "notice.subject.repeated_signup.title";
+        String messageCode = "notice.message.repeated_signup.text";
+        String baseUrl = metadataConfigurationService.retrieveBaseUrl() + CONFIRM_REGISTRATION_URL + externalUserEntity.getRegistrationToken();
         ArrayList<String> argsList = new ArrayList<String>(Arrays.asList(notificationOrganismArgsService.argsByOrganism(getOrganism(), externalUserEntity, getLopd())));
         argsList.add(baseUrl);
 

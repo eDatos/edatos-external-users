@@ -5,13 +5,14 @@ import java.time.ZonedDateTime;
 import java.util.Base64;
 import java.util.HashSet;
 import java.util.Optional;
+import java.util.UUID;
 
+import es.gobcan.istac.edatos.external.users.core.service.validator.ExternalUserValidator;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.criterion.DetachedCriteria;
 import org.json.JSONObject;
 import org.siemac.edatos.core.common.exception.EDatosException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,6 @@ import es.gobcan.istac.edatos.external.users.core.repository.ExternalUserReposit
 import es.gobcan.istac.edatos.external.users.core.repository.FilterRepository;
 import es.gobcan.istac.edatos.external.users.core.security.SecurityUtils;
 import es.gobcan.istac.edatos.external.users.core.service.ExternalUserService;
-import es.gobcan.istac.edatos.external.users.core.service.validator.ExternalUserValidator;
 import es.gobcan.istac.edatos.external.users.core.util.QueryUtil;
 import es.gobcan.istac.edatos.external.users.core.util.RandomUtil;
 
@@ -37,20 +37,21 @@ public class ExternalUserServiceImpl implements ExternalUserService {
     private final FilterRepository filterRepository;
     private final QueryUtil queryUtil;
     private final DisabledTokenRepository disabledTokenRepository;
+    private final ExternalUserValidator externalUserValidator;
 
-    @Autowired
-    private ExternalUserValidator externalUserValidator;
-
-    public ExternalUserServiceImpl(ExternalUserRepository externalUserRepository, FilterRepository filterRepository, QueryUtil queryUtil, DisabledTokenRepository disabledTokenRepository) {
+    public ExternalUserServiceImpl(ExternalUserRepository externalUserRepository, FilterRepository filterRepository, QueryUtil queryUtil,
+                                   DisabledTokenRepository disabledTokenRepository, ExternalUserValidator externalUserValidator) {
         this.externalUserRepository = externalUserRepository;
         this.filterRepository = filterRepository;
         this.queryUtil = queryUtil;
         this.disabledTokenRepository = disabledTokenRepository;
+        this.externalUserValidator = externalUserValidator;
     }
 
     @Override
     public ExternalUserEntity create(ExternalUserEntity user) {
-        externalUserValidator.checkEmailEnUso(user);
+        user.setEnabled(false);
+        user.setRegistrationToken(UUID.randomUUID().toString());
         return externalUserRepository.saveAndFlush(user);
     }
 
@@ -112,6 +113,11 @@ public class ExternalUserServiceImpl implements ExternalUserService {
     }
 
     @Override
+    public Optional<ExternalUserEntity> findByEmail(String email) {
+        return externalUserRepository.findOneByEmail(email);
+    }
+
+    @Override
     public Page<ExternalUserEntity> find(Pageable pageable, Boolean includeDeleted, String query) {
         DetachedCriteria criteria = buildExternalUserCriteria(pageable, includeDeleted, query);
         return externalUserRepository.findAll(criteria, pageable);
@@ -157,7 +163,7 @@ public class ExternalUserServiceImpl implements ExternalUserService {
     @Override
     public Optional<ExternalUserEntity> recoverExternalUserAccountPassword(String email) {
         externalUserValidator.ckeckEmailExists(email);
-        return externalUserRepository.findOneByEmailIgnoreCaseAndDeletionDateIsNull(email).map(user -> {
+        return externalUserRepository.findOneByEmailIgnoreCaseAndDeletionDateIsNullAndEnabledTrue(email).map(user -> {
             user.setResetKey(RandomUtil.generateResetKey());
             user.setResetDate(ZonedDateTime.now());
             return externalUserRepository.save(user);
@@ -182,4 +188,12 @@ public class ExternalUserServiceImpl implements ExternalUserService {
         });
     }
 
+    @Override
+    public ExternalUserEntity confirmUserRegistration(String token) {
+        ExternalUserEntity user = externalUserRepository.findOneByRegistrationToken(token).orElse(null);
+        externalUserValidator.checkRegistrationTokenHasNotExpired(user);
+
+        user.setEnabled(true);
+        return externalUserRepository.save(user);
+    }
 }

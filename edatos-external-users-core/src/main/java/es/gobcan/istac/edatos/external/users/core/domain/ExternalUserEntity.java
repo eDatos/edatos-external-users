@@ -100,6 +100,13 @@ public class ExternalUserEntity extends AbstractVersionedAndAuditingAndLogicalDe
     @OneToMany(mappedBy = "externalUser", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private final Set<FavoriteEntity> favorites = new HashSet<>();
 
+    @NotNull
+    @Column(columnDefinition = "boolean default true", nullable = false)
+    private boolean enabled;
+
+    @Column(name="registration_token", unique = true)
+    private String registrationToken;
+
     @Override
     public Long getId() {
         return id;
@@ -238,5 +245,21 @@ public class ExternalUserEntity extends AbstractVersionedAndAuditingAndLogicalDe
     public void removeFavorite(FavoriteEntity favorite) {
         favorite.setExternalUser(null);
         this.favorites.remove(favorite);
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public String getRegistrationToken() {
+        return registrationToken;
+    }
+
+    public void setRegistrationToken(String registrationToken) {
+        this.registrationToken = registrationToken;
     }
 }

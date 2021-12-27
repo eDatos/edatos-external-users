@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import javax.ws.rs.QueryParam;
 
 import es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType;
 import es.gobcan.istac.edatos.external.users.core.service.NotificationService;
@@ -63,16 +64,27 @@ public class ExternalAccountResource extends AbstractResource {
 
     @PostMapping("/account/signup")
     @Timed
-    public ResponseEntity<ExternalUserAccountDto> create(@Valid @RequestBody ExternalUserAccountDto externalUserDto) throws URISyntaxException {
-        ExternalUserEntity newExternalUser = externalUserMapper.toEntity(externalUserDto);
-        externalUserService.create(newExternalUser);
+    public ResponseEntity<Void> create(@Valid @RequestBody ExternalUserAccountDto externalUserDto) {
+        ExternalUserEntity registeredUser = externalUserService.findByEmail(externalUserDto.getEmail()).orElse(null);
+        if(registeredUser != null) {
+            if(registeredUser.isEnabled()) {
+                notificationService.createExternalUserAlreadyRegisteredNotification(registeredUser);
+            } else {
+                notificationService.createExternalUserRegistrationAlreadyRequested(registeredUser);
+            }
+        } else {
+            ExternalUserEntity user = externalUserService.create(externalUserMapper.toEntity(externalUserDto));
+            notificationService.createRegisterExternalUserAccountNotification(user);
+        }
 
-        notificationService.createNewExternalUserAccountNotification(newExternalUser);
-        ExternalUserAccountDto newExternalUserDto = externalUserMapper.toDto(newExternalUser);
+        return ResponseEntity.ok().build();
+    }
 
-        auditPublisher.publish(AuditConstants.USUARIO_CREACION, newExternalUserDto.getEmail());
-        return ResponseEntity.created(new URI("/api/account/signup/" + newExternalUserDto.getEmail())).headers(HeaderUtil.createAlert("userManagement.created", newExternalUserDto.getEmail()))
-                .body(newExternalUserDto);
+    @GetMapping("/account/signup/confirm")
+    @Timed
+    public ResponseEntity<ExternalUserAccountDto> create(@QueryParam("token") String token) throws URISyntaxException {
+        ExternalUserEntity externalUser = externalUserService.confirmUserRegistration(token);
+        return ResponseEntity.created(new URI("/api/account/signup/" + externalUser.getEmail())).body(externalUserMapper.toDto(externalUser));
     }
 
     @PostMapping("/account/logout")

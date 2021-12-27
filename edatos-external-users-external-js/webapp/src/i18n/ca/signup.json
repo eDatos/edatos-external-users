@@ -19,7 +19,8 @@
         },
         "messages": {
             "onSuccessSumary": "Registre de nou usuari",
-            "onSuccess": "L'usuari s'ha registrat amb èxit"
+            "onSuccess": "L'usuari s'ha registrat amb èxit",
+            "onRequest": "S'ha enviat un correu per confirmar el registre"
         }
     }
 }

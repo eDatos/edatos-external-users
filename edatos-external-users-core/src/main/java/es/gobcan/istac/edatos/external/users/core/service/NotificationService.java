@@ -14,6 +14,10 @@ public interface NotificationService {
     void createChangePasswordExternaluserAccountNotification(ExternalUserEntity externalUserEntity);
     void createResetPasswordExternaluserAccountNotification(ExternalUserEntity externalUserEntity);
 
+    void createRegisterExternalUserAccountNotification(ExternalUserEntity externalUserEntity);
+    void createExternalUserAlreadyRegisteredNotification(ExternalUserEntity externalUserEntity);
+    void createExternalUserRegistrationAlreadyRequested(ExternalUserEntity externalUserEntity);
+
     void createNoticeOfSusbcritionsJob(List<FavoriteEntity> listFavorites);
 
     void createNotificationWithReceivers(String message, String subject, Receivers receivers);

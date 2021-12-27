@@ -19,7 +19,8 @@
         },
         "messages": {
             "onSuccessSumary": "Registro de nuevo usuario",
-            "onSuccess": "El usuario se ha registrado con éxito"
+            "onSuccess": "El usuario se ha registrado con éxito",
+            "onRequest": "Se ha enviado un correo para confirmar el registro"
         }
     }
 }
