@@ -68,6 +68,7 @@ public class ExternalAccountResource extends AbstractResource {
         ExternalUserEntity registeredUser = externalUserService.findByEmail(externalUserDto.getEmail()).orElse(null);
         if(registeredUser != null) {
             if(registeredUser.isEnabled()) {
+                registeredUser = externalUserService.recoverExternalUserAccountPassword(registeredUser.getEmail()).get();
                 notificationService.createExternalUserAlreadyRegisteredNotification(registeredUser);
             } else {
                 notificationService.createExternalUserRegistrationAlreadyRequested(registeredUser);
