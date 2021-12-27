@@ -15,12 +15,6 @@ public class ExternalUserValidator extends AbstractValidator<ExternalUserEntity>
     @Autowired
     ExternalUserRepository externalUserRepository;
 
-    public void ckeckEmailExists(String email) {
-        if (!externalUserRepository.findOneByEmailAndDeletionDateIsNull(email).isPresent()) {
-            throw new EDatosException(ServiceExceptionType.EXTERNAL_USER_NOT_EXISTS);
-        }
-    }
-
     public void checkRegistrationTokenHasNotExpired(ExternalUserEntity user) {
         if(user == null || user.getCreatedDate().isBefore(Instant.now().minusSeconds(86400))) {
             throw new EDatosException(ServiceExceptionType.EXTERNAL_USER_REGISTRATION_CONFIRMATION);

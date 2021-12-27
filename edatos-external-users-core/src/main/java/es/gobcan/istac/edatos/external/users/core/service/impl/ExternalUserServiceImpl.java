@@ -162,7 +162,6 @@ public class ExternalUserServiceImpl implements ExternalUserService {
 
     @Override
     public Optional<ExternalUserEntity> recoverExternalUserAccountPassword(String email) {
-        externalUserValidator.ckeckEmailExists(email);
         return externalUserRepository.findOneByEmailIgnoreCaseAndDeletionDateIsNullAndEnabledTrue(email).map(user -> {
             user.setResetKey(RandomUtil.generateResetKey());
             user.setResetDate(ZonedDateTime.now());
