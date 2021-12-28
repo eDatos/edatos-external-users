@@ -398,7 +398,8 @@
                 "categories": "Subscripcions temàtiques",
                 "fullname": "Nom o cognoms",
                 "language": "Idioma",
-                "service": "Servei"
+                "service": "Servei",
+                "registration": "Inclou els no registrats"
             },
             "placeholders": {
                 "fullname": "Introdueixi nom o cognoms",

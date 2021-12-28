@@ -398,7 +398,8 @@
                 "categories": "Thematic subscriptions",
                 "fullname": "Name or surname",
                 "language": "Language",
-                "service": "Service"
+                "service": "Service",
+                "registration": "Include unregistered"
             },
             "placeholders": {
                 "fullname": "Enter name or surname",
