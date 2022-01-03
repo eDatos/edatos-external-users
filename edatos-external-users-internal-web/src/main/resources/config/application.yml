@@ -188,4 +188,7 @@ logging:
 application:
     jobs:
         cron:
+            disabledTokens: 0 0 3 * * *
             enabledTokens: 0 0 4 * * *
+            registrationTokens: 0 0 5 * * *
+            captchaResponses: 0 0/30 * * * ?

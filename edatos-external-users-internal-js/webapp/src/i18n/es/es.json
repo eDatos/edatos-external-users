@@ -398,7 +398,8 @@
                 "categories": "Suscripciones temáticas",
                 "fullname": "Nombre o apellidos",
                 "language": "Idioma",
-                "service": "Servicio"
+                "service": "Servicio",
+                "registration": "Incluir no registrados"
             },
             "placeholders": {
                 "fullname": "Introduzca nombre o apellidos",

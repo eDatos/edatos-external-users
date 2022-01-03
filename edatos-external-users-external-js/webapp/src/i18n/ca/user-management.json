@@ -3,7 +3,6 @@
         "permissions": "Permisos",
         "personalData": "Dades personals",
         "activado": "Activat",
-        "created": "S'ha creat l'usuari {{ param }}",
         "createdDate": "Data de registre",
         "deactivate": {
             "question": "¿Segur que desitja desactivar l'usuari <strong>{{ email }}</strong>?"

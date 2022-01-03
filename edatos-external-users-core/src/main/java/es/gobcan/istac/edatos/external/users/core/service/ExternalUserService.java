@@ -21,6 +21,8 @@ public interface ExternalUserService {
 
     ExternalUserEntity find(Long id);
 
+    Optional<ExternalUserEntity> findByEmail(String email);
+
     Page<ExternalUserEntity> find(Pageable pageable, Boolean includeDeleted, String query);
 
     ExternalUserEntity getUsuarioWithAuthorities();
@@ -31,4 +33,6 @@ public interface ExternalUserService {
     Optional<ExternalUserEntity> recoverExternalUserAccountPassword(String email);
     Optional<ExternalUserEntity> completePasswordReset(String newPassword, String key);
     Optional<ExternalUserEntity> findOneByResetKey(String key);
+
+    ExternalUserEntity confirmUserRegistration(String token);
 }

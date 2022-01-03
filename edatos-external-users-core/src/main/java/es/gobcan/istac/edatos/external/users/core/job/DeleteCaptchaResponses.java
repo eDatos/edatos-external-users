@@ -23,7 +23,7 @@ public class DeleteCaptchaResponses {
     }
 
     @Transactional
-    @Scheduled(cron = "0 0/30 * * * ?") // Every 30 minutes
+    @Scheduled(cron = "${application.jobs.cron.captchaResponses}")
     public void execute() {
         LOG.info("Starting to clean captcha responses that have existed for too long...");
         captchaResponseRepository.deleteByCreatedDateBefore(Instant.now().minusMillis(CaptchaConstants.CAPTCHA_LIFESPAN));

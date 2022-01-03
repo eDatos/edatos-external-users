@@ -22,7 +22,7 @@ public class DeleteExpiredDisabledTokens {
     }
 
     @Transactional
-    @Scheduled(cron = "0 0 3 * * *") // Every day at 03:00
+    @Scheduled(cron = "${application.jobs.cron.disabledTokens}")
     public void execute() {
         LOG.info("Starting to clean expired disabled tokens...");
         disabledTokenService.deleteByExpirationDateBefore(Instant.now());
