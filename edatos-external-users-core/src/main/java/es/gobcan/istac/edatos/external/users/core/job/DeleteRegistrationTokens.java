@@ -20,7 +20,7 @@ public class DeleteRegistrationTokens {
     }
 
     @Transactional
-    @Scheduled(cron = "0 0 5 * * *") // Every day at 05:00
+    @Scheduled(cron = "${application.jobs.cron.registrationTokens}")
     public void execute() {
         LOG.info("Starting to clean user accounts that have not been confirmed for too long...");
         externalUserRepository.deleteAllByEnabledFalseAndCreatedDateIsBefore(Instant.now().minusSeconds(86400));
