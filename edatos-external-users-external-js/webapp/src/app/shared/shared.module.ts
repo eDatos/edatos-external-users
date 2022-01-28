@@ -36,9 +36,10 @@ import { PasswordMatchValidatorDirective } from './directives';
 import { PasswordNotMatchValidatorDirective } from './directives';
 import { MultiLanguageEditorComponent } from './components/multi-language-editor/multi-language-editor.component';
 import { MultiLanguageInputComponent } from './components/multi-language-input/multi-language-input.component';
+import { NavbarComponent } from "./components/navbar/navbar.component";
+import { SafeHtmlPipe } from "./pipe/safe-html.pipe";
 import { NbButtonModule, NbCardModule } from '@nebular/theme';
 import { EUsuariosAlertService } from '@app/core/service';
-import { SwitchLocaleComponent } from './components/switch-locale/switch-locale.component';
 
 @NgModule({
     imports: [
@@ -83,7 +84,8 @@ import { SwitchLocaleComponent } from './components/switch-locale/switch-locale.
         MultiLanguageEditorComponent,
         MultiLanguageInputComponent,
         StructuralResourcesTreeComponent,
-        SwitchLocaleComponent,
+        NavbarComponent,
+        SafeHtmlPipe
     ],
     providers: [
         FormcontrolStatusService,
@@ -133,7 +135,8 @@ import { SwitchLocaleComponent } from './components/switch-locale/switch-locale.
         NbButtonModule,
         NbCardModule,
         MultiLanguageInputComponent,
-        SwitchLocaleComponent,
+        NavbarComponent,
+        SafeHtmlPipe
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

@@ -30,6 +30,7 @@ public class MetadataProperties {
     private String metamacCasLogoutUrl;
     private String defaultLanguage;
     private List<String> availableLanguages;
+    private String languageCookie;
 
     private boolean captchaEnable;
     private String captchaProvider;
@@ -56,6 +57,7 @@ public class MetadataProperties {
             recaptchaSecretKey = configurationService.retrieveRecaptchaSecretKey();
             captchaUrl = normalizeUrl(configurationService.retrieveCaptchaExternalApiUrlBase());
             availableLanguages = configurationService.retrieveLanguages();
+            languageCookie = configurationService.retrieveInternationalizationCookieId();
             externalAppUrl = normalizeUrl(configurationService.retrieveExternalUsersExternalWebApplicationUrlBase());
             internalAppUrl = normalizeUrl(configurationService.retrieveExternalUsersInternalWebApplicationUrlBase());
             casService = internalAppUrl + "/login/cas";
@@ -121,6 +123,10 @@ public class MetadataProperties {
     public List<String> getAvailableLanguages() {
         // The languages are retrieved each time it is needed so that multi-language fields can be updated
         return availableLanguages;
+    }
+
+    public String getLanguageCookie() {
+        return languageCookie;
     }
 
     private String normalizeUrl(String url) {

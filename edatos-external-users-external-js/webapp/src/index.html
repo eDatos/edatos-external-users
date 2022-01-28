@@ -9,9 +9,7 @@
         <link rel="manifest" href="manifest.webmanifest" />
     </head>
     <body>
-        <div th:utext="${headerHtml}"></div>
 
-        <app-switch-locale></app-switch-locale>
         <script th:inline="javascript">
             /*<![CDATA[*/
             window.CONFIGURATION = {};
@@ -21,8 +19,10 @@
 
             window.CONFIGURATION.metadata = {};
             window.CONFIGURATION.metadata.defaultLanguage = /*[[${@metadataProperties.defaultLanguage}]]*/ 'es';
+            window.CONFIGURATION.metadata.languageCookie = /*[[${@metadataProperties.languageCookie}]]*/ 'chosenLocale';
 
-            window.CONFIGURATION.metadata.availableLanguages = /*[[${@metadataProperties.availableLanguages}]]*/ ['es', 'en', 'ca'];
+            window.CONFIGURATION.template = {};
+            window.CONFIGURATION.template.headerUrl = /*[[${headerUrl}]]*/ "http://localhost:8070/complementos-apps/organisations/istac/common/header/header.html?appName=Mi%20%C3%A1rea%20personal";
             /*]]>*/
         </script>
         <script src="http://localhost:8080/api/captcha/authentication.js" th:src="${captchaAuthenticationUrl}"></script>

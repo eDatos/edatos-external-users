@@ -1,14 +1,16 @@
 import { Injectable, RendererFactory2, Renderer2 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router, ActivatedRouteSnapshot } from '@angular/router';
+import { ConfigService } from '@app/config';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { LANGUAGES } from './language.constants';
+import { CookieService } from "ngx-cookie";
 
 @Injectable()
 export class PageTitleService {
     renderer: Renderer2 = null;
 
-    constructor(private translateService: TranslateService, private rootRenderer: RendererFactory2, private titleService: Title, private router: Router) {
+    constructor(private translateService: TranslateService, rootRenderer: RendererFactory2, private titleService: Title, private router: Router, private configService: ConfigService, private cookieService: CookieService) {
         this.renderer = rootRenderer.createRenderer(document.querySelector('html'), null);
         this.init();
     }
@@ -36,7 +38,7 @@ export class PageTitleService {
 
     private init() {
         this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
-            this.renderer.setAttribute(document.querySelector('html'), 'lang', this.translateService.currentLang);
+            this.renderer.setAttribute(document.querySelector('html'), this.configService.getConfig().metadata.languageCookie, this.cookieService.get(this.configService.getConfig().metadata.languageCookie));
             this.update();
         });
     }

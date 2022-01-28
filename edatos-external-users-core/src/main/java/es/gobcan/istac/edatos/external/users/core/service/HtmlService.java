@@ -2,8 +2,8 @@ package es.gobcan.istac.edatos.external.users.core.service;
 
 public interface HtmlService {
 
-    public String getHeaderHtml();
+    String getHeaderUrl();
 
-    public String getFooterHtml();
+    String getFooterHtml();
 
 }

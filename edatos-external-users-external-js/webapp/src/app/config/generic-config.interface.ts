@@ -7,6 +7,9 @@ export interface GenericConfig {
     };
     metadata: {
         defaultLanguage: string;
-        availableLanguages: string[];
+        languageCookie: string;
     };
+    template: {
+        headerUrl: string;
+    }
 }
