@@ -1,6 +1,7 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { ConfigService } from "@app/config";
 import { HttpClient } from "@angular/common/http";
+import { reinsertScripts } from "@app/shared/utils/htmlUtils";
 
 @Component({
     selector: 'jhi-navbar',
@@ -20,22 +21,8 @@ export class NavbarComponent implements OnInit {
         this.http.get(this.configService.getConfig().template.headerUrl, {responseType: 'text', withCredentials: true}).subscribe(data => {
             this.navbar = data.toString();
             setTimeout(() => {
-                this.reinsertScripts();
+                reinsertScripts(this.elementRef);
             });
         })
-    }
-
-    private reinsertScripts() {
-        const scriptList = this.elementRef.nativeElement.getElementsByTagName('script');
-        for (const script of scriptList) {
-            const scriptCopy = document.createElement('script');
-            if (script.innerHTML) {
-                scriptCopy.innerHTML = script.innerHTML;
-            } else if (script.src) {
-                scriptCopy.src = script.src;
-            }
-            scriptCopy.async = false;
-            script.parentNode.replaceChild(scriptCopy, script);
-        }
     }
 }

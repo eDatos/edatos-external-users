@@ -37,6 +37,7 @@ import { PasswordNotMatchValidatorDirective } from './directives';
 import { MultiLanguageEditorComponent } from './components/multi-language-editor/multi-language-editor.component';
 import { MultiLanguageInputComponent } from './components/multi-language-input/multi-language-input.component';
 import { NavbarComponent } from "./components/navbar/navbar.component";
+import { FooterComponent } from "./components/footer/footer.component";
 import { SafeHtmlPipe } from "./pipe/safe-html.pipe";
 import { NbButtonModule, NbCardModule } from '@nebular/theme';
 import { EUsuariosAlertService } from '@app/core/service';
@@ -85,6 +86,7 @@ import { EUsuariosAlertService } from '@app/core/service';
         MultiLanguageInputComponent,
         StructuralResourcesTreeComponent,
         NavbarComponent,
+        FooterComponent,
         SafeHtmlPipe
     ],
     providers: [
@@ -136,6 +138,7 @@ import { EUsuariosAlertService } from '@app/core/service';
         NbCardModule,
         MultiLanguageInputComponent,
         NavbarComponent,
+        FooterComponent,
         SafeHtmlPipe
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],

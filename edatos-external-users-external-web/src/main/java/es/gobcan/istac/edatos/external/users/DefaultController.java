@@ -60,7 +60,7 @@ public class DefaultController {
         Map<String, Object> model = new HashMap<>();
         model.put("faviconUrl", this.faviconUrl);
         model.put("headerUrl", htmlService.getHeaderUrl());
-        model.put("footerHtml", htmlService.getFooterHtml());
+        model.put("footerUrl", metadataService.retrieveAppStyleFooterUrl());
 
         UriBuilder urlBuilder = UriBuilder.fromUri(metadataProperties.getCaptchaUrl());
         urlBuilder.path("authentication.js");

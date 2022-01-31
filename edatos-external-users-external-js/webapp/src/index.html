@@ -23,11 +23,11 @@
 
             window.CONFIGURATION.template = {};
             window.CONFIGURATION.template.headerUrl = /*[[${headerUrl}]]*/ "http://localhost:8070/complementos-apps/organisations/istac/common/header/header.html?appName=Mi%20%C3%A1rea%20personal";
+            window.CONFIGURATION.template.footerUrl = /*[[${footerUrl}]]*/ "http://localhost:8070/complementos-apps/organisations/istac/common/footer/footer.html";
             /*]]>*/
         </script>
         <script src="http://localhost:8080/api/captcha/authentication.js" th:src="${captchaAuthenticationUrl}"></script>
 
         <app-root></app-root>
-        <div th:utext="${footerHtml}"></div>
     </body>
 </html>

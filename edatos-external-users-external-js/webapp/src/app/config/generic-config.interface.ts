@@ -11,5 +11,6 @@ export interface GenericConfig {
     };
     template: {
         headerUrl: string;
+        footerUrl: string;
     }
 }
