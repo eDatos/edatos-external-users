@@ -24,6 +24,20 @@
                 "main": "Compte",
                 "myAccount": "El meu compte",
                 "sessions": "Sessions"
+            },
+            "admin": {
+                "main": "Administració",
+                "userManagement": "Gestió d'usuaris",
+                "configuration": "Configuració",
+                "logs": "Logs",
+                "audits": "Auditoria",
+                "apidocs": "API",
+                "jhipster-needle-menu-add-admin-element": "JHipster will add additional menu entries here (do not translate!)",
+                "filter": "Consultes personalitzades",
+                "favorite": "Subscripcions temàtiques"
+            },
+            "administracion": {
+                "main": "Administración"
             }
         },
         "messages": {
@@ -109,6 +123,15 @@
                 "writeForSuggestions": "Comenci a escriure per a suggerir resultats"
             }
         },
+        "audits": {
+            "title": "Auditoria",
+            "createdBy": "Creat per",
+            "createdDate": "Data de creació",
+            "lastModifiedBy": "Modificat per",
+            "lastModifiedDate": "Data de modificació",
+            "deletedBy": "Eliminat per",
+            "deletionDate": "Data d'eliminació"
+        },
         "input": {
             "placeholder": "Introdueixi el text desitjat"
         },
@@ -119,6 +142,14 @@
         },
         "calendar": {
             "placeholder": "Seleccioni en el calendari la data desitjada"
+        }
+    },
+    "enum": {
+        "procStatus": {
+            "label": "Estat del cicle de vida",
+            "DRAFT": "Esborrany",
+            "INTERNALLY_PUBLISHED": "Publicat internament",
+            "EXTERNALLY_PUBLISHED": "Publicat externament"
         }
     },
     "home": {

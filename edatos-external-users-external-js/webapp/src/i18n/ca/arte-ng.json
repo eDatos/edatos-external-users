@@ -1,32 +1,5 @@
 {
     "arte": {
-        "arte-table-count": {
-            "itemCount": "{{itemFirst}} - {{itemLast}} de {{total}}"
-        },
-        "audit-info": {
-            "createdBy": "Creat per",
-            "createdDate": "Data de creació",
-            "deletedBy": "Eliminat per",
-            "deletionDate": "Data d'eliminació",
-            "lastModifiedBy": "Modificat per",
-            "lastModifiedDate": "Data de modificació",
-            "title": "Auditoria"
-        },
-        "autocomplete": {
-            "createNewItem": "(Afegir nou)",
-            "emptyMessage": "No s'han obtingut resultats que compleixin els criteris de cerca.",
-            "placeholder": "Seleccioni una de les opcions disponibles"
-        },
-        "autocomplete-long-list": {
-            "placeholder": "Comenci a escriure per a suggerir resultats"
-        },
-        "calendar": {
-            "placeholder": "Seleccioni en el calendari la data desitjada"
-        },
-        "entity-list-empty": {
-            "detail": "No s'han obtingut resultats que compleixin els criteris de cerca.",
-            "sorry": "Ho sentim"
-        },
         "file-upload": {
             "cancel": "Cancel·lar",
             "choose": "Triar",
@@ -43,6 +16,37 @@
             "noUploadPending": "No hi ha arxius pendents de pujar",
             "upload": "Pujar"
         },
+        "entity-list-empty": {
+            "detail": "No s'han obtingut resultats que compleixin els criteris de cerca.",
+            "sorry": "Ho sentim"
+        },
+        "input": {
+            "placeholder": "Introdueixi el text desitjat"
+        },
+        "input-number": {
+            "placeholder": "Introdueixi el número desitjat"
+        },
+        "input-text": {
+            "placeholder": "Introdueixi el text desitjat"
+        },
+        "autocomplete-long-list": {
+            "placeholder": "Comenci a escriure per a suggerir resultats"
+        },
+        "autocomplete": {
+            "createNewItem": "(Afegir nou)",
+            "emptyMessage": "No s'han obtingut resultats que compleixin els criteris de cerca.",
+            "placeholder": "Seleccioni una de les opcions disponibles"
+        },
+        "calendar": {
+            "placeholder": "Seleccioni en el calendari la data desitjada"
+        },
+        "multi-input": {
+            "placeholder": "Escrigui el valor i premi enter per a afegir-lo"
+        },
+        "tri-input-switch": {
+            "yes": "Sí",
+            "no": "No"
+        },
         "form-control-status": {
             "error-messages": {
                 "ZonedDateTimelocal": "Aquest camp ha de ser una data i hora.",
@@ -57,24 +61,25 @@
                 "not-valid": "El valor d'aquest camp no és vàlid",
                 "number": "Aquest camp ha de ser un número.",
                 "pattern": "Aquest camp ha de seguir el patró {{pattern}}.",
-                "required": "Aquest camp és obligatori."
+                "required": "Aquest camp és obligatori.",
+                "passwordMatch": "Assegureu-vos que les vostres contrasenyes coincideixen",
+                "passwordNotMatch": "La contrasenya actual i la nova NO poden ser la mateixa."
             }
         },
-        "input": {
-            "placeholder": "Introdueixi el text desitjat"
+        "alert-service": {
+            "entities": {}
         },
-        "input-number": {
-            "placeholder": "Introdueixi el número desitjat"
+        "arte-table-count": {
+            "itemCount": "{{itemFirst}} - {{itemLast}} de {{total}}"
         },
-        "input-text": {
-            "placeholder": "Introdueixi el text desitjat"
-        },
-        "multi-input": {
-            "placeholder": "Escrigui el valor i premi enter per a afegir-lo"
-        },
-        "tri-input-switch": {
-            "no": "No",
-            "yes": "Sí"
+        "audit-info": {
+            "createdBy": "Creat per",
+            "createdDate": "Data de creació",
+            "deletedBy": "Eliminat per",
+            "deletionDate": "Data d'eliminació",
+            "lastModifiedBy": "Modificat per",
+            "lastModifiedDate": "Data de modificació",
+            "title": "Auditoria"
         }
     }
 }

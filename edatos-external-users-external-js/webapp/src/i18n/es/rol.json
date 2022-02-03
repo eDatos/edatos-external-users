@@ -1,0 +1,30 @@
+{
+    "edatosExternalUsersApp": {
+        "rol": {
+            "accion": "Acción",
+            "created": "Se ha creado el rol {{ param }}",
+            "delete": {
+                "question": "¿Seguro que desea eliminar el rol {{ id }}?"
+            },
+            "deleted": "Se ha eliminado el rol {{ param }}",
+            "nombre": "Nombre",
+            "roles": "Roles",
+            "sujeto": "Sujeto",
+            "updated": "Se ha actualizado el rol {{ param }}"
+        },
+        "rolesEnum": {
+            "ADMINISTRADOR": "Administrador",
+            "ANY_ROLE_ALLOWED": "Cualquier rol permitido",
+            "JEFE_NORMALIZACION": "Jefe de normalización",
+            "LECTOR": "Lector",
+            "TECNICO_APOYO_DIFUSION": "Técnico de soporte de difusión",
+            "TECNICO_APOYO_NORMALIZACION": "Técnico de soporte de normalización",
+            "TECNICO_APOYO_PLANIFICACION": "Técnico de soporte de planificación",
+            "TECNICO_APOYO_PRODUCCION": "Técnico de soporte de producción",
+            "TECNICO_DIFUSION": "Técnico de difusión",
+            "TECNICO_NORMALIZACION": "Técnico de normalización",
+            "TECNICO_PLANIFICACION": "Técnico de planificación",
+            "TECNICO_PRODUCCION": "Técnico de producción"
+        }
+    }
+}

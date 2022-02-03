@@ -24,6 +24,7 @@
         "file-empty": "The file is empty",
         "id-existe": "A new {{0}} cannot previously have an ID",
         "internalServerError": "Internal server error",
+        "dataConstraintViolation": "Internal server error",
         "nonExistingUser": {
             "detail": "Sorry, the user you are trying to access with has not registered.",
             "title": "User error"
@@ -35,9 +36,6 @@
         "server.not.reachable": "Server not accessible",
         "title": "Oops, an error occurred!",
         "url.not.found": "Not found",
-        "userManagement": {
-            "usuario-ldap-no-encontrado": "The specified user was not found"
-        },
         "usuario-existe": "The username entered is already in use",
         "quartz": {
             "jobExecutionError": "Error while running a job Quartz"

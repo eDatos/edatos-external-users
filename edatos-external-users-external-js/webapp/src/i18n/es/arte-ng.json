@@ -71,6 +71,15 @@
         },
         "arte-table-count": {
             "itemCount": "{{itemFirst}} - {{itemLast}} de {{total}}"
+        },
+        "audit-info": {
+            "createdBy": "Creado por",
+            "createdDate": "Fecha de creación",
+            "deletedBy": "Eliminado por",
+            "deletionDate": "Fecha de eliminación",
+            "lastModifiedBy": "Modificado por",
+            "lastModifiedDate": "Fecha de modificación",
+            "title": "Auditoría"
         }
     }
 }

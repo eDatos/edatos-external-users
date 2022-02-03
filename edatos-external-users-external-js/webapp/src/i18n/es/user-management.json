@@ -2,11 +2,17 @@
     "userManagement": {
         "personalData": "Datos personales",
         "permissions": "Permisos",
+        "activado": "Activado",
+        "desactivado": "Desactivado",
+        "createdDate": "Fecha de creación",
         "home": {
             "title": "Usuarios",
             "createLabel": "Añadir nuevo usuario",
             "createOrEditLabel": "Crear o editar un usuario",
-            "includeDeleted": "Incluir desactivados"
+            "includeDeleted": "Incluir desactivados",
+            "favorites": "Favoritos",
+            "filters": "Filtros",
+            "createDeactivatedTooltip": "La creación de usuarios está desactivada"
         },
         "updated": "Se ha actualizado el usuario {{ param }}",
         "deleted": "Se ha eliminado el usuario {{ param }}",

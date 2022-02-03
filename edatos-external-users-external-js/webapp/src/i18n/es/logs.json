@@ -1,0 +1,16 @@
+{
+    "logs": {
+        "filter": "Filtro",
+        "nbloggers": "Hay {{ total }} registros. Los registros marcados con <i class='fa fa-asterisk'></i> no heredan el valor de su padre.",
+        "table": {
+            "button": {
+                "ERROR": "ERROR",
+                "INFO": "INFO",
+                "WARN": "WARN"
+            },
+            "level": "Nivel",
+            "name": "Nombre"
+        },
+        "title": "Logs"
+    }
+}

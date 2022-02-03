@@ -11,6 +11,7 @@
             "lastModifiedDate": "Data de modificació"
         },
         "form": {
+            "audit": "Audit",
             "cancel": "Cancel·lar",
             "delete": "Eliminar consulta",
             "edit": "Editar consulta",
