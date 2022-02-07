@@ -630,8 +630,11 @@
             "cas": "CAS",
             "db": "Base de datos",
             "diskSpace": "Espacio en disco",
+            "kafka": "Kafka",
             "ldap": "LDAP",
-            "mail": "Email"
+            "mail": "Email",
+            "noticesInternal": "Gestor de notificaciones",
+            "structuralResourcesExternal": "Gestor de recursos estructurales"
         },
         "refresh.button": "Refrescar",
         "stacktrace": "Traza",
