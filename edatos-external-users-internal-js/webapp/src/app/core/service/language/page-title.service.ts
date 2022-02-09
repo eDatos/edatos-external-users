@@ -36,7 +36,7 @@ export class PageTitleService {
 
     private init() {
         this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
-            this.renderer?.setAttribute(document.querySelector('html'), 'chosenLocale', this.translateService.currentLang);
+            this.renderer?.setAttribute(document.querySelector('html'), 'lang', this.translateService.currentLang);
             this.update();
         });
     }

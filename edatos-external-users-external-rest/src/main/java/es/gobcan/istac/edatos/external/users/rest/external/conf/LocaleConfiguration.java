@@ -1,11 +1,4 @@
-package es.gobcan.istac.edatos.external.users.rest.common.config;
-
-import java.io.IOException;
-import java.util.Locale;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+package es.gobcan.istac.edatos.external.users.rest.external.conf;
 
 import es.gobcan.istac.edatos.external.users.core.config.MetadataProperties;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +7,12 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.springframework.web.util.WebUtils;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Locale;
 
 @Configuration
 public class LocaleConfiguration extends WebMvcConfigurerAdapter {
