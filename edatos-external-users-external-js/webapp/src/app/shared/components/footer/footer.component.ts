@@ -1,7 +1,6 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
-import { ConfigService } from "@app/config";
-import { HttpClient } from "@angular/common/http";
 import { reinsertScripts } from "@app/shared/utils/htmlUtils";
+import { HtmlService } from "@app/core/service";
 
 @Component({
     selector: 'jhi-footer',
@@ -13,12 +12,11 @@ export class FooterComponent implements OnInit {
 
     constructor(
         private elementRef: ElementRef,
-        private configService: ConfigService,
-        private http: HttpClient
+        private htmlService: HtmlService
     ) { }
 
     ngOnInit() {
-        this.http.get(this.configService.getConfig().template.footerUrl, {responseType: 'text', withCredentials: true}).subscribe(data => {
+        this.htmlService.getHeader().subscribe(data => {
             this.footer = data.toString();
             setTimeout(() => {
                 reinsertScripts(this.elementRef);
