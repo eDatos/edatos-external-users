@@ -16,7 +16,7 @@ export class FooterComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.htmlService.getHeader().subscribe(data => {
+        this.htmlService.getFooter().subscribe(data => {
             this.footer = data.toString();
             setTimeout(() => {
                 reinsertScripts(this.elementRef);
