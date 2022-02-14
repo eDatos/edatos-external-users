@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import es.gobcan.istac.edatos.external.users.core.service.HtmlService;
 import es.gobcan.istac.edatos.external.users.core.service.MetadataConfigurationService;
 
 @Component("metadataProperties")
@@ -20,9 +19,6 @@ public class MetadataProperties {
 
     @Autowired
     private MetadataConfigurationService configurationService;
-
-    @Autowired
-    private HtmlService htmlService;
 
     private String metamacNavbar;
     private String metamacCasPrefix;
@@ -53,8 +49,10 @@ public class MetadataProperties {
             metamacCasLogoutUrl = normalizeUrl(configurationService.retrieveSecurityCasServiceLogoutUrl());
             captchaEnable = configurationService.retrieveCaptchaEnable();
             captchaProvider = configurationService.retrieveCaptchaProvider();
-            recaptchaSiteKey = configurationService.retrieveRecaptchaSiteKey();
-            recaptchaSecretKey = configurationService.retrieveRecaptchaSecretKey();
+            if (CaptchaConstants.CAPTCHA_PROVIDER_RECAPTCHA.equals(captchaProvider)) {
+                recaptchaSiteKey = configurationService.retrieveRecaptchaSiteKey();
+                recaptchaSecretKey = configurationService.retrieveRecaptchaSecretKey();
+            }
             captchaUrl = normalizeUrl(configurationService.retrieveCaptchaExternalApiUrlBase());
             availableLanguages = configurationService.retrieveLanguages();
             languageCookie = configurationService.retrieveInternationalizationCookieId();
