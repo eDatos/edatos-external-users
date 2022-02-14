@@ -7,10 +7,11 @@
             "name": "First Name",
             "notes": "Notes",
             "owner": "Owner",
-            "permalink": "URL"
+            "permalink": "URL",
+            "lastModifiedDate": "Modification date"
         },
         "form": {
-            "audit": "Audit",
+            "audit": "Auditoria",
             "cancel": "Cancel",
             "delete": "Delete Custom Query",
             "edit": "Edit Custom Query",

@@ -1,4 +1,4 @@
-package es.gobcan.istac.edatos.external.users.rest.common.config;
+package es.gobcan.istac.edatos.external.users.rest.internal.conf;
 
 import java.io.IOException;
 import java.util.Locale;
@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -24,7 +23,7 @@ import es.gobcan.istac.edatos.external.users.core.config.Constants;
 @Configuration
 public class LocaleConfiguration extends WebMvcConfigurerAdapter {
 
-    public class LocaleCheckInterceptor extends HandlerInterceptorAdapter {
+    public static class LocaleCheckInterceptor extends HandlerInterceptorAdapter {
 
         @Override
         public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {

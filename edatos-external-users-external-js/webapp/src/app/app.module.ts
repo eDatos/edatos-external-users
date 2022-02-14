@@ -13,26 +13,45 @@ import { ScriptLoaderModule } from 'ngx-script-loader';
 import { NgxWebstorageModule } from 'ngx-webstorage';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AVAILABLE_LANGUAGES, DEFAULT_LANG, LANG_KEY } from './app.constants';
+import { AVAILABLE_LANGUAGES, DEFAULT_LANG } from './app.constants';
 import { ConfigService } from './config';
 import { ConfigModule } from './config/config.module';
 import { MissingTranslationHandlerImpl } from './config/missing-translation-handler-impl';
 import { CoreModule } from './core/core.module';
-import { AuthExpiredInterceptor, AuthInterceptor, ErrorHandlerInterceptor, LocaleInterceptor } from './core/interceptor';
+import { AuthExpiredInterceptor, AuthInterceptor, ErrorHandlerInterceptor } from './core/interceptor';
 import { ErrorComponent, ErrorRoutingModule } from './layouts/error';
 import { NavbarComponent } from './layouts/navbar';
 import { AboutDialogComponent, DeleteConfirmDialogComponent } from './modules/account';
 import { SharedModule } from './shared';
 
-export function createTranslateLoader(http: HttpClient) {
-    return new TranslateHttpLoader(http, './i18n/', '.json');
+class CustomTranslateHttpLoader extends TranslateHttpLoader {
+
+    private readonly defaultLang: string;
+
+    constructor(http: HttpClient, defaultLang: string, prefix?: string, suffix?: string) {
+        super(http, prefix, suffix);
+        this.defaultLang = defaultLang;
+    }
+
+    getTranslation(lang: string): Observable<Object> {
+        return super.getTranslation(lang).pipe(catchError(() => {
+            return super.getTranslation(this.defaultLang);
+        }));
+    }
 }
 
-export function initTranslations(translateService: TranslateService, cookieService: CookieService) {
-    const currentLang: string = cookieService.get(LANG_KEY) || DEFAULT_LANG;
+export function createTranslateLoader(http: HttpClient) {
+    return new CustomTranslateHttpLoader(http, DEFAULT_LANG, './i18n/', '.json');
+}
+
+export function initTranslations(translateService: TranslateService, cookieService: CookieService, configService: ConfigService) {
+    const languageCookie = configService.getConfig().metadata.languageCookie;
+    const currentLang: string = cookieService.get(languageCookie) || DEFAULT_LANG;
     translateService.setDefaultLang(DEFAULT_LANG);
     translateService.addLangs(AVAILABLE_LANGUAGES);
     return () => translateService.use(currentLang).toPromise();
@@ -65,7 +84,7 @@ export function initTranslations(translateService: TranslateService, cookieServi
         {
             provide: APP_INITIALIZER,
             useFactory: initTranslations,
-            deps: [TranslateService, CookieService],
+            deps: [TranslateService, CookieService, ConfigService],
             multi: true,
         },
         {
@@ -82,12 +101,6 @@ export function initTranslations(translateService: TranslateService, cookieServi
             provide: APP_INITIALIZER,
             useFactory: (languageService: LanguageService) => () => languageService.init(),
             deps: [LanguageService],
-            multi: true,
-        },
-        {
-            provide: HTTP_INTERCEPTORS,
-            useClass: LocaleInterceptor,
-            deps: [CookieService, ConfigService],
             multi: true,
         },
         {

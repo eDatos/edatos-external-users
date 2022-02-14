@@ -16,6 +16,26 @@
                 "emailexists": "<strong>¡The email address already exists!</strong> Please, choose other."
             },
             "success": "<strong>¡Saved settings!</strong>",
+            "validate": {
+                "nombre": {
+                    "required": "You are required to enter your name.",
+                    "minlength": "Your name is required to be at least 1 character",
+                    "maxlength": "Your name cannot have more than 50 characters"
+                },
+                "apellido1": {
+                    "required": "You are required to enter your first last name.",
+                    "minlength": "Your first surname is required to be at least 1 character",
+                    "maxlength": "Your first surname cannot have more than 50 characters"
+                },
+                "apellido2": {
+                    "required": "You are required to enter your second last name.",
+                    "minlength": "Your second last name is required to be at least 1 character",
+                    "maxlength": "Your second last name cannot have more than 50 characters"
+                }
+            },
+            "delete": {
+                "text": "By confirming you will be unsubscribed from the system."
+            },
             "onSuccessSumary": "User edit",
             "onSuccess": "User data has been modified correctly."
         }

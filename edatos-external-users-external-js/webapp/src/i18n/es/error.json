@@ -27,11 +27,6 @@
         "usuario-existe": "El nombre de usuario introducido ya está siendo usado",
         "id-existe": "Un nuevo {{0}} no puede tener previamente un ID",
         "entidad-no-encontrada": "Resultado de {{0}} no encontrado",
-        "userManagement": {
-            "usuario-ldap-no-encontrado": "No se ha encontrado el usuario especificado",
-            "email-en-uso": "Este correo electrónico ya existe.",
-            "passwordNotMatch": "La contraseña introducida no es la del usuario autenticado."
-        },
         "file-empty": "El fichero está vacío",
         "rol": {
             "users-has-role": "No se puede eliminar un rol que está asignado a algunos usuarios"
@@ -41,12 +36,6 @@
             "maxFileSize": "No pueden adjuntarse ficheros de más de {{0}} MB.",
             "empty": "Fichero vacío.",
             "notFound": "Fichero no encontrado."
-        },
-        "login": {
-            "user-not-exists": "No se encuentra el usuario. Por favor, registre una nueva cuenta para poder iniciar sesión en la aplicación.",
-            "user-disabled": "El usuario se encuentra desactivado.",
-            "void": "El campo no puede ser vacío.",
-            "failed": "El usuario y/o contraseña no son correctos."
         },
         "quartz": {
             "jobExecutionError": "Error durante la ejecución de un job Quartz"

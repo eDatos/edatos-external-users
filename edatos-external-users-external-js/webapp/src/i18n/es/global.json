@@ -158,6 +158,8 @@
         "detail": "Acceda al apartado deseado a través del menú de navegación"
     },
     "table": {
-        "pageCount": "{{pageFirst}} - {{pageLast}} de {{total}}"
+        "globalSearchPlaceholder": "Introducir términos de búsqueda",
+        "pageCount": "{{pageFirst}} - {{pageLast}} de {{total}}",
+        "pageReport": "{first}–{last} de {totalRecords}"
     }
 }

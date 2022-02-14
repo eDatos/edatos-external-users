@@ -24,6 +24,7 @@
         "file-empty": "El fitxer està buit",
         "id-existe": "Un nou {{0}} no pot tenir prèviament un ID",
         "internalServerError": "Error intern del servidor",
+        "dataConstraintViolation": "Error intern del servidor",
         "nonExistingUser": {
             "detail": "Ho sentim, l'usuari amb el qual intenta accedir no s'ha donat d'alta.",
             "title": "Error d'usuari"
@@ -35,18 +36,9 @@
         "server.not.reachable": "Servidor no accessible",
         "title": "¡Ups, ha ocorregut un error!",
         "url.not.found": "No trobat",
-        "userManagement": {
-            "usuario-ldap-no-encontrado": "No s'ha trobat l'usuari especificat"
-        },
         "usuario-existe": "El nom d'usuari introduït ja està fent servir",
         "quartz": {
             "jobExecutionError": "Error durant l'execució d'un job Quartz"
-        },
-        "login": {
-            "user-not-exists": "No es troba l'usuari. Si us plau, registri un nou compte per a poder iniciar sessió en l'aplicació.",
-            "user-disabled": "L'usuari es troba desactivat",
-            "void": "El camp no pot ser buit.",
-            "failed": "L'usuari i/o contrasenya no són correctes."
         }
     }
 }

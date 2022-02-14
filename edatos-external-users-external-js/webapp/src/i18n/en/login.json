@@ -5,7 +5,7 @@
         },
         "form": {
             "email": "Email",
-            "password": "Passowrd"
+            "password": "Password"
         },
         "action": {
             "forgottenPassword": "Forgotten password",

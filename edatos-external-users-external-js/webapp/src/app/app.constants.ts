@@ -14,7 +14,6 @@ export const TOKEN_AUTH_NAME = 'authenticationtoken';
 export const JHI_TOKEN_AUTH_NAME = 'jhi-authenticationtoken';
 export const BASE_DECIMAL = 10;
 export const ERROR_ALERT_KEY = 'alert-errors';
-export const LANG_KEY = 'lang';
 export const DEFAULT_LANG = 'es';
 
 export const DEFAULT_PATH = '/filter';

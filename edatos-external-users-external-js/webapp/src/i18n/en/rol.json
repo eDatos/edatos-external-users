@@ -1,0 +1,30 @@
+{
+    "edatosExternalUsersApp": {
+        "rol": {
+            "accion": "Action",
+            "created": "Role {{ param }} created",
+            "delete": {
+                "question": "Are you sure you want to delete the role {{ id }}?"
+            },
+            "deleted": "The role {{ param }} has been deleted",
+            "nombre": "Name",
+            "roles": "Roles",
+            "sujeto": "Subject",
+            "updated": "Role {{ param }} has been updated"
+        },
+        "rolesEnum": {
+            "ADMINISTRADOR": "Administrator",
+            "ANY_ROLE_ALLOWED": "Any role allowed",
+            "JEFE_NORMALIZACION": "Head of Standardization",
+            "LECTOR": "Reader",
+            "TECNICO_APOYO_DIFUSION": "Diffusion Support Technician",
+            "TECNICO_APOYO_NORMALIZACION": "Standardization Support Technician",
+            "TECNICO_APOYO_PLANIFICACION": "Planning Support Technician",
+            "TECNICO_APOYO_PRODUCCION": "Production Support Technician",
+            "TECNICO_DIFUSION": "Diffusion Technician",
+            "TECNICO_NORMALIZACION": "Standardization Technician",
+            "TECNICO_PLANIFICACION": "Planning Technician",
+            "TECNICO_PRODUCCION": "Production Technician"
+        }
+    }
+}
