@@ -7,6 +7,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
@@ -60,7 +61,7 @@ public final class CookieAndHeaderCsrfTokenRepository implements CsrfTokenReposi
     public void saveToken(CsrfToken token, HttpServletRequest request, HttpServletResponse response) {
         String tokenValue = token == null ? "" : token.getToken();
         Cookie cookie = new Cookie(cookieName, tokenValue);
-        cookie.setSecure(request.isSecure());
+        cookie.setSecure(true); // Needs to be secure for SameSite to work
         if (cookiePath != null && !cookiePath.isEmpty()) {
             cookie.setPath(cookiePath);
         } else {
@@ -75,7 +76,25 @@ public final class CookieAndHeaderCsrfTokenRepository implements CsrfTokenReposi
             ReflectionUtils.invokeMethod(setHttpOnlyMethod, cookie, Boolean.TRUE);
         }
 
-        response.addCookie(cookie);
+        response.addHeader(HttpHeaders.SET_COOKIE, cookieToHeader(cookie) + ";SameSite=None"); // We NEED SameSite None so cookies are sent on CORS requests
+        response.addHeader(headerName, tokenValue);
+    }
+
+    private String cookieToHeader(Cookie cookie) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(cookie.getName()).append("=").append(cookie.getValue());
+        if (cookie.getPath() != null) {
+            sb.append(";Path=").append(cookie.getPath());
+        }
+        if (cookie.getDomain() != null) {
+            sb.append(";Domain=").append(cookie.getDomain());
+        }
+        if (cookie.getSecure()) {
+            sb.append(";Secure");
+        }
+
+        return sb.toString();
     }
 
     @Override
@@ -153,8 +172,8 @@ public final class CookieAndHeaderCsrfTokenRepository implements CsrfTokenReposi
      * @return an instance of CookieCsrfTokenRepository with
      *         {@link #setCookieHttpOnly(boolean)} set to false
      */
-    public static CookieCsrfTokenRepository withHttpOnlyFalse() {
-        CookieCsrfTokenRepository result = new CookieCsrfTokenRepository();
+    public static CookieAndHeaderCsrfTokenRepository withHttpOnlyFalse() {
+        CookieAndHeaderCsrfTokenRepository result = new CookieAndHeaderCsrfTokenRepository();
         result.setCookieHttpOnly(false);
         return result;
     }
