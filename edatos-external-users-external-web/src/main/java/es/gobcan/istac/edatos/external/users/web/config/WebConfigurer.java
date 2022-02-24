@@ -9,7 +9,6 @@ import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
-import org.siemac.edatos.rest.common.filter.CORSFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
@@ -30,9 +29,9 @@ import io.undertow.UndertowOptions;
 @Configuration
 public class WebConfigurer implements ServletContextInitializer, EmbeddedServletContainerCustomizer {
 
-    private final Logger log = LoggerFactory.getLogger(WebConfigurer.class);
+    private final Logger             log = LoggerFactory.getLogger(WebConfigurer.class);
 
-    private final Environment env;
+    private final Environment        env;
 
     private final JHipsterProperties jHipsterProperties;
 
@@ -48,7 +47,6 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
         }
         EnumSet<DispatcherType> disps = EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.ASYNC);
         initApiLastestUrlRewriteFilter(servletContext, disps);
-        initApiCORSFilter(servletContext, disps);
         log.info("Aplicación web configurada");
     }
 
@@ -105,12 +103,6 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
     private void initApiLastestUrlRewriteFilter(ServletContext servletContext, EnumSet<DispatcherType> disps) {
         log.debug("Registering API Lastest URL Rewrite Filter");
         FilterRegistration.Dynamic filter = servletContext.addFilter("apiLatestURLRewriteFilter", new ApiLatestURLRewriteFilter());
-        filter.addMappingForUrlPatterns(disps, true, "/apis/*");
-    }
-
-    private void initApiCORSFilter(ServletContext servletContext, EnumSet<DispatcherType> disps) {
-        log.debug("Registering API CORS Filter");
-        FilterRegistration.Dynamic filter = servletContext.addFilter("apiCORSFilter", new CORSFilter());
         filter.addMappingForUrlPatterns(disps, true, "/apis/*");
     }
 }
