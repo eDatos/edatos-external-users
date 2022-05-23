@@ -55,7 +55,6 @@ public class MetadataProperties {
             }
             captchaUrl = normalizeUrl(configurationService.retrieveCaptchaExternalApiUrlBase());
             availableLanguages = configurationService.retrieveLanguages();
-            languageCookie = configurationService.retrieveInternationalizationCookieId();
             externalAppUrl = normalizeUrl(configurationService.retrieveExternalUsersExternalWebApplicationUrlBase());
             internalAppUrl = normalizeUrl(configurationService.retrieveExternalUsersInternalWebApplicationUrlBase());
             casService = internalAppUrl + "/login/cas";
@@ -63,6 +62,11 @@ public class MetadataProperties {
             defaultLanguage = availableLanguages.get(0);
         } catch (Exception e) {
             log.error("Error getting the value of a metadata {}", e);
+        }
+        try {
+            languageCookie = configurationService.retrieveInternationalizationCookieId();
+        } catch (Exception e) {
+            languageCookie = null;
         }
     }
 

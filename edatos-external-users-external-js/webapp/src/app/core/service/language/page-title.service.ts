@@ -38,12 +38,16 @@ export class PageTitleService {
 
     private init() {
         this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
-            this.renderer.setAttribute(document.querySelector('html'), this.configService.getConfig().metadata.languageCookie, this.cookieService.get(this.configService.getConfig().metadata.languageCookie));
+            if (this.configService.getConfig().metadata.languageCookie) {
+                this.renderer.setAttribute(document.querySelector('html'), this.configService.getConfig().metadata.languageCookie, this.cookieService.get(this.configService.getConfig().metadata.languageCookie));
+            } else {
+                this.renderer.setAttribute(document.querySelector('html'), 'lang', this.translateService.currentLang);
+            }
             this.update();
         });
     }
 
-    
+
     private get(routeSnapshot: ActivatedRouteSnapshot) {
         let title: string = routeSnapshot.data && routeSnapshot.data['pageTitle'] ? routeSnapshot.data['pageTitle'] : 'edatosExternalUsersApp';
         if (routeSnapshot.firstChild) {
