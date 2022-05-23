@@ -11,7 +11,6 @@ import org.springframework.web.util.WebUtils;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.Locale;
 
 @Configuration
@@ -26,8 +25,8 @@ public class LocaleConfiguration extends WebMvcConfigurerAdapter {
     public class LocaleCheckInterceptor extends HandlerInterceptorAdapter {
 
         @Override
-        public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
-            Cookie langCookie = WebUtils.getCookie(request, metadataProperties.getLanguageCookie());
+        public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+            Cookie langCookie = metadataProperties.getLanguageCookie() != null ? WebUtils.getCookie(request, metadataProperties.getLanguageCookie()) : null;
             if (langCookie != null) {
                 LocaleContextHolder.setLocale(Locale.forLanguageTag(langCookie.getValue()));
             }
