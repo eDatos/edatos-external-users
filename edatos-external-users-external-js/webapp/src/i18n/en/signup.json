@@ -10,7 +10,6 @@
             "password": "Password",
             "confirmPassword": "Confirm password",
             "email": "Email",
-            "treatment": "Treatment",
             "language": "Language",
             "phoneNumber": "Phone number",
             "organism": "Organism",

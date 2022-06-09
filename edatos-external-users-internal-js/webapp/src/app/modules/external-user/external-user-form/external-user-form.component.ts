@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ExternalUser, Language, Role, Treatment } from '@app/core/model';
+import { ExternalUser, Language, Role } from '@app/core/model';
 import { PermissionService } from '@app/core/service/auth';
 import { ExternalUserService } from '@app/core/service/user';
 import { StructuralResourcesTreeComponent } from '@app/shared/components/structural-resources-tree';
@@ -24,7 +24,6 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
 
     public rolesEnum = Role;
     public languageEnum = Language;
-    public treatmentEnum = Treatment;
     public favorites: Favorite[];
 
     public editMode: 'user' | 'favorites' | null = null;

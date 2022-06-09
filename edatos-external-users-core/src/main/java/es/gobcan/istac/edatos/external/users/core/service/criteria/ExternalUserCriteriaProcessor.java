@@ -33,7 +33,6 @@ public class ExternalUserCriteriaProcessor extends AbstractCriteriaProcessor {
     private static final String ENTITY_FIELD_EMAIL = "email";
     private static final String ENTITY_FIELD_DELETION_DATE = "deletionDate";
     private static final String ENTITY_FIELD_LANGUAGE = "language";
-    private static final String ENTITY_FIELD_TREATMENT = "treatment";
 
     private static final String ENTITY_FIELD_FAVORITES = "favorites";
 
@@ -43,7 +42,6 @@ public class ExternalUserCriteriaProcessor extends AbstractCriteriaProcessor {
         SURNAME2,
         EMAIL,
         LANGUAGE,
-        TREATMENT,
         DELETION_DATE,
         FULLNAME,
         FAVORITE_CATEGORIES,
@@ -101,10 +99,6 @@ public class ExternalUserCriteriaProcessor extends AbstractCriteriaProcessor {
         registerOrderProcessor(OrderProcessorBuilder.orderProcessor()
                 .withQueryProperty(QueryProperty.LANGUAGE)
                 .withEntityProperty(ENTITY_FIELD_LANGUAGE)
-                .build());
-        registerOrderProcessor(OrderProcessorBuilder.orderProcessor()
-                .withQueryProperty(QueryProperty.TREATMENT)
-                .withEntityProperty(ENTITY_FIELD_TREATMENT)
                 .build());
         registerRestrictionProcessor(RestrictionProcessorBuilder.longRestrictionProcessor()
                 .withQueryProperty(QueryProperty.FAVORITE_CATEGORIES)

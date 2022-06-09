@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { User, Role, Treatment, Language } from '@app/core/model';
+import { User, Role, Language } from '@app/core/model';
 import { Router } from '@angular/router';
 import { AccountUserService } from '@app/core/service/user';
 import { CaptchaService } from '@app/shared/service';
@@ -19,7 +19,6 @@ export class SignupFormComponent implements OnInit {
     private paramLogin: string;
     public rolesEnum = Role;
     public languageEnum = Language;
-    public treatmentEnum = Treatment;
 
     public confirmPassword: string;
 

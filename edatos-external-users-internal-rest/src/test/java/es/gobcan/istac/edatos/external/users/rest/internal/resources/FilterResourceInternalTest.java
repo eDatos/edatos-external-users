@@ -16,7 +16,6 @@ import es.gobcan.istac.edatos.external.users.EdatosExternalUsersRestTestApp;
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.FilterEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.enumeration.Language;
-import es.gobcan.istac.edatos.external.users.core.domain.enumeration.Treatment;
 import es.gobcan.istac.edatos.external.users.core.errors.ExceptionTranslator;
 import es.gobcan.istac.edatos.external.users.core.repository.ExternalUserRepository;
 import es.gobcan.istac.edatos.external.users.core.repository.FilterRepository;
@@ -87,7 +86,6 @@ public class FilterResourceInternalTest {
         user1.setSurname2("Ferrer");
         user1.setPassword("password1");
         user1.setEmail("user1@gmail.com");
-        user1.setTreatment(Treatment.LADY);
         user1.setLanguage(Language.CATALAN);
         externalUserRepository.saveAndFlush(user1);
         user2 = new ExternalUserEntity();
@@ -96,7 +94,6 @@ public class FilterResourceInternalTest {
         user2.setSurname2("Hernández");
         user2.setPassword("12345678");
         user2.setEmail("user2@gmail.com");
-        user2.setTreatment(Treatment.MISTER);
         user2.setLanguage(Language.CATALAN);
         externalUserRepository.saveAndFlush(user2);
 

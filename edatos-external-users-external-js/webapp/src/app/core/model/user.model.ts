@@ -10,7 +10,6 @@ export class User extends BaseVersionedAndAuditingWithDeletionEntity {
     public password?: string;
     public email?: string;
     public organism?: string;
-    public treatment?: any[];
     public language?: any[];
     public phoneNumber?: string;
     public emailNotificationsEnabled?: boolean;
@@ -24,7 +23,7 @@ export class User extends BaseVersionedAndAuditingWithDeletionEntity {
         email?: string,
         organism?: string,
         password?: string,
-        treatment?: any[],
+
         language?: any[],
         phoneNumber?: string,
         emailNotificationsEnabled?: boolean,
@@ -40,7 +39,6 @@ export class User extends BaseVersionedAndAuditingWithDeletionEntity {
         this.password = password ? password : null;
         this.phoneNumber = phoneNumber ? phoneNumber : null;
         this.roles = roles ? roles : null;
-        this.treatment = treatment ? treatment : null;
         this.language = language ? language : null;
         this.emailNotificationsEnabled = emailNotificationsEnabled ? emailNotificationsEnabled : null;
     }

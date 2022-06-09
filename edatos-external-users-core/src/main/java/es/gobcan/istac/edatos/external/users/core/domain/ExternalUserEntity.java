@@ -28,7 +28,6 @@ import org.hibernate.validator.constraints.Email;
 
 import es.gobcan.istac.edatos.external.users.core.domain.enumeration.ExternalUserRole;
 import es.gobcan.istac.edatos.external.users.core.domain.enumeration.Language;
-import es.gobcan.istac.edatos.external.users.core.domain.enumeration.Treatment;
 import es.gobcan.istac.edatos.external.users.core.domain.interfaces.AbstractVersionedAndAuditingAndLogicalDeletionEntity;
 
 @Entity
@@ -60,9 +59,6 @@ public class ExternalUserEntity extends AbstractVersionedAndAuditingAndLogicalDe
     @Email
     @Column(unique = true, nullable = false)
     private String email;
-
-    @Enumerated(EnumType.STRING)
-    private Treatment treatment;
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -146,14 +142,6 @@ public class ExternalUserEntity extends AbstractVersionedAndAuditingAndLogicalDe
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public Treatment getTreatment() {
-        return treatment;
-    }
-
-    public void setTreatment(Treatment treatment) {
-        this.treatment = treatment;
     }
 
     public Language getLanguage() {
