@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Language, Treatment } from '@app/core/model';
+import { Language } from '@app/core/model';
 import { AccountUserService } from '@app/core/service/user';
 import { TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
@@ -16,7 +16,6 @@ export class AccountManagementComponent implements OnInit {
     public account: any;
 
     public languageEnum = Language;
-    public treatmentEnum = Treatment;
 
     constructor(
         private userService: AccountUserService,

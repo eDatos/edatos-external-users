@@ -3,10 +3,6 @@ package es.gobcan.istac.edatos.external.users.rest.common.dto;
 import java.io.Serializable;
 import java.util.List;
 
-import org.siemac.metamac.rest.notices.v1_0.domain.Receivers;
-
-import es.gobcan.istac.edatos.external.users.core.domain.enumeration.Language;
-import es.gobcan.istac.edatos.external.users.core.domain.enumeration.Treatment;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.interfaces.AbstractVersionedAndAuditingAndLogicalDeletionDto;
 
 public class NotificationDto extends AbstractVersionedAndAuditingAndLogicalDeletionDto implements Serializable {
