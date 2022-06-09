@@ -455,11 +455,6 @@
         },
         "surname1": "Surname",
         "surname2": "Second surname",
-        "treatment": "Treatment",
-        "treatmentEnum": {
-            "LADY": "Mrs",
-            "MISTER": "Mister"
-        },
         "updated": "User {{ param }}has been updated"
     },
     "family": {

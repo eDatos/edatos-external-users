@@ -1,5 +1,4 @@
 import { Language } from '@app/core/model/language.model';
-import { Treatment } from '@app/core/model/treatment.model';
 import { BaseVersionedAndAuditingWithDeletionEntity } from 'arte-ng/model';
 
 export class ExternalUser extends BaseVersionedAndAuditingWithDeletionEntity {
@@ -10,7 +9,7 @@ export class ExternalUser extends BaseVersionedAndAuditingWithDeletionEntity {
     public password: string;
     public email: string;
     public organism: string;
-    public treatment: Treatment;
+
     public language: Language;
     public phoneNumber: string;
     public emailNotificationsEnabled: boolean;
