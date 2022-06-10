@@ -112,7 +112,7 @@ environment:
     edatos:
         configuration:
             db:
-                driverName: oracle.jdbc.OracleDriver
-                url: jdbc:oracle:thin:@teide.arte:1521:orcl
-                username: JENKINS_METAMAC_COMMON
-                password: tV8lk+6r+URVXobfg7zSrSIJsk+uWcy+D5kXs7V9LlQ=
+                driverName: org.postgresql.Driver
+                url: jdbc:postgresql://artejenkins.arte.internal:5432/ARTE
+                username: istac_metamac_common_metadata_ci
+                password: oYJYi+yfdqQtcsiboNlFmm2Eqm5GBYqBTJ+QGDE49BDlvcTK1YyQJBCHxBHiqYfN
