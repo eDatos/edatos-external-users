@@ -112,7 +112,7 @@ environment:
     edatos:
         configuration:
             db:                           # Datos de conexión contra la base de datos common_metadata
-                driverName: org.postgresql.Driver       # Ejemplo: org.postgresql.Driver
-                url: postgresql://localhost:5432/metamac_common_metadata_bd              # Ejemplo: postgresql://localhost:5432/metamac_common_metadata_bd
-                username: metamac_common_metadata_bd         # Ejemplo: metamac_common_metadata_bd
-                password: iQs/i+zysWktMLClrjDfUp6Z91xbXpg3qxfrYroSLD9dsYLR9jHrtw==
+                driverName: FILL_ME       # Ejemplo: org.postgresql.Driver
+                url: FILL_ME              # Ejemplo: postgresql://localhost:5432/metamac_common_metadata_bd
+                username: FILL_ME         # Ejemplo: metamac_common_metadata_bd
+                password: FILL_ME_WITH_ENCRYPTED_PASSWORD
