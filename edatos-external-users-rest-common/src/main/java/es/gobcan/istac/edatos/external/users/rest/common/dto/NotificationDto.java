@@ -13,6 +13,9 @@ public class NotificationDto extends AbstractVersionedAndAuditingAndLogicalDelet
 
     private List<String> receivers;
 
+    private List<Long   > categories;
+    private List<Long> externalOperations;
+
     public String getSubject() {
         return subject;
     }
@@ -35,5 +38,21 @@ public class NotificationDto extends AbstractVersionedAndAuditingAndLogicalDelet
 
     public void setReceivers(List<String> receivers) {
         this.receivers = receivers;
+    }
+
+    public List<Long> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Long> categories) {
+        this.categories = categories;
+    }
+
+    public List<Long> getExternalOperations() {
+        return externalOperations;
+    }
+
+    public void setExternalOperations(List<Long> externalOperations) {
+        this.externalOperations = externalOperations;
     }
 }
