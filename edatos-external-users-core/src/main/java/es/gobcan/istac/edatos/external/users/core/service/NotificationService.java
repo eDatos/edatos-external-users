@@ -21,5 +21,5 @@ public interface NotificationService {
     void createNoticeOfSusbcritionsJob(List<FavoriteEntity> listFavorites);
 
     void createNotificationWithReceivers(String message, String subject, Receivers receivers);
-    Receivers createReceiversList(List<String> emails);
+    Receivers createReceiversList(List<String> emails, List<Long> categories, List<Long> externalOperations);
 }

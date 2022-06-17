@@ -1,5 +1,6 @@
 package es.gobcan.istac.edatos.external.users.core.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -183,5 +184,12 @@ public class FavoriteServiceImpl implements FavoriteService {
     @Override
     public List<FavoriteEntity> findByExternalOperation(List<ExternalOperationEntity> listExternalOperation) {
         return favoriteRepository.findByExternalOperationIn(listExternalOperation);
+    }
+
+    @Override
+    public List<FavoriteEntity> findByOperationsIdsOrCategoriesIds(List<Long> operationsIds, List<Long> categoriesIds) {
+        List<Long> nullSafeOperationsIds = operationsIds == null ? new ArrayList<>() : operationsIds;
+        List<Long> nullSafeCategoriesIds = categoriesIds == null ? new ArrayList<>() : categoriesIds;
+        return this.favoriteRepository.findByExternalOperation_idInOrCategory_idIn(nullSafeOperationsIds, nullSafeCategoriesIds);
     }
 }

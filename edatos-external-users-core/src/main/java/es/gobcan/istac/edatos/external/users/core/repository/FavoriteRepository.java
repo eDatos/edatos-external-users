@@ -24,6 +24,7 @@ public interface FavoriteRepository extends JpaRepository<FavoriteEntity, Long> 
     List<FavoriteEntity> findByExternalUser(ExternalUserEntity user);
     List<FavoriteEntity> findByCategory(CategoryEntity category);
     List<FavoriteEntity> findByExternalOperationIn(List<ExternalOperationEntity> operation);
+    List<FavoriteEntity> findByExternalOperation_idInOrCategory_idIn(List<Long> operationsIds, List<Long> categoriesIds);
     Optional<FavoriteEntity> findByExternalUserAndCategory(ExternalUserEntity externalUser, CategoryEntity category);
     void deleteByExternalUser(ExternalUserEntity externalUser);
     void deleteByExternalUserAndCategory(ExternalUserEntity externalUser, CategoryEntity category);
@@ -36,6 +37,5 @@ public interface FavoriteRepository extends JpaRepository<FavoriteEntity, Long> 
     List<ImmutablePair<String, Long>> getOperationsSubscribers();
 
     void deleteByCategory(CategoryEntity category);
-    void deleteByExternalOperation(ExternalOperationEntity operation);
     void deleteByExternalOperationUrn(String urn);
 }

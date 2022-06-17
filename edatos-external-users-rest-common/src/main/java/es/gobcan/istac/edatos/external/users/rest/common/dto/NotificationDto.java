@@ -10,11 +10,9 @@ public class NotificationDto extends AbstractVersionedAndAuditingAndLogicalDelet
     private static final long serialVersionUID = 1L;
     private String subject;
     private String message;
-
     private List<String> receivers;
-
-    private List<Long   > categories;
-    private List<Long> externalOperations;
+    private List<Long> categoriesIds;
+    private List<Long> externalOperationsIds;
 
     public String getSubject() {
         return subject;
@@ -40,19 +38,19 @@ public class NotificationDto extends AbstractVersionedAndAuditingAndLogicalDelet
         this.receivers = receivers;
     }
 
-    public List<Long> getCategories() {
-        return categories;
+    public List<Long> getCategoriesIds() {
+        return categoriesIds;
     }
 
-    public void setCategories(List<Long> categories) {
-        this.categories = categories;
+    public void setCategoriesIds(List<Long> categoriesIds) {
+        this.categoriesIds = categoriesIds;
     }
 
-    public List<Long> getExternalOperations() {
-        return externalOperations;
+    public List<Long> getExternalOperationsIds() {
+        return externalOperationsIds;
     }
 
-    public void setExternalOperations(List<Long> externalOperations) {
-        this.externalOperations = externalOperations;
+    public void setExternalOperationsIds(List<Long> externalOperationsIds) {
+        this.externalOperationsIds = externalOperationsIds;
     }
 }

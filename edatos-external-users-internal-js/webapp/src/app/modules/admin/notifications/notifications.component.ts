@@ -5,13 +5,12 @@ import { CategoryService, NotificationService } from '@app/shared/service';
 import { TranslateService } from '@ngx-translate/core';
 import { ArteEventManager } from 'arte-ng/services';
 import { MessageService } from 'primeng/api';
-import { Observable, of, Subject, Subscription} from 'rxjs';
+import { Observable, Subject, Subscription} from 'rxjs';
 import { AutocompleteShortListComponent } from 'arte-ng';
 import { FavoriteResource } from '@app/shared/model';
 import { StructuralResourcesTreeComponent } from '@app/shared/components/structural-resources-tree';
 import { ExternalUserFilter } from '@app/modules/external-user/external-user-search/external-user-filter';
 import * as _ from 'lodash';
-import { debounceTime } from 'rxjs/operators';
 
 @Component({
     selector: 'app-notifications',
@@ -21,7 +20,7 @@ import { debounceTime } from 'rxjs/operators';
 export class NotificationsComponent implements OnInit, OnDestroy {
 
     @Input()
-    public filters: ExternalUserFilter = new ExternalUserFilter();;
+    public filters: ExternalUserFilter = new ExternalUserFilter();
 
     public subscription: Subscription;
 
@@ -37,8 +36,6 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
     @ViewChild(StructuralResourcesTreeComponent)
     public tree: StructuralResourcesTreeComponent;
-
-    private filterChangesSubject: Subject<any> = new Subject<any>();
 
     constructor(
         private eventManager: ArteEventManager,
@@ -72,7 +69,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
         this.notification.categoriesIds = this.arrStringToArrNumber(this.filters.categories);
         this.notification.externalOperationsIds = this.arrStringToArrNumber(this.filters.externalOperations);
         this.notification.receivers = this.selectedReceivers;
-        //this.subscribeToSendResponse(this.notificationService.send(this.notification));
+        this.subscribeToSendResponse(this.notificationService.send(this.notification));
     }
 
     private arrStringToArrNumber(arrString: string[]) {
@@ -99,6 +96,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
                 this.selectedReceivers = [];
                 this.selectedReceiversComponent.writeValue([]);
                 this.notification = new Notification();
+                this.resetCategories();
             },
             (res: Response) => {
                 this.onSaveError();
@@ -164,4 +162,13 @@ export class NotificationsComponent implements OnInit, OnDestroy {
         _.pull(filter, resource.id.toString());
     }
 
+    public thereAreReceivers() {
+        return (this.selectedReceivers  && this.selectedReceivers.length) ||
+            (this.filters.categories  && this.filters.categories.length) ||
+            (this.filters.externalOperations  && this.filters.externalOperations.length);
+    }
+
+    public trackSelectedResource(index: number, item: FavoriteResource) {
+        return `${item.id}${item.favoriteType}`;
+    }
 }

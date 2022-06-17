@@ -1,9 +1,10 @@
+<div #dialogWrapper></div>
 <div class="page">
     <div class="page-header page-header-top">
         <h2 class="page-header-title">
             <span class="page-header-title-text">{{ 'notifications.home.title' | translate }}</span>
         </h2>
-        <button class="btn btn-primary mr-2" (click)="send()" [disabled]="notificationForm && notificationForm.form.invalid || !selectedReceivers.length">
+        <button class="btn btn-primary mr-2" (click)="send()" [disabled]="notificationForm && notificationForm.form.invalid || !thereAreReceivers()">
             <span class="fa fa-send"></span>
             <span translate="notifications.form.send"></span>
         </button>
@@ -23,7 +24,6 @@
                                     (onSelect)="onSelectReceivers($event)"
                                     [suggestions]="externalUsers"
                                     dataKey="email"
-                                    [required]="true"
                                     [properties]="['email']"
                                     [multiple]="true"
                                 >
@@ -54,7 +54,7 @@
                                 <i class="fa fa-hand-pointer-o mr-0" aria-hidden="true"></i>
                             </button>
                         </div>
-            
+
                         <p-dialog
                             *ngIf="isSelectingResource"
                             [visible]="true"
