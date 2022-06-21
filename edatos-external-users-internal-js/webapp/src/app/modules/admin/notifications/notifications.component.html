@@ -36,47 +36,49 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-xl-6 thematic-subscriptions">
-                        <label class="label-selected-resources">{{'externalUser.filters.labels.categories' | translate}}</label>
-                        <div class="thematic-subscriptions-input">
-                            <div *ngIf="selectedResources?.length !== 0; else noSelectedResources" class="selected-resources-wrapper">
-                                <div class="selected-resources">
+                    <div class="form-group form-group-inline col-md-6 thematic-subscriptions">
+                        <div class="form-row">
+                            <label class="label-selected-resources col-md-4">{{'externalUser.filters.labels.categories' | translate}}</label>
+                            <div class="col-md-8 thematic-subscriptions-input">
+                                <div *ngIf="selectedResources?.length !== 0; else noSelectedResources" class="selected-resources-wrapper">
+                                    <div class="selected-resources">
                                     <span *ngFor="let resource of selectedResources; trackBy: trackSelectedResource" class="badge badge-primary d-flex align-items-center">
                                         <i class="pi pi-times" aria-hidden="true" (click)="deleteResource(resource)"></i>
                                         {{resource.name.val}}
                                     </span>
+                                    </div>
                                 </div>
-                            </div>
-                            <ng-template #noSelectedResources>
-                                <span class="no-selected-resource">{{'externalUser.filters.placeholders.noResourceSelected' | translate}}</span>
-                            </ng-template>
-                            <button type="button" class="btn btn-secondary btn-sm select-resources-button" (click)="openCategoryModal()">
-                                <i class="fa fa-hand-pointer-o mr-0" aria-hidden="true"></i>
-                            </button>
-                        </div>
-
-                        <p-dialog
-                            *ngIf="isSelectingResource"
-                            [visible]="true"
-                            [focusOnShow]="true"
-                            [modal]="true"
-                            [dismissableMask]="true"
-                            [header]="'externalUser.filters.labels.categories' | translate"
-                            [resizable]="false"
-                            [style]="{width: '80vw'}"
-                            [appendTo]="dialogWrapper"
-                            styleClass="ui-fluid"
-                            [contentStyle]="{padding: '1.5em 2em', overflow: 'visible', 'max-height': '90vh', 'overflow-y': 'auto'}"
-                            (visibleChange)="closeCategoryModal()"
-                        >
-                            <app-structural-resources-tree [disabled]="false" [preselectedResources]="selectedResources" mode="simpleSelect"></app-structural-resources-tree>
-                            <p-footer>
-                                <button type="button" class="btn btn-primary" (click)="selectCategories()">
-                                    <i class="fa fa-hand-o-up" aria-hidden="true"></i>
-                                    <span translate="entity.action.select"></span>
+                                <ng-template #noSelectedResources>
+                                    <span class="no-selected-resource">{{'externalUser.filters.placeholders.noResourceSelected' | translate}}</span>
+                                </ng-template>
+                                <button type="button" class="btn btn-secondary btn-sm select-resources-button" (click)="openCategoryModal()">
+                                    <i class="fa fa-hand-pointer-o mr-0" aria-hidden="true"></i>
                                 </button>
-                            </p-footer>
-                        </p-dialog>
+                            </div>
+
+                            <p-dialog
+                                *ngIf="isSelectingResource"
+                                [visible]="true"
+                                [focusOnShow]="true"
+                                [modal]="true"
+                                [dismissableMask]="true"
+                                [header]="'externalUser.filters.labels.categories' | translate"
+                                [resizable]="false"
+                                [style]="{width: '80vw'}"
+                                [appendTo]="dialogWrapper"
+                                styleClass="ui-fluid"
+                                [contentStyle]="{padding: '1.5em 2em', overflow: 'visible', 'max-height': '90vh', 'overflow-y': 'auto'}"
+                                (visibleChange)="closeCategoryModal()"
+                            >
+                                <app-structural-resources-tree [disabled]="false" [preselectedResources]="selectedResources" mode="simpleSelect"></app-structural-resources-tree>
+                                <p-footer>
+                                    <button type="button" class="btn btn-primary" (click)="selectCategories()">
+                                        <i class="fa fa-hand-o-up" aria-hidden="true"></i>
+                                        <span translate="entity.action.select"></span>
+                                    </button>
+                                </p-footer>
+                            </p-dialog>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
