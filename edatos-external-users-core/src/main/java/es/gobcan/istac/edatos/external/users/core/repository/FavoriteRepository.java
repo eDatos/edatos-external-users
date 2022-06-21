@@ -36,6 +36,5 @@ public interface FavoriteRepository extends JpaRepository<FavoriteEntity, Long> 
     List<ImmutablePair<String, Long>> getOperationsSubscribers();
 
     void deleteByCategory(CategoryEntity category);
-    void deleteByExternalOperation(ExternalOperationEntity operation);
     void deleteByExternalOperationUrn(String urn);
 }

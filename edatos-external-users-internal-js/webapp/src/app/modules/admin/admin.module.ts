@@ -3,6 +3,7 @@ import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { SharedModule } from '@app/shared';
 import { ArteAuditInfoModule, ArteAutocompleteModule, ArteCalendarModule, ArteSideMenuModule, ArteSpinnerModule, ArteTriInputSwitchModule } from 'arte-ng';
 import { ArteDirectivesModule } from 'arte-ng/directives';
+import { DialogModule, MultiSelectModule } from 'primeng';
 import { InputSwitchModule } from 'primeng/inputswitch';
 
 import {
@@ -20,6 +21,7 @@ import {
     MetricsMonitoringModalComponent,
     MetricsService,
 } from '.';
+import { FilterModule } from '../filter';
 import { CategoryMasterTreeComponent } from './category-master-tree/category-master-tree.component';
 import { DataProtectionPolicyComponent } from './data-protection-policy/data-protection-policy.component';
 import { DataProtectionPolicyService } from './data-protection-policy/data-protection-policy.service';
@@ -38,6 +40,9 @@ import { NotificationsComponent } from './notifications/notifications.component'
         ArteTriInputSwitchModule,
         ArteSpinnerModule,
         InputSwitchModule,
+        FilterModule,
+        DialogModule,
+        MultiSelectModule,
     ],
     declarations: [
         AuditsComponent,

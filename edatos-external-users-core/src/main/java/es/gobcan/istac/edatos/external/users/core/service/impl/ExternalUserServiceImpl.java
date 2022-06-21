@@ -2,11 +2,9 @@ package es.gobcan.istac.edatos.external.users.core.service.impl;
 
 import java.time.Instant;
 import java.time.ZonedDateTime;
-import java.util.Base64;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
+import es.gobcan.istac.edatos.external.users.core.domain.FavoriteEntity;
 import es.gobcan.istac.edatos.external.users.core.service.validator.ExternalUserValidator;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -194,5 +192,22 @@ public class ExternalUserServiceImpl implements ExternalUserService {
 
         user.setEnabled(true);
         return externalUserRepository.save(user);
+    }
+
+    @Override
+    public List<ExternalUserEntity> findByCategoriesAndExternalOperations(List<Long> categoriesIds, List<Long> operationsIds) {
+        if (categoriesIds.isEmpty()) {
+            if (operationsIds.isEmpty()) {
+                return new ArrayList<>();
+            } else {
+                return externalUserRepository.findByExternalOperations(operationsIds, (long) operationsIds.size());
+            }
+        } else {
+            if (operationsIds.isEmpty()) {
+                return externalUserRepository.findByCategories(categoriesIds, (long) categoriesIds.size());
+            } else {
+                return externalUserRepository.findByCategoriesAndExternalOperations(categoriesIds, operationsIds, (long) (categoriesIds.size() + operationsIds.size()));
+            }
+        }
     }
 }

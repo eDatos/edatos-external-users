@@ -34,7 +34,7 @@ public class NotificationResource extends AbstractResource {
     @PreAuthorize("@secChecker.canSendNotification(authentication)")
     public ResponseEntity<NotificationDto> send(@Valid @RequestBody NotificationDto notificationDto) {
 
-        Receivers recivers = notificationService.createReceiversList(notificationDto.getReceivers());
+        Receivers recivers = notificationService.createReceiversList(notificationDto.getReceivers(), notificationDto.getCategoriesIds(), notificationDto.getExternalOperationsIds());
 
         notificationService.createNotificationWithReceivers(notificationDto.getMessage(), notificationDto.getSubject(), recivers);
 

@@ -3,13 +3,20 @@ package es.gobcan.istac.edatos.external.users.core.service.impl;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.FavoriteEntity;
 import es.gobcan.istac.edatos.external.users.core.service.DataProtectionPolicyService;
+import es.gobcan.istac.edatos.external.users.core.service.EDatosApisLocator;
+import es.gobcan.istac.edatos.external.users.core.service.ExternalUserService;
+import es.gobcan.istac.edatos.external.users.core.service.MetadataConfigurationService;
 import es.gobcan.istac.edatos.external.users.core.service.NotificationOrganismArgsService;
+import es.gobcan.istac.edatos.external.users.core.service.NotificationService;
 import org.siemac.metamac.rest.notices.v1_0.domain.Message;
 import org.siemac.metamac.rest.notices.v1_0.domain.Notice;
 import org.siemac.metamac.rest.notices.v1_0.domain.Receivers;
@@ -23,10 +30,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
-
-import es.gobcan.istac.edatos.external.users.core.service.EDatosApisLocator;
-import es.gobcan.istac.edatos.external.users.core.service.MetadataConfigurationService;
-import es.gobcan.istac.edatos.external.users.core.service.NotificationService;
 
 @Service
 public class NotificationServiceImpl implements NotificationService {
@@ -50,6 +53,9 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Autowired
     private DataProtectionPolicyService dataProtectionPolicyService;
+
+    @Autowired
+    private ExternalUserService externalUserService;
 
     @Override
     public void createNewExternalUserAccountNotification(ExternalUserEntity externalUserEntity) {
@@ -158,7 +164,7 @@ public class NotificationServiceImpl implements NotificationService {
         return NoticeBuilder.notification()
             .withMessages(message)
             .withReceivers(receiver)
-            .withSendingApplication(MetamacApplicationsEnum.GESTOR_EXTERNAL_USERS.getName())
+            .withSendingApplication(MetamacApplicationsEnum.GESTOR_USUARIOS_EXTERNOS.getName())
             .withSubject(subject)
             .build();
         // @formatter:on
@@ -175,12 +181,16 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public Receivers createReceiversList(List<String> emails) {
+    public Receivers createReceiversList(List<String> emails, List<Long> categories, List<Long> externalOperations) {
+        List<ExternalUserEntity> usersSubscribedToCategoriesAndOperations = externalUserService.findByCategoriesAndExternalOperations(categories, externalOperations);
+
+        Set<String> allReceiversEmails = new HashSet<>(emails);
+        allReceiversEmails.addAll(usersSubscribedToCategoriesAndOperations.stream().map(ExternalUserEntity::getEmail).collect(Collectors.toList()));
+
         Receivers receivers = new Receivers();
-        for (String email : emails) {
+        for(String email : allReceiversEmails) {
             receivers.getReceivers().add(ReceiverBuilder.receiver().withUsername(email).build());
         }
-
         receivers.setTotal(new BigInteger(String.valueOf(receivers.getReceivers().size())));
         return receivers;
     }
@@ -192,7 +202,7 @@ public class NotificationServiceImpl implements NotificationService {
             Notice notice = NoticeBuilder.notification()
                 .withMessages(MessageBuilder.message().withText(message).build())
                 .withReceivers(receivers)
-                .withSendingApplication(MetamacApplicationsEnum.GESTOR_EXTERNAL_USERS.getName())
+                .withSendingApplication(MetamacApplicationsEnum.GESTOR_USUARIOS_EXTERNOS.getName())
                 .withSubject(subject).build();
             // @formatter:on
 
