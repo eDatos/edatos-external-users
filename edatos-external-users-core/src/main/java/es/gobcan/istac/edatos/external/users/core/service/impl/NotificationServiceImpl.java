@@ -164,7 +164,7 @@ public class NotificationServiceImpl implements NotificationService {
         return NoticeBuilder.notification()
             .withMessages(message)
             .withReceivers(receiver)
-            .withSendingApplication(MetamacApplicationsEnum.GESTOR_EXTERNAL_USERS.getName())
+            .withSendingApplication(MetamacApplicationsEnum.GESTOR_USUARIOS_EXTERNOS.getName())
             .withSubject(subject)
             .build();
         // @formatter:on
@@ -202,7 +202,7 @@ public class NotificationServiceImpl implements NotificationService {
             Notice notice = NoticeBuilder.notification()
                 .withMessages(MessageBuilder.message().withText(message).build())
                 .withReceivers(receivers)
-                .withSendingApplication(MetamacApplicationsEnum.GESTOR_EXTERNAL_USERS.getName())
+                .withSendingApplication(MetamacApplicationsEnum.GESTOR_USUARIOS_EXTERNOS.getName())
                 .withSubject(subject).build();
             // @formatter:on
 
