@@ -13,7 +13,7 @@ import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.FavoriteEntity;
 import es.gobcan.istac.edatos.external.users.core.service.DataProtectionPolicyService;
 import es.gobcan.istac.edatos.external.users.core.service.EDatosApisLocator;
-import es.gobcan.istac.edatos.external.users.core.service.FavoriteService;
+import es.gobcan.istac.edatos.external.users.core.service.ExternalUserService;
 import es.gobcan.istac.edatos.external.users.core.service.MetadataConfigurationService;
 import es.gobcan.istac.edatos.external.users.core.service.NotificationOrganismArgsService;
 import es.gobcan.istac.edatos.external.users.core.service.NotificationService;
@@ -55,7 +55,7 @@ public class NotificationServiceImpl implements NotificationService {
     private DataProtectionPolicyService dataProtectionPolicyService;
 
     @Autowired
-    private FavoriteService favoriteService;
+    private ExternalUserService externalUserService;
 
     @Override
     public void createNewExternalUserAccountNotification(ExternalUserEntity externalUserEntity) {
@@ -182,10 +182,10 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public Receivers createReceiversList(List<String> emails, List<Long> categories, List<Long> externalOperations) {
-        List<FavoriteEntity> categoriesAndOperationsFavorites = favoriteService.findByOperationsIdsOrCategoriesIds(externalOperations, categories);
+        List<ExternalUserEntity> usersSubscribedToCategoriesAndOperations = externalUserService.findByCategoriesAndExternalOperations(categories, externalOperations);
 
         Set<String> allReceiversEmails = new HashSet<>(emails);
-        allReceiversEmails.addAll(categoriesAndOperationsFavorites.stream().map(favorite -> favorite.getExternalUser().getEmail()).collect(Collectors.toList()));
+        allReceiversEmails.addAll(usersSubscribedToCategoriesAndOperations.stream().map(ExternalUserEntity::getEmail).collect(Collectors.toList()));
 
         Receivers receivers = new Receivers();
         for(String email : allReceiversEmails) {

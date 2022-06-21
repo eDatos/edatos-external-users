@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ExternalUserService {
@@ -35,4 +36,6 @@ public interface ExternalUserService {
     Optional<ExternalUserEntity> findOneByResetKey(String key);
 
     ExternalUserEntity confirmUserRegistration(String token);
+
+    List<ExternalUserEntity> findByCategoriesAndExternalOperations(List<Long> categoriesIds, List<Long> operationsIds);
 }
