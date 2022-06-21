@@ -65,7 +65,6 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     }
 
     public send() {
-        console.log('CATEGORIES ',this.filters.categories);
         this.notification.categoriesIds = this.arrStringToArrNumber(this.filters.categories);
         this.notification.externalOperationsIds = this.arrStringToArrNumber(this.filters.externalOperations);
         this.notification.receivers = this.selectedReceivers;
