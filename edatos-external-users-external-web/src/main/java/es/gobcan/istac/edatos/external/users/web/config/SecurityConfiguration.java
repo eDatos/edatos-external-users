@@ -111,7 +111,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             public void addCorsMappings(CorsRegistry registry) {
                 //@formatter:off
                 registry.addMapping("/api/**") // As the doc says, just adding the mapping is super permissive, so is needed to securize it
-                        .allowedOrigins("*") // FIXME, this is UNSAFE, this needs to be changed to a whitelist because now it allow evil domains to send CORS petitions
+                        .allowedOrigins("*") // EDATOS-3702, this is UNSAFE, this needs to be changed to a whitelist because now it allow evil domains to send CORS petitions
                         .allowedMethods("GET", "POST")
                         .allowedHeaders("authorization", "content-type", "x-xsrf-token")
                         .exposedHeaders("x-xsrf-token") // We need to be able to read it from the response
