@@ -35,6 +35,7 @@ import es.gobcan.istac.edatos.external.users.core.repository.ExternalUserReposit
 import es.gobcan.istac.edatos.external.users.core.service.ExternalUserService;
 import es.gobcan.istac.edatos.external.users.core.service.NotificationService;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.ExternalUserDto;
+import es.gobcan.istac.edatos.external.users.rest.common.dto.ResponseWithNotificationException;
 import es.gobcan.istac.edatos.external.users.rest.common.mapper.ExternalUserMapper;
 import es.gobcan.istac.edatos.external.users.rest.common.util.HeaderUtil;
 import es.gobcan.istac.edatos.external.users.rest.common.util.PaginationUtil;
@@ -68,7 +69,7 @@ public class ExternalUserResource extends AbstractResource {
     @Timed
     @PostMapping
     @PreAuthorize("@secChecker.canCreateUser(authentication)")
-    public ResponseEntity<ExternalUserDto> create(@Valid @RequestBody ExternalUserDto externalUser) throws URISyntaxException {
+    public ResponseEntity<ResponseWithNotificationException<ExternalUserDto>> create(@Valid @RequestBody ExternalUserDto externalUser) throws URISyntaxException {
         if (externalUser.getId() != null) {
             throw new EDatosException(CommonServiceExceptionType.PARAMETER_UNEXPECTED, "id");
         }
@@ -78,11 +79,18 @@ public class ExternalUserResource extends AbstractResource {
         }
 
         ExternalUserEntity userEntity = externalUserService.create(externalUserMapper.toEntity(externalUser));
-        notificationService.createNewExternalUserAccountNotification(userEntity);
+        ResponseWithNotificationException<ExternalUserDto> response = new ResponseWithNotificationException<>();
+        try {
+            notificationService.createNewExternalUserAccountNotification(userEntity);
+        } catch (EDatosException e) {
+            response.setNotificationException(e);
+        }
         ExternalUserDto userDto = externalUserMapper.toDto(userEntity);
+        response.setBodyContent(userDto);
+
 
         auditPublisher.publish(AuditConstants.EXT_USUARIO_CREACION, userDto.getEmail());
-        return ResponseEntity.created(new URI(BASE_URL + SLASH + userDto.getId())).body(userDto);
+        return ResponseEntity.created(new URI(BASE_URL + SLASH + userDto.getId())).body(response);
     }
 
     @Timed

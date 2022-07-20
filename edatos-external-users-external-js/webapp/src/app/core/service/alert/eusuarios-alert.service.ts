@@ -15,11 +15,11 @@ export class EUsuariosAlertService {
         this.addError(message);
     }
 
-    public addError(message: string): void {
+    public addError(message: string, justWarning = false): void {
         this.messageService.add({
             key: ERROR_ALERT_KEY,
-            severity: 'error',
-            summary: 'Error',
+            severity: justWarning ? 'warn' : 'error',
+            summary: justWarning ? 'Advertencia' : 'Error',
             detail: message,
             sticky: false,
             closable: true,
@@ -31,6 +31,14 @@ export class EUsuariosAlertService {
             // connection refused, server not reachable
             case 0:
                 this.addErrorAlert('Server not reachable', 'error.server.not.reachable');
+                break;
+            case 200:
+                const notificationExceptionItems = httpResponse.body.notificationException.exceptionItems;
+                if (notificationExceptionItems.length > 0) {
+                    this.addErrorAlert(notificationExceptionItems[notificationExceptionItems.length - 1].message, null, true);
+                } else {
+                    this.addErrorAlert(httpResponse.body.notificationException.humanReadableMessage, null, true);
+                }
                 break;
             case 409:
             case 400:
@@ -52,7 +60,7 @@ export class EUsuariosAlertService {
                 if (errorHeader) {
                     const errorMessage = this.translateService.instant(errorHeader);
                     const entityName = this.translateService.instant('arte.alert-service.entities.' + entityKey);
-                    this.addErrorAlert(errorMessage, errorHeader, { entityName });
+                    this.addErrorAlert(errorMessage, errorHeader);
                 } else if (httpResponse.message !== '' && httpResponse.error && httpResponse.error.fieldErrors) {
                     const fieldErrors = httpResponse.error.fieldErrors;
                     for (let i = 0; i < fieldErrors.length; i++) {
@@ -60,7 +68,7 @@ export class EUsuariosAlertService {
                         // convert 'something[14].other[4].id' to 'something[].other[].id' so translations can be written to it
                         const convertedField = fieldError.field.replace(/\[\d*\]/g, '[]');
                         const fieldName = this.translateService.instant('app.' + fieldError.objectName + '.' + convertedField);
-                        this.addErrorAlert('Error on field "' + fieldName + '"', 'error.' + fieldError.message, { fieldName });
+                        this.addErrorAlert('Error on field "' + fieldName + '"', 'error.' + fieldError.message);
                     }
                 } else if (httpResponse.message !== '' && httpResponse.error && httpResponse.error.message) {
                     // CustomParameterizedException
@@ -83,11 +91,11 @@ export class EUsuariosAlertService {
         }
     }
 
-    private addErrorAlert(message, key?, data?) {
+    private addErrorAlert(message, key?, justWarning = false) {
         if (!!message) {
-            this.addError(message);
+            this.addError(message, justWarning);
         } else if (key && key !== null) {
-            this.addError(key);
+            this.addError(key, justWarning);
         }
     }
 

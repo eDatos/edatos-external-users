@@ -10,9 +10,7 @@ import javax.ws.rs.QueryParam;
 
 import es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType;
 import es.gobcan.istac.edatos.external.users.core.service.NotificationService;
-import es.gobcan.istac.edatos.external.users.rest.common.dto.ChangePasswordDto;
-import es.gobcan.istac.edatos.external.users.rest.common.dto.ExternalUserAccountBaseDto;
-import es.gobcan.istac.edatos.external.users.rest.common.dto.ExternalUserAccountDto;
+import es.gobcan.istac.edatos.external.users.rest.common.dto.*;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.siemac.edatos.core.common.exception.EDatosException;
 import org.springframework.http.HttpStatus;
@@ -138,14 +136,19 @@ public class ExternalAccountResource extends AbstractResource {
     @PostMapping("/account/change-password")
     @Timed
     @PreAuthorize("@secCheckerExternal.canUpdateUser(authentication)")
-    public ResponseEntity<Void> changePassword(@Valid @RequestBody ChangePasswordDto passwordDto) {
+    public ResponseEntity<ResponseWithNotificationException<Void>> changePassword(@Valid @RequestBody ChangePasswordDto passwordDto) {
         ExternalUserEntity user = externalUserService.getUsuarioWithAuthorities();
         externalUserService.updateExternalUserAccountPassword(user, passwordDto.getCurrentPassword(), passwordDto.getNewPassword());
 
-        notificationService.createChangePasswordExternaluserAccountNotification(user);
+        ResponseWithNotificationException<Void> response = new ResponseWithNotificationException<>();
+        try {
+            notificationService.createChangePasswordExternaluserAccountNotification(user);
+        } catch (EDatosException e) {
+            response.setNotificationException(e);
+        }
         ExternalUserAccountBaseDto updatedUserDto = externalUserMapper.toBaseDto(user);
 
         auditPublisher.publish(AuditConstants.EXT_USUARIO_EDICION, updatedUserDto.getEmail());
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(response);
     }
 }
