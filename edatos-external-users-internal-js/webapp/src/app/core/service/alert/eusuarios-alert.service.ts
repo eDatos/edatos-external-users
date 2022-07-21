@@ -3,11 +3,22 @@ import { TranslateService } from '@ngx-translate/core';
 import { AlertError } from 'arte-ng/services';
 import { MessageService } from 'primeng/api';
 
+type MESSAGE_SEVERITY_PROPERTIES = { severity: string, summary: string };
+
 const ERROR_ALERT_KEY = 'alert-errors';
 @Injectable()
 export class EUsuariosAlertService {
     readonly DEFAULT_MESSAGE = 'Error desconocido';
-
+    readonly MESSAGE_SEVERITY: {[key: string]: MESSAGE_SEVERITY_PROPERTIES} = {
+        ERROR: {
+            severity: 'error',
+            summary: 'Error'
+        },
+        WARN: {
+            severity: 'warn',
+            summary: 'Advertencia'
+        }
+    };
     private arr: string[] = [];
 
     constructor(private translateService: TranslateService, private messageService: MessageService) {}
@@ -17,15 +28,22 @@ export class EUsuariosAlertService {
         this.addError(message);
     }
 
-    public addError(message: string, justWarning = false): void {
+    private addMessage(message: string, severityProperties: MESSAGE_SEVERITY_PROPERTIES) {
         this.messageService.add({
             key: ERROR_ALERT_KEY,
-            severity: justWarning ? 'warn' : 'error',
-            summary: justWarning ? 'Advertencia' : 'Error',
-            detail: message,
             sticky: false,
             closable: true,
+            detail: message,
+            ...severityProperties
         });
+    }
+
+    public addError(message: string): void {
+        this.addMessage(message, this.MESSAGE_SEVERITY.ERROR);
+    }
+
+    public addWarning(message: string): void {
+        this.addMessage(message, this.MESSAGE_SEVERITY.WARN);
     }
 
     public handleResponseError(httpResponse) {
@@ -37,9 +55,9 @@ export class EUsuariosAlertService {
             case 200:
                 const notificationExceptionItems = httpResponse.body.notificationException.exceptionItems;
                 if (notificationExceptionItems.length > 0) {
-                    this.addErrorAlert(notificationExceptionItems[notificationExceptionItems.length - 1].message, null, true);
+                    this.addWarningAlert(notificationExceptionItems[notificationExceptionItems.length - 1].message, null);
                 } else {
-                    this.addErrorAlert(httpResponse.body.notificationException.humanReadableMessage, null, true);
+                    this.addWarningAlert(httpResponse.body.notificationException.humanReadableMessage, null);
                 }
                 break;
             case 409:
@@ -94,11 +112,19 @@ export class EUsuariosAlertService {
         }
     }
 
-    private addErrorAlert(message, key?, justWarning = false) {
+    private addErrorAlert(message, key?) {
         if (!!message) {
-            this.addError(message, justWarning);
+            this.addError(message);
         } else if (key && key !== null) {
-            this.addError(key, justWarning);
+            this.addError(key);
+        }
+    }
+
+    private addWarningAlert(message, key?) {
+        if (!!message) {
+            this.addWarning(message);
+        } else if (key && key !== null) {
+            this.addWarning(key);
         }
     }
 
