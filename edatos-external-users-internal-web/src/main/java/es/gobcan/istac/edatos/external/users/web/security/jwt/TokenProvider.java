@@ -112,24 +112,8 @@ public class TokenProvider {
                 claimsJws = null;
                 throw new CredentialsExpiredException("The authentication token is disabled. Login again.");
             }
-        } catch (SignatureException e) {
-            log.info("JWT: Firma no válida.");
-            log.trace("JWT: Firma no válida traza: {}", e);
-        } catch (MalformedJwtException e) {
-            log.info("JWT: Token no valido.");
-            log.trace("JWT: Token no valido trace: {}", e);
-        } catch (ExpiredJwtException e) {
-            log.info("JWT: Token expirado.");
-            log.trace("JWT: Token expirado trace: {}", e);
-        } catch (UnsupportedJwtException e) {
-            log.info("JWT: Token no soportado.");
-            log.trace("JWT: Token no soportado trace: {}", e);
-        } catch (IllegalArgumentException e) {
-            log.info("JWT: token del handler no es válido.");
-            log.trace("JWT: token del handler no es válido trace: {}", e);
-        } catch (CredentialsExpiredException e) {
-            log.info("JWT: token deshabilitado.");
-            log.trace("JWT: token deshabilitado trace: {}", e);
+        } catch (SignatureException | MalformedJwtException | ExpiredJwtException | UnsupportedJwtException | IllegalArgumentException | CredentialsExpiredException e) {
+            log.debug("JWT: token no válido trace: {}", e);
         }
 
         return claimsJws;
