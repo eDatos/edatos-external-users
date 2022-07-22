@@ -93,9 +93,8 @@ public class TokenProvider {
                 throw new CredentialsExpiredException("The authentication token is disabled. Login again.");
             }
             return claimsJws = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(authToken);
-        } catch (SignatureException|MalformedJwtException|ExpiredJwtException|UnsupportedJwtException|IllegalArgumentException|CredentialsExpiredException e) {
-            log.debug("JWT: token no válido.");
-            log.trace("JWT: token no válido trace: {}", e);
+        } catch (SignatureException | MalformedJwtException | ExpiredJwtException | UnsupportedJwtException | IllegalArgumentException | CredentialsExpiredException e) {
+            log.debug("JWT: token no válido trace: {}", e);
         }
 
         return claimsJws;
