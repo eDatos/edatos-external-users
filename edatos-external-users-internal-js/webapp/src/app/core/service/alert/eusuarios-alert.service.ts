@@ -1,27 +1,25 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { AlertError } from 'arte-ng/services';
 import { MessageService } from 'primeng/api';
 
-type MESSAGE_SEVERITY_PROPERTIES = { severity: string, summary: string };
-
 const ERROR_ALERT_KEY = 'alert-errors';
+
+type MESSAGE_SEVERITY_PROPERTIES = { severity: string, summary?: string };
+const MESSAGE_SEVERITY: {[key: string]: MESSAGE_SEVERITY_PROPERTIES} = {
+    ERROR: {
+        severity: 'error'
+    },
+    WARN: {
+        severity: 'warn'
+    }
+};
 @Injectable()
 export class EUsuariosAlertService {
-    readonly DEFAULT_MESSAGE = 'Error desconocido';
-    readonly MESSAGE_SEVERITY: {[key: string]: MESSAGE_SEVERITY_PROPERTIES} = {
-        ERROR: {
-            severity: 'error',
-            summary: 'Error'
-        },
-        WARN: {
-            severity: 'warn',
-            summary: 'Advertencia'
-        }
-    };
-    private arr: string[] = [];
+    DEFAULT_MESSAGE = "";
 
-    constructor(private translateService: TranslateService, private messageService: MessageService) {}
+    constructor(private translateService: TranslateService, private messageService: MessageService) {
+        this.DEFAULT_MESSAGE = this.translateService.instant('error.default.message')
+    }
 
     public error(error: any): void {
         const message = this.parseError(error);
@@ -33,24 +31,25 @@ export class EUsuariosAlertService {
             key: ERROR_ALERT_KEY,
             sticky: false,
             closable: true,
-            detail: message,
+            summary: this.translateService.instant('error.default.title'),
+            detail: this.translateService.instant(message),
             ...severityProperties
         });
     }
 
     public addError(message: string): void {
-        this.addMessage(message, this.MESSAGE_SEVERITY.ERROR);
+        this.addMessage(message, MESSAGE_SEVERITY.ERROR);
     }
 
     public addWarning(message: string): void {
-        this.addMessage(message, this.MESSAGE_SEVERITY.WARN);
+        this.addMessage(message, MESSAGE_SEVERITY.WARN);
     }
 
     public handleResponseError(httpResponse) {
         switch (httpResponse.status) {
             // connection refused, server not reachable
             case 0:
-                this.addErrorAlert('Server not reachable', 'error.server.not.reachable');
+                this.addErrorAlert('error.server.not.reachable');
                 break;
             case 200:
                 const notificationExceptionItems = httpResponse.body.notificationException.exceptionItems;
@@ -80,27 +79,20 @@ export class EUsuariosAlertService {
                 }
                 if (errorHeader) {
                     const errorMessage = this.translateService.instant(errorHeader);
-                    const entityName = this.translateService.instant('arte.alert-service.entities.' + entityKey);
                     this.addErrorAlert(errorMessage, errorHeader);
                 } else if (httpResponse.message !== '' && httpResponse.error && httpResponse.error.fieldErrors) {
+                    this.addErrorAlert(httpResponse.error.message);
                     const fieldErrors = httpResponse.error.fieldErrors;
                     for (let i = 0; i < fieldErrors.length; i++) {
-                        const fieldError = fieldErrors[i];
-                        // convert 'something[14].other[4].id' to 'something[].other[].id' so translations can be written to it
-                        const convertedField = fieldError.field.replace(/\[\d*\]/g, '[]');
-                        const fieldName = this.translateService.instant('app.' + fieldError.objectName + '.' + convertedField);
-                        this.addErrorAlert('Error on field "' + fieldName + '"', 'error.' + fieldError.message);
+                        this.addErrorAlert('error.' + fieldErrors[i].message);
                     }
                 } else if (httpResponse.message !== '' && httpResponse.error && httpResponse.error.message) {
                     // CustomParameterizedException
-                    this.error(httpResponse.error.message);
-                    for (const errorItem of httpResponse.error.errorItems) {
-                        this.error(errorItem.message);
-                    }
+                    this.error(httpResponse.error);
                 } else if (httpResponse.message) {
                     this.addErrorAlert(httpResponse.message);
                 } else {
-                    this.addErrorAlert('Not found', 'error.url.not.found');
+                    this.addErrorAlert('error.url.not.found');
                 }
                 break;
             default:
@@ -129,31 +121,31 @@ export class EUsuariosAlertService {
     }
 
     private parseError(error: any): string {
-        if (!(error instanceof AlertError)) {
-            return error;
-        }
-
         if (!this.hasErrorCode(error)) {
             return error.message ? error.message : this.DEFAULT_MESSAGE;
         }
 
         if (!!error.errorItems && error.errorItems.length > 0) {
             return this.parseErrorList(error);
+        } else if (error.params && error.params.length > 0) {
+            return this.translateService.instant(error.code, error.params);
         } else {
-            return this.translateService.instant(error.code!, error.params);
+            return this.translateService.instant(error.code);
         }
     }
 
     private parseErrorList(error: any): string {
-        let formattedHtml = '<div class="alerts-list">';
-        formattedHtml += `${this.translateService.instant(error.code, error.params)}`;
-        formattedHtml += `<ul>`;
+        let formattedHtml = '';
+        if (error.params && error.params.length > 0) {
+            formattedHtml += `${this.translateService.instant(error.code, error.params)}`;
+        } else {
+            formattedHtml += `${this.translateService.instant(error.code)}`;
+        }
+
         error.errorItems.forEach((errorItem) => {
             const translatedMessage = this.translateService.instant(errorItem.code, errorItem.params);
-            formattedHtml += `<li>${translatedMessage}</li>`;
+            formattedHtml += `\n• ${translatedMessage}`;
         });
-        formattedHtml += `</ul>`;
-        formattedHtml += `</div>`;
         return formattedHtml;
     }
 
