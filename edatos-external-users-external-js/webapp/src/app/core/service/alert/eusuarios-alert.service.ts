@@ -3,16 +3,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 
 const ERROR_ALERT_KEY = 'alert-errors';
-
-type MESSAGE_SEVERITY_PROPERTIES = { severity: string, summary?: string };
-const MESSAGE_SEVERITY: {[key: string]: MESSAGE_SEVERITY_PROPERTIES} = {
-    ERROR: {
-        severity: 'error'
-    },
-    WARN: {
-        severity: 'warn'
-    }
-};
 @Injectable()
 export class EUsuariosAlertService {
     DEFAULT_MESSAGE = "";
@@ -26,23 +16,15 @@ export class EUsuariosAlertService {
         this.addError(message);
     }
 
-    private addMessage(message: string, severityProperties: MESSAGE_SEVERITY_PROPERTIES) {
+    public addError(message: string): void {
         this.messageService.add({
             key: ERROR_ALERT_KEY,
-            sticky: false,
-            closable: true,
+            severity: 'error',
             summary: this.translateService.instant('error.default.title'),
             detail: this.translateService.instant(message),
-            ...severityProperties
+            sticky: false,
+            closable: true,
         });
-    }
-
-    public addError(message: string): void {
-        this.addMessage(message, MESSAGE_SEVERITY.ERROR);
-    }
-
-    public addWarning(message: string): void {
-        this.addMessage(message, MESSAGE_SEVERITY.WARN);
     }
 
     public handleResponseError(httpResponse) {
@@ -50,14 +32,6 @@ export class EUsuariosAlertService {
             // connection refused, server not reachable
             case 0:
                 this.addErrorAlert('error.server.not.reachable');
-                break;
-            case 200:
-                const notificationExceptionItems = httpResponse.body.notificationException.exceptionItems;
-                if (notificationExceptionItems.length > 0) {
-                    this.addWarningAlert(notificationExceptionItems[notificationExceptionItems.length - 1].message, null);
-                } else {
-                    this.addWarningAlert(httpResponse.body.notificationException.humanReadableMessage, null);
-                }
                 break;
             case 409:
             case 400:
@@ -108,14 +82,6 @@ export class EUsuariosAlertService {
             this.addError(message);
         } else if (key && key !== null) {
             this.addError(key);
-        }
-    }
-
-    private addWarningAlert(message, key?) {
-        if (!!message) {
-            this.addWarning(message);
-        } else if (key && key !== null) {
-            this.addWarning(key);
         }
     }
 

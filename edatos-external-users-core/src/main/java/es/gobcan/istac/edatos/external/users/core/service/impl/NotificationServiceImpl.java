@@ -35,7 +35,6 @@ import org.springframework.stereotype.Service;
 
 import javax.ws.rs.core.Response;
 
-import static es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType.CHANGE_PASSWORD_NOTICE_FAILED;
 import static es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType.CONFIRM_SIGNUP_NOTICE_FAILED;
 import static es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType.EMAIL_IN_USE_NOTICE_FAILED;
 import static es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType.REGISTER_ACCOUNT_NOTICE_FAILED;
@@ -87,16 +86,6 @@ public class NotificationServiceImpl implements NotificationService {
         String[] args = notificationOrganismArgsService.argsByOrganism(getOrganism(), externalUserEntity, getLopd());
 
         createNotificationWithReceiver(codeSubject, messageCode, externalUserEntity.getEmail(), args, UNSUBSCRIBE_ACCOUNT_NOTICE_FAILED);
-    }
-
-    @Override
-    public void createChangePasswordExternaluserAccountNotification(ExternalUserEntity externalUserEntity) {
-        String codeSubject = "notice.subject.change_password.title";
-        String messageCode = "notice.message.change_password.text";
-
-        String[] args = notificationOrganismArgsService.argsByOrganism(getOrganism(), externalUserEntity, getLopd());
-
-        createNotificationWithReceiver(codeSubject, messageCode, externalUserEntity.getEmail(), args, CHANGE_PASSWORD_NOTICE_FAILED);
     }
 
     @Override

@@ -28,7 +28,6 @@ public class ServiceExceptionType extends CommonServiceExceptionType {
      ********/
     public static final CommonServiceExceptionType REGISTER_ACCOUNT_NOTICE_FAILED = create("exception.external_users.register_account.create_notice");
     public static final CommonServiceExceptionType UNSUBSCRIBE_ACCOUNT_NOTICE_FAILED = create("exception.external_users.unsubscribe_account.create_notice");
-    public static final CommonServiceExceptionType CHANGE_PASSWORD_NOTICE_FAILED = create("exception.external_users.change_password.create_notice");
     public static final CommonServiceExceptionType RESET_PASSWORD_NOTICE_FAILED = create("exception.external_users.reset_password.create_notice");
     public static final CommonServiceExceptionType CONFIRM_SIGNUP_NOTICE_FAILED = create("exception.external_users.confirm_signup.create_notice");
     public static final CommonServiceExceptionType EMAIL_IN_USE_NOTICE_FAILED = create("exception.external_users.email_in_use.create_notice");

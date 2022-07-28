@@ -1,5 +1,5 @@
 import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
 import { EUsuariosAlertService } from '../service';
@@ -49,17 +49,6 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
                         this.alertService.handleResponseError(err);
                     }
                     return throwError(err);
-                })
-            )
-            .pipe(
-                map((response: any) => {
-                    if (response.body && response.body.hasOwnProperty('notificationException')) {
-                        if (response.body.notificationException) {
-                            this.alertService.handleResponseError(response);
-                        }
-                        return response.body.bodyContent;
-                    }
-                    return response;
                 })
             );
     }
