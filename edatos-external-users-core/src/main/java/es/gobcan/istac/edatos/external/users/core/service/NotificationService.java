@@ -11,7 +11,6 @@ public interface NotificationService {
 
     void createNewExternalUserAccountNotification(ExternalUserEntity externalUserEntity);
     void createDeleteExternalUserAccountNotification(ExternalUserEntity externalUserEntity);
-    void createChangePasswordExternaluserAccountNotification(ExternalUserEntity externalUserEntity);
     void createResetPasswordExternaluserAccountNotification(ExternalUserEntity externalUserEntity);
 
     void createRegisterExternalUserAccountNotification(ExternalUserEntity externalUserEntity);

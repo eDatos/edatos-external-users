@@ -142,7 +142,6 @@ public class ExternalAccountResource extends AbstractResource {
         ExternalUserEntity user = externalUserService.getUsuarioWithAuthorities();
         externalUserService.updateExternalUserAccountPassword(user, passwordDto.getCurrentPassword(), passwordDto.getNewPassword());
 
-        notificationService.createChangePasswordExternaluserAccountNotification(user);
         ExternalUserAccountBaseDto updatedUserDto = externalUserMapper.toBaseDto(user);
 
         auditPublisher.publish(AuditConstants.EXT_USUARIO_EDICION, updatedUserDto.getEmail());
