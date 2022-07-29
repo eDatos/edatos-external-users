@@ -100,17 +100,19 @@ export class EUsuariosAlertService {
     }
 
     private parseErrorList(error: any): string {
-        let formattedHtml = '';
+        let formattedHtml = '<div class="alerts-list">';
         if (error.params && error.params.length > 0) {
             formattedHtml += `${this.translateService.instant(error.code, error.params)}`;
         } else {
             formattedHtml += `${this.translateService.instant(error.code)}`;
         }
-
+        formattedHtml += `<ul>`;
         error.errorItems.forEach((errorItem) => {
             const translatedMessage = this.translateService.instant(errorItem.code, errorItem.params);
-            formattedHtml += `\n• ${translatedMessage}`;
+            formattedHtml += `<li>${translatedMessage}</li>`;
         });
+        formattedHtml += `</ul>`;
+        formattedHtml += `</div>`;
         return formattedHtml;
     }
 
