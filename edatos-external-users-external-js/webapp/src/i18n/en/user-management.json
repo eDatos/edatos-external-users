@@ -36,7 +36,11 @@
         "password": {
             "new": "New password",
             "confirmNew": "Confirm password",
-            "old": "Current password"
+            "old": "Current password",
+            "messages": {
+                "onSuccessSumary": "Password edit",
+                "onSuccess": "User password has been modified correctly."
+            }
         },
         "activated": "Activated",
         "deactivated": "Deactivated",

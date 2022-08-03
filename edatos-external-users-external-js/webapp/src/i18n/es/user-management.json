@@ -36,7 +36,11 @@
         "password": {
             "new": "Nueva contraseña",
             "confirmNew": "Confirmar contraseña",
-            "old": "Contraseña actual"
+            "old": "Contraseña actual",
+            "messages": {
+                "onSuccessSumary": "Contraseña editada",
+                "onSuccess": "Se ha modificado la contraseña de usuario correctamente."
+            }
         },
         "activated": "Activado",
         "deactivated": "Desactivado",
