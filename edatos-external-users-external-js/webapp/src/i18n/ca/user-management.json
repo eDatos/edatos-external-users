@@ -36,7 +36,11 @@
         "password": {
             "new": "Nova contrasenya",
             "confirmNew": "Confirmar contrasenya",
-            "old": "Contrasenya actual"
+            "old": "Contrasenya actual",
+            "messages": {
+                "onSuccessSumary": "Contrasenya editat",
+                "onSuccess": "S'han modificat la contrasenya de l'usuari correctament."
+            }
         },
         "activated": "Activat",
         "deactivated": "Desactivat",
