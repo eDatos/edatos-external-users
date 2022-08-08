@@ -53,14 +53,14 @@ public abstract class FilterMapper implements EntityMapper<FilterDto, FilterEnti
     @Mapping(target = "lastAccessDate", defaultExpression = "java( java.time.Instant.now() )")
     @Mapping(target = "externalUser", source = "externalUser.id", qualifiedByName = "externalUserFromId")
     @Mapping(target = "externalOperation", ignore = true)
-    @Mapping(target = "permalinkType", defaultValue = "EDATOS")
+    @Mapping(target = "permalinkType", defaultValue = "VISUALIZER")
     public abstract FilterEntity toEntity(FilterDto dto);
 
     @Mapping(target = "name", defaultExpression = "java( dto.getResourceName() )")
     @Mapping(target = "lastAccessDate", defaultExpression = "java( java.time.Instant.now() )")
     @Mapping(target = "externalUser", source = "externalUser.id", qualifiedByName = "externalUserFromId")
     @Mapping(target = "externalOperation", source = "externalOperationCode", qualifiedByName = "externalOperationFromCode")
-    @Mapping(target = "permalinkType", defaultValue = "EDATOS")
+    @Mapping(target = "permalinkType", defaultValue = "VISUALIZER")
     public abstract FilterEntity toEntity(FilterWithOperationCodeDto dto);
 
     @Named("getUrlPermalink")
@@ -68,7 +68,7 @@ public abstract class FilterMapper implements EntityMapper<FilterDto, FilterEnti
         if (entity == null || entity.getPermalink() == null) {
             return null;
         }
-        if (PermalinkType.EDATOS.equals(entity.getPermalinkType())) {
+        if (PermalinkType.VISUALIZER.equals(entity.getPermalinkType())) {
             return metadataProperties.getVisualizerPath() + PATH_PERMALINK + entity.getPermalink();
         } else {
             return entity.getPermalink();

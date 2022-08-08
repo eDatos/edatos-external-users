@@ -58,7 +58,7 @@ public class FilterEntity extends AbstractVersionedAndAuditingEntity implements 
     private ExternalOperationEntity externalOperation;
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "permalink_type default EDATOS", nullable = false)
+    @Column(columnDefinition = "permalink_type default VISUALIZER", nullable = false)
     private PermalinkType permalinkType;
 
     @Override
