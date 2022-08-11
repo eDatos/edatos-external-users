@@ -15,7 +15,6 @@ import es.gobcan.istac.edatos.external.users.core.service.DataProtectionPolicySe
 import es.gobcan.istac.edatos.external.users.core.service.EDatosApisLocator;
 import es.gobcan.istac.edatos.external.users.core.service.ExternalUserService;
 import es.gobcan.istac.edatos.external.users.core.service.MetadataConfigurationService;
-import es.gobcan.istac.edatos.external.users.core.service.NotificationOrganismArgsService;
 import es.gobcan.istac.edatos.external.users.core.service.NotificationService;
 import org.siemac.edatos.core.common.exception.CommonServiceExceptionType;
 import org.siemac.edatos.core.common.exception.EDatosException;
@@ -61,9 +60,6 @@ public class NotificationServiceImpl implements NotificationService {
     private EDatosApisLocator eDatosApisLocator;
 
     @Autowired
-    private NotificationOrganismArgsService notificationOrganismArgsService;
-
-    @Autowired
     private DataProtectionPolicyService dataProtectionPolicyService;
 
     @Autowired
@@ -74,7 +70,7 @@ public class NotificationServiceImpl implements NotificationService {
         String codeSubject = "notice.subject.register_account.title";
         String messageCode = "notice.message.register_account.text";
 
-        String[] args = notificationOrganismArgsService.argsByOrganism(getOrganism(), externalUserEntity, getLopd());
+        String[] args = argsByExternalUser(externalUserEntity);
 
         createNotificationWithReceiver(codeSubject, messageCode, externalUserEntity.getEmail(), args, REGISTER_ACCOUNT_NOTICE_FAILED);
     }
@@ -83,7 +79,7 @@ public class NotificationServiceImpl implements NotificationService {
     public void createDeleteExternalUserAccountNotification(ExternalUserEntity externalUserEntity) {
         String codeSubject = "notice.subject.unsubscribe_account.title";
         String messageCode = "notice.message.unsubscribe_account.text";
-        String[] args = notificationOrganismArgsService.argsByOrganism(getOrganism(), externalUserEntity, getLopd());
+        String[] args = argsByExternalUser(externalUserEntity);
 
         createNotificationWithReceiver(codeSubject, messageCode, externalUserEntity.getEmail(), args, UNSUBSCRIBE_ACCOUNT_NOTICE_FAILED);
     }
@@ -93,7 +89,7 @@ public class NotificationServiceImpl implements NotificationService {
         String codeSubject = "notice.subject.reset_password.title";
         String messageCode = "notice.message.reset_password.text";
         String baseUrl = metadataConfigurationService.retrieveBaseUrl() + RESET_PASSWORD_URL + externalUserEntity.getResetKey();
-        ArrayList<String> argsList = new ArrayList<String>(Arrays.asList(notificationOrganismArgsService.argsByOrganism(getOrganism(), externalUserEntity, getLopd())));
+        ArrayList<String> argsList = new ArrayList<String>(Arrays.asList(argsByExternalUser(externalUserEntity)));
         argsList.add(baseUrl);
 
         createNotificationWithReceiver(codeSubject, messageCode, externalUserEntity.getEmail(), argsList.toArray(new String[argsList.size()]), RESET_PASSWORD_NOTICE_FAILED);
@@ -104,7 +100,7 @@ public class NotificationServiceImpl implements NotificationService {
         String codeSubject = "notice.subject.confirm_signup.title";
         String messageCode = "notice.message.confirm_signup.text";
         String baseUrl = metadataConfigurationService.retrieveBaseUrl() + CONFIRM_REGISTRATION_URL + externalUserEntity.getRegistrationToken();
-        ArrayList<String> argsList = new ArrayList<String>(Arrays.asList(notificationOrganismArgsService.argsByOrganism(getOrganism(), externalUserEntity, getLopd())));
+        ArrayList<String> argsList = new ArrayList<String>(Arrays.asList(argsByExternalUser(externalUserEntity)));
         argsList.add(baseUrl);
 
         createNotificationWithReceiver(codeSubject, messageCode, externalUserEntity.getEmail(), argsList.toArray(new String[argsList.size()]), CONFIRM_SIGNUP_NOTICE_FAILED);
@@ -115,7 +111,7 @@ public class NotificationServiceImpl implements NotificationService {
         String codeSubject = "notice.subject.email_in_use.title";
         String messageCode = "notice.message.email_in_use.text";
         String baseUrl = metadataConfigurationService.retrieveBaseUrl() + RESET_PASSWORD_URL + externalUserEntity.getResetKey();
-        ArrayList<String> argsList = new ArrayList<String>(Arrays.asList(notificationOrganismArgsService.argsByOrganism(getOrganism(), externalUserEntity, getLopd())));
+        ArrayList<String> argsList = new ArrayList<String>(Arrays.asList(argsByExternalUser(externalUserEntity)));
         argsList.add(baseUrl);
 
         createNotificationWithReceiver(codeSubject, messageCode, externalUserEntity.getEmail(), argsList.toArray(new String[argsList.size()]), EMAIL_IN_USE_NOTICE_FAILED);
@@ -126,7 +122,7 @@ public class NotificationServiceImpl implements NotificationService {
         String codeSubject = "notice.subject.repeated_signup.title";
         String messageCode = "notice.message.repeated_signup.text";
         String baseUrl = metadataConfigurationService.retrieveBaseUrl() + CONFIRM_REGISTRATION_URL + externalUserEntity.getRegistrationToken();
-        ArrayList<String> argsList = new ArrayList<String>(Arrays.asList(notificationOrganismArgsService.argsByOrganism(getOrganism(), externalUserEntity, getLopd())));
+        ArrayList<String> argsList = new ArrayList<String>(Arrays.asList(argsByExternalUser(externalUserEntity)));
         argsList.add(baseUrl);
 
         createNotificationWithReceiver(codeSubject, messageCode, externalUserEntity.getEmail(), argsList.toArray(new String[argsList.size()]), REPEATED_SIGNUP_NOTICE_FAILED);
@@ -139,13 +135,17 @@ public class NotificationServiceImpl implements NotificationService {
 
         for (FavoriteEntity favorite : listFavorites) {
             ExternalUserEntity externalUserEntity = favorite.getExternalUser();
-            ArrayList<String> argsList = new ArrayList<String>(Arrays.asList(notificationOrganismArgsService.argsByOrganism(getOrganism(), externalUserEntity, getLopd())));
+            ArrayList<String> argsList = new ArrayList<String>(Arrays.asList(argsByExternalUser(externalUserEntity)));
             argsList.add(favorite.getExternalOperation().getName().getLocalisedLabel(getLocale()));
 
             if (externalUserEntity.isEmailNotificationsEnabled() && favorite.getExternalOperation().isNotificationsEnabled()) {
                 createNotificationWithReceiver(codeSubject, messageCode, externalUserEntity.getEmail(), argsList.toArray(new String[argsList.size()]), SUBSCRIPTION_JOB_NOTICE_FAILED);
             }
         }
+    }
+
+    private String[] argsByExternalUser(ExternalUserEntity externalUserEntity) {
+        return new String[]{externalUserEntity.getName(), externalUserEntity.getSurname1(), externalUserEntity.getEmail()};
     }
 
     private void createNotificationWithReceiver(String codeSubject, String messageCode, String receiver, String[] args, CommonServiceExceptionType serviceExceptionTypeIfError) {
@@ -169,7 +169,7 @@ public class NotificationServiceImpl implements NotificationService {
 
         // @formatter:off
         return NoticeBuilder.notification()
-            .withMessages(message)
+            .withMessages(message, MessageBuilder.message().withText(getLopd()).build())
             .withReceivers(receiver)
             .withSendingApplication(MetamacApplicationsEnum.GESTOR_USUARIOS_EXTERNOS.getName())
             .withSubject(subject)
@@ -207,7 +207,7 @@ public class NotificationServiceImpl implements NotificationService {
         try {
             // @formatter:off
             Notice notice = NoticeBuilder.notification()
-                .withMessages(MessageBuilder.message().withText(message).build())
+                .withMessages(MessageBuilder.message().withText(message).build(), MessageBuilder.message().withText(getLopd()).build())
                 .withReceivers(receivers)
                 .withSendingApplication(MetamacApplicationsEnum.GESTOR_USUARIOS_EXTERNOS.getName())
                 .withSubject(subject).build();
