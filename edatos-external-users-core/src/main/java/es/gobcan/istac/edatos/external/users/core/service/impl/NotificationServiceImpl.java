@@ -15,7 +15,6 @@ import es.gobcan.istac.edatos.external.users.core.service.DataProtectionPolicySe
 import es.gobcan.istac.edatos.external.users.core.service.EDatosApisLocator;
 import es.gobcan.istac.edatos.external.users.core.service.ExternalUserService;
 import es.gobcan.istac.edatos.external.users.core.service.MetadataConfigurationService;
-import es.gobcan.istac.edatos.external.users.core.service.NotificationOrganismArgsService;
 import es.gobcan.istac.edatos.external.users.core.service.NotificationService;
 import org.siemac.edatos.core.common.exception.CommonServiceExceptionType;
 import org.siemac.edatos.core.common.exception.EDatosException;
@@ -61,9 +60,6 @@ public class NotificationServiceImpl implements NotificationService {
     private EDatosApisLocator eDatosApisLocator;
 
     @Autowired
-    private NotificationOrganismArgsService notificationOrganismArgsService;
-
-    @Autowired
     private DataProtectionPolicyService dataProtectionPolicyService;
 
     @Autowired
@@ -86,16 +82,6 @@ public class NotificationServiceImpl implements NotificationService {
         String[] args = argsByExternalUser(externalUserEntity);
 
         createNotificationWithReceiver(codeSubject, messageCode, externalUserEntity.getEmail(), args, UNSUBSCRIBE_ACCOUNT_NOTICE_FAILED);
-    }
-
-    @Override
-    public void createChangePasswordExternaluserAccountNotification(ExternalUserEntity externalUserEntity) {
-        String codeSubject = "notice.subject.change_password.title";
-        String messageCode = "notice.message.change_password.text";
-
-        String[] args = argsByExternalUser(externalUserEntity);
-
-        createNotificationWithReceiver(codeSubject, messageCode, externalUserEntity.getEmail(), args);
     }
 
     @Override
