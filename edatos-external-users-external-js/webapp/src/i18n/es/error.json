@@ -1,22 +1,26 @@
 {
     "error": {
+        "default": {
+            "title": "Error",
+            "message": "Error desconocido"
+        },
         "title": "¡Ups, ha ocurrido un error!",
         "403": {
             "title": "Error 403",
-            "detail": "Lo sentimos, no tiene permisos para acceder a la página."
+            "detail": "Lo sentimos, no tiene permisos para acceder a la página"
         },
-        "accessDenied": "Lo sentimos, no tiene permisos para acceder a la página.",
+        "accessDenied": "Lo sentimos, no tiene permisos para acceder a la página",
         "404": {
             "title": "Error 404",
-            "detail": "Lo sentimos, la página que busca no existe."
+            "detail": "Lo sentimos, la página que busca no existe"
         },
         "blockedUser": {
             "title": "Error de usuario",
-            "detail": "Lo sentimos, el usuario con el que intenta acceder está bloqueado."
+            "detail": "Lo sentimos, el usuario con el que intenta acceder está bloqueado"
         },
         "nonExistingUser": {
             "title": "Error de usuario",
-            "detail": "Lo sentimos, el usuario con el que intenta acceder no se ha dado de alta."
+            "detail": "Lo sentimos, el usuario con el que intenta acceder no se ha dado de alta"
         },
         "internalServerError": "Error interno del servidor",
         "dataConstraintViolation": "Error interno del servidor",
@@ -33,12 +37,43 @@
         },
         "query-no-soportada": "Parámetro de búsqueda {{0}} no soportado",
         "file": {
-            "maxFileSize": "No pueden adjuntarse ficheros de más de {{0}} MB.",
-            "empty": "Fichero vacío.",
-            "notFound": "Fichero no encontrado."
+            "maxFileSize": "No pueden adjuntarse ficheros de más de {{0}} MB",
+            "empty": "Fichero vacío",
+            "notFound": "Fichero no encontrado"
         },
         "quartz": {
             "jobExecutionError": "Error durante la ejecución de un job Quartz"
+        },
+        "concurrencyFailure": "Error interno del servidor",
+        "validation": "Error durante la validación de los datos",
+        "methodNotSupported": "Acción no disponible",
+        "userManagement": {
+            "usuario-no-valido": "Usuario no válido"
+        }
+    },
+    "exception": {
+        "external_users": {
+            "generic": "Ha ocurrido un problema interno y no se ha podido ejecutar la tarea. Contacte con el administrador",
+            "category.cannot_delete_category_if_it_has_subscribers": "Una categoría no puede ser eliminada si hay personas suscritas a ella o a cualquiera de sus descendientes",
+            "query.not_supported": "Parámetro de búsqueda no soportado: {{0}}",
+            "login": {
+                "user_disabled": "Usuario desactivado. Contacte con el administrador",
+                "void": "El campo no puedo estar vacío",
+                "failed": "El usuario y/o contraseña no son correctos o no están en el sistema"
+            },
+            "register_account.create_notice": "La contraseña nueva no puede ser la misma que la actual",
+            "unsubscribe_account.create_notice": "Error enviando correo de solicitud de baja. Prueba más tarde",
+            "change_password.create_notice": "El cambio de contraseña se ha realizado con éxito, pero ha habido un error enviando el correo de confirmación",
+            "reset_password.create_notice": "Error enviando correo de recuperación de contraseña. Comprueba la dirección de correo o prueba más tarde",
+            "confirm_signup.create_notice": "Error enviando correo de confirmación de registro. Comprueba la dirección de correo o prueba más tarde",
+            "email_in_use.create_notice": "Error enviando correo de confirmación de registro. Comprueba la dirección de correo o prueba más tarde",
+            "repeated_signup.create_notice": "Error enviando correo de confirmación de registro. Comprueba la dirección de correo o prueba más tarde",
+            "subscrition_job.create_notice": "Error enviando correo a usuarios suscritos a una operación estadística",
+            "deleted": "El usuario ha sido eliminado del sistema",
+            "deactivate": "El usuario ha sido deshabilitado",
+            "deauthenticated": "El usuario no tiene permisos de acceso",
+            "registration_confirmation": "El registro del usuario no se pudo confirmar",
+            "password.not_match": "La contraseña nueva no puede ser la misma que la actual"
         }
     }
 }

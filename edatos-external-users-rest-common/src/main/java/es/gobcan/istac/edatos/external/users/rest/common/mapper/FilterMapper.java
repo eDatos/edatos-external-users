@@ -6,6 +6,7 @@ import org.mapstruct.Named;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import es.gobcan.istac.edatos.external.users.core.config.MetadataProperties;
+import es.gobcan.istac.edatos.external.users.core.domain.enumeration.PermalinkType;
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalOperationEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.FilterEntity;
@@ -32,7 +33,7 @@ public abstract class FilterMapper implements EntityMapper<FilterDto, FilterEnti
 
     @Override
     @Mapping(target = "resourceName", ignore = true)
-    @Mapping(target = "urlPermalink", source = "permalink", qualifiedByName = "getUrlPermalink")
+    @Mapping(target = "urlPermalink", source = "entity", qualifiedByName = "getUrlPermalink")
     public abstract FilterDto toDto(FilterEntity entity);
 
     /**
@@ -52,20 +53,26 @@ public abstract class FilterMapper implements EntityMapper<FilterDto, FilterEnti
     @Mapping(target = "lastAccessDate", defaultExpression = "java( java.time.Instant.now() )")
     @Mapping(target = "externalUser", source = "externalUser.id", qualifiedByName = "externalUserFromId")
     @Mapping(target = "externalOperation", ignore = true)
+    @Mapping(target = "permalinkType", defaultValue = "VISUALIZER")
     public abstract FilterEntity toEntity(FilterDto dto);
 
     @Mapping(target = "name", defaultExpression = "java( dto.getResourceName() )")
     @Mapping(target = "lastAccessDate", defaultExpression = "java( java.time.Instant.now() )")
     @Mapping(target = "externalUser", source = "externalUser.id", qualifiedByName = "externalUserFromId")
     @Mapping(target = "externalOperation", source = "externalOperationCode", qualifiedByName = "externalOperationFromCode")
+    @Mapping(target = "permalinkType", defaultValue = "VISUALIZER")
     public abstract FilterEntity toEntity(FilterWithOperationCodeDto dto);
 
     @Named("getUrlPermalink")
-    public String getUrlPermalink(String permalink) {
-        if (permalink == null) {
+    public String getUrlPermalink(FilterEntity entity) {
+        if (entity == null || entity.getPermalink() == null) {
             return null;
         }
-        return metadataProperties.getVisualizerPath() + PATH_PERMALINK + permalink;
+        if (PermalinkType.VISUALIZER.equals(entity.getPermalinkType())) {
+            return metadataProperties.getVisualizerPath() + PATH_PERMALINK + entity.getPermalink();
+        } else {
+            return entity.getPermalink();
+        }
     }
 
     @Named("externalUserFromId")

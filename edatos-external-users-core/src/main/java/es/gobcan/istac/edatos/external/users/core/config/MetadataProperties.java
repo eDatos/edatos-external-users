@@ -42,27 +42,23 @@ public class MetadataProperties {
 
     @PostConstruct
     public void setValues() {
-        try {
-            metamacNavbar = normalizeUrl(configurationService.retrieveNavbarUrl());
-            metamacCasPrefix = normalizeUrl(configurationService.retrieveSecurityCasServerUrlPrefix());
-            metamacCasLoginUrl = normalizeUrl(configurationService.retrieveSecurityCasServiceLoginUrl());
-            metamacCasLogoutUrl = normalizeUrl(configurationService.retrieveSecurityCasServiceLogoutUrl());
-            captchaEnable = configurationService.retrieveCaptchaEnable();
-            captchaProvider = configurationService.retrieveCaptchaProvider();
-            if (CaptchaConstants.CAPTCHA_PROVIDER_RECAPTCHA.equals(captchaProvider)) {
-                recaptchaSiteKey = configurationService.retrieveRecaptchaSiteKey();
-                recaptchaSecretKey = configurationService.retrieveRecaptchaSecretKey();
-            }
-            captchaUrl = normalizeUrl(configurationService.retrieveCaptchaExternalApiUrlBase());
-            availableLanguages = configurationService.retrieveLanguages();
-            externalAppUrl = normalizeUrl(configurationService.retrieveExternalUsersExternalWebApplicationUrlBase());
-            internalAppUrl = normalizeUrl(configurationService.retrieveExternalUsersInternalWebApplicationUrlBase());
-            casService = internalAppUrl + "/login/cas";
-            visualizerPath = configurationService.retrievePortalExternalWebApplicationUrlVisualizer();
-            defaultLanguage = availableLanguages.get(0);
-        } catch (Exception e) {
-            log.error("Error getting the value of a metadata {}", e);
+        metamacNavbar = normalizeUrl(configurationService.retrieveNavbarUrl());
+        metamacCasPrefix = normalizeUrl(configurationService.retrieveSecurityCasServerUrlPrefix());
+        metamacCasLoginUrl = normalizeUrl(configurationService.retrieveSecurityCasServiceLoginUrl());
+        metamacCasLogoutUrl = normalizeUrl(configurationService.retrieveSecurityCasServiceLogoutUrl());
+        captchaEnable = configurationService.retrieveCaptchaEnable();
+        captchaProvider = configurationService.retrieveCaptchaProvider();
+        if (CaptchaConstants.CAPTCHA_PROVIDER_RECAPTCHA.equals(captchaProvider)) {
+            recaptchaSiteKey = configurationService.retrieveRecaptchaSiteKey();
+            recaptchaSecretKey = configurationService.retrieveRecaptchaSecretKey();
         }
+        captchaUrl = normalizeUrl(configurationService.retrieveCaptchaExternalApiUrlBase());
+        availableLanguages = configurationService.retrieveLanguages();
+        externalAppUrl = normalizeUrl(configurationService.retrieveExternalUsersExternalWebApplicationUrlBase());
+        internalAppUrl = normalizeUrl(configurationService.retrieveExternalUsersInternalWebApplicationUrlBase());
+        casService = internalAppUrl + "/login/cas";
+        visualizerPath = configurationService.retrievePortalExternalWebApplicationUrlVisualizer();
+        defaultLanguage = availableLanguages.get(0);
         try {
             languageCookie = configurationService.retrieveInternationalizationCookieId();
         } catch (Exception e) {
