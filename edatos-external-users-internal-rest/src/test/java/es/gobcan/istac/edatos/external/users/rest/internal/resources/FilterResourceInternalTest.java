@@ -1,5 +1,6 @@
 package es.gobcan.istac.edatos.external.users.rest.internal.resources;
 
+import es.gobcan.istac.edatos.external.users.core.domain.enumeration.PermalinkType;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -101,11 +102,13 @@ public class FilterResourceInternalTest {
         filter1.setName("My filter 1");
         filter1.setPermalink(PERMALINK_1);
         filter1.setExternalUser(user1);
+        filter1.setPermalinkType(PermalinkType.VISUALIZER);
         filterRepository.saveAndFlush(filter1);
         filter2 = new FilterEntity();
         filter2.setName("My filter 2");
         filter2.setPermalink(PERMALINK_2);
         filter2.setExternalUser(user1);
+        filter2.setPermalinkType(PermalinkType.VISUALIZER);
         filterRepository.saveAndFlush(filter2);
     }
 
@@ -208,6 +211,7 @@ public class FilterResourceInternalTest {
         filter.setName("User 2 filter");
         filter.setPermalink(PERMALINK_1);
         filter.setExternalUser(user2);
+        filter.setPermalinkType(PermalinkType.VISUALIZER);
         filterRepository.saveAndFlush(filter);
 
         this.mockMvc.perform(get(ENDPOINT_URL + "?query=EMAIL EQ 'user2@gmail.com'"))
