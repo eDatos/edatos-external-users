@@ -1,5 +1,6 @@
 package es.gobcan.istac.edatos.external.users.rest.common.mapper;
 
+import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -12,10 +13,14 @@ import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.FilterEntity;
 import es.gobcan.istac.edatos.external.users.core.repository.ExternalOperationRepository;
 import es.gobcan.istac.edatos.external.users.core.repository.ExternalUserRepository;
+import es.gobcan.istac.edatos.external.users.core.security.SecurityUtils;
+import es.gobcan.istac.edatos.external.users.rest.common.dto.ExternalUserDto;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.FilterDto;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.FilterWithOperationCodeDto;
 import es.gobcan.istac.edatos.external.users.rest.common.mapper.config.AuditingMapperConfig;
 import es.gobcan.istac.edatos.external.users.rest.common.mapper.resolver.GenericMapperResolver;
+
+import java.util.List;
 
 @Mapper(componentModel = "spring", config = AuditingMapperConfig.class, uses = {GenericMapperResolver.class, ExternalUserMapper.class})
 public abstract class FilterMapper implements EntityMapper<FilterDto, FilterEntity> {
@@ -49,6 +54,7 @@ public abstract class FilterMapper implements EntityMapper<FilterDto, FilterEnti
      * </pre>
      */
     @Override
+    @Named(value = "mappingMethodForCollections")
     @Mapping(target = "name", defaultExpression = "java( dto.getResourceName() )")
     @Mapping(target = "lastAccessDate", defaultExpression = "java( java.time.Instant.now() )")
     @Mapping(target = "externalUser", source = "externalUser.id", qualifiedByName = "externalUserFromId")
@@ -62,6 +68,28 @@ public abstract class FilterMapper implements EntityMapper<FilterDto, FilterEnti
     @Mapping(target = "externalOperation", source = "externalOperationCode", qualifiedByName = "externalOperationFromCode")
     @Mapping(target = "permalinkType", defaultValue = "VISUALIZER")
     public abstract FilterEntity toEntity(FilterWithOperationCodeDto dto);
+
+    @Override
+    @IterableMapping(qualifiedByName = "mappingMethodForCollections")
+    public abstract List<FilterEntity> toEntities(List<FilterDto> dtos);
+
+    @Named(value = "mappingMethodForCollectionsWithAuthenticatedUser")
+    @Mapping(target = "name", defaultExpression = "java( dto.getResourceName() )")
+    @Mapping(target = "lastAccessDate", defaultExpression = "java( java.time.Instant.now() )")
+    @Mapping(target = "externalUser", source = "externalUser", qualifiedByName = "externalUserFromAuthenticationEmail")
+    @Mapping(target = "externalOperation", ignore = true)
+    @Mapping(target = "permalinkType", defaultValue = "VISUALIZER")
+    public abstract FilterEntity toEntityWithAuthenticatedUser(FilterDto dto);
+
+    @Mapping(target = "name", defaultExpression = "java( dto.getResourceName() )")
+    @Mapping(target = "lastAccessDate", defaultExpression = "java( java.time.Instant.now() )")
+    @Mapping(target = "externalUser", source = "externalUser", qualifiedByName = "externalUserFromAuthenticationEmail")
+    @Mapping(target = "externalOperation", source = "externalOperationCode", qualifiedByName = "externalOperationFromCode")
+    @Mapping(target = "permalinkType", defaultValue = "VISUALIZER")
+    public abstract FilterEntity toEntityWithAuthenticatedUser(FilterWithOperationCodeDto dto);
+
+    @IterableMapping(qualifiedByName = "mappingMethodForCollectionsWithAuthenticatedUser")
+    public abstract List<FilterEntity> toEntitiesWithAuthenticatedUser(List<FilterDto> dtos);
 
     @Named("getUrlPermalink")
     public String getUrlPermalink(FilterEntity entity) {
@@ -81,6 +109,15 @@ public abstract class FilterMapper implements EntityMapper<FilterDto, FilterEnti
             return null;
         }
         return externalUserRepository.findOne(id);
+    }
+
+    @Named("externalUserFromAuthenticationEmail")
+    public ExternalUserEntity externalUserFromAuthenticationEmail(ExternalUserDto externalUserDto) {
+        String email = SecurityUtils.getCurrentUserLogin();
+        if (email == null) {
+            return null;
+        }
+        return externalUserRepository.findOneByEmail(email).orElse(null);
     }
 
     @Named("externalOperationFromCode")

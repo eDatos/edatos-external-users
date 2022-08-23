@@ -76,7 +76,7 @@ public class FavoriteResource extends AbstractResource {
             throw new EDatosException(CommonServiceExceptionType.PARAMETER_UNEXPECTED, "id");
         }
 
-        FavoriteEntity entity = favoriteMapper.toEntity(dto);
+        FavoriteEntity entity = favoriteMapper.toEntityWithAuthenticatedUser(dto);
         entity = favoriteService.create(entity);
         FavoriteDto newDto = favoriteMapper.toDto(entity);
 
