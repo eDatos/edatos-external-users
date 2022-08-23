@@ -136,12 +136,12 @@ public class FilterResourceExternalTest {
     }
 
     @Test
-    @WithMockUser(username = "user1@gmail.com", authorities = {"USER"}, password = "user")
+    @WithMockUser(username = "user2@gmail.com", authorities = {"USER"}, password = "user")
     public void testCreateFilterSucceeds() throws Exception {
         FilterDto dto = new FilterDto();
-        dto.setExternalUser(externalUserMapper.toDto(user2));
         dto.setPermalink(PERMALINK_1);
         dto.setResourceName("resource name");
+        dto.setPermalinkType(PermalinkType.VISUALIZER);
         this.mockMvc.perform(post(ENDPOINT_URL).contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(dto))).andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name", is("resource name")));
 
