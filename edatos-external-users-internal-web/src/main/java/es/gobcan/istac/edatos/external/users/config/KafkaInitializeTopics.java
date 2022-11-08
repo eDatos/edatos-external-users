@@ -86,15 +86,13 @@ public class KafkaInitializeTopics {
     }
     
     private NewTopic getExternalDatasetsPublicationTopic() {
-        // TODO EDATOS-3869 QUITAR ESTE HARDCODEO DEL NOMBRE DEL TOPIC
         try {
-            String topicNameDatasetExternalPublication = "JAXI_PUBLICATIONS";
+            String topicNameDatasetExternalPublication = metadataConfigurationService.retrieveKafkaTopicJaxiPublication();
             return createTopic(topicNameDatasetExternalPublication);
         } catch (Exception e) {
             LOGGER.error("It is not possible create external publication topic");
         }
         return null;
-
     }
 
     private static List<NewTopic> getAvailableTopics(AdminClient adminClient, List<NewTopic> topics) {
