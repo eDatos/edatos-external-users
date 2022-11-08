@@ -25,6 +25,11 @@ public class KafkaProperties {
         return metadataConfigurationService.retrieveKafkaTopicDatasetsPublication();
     }
 
+    public String getDatasetExternalPublicationTopic() {
+        // TODO EDATOS-3869 QUITAR ESTE HARDCODEO
+        return "JAXI_PUBLICATIONS";
+    }
+    
     public String getBootStrapServers() {
         return metadataConfigurationService.retrieveKafkaBootStrapServers();
     }

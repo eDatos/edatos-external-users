@@ -17,6 +17,7 @@ import es.gobcan.istac.edatos.external.users.core.service.ExternalOperationServi
 import es.gobcan.istac.edatos.external.users.rest.common.mapper.ExternalDatasetMapper;
 import es.gobcan.istac.edatos.external.users.rest.common.mapper.ExternalOperationMapper;
 import es.gobcan.istac.edatos.external.users.service.KafkaConsumerService;
+import es.ibestat.jaxi.stream.messages.DatasetAvro;
 
 @Service
 public class KafkaConsumerServiceImpl implements KafkaConsumerService {
@@ -57,6 +58,16 @@ public class KafkaConsumerServiceImpl implements KafkaConsumerService {
         }
     }
 
+    
+    @KafkaListener(topics = "#{kafkaProperties.getDatasetExternalPublicationTopic()}")
+    public void processDatasetExternalPublicationEvent(ConsumerRecord<String, DatasetAvro> consumerRecord) {
+        String urn = consumerRecord.value().getUrn();
+        LOGGER.info("Kafka dataset message received. Code: '{}'", urn);
+        ExternalDatasetEntity dataset = externalDatasetMapper.toEntity(consumerRecord.value());
+        externalDatasetService.create(dataset);
+    }
+    
+    
     @KafkaListener(topics = "#{kafkaProperties.getOperationPublicationTopic()}")
     public void processOperationPublicationEvent(ConsumerRecord<String, OperationAvro> consumerRecord) {
         LOGGER.info("Kafka operation message received. Code: '{}'", consumerRecord.value().getUrn());
