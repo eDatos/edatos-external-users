@@ -26,7 +26,7 @@ public class KafkaProperties {
     }
 
     public String getDatasetExternalPublicationTopic() {
-        return metadataConfigurationService.retrieveKafkaTopicJaxiPublication();
+        return metadataConfigurationService.retrieveKafkaTopicExternalDatasetPublication();
     }
     
     public String getBootStrapServers() {

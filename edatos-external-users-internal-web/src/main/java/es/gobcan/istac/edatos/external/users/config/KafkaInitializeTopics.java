@@ -87,7 +87,7 @@ public class KafkaInitializeTopics {
     
     private NewTopic getExternalDatasetsPublicationTopic() {
         try {
-            String topicNameDatasetExternalPublication = metadataConfigurationService.retrieveKafkaTopicJaxiPublication();
+            String topicNameDatasetExternalPublication = metadataConfigurationService.retrieveKafkaTopicExternalDatasetPublication();
             return createTopic(topicNameDatasetExternalPublication);
         } catch (Exception e) {
             LOGGER.error("It is not possible create external publication topic");
