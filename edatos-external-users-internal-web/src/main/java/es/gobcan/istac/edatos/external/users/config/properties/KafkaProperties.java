@@ -1,15 +1,20 @@
 package es.gobcan.istac.edatos.external.users.config.properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 
 import es.gobcan.istac.edatos.external.users.core.service.MetadataConfigurationService;
 
 @Configuration
 public class KafkaProperties {
+    private static final Logger LOGGER = LoggerFactory.getLogger(KafkaProperties.class);
 
     private static final String GROUP_ID = "edatos-external-users";
 
     private static final String CLIENT_ID = "edatos-external-users-client";
+    
+    private static final String TOPIC_NAME_UNUSED = "external-dataset-topic-unused";
 
     private final MetadataConfigurationService metadataConfigurationService;
 
@@ -26,7 +31,12 @@ public class KafkaProperties {
     }
 
     public String getDatasetExternalPublicationTopic() {
-        return metadataConfigurationService.retrieveKafkaTopicExternalDatasetPublication();
+        try {
+            return metadataConfigurationService.retrieveKafkaTopicExternalDatasetPublication();
+        } catch (Exception e) {
+            LOGGER.info("*** External publication topic name not found ***");
+        }
+        return TOPIC_NAME_UNUSED;
     }
     
     public String getBootStrapServers() {

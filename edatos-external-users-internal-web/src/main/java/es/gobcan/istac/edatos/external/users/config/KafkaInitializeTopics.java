@@ -20,6 +20,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.kafka.config.KafkaListenerEndpointRegistry;
+import org.springframework.kafka.listener.MessageListenerContainer;
 import org.springframework.stereotype.Component;
 
 import es.gobcan.istac.edatos.external.users.core.service.MetadataConfigurationService;
@@ -40,10 +42,11 @@ public class KafkaInitializeTopics {
     }
 
     private final MetadataConfigurationService metadataConfigurationService;
-    
+    private final KafkaListenerEndpointRegistry kafkaListenerEndpointRegistry;
 
-    public KafkaInitializeTopics(MetadataConfigurationService metadataConfigurationService) {
+    public KafkaInitializeTopics(MetadataConfigurationService metadataConfigurationService, KafkaListenerEndpointRegistry kafkaListenerEndpointRegistry) {
         this.metadataConfigurationService = metadataConfigurationService;
+        this.kafkaListenerEndpointRegistry = kafkaListenerEndpointRegistry;
     }
 
     @EventListener
@@ -51,14 +54,32 @@ public class KafkaInitializeTopics {
         ApplicationContext ac = event.getApplicationContext();
         if (ac.getParent() == null) {
             try {
-                LOGGER.info("Initializing Kafka topics...");
+                LOGGER.info("Initializing Kafka topics...");    
                 propagateCreationOfTopics();
+                startAvailableConsumers();
             } catch (Exception e) {
                 LOGGER.error("Could not initialize Kafka topics", e);
             }
         }
     }
+    
+    private void startAvailableConsumers() {
+        runConsumer("datasetPublicationTopicId");
+        runConsumer("operationPublicationTopicId");
+        NewTopic externalPublicationTopic = getExternalDatasetsPublicationTopic();
+        if (externalPublicationTopic != null) {
+            runConsumer("externalPublicationTopicId");
+        }
 
+    }
+
+    private void runConsumer(String consumerId) {
+        MessageListenerContainer listenerContainer = kafkaListenerEndpointRegistry.getListenerContainer(consumerId);
+        if (listenerContainer != null && !listenerContainer.isRunning()) {
+            listenerContainer.start();
+        }
+    }
+    
     public Properties getKafkaProperties() {
         Properties properties = new Properties();
         properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, metadataConfigurationService.retrieveKafkaBootStrapServers());
@@ -99,14 +120,14 @@ public class KafkaInitializeTopics {
         // excludes nonexistent topics
         List<NewTopic> availableTopics = new ArrayList<>();
         try {
-        ListTopicsResult listTopics = adminClient.listTopics();
-        Set<String> names = listTopics.names().get();
-        for (NewTopic topic : topics) {
-           if (names.contains(topic.name())) {
-               availableTopics.add(topic);
-           }
-        }
-        } catch(Exception e) {
+            ListTopicsResult listTopics = adminClient.listTopics();
+            Set<String> names = listTopics.names().get();
+            for (NewTopic topic : topics) {
+                if (names.contains(topic.name())) {
+                    availableTopics.add(topic);
+                }
+            }
+        } catch (Exception e) {
             LOGGER.info("error to get list available topics");
         }
         return availableTopics;
@@ -136,6 +157,4 @@ public class KafkaInitializeTopics {
             Thread.currentThread().interrupt(); // See SonarLint java:S2142
         }
     }
-
-
 }
