@@ -103,6 +103,10 @@ public class ExternalUserEntity extends AbstractVersionedAndAuditingAndLogicalDe
     @Column(name="registration_token", unique = true)
     private String registrationToken;
 
+    @NotNull
+    @Column(name="accept_lopd", columnDefinition = "boolean default false", nullable = false)
+    private boolean accept_lopd;
+
     @Override
     public Long getId() {
         return id;
@@ -249,5 +253,13 @@ public class ExternalUserEntity extends AbstractVersionedAndAuditingAndLogicalDe
 
     public void setRegistrationToken(String registrationToken) {
         this.registrationToken = registrationToken;
+    }
+
+    public boolean isAccept_lopd() {
+        return accept_lopd;
+    }
+
+    public void setAccept_lopd(boolean accept_lopd) {
+        this.accept_lopd = accept_lopd;
     }
 }

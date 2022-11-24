@@ -22,6 +22,7 @@ public class ExternalUserAccountBaseDto extends AbstractVersionedAndAuditingAndL
     private String organism;
     private boolean emailNotificationsEnabled;
 
+    private boolean accept_lopd;
     @Override
     public Long getId() {
         return id;
@@ -94,6 +95,13 @@ public class ExternalUserAccountBaseDto extends AbstractVersionedAndAuditingAndL
 
     public void setEmailNotificationsEnabled(boolean emailNotificationsEnabled) {
         this.emailNotificationsEnabled = emailNotificationsEnabled;
+    }
+    public boolean isAccept_lopd() {
+        return accept_lopd;
+    }
+
+    public void setAccept_lopd(boolean accept_lopd) {
+        this.accept_lopd = accept_lopd;
     }
 
     public void updateFrom(ExternalUserAccountBaseDto source) {

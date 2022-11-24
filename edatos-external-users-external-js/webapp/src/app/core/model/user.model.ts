@@ -14,6 +14,7 @@ export class User extends BaseVersionedAndAuditingWithDeletionEntity {
     public phoneNumber?: string;
     public emailNotificationsEnabled?: boolean;
     public roles?: any[];
+    public accept_lopd?: boolean;
 
     constructor(
         id?: any,
@@ -27,7 +28,8 @@ export class User extends BaseVersionedAndAuditingWithDeletionEntity {
         language?: any[],
         phoneNumber?: string,
         emailNotificationsEnabled?: boolean,
-        roles?: any[]
+        roles?: any[],
+        accept_lopd?: boolean
     ) {
         super();
         this.id = id ? id : null;
@@ -41,6 +43,7 @@ export class User extends BaseVersionedAndAuditingWithDeletionEntity {
         this.roles = roles ? roles : null;
         this.language = language ? language : null;
         this.emailNotificationsEnabled = emailNotificationsEnabled ? emailNotificationsEnabled : null;
+        this.accept_lopd = accept_lopd ? accept_lopd : false;
     }
 
     public getFullName(): string {

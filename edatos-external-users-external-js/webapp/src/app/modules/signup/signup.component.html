@@ -152,6 +152,11 @@
                         </div>
                     </div>
 
+                    <div>
+                        <input type="checkbox" val name="active" ngModel required [value]="true"  [(ngModel)]="user.accept_lopd" > Acepto
+                    <a target="_blank" routerLink="/data-protection-policy" routerLinkActive="active">términos y condiciones</a>.
+                </div>
+
                     <div class="col-md-12" [formControlStatus]="editForm.controls.organism">
                         <div #captchaContainer class="form-row" style="justify-content: center"></div>
                     </div>
