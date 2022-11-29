@@ -372,6 +372,9 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
             selectable: !this.disabled,
             editMode: null,
             makingRequest: false,
+            // We need to add key in the model to provide selection when filter
+            // https://github.com/primefaces/primeng/issues/8429#issuecomment-573529483
+            key: category.id
         };
 
         if (this.isFavorite(category) || this.isPreselected(category)) {

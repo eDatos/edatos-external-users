@@ -50,6 +50,8 @@
     [value]="tree"
     [propagateSelectionUp]="propagateSelection"
     [propagateSelectionDown]="propagateSelection"
+    [filter]="true"
+    filterMode="strict"
 ></p-tree>
 
 <p-tree
@@ -67,9 +69,7 @@
         <span (dblclick)="editNodeName(node)" class="label mr-2">{{node.label}} </span>
         <span class="node-info">(</span>
         <span class="node-info">{{'structuralResourcesTree.subscribedUsers' | translate }}: {{node.data.subscribers || 0}}</span>
-        <span *ngIf="node.data.externalCategories?.length > 0" class="node-info"
-            >, {{'structuralResourcesTree.externalOperations' | translate }}: {{node.data.externalCategories?.length || 0}}</span
-        >
+        <span *ngIf="node.data.externalCategories?.length > 0" class="node-info">, {{'structuralResourcesTree.externalOperations' | translate }}: {{node.data.externalCategories?.length || 0}}</span>
         <span class="node-info mr-2">)</span>
         <p-dialog
             *ngIf="node.editMode === 'name'"
