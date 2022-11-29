@@ -459,6 +459,7 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
             droppable: false,
             editMode: null,
             makingRequest: false,
+            key: externalOperation.code
         };
 
         if (this.isFavorite(externalOperation) || this.isPreselected(externalOperation)) {
