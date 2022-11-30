@@ -21,6 +21,7 @@
     [value]="tree"
     [filter]="true"
     filterMode="strict"
+    arteAutofocus
 >
     <ng-template let-node pTemplate="default">
         <span class="label">{{node.label}}</span>&nbsp;
@@ -52,6 +53,7 @@
     [propagateSelectionDown]="propagateSelection"
     [filter]="true"
     filterMode="strict"
+    arteAutofocus
 ></p-tree>
 
 <p-tree
@@ -64,6 +66,7 @@
     [value]="tree"
     [filter]="true"
     filterMode="strict"
+    arteAutofocus
 >
     <ng-template let-node pTemplate="default">
         <span (dblclick)="editNodeName(node)" class="label mr-2">{{node.label}} </span>
