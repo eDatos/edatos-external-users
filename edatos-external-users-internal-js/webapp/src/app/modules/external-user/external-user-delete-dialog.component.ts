@@ -16,7 +16,7 @@ export class ExternalUserDeleteDialogComponent {
     constructor(private externalUserService: ExternalUserService, public activeModal: NgbActiveModal, private eventManager: ArteEventManager) {}
 
     public clear() {
-        this.activeModal.dismiss('cancel');
+        this.activeModal.dismiss(false);
     }
 
     public confirmAction(id) {

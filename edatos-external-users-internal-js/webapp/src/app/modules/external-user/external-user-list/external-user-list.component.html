@@ -33,10 +33,6 @@
                                 <td>{{user.surname2}}</td>
                                 <td>{{user.email}}</td>
                                 <td>{{ 'externalUser.languageEnum.' + user.language | translate }}</td>
-                                <td>
-                                    <span class="badge badge-danger ml-1" *ngIf="user.deletionDate">{{ 'externalUser.status.deactivated' | translate }}</span>
-                                    <span class="badge badge-info ml-1" *ngIf="!user.deletionDate">{{ 'externalUser.status.active' | translate }}</span>
-                                </td>
                             </tr>
                         </ng-template>
                     </arte-table>

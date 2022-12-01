@@ -13,6 +13,7 @@ export class DeleteConfirmDialogComponent {
     public user: User;
 
     public confirm() {
+        console.log("confirmacion de eliminacion")
         this.userService.delete(this.user.id).subscribe(() => this.activeModal.close(true));
     }
 

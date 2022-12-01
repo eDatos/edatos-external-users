@@ -56,18 +56,20 @@ public class SecurityCheckerExternal {
         return this.isExternalUserAndIsNotDeactivated(authentication);
     }
 
+    //cambio nombre de isExternalUserAndIsNotDeactivated?
     private boolean isExternalUserAndIsNotDeactivated(Authentication authentication) {
-        return this.hasRole(authentication, ExternalUserRole.USER) && isDeactivatedUser();
+        //return this.hasRole(authentication, ExternalUserRole.USER) && isDeactivatedUser();
+        return this.hasRole(authentication, ExternalUserRole.USER);
     }
 
     private boolean isExternalUser(Authentication authentication) {
         return this.hasRole(authentication, ExternalUserRole.USER);
     }
-
-    private boolean isDeactivatedUser() {
+    //mirar esteee
+    /*private boolean isDeactivatedUser() {
         String userAuthenticated = SecurityUtils.getCurrentUserLogin();
         return externalUserRepository.findOneByEmailAndDeletionDateIsNull(userAuthenticated).isPresent();
-    }
+    }*/
 
     private boolean hasRole(Authentication authentication, ExternalUserRole userRole) {
         return authentication.getAuthorities().stream().anyMatch(authority -> {

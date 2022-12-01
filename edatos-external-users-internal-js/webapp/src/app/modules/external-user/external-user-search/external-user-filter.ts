@@ -6,7 +6,6 @@ import { BaseEntityFilter, EntityFilter } from 'arte-ng/model';
 export class ExternalUserFilter extends BaseEntityFilter implements EntityFilter {
     public fullname: string | null;
     public languages: Language[] = [];
-    public includeDeleted: boolean | null;
     public includeUnregistered: boolean;
     public categories: string[] = [];
     public externalOperations: string[] = [];
@@ -17,7 +16,6 @@ export class ExternalUserFilter extends BaseEntityFilter implements EntityFilter
     }
 
     public processUrlParams(queryParams: Params) {
-        this.includeDeleted = queryParams.hasOwnProperty('includeDeleted');
         this.includeUnregistered = queryParams.hasOwnProperty('includeUnregistered');
         this.fullname = queryParams.fullname;
         this.languages = queryParams.languages?.split(',') ?? [];
@@ -33,9 +31,6 @@ export class ExternalUserFilter extends BaseEntityFilter implements EntityFilter
         }
         if (this.languages?.length > 0) {
             criterias.push(`LANGUAGE IN (${this.languages.join(',')})`);
-        }
-        if (!this.includeDeleted) {
-            criterias.push(`DELETION_DATE IS_NULL`);
         }
         if (!this.includeUnregistered) {
             criterias.push(`ENABLED EQ TRUE`);
@@ -62,11 +57,6 @@ export class ExternalUserFilter extends BaseEntityFilter implements EntityFilter
             paramName: 'languages',
             updateFilterFromParam: (param) => (this.languages = param),
             clearFilter: () => (this.languages = []),
-        });
-        this.registerParam({
-            paramName: 'includeDeleted',
-            updateFilterFromParam: (param) => (this.includeDeleted = param === 'true'),
-            clearFilter: () => (this.includeDeleted = false),
         });
         this.registerParam({
             paramName: 'includeUnregistered',

@@ -18,4 +18,5 @@
     <include file="config/liquibase/changelog/20211216125948_modify_entity_ExternalUser.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220609141123_modify_entity_ExternalUser.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220805101702_modify_entity_Filter.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20221129114050_modify_entity_ExternalUser.xml" relativeToChangelogFile="false"/>
 </databaseChangeLog>

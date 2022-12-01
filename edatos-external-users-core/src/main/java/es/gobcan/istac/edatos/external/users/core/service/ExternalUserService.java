@@ -14,11 +14,11 @@ public interface ExternalUserService {
 
     ExternalUserEntity update(ExternalUserEntity user);
 
-    ExternalUserEntity deactivate(Long id);
+    //ExternalUserEntity deactivate(Long id);
 
     void delete(Long id);
 
-    ExternalUserEntity recover(Long id);
+    //ExternalUserEntity recover(Long id);
 
     ExternalUserEntity find(Long id);
 

@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType;
 import org.siemac.edatos.core.common.exception.CommonServiceExceptionType;
 import org.siemac.edatos.core.common.exception.EDatosException;
 import org.springframework.data.domain.Page;
@@ -122,16 +123,26 @@ public class ExternalUserResource extends AbstractResource {
     @Timed
     @DeleteMapping("/{id}")
     @PreAuthorize("@secChecker.canModifyUserStatus(authentication)")
-    public ResponseEntity<ExternalUserDto> deactivateExternalUser(@PathVariable Long id) {
-        ExternalUserDto dto = externalUserMapper.toDto(externalUserService.deactivate(id));
-        return ResponseEntity.ok(dto);
+    public ResponseEntity<Void> deleteExternalUser(@PathVariable Long id) {
+        ExternalUserEntity user = externalUserRepository.findOne(id);
+        externalUserService.delete(id);
+        return ResponseEntity.ok().build();
+        /*try {
+            ExternalUserEntity user = externalUserRepository.findOne(id);
+            //notificationService.createDeleteExternalUserAccountNotification(user);
+            //auditPublisher.publish(AuditConstants.EXT_USUARIO_DESACTIVACION, user.getEmail());
+            externalUserService.delete(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            throw new EDatosException(ServiceExceptionType.GENERIC_ERROR);
+        }*/
     }
 
-    @Timed
+   /* @Timed
     @PutMapping("/{id}/restore")
     @PreAuthorize("@secChecker.canModifyUserStatus(authentication)")
     public ResponseEntity<ExternalUserDto> activateExternalUser(@PathVariable Long id) {
         ExternalUserDto dto = externalUserMapper.toDto(externalUserService.recover(id));
         return ResponseEntity.ok(dto);
-    }
+    }*/
 }

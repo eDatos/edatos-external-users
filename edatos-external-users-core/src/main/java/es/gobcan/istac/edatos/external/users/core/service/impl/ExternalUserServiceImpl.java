@@ -5,6 +5,7 @@ import java.time.ZonedDateTime;
 import java.util.*;
 
 import es.gobcan.istac.edatos.external.users.core.domain.FavoriteEntity;
+import es.gobcan.istac.edatos.external.users.core.repository.FavoriteRepository;
 import es.gobcan.istac.edatos.external.users.core.service.validator.ExternalUserValidator;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -17,8 +18,6 @@ import org.springframework.stereotype.Service;
 
 import es.gobcan.istac.edatos.external.users.core.domain.DisabledTokenEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
-import es.gobcan.istac.edatos.external.users.core.errors.CustomParameterizedExceptionBuilder;
-import es.gobcan.istac.edatos.external.users.core.errors.ErrorConstants;
 import es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType;
 import es.gobcan.istac.edatos.external.users.core.repository.DisabledTokenRepository;
 import es.gobcan.istac.edatos.external.users.core.repository.ExternalUserRepository;
@@ -36,14 +35,15 @@ public class ExternalUserServiceImpl implements ExternalUserService {
     private final QueryUtil queryUtil;
     private final DisabledTokenRepository disabledTokenRepository;
     private final ExternalUserValidator externalUserValidator;
-
+    private final FavoriteRepository favoriteRepository;
     public ExternalUserServiceImpl(ExternalUserRepository externalUserRepository, FilterRepository filterRepository, QueryUtil queryUtil,
-                                   DisabledTokenRepository disabledTokenRepository, ExternalUserValidator externalUserValidator) {
+                                   DisabledTokenRepository disabledTokenRepository, ExternalUserValidator externalUserValidator,FavoriteRepository favoriteRepository) {
         this.externalUserRepository = externalUserRepository;
         this.filterRepository = filterRepository;
         this.queryUtil = queryUtil;
         this.disabledTokenRepository = disabledTokenRepository;
         this.externalUserValidator = externalUserValidator;
+        this.favoriteRepository = favoriteRepository;
     }
 
     @Override
@@ -79,31 +79,37 @@ public class ExternalUserServiceImpl implements ExternalUserService {
         return externalUserRepository.saveAndFlush(user);
     }
 
-    @Override
+    /*@Override
     public ExternalUserEntity deactivate(Long id) {
         ExternalUserEntity usuario = externalUserRepository.findOneByIdAndDeletionDateIsNull(id).orElseThrow(() -> new EDatosException(ServiceExceptionType.EXTERNAL_USER_DEACTIVATE));
 
         usuario.setDeletionDate(Instant.now());
         usuario.setDeletedBy(SecurityUtils.getCurrentUserLogin());
         return externalUserRepository.saveAndFlush(usuario);
-    }
+    }*/
 
     @Override
     public void delete(Long id) {
-        ExternalUserEntity usuario = externalUserRepository.findOneByIdAndDeletionDateIsNull(id).orElseThrow(() -> new EDatosException(ServiceExceptionType.EXTERNAL_USER_DELETED));
+        //ExternalUserEntity usuario = externalUserRepository.findOneByIdAndDeletionDateIsNull(id).orElseThrow(() -> new EDatosException(ServiceExceptionType.EXTERNAL_USER_DELETED));
+        ExternalUserEntity usuario = externalUserRepository.findOne(id);
 
+        List<FavoriteEntity> favorites = favoriteRepository.findByExternalUser(usuario);
+        for (FavoriteEntity favorite : favorites) {
+            favorite.setExternalOperation(null);
+        }
+        favoriteRepository.save(favorites);
         filterRepository.deleteAllByExternalUser(usuario);
         externalUserRepository.delete(id);
     }
 
-    @Override
+    /*@Override
     public ExternalUserEntity recover(Long id) {
         ExternalUserEntity usuario = externalUserRepository.findOneByIdAndDeletionDateIsNotNull(id)
                 .orElseThrow(() -> new CustomParameterizedExceptionBuilder().message("Usuario no válido").code(ErrorConstants.ENTIDAD_NO_ENCONTRADA, id.toString()).build());
         usuario.setDeletionDate(null);
         usuario.setDeletedBy(null);
         return externalUserRepository.saveAndFlush(usuario);
-    }
+    }*/
 
     @Override
     public ExternalUserEntity find(Long id) {
@@ -141,9 +147,9 @@ public class ExternalUserServiceImpl implements ExternalUserService {
     @Override
     public ExternalUserEntity getUsuarioWithAuthorities() {
         ExternalUserEntity returnValue = externalUserRepository.findOneWithRolesByEmail(SecurityUtils.getCurrentUserLogin()).orElse(new ExternalUserEntity());
-        if (returnValue.getDeletionDate() != null) {
+        /*if (returnValue.getDeletionDate() != null) {
             returnValue.setRoles(new HashSet<>());
-        }
+        }*/
 
         return returnValue;
     }
@@ -160,7 +166,7 @@ public class ExternalUserServiceImpl implements ExternalUserService {
 
     @Override
     public Optional<ExternalUserEntity> recoverExternalUserAccountPassword(String email) {
-        return externalUserRepository.findOneByEmailIgnoreCaseAndDeletionDateIsNullAndEnabledTrue(email).map(user -> {
+        return externalUserRepository.findOneByEmailIgnoreCaseAndEnabledTrue(email).map(user -> {
             user.setResetKey(RandomUtil.generateResetKey());
             user.setResetDate(ZonedDateTime.now());
             return externalUserRepository.save(user);
@@ -179,7 +185,7 @@ public class ExternalUserServiceImpl implements ExternalUserService {
 
     @Override
     public Optional<ExternalUserEntity> findOneByResetKey(String key) {
-        return externalUserRepository.findOneByResetKeyAndDeletionDateIsNull(key).filter(user -> {
+        return externalUserRepository.findOneByResetKey(key).filter(user -> {
             ZonedDateTime thirtyMinutesAgo = ZonedDateTime.now().minusMinutes(30);
             return user.getResetDate().isAfter(thirtyMinutesAgo);
         });
