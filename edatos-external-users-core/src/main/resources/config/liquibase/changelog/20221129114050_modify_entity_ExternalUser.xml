@@ -4,5 +4,8 @@
         <dropColumn tableName="tb_external_users">
             <column name="deletion_date" />
         </dropColumn>
+        <dropColumn tableName="tb_external_users">
+            <column name="deleted_by" />
+        </dropColumn>
     </changeSet>
 </databaseChangeLog>

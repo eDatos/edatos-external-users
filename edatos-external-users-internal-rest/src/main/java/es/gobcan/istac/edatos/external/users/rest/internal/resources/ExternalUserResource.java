@@ -1,5 +1,7 @@
 package es.gobcan.istac.edatos.external.users.rest.internal.resources;
 
+import static es.gobcan.istac.edatos.external.users.rest.internal.resources.ExternalUserResource.BASE_URL;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -7,7 +9,6 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
-import es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType;
 import org.siemac.edatos.core.common.exception.CommonServiceExceptionType;
 import org.siemac.edatos.core.common.exception.EDatosException;
 import org.springframework.data.domain.Page;
@@ -32,6 +33,7 @@ import es.gobcan.istac.edatos.external.users.core.config.audit.AuditEventPublish
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
 import es.gobcan.istac.edatos.external.users.core.errors.ErrorConstants;
 import es.gobcan.istac.edatos.external.users.core.errors.ErrorMessagesConstants;
+import es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType;
 import es.gobcan.istac.edatos.external.users.core.repository.ExternalUserRepository;
 import es.gobcan.istac.edatos.external.users.core.service.ExternalUserService;
 import es.gobcan.istac.edatos.external.users.core.service.NotificationService;
@@ -40,8 +42,6 @@ import es.gobcan.istac.edatos.external.users.rest.common.mapper.ExternalUserMapp
 import es.gobcan.istac.edatos.external.users.rest.common.util.HeaderUtil;
 import es.gobcan.istac.edatos.external.users.rest.common.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
-
-import static es.gobcan.istac.edatos.external.users.rest.internal.resources.ExternalUserResource.BASE_URL;
 
 @RestController
 @RequestMapping(BASE_URL)
@@ -124,25 +124,11 @@ public class ExternalUserResource extends AbstractResource {
     @DeleteMapping("/{id}")
     @PreAuthorize("@secChecker.canModifyUserStatus(authentication)")
     public ResponseEntity<Void> deleteExternalUser(@PathVariable Long id) {
-        ExternalUserEntity user = externalUserRepository.findOne(id);
-        externalUserService.delete(id);
-        return ResponseEntity.ok().build();
-        /*try {
-            ExternalUserEntity user = externalUserRepository.findOne(id);
-            //notificationService.createDeleteExternalUserAccountNotification(user);
-            //auditPublisher.publish(AuditConstants.EXT_USUARIO_DESACTIVACION, user.getEmail());
+        try {
             externalUserService.delete(id);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
-            throw new EDatosException(ServiceExceptionType.GENERIC_ERROR);
-        }*/
+            throw new EDatosException(ServiceExceptionType.EXTERNAL_USER_DELETED);
+        }
     }
-
-   /* @Timed
-    @PutMapping("/{id}/restore")
-    @PreAuthorize("@secChecker.canModifyUserStatus(authentication)")
-    public ResponseEntity<ExternalUserDto> activateExternalUser(@PathVariable Long id) {
-        ExternalUserDto dto = externalUserMapper.toDto(externalUserService.recover(id));
-        return ResponseEntity.ok(dto);
-    }*/
 }

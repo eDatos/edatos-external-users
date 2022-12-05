@@ -118,7 +118,7 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
         this.disabledEdit();
     }
 
-    public deactivate() {
+    public delete() {
         const modalRef = this.genericModalService.open(ExternalUserDeleteDialogComponent as Component, { user: this.externalUser }, { container: '.app' });
         modalRef.result.subscribe((isDelete) => this.onDeleteSuccess(isDelete));
 

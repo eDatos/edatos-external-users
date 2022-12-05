@@ -19,16 +19,6 @@ export class ExternalUserDeleteDialogComponent {
         this.activeModal.dismiss(false);
     }
 
-    public confirmAction(id) {
-        if (this.user.id === id) {
-            if (this.user.deletionDate) {
-                this.confirmRestore(id);
-            } else {
-                this.confirmDelete(id);
-            }
-        }
-    }
-
     private confirmDelete(id) {
         this.externalUserService.delete(id).subscribe((response) => {
             this.eventManager.broadcast({
@@ -36,16 +26,6 @@ export class ExternalUserDeleteDialogComponent {
                 content: response,
             });
             this.activeModal.dismiss('deleted');
-        });
-    }
-
-    private confirmRestore(id) {
-        this.externalUserService.restore(id).subscribe((response) => {
-            this.eventManager.broadcast({
-                name: ExternalUserDeleteDialogComponent.EVENT_NAME,
-                content: response,
-            });
-            this.activeModal.dismiss('restored');
         });
     }
 }
