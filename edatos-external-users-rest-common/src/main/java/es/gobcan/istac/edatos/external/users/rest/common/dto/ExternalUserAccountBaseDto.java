@@ -21,8 +21,8 @@ public class ExternalUserAccountBaseDto extends AbstractVersionedAndAuditingAndL
 
     private String organism;
     private boolean emailNotificationsEnabled;
+    private Long dataProtectionPolicyId;
 
-    private boolean accept_lopd;
     @Override
     public Long getId() {
         return id;
@@ -96,14 +96,13 @@ public class ExternalUserAccountBaseDto extends AbstractVersionedAndAuditingAndL
     public void setEmailNotificationsEnabled(boolean emailNotificationsEnabled) {
         this.emailNotificationsEnabled = emailNotificationsEnabled;
     }
-    public boolean isAccept_lopd() {
-        return accept_lopd;
-    }
 
-    public void setAccept_lopd(boolean accept_lopd) {
-        this.accept_lopd = accept_lopd;
+    public Long getDataProtectionPolicyId() {
+        return dataProtectionPolicyId;
     }
-
+    public void setDataProtectionPolicyId(Long dataProtectionPolicyId) {
+        this.dataProtectionPolicyId = dataProtectionPolicyId;
+    }
     public void updateFrom(ExternalUserAccountBaseDto source) {
         this.id = source.getId();
         this.name = source.getName();

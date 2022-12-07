@@ -5,6 +5,7 @@ import { AccountUserService } from '@app/core/service/user';
 import { CaptchaService } from '@app/shared/service';
 import { MessageService } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
+import { DataProtectionPolicyService } from "@app/modules/account/data-protection-policy/data-protection-policy.service";
 
 type SignUp = Omit<User, 'id' | 'roles'>;
 
@@ -37,7 +38,8 @@ export class SignupFormComponent implements OnInit {
         private router: Router,
         private captchaService: CaptchaService,
         private messageService: MessageService,
-        private translateService: TranslateService
+        private translateService: TranslateService,
+        private dataProtectionPolicyService: DataProtectionPolicyService
     ) {}
 
     ngOnInit() {
@@ -53,10 +55,13 @@ export class SignupFormComponent implements OnInit {
     }
 
     save() {
+        this.acceptDataProteccionPolicy()
+        console.log(this.user)
         this.isSaving = true;
         if (this.passwordDoNotMatch()) {
             this.validUser = false;
         } else {
+            console.log(this.user)
             this.accountUserService.create(this.captchaContainerEl, this.user).then((response) => this.onSaveSuccess(response)).finally(() => this.isSaving = false);
         }
     }
@@ -79,5 +84,12 @@ export class SignupFormComponent implements OnInit {
         });
         this.isSaving = false;
         this.navigateToLogin();
+    }
+    acceptDataProteccionPolicy() {
+        this.dataProtectionPolicyService.getDataProtectionPolicy().subscribe((dataProtectionPolicy) => {
+            console.log(dataProtectionPolicy.id)
+            this.user.dataProtectionPolicyId = dataProtectionPolicy.id;
+            console.log(this.user.dataProtectionPolicyId)
+        });
     }
 }

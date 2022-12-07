@@ -20,6 +20,8 @@ public class ExternalUserDto extends AbstractVersionedAndAuditingAndLogicalDelet
     private String organism;
     private boolean emailNotificationsEnabled;
 
+    private DataProtectionPolicyDto dataProtectionPolicyDto;
+
     public String getName() {
         return name;
     }
@@ -90,5 +92,12 @@ public class ExternalUserDto extends AbstractVersionedAndAuditingAndLogicalDelet
 
     public void setEmailNotificationsEnabled(boolean emailNotificationsEnabled) {
         this.emailNotificationsEnabled = emailNotificationsEnabled;
+    }
+
+    public DataProtectionPolicyDto getDataProtectionPolicyDto() {
+        return dataProtectionPolicyDto;
+    }
+    public void setDataProtectionPolicyDto(DataProtectionPolicyDto dataProtectionPolicyDto) {
+        this.dataProtectionPolicyDto = dataProtectionPolicyDto;
     }
 }

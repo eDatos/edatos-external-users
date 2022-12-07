@@ -13,6 +13,12 @@ export class DataProtectionPolicyService {
     constructor(private http: HttpClient) { }
 
     getDataProtectionPolicy(): Observable<DataProtectionPolicy> {
+        console.log("entra En normal")
         return this.http.get(this.dataProtectionPolicyUrl).pipe(map((response: any) => convert(DataProtectionPolicy, response)));
     }
+    getDataUltimateProtectionPolicy(): Observable<DataProtectionPolicy> {
+        console.log("entra En ultimate")
+        return this.http.get(`${this.dataProtectionPolicyUrl}/ultimate`).pipe(map((response: any) => convert(DataProtectionPolicy, response)));
+    }
 }
+

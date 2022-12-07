@@ -1,6 +1,7 @@
 import { BaseVersionedAndAuditingWithDeletionEntity } from 'arte-ng/model';
 import { Role } from './rol.model';
 import * as jwtDecode from 'jwt-decode';
+import {DataProtectionPolicy} from "@app/shared";
 
 export class User extends BaseVersionedAndAuditingWithDeletionEntity {
     public id?: any;
@@ -14,7 +15,7 @@ export class User extends BaseVersionedAndAuditingWithDeletionEntity {
     public phoneNumber?: string;
     public emailNotificationsEnabled?: boolean;
     public roles?: any[];
-    public accept_lopd?: boolean;
+    public dataProtectionPolicyId?: any;
 
     constructor(
         id?: any,
@@ -29,7 +30,7 @@ export class User extends BaseVersionedAndAuditingWithDeletionEntity {
         phoneNumber?: string,
         emailNotificationsEnabled?: boolean,
         roles?: any[],
-        accept_lopd?: boolean
+        dataProtectionPolicyId?: any
     ) {
         super();
         this.id = id ? id : null;
@@ -43,7 +44,7 @@ export class User extends BaseVersionedAndAuditingWithDeletionEntity {
         this.roles = roles ? roles : null;
         this.language = language ? language : null;
         this.emailNotificationsEnabled = emailNotificationsEnabled ? emailNotificationsEnabled : null;
-        this.accept_lopd = accept_lopd ? accept_lopd : false;
+        this.dataProtectionPolicyId = dataProtectionPolicyId ? dataProtectionPolicyId : null;
     }
 
     public getFullName(): string {

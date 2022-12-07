@@ -8,17 +8,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.ws.rs.QueryParam;
 
-import es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType;
-import es.gobcan.istac.edatos.external.users.core.service.NotificationService;
-import es.gobcan.istac.edatos.external.users.rest.common.dto.ChangePasswordDto;
-import es.gobcan.istac.edatos.external.users.rest.common.dto.ExternalUserAccountBaseDto;
-import es.gobcan.istac.edatos.external.users.rest.common.dto.ExternalUserAccountDto;
-import io.github.jhipster.web.util.ResponseUtil;
 import org.siemac.edatos.core.common.exception.EDatosException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.Timed;
 
@@ -27,11 +28,18 @@ import es.gobcan.istac.edatos.external.users.core.config.audit.AuditEventPublish
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
 import es.gobcan.istac.edatos.external.users.core.errors.ErrorConstants;
 import es.gobcan.istac.edatos.external.users.core.errors.ErrorMessagesConstants;
+import es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType;
+import es.gobcan.istac.edatos.external.users.core.repository.DataProtectionPolicyRepository;
 import es.gobcan.istac.edatos.external.users.core.repository.ExternalUserRepository;
 import es.gobcan.istac.edatos.external.users.core.security.SecurityUtils;
 import es.gobcan.istac.edatos.external.users.core.service.ExternalUserService;
-import es.gobcan.istac.edatos.external.users.rest.common.util.HeaderUtil;
+import es.gobcan.istac.edatos.external.users.core.service.NotificationService;
+import es.gobcan.istac.edatos.external.users.rest.common.dto.ChangePasswordDto;
+import es.gobcan.istac.edatos.external.users.rest.common.dto.ExternalUserAccountBaseDto;
+import es.gobcan.istac.edatos.external.users.rest.common.dto.ExternalUserAccountDto;
 import es.gobcan.istac.edatos.external.users.rest.common.mapper.ExternalUserAccountMapper;
+import es.gobcan.istac.edatos.external.users.rest.common.util.HeaderUtil;
+import io.github.jhipster.web.util.ResponseUtil;
 
 @RestController
 @RequestMapping("/api")
@@ -45,14 +53,16 @@ public class ExternalAccountResource extends AbstractResource {
     private final AuditEventPublisher auditPublisher;
 
     private final NotificationService notificationService;
+    private final DataProtectionPolicyRepository dataProtectionPolicyRepository;
 
     public ExternalAccountResource(ExternalUserRepository externalUserRepository, ExternalUserService externalUserService, ExternalUserAccountMapper externalUserMapper,
-            AuditEventPublisher auditPublisher, NotificationService notificationService) {
+            AuditEventPublisher auditPublisher, NotificationService notificationService, DataProtectionPolicyRepository dataProtectionPolicyRepository) {
         this.externalUserRepository = externalUserRepository;
         this.externalUserService = externalUserService;
         this.externalUserMapper = externalUserMapper;
         this.auditPublisher = auditPublisher;
         this.notificationService = notificationService;
+        this.dataProtectionPolicyRepository = dataProtectionPolicyRepository;
     }
 
     @GetMapping("/{id}")

@@ -16,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -100,12 +101,12 @@ public class ExternalUserEntity extends AbstractVersionedAndAuditingAndLogicalDe
     @Column(columnDefinition = "boolean default true", nullable = false)
     private boolean enabled;
 
-    @Column(name="registration_token", unique = true)
+    @Column(name = "registration_token", unique = true)
     private String registrationToken;
 
-    @NotNull
-    @Column(name="accept_lopd", columnDefinition = "boolean default false", nullable = false)
-    private boolean accept_lopd;
+    @ManyToOne
+    @JoinColumn(name = "data_protection_policy_fk")
+    private DataProtectionPolicyEntity dataProtectionPolicyEntity;
 
     @Override
     public Long getId() {
@@ -255,11 +256,11 @@ public class ExternalUserEntity extends AbstractVersionedAndAuditingAndLogicalDe
         this.registrationToken = registrationToken;
     }
 
-    public boolean isAccept_lopd() {
-        return accept_lopd;
+    public DataProtectionPolicyEntity getDataProtectionPolicyEntity() {
+        return dataProtectionPolicyEntity;
     }
 
-    public void setAccept_lopd(boolean accept_lopd) {
-        this.accept_lopd = accept_lopd;
+    public void setDataProtectionPolicyEntity(DataProtectionPolicyEntity dataProtectionPolicyEntity) {
+        this.dataProtectionPolicyEntity = dataProtectionPolicyEntity;
     }
 }
