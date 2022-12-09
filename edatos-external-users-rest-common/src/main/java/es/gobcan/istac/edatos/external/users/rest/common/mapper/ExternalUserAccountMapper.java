@@ -11,6 +11,7 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import es.gobcan.istac.edatos.external.users.core.domain.DataProtectionPolicyEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.enumeration.ExternalUserRole;
 import es.gobcan.istac.edatos.external.users.core.repository.DataProtectionPolicyRepository;
@@ -32,6 +33,7 @@ public abstract class ExternalUserAccountMapper implements EntityMapper<External
 
     @Override//target: nombre atribruto: de la entidad: dataProtectionPolicyEntity->Devuelve el metodo; source dataProtectionPolicyId -> se le pasa por parametro, qulify->nombreMetodo
     @Mapping(target = "password", source = "password", qualifiedByName = "encodePassword")
+    @Mapping(target = "dataProtectionPolicyEntity", source = "dataProtectionPolicyId", qualifiedByName = "protectionPolicyFromId")
     public abstract ExternalUserEntity toEntity(ExternalUserAccountDto dto);
 
     @Named("encodePassword")

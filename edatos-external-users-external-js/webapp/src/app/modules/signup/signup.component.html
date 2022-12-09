@@ -153,8 +153,8 @@
                     </div>
 
                     <div>
-                        <input type="checkbox" val name="active" ngModel required [value]="true" > Acepto
-                    <a target="_blank" routerLink="/data-protection-policy" routerLinkActive="active">términos y condiciones</a>.
+                        <input type="checkbox" name="active" ngModel required>
+                    <a target="_blank" routerLink="/data-protection-policy" routerLinkActive="active" translate="signup.form.termsAndConditions"></a>
                 </div>
 
                     <div class="col-md-12" [formControlStatus]="editForm.controls.organism">

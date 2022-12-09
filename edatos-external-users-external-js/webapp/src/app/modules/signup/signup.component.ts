@@ -6,7 +6,6 @@ import { CaptchaService } from '@app/shared/service';
 import { MessageService } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
 import { DataProtectionPolicyService } from "@app/modules/account/data-protection-policy/data-protection-policy.service";
-
 type SignUp = Omit<User, 'id' | 'roles'>;
 
 @Component({
@@ -55,15 +54,15 @@ export class SignupFormComponent implements OnInit {
     }
 
     save() {
-        this.acceptDataProteccionPolicy()
-        console.log(this.user)
-        this.isSaving = true;
-        if (this.passwordDoNotMatch()) {
-            this.validUser = false;
-        } else {
-            console.log(this.user)
-            this.accountUserService.create(this.captchaContainerEl, this.user).then((response) => this.onSaveSuccess(response)).finally(() => this.isSaving = false);
-        }
+        this.acceptDataProteccionPolicy().then(id => {
+            this.user.dataProtectionPolicyId=id;
+            this.isSaving = true;
+            if (this.passwordDoNotMatch()) {
+                this.validUser = false;
+            } else {
+                this.accountUserService.create(this.captchaContainerEl, this.user).then((response) => this.onSaveSuccess(response)).finally(() => this.isSaving = false);
+            }
+        })
     }
 
     private passwordDoNotMatch(): boolean {
@@ -86,10 +85,14 @@ export class SignupFormComponent implements OnInit {
         this.navigateToLogin();
     }
     acceptDataProteccionPolicy() {
-        this.dataProtectionPolicyService.getDataProtectionPolicy().subscribe((dataProtectionPolicy) => {
-            console.log(dataProtectionPolicy.id)
-            this.user.dataProtectionPolicyId = dataProtectionPolicy.id;
-            console.log(this.user.dataProtectionPolicyId)
-        });
+        return new Promise<any>((id,reject)=>{
+            this.dataProtectionPolicyService.getDataProtectionPolicy().subscribe((dataProtectionPolicy) => {
+                if (dataProtectionPolicy.id !== null) {
+                    id(dataProtectionPolicy.id)
+                }
+                else
+                    reject("dataProtectionPolicy cannot be get")
+            });
+        })
     }
 }
