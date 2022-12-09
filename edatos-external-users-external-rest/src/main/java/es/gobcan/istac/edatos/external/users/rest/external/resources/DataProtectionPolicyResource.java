@@ -36,7 +36,7 @@ public class DataProtectionPolicyResource extends AbstractResource {
     @GetMapping
     @Timed
     public ResponseEntity<DataProtectionPolicyDto> getDataProtectionPolicy() {
-        DataProtectionPolicyEntity dataProtectionPolicy = dataProtectionPolicyRepository.findFirstByOrderByIdAsc();
+        DataProtectionPolicyEntity dataProtectionPolicy = dataProtectionPolicyRepository.findFirstByOrderByIdDesc();
         DataProtectionPolicyDto dataProtectionPolicyDto = dataProtectionPolicyMapper.toDto(dataProtectionPolicy);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(dataProtectionPolicyDto));
     }
