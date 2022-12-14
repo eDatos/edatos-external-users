@@ -14,7 +14,10 @@
             "phoneNumber": "Número teléfono",
             "organism": "Organismo",
             "enableEmailNotifications": "Habilitar notificaciones a través de correo electrónico",
-            "captchaModal": "Resuelva el captcha para terminar el registro"
+            "captchaModal": "Resuelva el captcha para terminar el registro",
+            "gender": "Género",
+            "nationality": "Nacionalidad",
+            "birthday": "fecha nacimiento"
         },
         "messages": {
             "onSuccessSumary": "Registro de nuevo usuario",

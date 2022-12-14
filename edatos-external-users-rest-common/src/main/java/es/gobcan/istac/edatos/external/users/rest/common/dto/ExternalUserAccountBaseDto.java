@@ -1,8 +1,10 @@
 package es.gobcan.istac.edatos.external.users.rest.common.dto;
 
 import java.io.Serializable;
+import java.time.Instant;
 
 import es.gobcan.istac.edatos.external.users.core.domain.enumeration.Language;
+import es.gobcan.istac.edatos.external.users.core.domain.enumeration.Nationality;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.interfaces.AbstractVersionedAndAuditingAndLogicalDeletionDto;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.interfaces.Identifiable;
 
@@ -21,6 +23,12 @@ public class ExternalUserAccountBaseDto extends AbstractVersionedAndAuditingAndL
 
     private String organism;
     private boolean emailNotificationsEnabled;
+
+    private Nationality nationality;
+
+    private String gender;
+
+    private Instant birthday;
 
     @Override
     public Long getId() {
@@ -95,7 +103,24 @@ public class ExternalUserAccountBaseDto extends AbstractVersionedAndAuditingAndL
     public void setEmailNotificationsEnabled(boolean emailNotificationsEnabled) {
         this.emailNotificationsEnabled = emailNotificationsEnabled;
     }
-
+    public Nationality getNationality() {
+        return nationality;
+    }
+    public void setNationality(Nationality nationality) {
+        this.nationality = nationality;
+    }
+    public String getGender() {
+        return gender;
+    }
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+    public Instant getBirthday() {
+        return birthday;
+    }
+    public void setBirthday(Instant birthday) {
+        this.birthday = birthday;
+    }
     public void updateFrom(ExternalUserAccountBaseDto source) {
         this.id = source.getId();
         this.name = source.getName();

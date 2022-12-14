@@ -152,6 +152,56 @@
                         </div>
                     </div>
 
+                    <div class="form-group form-group-inline col-md-6">
+                    <div class="form-row">
+                        <label class="form-label col-md-4" translate="signup.form.birthday"></label>
+                        <arte-calendar [(ngModel)]="user.birthday" [required]="false" [maxDate]="today" name="birthday" style="flex: max-content"> </arte-calendar>
+                    </div>
+                    </div>
+
+
+                    <div class="form-group form-group-inline col-md-6 ">
+                        <div class="form-row">
+                            <label class="form-label col-md-4" translate="signup.form.nationality"></label>
+                            <div class="col-md-8 form-input-container errors-on-hover">
+                                <arte-autocomplete-enum
+                                    id="nation"
+                                    name="nation"
+                                    [multiple]="false"
+                                    [(ngModel)]="user.nationality"
+                                    [suggestionsEnum]="nationEnum"
+                                    [translationPath]="'nationality.'"
+                                    [required]="false"
+                                >
+                                </arte-autocomplete-enum>
+                                <div class="form-errors-messages" *hasErrors="let messages">
+                                    <span *ngFor="let m of messages">{{m}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group form-group-inline col-md-6 ">
+                        <div class="form-row">
+                            <label class="form-label col-md-4" translate="signup.form.gender"></label>
+                            <div class="col-md-8 form-input-container errors-on-hover">
+                                <arte-autocomplete-enum
+                                    id="gender"
+                                    name="gender"
+                                    [multiple]="false"
+                                    [(ngModel)]="user.gender"
+                                    [suggestionsEnum]="genderEnum"
+                                    [translationPath]="'gender.'"
+                                    [required]="false"
+                                >
+                                </arte-autocomplete-enum>
+                                <div class="form-errors-messages" *hasErrors="let messages">
+                                    <span *ngFor="let m of messages">{{m}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="col-md-12" [formControlStatus]="editForm.controls.organism">
                         <div #captchaContainer class="form-row" style="justify-content: center"></div>
                     </div>

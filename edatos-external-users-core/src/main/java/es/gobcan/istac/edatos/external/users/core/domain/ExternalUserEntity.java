@@ -1,5 +1,6 @@
 package es.gobcan.istac.edatos.external.users.core.domain;
 
+import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -28,6 +29,7 @@ import org.hibernate.validator.constraints.Email;
 
 import es.gobcan.istac.edatos.external.users.core.domain.enumeration.ExternalUserRole;
 import es.gobcan.istac.edatos.external.users.core.domain.enumeration.Language;
+import es.gobcan.istac.edatos.external.users.core.domain.enumeration.Nationality;
 import es.gobcan.istac.edatos.external.users.core.domain.interfaces.AbstractVersionedAndAuditingAndLogicalDeletionEntity;
 
 @Entity
@@ -102,6 +104,16 @@ public class ExternalUserEntity extends AbstractVersionedAndAuditingAndLogicalDe
 
     @Column(name="registration_token", unique = true)
     private String registrationToken;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name="nationality", nullable = false)
+    private Nationality nationality;
+
+    @Column(name="gender", nullable = false)
+    private String gender;
+
+    @Column(name="birthday", nullable = false)
+    private Instant birthday;
 
     @Override
     public Long getId() {
@@ -249,5 +261,24 @@ public class ExternalUserEntity extends AbstractVersionedAndAuditingAndLogicalDe
 
     public void setRegistrationToken(String registrationToken) {
         this.registrationToken = registrationToken;
+    }
+
+    public Nationality getNationality() {
+        return nationality;
+    }
+    public void setNationality(Nationality nationality) {
+        this.nationality = nationality;
+    }
+    public String getGender() {
+        return gender;
+    }
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+    public Instant getBirthday() {
+        return birthday;
+    }
+    public void setBirthday(Instant birthday) {
+        this.birthday = birthday;
     }
 }

@@ -1,11 +1,11 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { User, Role, Language } from '@app/core/model';
+import {User, Role, Language, Gender,} from '@app/core/model';
 import { Router } from '@angular/router';
 import { AccountUserService } from '@app/core/service/user';
 import { CaptchaService } from '@app/shared/service';
 import { MessageService } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
-
+import {Nation} from "@app/core/model/nations.model";
 type SignUp = Omit<User, 'id' | 'roles'>;
 
 @Component({
@@ -19,6 +19,10 @@ export class SignupFormComponent implements OnInit {
     private paramLogin: string;
     public rolesEnum = Role;
     public languageEnum = Language;
+    public nationEnum = Nation ;
+    public genderEnum = Gender;
+    toDate: Date;
+    today: Date;
 
     public confirmPassword: string;
 
@@ -41,6 +45,7 @@ export class SignupFormComponent implements OnInit {
     ) {}
 
     ngOnInit() {
+        this.getToday();
         this.isSaving = false;
     }
 
@@ -79,5 +84,13 @@ export class SignupFormComponent implements OnInit {
         });
         this.isSaving = false;
         this.navigateToLogin();
+    }
+
+    getToday() {
+        const dateFormat = 'yyyy-MM-dd';
+        const today: Date = new Date();
+        const date = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        this.toDate = date;
+        this.today = date;
     }
 }
