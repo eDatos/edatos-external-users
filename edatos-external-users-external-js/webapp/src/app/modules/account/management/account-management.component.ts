@@ -17,6 +17,8 @@ export class AccountManagementComponent implements OnInit {
 
     public languageEnum = Language;
 
+    private downloadingPdf = false;
+
     constructor(
         private userService: AccountUserService,
         private route: ActivatedRoute,
@@ -30,7 +32,7 @@ export class AccountManagementComponent implements OnInit {
         this.account = this.route.snapshot.data.user;
     }
 
-    save() {
+    public save() {
         this.isSaving = true;
         this.userService.update(this.account).subscribe(
             () => {
@@ -44,12 +46,12 @@ export class AccountManagementComponent implements OnInit {
         );
     }
 
-    clear() {
+    public clear() {
         const returnPath = ['account-management'];
         this.router.navigate(returnPath);
     }
 
-    isEditMode(): Boolean {
+    public isEditMode(): Boolean {
         if (this.route.snapshot.url.length == 0) {
             return false;
         }
@@ -70,4 +72,21 @@ export class AccountManagementComponent implements OnInit {
         this.isSaving = false;
         this.router.navigate(['account-management']);
     }
+
+    public download(event: Event) {
+        this.downloadingPdf = true;
+        this.userService.download(this.account.id).subscribe(
+            (response) => this.userService.saveToFileSystem(response),
+            () => this.messageService.add({
+                key: 'customAlertKey',
+                severity: 'error',
+                summary: this.translateService.instant('signup.document.onErrorDownload.label'),
+                detail: this.translateService.instant('signup.document.onErrorDownload.detail'),
+                life: 5000,
+            }),
+            () => this.downloadingPdf = false,
+        );
+
+    }
+
 }

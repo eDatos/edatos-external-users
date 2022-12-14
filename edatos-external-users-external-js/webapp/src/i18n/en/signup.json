@@ -20,6 +20,12 @@
             "onSuccessSumary": "New user registration",
             "onSuccess": "The user has successfully registered",
             "onRequest": "An email has been sent to confirm the registration"
+        },
+        "document": {
+            "onErrorDownload": {
+                "label" : "Error on download PDF",
+                "detail" :  "Sorry, the PDF document could not be generated."
+            }
         }
     }
 }

@@ -6,6 +6,8 @@ import { HttpClient } from '@angular/common/http';
 import { createRequestOption, ResponseUtils } from 'arte-ng/utils';
 import { convert, ResponseWrapper } from '@app/core/utils/response-utils';
 import { CaptchaService } from '@app/shared/service/captcha/captcha.service';
+import * as FileSaver from 'file-saver';
+
 
 @Injectable()
 export class AccountUserService {
@@ -54,5 +56,16 @@ export class AccountUserService {
 
     get(id: number): Observable<User> {
         return this.http.get<User>(`${this.resourceUrl}/${id}`).pipe(map((res) => convert(User, res)));
+    }
+
+    download(id: number): Observable<any> {
+        return this.http.post(`${this.resourceUrl}/document/my-information`, id);
+    }
+
+    saveToFileSystem(response) {
+        const contentDispositionHeader: string = response.headers.get('Content-Disposition');
+        const blob = new Blob([response._body], { type: response.headers.get('content-type') + ';base64,' });
+        const filename = contentDispositionHeader.match(/filename[^;=\n]*=((['"])(.*?)\2)/)[3] || 'fichero';
+        FileSaver.saveAs(blob, filename);
     }
 }

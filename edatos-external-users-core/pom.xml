@@ -82,6 +82,17 @@
             <artifactId>metrics-servlets</artifactId>
         </dependency>
 
+        <!-- JasperReports-->
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports</artifactId>
+            <version>${jasperreports.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports-fonts</artifactId>
+            <version>${jasperreports-fonts.version}</version>
+        </dependency>
         <!-- Quartz Core -->
         <dependency>
             <groupId>org.quartz-scheduler</groupId>
@@ -306,7 +317,7 @@
             <version>4.0.4</version>
             <scope>compile</scope>
         </dependency>
-        
+
         <dependency>
             <groupId>nl.captcha</groupId>
             <artifactId>simple-captcha</artifactId>
@@ -416,7 +427,32 @@
                     </execution>
                 </executions>
             </plugin>
-
+            <!-- Plugin de JasperReport-->
+            <plugin>
+                <groupId>com.alexnederlof</groupId>
+                <artifactId>jasperreports-plugin</artifactId>
+                <version>${jasperreports-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>jasper</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!-- These are the default configurations: -->
+                    <compiler>net.sf.jasperreports.engine.design.JRJdtCompiler</compiler>
+                    <sourceDirectory>src/main/resources/reports</sourceDirectory>
+                    <outputDirectory>${project.build.outputDirectory}/reports</outputDirectory>
+                    <outputFileExt>.jasper</outputFileExt>
+                    <xmlValidation>true</xmlValidation>
+                    <verbose>false</verbose>
+                    <numberOfThreads>4</numberOfThreads>
+                    <failOnMissingSourceDirectory>true</failOnMissingSourceDirectory>
+                    <sourceScanner>org.codehaus.plexus.compiler.util.scan.StaleSourceScanner</sourceScanner>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
