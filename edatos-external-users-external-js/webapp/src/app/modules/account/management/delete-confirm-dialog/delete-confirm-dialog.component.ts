@@ -1,19 +1,19 @@
-import { Component } from '@angular/core';
-import { User } from '@app/core/model';
-import { AccountUserService } from '@app/core/service';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import {Component} from '@angular/core';
+import {User} from '@app/core/model';
+import {AccountUserService} from '@app/core/service';
+import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-delete-confirm-dialog',
     templateUrl: './delete-confirm-dialog.component.html',
 })
 export class DeleteConfirmDialogComponent {
-    constructor(private activeModal: NgbActiveModal, private userService: AccountUserService) {}
+    constructor(private activeModal: NgbActiveModal, private userService: AccountUserService) {
+    }
 
     public user: User;
 
     public confirm() {
-        console.log("confirmacion de eliminacion")
         this.userService.delete(this.user.id).subscribe(() => this.activeModal.close(true));
     }
 

@@ -39,8 +39,9 @@ public class ExternalUserServiceImpl implements ExternalUserService {
     private final DisabledTokenRepository disabledTokenRepository;
     private final ExternalUserValidator externalUserValidator;
     private final FavoriteRepository favoriteRepository;
-    public ExternalUserServiceImpl(ExternalUserRepository externalUserRepository, FilterRepository filterRepository, QueryUtil queryUtil,
-                                   DisabledTokenRepository disabledTokenRepository, ExternalUserValidator externalUserValidator,FavoriteRepository favoriteRepository) {
+
+    public ExternalUserServiceImpl(ExternalUserRepository externalUserRepository, FilterRepository filterRepository, QueryUtil queryUtil, DisabledTokenRepository disabledTokenRepository,
+            ExternalUserValidator externalUserValidator, FavoriteRepository favoriteRepository) {
         this.externalUserRepository = externalUserRepository;
         this.filterRepository = filterRepository;
         this.queryUtil = queryUtil;

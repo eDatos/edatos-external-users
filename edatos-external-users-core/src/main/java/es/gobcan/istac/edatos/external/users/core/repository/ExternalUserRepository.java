@@ -26,7 +26,6 @@ public interface ExternalUserRepository extends JpaRepository<ExternalUserEntity
 
     Page<ExternalUserEntity> findAll(DetachedCriteria criteria, Pageable pageable);
 
-    //EDITADOOptional<ExternalUserEntity> findOneByEmailIgnoreCaseAndDeletionDateIsNullAndEnabledTrue(String email);
     Optional<ExternalUserEntity> findOneByEmailIgnoreCaseAndEnabledTrue(String email);
 
     void deleteAllByEnabledFalseAndCreatedDateIsBefore(Instant date);

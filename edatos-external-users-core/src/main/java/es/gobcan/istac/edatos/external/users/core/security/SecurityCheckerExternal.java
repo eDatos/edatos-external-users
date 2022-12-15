@@ -57,7 +57,6 @@ public class SecurityCheckerExternal {
         return this.isExternalUser(authentication);
     }
 
-    //cambio nombre de isExternalUserAndIsNotDeactivated?
     private boolean isExternalUser(Authentication authentication) {
         return this.hasRole(authentication, ExternalUserRole.USER);
     }
