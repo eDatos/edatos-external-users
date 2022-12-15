@@ -42,7 +42,7 @@ export class User extends BaseVersionedAndAuditingWithDeletionEntity {
         this.roles = roles ? roles : null;
         this.language = language ? language : null;
         this.emailNotificationsEnabled = emailNotificationsEnabled ? emailNotificationsEnabled : null;
-        this.dataProtectionPolicyId = dataProtectionPolicyId == null ? dataProtectionPolicyId : null;
+        this.dataProtectionPolicyId = dataProtectionPolicyId == null ? null : dataProtectionPolicyId;
     }
 
     public getFullName(): string {
