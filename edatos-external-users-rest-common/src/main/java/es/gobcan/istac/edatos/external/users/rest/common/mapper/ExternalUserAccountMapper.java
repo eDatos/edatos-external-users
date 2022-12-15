@@ -30,10 +30,9 @@ public abstract class ExternalUserAccountMapper implements EntityMapper<External
     @Autowired
     private DataProtectionPolicyRepository dataProtectionPolicyRepository;
 
-
-    @Override//target: nombre atribruto: de la entidad: dataProtectionPolicyEntity->Devuelve el metodo; source dataProtectionPolicyId -> se le pasa por parametro, qulify->nombreMetodo
+    @Override
     @Mapping(target = "password", source = "password", qualifiedByName = "encodePassword")
-    @Mapping(target = "dataProtectionPolicyEntity", source = "dataProtectionPolicyId", qualifiedByName = "protectionPolicyFromId")
+    @Mapping(target = "dataProtectionPolicy", source = "dataProtectionPolicyId", qualifiedByName = "protectionPolicyFromId")
     public abstract ExternalUserEntity toEntity(ExternalUserAccountDto dto);
 
     @Named("encodePassword")
@@ -62,14 +61,11 @@ public abstract class ExternalUserAccountMapper implements EntityMapper<External
 
     public abstract ExternalUserEntity baseDtoToEntity(ExternalUserAccountBaseDto dto);
 
-    //target: nombre atribruto: de la entidad: dataProtectionPolicyEntity->Devuelve el metodo; source dataProtectionPolicyId -> se le pasa por parametro, qulify->nombreMetodo
     @Named("protectionPolicyFromId")
     public DataProtectionPolicyEntity protectionPolicyFromId(Long id) {
         if (id == null) {
             return null;
         }
-
         return dataProtectionPolicyRepository.findOne(id);
     }
-
 }

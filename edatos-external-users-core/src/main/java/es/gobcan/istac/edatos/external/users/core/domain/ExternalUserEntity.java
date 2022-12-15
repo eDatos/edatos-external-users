@@ -106,7 +106,7 @@ public class ExternalUserEntity extends AbstractVersionedAndAuditingAndLogicalDe
 
     @ManyToOne
     @JoinColumn(name = "data_protection_policy_fk")
-    private DataProtectionPolicyEntity dataProtectionPolicyEntity;
+    private DataProtectionPolicyEntity dataProtectionPolicy;
 
     @Override
     public Long getId() {
@@ -256,11 +256,11 @@ public class ExternalUserEntity extends AbstractVersionedAndAuditingAndLogicalDe
         this.registrationToken = registrationToken;
     }
 
-    public DataProtectionPolicyEntity getDataProtectionPolicyEntity() {
-        return dataProtectionPolicyEntity;
+    public DataProtectionPolicyEntity getDataProtectionPolicy() {
+        return dataProtectionPolicy;
     }
 
-    public void setDataProtectionPolicyEntity(DataProtectionPolicyEntity dataProtectionPolicyEntity) {
-        this.dataProtectionPolicyEntity = dataProtectionPolicyEntity;
+    public void setDataProtectionPolicy(DataProtectionPolicyEntity dataProtectionPolicy) {
+        this.dataProtectionPolicy = dataProtectionPolicy;
     }
 }

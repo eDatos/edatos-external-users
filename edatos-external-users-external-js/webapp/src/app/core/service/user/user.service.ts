@@ -14,7 +14,6 @@ export class AccountUserService {
     constructor(private http: HttpClient, private captchaService: CaptchaService) {}
 
     create(el: (ElementRef | string), user: User): Promise<User> {
-        console.log(user)
         return this.captchaService.postRequestWithCaptcha(el, User, `${this.resourceUrl}/signup`, user, "signup");
     }
 
