@@ -14,7 +14,8 @@
             "phoneNumber": "Número teléfono",
             "organism": "Organismo",
             "enableEmailNotifications": "Habilitar notificaciones a través de correo electrónico",
-            "captchaModal": "Resuelva el captcha para terminar el registro"
+            "captchaModal": "Resuelva el captcha para terminar el registro",
+            "termsAndConditions": "Acepto términos y condiciones"
         },
         "messages": {
             "onSuccessSumary": "Registro de nuevo usuario",

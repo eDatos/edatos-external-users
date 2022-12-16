@@ -2,10 +2,13 @@ package es.gobcan.istac.edatos.external.users.core.service.impl;
 
 import java.time.Instant;
 import java.time.ZonedDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
-import es.gobcan.istac.edatos.external.users.core.domain.FavoriteEntity;
-import es.gobcan.istac.edatos.external.users.core.service.validator.ExternalUserValidator;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.criterion.DetachedCriteria;
@@ -25,6 +28,7 @@ import es.gobcan.istac.edatos.external.users.core.repository.ExternalUserReposit
 import es.gobcan.istac.edatos.external.users.core.repository.FilterRepository;
 import es.gobcan.istac.edatos.external.users.core.security.SecurityUtils;
 import es.gobcan.istac.edatos.external.users.core.service.ExternalUserService;
+import es.gobcan.istac.edatos.external.users.core.service.validator.ExternalUserValidator;
 import es.gobcan.istac.edatos.external.users.core.util.QueryUtil;
 import es.gobcan.istac.edatos.external.users.core.util.RandomUtil;
 
@@ -79,7 +83,7 @@ public class ExternalUserServiceImpl implements ExternalUserService {
         return externalUserRepository.saveAndFlush(user);
     }
 
-    @Override
+   @Override
     public ExternalUserEntity deactivate(Long id) {
         ExternalUserEntity usuario = externalUserRepository.findOneByIdAndDeletionDateIsNull(id).orElseThrow(() -> new EDatosException(ServiceExceptionType.EXTERNAL_USER_DEACTIVATE));
 
