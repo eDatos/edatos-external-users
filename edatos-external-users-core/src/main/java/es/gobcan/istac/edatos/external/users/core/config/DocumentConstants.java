@@ -10,7 +10,7 @@ public final class DocumentConstants {
 
     public static final String DOC_EXTERNAL_USER_INFORMATION = "external-user-information.pdf";
 
-    public static final Locale PARAM_LOCALE_ES = new Locale("es", "ES");
+    public static final Locale PARAM_LOCALE_ES = new Locale("es_ES");
 
     private DocumentConstants() {
     }
