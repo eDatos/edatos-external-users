@@ -1,11 +1,12 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {User, Role, Language, Gender,} from '@app/core/model';
-import { Router } from '@angular/router';
-import { AccountUserService } from '@app/core/service/user';
-import { CaptchaService } from '@app/shared/service';
-import { MessageService } from 'primeng/api';
-import { TranslateService } from '@ngx-translate/core';
+import {Router} from '@angular/router';
+import {AccountUserService} from '@app/core/service/user';
+import {CaptchaService} from '@app/shared/service';
+import {MessageService} from 'primeng/api';
+import {TranslateService} from '@ngx-translate/core';
 import {Nation} from "@app/core/model/nations.model";
+
 type SignUp = Omit<User, 'id' | 'roles'>;
 
 @Component({
@@ -19,11 +20,11 @@ export class SignupFormComponent implements OnInit {
     private paramLogin: string;
     public rolesEnum = Role;
     public languageEnum = Language;
-    public nationEnum = Nation ;
+    public nationEnum = Nation;
     public genderEnum = Gender;
     toDate: Date;
     today: Date;
-
+    number
     public confirmPassword: string;
 
     private captchaContainerEl: ElementRef;
@@ -42,7 +43,8 @@ export class SignupFormComponent implements OnInit {
         private captchaService: CaptchaService,
         private messageService: MessageService,
         private translateService: TranslateService
-    ) {}
+    ) {
+    }
 
     ngOnInit() {
         this.getToday();
@@ -58,6 +60,7 @@ export class SignupFormComponent implements OnInit {
     }
 
     save() {
+        console.log(this.user)
         this.isSaving = true;
         if (this.passwordDoNotMatch()) {
             this.validUser = false;

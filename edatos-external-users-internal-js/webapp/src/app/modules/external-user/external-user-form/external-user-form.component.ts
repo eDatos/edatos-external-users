@@ -1,15 +1,16 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ExternalUser, Language, Role } from '@app/core/model';
-import { PermissionService } from '@app/core/service/auth';
-import { ExternalUserService } from '@app/core/service/user';
-import { StructuralResourcesTreeComponent } from '@app/shared/components/structural-resources-tree';
-import { Favorite, FavoriteResource } from '@app/shared/model';
-import { FavoriteService } from '@app/shared/service';
-import { ArteEventManager, GenericModalService } from 'arte-ng/services';
-import { Subscription } from 'rxjs';
-import { finalize } from 'rxjs/operators';
-import { ExternalUserDeleteDialogComponent } from '../external-user-delete-dialog.component';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {ExternalUser, Language, Role} from '@app/core/model';
+import {PermissionService} from '@app/core/service/auth';
+import {ExternalUserService} from '@app/core/service/user';
+import {StructuralResourcesTreeComponent} from '@app/shared/components/structural-resources-tree';
+import {Favorite, FavoriteResource} from '@app/shared/model';
+import {FavoriteService} from '@app/shared/service';
+import {ArteEventManager, GenericModalService} from 'arte-ng/services';
+import {Subscription} from 'rxjs';
+import {finalize} from 'rxjs/operators';
+import {ExternalUserDeleteDialogComponent} from '../external-user-delete-dialog.component';
+import {Gender} from '@app/core/model/gender.model';
 
 @Component({
     selector: 'app-external-user-form',
@@ -24,7 +25,34 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
 
     public rolesEnum = Role;
     public languageEnum = Language;
+    public genderEnum = Gender;
     public favorites: Favorite[];
+    predefinedCountries: any[] = [
+        {
+            name: 'Germany',
+            alpha2Code: 'DE',
+            alpha3Code: 'DEU',
+            numericCode: '276',
+        },
+        {
+            name: 'Greece',
+            alpha2Code: 'GR',
+            alpha3Code: 'GRC',
+            numericCode: '300',
+        },
+        {
+            name: 'France',
+            alpha2Code: 'FR',
+            alpha3Code: 'FRA',
+            numericCode: '250',
+        },
+        {
+            name: 'Belgium',
+            alpha2Code: 'BE',
+            alpha3Code: 'BEL',
+            numericCode: '056',
+        },
+    ];
 
     public editMode: 'user' | 'favorites' | null = null;
 
@@ -41,7 +69,8 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
         private eventManager: ArteEventManager,
         private route: ActivatedRoute,
         private router: Router
-    ) {}
+    ) {
+    }
 
     public ngOnInit() {
         this.isSaving = false;
@@ -119,11 +148,11 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
     }
 
     public deactivate() {
-        this.genericModalService.open(ExternalUserDeleteDialogComponent as Component, { user: this.externalUser }, { container: '.app' });
+        this.genericModalService.open(ExternalUserDeleteDialogComponent as Component, {user: this.externalUser}, {container: '.app'});
     }
 
     public restore() {
-        this.genericModalService.open(ExternalUserDeleteDialogComponent as Component, { user: this.externalUser }, { container: '.app' });
+        this.genericModalService.open(ExternalUserDeleteDialogComponent as Component, {user: this.externalUser}, {container: '.app'});
     }
 
     public ngOnDestroy() {
@@ -161,7 +190,7 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
     }
 
     private onSaveSuccess(result) {
-        this.eventManager.broadcast({ name: 'userListModification', content: 'OK' });
+        this.eventManager.broadcast({name: 'userListModification', content: 'OK'});
         this.externalUser = result;
         this.isSaving = false;
         this.disabledEdit();

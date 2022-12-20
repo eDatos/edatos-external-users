@@ -20,13 +20,15 @@
         </h2>
         <div class="page-header-btns">
             <ng-container *ngIf="permissionService.canNavigateUserManagement()">
-                <button (click)="restore()" *ngIf="externalUser.deletionDate" [disabled]="editMode" class="btn btn-warning" type="button">
+                <button (click)="restore()" *ngIf="externalUser.deletionDate" [disabled]="editMode"
+                        class="btn btn-warning" type="button">
                     <span class="fa fa-undo"></span>
                     <span translate="entity.action.activate"></span>
                 </button>
             </ng-container>
             <ng-container *ngIf="permissionService.canNavigateUserManagement()">
-                <button (click)="deactivate()" *ngIf="!externalUser.deletionDate" [disabled]="editMode" class="btn btn-danger" type="button">
+                <button (click)="deactivate()" *ngIf="!externalUser.deletionDate" [disabled]="editMode"
+                        class="btn btn-danger" type="button">
                     <span class="fa fa-remove"></span>
                     <span translate="entity.action.deactivate"></span>
                 </button>
@@ -34,23 +36,29 @@
         </div>
     </div>
     <div class="page-body">
-        <form #editForm="ngForm" (ngSubmit)="save()" autocomplete="off" class="page-form" id="edit-form" name="editForm" novalidate role="form">
+        <form #editForm="ngForm" (ngSubmit)="save()" autocomplete="off" class="page-form" id="edit-form" name="editForm"
+              novalidate role="form">
             <div class="d-flex align-items-center justify-content-between mt-2">
                 <div class="d-flex align-items-baseline flex-column">
                     <h3 class="mt-2 mb-0" translate="externalUser.personalData"></h3>
-                    <small class="text-muted">{{'externalUser.createdDate' | translate}}: {{externalUser.createdDate | date: 'd/M/yyyy, H:mm:ss' }}</small>
+                    <small class="text-muted">{{'externalUser.createdDate' | translate}}
+                        : {{externalUser.createdDate | date: 'd/M/yyyy, H:mm:ss' }}</small>
                 </div>
                 <div class="page-header-btns button-edit">
                     <ng-container *ngIf="permissionService.canNavigateUserManagement()">
-                        <button (click)="editUserData()" *ngIf="$any(editMode) !== 'user'" [disabled]="editMode && editMode !== 'user'" class="btn btn-secondary" type="button">
+                        <button (click)="editUserData()" *ngIf="$any(editMode) !== 'user'"
+                                [disabled]="editMode && editMode !== 'user'" class="btn btn-secondary" type="button">
                             <span class="fa fa-pencil"></span>
                             <span translate="entity.action.edit"></span>
                         </button>
-                        <button (click)="cancel()" *ngIf="editMode === 'user'" class="btn btn-secondary mr-2" data-dismiss="modal" type="button">
+                        <button (click)="cancel()" *ngIf="editMode === 'user'" class="btn btn-secondary mr-2"
+                                data-dismiss="modal" type="button">
                             <span class="fa fa-ban"></span>
                             <span translate="entity.action.cancel"></span>
                         </button>
-                        <button (click)="save()" *ngIf="editMode === 'user'" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary" form="edit-form" type="submit">
+                        <button (click)="save()" *ngIf="editMode === 'user'"
+                                [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary" form="edit-form"
+                                type="submit">
                             <span class="fa fa-floppy-o"></span>
                             <span translate="entity.action.save"></span>
                         </button>
@@ -63,11 +71,13 @@
                         <div class="form-row">
                             <label class="col-form-label col-md-4" translate="externalUser.name"></label>
                             <div class="col-md-8">
-                                <arte-input name="nombre" [(ngModel)]="externalUser.name" [maxlength]="255"></arte-input>
+                                <arte-input name="nombre" [(ngModel)]="externalUser.name"
+                                            [maxlength]="255"></arte-input>
                             </div>
                         </div>
 
-                        <div *ngIf="editForm.controls.nombre?.dirty && editForm.controls.nombre?.invalid" class="entity-field-error">
+                        <div *ngIf="editForm.controls.nombre?.dirty && editForm.controls.nombre?.invalid"
+                             class="entity-field-error">
                             <small
                                 class="form-text text-danger"
                                 *ngIf="editForm.controls.nombre?.errors?.maxlength"
@@ -82,11 +92,13 @@
                         <div class="form-row">
                             <label class="col-form-label col-md-4" translate="externalUser.surname1"></label>
                             <div class="col-md-8">
-                                <arte-input name="surname1" [(ngModel)]="externalUser.surname1" [maxlength]="255"></arte-input>
+                                <arte-input name="surname1" [(ngModel)]="externalUser.surname1"
+                                            [maxlength]="255"></arte-input>
                             </div>
                         </div>
 
-                        <div *ngIf="editForm.controls.surname1?.dirty && editForm.controls.surname1?.invalid" class="entity-field-error">
+                        <div *ngIf="editForm.controls.surname1?.dirty && editForm.controls.surname1?.invalid"
+                             class="entity-field-error">
                             <small
                                 class="form-text text-danger"
                                 *ngIf="editForm.controls.surname1?.errors?.maxlength"
@@ -101,11 +113,13 @@
                         <div class="form-row">
                             <label class="col-form-label col-md-4" translate="externalUser.surname2"></label>
                             <div class="col-md-8">
-                                <arte-input name="surname2" [(ngModel)]="externalUser.surname2" [maxlength]="255"></arte-input>
+                                <arte-input name="surname2" [(ngModel)]="externalUser.surname2"
+                                            [maxlength]="255"></arte-input>
                             </div>
                         </div>
 
-                        <div *ngIf="editForm.controls.surname2?.dirty && editForm.controls.surname2?.invalid" class="entity-field-error">
+                        <div *ngIf="editForm.controls.surname2?.dirty && editForm.controls.surname2?.invalid"
+                             class="entity-field-error">
                             <small
                                 class="form-text text-danger"
                                 *ngIf="editForm.controls.surname2?.errors?.maxlength"
@@ -138,11 +152,15 @@
                         <div class="form-row">
                             <label class="col-form-label col-md-4" translate="externalUser.email"></label>
                             <div class="col-md-8">
-                                <arte-input name="email" [(ngModel)]="externalUser.email" [required]="true" [minlength]="3" [maxlength]="255" [email]="true"></arte-input>
+                                <arte-input name="email" [(ngModel)]="externalUser.email" [required]="true"
+                                            [minlength]="3" [maxlength]="255" [email]="true"></arte-input>
                             </div>
                         </div>
-                        <div *ngIf="(editForm.controls.email?.touched || editForm.controls.email?.dirty) && editForm.controls.email?.invalid" class="entity-field-error">
-                            <small class="form-text text-danger" *ngIf="editForm.controls.email?.errors?.required" translate="entity.validation.required"> </small>
+                        <div
+                            *ngIf="(editForm.controls.email?.touched || editForm.controls.email?.dirty) && editForm.controls.email?.invalid"
+                            class="entity-field-error">
+                            <small class="form-text text-danger" *ngIf="editForm.controls.email?.errors?.required"
+                                   translate="entity.validation.required"> </small>
                             <ng-container *ngIf="editForm.controls.email?.dirty">
                                 <small
                                     class="form-text text-danger"
@@ -158,14 +176,44 @@
                                     [translateParams]="{ requiredLength: 3}"
                                 >
                                 </small>
-                                <small class="form-text text-danger" *ngIf="editForm.controls.email?.errors?.email" translate="global.messages.validate.email.invalid"> </small>
+                                <small class="form-text text-danger" *ngIf="editForm.controls.email?.errors?.email"
+                                       translate="global.messages.validate.email.invalid"> </small>
                             </ng-container>
                         </div>
                     </div>
 
                     <div class="form-group form-group-inline col-md-6">
                         <div class="form-row">
-                            <label class="col-form-label col-md-4" translate="externalUser.enableEmailNotifications"></label>
+                            <label class="form-label col-md-4" translate="externalUser.gender"></label>
+                            <div class="col-md-8 form-input-container errors-on-hover">
+                                <arte-autocomplete-enum
+                                    id="gender"
+                                    name="gender"
+                                    [multiple]="false"
+                                    [(ngModel)]="externalUser.gender"
+                                    [suggestionsEnum]="genderEnum"
+                                    [translationPath]="'gender.'"
+                                    [required]="false"
+                                >
+                                </arte-autocomplete-enum>
+                                <div class="form-errors-messages" *hasErrors="let messages">
+                                    <span *ngFor="let m of messages">{{m}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group form-group-inline col-md-6">
+                        <div class="form-row">
+                            <label class="form-label col-md-4" translate="externalUser.birthday"></label>
+                            <arte-calendar [(ngModel)]="externalUser.birthday" [required]="false" name="birthday"
+                                           style="flex: max-content"></arte-calendar>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-inline col-md-6">
+                        <div class="form-row">
+                            <label class="col-form-label col-md-4"
+                                   translate="externalUser.enableEmailNotifications"></label>
                             <div class="col-md-8">
                                 <arte-tri-input-switch
                                     [(ngModel)]="externalUser.emailNotificationsEnabled"
@@ -192,19 +240,23 @@
                         <span class="fa fa-pencil"></span>
                         <span translate="entity.action.edit"></span>
                     </button>
-                    <button (click)="cancel()" *ngIf="editMode === 'favorites'" class="btn btn-secondary mr-2" data-dismiss="modal" type="button">
+                    <button (click)="cancel()" *ngIf="editMode === 'favorites'" class="btn btn-secondary mr-2"
+                            data-dismiss="modal" type="button">
                         <span class="fa fa-ban"></span>
                         <span translate="entity.action.cancel"></span>
                     </button>
-                    <button (click)="saveFavorites()" *ngIf="editMode === 'favorites'" [disabled]="editMode !== 'favorites'" class="btn btn-primary btn-save" type="button">
+                    <button (click)="saveFavorites()" *ngIf="editMode === 'favorites'"
+                            [disabled]="editMode !== 'favorites'" class="btn btn-primary btn-save" type="button">
                         <span class="fa fa-floppy-o"></span>
                         <span translate="entity.action.save"></span>
                     </button>
                 </ng-container>
             </div>
             <h3 class="button-tree" translate="externalUser.home.favorites"></h3>
-            <app-structural-resources-tree [disabled]="editMode !== 'favorites'" [favorites]="favorites"></app-structural-resources-tree>
+            <app-structural-resources-tree [disabled]="editMode !== 'favorites'"
+                                           [favorites]="favorites"></app-structural-resources-tree>
         </fieldset>
+
         <div *ngIf="userId" class="page-section">
             <div class="d-flex align-items-baseline justify-content-between">
                 <h3 class="mt-3" translate="externalUser.home.filters"></h3>

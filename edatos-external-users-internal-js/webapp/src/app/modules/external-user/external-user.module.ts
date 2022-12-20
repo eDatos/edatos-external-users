@@ -8,7 +8,7 @@ import { ExternalUserRoutingModule } from '@app/modules/external-user/external-u
 import { ExternalUserSearchComponent } from '@app/modules/external-user/external-user-search/external-user-search.component';
 import { FilterModule } from '@app/modules/filter';
 import { SharedModule } from '@app/shared';
-import { ArteAuditInfoModule, ArteAutocompleteModule, ArteEntityListEmptyModule, ArteSpinnerModule, ArteTableModule, ArteTriInputSwitchModule } from 'arte-ng';
+import { ArteAuditInfoModule, ArteAutocompleteModule, ArteCalendarModule, ArteEntityListEmptyModule, ArteSpinnerModule, ArteTableModule, ArteTriInputSwitchModule } from 'arte-ng';
 import { ArteDirectivesModule } from 'arte-ng/directives';
 import { DialogModule } from 'primeng/dialog';
 import { MultiSelectModule } from 'primeng/multiselect';
@@ -30,6 +30,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
         FilterModule,
         DialogModule,
         MultiSelectModule,
+        ArteCalendarModule,
     ],
     providers: [ExternalUserService],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
