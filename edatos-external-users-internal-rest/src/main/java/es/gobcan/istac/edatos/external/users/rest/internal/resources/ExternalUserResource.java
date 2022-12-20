@@ -128,7 +128,7 @@ public class ExternalUserResource extends AbstractResource {
             externalUserService.delete(id);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
-            throw new EDatosException(ServiceExceptionType.EXTERNAL_USER_DELETED);
+            throw new EDatosException(ServiceExceptionType.EXTERNAL_USER_DELETE_FAILED);
         }
     }
 }
