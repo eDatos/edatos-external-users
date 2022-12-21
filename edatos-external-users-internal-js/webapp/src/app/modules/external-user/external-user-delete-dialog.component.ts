@@ -16,17 +16,7 @@ export class ExternalUserDeleteDialogComponent {
     constructor(private externalUserService: ExternalUserService, public activeModal: NgbActiveModal, private eventManager: ArteEventManager) {}
 
     public clear() {
-        this.activeModal.dismiss('cancel');
-    }
-
-    public confirmAction(id) {
-        if (this.user.id === id) {
-            if (this.user.deletionDate) {
-                this.confirmRestore(id);
-            } else {
-                this.confirmDelete(id);
-            }
-        }
+        this.activeModal.dismiss(false);
     }
 
     private confirmDelete(id) {
@@ -36,16 +26,6 @@ export class ExternalUserDeleteDialogComponent {
                 content: response,
             });
             this.activeModal.dismiss('deleted');
-        });
-    }
-
-    private confirmRestore(id) {
-        this.externalUserService.restore(id).subscribe((response) => {
-            this.eventManager.broadcast({
-                name: ExternalUserDeleteDialogComponent.EVENT_NAME,
-                content: response,
-            });
-            this.activeModal.dismiss('restored');
         });
     }
 }

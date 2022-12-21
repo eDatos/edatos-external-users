@@ -29,7 +29,6 @@ import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
 import es.gobcan.istac.edatos.external.users.core.errors.ErrorConstants;
 import es.gobcan.istac.edatos.external.users.core.errors.ErrorMessagesConstants;
 import es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType;
-import es.gobcan.istac.edatos.external.users.core.repository.DataProtectionPolicyRepository;
 import es.gobcan.istac.edatos.external.users.core.repository.ExternalUserRepository;
 import es.gobcan.istac.edatos.external.users.core.security.SecurityUtils;
 import es.gobcan.istac.edatos.external.users.core.service.ExternalUserService;
@@ -53,16 +52,14 @@ public class ExternalAccountResource extends AbstractResource {
     private final AuditEventPublisher auditPublisher;
 
     private final NotificationService notificationService;
-    private final DataProtectionPolicyRepository dataProtectionPolicyRepository;
 
     public ExternalAccountResource(ExternalUserRepository externalUserRepository, ExternalUserService externalUserService, ExternalUserAccountMapper externalUserMapper,
-            AuditEventPublisher auditPublisher, NotificationService notificationService, DataProtectionPolicyRepository dataProtectionPolicyRepository) {
+            AuditEventPublisher auditPublisher, NotificationService notificationService) {
         this.externalUserRepository = externalUserRepository;
         this.externalUserService = externalUserService;
         this.externalUserMapper = externalUserMapper;
         this.auditPublisher = auditPublisher;
         this.notificationService = notificationService;
-        this.dataProtectionPolicyRepository = dataProtectionPolicyRepository;
     }
 
     @GetMapping("/{id}")
@@ -76,8 +73,8 @@ public class ExternalAccountResource extends AbstractResource {
     @Timed
     public ResponseEntity<Void> create(@Valid @RequestBody ExternalUserAccountDto externalUserDto) {
         ExternalUserEntity registeredUser = externalUserService.findByEmail(externalUserDto.getEmail()).orElse(null);
-        if(registeredUser != null) {
-            if(registeredUser.isEnabled()) {
+        if (registeredUser != null) {
+            if (registeredUser.isEnabled()) {
                 registeredUser = externalUserService.recoverExternalUserAccountPassword(registeredUser.getEmail()).get();
                 notificationService.createExternalUserAlreadyRegisteredNotification(registeredUser);
             } else {
@@ -135,13 +132,10 @@ public class ExternalAccountResource extends AbstractResource {
     @PreAuthorize("@secCheckerExternal.canDeleteUser(authentication)")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         try {
-            ExternalUserEntity user = externalUserRepository.findOne(id);
             externalUserService.delete(id);
-            notificationService.createDeleteExternalUserAccountNotification(user);
-            auditPublisher.publish(AuditConstants.EXT_USUARIO_DESACTIVACION, user.getEmail());
             return ResponseEntity.ok().build();
         } catch (Exception e) {
-            throw new EDatosException(ServiceExceptionType.GENERIC_ERROR);
+            throw new EDatosException(ServiceExceptionType.EXTERNAL_USER_DELETE_FAILED);
         }
     }
 

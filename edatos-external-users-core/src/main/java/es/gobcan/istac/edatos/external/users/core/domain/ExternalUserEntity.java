@@ -23,6 +23,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import es.gobcan.istac.edatos.external.users.core.domain.interfaces.AbstractAuditingEntity;
+import es.gobcan.istac.edatos.external.users.core.domain.interfaces.AbstractVersionedAndAuditingEntity;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.Email;
@@ -34,7 +36,7 @@ import es.gobcan.istac.edatos.external.users.core.domain.interfaces.AbstractVers
 @Entity
 @Table(name = "tb_external_users")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class ExternalUserEntity extends AbstractVersionedAndAuditingAndLogicalDeletionEntity {
+public class ExternalUserEntity extends AbstractVersionedAndAuditingEntity {
 
     private static final long serialVersionUID = 1L;
 
