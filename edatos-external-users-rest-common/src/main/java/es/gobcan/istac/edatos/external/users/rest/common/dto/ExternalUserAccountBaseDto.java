@@ -21,6 +21,7 @@ public class ExternalUserAccountBaseDto extends AbstractVersionedAndAuditingAndL
 
     private String organism;
     private boolean emailNotificationsEnabled;
+    private Long dataProtectionPolicyId;
 
     @Override
     public Long getId() {
@@ -96,6 +97,12 @@ public class ExternalUserAccountBaseDto extends AbstractVersionedAndAuditingAndL
         this.emailNotificationsEnabled = emailNotificationsEnabled;
     }
 
+    public Long getDataProtectionPolicyId() {
+        return dataProtectionPolicyId;
+    }
+    public void setDataProtectionPolicyId(Long dataProtectionPolicyId) {
+        this.dataProtectionPolicyId = dataProtectionPolicyId;
+    }
     public void updateFrom(ExternalUserAccountBaseDto source) {
         this.id = source.getId();
         this.name = source.getName();

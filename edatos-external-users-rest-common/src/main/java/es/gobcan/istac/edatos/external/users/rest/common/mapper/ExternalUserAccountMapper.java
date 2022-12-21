@@ -11,8 +11,10 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import es.gobcan.istac.edatos.external.users.core.domain.DataProtectionPolicyEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.enumeration.ExternalUserRole;
+import es.gobcan.istac.edatos.external.users.core.repository.DataProtectionPolicyRepository;
 import es.gobcan.istac.edatos.external.users.core.repository.ExternalUserRepository;
 import es.gobcan.istac.edatos.external.users.core.security.SecurityUtils;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.ExternalUserAccountBaseDto;
@@ -25,9 +27,12 @@ public abstract class ExternalUserAccountMapper implements EntityMapper<External
 
     @Autowired
     private ExternalUserRepository externalUserRepository;
+    @Autowired
+    private DataProtectionPolicyRepository dataProtectionPolicyRepository;
 
     @Override
     @Mapping(target = "password", source = "password", qualifiedByName = "encodePassword")
+    @Mapping(target = "dataProtectionPolicy", source = "dataProtectionPolicyId", qualifiedByName = "protectionPolicyFromId")
     public abstract ExternalUserEntity toEntity(ExternalUserAccountDto dto);
 
     @Named("encodePassword")
@@ -55,4 +60,12 @@ public abstract class ExternalUserAccountMapper implements EntityMapper<External
     public abstract ExternalUserAccountBaseDto toBaseDto(ExternalUserEntity entity);
 
     public abstract ExternalUserEntity baseDtoToEntity(ExternalUserAccountBaseDto dto);
+
+    @Named("protectionPolicyFromId")
+    public DataProtectionPolicyEntity protectionPolicyFromId(Long id) {
+        if (id == null) {
+            return null;
+        }
+        return dataProtectionPolicyRepository.findOne(id);
+    }
 }

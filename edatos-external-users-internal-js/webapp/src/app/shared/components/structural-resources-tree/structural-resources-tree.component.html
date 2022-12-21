@@ -1,11 +1,11 @@
 <div #modalWrapper></div>
 
-<p *ngIf="mode === 'edit'" class="text-secondary">
+<p *ngIf="isEditMode()" class="text-secondary">
     <i class="fa fa-info-circle" aria-hidden="true"></i>
     {{'structuralResourcesTree.helpMessage' | translate}}.
 </p>
 
-<button (click)="addNode()" *ngIf="mode === 'edit'" class="btn btn-link">
+<button (click)="addNode()" *ngIf="isEditModeOrFiltered()" class="btn btn-link">
     <span class="fa fa-plus"></span>
     <span translate="structuralResourcesTree.addNewNode"></span>
 </button>
@@ -19,6 +19,9 @@
     [selectionMode]="selectionMode"
     [emptyMessage]="'structuralResourcesTree.noRecordsFound' | translate"
     [value]="tree"
+    [filter]="true"
+    filterMode="strict"
+    arteAutofocus
 >
     <ng-template let-node pTemplate="default">
         <span class="label">{{node.label}}</span>&nbsp;
@@ -48,24 +51,28 @@
     [value]="tree"
     [propagateSelectionUp]="propagateSelection"
     [propagateSelectionDown]="propagateSelection"
+    [filter]="true"
+    filterMode="strict"
+    arteAutofocus
 ></p-tree>
 
 <p-tree
     (onNodeDrop)="onNodeDrop($event)"
-    *ngIf="mode === 'edit'"
+    *ngIf="isEditMode()"
     [draggableNodes]="true"
     [droppableNodes]="true"
     [emptyMessage]="'structuralResourcesTree.noRecordsFound' | translate"
     [loading]="!tree || loading"
     [value]="tree"
+    [filter]="true"
+    filterMode="strict"
+    arteAutofocus
 >
     <ng-template let-node pTemplate="default">
         <span (dblclick)="editNodeName(node)" class="label mr-2">{{node.label}} </span>
         <span class="node-info">(</span>
         <span class="node-info">{{'structuralResourcesTree.subscribedUsers' | translate }}: {{node.data.subscribers || 0}}</span>
-        <span *ngIf="node.data.externalCategories?.length > 0" class="node-info"
-            >, {{'structuralResourcesTree.externalOperations' | translate }}: {{node.data.externalCategories?.length || 0}}</span
-        >
+        <span *ngIf="node.data.externalCategories?.length > 0" class="node-info">, {{'structuralResourcesTree.externalOperations' | translate }}: {{node.data.externalCategories?.length || 0}}</span>
         <span class="node-info mr-2">)</span>
         <p-dialog
             *ngIf="node.editMode === 'name'"
