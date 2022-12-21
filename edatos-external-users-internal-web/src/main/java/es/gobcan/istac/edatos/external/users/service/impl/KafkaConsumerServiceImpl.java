@@ -17,27 +17,26 @@ import es.gobcan.istac.edatos.external.users.core.service.ExternalOperationServi
 import es.gobcan.istac.edatos.external.users.rest.common.mapper.ExternalDatasetMapper;
 import es.gobcan.istac.edatos.external.users.rest.common.mapper.ExternalOperationMapper;
 import es.gobcan.istac.edatos.external.users.service.KafkaConsumerService;
+import es.ibestat.jaxi.stream.messages.DatasetAvro;
 
 @Service
 public class KafkaConsumerServiceImpl implements KafkaConsumerService {
     private static final Logger LOGGER = LoggerFactory.getLogger(KafkaConsumerServiceImpl.class);
 
-    private final ExternalOperationMapper externalOperationMapper;
+    private final ExternalOperationMapper  externalOperationMapper;
     private final ExternalOperationService externalOperationService;
-    private final ExternalDatasetMapper externalDatasetMapper;
-    private final ExternalDatasetService externalDatasetService;
+    private final ExternalDatasetMapper    externalDatasetMapper;
+    private final ExternalDatasetService   externalDatasetService;
 
-    public KafkaConsumerServiceImpl(ExternalOperationMapper externalOperationMapper,
-        ExternalOperationService externalOperationService,
-        ExternalDatasetMapper externalDatasetMapper,
-        ExternalDatasetService externalDatasetService) {
+    public KafkaConsumerServiceImpl(ExternalOperationMapper externalOperationMapper, ExternalOperationService externalOperationService, ExternalDatasetMapper externalDatasetMapper,
+            ExternalDatasetService externalDatasetService) {
         this.externalOperationMapper = externalOperationMapper;
         this.externalOperationService = externalOperationService;
         this.externalDatasetMapper = externalDatasetMapper;
         this.externalDatasetService = externalDatasetService;
     }
 
-    @KafkaListener(topics = "#{kafkaProperties.getDatasetPublicationTopic()}")
+    @KafkaListener(id = "datasetPublicationTopicId", topics = "#{kafkaProperties.getDatasetPublicationTopic()}")
     public void processDatasetPublicationEvent(ConsumerRecord<String, DatasetVersionAvro> consumerRecord) {
         String urn = consumerRecord.value()
                                    .getSiemacMetadataStatisticalResource()
@@ -56,8 +55,23 @@ public class KafkaConsumerServiceImpl implements KafkaConsumerService {
             externalDatasetService.create(dataset);
         }
     }
-
-    @KafkaListener(topics = "#{kafkaProperties.getOperationPublicationTopic()}")
+    
+    @KafkaListener(id = "externalPublicationTopicId", topics = "#{kafkaProperties.getDatasetExternalPublicationTopic()}")
+    public void processDatasetExternalPublicationEvent(ConsumerRecord<String, DatasetAvro> consumerRecord) {
+        String urn = consumerRecord.value().getUrn();
+        LOGGER.info("Kafka external publication dataset message received. Code: '{}'", urn);
+        ExternalDatasetEntity dataset = externalDatasetMapper.toEntity(consumerRecord.value());
+        Optional<ExternalDatasetEntity> inDbDataset = externalDatasetService.findByUrn(urn);
+        if (inDbDataset.isPresent()) {
+            dataset.setId(inDbDataset.get().getId());
+            externalDatasetService.update(dataset);
+        } else {
+            externalDatasetService.create(dataset);
+        }
+    }
+    
+    
+    @KafkaListener(id = "operationPublicationTopicId", topics = "#{kafkaProperties.getOperationPublicationTopic()}")
     public void processOperationPublicationEvent(ConsumerRecord<String, OperationAvro> consumerRecord) {
         LOGGER.info("Kafka operation message received. Code: '{}'", consumerRecord.value().getUrn());
         ExternalOperationEntity operation = externalOperationMapper.toEntity(consumerRecord.value());
