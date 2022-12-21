@@ -1,11 +1,11 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {User, Role, Language} from '@app/core/model';
-import {Router} from '@angular/router';
-import {AccountUserService} from '@app/core/service/user';
-import {CaptchaService} from '@app/shared/service';
-import {MessageService} from 'primeng/api';
-import {TranslateService} from '@ngx-translate/core';
-import {DataProtectionPolicyService} from '@app/modules/account/data-protection-policy/data-protection-policy.service';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { User, Role, Language } from '@app/core/model';
+import { Router } from '@angular/router';
+import { AccountUserService } from '@app/core/service/user';
+import { CaptchaService } from '@app/shared/service';
+import { MessageService } from 'primeng/api';
+import { TranslateService } from '@ngx-translate/core';
+import { DataProtectionPolicyService } from '@app/modules/account/data-protection-policy/data-protection-policy.service';
 
 type SignUp = Omit<User, 'id' | 'roles'>;
 
@@ -41,8 +41,7 @@ export class SignupFormComponent implements OnInit {
         private messageService: MessageService,
         private translateService: TranslateService,
         private dataProtectionPolicyService: DataProtectionPolicyService
-    ) {
-    }
+    ) {}
 
     ngOnInit() {
         this.isSaving = false;
