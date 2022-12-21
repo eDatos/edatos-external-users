@@ -5,8 +5,10 @@
     [propagateSelectionDown]="false"
     [propagateSelectionUp]="false"
     [value]="tree"
+    [filter]="true"
+    filterMode="strict"
     selectionMode="checkbox"
-    [emptyMessage]="'structuralResourcesTree.noRecordsFound' | translate"
->
-    <ng-template *ngIf="mode === 'view'" let-node pTemplate="default"> <span class="label">{{node.label}}</span>&nbsp; </ng-template>
+    [emptyMessage]="'structuralResourcesTree.noRecordsFound' | translate">
+    <ng-template *ngIf="mode === 'view'" let-node pTemplate="default"><span class="label">{{node.label}}</span>&nbsp;
+    </ng-template>
 </p-tree>

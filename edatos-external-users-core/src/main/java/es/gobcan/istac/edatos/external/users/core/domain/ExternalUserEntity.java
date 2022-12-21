@@ -16,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -102,8 +103,12 @@ public class ExternalUserEntity extends AbstractVersionedAndAuditingEntity {
     @Column(columnDefinition = "boolean default true", nullable = false)
     private boolean enabled;
 
-    @Column(name="registration_token", unique = true)
+    @Column(name = "registration_token", unique = true)
     private String registrationToken;
+
+    @ManyToOne
+    @JoinColumn(name = "data_protection_policy_fk")
+    private DataProtectionPolicyEntity dataProtectionPolicy;
 
     @Override
     public Long getId() {
@@ -251,5 +256,13 @@ public class ExternalUserEntity extends AbstractVersionedAndAuditingEntity {
 
     public void setRegistrationToken(String registrationToken) {
         this.registrationToken = registrationToken;
+    }
+
+    public DataProtectionPolicyEntity getDataProtectionPolicy() {
+        return dataProtectionPolicy;
+    }
+
+    public void setDataProtectionPolicy(DataProtectionPolicyEntity dataProtectionPolicy) {
+        this.dataProtectionPolicy = dataProtectionPolicy;
     }
 }
