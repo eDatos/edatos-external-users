@@ -29,7 +29,6 @@ import org.hibernate.validator.constraints.Email;
 
 import es.gobcan.istac.edatos.external.users.core.domain.enumeration.ExternalUserRole;
 import es.gobcan.istac.edatos.external.users.core.domain.enumeration.Language;
-import es.gobcan.istac.edatos.external.users.core.domain.enumeration.Nationality;
 import es.gobcan.istac.edatos.external.users.core.domain.interfaces.AbstractVersionedAndAuditingAndLogicalDeletionEntity;
 
 @Entity
@@ -102,17 +101,16 @@ public class ExternalUserEntity extends AbstractVersionedAndAuditingAndLogicalDe
     @Column(columnDefinition = "boolean default true", nullable = false)
     private boolean enabled;
 
-    @Column(name="registration_token", unique = true)
+    @Column(name = "registration_token", unique = true)
     private String registrationToken;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name="nationality", nullable = false)
-    private Nationality nationality;
+    @Column(name = "nationality", nullable = false)
+    private String nationality;
 
-    @Column(name="gender", nullable = false)
+    @Column(name = "gender", nullable = false)
     private String gender;
 
-    @Column(name="birthday", nullable = false)
+    @Column(name = "birthday", nullable = false)
     private Instant birthday;
 
     @Override
@@ -263,10 +261,10 @@ public class ExternalUserEntity extends AbstractVersionedAndAuditingAndLogicalDe
         this.registrationToken = registrationToken;
     }
 
-    public Nationality getNationality() {
+    public String getNationality() {
         return nationality;
     }
-    public void setNationality(Nationality nationality) {
+    public void setNationality(String nationality) {
         this.nationality = nationality;
     }
     public String getGender() {

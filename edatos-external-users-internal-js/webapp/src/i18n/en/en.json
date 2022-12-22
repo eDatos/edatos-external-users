@@ -392,6 +392,8 @@
             "title": "User"
         },
         "email": "e-mail",
+        "organism": "Organism",
+        "phoneNumber": "Phone number",
         "enableEmailNotifications": "Enable email notifications for this user",
         "filters": {
             "labels": {

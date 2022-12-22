@@ -392,6 +392,8 @@
             "title": "Usuari"
         },
         "email": "Email",
+        "organism": "Organisme",
+        "phoneNumber": "Número telèfon",
         "enableEmailNotifications": "Habilitar notificacions a través de correu electrònic per a aquest usuari",
         "filters": {
             "labels": {

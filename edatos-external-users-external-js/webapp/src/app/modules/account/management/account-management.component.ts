@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Language } from '@app/core/model';
-import { AccountUserService } from '@app/core/service/user';
-import { TranslateService } from '@ngx-translate/core';
-import { MessageService } from 'primeng/api';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Language, Gender} from '@app/core/model';
+import {AccountUserService} from '@app/core/service/user';
+import {TranslateService} from '@ngx-translate/core';
+import {MessageService} from 'primeng/api';
+import {Nation} from '@app/core/model/nations.model';
 
 @Component({
     selector: 'ac-account-management',
@@ -14,8 +15,13 @@ export class AccountManagementComponent implements OnInit {
     success: string;
     public isSaving: Boolean;
     public account: any;
+    toDate: Date;
+    today: Date;
+    public nation: string;
 
     public languageEnum = Language;
+    public nationEnum = Nation;
+    public genderEnum = Gender;
 
     constructor(
         private userService: AccountUserService,
@@ -23,15 +29,19 @@ export class AccountManagementComponent implements OnInit {
         private router: Router,
         private messageService: MessageService,
         private translateService: TranslateService
-    ) {}
+    ) {
+    }
 
     ngOnInit() {
+        this.getToday();
         this.isSaving = false;
         this.account = this.route.snapshot.data.user;
+        this.nation = Object.keys(Nation)[Object.values(Nation).indexOf(this.account.nationality)];
     }
 
     save() {
         this.isSaving = true;
+        this.account.nationality = this.nationEnum[this.nation];
         this.userService.update(this.account).subscribe(
             () => {
                 this.onSuccess();
@@ -69,5 +79,12 @@ export class AccountManagementComponent implements OnInit {
         this.success = 'OK';
         this.isSaving = false;
         this.router.navigate(['account-management']);
+    }
+
+    getToday() {
+        const today: Date = new Date();
+        const date = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        this.toDate = date;
+        this.today = date;
     }
 }

@@ -11,6 +11,7 @@ import {Subscription} from 'rxjs';
 import {finalize} from 'rxjs/operators';
 import {ExternalUserDeleteDialogComponent} from '../external-user-delete-dialog.component';
 import {Gender} from '@app/core/model/gender.model';
+import {Nation} from '@app/core/model/nations.model';
 
 @Component({
     selector: 'app-external-user-form',
@@ -22,38 +23,15 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
     public isSaving: boolean;
     public userId: number;
     public eventSubscriber: Subscription;
+    toDate: Date;
+    today: Date;
+    public nation: string;
 
     public rolesEnum = Role;
     public languageEnum = Language;
     public genderEnum = Gender;
+    public nationEnum = Nation;
     public favorites: Favorite[];
-    predefinedCountries: any[] = [
-        {
-            name: 'Germany',
-            alpha2Code: 'DE',
-            alpha3Code: 'DEU',
-            numericCode: '276',
-        },
-        {
-            name: 'Greece',
-            alpha2Code: 'GR',
-            alpha3Code: 'GRC',
-            numericCode: '300',
-        },
-        {
-            name: 'France',
-            alpha2Code: 'FR',
-            alpha3Code: 'FRA',
-            numericCode: '250',
-        },
-        {
-            name: 'Belgium',
-            alpha2Code: 'BE',
-            alpha3Code: 'BEL',
-            numericCode: '056',
-        },
-    ];
-
     public editMode: 'user' | 'favorites' | null = null;
 
     @ViewChild(StructuralResourcesTreeComponent)
@@ -73,6 +51,7 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit() {
+        this.getToday();
         this.isSaving = false;
 
         this.subscription = this.route.params.subscribe((params) => {
@@ -116,6 +95,8 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
             }
             this.externalUserService.get(id).subscribe((user) => {
                 this.externalUser = user;
+                const auxNation: any = this.externalUser.nationality;
+                this.nation = Object.keys(Nation)[Object.values(Nation).indexOf(auxNation)];
             });
         } else {
             this.externalUser = new ExternalUser();
@@ -133,6 +114,7 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
 
     public save() {
         this.isSaving = true;
+        this.externalUser.nationality = this.nationEnum[this.nation];
         if (this.userId) {
             this.externalUserService.update(this.externalUser).subscribe(
                 (response) => this.onSaveSuccess(response),
@@ -180,6 +162,13 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
         if (!this.userId) {
             this.router.navigate(['..']);
         }
+    }
+
+    public getToday() {
+        const today: Date = new Date();
+        const date = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        this.toDate = date;
+        this.today = date;
     }
 
     private updateFavorites() {

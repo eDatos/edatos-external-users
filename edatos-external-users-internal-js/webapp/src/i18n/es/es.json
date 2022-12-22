@@ -393,6 +393,8 @@
         },
         "email": "Email",
         "enableEmailNotifications": "Habilitar notificaciones a través de correo electrónico para este usuario",
+        "phoneNumber": "Número télefono",
+        "organism": "Organismo",
         "filters": {
             "labels": {
                 "categories": "Suscripciones temáticas",

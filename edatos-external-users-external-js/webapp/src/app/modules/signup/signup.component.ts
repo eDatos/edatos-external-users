@@ -1,11 +1,11 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {User, Role, Language, Gender,} from '@app/core/model';
+import {User, Role, Language, Gender} from '@app/core/model';
 import {Router} from '@angular/router';
 import {AccountUserService} from '@app/core/service/user';
 import {CaptchaService} from '@app/shared/service';
 import {MessageService} from 'primeng/api';
 import {TranslateService} from '@ngx-translate/core';
-import {Nation} from "@app/core/model/nations.model";
+import {Nation} from '@app/core/model/nations.model';
 
 type SignUp = Omit<User, 'id' | 'roles'>;
 
@@ -24,7 +24,7 @@ export class SignupFormComponent implements OnInit {
     public genderEnum = Gender;
     toDate: Date;
     today: Date;
-    number
+    public nation: string;
     public confirmPassword: string;
 
     private captchaContainerEl: ElementRef;
@@ -60,12 +60,15 @@ export class SignupFormComponent implements OnInit {
     }
 
     save() {
-        console.log(this.user)
+        this.user.nationality = this.nationEnum[this.nation];
         this.isSaving = true;
         if (this.passwordDoNotMatch()) {
             this.validUser = false;
         } else {
-            this.accountUserService.create(this.captchaContainerEl, this.user).then((response) => this.onSaveSuccess(response)).finally(() => this.isSaving = false);
+            this.accountUserService
+                .create(this.captchaContainerEl, this.user)
+                .then((response) => this.onSaveSuccess(response))
+                .finally(() => (this.isSaving = false));
         }
     }
 
@@ -89,8 +92,7 @@ export class SignupFormComponent implements OnInit {
         this.navigateToLogin();
     }
 
-    getToday() {
-        const dateFormat = 'yyyy-MM-dd';
+    public getToday() {
         const today: Date = new Date();
         const date = new Date(today.getFullYear(), today.getMonth(), today.getDate());
         this.toDate = date;

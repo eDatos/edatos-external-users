@@ -17,8 +17,9 @@
             "captchaModal": "Resuelva el captcha para terminar el registro",
             "gender": "Género",
             "nationality": "Nacionalidad",
-            "birthday": "fecha nacimiento"
+            "birthday": "Fecha nacimiento"
         },
+
         "messages": {
             "onSuccessSumary": "Registro de nuevo usuario",
             "onSuccess": "El usuario se ha registrado con éxito",

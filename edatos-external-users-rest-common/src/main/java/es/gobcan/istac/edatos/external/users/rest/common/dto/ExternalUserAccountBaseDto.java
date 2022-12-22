@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.time.Instant;
 
 import es.gobcan.istac.edatos.external.users.core.domain.enumeration.Language;
-import es.gobcan.istac.edatos.external.users.core.domain.enumeration.Nationality;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.interfaces.AbstractVersionedAndAuditingAndLogicalDeletionDto;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.interfaces.Identifiable;
 
@@ -24,7 +23,7 @@ public class ExternalUserAccountBaseDto extends AbstractVersionedAndAuditingAndL
     private String organism;
     private boolean emailNotificationsEnabled;
 
-    private Nationality nationality;
+    private String nationality;
 
     private String gender;
 
@@ -103,10 +102,10 @@ public class ExternalUserAccountBaseDto extends AbstractVersionedAndAuditingAndL
     public void setEmailNotificationsEnabled(boolean emailNotificationsEnabled) {
         this.emailNotificationsEnabled = emailNotificationsEnabled;
     }
-    public Nationality getNationality() {
+    public String getNationality() {
         return nationality;
     }
-    public void setNationality(Nationality nationality) {
+    public void setNationality(String nationality) {
         this.nationality = nationality;
     }
     public String getGender() {
