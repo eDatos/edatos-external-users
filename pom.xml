@@ -149,7 +149,7 @@
         <metamac-statistical-operations-rest-internal-api.version>2.2.0</metamac-statistical-operations-rest-internal-api.version>
         <metamac-statistical-operations-rest-external-api.version>3.2.0</metamac-statistical-operations-rest-external-api.version>
         <metamac-statistical-operations.version>2.6.0</metamac-statistical-operations.version>
-        <metamac-statistical-resources.version>5.0.2-SNAPSHOT</metamac-statistical-resources.version>
+        <metamac-statistical-resources.version>6.0.1-SNAPSHOT</metamac-statistical-resources.version>
         <metamac-common-metadata-rest-external-api.version>2.3.0</metamac-common-metadata-rest-external-api.version>
         <metamac-srm-rest-internal-api.version>2.2.0</metamac-srm-rest-internal-api.version>
         <metamac-srm-rest-external-api.version>2.2.0</metamac-srm-rest-external-api.version>
