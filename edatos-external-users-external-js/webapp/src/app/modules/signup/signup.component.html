@@ -223,6 +223,11 @@
                         </div>
                     </div>
 
+                    <div class="form-group col-md-6">
+                        <input type="checkbox" name="active" ngModel required />
+                        <a target="_blank" routerLink="/data-protection-policy" routerLinkActive="active" translate="signup.form.termsAndConditions"></a>
+                    </div>
+
                     <div class="col-md-12" [formControlStatus]="editForm.controls.organism">
                         <div #captchaContainer class="form-row" style="justify-content: center"></div>
                     </div>

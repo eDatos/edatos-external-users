@@ -17,7 +17,8 @@
             "captchaModal": "Resuelva el captcha para terminar el registro",
             "gender": "Género",
             "nationality": "Nacionalidad",
-            "birthday": "Fecha nacimiento"
+            "birthday": "Fecha nacimiento",
+            "termsAndConditions": "Acepto términos y condiciones"
         },
 
         "messages": {

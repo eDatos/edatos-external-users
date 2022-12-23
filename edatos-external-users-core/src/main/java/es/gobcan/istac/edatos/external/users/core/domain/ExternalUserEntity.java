@@ -1,6 +1,6 @@
 package es.gobcan.istac.edatos.external.users.core.domain;
 
-import java.time.Instant;
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -17,12 +17,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import es.gobcan.istac.edatos.external.users.core.domain.interfaces.AbstractAuditingEntity;
+import es.gobcan.istac.edatos.external.users.core.domain.interfaces.AbstractVersionedAndAuditingEntity;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.Email;
@@ -34,7 +37,7 @@ import es.gobcan.istac.edatos.external.users.core.domain.interfaces.AbstractVers
 @Entity
 @Table(name = "tb_external_users")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class ExternalUserEntity extends AbstractVersionedAndAuditingAndLogicalDeletionEntity {
+public class ExternalUserEntity extends AbstractVersionedAndAuditingEntity {
 
     private static final long serialVersionUID = 1L;
 
@@ -111,7 +114,10 @@ public class ExternalUserEntity extends AbstractVersionedAndAuditingAndLogicalDe
     private String gender;
 
     @Column(name = "birthday", nullable = false)
-    private Instant birthday;
+    private LocalDate birthday;
+    @ManyToOne
+    @JoinColumn(name = "data_protection_policy_fk")
+    private DataProtectionPolicyEntity dataProtectionPolicy;
 
     @Override
     public Long getId() {
@@ -273,10 +279,17 @@ public class ExternalUserEntity extends AbstractVersionedAndAuditingAndLogicalDe
     public void setGender(String gender) {
         this.gender = gender;
     }
-    public Instant getBirthday() {
+    public LocalDate getBirthday() {
         return birthday;
     }
-    public void setBirthday(Instant birthday) {
+    public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
+    }
+    public DataProtectionPolicyEntity getDataProtectionPolicy() {
+        return dataProtectionPolicy;
+    }
+
+    public void setDataProtectionPolicy(DataProtectionPolicyEntity dataProtectionPolicy) {
+        this.dataProtectionPolicy = dataProtectionPolicy;
     }
 }

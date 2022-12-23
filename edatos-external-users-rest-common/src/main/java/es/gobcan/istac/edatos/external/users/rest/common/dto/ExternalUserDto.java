@@ -1,7 +1,7 @@
 package es.gobcan.istac.edatos.external.users.rest.common.dto;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.LocalDate;
 
 import es.gobcan.istac.edatos.external.users.core.domain.enumeration.Language;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.interfaces.AbstractVersionedAndAuditingAndLogicalDeletionDto;
@@ -25,7 +25,8 @@ public class ExternalUserDto extends AbstractVersionedAndAuditingAndLogicalDelet
 
     private String gender;
 
-    private Instant birthday;
+    private LocalDate birthday;
+    private DataProtectionPolicyDto dataProtectionPolicyDto;
 
     public String getName() {
         return name;
@@ -111,10 +112,16 @@ public class ExternalUserDto extends AbstractVersionedAndAuditingAndLogicalDelet
     public void setGender(String gender) {
         this.gender = gender;
     }
-    public Instant getBirthday() {
+    public LocalDate getBirthday() {
         return birthday;
     }
-    public void setBirthday(Instant birthday) {
+    public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
+    }
+    public DataProtectionPolicyDto getDataProtectionPolicyDto() {
+        return dataProtectionPolicyDto;
+    }
+    public void setDataProtectionPolicyDto(DataProtectionPolicyDto dataProtectionPolicyDto) {
+        this.dataProtectionPolicyDto = dataProtectionPolicyDto;
     }
 }

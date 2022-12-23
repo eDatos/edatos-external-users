@@ -1,7 +1,7 @@
 package es.gobcan.istac.edatos.external.users.rest.common.dto;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.LocalDate;
 
 import es.gobcan.istac.edatos.external.users.core.domain.enumeration.Language;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.interfaces.AbstractVersionedAndAuditingAndLogicalDeletionDto;
@@ -22,12 +22,13 @@ public class ExternalUserAccountBaseDto extends AbstractVersionedAndAuditingAndL
 
     private String organism;
     private boolean emailNotificationsEnabled;
+    private Long dataProtectionPolicyId;
 
     private String nationality;
 
     private String gender;
 
-    private Instant birthday;
+    private LocalDate birthday;
 
     @Override
     public Long getId() {
@@ -114,11 +115,17 @@ public class ExternalUserAccountBaseDto extends AbstractVersionedAndAuditingAndL
     public void setGender(String gender) {
         this.gender = gender;
     }
-    public Instant getBirthday() {
+    public LocalDate getBirthday() {
         return birthday;
     }
-    public void setBirthday(Instant birthday) {
+    public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
+    }
+    public Long getDataProtectionPolicyId() {
+        return dataProtectionPolicyId;
+    }
+    public void setDataProtectionPolicyId(Long dataProtectionPolicyId) {
+        this.dataProtectionPolicyId = dataProtectionPolicyId;
     }
     public void updateFrom(ExternalUserAccountBaseDto source) {
         this.id = source.getId();

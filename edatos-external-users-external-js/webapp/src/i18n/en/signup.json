@@ -17,7 +17,8 @@
             "captchaModal": "Solve the captcha to finish the registration",
             "gender": "Gender",
             "nationality": "nationality",
-            "birthday": "birthday"
+            "birthday": "birthday",
+            "termsAndConditions": "Agree to terms and conditions"
         },
         "messages": {
             "onSuccessSumary": "New user registration",

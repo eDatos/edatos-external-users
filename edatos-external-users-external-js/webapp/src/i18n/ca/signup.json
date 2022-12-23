@@ -17,7 +17,8 @@
             "captchaModal": "Resolgui el captcha per a acabar el registre",
             "gender": "Gènere",
             "nationality": "nacionalitat",
-            "birthday": "data naixement"
+            "birthday": "data naixement",
+            "termsAndConditions": "Accepto els termes i condicions"
         },
         "messages": {
             "onSuccessSumary": "Registre de nou usuari",

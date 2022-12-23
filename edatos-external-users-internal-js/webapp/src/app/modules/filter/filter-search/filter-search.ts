@@ -16,7 +16,7 @@ export class FilterFilter extends BaseEntityFilter implements EntityFilter {
     }
 
     public getCriterias() {
-        const criterias = ['USER_DELETION_DATE IS_NULL'];
+        const criterias = [''];
         if (this.name) {
             criterias.push(`NAME ILIKE '%${this.escapeSingleQuotes(this.name)}%'`);
         }
@@ -25,9 +25,6 @@ export class FilterFilter extends BaseEntityFilter implements EntityFilter {
         }
         if (this.userId) {
             criterias.push(`USER_ID EQ ${this.userId}`);
-        }
-        if (this.includeFromDeletedUsers) {
-            _.pull(criterias, 'USER_DELETION_DATE IS_NULL');
         }
         if (this.lastAccessDate) {
             criterias.push(`LAST_ACCESS_DATE EQ '%${this.escapeSingleQuotes(this.lastAccessDate.toString())}%'`);
@@ -50,13 +47,6 @@ export class FilterFilter extends BaseEntityFilter implements EntityFilter {
             paramName: 'userId',
             updateFilterFromParam: (param) => (this.userId = param),
             clearFilter: () => (this.userId = null),
-        });
-        this.registerParam({
-            paramName: 'includeFromDeletedUsers',
-            updateFilterFromParam: (param) => {
-                this.includeFromDeletedUsers = param === 'true';
-            },
-            clearFilter: () => (this.includeFromDeletedUsers = false),
         });
         this.registerParam({
             paramName: 'lastAccessDate',

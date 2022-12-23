@@ -382,8 +382,8 @@
         "activado": "Activat",
         "created": "S'ha creat l'usuari {{ param }}",
         "createdDate": "Data de registre",
-        "deactivate": {
-            "question": "¿Segur que desitja desactivar l'usuari <strong>{{ email }}</strong>?"
+        "delete": {
+            "question": "Està segur que vol eliminar a l'usuari <strong>{{ email }}</strong>?. La informació eliminada no podrà ser recuperada"
         },
         "deleted": "S'ha eliminat l'usuari {{ param }}",
         "deletionDate": "Data d'esborrat",

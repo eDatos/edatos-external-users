@@ -1,17 +1,17 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {ExternalUser, Language, Role} from '@app/core/model';
-import {PermissionService} from '@app/core/service/auth';
-import {ExternalUserService} from '@app/core/service/user';
-import {StructuralResourcesTreeComponent} from '@app/shared/components/structural-resources-tree';
-import {Favorite, FavoriteResource} from '@app/shared/model';
-import {FavoriteService} from '@app/shared/service';
-import {ArteEventManager, GenericModalService} from 'arte-ng/services';
-import {Subscription} from 'rxjs';
-import {finalize} from 'rxjs/operators';
-import {ExternalUserDeleteDialogComponent} from '../external-user-delete-dialog.component';
-import {Gender} from '@app/core/model/gender.model';
-import {Nation} from '@app/core/model/nations.model';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ExternalUser, Language, Role } from '@app/core/model';
+import { PermissionService } from '@app/core/service/auth';
+import { ExternalUserService } from '@app/core/service/user';
+import { StructuralResourcesTreeComponent } from '@app/shared/components/structural-resources-tree';
+import { Favorite, FavoriteResource } from '@app/shared/model';
+import { FavoriteService } from '@app/shared/service';
+import { ArteEventManager, GenericModalService } from 'arte-ng/services';
+import { Subscription } from 'rxjs';
+import { finalize } from 'rxjs/operators';
+import { ExternalUserDeleteDialogComponent } from '../external-user-delete-dialog.component';
+import { Gender } from '@app/core/model/gender.model';
+import { Nation } from '@app/core/model/nations.model';
 
 @Component({
     selector: 'app-external-user-form',
@@ -47,8 +47,7 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
         private eventManager: ArteEventManager,
         private route: ActivatedRoute,
         private router: Router
-    ) {
-    }
+    ) {}
 
     public ngOnInit() {
         this.getToday();
@@ -129,12 +128,19 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
         this.disabledEdit();
     }
 
-    public deactivate() {
-        this.genericModalService.open(ExternalUserDeleteDialogComponent as Component, {user: this.externalUser}, {container: '.app'});
+    public delete() {
+        const modalRef = this.genericModalService.open(ExternalUserDeleteDialogComponent as Component, { user: this.externalUser }, { container: '.app' });
+        modalRef.result.subscribe((isDelete) => this.onDeleteSuccess(isDelete));
+    }
+
+    private onDeleteSuccess(isDelete: boolean) {
+        if (isDelete) {
+            this.router.navigate(['/external-users']);
+        }
     }
 
     public restore() {
-        this.genericModalService.open(ExternalUserDeleteDialogComponent as Component, {user: this.externalUser}, {container: '.app'});
+        this.genericModalService.open(ExternalUserDeleteDialogComponent as Component, { user: this.externalUser }, { container: '.app' });
     }
 
     public ngOnDestroy() {
@@ -179,7 +185,7 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
     }
 
     private onSaveSuccess(result) {
-        this.eventManager.broadcast({name: 'userListModification', content: 'OK'});
+        this.eventManager.broadcast({ name: 'userListModification', content: 'OK' });
         this.externalUser = result;
         this.isSaving = false;
         this.disabledEdit();

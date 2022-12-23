@@ -1,12 +1,12 @@
 package es.gobcan.istac.edatos.external.users.core.service;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
-
-import java.util.List;
-import java.util.Optional;
 
 public interface ExternalUserService {
 
@@ -14,11 +14,9 @@ public interface ExternalUserService {
 
     ExternalUserEntity update(ExternalUserEntity user);
 
-    ExternalUserEntity deactivate(Long id);
 
     void delete(Long id);
 
-    ExternalUserEntity recover(Long id);
 
     ExternalUserEntity find(Long id);
 

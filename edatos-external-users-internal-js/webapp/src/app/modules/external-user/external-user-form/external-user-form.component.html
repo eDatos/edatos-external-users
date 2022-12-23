@@ -20,15 +20,9 @@
         </h2>
         <div class="page-header-btns">
             <ng-container *ngIf="permissionService.canNavigateUserManagement()">
-                <button (click)="restore()" *ngIf="externalUser.deletionDate" [disabled]="editMode" class="btn btn-warning" type="button">
-                    <span class="fa fa-undo"></span>
-                    <span translate="entity.action.activate"></span>
-                </button>
-            </ng-container>
-            <ng-container *ngIf="permissionService.canNavigateUserManagement()">
-                <button (click)="deactivate()" *ngIf="!externalUser.deletionDate" [disabled]="editMode" class="btn btn-danger" type="button">
+                <button (click)="delete()" *ngIf="externalUser.id" [disabled]="editMode" class="btn btn-danger" type="button">
                     <span class="fa fa-remove"></span>
-                    <span translate="entity.action.deactivate"></span>
+                    <span translate="entity.action.delete"></span>
                 </button>
             </ng-container>
         </div>
