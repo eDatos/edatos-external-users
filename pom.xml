@@ -157,7 +157,7 @@
         <hibernate-types.version>2.10.4</hibernate-types.version>
         <h2.version>1.4.200</h2.version>
 
-        <kafka-avro-serializer.version>6.1.1</kafka-avro-serializer.version>
+        <kafka-avro-serializer.version>6.1.5</kafka-avro-serializer.version>
         <spring-kafka.version>1.3.11.RELEASE</spring-kafka.version>
 
         <thymeleaf.version>3.0.6.RELEASE</thymeleaf.version>
