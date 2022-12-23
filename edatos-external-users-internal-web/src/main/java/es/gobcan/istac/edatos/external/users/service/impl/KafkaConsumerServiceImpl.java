@@ -2,6 +2,7 @@ package es.gobcan.istac.edatos.external.users.service.impl;
 
 import java.util.Optional;
 
+import org.apache.avro.specific.SpecificData;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.siemac.metamac.statistical.operations.core.stream.messages.OperationAvro;
 import org.siemac.metamac.statistical.resources.core.stream.messages.DatasetVersionAvro;
@@ -60,7 +61,8 @@ public class KafkaConsumerServiceImpl implements KafkaConsumerService {
     public void processDatasetExternalPublicationEvent(ConsumerRecord<String, DatasetAvro> consumerRecord) {
         String urn = consumerRecord.value().getUrn();
         LOGGER.info("Kafka external publication dataset message received. Code: '{}'", urn);
-        ExternalDatasetEntity dataset = externalDatasetMapper.toEntity(consumerRecord.value());
+        DatasetAvro datasetRecord = SpecificData.get().deepCopy(DatasetAvro.SCHEMA$, consumerRecord.value()); 
+        ExternalDatasetEntity dataset = externalDatasetMapper.toEntity(datasetRecord);
         Optional<ExternalDatasetEntity> inDbDataset = externalDatasetService.findByUrn(urn);
         if (inDbDataset.isPresent()) {
             dataset.setId(inDbDataset.get().getId());
