@@ -19,7 +19,7 @@ export class ExternalUserDeleteDialogComponent {
         this.activeModal.dismiss(false);
     }
 
-    private confirmDelete(id) {
+    public confirmDelete(id) {
         this.externalUserService.delete(id).subscribe((response) => {
             this.eventManager.broadcast({
                 name: ExternalUserDeleteDialogComponent.EVENT_NAME,
