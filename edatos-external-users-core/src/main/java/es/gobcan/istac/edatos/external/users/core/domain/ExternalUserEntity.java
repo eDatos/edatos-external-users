@@ -24,15 +24,13 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import es.gobcan.istac.edatos.external.users.core.domain.interfaces.AbstractAuditingEntity;
-import es.gobcan.istac.edatos.external.users.core.domain.interfaces.AbstractVersionedAndAuditingEntity;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.Email;
 
 import es.gobcan.istac.edatos.external.users.core.domain.enumeration.ExternalUserRole;
 import es.gobcan.istac.edatos.external.users.core.domain.enumeration.Language;
-import es.gobcan.istac.edatos.external.users.core.domain.interfaces.AbstractVersionedAndAuditingAndLogicalDeletionEntity;
+import es.gobcan.istac.edatos.external.users.core.domain.interfaces.AbstractVersionedAndAuditingEntity;
 
 @Entity
 @Table(name = "tb_external_users")
@@ -270,21 +268,27 @@ public class ExternalUserEntity extends AbstractVersionedAndAuditingEntity {
     public String getNationality() {
         return nationality;
     }
+
     public void setNationality(String nationality) {
         this.nationality = nationality;
     }
+
     public String getGender() {
         return gender;
     }
+
     public void setGender(String gender) {
         this.gender = gender;
     }
+
     public LocalDate getBirthday() {
         return birthday;
     }
+
     public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
+
     public DataProtectionPolicyEntity getDataProtectionPolicy() {
         return dataProtectionPolicy;
     }

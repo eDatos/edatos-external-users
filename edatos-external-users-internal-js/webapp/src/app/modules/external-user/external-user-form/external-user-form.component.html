@@ -52,7 +52,7 @@
                 </div>
             </div>
             <fieldset [disabled]="editMode !== 'user'" arteAutofocus class="page-section">
-                <div class="row" style="margin-bottom: 30px">
+                <div class="row divider">
                     <div class="form-group form-group-inline col-md-6">
                         <div class="form-row">
                             <label class="col-form-label col-md-4" translate="externalUser.name"></label>
@@ -134,12 +134,12 @@
                     <div class="form-group form-group-inline col-md-6">
                         <div class="form-row">
                             <label class="form-label col-md-4" translate="externalUser.birthday"></label>
-                            <arte-calendar [(ngModel)]="externalUser.birthday" [required]="false" name="birthday" [maxDate]="today" style="flex: max-content"></arte-calendar>
+                            <arte-calendar [(ngModel)]="externalUser.birthday" [required]="false" name="birthday" [maxDate]="today" class="calendar"></arte-calendar>
                         </div>
                     </div>
                 </div>
 
-                <div class="row" style="margin-bottom: 30px">
+                <div class="row divider">
                     <div class="form-group form-group-inline col-md-6">
                         <div class="form-row">
                             <label class="col-form-label col-md-4" translate="externalUser.email"></label>

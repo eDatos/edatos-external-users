@@ -1,14 +1,15 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {Language, Gender} from '@app/core/model';
-import {AccountUserService} from '@app/core/service/user';
-import {TranslateService} from '@ngx-translate/core';
-import {MessageService} from 'primeng/api';
-import {Nation} from '@app/core/model/nations.model';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Language, Gender } from '@app/core/model';
+import { AccountUserService } from '@app/core/service/user';
+import { TranslateService } from '@ngx-translate/core';
+import { MessageService } from 'primeng/api';
+import { Nation } from '@app/core/model/nations.model';
 
 @Component({
     selector: 'ac-account-management',
     templateUrl: './account-management.component.html',
+    styleUrls: ['./account-management.component.scss'],
 })
 export class AccountManagementComponent implements OnInit {
     error: string;
@@ -29,8 +30,7 @@ export class AccountManagementComponent implements OnInit {
         private router: Router,
         private messageService: MessageService,
         private translateService: TranslateService
-    ) {
-    }
+    ) {}
 
     ngOnInit() {
         this.getToday();

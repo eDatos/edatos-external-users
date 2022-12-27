@@ -1,7 +1,7 @@
 {
     "gender": {
-        "HOMBRE": "Hombre",
-        "MUJER": "Mujer",
-        "NOBINARIO": "No binario"
+        "MEN": "Hombre",
+        "WOMAN": "Mujer",
+        "NONBINARY": "No binario"
     }
 }
