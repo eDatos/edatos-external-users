@@ -113,7 +113,7 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
 
     public save() {
         this.isSaving = true;
-        this.externalUser.nationality = this.nationEnum[this.nation];
+        this.externalUser.nationality = this.nation;
         if (this.userId) {
             this.externalUserService.update(this.externalUser).subscribe(
                 (response) => this.onSaveSuccess(response),

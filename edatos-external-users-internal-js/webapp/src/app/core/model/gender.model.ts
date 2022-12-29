@@ -1,5 +1,5 @@
 export enum Gender {
     MEN = 'HOMBRE',
     WOMAN = 'MUJER',
-    NONBINARY = 'NO BINARIO',
+    NON_BINARY = 'NO BINARIO',
 }

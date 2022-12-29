@@ -16,8 +16,8 @@
             "enableEmailNotifications": "Enable email notifications",
             "captchaModal": "Solve the captcha to finish the registration",
             "gender": "Gender",
-            "nationality": "nationality",
-            "birthday": "birthday",
+            "nationality": "Nationality",
+            "birthday": "Birthday",
             "termsAndConditions": "Agree to terms and conditions"
         },
         "messages": {

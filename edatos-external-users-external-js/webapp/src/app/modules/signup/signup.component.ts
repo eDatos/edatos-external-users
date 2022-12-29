@@ -26,7 +26,6 @@ export class SignupFormComponent implements OnInit {
     public genderEnum = Gender;
     toDate: Date;
     today: Date;
-    public nation: string;
     public confirmPassword: string;
 
     private captchaContainerEl: ElementRef;
@@ -63,7 +62,6 @@ export class SignupFormComponent implements OnInit {
 
     save() {
         this.acceptDataProteccionPolicy().then((id) => {
-            this.user.nationality = this.nationEnum[this.nation];
             this.user.dataProtectionPolicyId = id;
             this.isSaving = true;
             if (this.passwordDoNotMatch()) {

@@ -2,6 +2,6 @@
     "gender": {
         "MEN": "Home",
         "WOMAN": "Dona        ",
-        "NONBINARY": "No binari"
+        "NON_BINARY": "No binari"
     }
 }

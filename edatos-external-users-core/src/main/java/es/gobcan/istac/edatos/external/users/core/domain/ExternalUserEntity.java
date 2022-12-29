@@ -30,6 +30,7 @@ import org.hibernate.validator.constraints.Email;
 
 import es.gobcan.istac.edatos.external.users.core.domain.enumeration.ExternalUserRole;
 import es.gobcan.istac.edatos.external.users.core.domain.enumeration.Language;
+import es.gobcan.istac.edatos.external.users.core.domain.enumeration.Nationality;
 import es.gobcan.istac.edatos.external.users.core.domain.interfaces.AbstractVersionedAndAuditingEntity;
 
 @Entity
@@ -266,7 +267,7 @@ public class ExternalUserEntity extends AbstractVersionedAndAuditingEntity {
     }
 
     public String getNationality() {
-        return nationality;
+        return Nationality.findByName(nationality);
     }
 
     public void setNationality(String nationality) {

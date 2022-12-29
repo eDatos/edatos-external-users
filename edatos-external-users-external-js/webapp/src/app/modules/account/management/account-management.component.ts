@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Language, Gender } from '@app/core/model';
-import { AccountUserService } from '@app/core/service/user';
-import { TranslateService } from '@ngx-translate/core';
-import { MessageService } from 'primeng/api';
-import { Nation } from '@app/core/model/nations.model';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Language, Gender} from '@app/core/model';
+import {AccountUserService} from '@app/core/service/user';
+import {TranslateService} from '@ngx-translate/core';
+import {MessageService} from 'primeng/api';
+import {Nation} from '@app/core/model/nations.model';
 
 @Component({
     selector: 'ac-account-management',
@@ -30,7 +30,8 @@ export class AccountManagementComponent implements OnInit {
         private router: Router,
         private messageService: MessageService,
         private translateService: TranslateService
-    ) {}
+    ) {
+    }
 
     ngOnInit() {
         this.getToday();
@@ -41,7 +42,7 @@ export class AccountManagementComponent implements OnInit {
 
     save() {
         this.isSaving = true;
-        this.account.nationality = this.nationEnum[this.nation];
+        this.account.nationality = this.nation;
         this.userService.update(this.account).subscribe(
             () => {
                 this.onSuccess();

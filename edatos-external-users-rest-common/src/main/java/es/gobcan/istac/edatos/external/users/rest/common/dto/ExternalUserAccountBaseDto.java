@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 import es.gobcan.istac.edatos.external.users.core.domain.enumeration.Language;
+import es.gobcan.istac.edatos.external.users.core.domain.enumeration.Nationality;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.interfaces.AbstractVersionedAndAuditingAndLogicalDeletionDto;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.interfaces.Identifiable;
 
@@ -106,8 +107,8 @@ public class ExternalUserAccountBaseDto extends AbstractVersionedAndAuditingAndL
     public String getNationality() {
         return nationality;
     }
-    public void setNationality(String nationality) {
-        this.nationality = nationality;
+    public void setNationality(Nationality nationality) {
+        this.nationality = nationality.getCodeM();
     }
     public String getGender() {
         return gender;
