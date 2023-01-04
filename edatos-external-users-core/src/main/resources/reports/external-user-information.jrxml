@@ -65,7 +65,9 @@
     <parameter name="HEADER_NAME_AND_SURNAMES" class="java.lang.String"/>
     <parameter name="HEADER_BIRTHDAY" class="java.lang.String"/>
     <parameter name="HEADER_ORGANISM" class="java.lang.String"/>
+    <parameter name="HEADER_GENDER" class="java.lang.String"/>
     <parameter name="HEADER_NATIONALITY" class="java.lang.String"/>
+    <parameter name="HEADER_LANGUAGE" class="java.lang.String"/>
     <parameter name="HEADER_EMAIL" class="java.lang.String"/>
     <parameter name="HEADER_TELEPHONE" class="java.lang.String"/>
     <parameter name="HEADER_FILTERS" class="java.lang.String"/>
@@ -95,7 +97,7 @@
         </band>
     </pageHeader>
     <detail>
-        <band height="167">
+        <band height="199">
             <textField>
                 <reportElement x="0" y="30" width="180" height="30" uuid="570cf6b4-0b22-4b0a-a47d-f98f415c5f21"/>
                 <textElement>
@@ -134,60 +136,88 @@
                 <textFieldExpression><![CDATA[$P{PERSONAL_INFORMATION}.getSurname2()]]></textFieldExpression>
             </textField>
             <textField>
-                <reportElement x="40" y="90" width="90" height="30" uuid="8dd58bc2-c06c-481a-aafb-005a86a828fd"/>
+                <reportElement x="40" y="120" width="90" height="30" uuid="8dd58bc2-c06c-481a-aafb-005a86a828fd"/>
                 <textElement>
                     <font size="12"/>
                 </textElement>
                 <textFieldExpression><![CDATA[$P{HEADER_NATIONALITY} + ':']]></textFieldExpression>
             </textField>
             <textField isBlankWhenNull="true">
-                <reportElement x="130" y="90" width="150" height="30" uuid="8dd58bc2-c06c-481a-aafb-005a86a828fd"/>
+                <reportElement x="130" y="120" width="150" height="30" uuid="8dd58bc2-c06c-481a-aafb-005a86a828fd"/>
                 <textElement>
                     <font size="12"/>
                 </textElement>
-                <textFieldExpression><![CDATA[$P{PERSONAL_INFORMATION}.getPhoneNumber()]]></textFieldExpression>
+                <textFieldExpression><![CDATA[""]]></textFieldExpression>
             </textField>
             <textField>
-                <reportElement x="40" y="121" width="60" height="30" uuid="8dd58bc2-c06c-481a-aafb-005a86a828fd"/>
+                <reportElement x="40" y="150" width="60" height="30" uuid="8dd58bc2-c06c-481a-aafb-005a86a828fd"/>
                 <textElement>
                     <font size="12"/>
                 </textElement>
                 <textFieldExpression><![CDATA[$P{HEADER_TELEPHONE} + ':']]></textFieldExpression>
             </textField>
             <textField isBlankWhenNull="true">
-                <reportElement x="100" y="120" width="130" height="30" uuid="8dd58bc2-c06c-481a-aafb-005a86a828fd"/>
+                <reportElement x="100" y="149" width="130" height="30" uuid="8dd58bc2-c06c-481a-aafb-005a86a828fd"/>
                 <textElement>
                     <font size="12"/>
                 </textElement>
                 <textFieldExpression><![CDATA[$P{PERSONAL_INFORMATION}.getPhoneNumber()]]></textFieldExpression>
             </textField>
             <textField>
-                <reportElement x="390" y="121" width="120" height="30" uuid="8dd58bc2-c06c-481a-aafb-005a86a828fd"/>
+                <reportElement x="390" y="150" width="120" height="30" uuid="8dd58bc2-c06c-481a-aafb-005a86a828fd"/>
                 <textElement>
                     <font size="12"/>
                 </textElement>
                 <textFieldExpression><![CDATA[$P{HEADER_EMAIL} + ':']]></textFieldExpression>
             </textField>
             <textField isBlankWhenNull="true">
-                <reportElement x="520" y="120" width="230" height="30" uuid="8dd58bc2-c06c-481a-aafb-005a86a828fd"/>
+                <reportElement x="510" y="150" width="240" height="30" uuid="8dd58bc2-c06c-481a-aafb-005a86a828fd"/>
                 <textElement>
                     <font size="12"/>
                 </textElement>
                 <textFieldExpression><![CDATA[$P{PERSONAL_INFORMATION}.getEmail()]]></textFieldExpression>
             </textField>
             <textField>
-                <reportElement x="390" y="90" width="80" height="30" uuid="8dd58bc2-c06c-481a-aafb-005a86a828fd"/>
+                <reportElement x="390" y="91" width="80" height="30" uuid="8dd58bc2-c06c-481a-aafb-005a86a828fd"/>
                 <textElement>
                     <font size="12"/>
                 </textElement>
                 <textFieldExpression><![CDATA[$P{HEADER_ORGANISM} + ':']]></textFieldExpression>
             </textField>
             <textField isBlankWhenNull="true">
-                <reportElement x="470" y="90" width="280" height="30" uuid="8dd58bc2-c06c-481a-aafb-005a86a828fd"/>
+                <reportElement x="470" y="91" width="280" height="30" uuid="8dd58bc2-c06c-481a-aafb-005a86a828fd"/>
                 <textElement>
                     <font size="12"/>
                 </textElement>
                 <textFieldExpression><![CDATA[$P{PERSONAL_INFORMATION}.getOrganism()]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="40" y="90" width="90" height="30" uuid="929bf8ea-50e8-481d-ba7b-e18b7c375dd6"/>
+                <textElement>
+                    <font size="12"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{HEADER_GENDER} + ':']]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="130" y="90" width="150" height="30" uuid="1c011662-3a01-4513-83d7-e3f6c9d3cf53"/>
+                <textElement>
+                    <font size="12"/>
+                </textElement>
+                <textFieldExpression><![CDATA[""]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="390" y="120" width="90" height="30" uuid="85ac8681-62c4-4802-a238-83168b380e4a"/>
+                <textElement>
+                    <font size="12"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{HEADER_LANGUAGE} + ':']]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="480" y="120" width="160" height="30" uuid="89f7c374-d860-4a64-8066-fc3f69ddf654"/>
+                <textElement>
+                    <font size="12"/>
+                </textElement>
+                <textFieldExpression><![CDATA[""]]></textFieldExpression>
             </textField>
         </band>
         <band height="33">
