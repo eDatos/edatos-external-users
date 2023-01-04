@@ -72,8 +72,8 @@ public class ExternalAccountResource extends AbstractResource {
     @Timed
     public ResponseEntity<Void> create(@Valid @RequestBody ExternalUserAccountDto externalUserDto) {
         ExternalUserEntity registeredUser = externalUserService.findByEmail(externalUserDto.getEmail()).orElse(null);
-        if(registeredUser != null) {
-            if(registeredUser.isEnabled()) {
+        if (registeredUser != null) {
+            if (registeredUser.isEnabled()) {
                 registeredUser = externalUserService.recoverExternalUserAccountPassword(registeredUser.getEmail()).get();
                 notificationService.createExternalUserAlreadyRegisteredNotification(registeredUser);
             } else {
@@ -154,10 +154,10 @@ public class ExternalAccountResource extends AbstractResource {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/account/document/my-information")
+    @GetMapping("/account/{id}/document/my-information")
     @Timed
     @PreAuthorize("@secCheckerExternal.canUpdateUser(authentication)")
-    public ResponseEntity<Void> downloadMyInformation(@RequestBody Long id, HttpServletResponse response) {
+    public ResponseEntity<Void> downloadMyInformation(@PathVariable Long id, HttpServletResponse response) {
         try {
             byte[] documento = documentService.generatePdfExternalUserInformation(id);
 

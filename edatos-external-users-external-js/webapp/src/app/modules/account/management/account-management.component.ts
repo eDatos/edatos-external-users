@@ -77,16 +77,15 @@ export class AccountManagementComponent implements OnInit {
         this.downloadingPdf = true;
         this.userService.download(this.account.id).subscribe(
             (response) => this.userService.saveToFileSystem(response),
-            () => this.messageService.add({
-                key: 'customAlertKey',
-                severity: 'error',
-                summary: this.translateService.instant('signup.document.onErrorDownload.label'),
-                detail: this.translateService.instant('signup.document.onErrorDownload.detail'),
-                life: 5000,
-            }),
-            () => this.downloadingPdf = false,
+            (error) =>
+                this.messageService.add({
+                    key: 'customAlertKey',
+                    severity: 'error',
+                    summary: this.translateService.instant('signup.document.onErrorDownload.label'),
+                    detail: this.translateService.instant('signup.document.onErrorDownload.detail'),
+                    life: 5000,
+                }),
+            () => (this.downloadingPdf = false)
         );
-
     }
-
 }

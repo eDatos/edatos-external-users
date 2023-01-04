@@ -10,6 +10,7 @@ import java.util.Map;
 import org.siemac.edatos.core.common.exception.EDatosException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import es.gobcan.istac.edatos.external.users.core.config.DocumentConstants;
@@ -35,15 +36,12 @@ public class JasperReportsPdfServiceImpl implements JasperReportsAdapter {
     @Override
     public byte[] generateFromTemplate(String templateFile, Map<String, Object> templateParams) {
 
-        String path = DocumentConstants.FOLDER_JASPER_REPORT + "external-user-information.jrxml";
-        InputStream resourceAsStream = getClass().getResourceAsStream(path);
-        InputStream resourceAsStream3 = getClass().getResourceAsStream("reports/" + "external-user-information.jasper");
-        InputStream resourceAsStream4 = getClass().getResourceAsStream("reports/" + "external-user-information.jrxml");
+        String path = DocumentConstants.FOLDER_JASPER_REPORT + "external-user-information.jasper";
 
-        try (InputStream resourceAsStream2 = getClass().getResourceAsStream(path)) {
+        try (InputStream resourceAsStream = getClass().getResourceAsStream(path)) {
             OutputStream outputStream = new ByteArrayOutputStream();
 
-            JasperReport compileReport = (JasperReport) JRLoader.loadObject(resourceAsStream2);
+            JasperReport compileReport = (JasperReport) JRLoader.loadObject(resourceAsStream);
 
             Map<String, Object> params = new HashMap<>();
             if (templateParams != null) {

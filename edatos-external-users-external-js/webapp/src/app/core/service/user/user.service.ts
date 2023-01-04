@@ -8,23 +8,22 @@ import { convert, ResponseWrapper } from '@app/core/utils/response-utils';
 import { CaptchaService } from '@app/shared/service/captcha/captcha.service';
 import * as FileSaver from 'file-saver';
 
-
 @Injectable()
 export class AccountUserService {
     private resourceUrl = 'api/account';
 
     constructor(private http: HttpClient, private captchaService: CaptchaService) {}
 
-    create(el: (ElementRef | string), user: User): Promise<User> {
-        return this.captchaService.postRequestWithCaptcha(el, User, `${this.resourceUrl}/signup`, user, "signup");
+    create(el: ElementRef | string, user: User): Promise<User> {
+        return this.captchaService.postRequestWithCaptcha(el, User, `${this.resourceUrl}/signup`, user, 'signup');
     }
 
     confirmRegistration(token: string): Observable<User> {
         return this.http.get<User>(`${this.resourceUrl}/signup/confirm?token=` + token).pipe(map((res) => convert(User, res)));
     }
 
-    login(el: (ElementRef | string), credentials: Credentials): Promise<Credentials> {
-        return this.captchaService.postRequestWithCaptcha(el, User, `api/login`, credentials, "login");
+    login(el: ElementRef | string, credentials: Credentials): Promise<Credentials> {
+        return this.captchaService.postRequestWithCaptcha(el, User, `api/login`, credentials, 'login');
     }
 
     buscarUsuarioPorEmail(email: string): Observable<User> {
@@ -49,22 +48,21 @@ export class AccountUserService {
 
     find(req?: any): Observable<ResponseWrapper<User>> {
         const options = createRequestOption(req);
-        return this.http
-            .get<User>(this.resourceUrl, { ...options, observe: 'response' })
-            .pipe(map((res) => convert(User, res)));
+        return this.http.get<User>(this.resourceUrl, { ...options, observe: 'response' }).pipe(map((res) => convert(User, res)));
     }
 
     get(id: number): Observable<User> {
         return this.http.get<User>(`${this.resourceUrl}/${id}`).pipe(map((res) => convert(User, res)));
     }
 
-    download(id: number): Observable<any> {
-        return this.http.post(`${this.resourceUrl}/document/my-information`, id);
+    download(id: number, opts?: any): Observable<any> {
+        const options = Object.assign({}, opts, { observe: 'response', responseType: 'blob' });
+        return this.http.get(`${this.resourceUrl}/${id}/document/my-information`, options);
     }
 
     saveToFileSystem(response) {
         const contentDispositionHeader: string = response.headers.get('Content-Disposition');
-        const blob = new Blob([response._body], { type: response.headers.get('content-type') + ';base64,' });
+        const blob = new Blob([response.body], { type: response.headers.get('content-type') + ';base64,' });
         const filename = contentDispositionHeader.match(/filename[^;=\n]*=((['"])(.*?)\2)/)[3] || 'fichero';
         FileSaver.saveAs(blob, filename);
     }

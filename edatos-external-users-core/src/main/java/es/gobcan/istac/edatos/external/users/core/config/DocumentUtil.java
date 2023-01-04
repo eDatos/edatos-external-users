@@ -25,12 +25,12 @@ public final class DocumentUtil {
 
     private DocumentUtil() {}
 
-    public static void download(byte[] documento, String nombre, HttpServletResponse response) {
+    public static void download(byte[] document, String name, HttpServletResponse response) {
         try (OutputStream os = response.getOutputStream()) {
-            response.setContentLength(documento.length);
+            response.setContentLength(document.length);
             response.setContentType("application/pdf");
-            response.setHeader("Content-Disposition", String.format("attachment; filename=\"%s\"", nombre));
-            StreamUtils.copy(documento, os);
+            response.setHeader("Content-Disposition", String.format("attachment; filename=\"%s\"", name));
+            StreamUtils.copy(document, os);
         } catch (IOException e) {
             LOGGER.error("Exception obtaining the file.", e);
             throw new CustomParameterizedExceptionBuilder().message(String.format("Exception obtaining file"))
