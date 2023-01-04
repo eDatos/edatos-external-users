@@ -19,6 +19,7 @@ import es.gobcan.istac.edatos.external.users.rest.common.dto.ExternalUserAccount
 import es.gobcan.istac.edatos.external.users.rest.common.dto.ExternalUserAccountDto;
 import io.github.jhipster.web.util.ResponseUtil;
 
+import org.siemac.edatos.core.common.exception.EDatosException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
