@@ -30,7 +30,7 @@ public class LoginValidator extends AbstractValidator<String> {
     }
 
     private void checkUsuarioIsActivated(String login) {
-        if (!externalUserRepository.existsByEmailIgnoreCaseAndDeletionDateIsNull(login)) {
+        if (!externalUserRepository.existsByEmailIgnoreCase(login)) {
             throw new EDatosException(ServiceExceptionType.LOGIN_USER_DISABLED);
         }
     }

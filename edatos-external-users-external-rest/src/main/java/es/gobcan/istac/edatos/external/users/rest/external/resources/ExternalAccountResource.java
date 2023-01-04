@@ -18,11 +18,18 @@ import es.gobcan.istac.edatos.external.users.rest.common.dto.ChangePasswordDto;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.ExternalUserAccountBaseDto;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.ExternalUserAccountDto;
 import io.github.jhipster.web.util.ResponseUtil;
-import org.siemac.edatos.core.common.exception.EDatosException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.Timed;
 
@@ -34,8 +41,8 @@ import es.gobcan.istac.edatos.external.users.core.errors.ErrorMessagesConstants;
 import es.gobcan.istac.edatos.external.users.core.repository.ExternalUserRepository;
 import es.gobcan.istac.edatos.external.users.core.security.SecurityUtils;
 import es.gobcan.istac.edatos.external.users.core.service.ExternalUserService;
-import es.gobcan.istac.edatos.external.users.rest.common.util.HeaderUtil;
 import es.gobcan.istac.edatos.external.users.rest.common.mapper.ExternalUserAccountMapper;
+import es.gobcan.istac.edatos.external.users.rest.common.util.HeaderUtil;
 
 @RestController
 @RequestMapping("/api/")
@@ -131,13 +138,10 @@ public class ExternalAccountResource extends AbstractResource {
     @PreAuthorize("@secCheckerExternal.canDeleteUser(authentication)")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         try {
-            ExternalUserEntity user = externalUserRepository.findOne(id);
             externalUserService.delete(id);
-            notificationService.createDeleteExternalUserAccountNotification(user);
-            auditPublisher.publish(AuditConstants.EXT_USUARIO_DESACTIVACION, user.getEmail());
             return ResponseEntity.ok().build();
         } catch (Exception e) {
-            throw new EDatosException(ServiceExceptionType.GENERIC_ERROR);
+            throw new EDatosException(ServiceExceptionType.EXTERNAL_USER_DELETE_FAILED);
         }
     }
 

@@ -382,8 +382,8 @@
         "activado": "Activated",
         "created": "User {{ param }}has been created",
         "createdDate": "Registration date",
-        "deactivate": {
-            "question": "Are you sure you want to delete user <strong>{{ email }}</strong>?"
+        "delete": {
+            "question": "Are you sure you want to delete user <strong>{{ email }}</strong>?. Deleted information cannot be recovered"
         },
         "deleted": "User {{ param }}has been removed",
         "deletionDate": "Deletion date",

@@ -37,7 +37,7 @@
                 }
             },
             "delete": {
-                "text": "En confirmar es donarà de baixa en el sistema."
+                "text": "Està segur que vol eliminar a l'usuari?. La informació eliminada no podrà ser recuperada"
             },
             "onSuccessSumary": "Usuari editat",
             "onSuccess": "S'han modificat les dades de l'usuari correctament."

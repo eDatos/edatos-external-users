@@ -9,6 +9,6 @@
     filterMode="strict"
     selectionMode="checkbox"
     [emptyMessage]="'structuralResourcesTree.noRecordsFound' | translate">
-    <ng-template *ngIf="mode === 'view'" let-node pTemplate="default"> <span class="label">{{node.label}}</span>&nbsp; </ng-template>
+    <ng-template *ngIf="mode === 'view'" let-node pTemplate="default"><span class="label">{{node.label}}</span>&nbsp;
+    </ng-template>
 </p-tree>
-<p-toast></p-toast>

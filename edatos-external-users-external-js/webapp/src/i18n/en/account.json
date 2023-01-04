@@ -37,7 +37,7 @@
                 }
             },
             "delete": {
-                "text": "By confirming you will be unsubscribed from the system."
+                "text": "Are you sure you want to delete user?. Deleted information cannot be recovered"
             },
             "onSuccessSumary": "User edit",
             "onSuccess": "User data has been modified correctly."

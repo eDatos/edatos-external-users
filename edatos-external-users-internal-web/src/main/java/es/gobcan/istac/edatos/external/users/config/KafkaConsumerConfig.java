@@ -52,6 +52,7 @@ public class KafkaConsumerConfig {
         ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         factory.setRetryTemplate(retryTemplate());
+        factory.setAutoStartup(false);
         return factory;
     }
 

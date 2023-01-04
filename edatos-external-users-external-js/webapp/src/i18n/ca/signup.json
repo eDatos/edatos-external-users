@@ -14,7 +14,8 @@
             "phoneNumber": "Número telèfon",
             "organism": "Organisme",
             "enableEmailNotifications": "Habilitar notificacions a través de correu electrònic per a aquest usuari",
-            "captchaModal": "Resolgui el captcha per a acabar el registre"
+            "captchaModal": "Resolgui el captcha per a acabar el registre",
+            "termsAndConditions": "Accepto els termes i condicions"
         },
         "messages": {
             "onSuccessSumary": "Registre de nou usuari",
