@@ -10,7 +10,6 @@ import java.util.Map;
 import org.siemac.edatos.core.common.exception.EDatosException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import es.gobcan.istac.edatos.external.users.core.config.DocumentConstants;
@@ -30,6 +29,7 @@ import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 
 @Service("jasperReportsPdfService")
 public class JasperReportsPdfServiceImpl implements JasperReportsAdapter {
+
     private static final String ERROR_WHILE_GENERATING_JASPER_REPORT_MESSAGE = "Error while generating Jasper Report";
     private static final Logger LOGGER = LoggerFactory.getLogger(JasperReportsPdfServiceImpl.class);
 

@@ -9,16 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.ws.rs.QueryParam;
 
-import es.gobcan.istac.edatos.external.users.core.config.DocumentConstants;
-import es.gobcan.istac.edatos.external.users.core.config.DocumentUtil;
-import es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType;
-import es.gobcan.istac.edatos.external.users.core.service.DocumentService;
-import es.gobcan.istac.edatos.external.users.core.service.NotificationService;
-import es.gobcan.istac.edatos.external.users.rest.common.dto.ChangePasswordDto;
-import es.gobcan.istac.edatos.external.users.rest.common.dto.ExternalUserAccountBaseDto;
-import es.gobcan.istac.edatos.external.users.rest.common.dto.ExternalUserAccountDto;
-import io.github.jhipster.web.util.ResponseUtil;
-
 import org.siemac.edatos.core.common.exception.EDatosException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,15 +25,24 @@ import org.springframework.web.bind.annotation.RestController;
 import com.codahale.metrics.annotation.Timed;
 
 import es.gobcan.istac.edatos.external.users.core.config.AuditConstants;
+import es.gobcan.istac.edatos.external.users.core.config.DocumentConstants;
+import es.gobcan.istac.edatos.external.users.core.config.DocumentUtil;
 import es.gobcan.istac.edatos.external.users.core.config.audit.AuditEventPublisher;
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
 import es.gobcan.istac.edatos.external.users.core.errors.ErrorConstants;
 import es.gobcan.istac.edatos.external.users.core.errors.ErrorMessagesConstants;
+import es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType;
 import es.gobcan.istac.edatos.external.users.core.repository.ExternalUserRepository;
 import es.gobcan.istac.edatos.external.users.core.security.SecurityUtils;
+import es.gobcan.istac.edatos.external.users.core.service.DocumentService;
 import es.gobcan.istac.edatos.external.users.core.service.ExternalUserService;
+import es.gobcan.istac.edatos.external.users.core.service.NotificationService;
+import es.gobcan.istac.edatos.external.users.rest.common.dto.ChangePasswordDto;
+import es.gobcan.istac.edatos.external.users.rest.common.dto.ExternalUserAccountBaseDto;
+import es.gobcan.istac.edatos.external.users.rest.common.dto.ExternalUserAccountDto;
 import es.gobcan.istac.edatos.external.users.rest.common.mapper.ExternalUserAccountMapper;
 import es.gobcan.istac.edatos.external.users.rest.common.util.HeaderUtil;
+import io.github.jhipster.web.util.ResponseUtil;
 
 @RestController
 @RequestMapping("/api/")

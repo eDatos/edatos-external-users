@@ -14,9 +14,7 @@ public interface ExternalUserService {
 
     ExternalUserEntity update(ExternalUserEntity user);
 
-
     void delete(Long id);
-
 
     ExternalUserEntity find(Long id);
 

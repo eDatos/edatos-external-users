@@ -32,8 +32,6 @@ public class DocumentServiceImpl implements DocumentService {
     private final JasperReportsAdapter jasperReportsService;
     private final MessageSource messageSource;
 
-
-
     public DocumentServiceImpl(ExternalUserRepository externalUserRepository, JasperReportsAdapter jasperReportsService, MessageSource messageSource, FilterService filterService) {
         this.externalUserRepository = externalUserRepository;
         this.jasperReportsService = jasperReportsService;
@@ -49,7 +47,7 @@ public class DocumentServiceImpl implements DocumentService {
         List<FilterEntity> filters = filterService.findAllByUser(externalUser);
         Set<FavoriteEntity> fav = externalUser.getFavorites();
 
-        LOGGER.debug("Request to print all information about External User");
+        LOGGER.info("Request to print all information about External User");
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("PERSONAL_INFORMATION", externalUser);
@@ -86,9 +84,5 @@ public class DocumentServiceImpl implements DocumentService {
         parameters.put("HEADER_FAVORITES_PARENT", messageSource.getMessage("report.header.favorites.parent", null, locale));
 
         return jasperReportsService.generateFromTemplate(DocumentConstants.EXTERNAL_USER_INFORMATION, parameters);
-    }
-
-    private String getLocale(){
-        return LocaleContextHolder.getLocale().toString();
     }
 }
