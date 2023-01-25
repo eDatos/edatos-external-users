@@ -36,7 +36,7 @@ public class JasperReportsPdfServiceImpl implements JasperReportsAdapter {
     @Override
     public byte[] generateFromTemplate(String templateFile, Map<String, Object> templateParams) {
 
-        String path = DocumentConstants.FOLDER_JASPER_REPORT + "external-user-information.jasper";
+        String path = DocumentConstants.FOLDER_JASPER_REPORT + templateFile;
 
         try (InputStream resourceAsStream = getClass().getResourceAsStream(path)) {
             OutputStream outputStream = new ByteArrayOutputStream();
