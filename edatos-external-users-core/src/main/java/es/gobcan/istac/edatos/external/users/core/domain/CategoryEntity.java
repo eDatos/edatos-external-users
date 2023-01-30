@@ -2,7 +2,6 @@ package es.gobcan.istac.edatos.external.users.core.domain;
 
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Stream;
 
