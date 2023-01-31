@@ -73,7 +73,8 @@
             "deactivate": "L'usuari ha estat deshabilitat",
             "deauthenticated": "L'usuari no té permisos d'accés",
             "registration_confirmation": "El registre de l'usuari no s'ha pogut confirmar",
-            "password.not_match": "La nova contrasenya no pot ser la mateixa que l'actual"
+            "password.not_match": "La nova contrasenya no pot ser la mateixa que l'actual",
+            "jasperreports.generating": "Error al generar el document"
         }
     }
 }

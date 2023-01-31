@@ -50,6 +50,6 @@ public class ServiceExceptionType extends CommonServiceExceptionType {
     /********
      * JASPERREPORTS
      ********/
-    public static final CommonServiceExceptionType ERROR_JASPER_REPORTS_GENERATING = create("exception.jasperreports.generating");
+    public static final CommonServiceExceptionType ERROR_JASPER_REPORTS_GENERATING = create("exception.external_users.jasperreports.generating");
 
 }
