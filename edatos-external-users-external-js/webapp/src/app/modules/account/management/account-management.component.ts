@@ -17,7 +17,7 @@ export class AccountManagementComponent implements OnInit {
 
     public languageEnum = Language;
 
-    private downloadingPdf = false;
+    public downloadingPdf = false;
 
     constructor(
         private userService: AccountUserService,
