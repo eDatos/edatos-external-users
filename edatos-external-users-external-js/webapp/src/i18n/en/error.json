@@ -73,7 +73,8 @@
             "deactivate": "User has been deactivated",
             "deauthenticated": "User does not have access permissions",
             "registration_confirmation": "User registration could not be confirmed",
-            "password.not_match": "The new password cannot be the same as the current one"
+            "password.not_match": "The new password cannot be the same as the current one",
+            "jasperreports.generating": "Error generating document"
         }
     }
 }

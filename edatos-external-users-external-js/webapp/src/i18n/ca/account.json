@@ -10,6 +10,9 @@
             "apellido2.placeholder": "El seu segon cognom",
             "button": "Guardar"
         },
+        "download": {
+            "myInformation" : "Descarregar la meva informació"
+        },
         "messages": {
             "error": {
                 "emailexists": "<strong>¡L'adreça de correu electrònic ja existeix!</strong> Si us plau, triï una altra.",

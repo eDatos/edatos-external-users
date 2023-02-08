@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.ws.rs.QueryParam;
 
@@ -24,6 +25,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.codahale.metrics.annotation.Timed;
 
 import es.gobcan.istac.edatos.external.users.core.config.AuditConstants;
+import es.gobcan.istac.edatos.external.users.core.config.DocumentConstants;
+import es.gobcan.istac.edatos.external.users.core.config.DocumentUtil;
 import es.gobcan.istac.edatos.external.users.core.config.audit.AuditEventPublisher;
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
 import es.gobcan.istac.edatos.external.users.core.errors.ErrorConstants;
@@ -31,6 +34,7 @@ import es.gobcan.istac.edatos.external.users.core.errors.ErrorMessagesConstants;
 import es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType;
 import es.gobcan.istac.edatos.external.users.core.repository.ExternalUserRepository;
 import es.gobcan.istac.edatos.external.users.core.security.SecurityUtils;
+import es.gobcan.istac.edatos.external.users.core.service.DocumentService;
 import es.gobcan.istac.edatos.external.users.core.service.ExternalUserService;
 import es.gobcan.istac.edatos.external.users.core.service.NotificationService;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.ChangePasswordDto;
@@ -41,7 +45,7 @@ import es.gobcan.istac.edatos.external.users.rest.common.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/")
 public class ExternalAccountResource extends AbstractResource {
 
     private static final String ENTITY_NAME = "userManagement";
@@ -50,16 +54,18 @@ public class ExternalAccountResource extends AbstractResource {
     private final ExternalUserService externalUserService;
     private final ExternalUserAccountMapper externalUserMapper;
     private final AuditEventPublisher auditPublisher;
-
     private final NotificationService notificationService;
 
+    private final DocumentService documentService;
+
     public ExternalAccountResource(ExternalUserRepository externalUserRepository, ExternalUserService externalUserService, ExternalUserAccountMapper externalUserMapper,
-            AuditEventPublisher auditPublisher, NotificationService notificationService) {
+            AuditEventPublisher auditPublisher, NotificationService notificationService, DocumentService documentService) {
         this.externalUserRepository = externalUserRepository;
         this.externalUserService = externalUserService;
         this.externalUserMapper = externalUserMapper;
         this.auditPublisher = auditPublisher;
         this.notificationService = notificationService;
+        this.documentService = documentService;
     }
 
     @GetMapping("/{id}")
@@ -150,5 +156,20 @@ public class ExternalAccountResource extends AbstractResource {
 
         auditPublisher.publish(AuditConstants.EXT_USUARIO_EDICION, updatedUserDto.getEmail());
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/account/{id}/document/my-information")
+    @Timed
+    @PreAuthorize("@secCheckerExternal.canUpdateUser(authentication)")
+    public ResponseEntity<Void> downloadMyInformation(@PathVariable Long id, HttpServletResponse response) {
+        try {
+            byte[] documento = documentService.generatePdfExternalUserInformation(id);
+
+            DocumentUtil.download(documento, DocumentConstants.DOC_EXTERNAL_USER_INFORMATION, response);
+            auditPublisher.publish(AuditConstants.EXT_USUARIO_DOWNLOAD_DOCUMENT, DocumentConstants.EXTERNAL_USER_INFORMATION);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            throw new EDatosException(ServiceExceptionType.GENERIC_ERROR);
+        }
     }
 }

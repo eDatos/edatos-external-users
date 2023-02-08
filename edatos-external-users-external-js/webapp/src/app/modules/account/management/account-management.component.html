@@ -10,6 +10,9 @@
             <button *ngIf="!isEditMode()" type="button" class="btn btn-secondary" routerLink="/account-management/edit">
                 <span class="fa fa-pencil"></span> <span translate="entity.action.edit"></span>
             </button>
+            <button *ngIf="!isEditMode()" type="button" class="btn btn-primary" (click)="download($event)">
+                <span [ngClass]="downloadingPdf ? 'fa fa-spinner fa-spin' : 'fa  fa-download'"></span> <span translate="account.download.myInformation"></span>
+            </button>
             <button *ngIf="isEditMode()" type="submit" form="settings-form" [disabled]="settingsForm && settingsForm.form.invalid || isSaving" class="btn btn-primary">
                 <span class="fa fa-floppy-o"></span>
                 <span translate="entity.action.save"></span>

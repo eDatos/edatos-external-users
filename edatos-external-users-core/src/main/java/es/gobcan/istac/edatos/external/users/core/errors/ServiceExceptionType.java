@@ -47,4 +47,9 @@ public class ServiceExceptionType extends CommonServiceExceptionType {
      ********/
     public static final CommonServiceExceptionType PASSWORD_NOT_MATCH = create("exception.external_users.password.not_match");
 
+    /********
+     * JASPERREPORTS
+     ********/
+    public static final CommonServiceExceptionType ERROR_JASPER_REPORTS_GENERATING = create("exception.external_users.jasperreports.generating");
+
 }

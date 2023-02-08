@@ -4,19 +4,11 @@ import org.apache.cxf.jaxrs.client.JAXRSClientFactory;
 import org.apache.cxf.jaxrs.client.WebClient;
 import org.siemac.edatos.core.common.exception.EDatosException;
 import org.siemac.metamac.notices.rest.internal.v1_0.service.NoticesV1_0;
-import org.siemac.metamac.rest.notices.v1_0.domain.Notice;
 import org.siemac.metamac.srm.rest.external.v1_0.service.SrmRestExternalFacadeV10;
 import org.siemac.metamac.statistical_operations.rest.internal.v1_0.service.StatisticalOperationsRestInternalFacadeV10;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-
-import javax.xml.ws.Response;
 
 @Service
 public class EDatosApisLocator {

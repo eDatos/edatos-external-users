@@ -24,6 +24,13 @@
             "onSuccessSumary": "Registre de nou usuari",
             "onSuccess": "L'usuari s'ha registrat amb èxit",
             "onRequest": "S'ha enviat un correu per confirmar el registre"
+        },
+        "document": {
+            "onErrorDownload": {
+                "label" : "Error en la descàrrega del PDF",
+                "detail" :  "No s'ha pogut generar el document PDF."
+            }
+
         }
     }
 }

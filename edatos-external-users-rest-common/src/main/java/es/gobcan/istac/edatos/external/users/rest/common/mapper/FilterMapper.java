@@ -6,6 +6,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import es.gobcan.istac.edatos.external.users.core.config.Constants;
 import es.gobcan.istac.edatos.external.users.core.config.MetadataProperties;
 import es.gobcan.istac.edatos.external.users.core.domain.enumeration.PermalinkType;
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalOperationEntity;
@@ -24,9 +25,6 @@ import java.util.List;
 
 @Mapper(componentModel = "spring", config = AuditingMapperConfig.class, uses = {GenericMapperResolver.class, ExternalUserMapper.class})
 public abstract class FilterMapper implements EntityMapper<FilterDto, FilterEntity> {
-
-    private static final String PATH_PERMALINK = "/data.html?permalink=";
-
     @Autowired
     private ExternalUserRepository externalUserRepository;
 
@@ -41,18 +39,6 @@ public abstract class FilterMapper implements EntityMapper<FilterDto, FilterEnti
     @Mapping(target = "urlPermalink", source = "entity", qualifiedByName = "getUrlPermalink")
     public abstract FilterDto toDto(FilterEntity entity);
 
-    /**
-     * <code>defaultExpression</code> assigns a value in case the source is null. In
-     * this case, mapstruct will generate the next piece of code:
-     *
-     * <pre>
-     * if (dto.getName() != null) {
-     *     filterEntity.setName(dto.getName());
-     * } else {
-     *     filterEntity.setName(dto.getResourceName());
-     * }
-     * </pre>
-     */
     @Override
     @Named(value = "mappingMethodForCollections")
     @Mapping(target = "name", defaultExpression = "java( dto.getResourceName() )")
@@ -97,7 +83,7 @@ public abstract class FilterMapper implements EntityMapper<FilterDto, FilterEnti
             return null;
         }
         if (PermalinkType.VISUALIZER.equals(entity.getPermalinkType())) {
-            return metadataProperties.getVisualizerPath() + PATH_PERMALINK + entity.getPermalink();
+            return metadataProperties.getVisualizerPath() + Constants.PATH_PERMALINK + entity.getPermalink();
         } else {
             return entity.getPermalink();
         }

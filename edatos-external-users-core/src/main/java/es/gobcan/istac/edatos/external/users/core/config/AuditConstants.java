@@ -12,6 +12,8 @@ public final class AuditConstants {
 
     public static final String EXT_USUARIO_CREACION = "EXT_USUARIO_CREACION";
     public static final String EXT_USUARIO_EDICION = "EXT_USUARIO_EDICION";
+
+    public static final String EXT_USUARIO_DOWNLOAD_DOCUMENT = "EXT_USUARIO_DOWNLOAD_DOCUMENT";
     public static final String EXT_USUARIO_DESACTIVACION = "EXT_USUARIO_DESACTIVACION";
     public static final String EXT_USUARIO_ACTIVACION = "EXT_USUARIO_ACTIVACION";
 

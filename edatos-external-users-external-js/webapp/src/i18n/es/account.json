@@ -10,6 +10,9 @@
             "apellido2.placeholder": "Su segundo apellido",
             "button": "Guardar"
         },
+        "download": {
+            "myInformation" : "Descargar mi información"
+        },
         "messages": {
             "error": {
                 "fail": "<strong>¡Ha ocurrido un error!</strong> Los ajustes no se han podido guardar.",

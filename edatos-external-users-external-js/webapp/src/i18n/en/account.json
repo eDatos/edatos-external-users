@@ -10,6 +10,9 @@
             "apellido2.placeholder": "Your second surname",
             "button": "Save"
         },
+        "download": {
+            "myInformation" : "Download my information"
+        },
         "messages": {
             "error": {
                 "fail": "<strong>¡An error has ocurred!</strong> Settings could not be saved.",
