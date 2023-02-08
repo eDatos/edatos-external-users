@@ -92,15 +92,4 @@ public class DocumentServiceImpl implements DocumentService {
 
         return jasperReportsService.generateFromTemplate(DocumentConstants.EXTERNAL_USER_INFORMATION, parameters);
     }
-
- /*   private String getUrlPermalink(FilterEntity entity) {
-        if (entity == null || entity.getPermalink() == null) {
-            return null;
-        }
-        if (PermalinkType.VISUALIZER.equals(entity.getPermalinkType())) {
-            return metadataProperties.getVisualizerPath() + Constants.PATH_PERMALINK + entity.getPermalink();
-        } else {
-            return entity.getPermalink();
-        }
-    }*/
 }
