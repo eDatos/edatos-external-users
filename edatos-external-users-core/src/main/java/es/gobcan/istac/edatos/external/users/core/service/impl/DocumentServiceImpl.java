@@ -12,10 +12,13 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
+import es.gobcan.istac.edatos.external.users.core.config.Constants;
 import es.gobcan.istac.edatos.external.users.core.config.DocumentConstants;
+import es.gobcan.istac.edatos.external.users.core.config.MetadataProperties;
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.FavoriteEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.FilterEntity;
+import es.gobcan.istac.edatos.external.users.core.domain.enumeration.PermalinkType;
 import es.gobcan.istac.edatos.external.users.core.repository.ExternalUserRepository;
 import es.gobcan.istac.edatos.external.users.core.service.DocumentService;
 import es.gobcan.istac.edatos.external.users.core.service.FilterService;
@@ -31,12 +34,15 @@ public class DocumentServiceImpl implements DocumentService {
     private final FilterService filterService;
     private final JasperReportsAdapter jasperReportsService;
     private final MessageSource messageSource;
+    private final MetadataProperties metadataProperties;
 
-    public DocumentServiceImpl(ExternalUserRepository externalUserRepository, JasperReportsAdapter jasperReportsService, MessageSource messageSource, FilterService filterService) {
+    public DocumentServiceImpl(ExternalUserRepository externalUserRepository, JasperReportsAdapter jasperReportsService, MessageSource messageSource, FilterService filterService
+    , MetadataProperties metadataProperties) {
         this.externalUserRepository = externalUserRepository;
         this.jasperReportsService = jasperReportsService;
         this.messageSource = messageSource;
         this.filterService = filterService;
+        this.metadataProperties = metadataProperties;
     }
 
     @Override
@@ -52,6 +58,7 @@ public class DocumentServiceImpl implements DocumentService {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("PERSONAL_INFORMATION", externalUser);
         parameters.put("FAVORITES", new JRBeanCollectionDataSource(fav));
+        parameters.put("PERMALINK_PATH", metadataProperties.getVisualizerPath() + Constants.PATH_PERMALINK );
         parameters.put("FILTERS", new JRBeanCollectionDataSource(filters));
 
         // Headers
@@ -85,4 +92,15 @@ public class DocumentServiceImpl implements DocumentService {
 
         return jasperReportsService.generateFromTemplate(DocumentConstants.EXTERNAL_USER_INFORMATION, parameters);
     }
+
+ /*   private String getUrlPermalink(FilterEntity entity) {
+        if (entity == null || entity.getPermalink() == null) {
+            return null;
+        }
+        if (PermalinkType.VISUALIZER.equals(entity.getPermalinkType())) {
+            return metadataProperties.getVisualizerPath() + Constants.PATH_PERMALINK + entity.getPermalink();
+        } else {
+            return entity.getPermalink();
+        }
+    }*/
 }
