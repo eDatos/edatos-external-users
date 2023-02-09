@@ -119,7 +119,7 @@
                 <textFieldExpression><![CDATA[$P{HEADER_NAME_AND_SURNAMES} + ':']]></textFieldExpression>
             </textField>
             <textField isBlankWhenNull="true">
-                <reportElement x="130" y="50" width="430" height="30" uuid="8dd58bc2-c06c-481a-aafb-005a86a828fd"/>
+                <reportElement x="140" y="50" width="430" height="30" uuid="8dd58bc2-c06c-481a-aafb-005a86a828fd"/>
                 <textElement>
                     <font size="12"/>
                 </textElement>
@@ -135,7 +135,7 @@
                 <textFieldExpression><![CDATA[$P{HEADER_BIRTHDAY} + ':']]></textFieldExpression>
             </textField>
             <textField isBlankWhenNull="true">
-                <reportElement x="140" y="90" width="120" height="30" uuid="8dd58bc2-c06c-481a-aafb-005a86a828fd"/>
+                <reportElement x="130" y="90" width="120" height="30" uuid="8dd58bc2-c06c-481a-aafb-005a86a828fd"/>
                 <textElement>
                     <font size="12"/>
                 </textElement>
@@ -149,7 +149,7 @@
                 <textFieldExpression><![CDATA[$P{HEADER_NATIONALITY} + ':']]></textFieldExpression>
             </textField>
             <textField isBlankWhenNull="true">
-                <reportElement x="570" y="91" width="160" height="30" uuid="8dd58bc2-c06c-481a-aafb-005a86a828fd"/>
+                <reportElement x="575" y="91" width="160" height="30" uuid="8dd58bc2-c06c-481a-aafb-005a86a828fd"/>
                 <textElement>
                     <font size="12"/>
                 </textElement>
@@ -191,7 +191,7 @@
                 <textFieldExpression><![CDATA[$P{HEADER_GENDER} + ':']]></textFieldExpression>
             </textField>
             <textField isBlankWhenNull="true">
-                <reportElement x="360" y="91" width="120" height="30" uuid="1c011662-3a01-4513-83d7-e3f6c9d3cf53"/>
+                <reportElement x="320" y="91" width="120" height="30" uuid="1c011662-3a01-4513-83d7-e3f6c9d3cf53"/>
                 <textElement>
                     <font size="12"/>
                 </textElement>
