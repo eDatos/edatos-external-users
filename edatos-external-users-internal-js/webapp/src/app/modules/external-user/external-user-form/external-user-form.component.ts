@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ExternalUser, Language, Role } from '@app/core/model';
 import { PermissionService } from '@app/core/service/auth';
-import { ExternalUserService } from '@app/core/service/user';
+import { CodelistService, ExternalUserService } from '@app/core/service/user';
 import { StructuralResourcesTreeComponent } from '@app/shared/components/structural-resources-tree';
 import { Favorite, FavoriteResource } from '@app/shared/model';
 import { FavoriteService } from '@app/shared/service';
@@ -10,8 +10,6 @@ import { ArteEventManager, GenericModalService } from 'arte-ng/services';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { ExternalUserDeleteDialogComponent } from '../external-user-delete-dialog.component';
-import { Gender } from '@app/core/model/gender.model';
-import { Nation } from '@app/core/model/nations.model';
 
 @Component({
     selector: 'app-external-user-form',
@@ -25,12 +23,13 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
     public eventSubscriber: Subscription;
     toDate: Date;
     today: Date;
-    public nation: string;
 
     public rolesEnum = Role;
     public languageEnum = Language;
-    public genderEnum = Gender;
-    public nationEnum = Nation;
+    public nationality: { code: string; name: string };
+    public gender: { code: string; name: string };
+    public countries: any[] = [];
+    public genders: any[] = [];
     public favorites: Favorite[];
     public editMode: 'user' | 'favorites' | null = null;
 
@@ -46,7 +45,8 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
         private favoriteService: FavoriteService,
         private eventManager: ArteEventManager,
         private route: ActivatedRoute,
-        private router: Router
+        private router: Router,
+        private codeListService: CodelistService
     ) {}
 
     public ngOnInit() {
@@ -94,11 +94,13 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
             }
             this.externalUserService.get(id).subscribe((user) => {
                 this.externalUser = user;
-                const auxNation: any = this.externalUser.nationality;
-                this.nation = Object.keys(Nation)[Object.values(Nation).indexOf(auxNation)];
+                this.getNationalities(this.externalUser.nationality);
+                this.getGenders(this.externalUser.gender);
             });
         } else {
             this.externalUser = new ExternalUser();
+            this.getNationalities();
+            this.getGenders();
         }
     }
 
@@ -113,7 +115,8 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
 
     public save() {
         this.isSaving = true;
-        this.externalUser.nationality = this.nation;
+        this.externalUser.nationality = this.nationality.code.toString();
+        this.externalUser.gender = this.gender.code.toString();
         if (this.userId) {
             this.externalUserService.update(this.externalUser).subscribe(
                 (response) => this.onSaveSuccess(response),
@@ -194,5 +197,35 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
 
     private onSaveError() {
         this.isSaving = false;
+    }
+
+    private getNationalities(code?: any) {
+        this.codeListService.findAllCountries().subscribe((response) => {
+            for (let i = 0; i < response.code.length; i++) {
+                let nationalities = { code: response.code[i].id, name: this.codeListService.getValue(response.code[i].name.text) };
+                this.countries.push(nationalities);
+            }
+        });
+
+        if (code) {
+            this.codeListService.findNationality(code).subscribe((response) => {
+                this.nationality = { code: response.code[0].id, name: this.codeListService.getValue(response.code[0].name.text) };
+            });
+        }
+    }
+
+    private getGenders(code?: any) {
+        this.codeListService.findAllGenders().subscribe((response) => {
+            for (let i = 0; i < response.code.length; i++) {
+                let nationalities = { code: response.code[i].id, name: this.codeListService.getValue(response.code[i].name.text) };
+                this.genders.push(nationalities);
+            }
+        });
+
+        if (code) {
+            this.codeListService.findGender(code).subscribe((response) => {
+                this.gender = { code: response.code[0].id, name: this.codeListService.getValue(response.code[0].name.text) };
+            });
+        }
     }
 }

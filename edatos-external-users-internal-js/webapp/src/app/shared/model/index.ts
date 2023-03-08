@@ -5,3 +5,5 @@ export * from './external-item.model';
 export * from './localised-string.model';
 export * from './international-string.model';
 export * from './data-protection-policy.model';
+export * from './international-string-v1.model';
+export * from './localised-string-v1.model';

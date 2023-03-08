@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { ConfigService } from '@app/config';
 import { convert } from '@app/core/utils/response-utils';
 import { ExternalCodes } from '@app/shared/model';
-import { getIdentifierFromUrn, getCodesUrlJSONType } from '@app/shared/utils/urnUtils';
+import { getCodesUrlJSONType } from '@app/shared/utils/urnUtils';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';

@@ -151,8 +151,8 @@
         <metamac-statistical-operations.version>2.6.0</metamac-statistical-operations.version>
         <metamac-statistical-resources.version>6.0.1-SNAPSHOT</metamac-statistical-resources.version>
         <metamac-common-metadata-rest-external-api.version>2.3.0</metamac-common-metadata-rest-external-api.version>
-        <metamac-srm-rest-internal-api.version>2.2.0</metamac-srm-rest-internal-api.version>
-        <metamac-srm-rest-external-api.version>2.2.0</metamac-srm-rest-external-api.version>
+        <metamac-srm-rest-external-api.version>2.6.1-SNAPSHOT</metamac-srm-rest-external-api.version>
+        <metamac-srm-rest-internal-api.version>2.6.1-SNAPSHOT</metamac-srm-rest-internal-api.version>
 
         <hibernate-types.version>2.10.4</hibernate-types.version>
         <h2.version>1.4.200</h2.version>
@@ -371,8 +371,8 @@
             </dependency>
             <dependency>
                 <groupId>org.siemac.metamac.metamac-srm</groupId>
-                <artifactId>metamac-srm-rest-internal-api</artifactId>
-                <version>${metamac-srm-rest-internal-api.version}</version>
+                <artifactId>metamac-srm-rest-external-api</artifactId>
+                <version>${metamac-srm-rest-external-api.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>javax.ws.rs</groupId>
@@ -382,8 +382,8 @@
             </dependency>
             <dependency>
                 <groupId>org.siemac.metamac.metamac-srm</groupId>
-                <artifactId>metamac-srm-rest-external-api</artifactId>
-                <version>${metamac-srm-rest-external-api.version}</version>
+                <artifactId>metamac-srm-rest-internal-api</artifactId>
+                <version>${metamac-srm-rest-internal-api.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>javax.ws.rs</groupId>

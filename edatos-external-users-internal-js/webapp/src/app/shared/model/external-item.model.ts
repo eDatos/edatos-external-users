@@ -1,5 +1,6 @@
 import { BaseVersionedEntity } from 'arte-ng/model';
 import { Exclude, Type, TypeOptions } from 'class-transformer';
+import { InternationalStringV1 } from './international-string-v1.model';
 import { InternationalString } from './international-string.model';
 
 /**
@@ -59,6 +60,32 @@ export class ExternalOperation extends ExternalItem {
         super();
         this.type = TypeExternalArtefacts.STATISTICAL_OPERATION;
     }
+}
+
+export class ExternalItemCode extends BaseVersionedEntity {
+    public id: string;
+    public urn: string;
+
+    @Type(() => InternationalStringV1)
+    public name: InternationalStringV1;
+
+    public type: TypeExternalArtefacts;
+
+    public getLocalisedName(languageCode: string): string | undefined {
+        return this.name?.getLocalisedLabel(languageCode);
+    }
+
+    public get schema(): { code?: string; version?: string } {
+        const regex = /^urn:(?:\w+:)?(?:\w+\.)+\w+=\w+:(?<schemaCode>\w+)\((?<schemaVersion>.+?)\)/.exec(this.urn);
+        return {
+            code: regex?.groups?.schemaCode,
+            version: regex?.groups?.schemaVersion,
+        };
+    }
+}
+
+export class ExternalCodes {
+    public code: ExternalItemCode[];
 }
 
 /**

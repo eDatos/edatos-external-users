@@ -23,9 +23,7 @@ public class ExternalUserDto extends AbstractVersionedAndAuditingAndLogicalDelet
     private boolean emailNotificationsEnabled;
 
     private String nationality;
-
     private String gender;
-
     private LocalDate birthday;
     private DataProtectionPolicyDto dataProtectionPolicyDto;
 
