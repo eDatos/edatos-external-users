@@ -1,6 +1,7 @@
 export interface GenericConfig {
     endpoint: {
         appUrl: any;
+        srmExternal: string;
     };
     metamac: {
         visualizerPath: string;
@@ -8,9 +9,11 @@ export interface GenericConfig {
     metadata: {
         defaultLanguage: string;
         languageCookie: string;
+        nationalities: string;
+        gender: string;
     };
     template: {
         headerUrl: string;
         footerUrl: string;
-    }
+    };
 }

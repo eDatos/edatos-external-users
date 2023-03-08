@@ -52,10 +52,10 @@ export class LoginComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe((params) => {
-            if(params['registration-key']) {
+            if (params['registration-key']) {
                 const urlWithoutRegistrationKeyToken = new URL(document.URL);
-                urlWithoutRegistrationKeyToken.searchParams.delete("registration-key");
-                window.history.pushState({}, "", urlWithoutRegistrationKeyToken.href);
+                urlWithoutRegistrationKeyToken.searchParams.delete('registration-key');
+                window.history.pushState({}, '', urlWithoutRegistrationKeyToken.href);
 
                 this.accountUserService.confirmRegistration(params['registration-key']).subscribe(() => {
                     this.messageService.add({

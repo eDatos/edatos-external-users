@@ -30,7 +30,6 @@ import org.hibernate.validator.constraints.Email;
 
 import es.gobcan.istac.edatos.external.users.core.domain.enumeration.ExternalUserRole;
 import es.gobcan.istac.edatos.external.users.core.domain.enumeration.Language;
-import es.gobcan.istac.edatos.external.users.core.domain.enumeration.Nationality;
 import es.gobcan.istac.edatos.external.users.core.domain.interfaces.AbstractVersionedAndAuditingEntity;
 
 @Entity
@@ -240,16 +239,6 @@ public class ExternalUserEntity extends AbstractVersionedAndAuditingEntity {
         this.favorites.addAll(favorites);
     }
 
-    public void addFavorite(FavoriteEntity favorite) {
-        favorite.setExternalUser(this);
-        this.favorites.add(favorite);
-    }
-
-    public void removeFavorite(FavoriteEntity favorite) {
-        favorite.setExternalUser(null);
-        this.favorites.remove(favorite);
-    }
-
     public boolean isEnabled() {
         return enabled;
     }
@@ -267,13 +256,11 @@ public class ExternalUserEntity extends AbstractVersionedAndAuditingEntity {
     }
 
     public String getNationality() {
-        return Nationality.findByName(nationality);
+        return nationality;
     }
-
     public void setNationality(String nationality) {
         this.nationality = nationality;
     }
-
     public String getGender() {
         return gender;
     }

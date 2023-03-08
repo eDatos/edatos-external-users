@@ -55,7 +55,6 @@ public class ExternalAccountResource extends AbstractResource {
     private final ExternalUserAccountMapper externalUserMapper;
     private final AuditEventPublisher auditPublisher;
     private final NotificationService notificationService;
-
     private final DocumentService documentService;
 
     public ExternalAccountResource(ExternalUserRepository externalUserRepository, ExternalUserService externalUserService, ExternalUserAccountMapper externalUserMapper,
@@ -172,4 +171,5 @@ public class ExternalAccountResource extends AbstractResource {
             throw new EDatosException(ServiceExceptionType.GENERIC_ERROR);
         }
     }
+
 }

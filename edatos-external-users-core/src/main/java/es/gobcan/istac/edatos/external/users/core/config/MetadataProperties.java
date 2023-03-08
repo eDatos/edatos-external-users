@@ -14,9 +14,6 @@ import es.gobcan.istac.edatos.external.users.core.service.MetadataConfigurationS
 
 @Component("metadataProperties")
 public class MetadataProperties {
-
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
-
     @Autowired
     private MetadataConfigurationService configurationService;
 
@@ -38,7 +35,12 @@ public class MetadataProperties {
     private String internalAppUrl;
     private String casService;
 
+    private String srmExternalEndpoint;
+
     private String visualizerPath;
+
+    private String nationalityUrnKey;
+    private String genderUrnKey;
 
     @PostConstruct
     public void setValues() {
@@ -59,6 +61,9 @@ public class MetadataProperties {
         casService = internalAppUrl + "/login/cas";
         visualizerPath = configurationService.retrievePortalExternalWebApplicationUrlVisualizer();
         defaultLanguage = availableLanguages.get(0);
+        nationalityUrnKey = configurationService.retrieveNationalityUrnKey();
+        genderUrnKey = configurationService.retrieveGenderUrnKey();
+        srmExternalEndpoint = configurationService.retrieveSrmExternalApiUrlBase();
         try {
             languageCookie = configurationService.retrieveInternationalizationCookieId();
         } catch (Exception e) {
@@ -133,5 +138,16 @@ public class MetadataProperties {
 
     public String getVisualizerPath() {
         return visualizerPath;
+    }
+
+    public String getNationalityUrnKey() {
+        return nationalityUrnKey;
+    }
+
+    public String getSrmExternalEndpoint() {
+        return srmExternalEndpoint;
+    }
+    public String getGenderUrnKey() {
+        return genderUrnKey;
     }
 }

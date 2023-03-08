@@ -104,8 +104,8 @@ public class ExternalUserDto extends AbstractVersionedAndAuditingAndLogicalDelet
     public String getNationality() {
         return nationality;
     }
-    public void setNationality(Nationality nationality) {
-        this.nationality = nationality.getCodeM();
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
     }
     public String getGender() {
         return gender;

@@ -1,11 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { User, Role, Language, Gender } from '@app/core/model';
+import { User, Role, Language } from '@app/core/model';
 import { Router } from '@angular/router';
 import { AccountUserService } from '@app/core/service/user';
-import { CaptchaService } from '@app/shared/service';
+import { CaptchaService, CodelistService } from '@app/shared/service';
 import { MessageService } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
-import { Nation } from '@app/core/model/nations.model';
 import { DataProtectionPolicyService } from '@app/modules/account/data-protection-policy/data-protection-policy.service';
 
 type SignUp = Omit<User, 'id' | 'roles'>;
@@ -22,8 +21,10 @@ export class SignupFormComponent implements OnInit {
     private paramLogin: string;
     public rolesEnum = Role;
     public languageEnum = Language;
-    public nationEnum = Nation;
-    public genderEnum = Gender;
+
+    public countries: any[] = [];
+    public genders: any[] = [];
+
     toDate: Date;
     today: Date;
     public confirmPassword: string;
@@ -44,12 +45,15 @@ export class SignupFormComponent implements OnInit {
         private captchaService: CaptchaService,
         private messageService: MessageService,
         private translateService: TranslateService,
-        private dataProtectionPolicyService: DataProtectionPolicyService
+        private dataProtectionPolicyService: DataProtectionPolicyService,
+        private codeListService: CodelistService
     ) {}
 
     ngOnInit() {
         this.getToday();
         this.isSaving = false;
+        this.getNationalities();
+        this.getGenders();
     }
 
     clear() {
@@ -111,6 +115,24 @@ export class SignupFormComponent implements OnInit {
                     reject('dataProtectionPolicy cannot be get');
                 }
             });
+        });
+    }
+
+    private getNationalities() {
+        this.codeListService.findAllCountries().subscribe((response) => {
+            for (let i = 0; i < response.code.length; i++) {
+                let nationalities = { code: response.code[i].id, name: this.codeListService.getValue(response.code[i].name.text) };
+                this.countries.push(nationalities);
+            }
+        });
+    }
+
+    private getGenders() {
+        this.codeListService.findAllGenders().subscribe((response) => {
+            for (let i = 0; i < response.code.length; i++) {
+                let nationalities = { code: response.code[i].id, name: this.codeListService.getValue(response.code[i].name.text) };
+                this.genders.push(nationalities);
+            }
         });
     }
 }
