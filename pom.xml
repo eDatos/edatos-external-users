@@ -17,10 +17,10 @@
     <name>eDatos External Users</name>
 
     <scm>
-        <connection>scm:git:http://git.arte-consultores.com/istac/edatos-external-users/</connection>
-        <developerConnection>scm:git:http://git.arte-consultores.com/istac/edatos-external-users/</developerConnection>
+        <connection>scm:git:https://git.arte-consultores.com/istac/edatos-external-users/</connection>
+        <developerConnection>scm:git:https://git.arte-consultores.com/istac/edatos-external-users/</developerConnection>
         <tag>HEAD</tag>
-        <url>http://git.arte-consultores.com/istac/edatos-external-users</url>
+        <url>https://git.arte-consultores.com/istac/edatos-external-users</url>
     </scm>
     <issueManagement>
         <system>Jira</system>
