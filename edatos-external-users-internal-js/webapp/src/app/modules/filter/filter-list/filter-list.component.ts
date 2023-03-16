@@ -145,7 +145,13 @@ export class FilterListComponent implements OnInit {
     }
 
     private processUrlParams(): void {
-        this.filterSearch.includeFromDeletedUsers = this.activatedRoute.snapshot.queryParams.hasOwnProperty('includeFromDeletedUsers');
-        this.filterSearch.user = this.activatedRoute.snapshot.queryParams.user;
+        this.activatedRoute.data.subscribe((data) => {
+            this.page = data['pagingParams'].page;
+            this.reverse = data['pagingParams'].ascending;
+            this.predicate = data['pagingParams'].predicate;
+            this.itemsPerPage = data['pagingParams'].itemsPerPage;
+        });
+
+        this.filterSearch.processUrlParams(this.activatedRoute.snapshot.queryParams);
     }
 }
