@@ -1,13 +1,16 @@
 package es.gobcan.istac.edatos.external.users.core.service.impl;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.boot.actuate.audit.AuditEvent;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import es.gobcan.istac.edatos.external.users.core.domain.AuditEventEntity;
 import es.gobcan.istac.edatos.external.users.core.service.AuditEventService;
 import es.gobcan.istac.edatos.external.users.core.config.audit.AuditEventConverter;
 import es.gobcan.istac.edatos.external.users.core.repository.PersistenceAuditEventRepository;
@@ -28,6 +31,10 @@ public class AuditEventServiceImpl implements AuditEventService {
     @Override
     public Page<AuditEvent> find(Pageable pageable) {
         return persistenceAuditEventRepository.findAll(pageable).map(auditEventConverter::convertToAuditEvent);
+    }
+
+    public List<AuditEvent> findByPrincipal(String principal) {
+        return persistenceAuditEventRepository.findAllByPrincipal(principal).stream().map(auditEventConverter::convertToAuditEvent).collect(Collectors.toList());
     }
 
     @Override

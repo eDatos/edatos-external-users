@@ -49,7 +49,8 @@
         "methodNotSupported": "Acción no disponible",
         "userManagement": {
             "usuario-no-valido": "Usuario no válido"
-        }
+        },
+        "pdf": "Error al generar el pdf"
     },
     "exception": {
         "external_users": {
