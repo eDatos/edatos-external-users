@@ -1,5 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
+import { Params } from '@angular/router';
 import { BaseEntityFilter, EntityFilter } from 'arte-ng/model';
 import * as _ from 'lodash';
 
@@ -8,15 +9,21 @@ export class FilterFilter extends BaseEntityFilter implements EntityFilter {
     public name: string | null;
     public user: string | null;
     public userId: number | null;
-    public includeFromDeletedUsers = false;
     public lastAccessDate: Date | null;
 
     constructor(public datePipe?: DatePipe) {
         super(datePipe);
     }
 
+    public processUrlParams(queryParams: Params) {
+        this.name = queryParams.name;
+        this.user = queryParams.user;
+        this.userId = queryParams.userId;
+        this.lastAccessDate = queryParams.lastAccessDate;
+    }
+
     public getCriterias() {
-        const criterias = [''];
+        const criterias: string[] = [];
         if (this.name) {
             criterias.push(`NAME ILIKE '%${this.escapeSingleQuotes(this.name)}%'`);
         }

@@ -162,14 +162,10 @@ public class ExternalAccountResource extends AbstractResource {
     @Timed
     @PreAuthorize("@secCheckerExternal.canUpdateUser(authentication)")
     public ResponseEntity<Void> downloadMyInformation(@PathVariable Long id, HttpServletResponse response) {
-        try {
-            byte[] documento = documentService.generatePdfExternalUserInformation(id);
+        byte[] documento = documentService.generatePdfExternalUserInformation(id);
 
-            DocumentUtil.download(documento, DocumentConstants.DOC_EXTERNAL_USER_INFORMATION, response);
-            auditPublisher.publish(AuditConstants.EXT_USUARIO_DOWNLOAD_DOCUMENT, DocumentConstants.EXTERNAL_USER_INFORMATION);
-            return ResponseEntity.ok().build();
-        } catch (Exception e) {
-            throw new EDatosException(ServiceExceptionType.GENERIC_ERROR);
-        }
+        DocumentUtil.download(documento, DocumentConstants.DOC_EXTERNAL_USER_INFORMATION, response);
+        auditPublisher.publish(AuditConstants.EXT_USUARIO_DOWNLOAD_DOCUMENT, DocumentConstants.EXTERNAL_USER_INFORMATION);
+        return ResponseEntity.ok().build();
     }
 }

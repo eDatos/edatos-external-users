@@ -10,7 +10,9 @@ public final class DocumentConstants {
 
     public static final String DOC_EXTERNAL_USER_INFORMATION = "external-user-information.pdf";
 
-    public static final Locale PARAM_LOCALE_ES = new Locale("es_ES");
+    public static final String LOGO_CABECERA = "logo-edatos.png";
+
+    public static final String EXCEPTION_PATH_LOGO_HEADER_EDATOS = "Error when building URI to header logo";
 
     private DocumentConstants() {
     }
