@@ -19,7 +19,6 @@ public class EDatosApisLocator {
 
     private NoticesV1_0 noticesV10;
     private SrmRestExternalFacadeV10                   srmV10;
-    private StatisticalOperationsRestInternalFacadeV10 operationsV10;
 
     private Codes codes;
 

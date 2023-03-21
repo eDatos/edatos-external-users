@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 import es.gobcan.istac.edatos.external.users.core.domain.enumeration.Language;
-import es.gobcan.istac.edatos.external.users.core.domain.enumeration.Nationality;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.interfaces.AbstractVersionedAndAuditingAndLogicalDeletionDto;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.interfaces.Identifiable;
 

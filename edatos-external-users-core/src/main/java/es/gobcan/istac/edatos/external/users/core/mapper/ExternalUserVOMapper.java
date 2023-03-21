@@ -1,0 +1,67 @@
+package es.gobcan.istac.edatos.external.users.core.mapper;
+
+import java.util.Locale;
+
+import org.apache.commons.lang3.StringUtils;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Named;
+import org.siemac.metamac.rest.common.v1_0.domain.LocalisedString;
+import org.siemac.metamac.rest.structural_resources.v1_0.domain.Code;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
+
+import es.gobcan.istac.edatos.external.users.core.config.MetadataProperties;
+import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
+import es.gobcan.istac.edatos.external.users.core.domain.vo.ExternalUserVO;
+import es.gobcan.istac.edatos.external.users.core.service.EDatosApisLocator;
+import es.gobcan.istac.edatos.external.users.core.util.UrnUtil;
+
+@Mapper(componentModel = "spring")
+public abstract class ExternalUserVOMapper {
+
+    @Autowired
+    private EDatosApisLocator eDatosApisLocator;
+
+    @Autowired
+    private MetadataProperties metadataProperties;
+
+    @Mapping(target = "gender", source = "entity", qualifiedByName = "getGender")
+    @Mapping(target = "nationality", source = "entity", qualifiedByName = "getNationality")
+    public abstract ExternalUserVO toDto(ExternalUserEntity entity);
+
+    @Named("getGender")
+    public String getGender(ExternalUserEntity entity) {
+        if (StringUtils.isNotEmpty(entity.getGender())) {
+            Locale locale = LocaleContextHolder.getLocale();
+            String language = locale.toString().split("_")[0];
+
+            String urn = metadataProperties.getGenderUrnKey();
+            Code code = eDatosApisLocator.srmExternal().retrieveCode(UrnUtil.getAgency(urn), UrnUtil.getResourceId(urn), UrnUtil.getVersion(urn), entity.getGender(), null);
+            for (LocalisedString localisedString : code.getName().getTexts()) {
+                if (language.equalsIgnoreCase(localisedString.getLang())) {
+                    return localisedString.getValue();
+                }
+            }
+        }
+        return null;
+    }
+
+    @Named("getNationality")
+    public String getNationality(ExternalUserEntity entity) {
+        if (StringUtils.isNotEmpty(entity.getNationality())) {
+            Locale locale = LocaleContextHolder.getLocale();
+            String language = locale.toString().split("_")[0];
+
+            String urn = metadataProperties.getNationalityUrnKey();
+            Code code = eDatosApisLocator.srmExternal().retrieveCode(UrnUtil.getAgency(urn), UrnUtil.getResourceId(urn), UrnUtil.getVersion(urn), entity.getNationality(), null);
+            for (LocalisedString localisedString : code.getName().getTexts()) {
+                if (language.equalsIgnoreCase(localisedString.getLang())) {
+                    return localisedString.getValue();
+                }
+            }
+        }
+        return null;
+    }
+
+}

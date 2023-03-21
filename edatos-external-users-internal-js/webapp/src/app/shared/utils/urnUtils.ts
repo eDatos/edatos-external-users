@@ -10,9 +10,9 @@ export function getIdentifierFromUrn(urn: string) {
     var structuralResourceMatchs = structuralResourceRegex.exec(structuralResource);
 
     return {
-        agency: structuralResourceMatchs[1],
-        identifier: structuralResourceMatchs[2],
-        version: structuralResourceMatchs[3],
+        agency: structuralResourceMatchs?.[1],
+        identifier: structuralResourceMatchs?.[2],
+        version: structuralResourceMatchs?.[3],
     };
 }
 
