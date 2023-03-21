@@ -49,7 +49,8 @@
         "methodNotSupported": "Action not available",
         "userManagement": {
             "invalid-username": "Invalid username"
-        }
+        },
+        "pdf": "Error generating the pdf"
     },
     "exception": {
         "external_users": {
