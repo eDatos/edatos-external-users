@@ -68,7 +68,7 @@
         <field name="type" class="java.lang.String"/>
         <field name="data" class="java.lang.String"/>
     </subDataset>
-    <parameter name="rutaLogo" class="java.lang.String" isForPrompting="false"/>
+    <parameter name="PATH_LOGO" class="java.lang.String" isForPrompting="false"/>
     <parameter name="LOCALE" class="java.lang.String"/>
     <parameter name="PERSONAL_INFORMATION" class="es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity"/>
     <parameter name="FILTERS" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
@@ -199,7 +199,7 @@
                 <textElement>
                     <font size="12" isBold="true" isUnderline="false"/>
                 </textElement>
-                <textFieldExpression><![CDATA[$P{HEADER_GENDER} + ':']]></textFieldExpression>
+                <textFieldExpression><![CDATA[$P{HEADER_GENDER}]]></textFieldExpression>
             </textField>
             <textField isBlankWhenNull="true">
                 <reportElement x="550" y="50" width="120" height="20" uuid="1c011662-3a01-4513-83d7-e3f6c9d3cf53"/>
@@ -638,7 +638,7 @@
             </textField>
             <image hAlign="Center" vAlign="Middle">
                 <reportElement x="290" y="0" width="180" height="55" uuid="3081b5c6-83dc-4967-a3c5-7848d33025d8"/>
-                <imageExpression><![CDATA[$P{rutaLogo}]]></imageExpression>
+                <imageExpression><![CDATA[$P{PATH_LOGO}]]></imageExpression>
             </image>
         </band>
     </pageFooter>

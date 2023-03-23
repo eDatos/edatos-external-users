@@ -22,7 +22,6 @@ import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.FavoriteEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.FilterEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.vo.AuditEventVO;
-import es.gobcan.istac.edatos.external.users.core.errors.CustomParameterizedException;
 import es.gobcan.istac.edatos.external.users.core.errors.CustomParameterizedExceptionBuilder;
 import es.gobcan.istac.edatos.external.users.core.errors.ErrorConstants;
 import es.gobcan.istac.edatos.external.users.core.mapper.AuditEventMapper;
@@ -76,7 +75,7 @@ public class DocumentServiceImpl implements DocumentService {
             parameters.put("PERMALINK_PATH", metadataProperties.getVisualizerPath() + Constants.PATH_PERMALINK);
             parameters.put("FILTERS", new JRBeanCollectionDataSource(filters));
             parameters.put("AUDIT", new JRBeanCollectionDataSource(audit));
-            parameters.put("rutaLogo", new URI(this.getClass().getResource(DocumentConstants.FOLDER_JASPER_REPORT + DocumentConstants.LOGO_CABECERA).toString()).getPath());
+            parameters.put("PATH_LOGO", new URI(this.getClass().getResource(DocumentConstants.FOLDER_JASPER_REPORT + DocumentConstants.LOGO_CABECERA).toString()).getPath());
 
             // Headers
             Locale locale = LocaleContextHolder.getLocale();
