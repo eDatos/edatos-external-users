@@ -18,7 +18,6 @@ import es.gobcan.istac.edatos.external.users.core.domain.CategoryEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.FavoriteEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.enumeration.Language;
-import es.gobcan.istac.edatos.external.users.core.domain.enumeration.Treatment;
 import es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType;
 import es.gobcan.istac.edatos.external.users.core.repository.CategoryRepository;
 
@@ -160,7 +159,6 @@ public class CategoryServiceTest {
         externalUser.setEmail("user@user.com");
         externalUser.setPassword("password1");
         externalUser.setLanguage(Language.SPANISH);
-        externalUser.setTreatment(Treatment.LADY);
         externalUserService.create(externalUser);
 
         FavoriteEntity favorite = new FavoriteEntity();

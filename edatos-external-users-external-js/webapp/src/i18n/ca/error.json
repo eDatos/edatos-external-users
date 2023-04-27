@@ -1,31 +1,36 @@
 {
     "error": {
+        "default": {
+            "title": "Error",
+            "message": "Error desconegut"
+        },
         "403": {
-            "detail": "Ho sentim, no té permisos per a accedir a la pàgina.",
+            "detail": "Ho sentim, no té permisos per a accedir a la pàgina",
             "title": "Error 403"
         },
         "404": {
-            "detail": "Ho sentim, la pàgina que busca no existeix.",
+            "detail": "Ho sentim, la pàgina que busca no existeix",
             "title": "Error 404"
         },
         "NotNull": "¡El camp {{0}} no pot estar buit!",
         "Size": "¡El camp {{0}} no compleix amb els requisits de grandària mínima/màxima!",
-        "accessDenied": "Lo sentimos, no tiene permisos para acceder a la página.",
+        "accessDenied": "Lo sentimos, no tiene permisos para acceder a la página",
         "blockedUser": {
-            "detail": "Ho sentim, l'usuari amb el qual intenta accedir està bloquejat.",
+            "detail": "Ho sentim, l'usuari amb el qual intenta accedir està bloquejat",
             "title": "Error d'usuari"
         },
         "entidad-no-encontrada": "Resultat de {{0}} no trobat",
         "file": {
-            "empty": "Fitxer buit.",
-            "maxFileSize": "No poden adjuntar-se fitxers de més de {{0}} MB.",
-            "notFound": "Fitxer no trobat."
+            "empty": "Fitxer buit",
+            "maxFileSize": "No poden adjuntar-se fitxers de més de {{0}} MB",
+            "notFound": "Fitxer no trobat"
         },
         "file-empty": "El fitxer està buit",
         "id-existe": "Un nou {{0}} no pot tenir prèviament un ID",
         "internalServerError": "Error intern del servidor",
+        "dataConstraintViolation": "Error intern del servidor",
         "nonExistingUser": {
-            "detail": "Ho sentim, l'usuari amb el qual intenta accedir no s'ha donat d'alta.",
+            "detail": "Ho sentim, l'usuari amb el qual intenta accedir no s'ha donat d'alta",
             "title": "Error d'usuari"
         },
         "query-no-soportada": "Paràmetre de cerca {{0}} no suportat",
@@ -35,18 +40,42 @@
         "server.not.reachable": "Servidor no accessible",
         "title": "¡Ups, ha ocorregut un error!",
         "url.not.found": "No trobat",
-        "userManagement": {
-            "usuario-ldap-no-encontrado": "No s'ha trobat l'usuari especificat"
-        },
         "usuario-existe": "El nom d'usuari introduït ja està fent servir",
         "quartz": {
             "jobExecutionError": "Error durant l'execució d'un job Quartz"
         },
-        "login": {
-            "user-not-exists": "No es troba l'usuari. Si us plau, registri un nou compte per a poder iniciar sessió en l'aplicació.",
-            "user-disabled": "L'usuari es troba desactivat",
-            "void": "El camp no pot ser buit.",
-            "failed": "L'usuari i/o contrasenya no són correctes."
+        "concurrencyFailure": "Error intern del servidor",
+        "validation": "Error durant la validació de les dades",
+        "methodNotSupported": "Acció no disponible",
+        "userManagement": {
+            "usuari-no-vàlid": "Usuari no vàlid"
+        },
+        "pdf": "Error en generar el pdf"
+    },
+    "exception": {
+        "external_users": {
+            "generic": "S'ha produït un problema intern i no s'ha pogut executar la tasca. Contacteu amb l'administrador",
+            "category.cannot_delete_category_if_it_has_subscribers": "Una categoria no pot ser eliminada si hi ha persones subscrites a ella oa qualsevol dels seus descendents",
+            "query.not_supported": "Paràmetre de cerca no suportat: {{0}}",
+            "login": {
+                "user_disabled": "Usuari desactivat. Contacteu amb l'administrador",
+                "void": "El camp no puc estar buit",
+                "failed": "L'usuari i/o contrasenya no són correctes o no són al sistema"
+            },
+            "register_account.create_notice": "La nova contrasenya no pot ser la mateixa que l'actual",
+            "unsubscribe_account.create_notice": "Error enviant correu de sol·licitud de baixa. Prova més tard",
+            "change_password.create_notice": "El canvi de contrasenya s'ha realitzat amb èxit, però hi ha hagut un error enviant el correu de confirmació",
+            "reset_password.create_notice": "Error enviant correu de recuperació de contrasenya. Comprova l'adreça de correu o prova més tard",
+            "confirm_signup.create_notice": "Error enviant correu de confirmació de registre. Comprova l'adreça de correu o prova més tard",
+            "email_in_use.create_notice": "Error enviant correu de confirmació de registre. Comprova l'adreça de correu o prova més tard",
+            "repeated_signup.create_notice": "Error enviant correu de confirmació de registre. Comprova l'adreça de correu o prova més tard",
+            "subscrition_job.create_notice": "Error enviant correu a usuaris subscrits a una operació estadística",
+            "deleted": "L'usuari ha estat eliminat del sistema",
+            "deactivate": "L'usuari ha estat deshabilitat",
+            "deauthenticated": "L'usuari no té permisos d'accés",
+            "registration_confirmation": "El registre de l'usuari no s'ha pogut confirmar",
+            "password.not_match": "La nova contrasenya no pot ser la mateixa que l'actual",
+            "jasperreports.generating": "Error al generar el document"
         }
     }
 }

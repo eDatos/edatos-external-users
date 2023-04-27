@@ -13,6 +13,8 @@ public interface PersistenceAuditEventRepository extends JpaRepository<AuditEven
 
     List<AuditEventEntity> findByPrincipal(String principal);
 
+    List<AuditEventEntity> findAllByPrincipal(String principal);
+
     List<AuditEventEntity> findByAuditEventDateAfter(Instant after);
 
     List<AuditEventEntity> findByPrincipalAndAuditEventDateAfter(String principal, Instant after);

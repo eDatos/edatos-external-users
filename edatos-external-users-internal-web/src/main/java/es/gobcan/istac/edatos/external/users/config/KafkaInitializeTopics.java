@@ -5,25 +5,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.CreateTopicsOptions;
-import org.apache.kafka.clients.admin.DescribeClusterOptions;
-import org.apache.kafka.clients.admin.DescribeClusterResult;
+import org.apache.kafka.clients.admin.ListTopicsResult;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.KafkaException;
-import org.apache.kafka.common.Node;
 import org.apache.kafka.common.errors.TopicExistsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.actuate.autoconfigure.ConditionalOnEnabledHealthIndicator;
-import org.springframework.boot.actuate.health.AbstractHealthIndicator;
-import org.springframework.boot.actuate.health.Health;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.kafka.config.KafkaListenerEndpointRegistry;
+import org.springframework.kafka.listener.MessageListenerContainer;
 import org.springframework.stereotype.Component;
 
 import es.gobcan.istac.edatos.external.users.core.service.MetadataConfigurationService;
@@ -31,7 +29,7 @@ import es.gobcan.istac.edatos.external.users.core.service.MetadataConfigurationS
 @Component
 public class KafkaInitializeTopics {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(KafkaInitializeTopics.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(KafkaInitializeTopics.class);    
     private static final int NUM_OF_PARTITIONS = 1;
     private static final short NUM_OF_REPLICATION = (short) 1;
     private static final int TIMEOUT = 1000;
@@ -44,9 +42,11 @@ public class KafkaInitializeTopics {
     }
 
     private final MetadataConfigurationService metadataConfigurationService;
+    private final KafkaListenerEndpointRegistry kafkaListenerEndpointRegistry;
 
-    public KafkaInitializeTopics(MetadataConfigurationService metadataConfigurationService) {
+    public KafkaInitializeTopics(MetadataConfigurationService metadataConfigurationService, KafkaListenerEndpointRegistry kafkaListenerEndpointRegistry) {
         this.metadataConfigurationService = metadataConfigurationService;
+        this.kafkaListenerEndpointRegistry = kafkaListenerEndpointRegistry;
     }
 
     @EventListener
@@ -54,14 +54,32 @@ public class KafkaInitializeTopics {
         ApplicationContext ac = event.getApplicationContext();
         if (ac.getParent() == null) {
             try {
-                LOGGER.info("Initializing Kafka topics...");
+                LOGGER.info("Initializing Kafka topics...");    
                 propagateCreationOfTopics();
+                startAvailableConsumers();
             } catch (Exception e) {
                 LOGGER.error("Could not initialize Kafka topics", e);
             }
         }
     }
+    
+    private void startAvailableConsumers() {
+        runConsumer("datasetPublicationTopicId");
+        runConsumer("operationPublicationTopicId");
+        NewTopic externalPublicationTopic = getExternalDatasetsPublicationTopic();
+        if (externalPublicationTopic != null) {
+            runConsumer("externalPublicationTopicId");
+        }
 
+    }
+
+    private void runConsumer(String consumerId) {
+        MessageListenerContainer listenerContainer = kafkaListenerEndpointRegistry.getListenerContainer(consumerId);
+        if (listenerContainer != null && !listenerContainer.isRunning()) {
+            listenerContainer.start();
+        }
+    }
+    
     public Properties getKafkaProperties() {
         Properties properties = new Properties();
         properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, metadataConfigurationService.retrieveKafkaBootStrapServers());
@@ -80,9 +98,41 @@ public class KafkaInitializeTopics {
         List<NewTopic> topics = new ArrayList<>();
         topics.add(createTopic(metadataConfigurationService.retrieveKafkaTopicOperationsPublication()));
         topics.add(createTopic(metadataConfigurationService.retrieveKafkaTopicDatasetsPublication()));
+
+        NewTopic externalPublicationTopic = getExternalDatasetsPublicationTopic();
+        if (externalPublicationTopic != null) {
+            topics.add(externalPublicationTopic);
+        }
         return topics;
     }
+    
+    private NewTopic getExternalDatasetsPublicationTopic() {
+        try {
+            String topicNameDatasetExternalPublication = metadataConfigurationService.retrieveKafkaTopicExternalDatasetPublication();
+            return createTopic(topicNameDatasetExternalPublication);
+        } catch (Exception e) {
+            LOGGER.error("It is not possible create external publication topic");
+        }
+        return null;
+    }
 
+    private static List<NewTopic> getAvailableTopics(AdminClient adminClient, List<NewTopic> topics) {
+        // excludes nonexistent topics
+        List<NewTopic> availableTopics = new ArrayList<>();
+        try {
+            ListTopicsResult listTopics = adminClient.listTopics();
+            Set<String> names = listTopics.names().get();
+            for (NewTopic topic : topics) {
+                if (names.contains(topic.name())) {
+                    availableTopics.add(topic);
+                }
+            }
+        } catch (Exception e) {
+            LOGGER.info("error to get list available topics");
+        }
+        return availableTopics;
+    }
+    
     private NewTopic createTopic(String topic) {
         return new NewTopic(topic, NUM_OF_PARTITIONS, NUM_OF_REPLICATION).configs(TOPIC_DEFAULT_SETTINGS);
     }
@@ -92,8 +142,10 @@ public class KafkaInitializeTopics {
     }
 
     private void createTopics(Properties kafkaProperties, List<NewTopic> topics, CreateTopicsOptions topicsOptions) {
+        List<NewTopic> availableTopics = new ArrayList<>();
         try (AdminClient adminClient = AdminClient.create(kafkaProperties)) {
-            adminClient.createTopics(topics, topicsOptions).all().get();
+            availableTopics = getAvailableTopics(adminClient, topics);
+            adminClient.createTopics(availableTopics, topicsOptions).all().get();
         } catch (KafkaException | ExecutionException e) {
             if (e.getCause() instanceof TopicExistsException) {
                 LOGGER.debug("{}", e.getCause().getMessage());
@@ -105,6 +157,4 @@ public class KafkaInitializeTopics {
             Thread.currentThread().interrupt(); // See SonarLint java:S2142
         }
     }
-
-
 }

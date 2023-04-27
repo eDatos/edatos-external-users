@@ -14,6 +14,7 @@ import { LazyLoadEvent } from 'primeng/api';
 })
 export class FilterListComponent implements OnInit {
     public filters: Filter[] = [];
+    public filtersLoaded: boolean = false;
     public totalItems: number | null = null;
     public paginatorOptions = PAGINATION_OPTIONS;
     public itemsPerPage?: number;
@@ -66,7 +67,11 @@ export class FilterListComponent implements OnInit {
                         sort: this.sort(),
                         query: this.filterSearch.toQuery(),
                     })
-                    .subscribe((rw) => this.onSuccess(rw))
+                    .subscribe(
+                        (rw) => this.onSuccess(rw),
+                        () => {}, 
+                        () => { this.filtersLoaded = true; }
+                    )
             );
         });
     }

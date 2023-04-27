@@ -1,5 +1,6 @@
 package es.gobcan.istac.edatos.external.users.rest.internal.resources;
 
+import es.gobcan.istac.edatos.external.users.core.domain.enumeration.PermalinkType;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,7 +17,6 @@ import es.gobcan.istac.edatos.external.users.EdatosExternalUsersRestTestApp;
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.FilterEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.enumeration.Language;
-import es.gobcan.istac.edatos.external.users.core.domain.enumeration.Treatment;
 import es.gobcan.istac.edatos.external.users.core.errors.ExceptionTranslator;
 import es.gobcan.istac.edatos.external.users.core.repository.ExternalUserRepository;
 import es.gobcan.istac.edatos.external.users.core.repository.FilterRepository;
@@ -87,7 +87,6 @@ public class FilterResourceInternalTest {
         user1.setSurname2("Ferrer");
         user1.setPassword("password1");
         user1.setEmail("user1@gmail.com");
-        user1.setTreatment(Treatment.LADY);
         user1.setLanguage(Language.CATALAN);
         externalUserRepository.saveAndFlush(user1);
         user2 = new ExternalUserEntity();
@@ -96,7 +95,6 @@ public class FilterResourceInternalTest {
         user2.setSurname2("Hernández");
         user2.setPassword("12345678");
         user2.setEmail("user2@gmail.com");
-        user2.setTreatment(Treatment.MISTER);
         user2.setLanguage(Language.CATALAN);
         externalUserRepository.saveAndFlush(user2);
 
@@ -104,11 +102,13 @@ public class FilterResourceInternalTest {
         filter1.setName("My filter 1");
         filter1.setPermalink(PERMALINK_1);
         filter1.setExternalUser(user1);
+        filter1.setPermalinkType(PermalinkType.VISUALIZER);
         filterRepository.saveAndFlush(filter1);
         filter2 = new FilterEntity();
         filter2.setName("My filter 2");
         filter2.setPermalink(PERMALINK_2);
         filter2.setExternalUser(user1);
+        filter2.setPermalinkType(PermalinkType.VISUALIZER);
         filterRepository.saveAndFlush(filter2);
     }
 
@@ -211,6 +211,7 @@ public class FilterResourceInternalTest {
         filter.setName("User 2 filter");
         filter.setPermalink(PERMALINK_1);
         filter.setExternalUser(user2);
+        filter.setPermalinkType(PermalinkType.VISUALIZER);
         filterRepository.saveAndFlush(filter);
 
         this.mockMvc.perform(get(ENDPOINT_URL + "?query=EMAIL EQ 'user2@gmail.com'"))

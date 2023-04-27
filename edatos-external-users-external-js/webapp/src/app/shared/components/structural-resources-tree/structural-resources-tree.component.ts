@@ -4,7 +4,6 @@ import { CategoryService } from '@app/shared/service';
 import { TranslateService } from '@ngx-translate/core';
 import { TreeNode } from 'primeng/api';
 import { Observable, of } from 'rxjs';
-import { EUsuariosAlertService } from '@app/core/service';
 
 /**
  * @see StructuralResourcesTreeComponent#mode
@@ -92,7 +91,6 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
     private nodeList: CategoryTreeNode[] = [];
 
     constructor(
-        private alertService: EUsuariosAlertService,
         private categoryService: CategoryService,
         private translateService: TranslateService,
         private iterableDiffers: IterableDiffers,
@@ -172,14 +170,19 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
                     }
                     return this.categoryToCategoryTreeNode(category, children);
                 })
-                .sort((a, b) => {
-                    if (a.data instanceof Category && b.data instanceof Category) {
-                        return a.data.index < b.data.index ? -1 : 1;
-                    } else {
-                        return a.data.name.val! < b.data.name.val! ? -1 : 1;
-                    }
-                })
         );
+    }
+
+    private sortChildren(a, b): -1 | 1 {
+        if (a.data instanceof Category && b.data instanceof Category) {
+            return a.data.index < b.data.index ? -1 : 1;
+        } else if (a.data instanceof ExternalOperation && b.data instanceof Category) {
+            return 1;
+        } else if (a.data instanceof Category && b.data instanceof ExternalOperation) {
+            return -1;
+        } else {
+            return a.data.id < b.data.id ? -1 : 1;
+        }
     }
 
     private categoryToCategoryTreeNode(category: Category, children: CategoryTreeNode[]): CategoryTreeNode {
@@ -188,13 +191,16 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
             collapsedIcon: 'fa fa-folder',
             expandedIcon: 'fa fa-folder-open',
             expanded: true,
-            children,
+            children: children.sort(this.sortChildren),
             data: category,
             selectable: !this.disabled,
             editMode: null,
             makingRequest: false,
             setLoading: (setLoadingChildren?: boolean) => this.setLoadingNode(node, setLoadingChildren),
             unsetLoading: (setLoadingChildren?: boolean) => this.unsetLoadingNode(node, setLoadingChildren),
+            // We need to add key in the model to provide selection when filter
+            // https://github.com/primefaces/primeng/issues/8429#issuecomment-573529483
+            key: category.id
         };
 
         if (this.isFavorite(category)) {
@@ -256,6 +262,7 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
             makingRequest: false,
             setLoading: (setLoadingChildren?: boolean) => this.setLoadingNode(node, setLoadingChildren),
             unsetLoading: (setLoadingChildren?: boolean) => this.unsetLoadingNode(node, setLoadingChildren),
+            key: externalOperation.code
         };
 
         if (this.isFavorite(externalOperation)) {

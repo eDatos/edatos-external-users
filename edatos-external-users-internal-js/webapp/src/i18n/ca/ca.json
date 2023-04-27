@@ -382,8 +382,8 @@
         "activado": "Activat",
         "created": "S'ha creat l'usuari {{ param }}",
         "createdDate": "Data de registre",
-        "deactivate": {
-            "question": "¿Segur que desitja desactivar l'usuari <strong>{{ email }}</strong>?"
+        "delete": {
+            "question": "Està segur que vol eliminar a l'usuari <strong>{{ email }}</strong>?. La informació eliminada no podrà ser recuperada"
         },
         "deleted": "S'ha eliminat l'usuari {{ param }}",
         "deletionDate": "Data d'esborrat",
@@ -398,7 +398,8 @@
                 "categories": "Subscripcions temàtiques",
                 "fullname": "Nom o cognoms",
                 "language": "Idioma",
-                "service": "Servei"
+                "service": "Servei",
+                "registration": "Inclou els no registrats"
             },
             "placeholders": {
                 "fullname": "Introdueixi nom o cognoms",
@@ -444,7 +445,7 @@
         "rol": "Rol",
         "roles": "Rols",
         "serviceEnum": {
-            "FILTERS": "Filtres",
+            "FILTERS": "Consulta personalitzada",
             "FAVORITES": "Favorits"
         },
         "status": {
@@ -454,11 +455,6 @@
         },
         "surname1": "Primer cognom",
         "surname2": "Segon cognom",
-        "treatment": "Tractament",
-        "treatmentEnum": {
-            "LADY": "Senyora",
-            "MISTER": "Senyor"
-        },
         "updated": "S'ha actualitzat l'usuari {{ param }}"
     },
     "family": {

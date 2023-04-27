@@ -103,13 +103,16 @@ application:
         searchUsersProperty: FILL_SEARCH_USERS_PROPERTY # Ejemplo: uid
     jobs:
         cron:
+            disabledTokens: 0 0 3 * * *
             enabledTokens: 0 0 4 * * *
+            registrationTokens: 0 0 5 * * *
+            captchaResponses: 0 0/30 * * * ?
 
 environment:
     edatos:
         configuration:
             db:
-                driverName: oracle.jdbc.OracleDriver
-                url: jdbc:oracle:thin:@teide.arte:1521:orcl
-                username: JENKINS_METAMAC_COMMON
-                password: tV8lk+6r+URVXobfg7zSrSIJsk+uWcy+D5kXs7V9LlQ=
+                driverName: org.postgresql.Driver
+                url: jdbc:postgresql://artejenkins.arte.internal:5432/ARTE
+                username: istac_metamac_common_metadata_ci
+                password: oYJYi+yfdqQtcsiboNlFmm2Eqm5GBYqBTJ+QGDE49BDlvcTK1YyQJBCHxBHiqYfN

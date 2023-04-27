@@ -1,5 +1,5 @@
 
-# Arte Application Template
+# eDatos External Users
 
 En este tutorial se explica el proceso a seguir para llevar a cabo el proceso de instalación de la aplicación. Se recomienda llevar a cabo una lectura rápida de todo el tutorial antes de comenzar con el proceso de instalación.
 Además, podrá encontrar otros anexos de utilidad en los que se detallan algunas cuestiones relacionadas con el desarrollo, los diferentes perfiles de compilación,...
@@ -9,31 +9,39 @@ Además, podrá encontrar otros anexos de utilidad en los que se detallan alguna
 ## Introducción
 
 ### Descripción de la aplicación
-Arte Application Template es la plantilla base de aplicaciones web de gestión sobre la que Arte Consultores S.L. crea sus proyectos.
-
-La plantilla está basada en el nuevo stack (ver [Más Información](#M%C3%A1s-informaci%C3%B3n)) aportando toda la arquitectura y configuración necesaria sobre la que trabajar en nuevos proyectos. Para mantenerlo lo más simple posible solo implementa el manejo de los usuarios y roles con acceso a la aplicación. 
+Esta aplicación permitirá que usuarios externos se den de alta en la infraestructura a fin de poder gestionar sus propios filtros a fin de poder acceder de manera rápida y sencilla a sus visualizaciones más consultadas así como gestionar sus favoritos a fin de poder recibir notificaciones sobre los recursos que estén vinculados a los temas u operaciones que haya marcado como favoritas. Además, la aplicación también permitirá conocer y gestionar el inventario de los usuarios externos dados de alta en la infraestructura, sus invetarios de favoritos y los filtros creados por los mismos.
 
 ### Requerimientos previos
+Esta aplicación se integra dentro de la infraestructura de eDatos, con lo que es necesario que los sistemas que lo componen se encuentren disponibles.
 
 #### Requisitos del entorno
 En este apartado se especifican los requisitos necesarios, referidos al entorno, para que la aplicación funcione adecuadamente:
 - Apache Tomcat.  8.5
 - Java. 1.8.x
-- PostgreSQL.  **TODO**
-
+- PostgreSQL 12.2
+- Apache Kafka Confluent Community 6.1.1
+- Apache 2.4.29
 
 #### Dependencias
 La aplicación requiere de determinados servicios para poder estar completamente operativa. Algunos de ellos son necesarios de manera directa y otros de manera indirecta:
 Los servicios necesarios de manera directa (son atacados directamente por la aplicación):
 - CAS. Se utiliza para llevar a cabo las labores de autenticación.
+- Base de datos common-metadata. Se utiliza para obtener todas las propiedades de conexión con la base de datos de la aplicación.
+- Metamac-access-control. Se utiliza para determinar si los usuarios puede acceder a la aplicación y con qué rol lo harán.
+- Resto de aplicaciones de la infraestructura de eDatos: metamac-notifications, metamac-statistical-operations, metamac-statistical-resources. metamac-common-metadata y metamac-srm.
 
 
 ### Componentes de la instalación
-La plantilla consta de una aplicación con interfaz web y un servicio web REST.
+El proyecto edatos-external-users consta de:
+- Aplicación web externa para que los usuarios puedan darse de alta para gestionar sus propios filtros y favoritos.
+- Aplicación web interna que permitirá gestionar el investario de usuarios externos dados de alta así como los favoritos y los filtros creados por estos.
+- API REST externa
+- API REST interna
+
 
 ### Gestión de roles y permisos
 
-* :construction: **_TODO_**
+La gestión de los usuarios que pueden acceder a la aplicación de gestión interna, así como el rol con el cual pueden acceder a la misma, se realizará a través del sistema de control de accesos como se realiza para el resto de sistemas de la infraestructura de eDatos.
 
 ----------
 
@@ -43,7 +51,7 @@ La plantilla consta de una aplicación con interfaz web y un servicio web REST.
 - Configuración del servidor de aplicaciones según los requisitos del entorno ya especificados.
 - Configuración de la base de datos. 
     1. La aplicación cuenta con un mecanismo para llevar a cabo la gestión de los cambios de base de datos de manera automatizada (liquidbase).
-    2. A priori lo único que es necesario es crear en la aplicación el esquema de base de datos que se va a utilizar. El esquema debe recibir el nombre de "TODO".
+    2. A priori lo único que es necesario es crear en la aplicación el esquema de base de datos que se va a utilizar.
     3. Por otra parte, será necesario que el usuario que use la aplicación tenga permisos para la creación de objetos sobre el esquema anterior.
     4. De esta forma la aplicación, en el momento de arrancar, llevará a cabo la creación de todos los objetos que sean necesarios sobre la base de datos.
 
@@ -58,23 +66,34 @@ La plantilla consta de una aplicación con interfaz web y un servicio web REST.
 
 
 ### Paso 3. Configuración de logging.
-Pueden modificarse los ficheros relacionados con la configuración de logging en **edatos-external-users.war/WEB-INF/classes/logback.xml**.
+- Pueden modificarse los ficheros relacionados con la configuración de logging en **edatos-external-users.war/WEB-INF/classes/logback.xml**.
 
-### Paso 4. Arrancar la aplicación.
+### Paso 4. Configuración de Apache.
+- Configuración de Apache para la aplicación de gestión interna:
 
-### Paso 5. Crear usuario administador
-Para poder acceder a la aplicación __*es necesario dar de alta un usuario*__.  A continuación, se enumerarán y  explicarán los procesos a realizar para llevar a cabo esta tarea:
+> RewriteRule ^/aplicaciones/appsinternalistac/external-users-internal(.*) - [ENV=IGNORE_SET_COOKIE]
+>
+> ...
+>  
+> Header edit Set-Cookie ^(.*)$ $1;HttpOnly;Secure env=!IGNORE_SET_COOKIE
 
-1. Crear un usuario y asignarle un rol, para ello es necesario ejecutar la siguiente instrucción SQL:
+- Configuración de Apache para la aplicación externa:
 
-   ```sql
-   -- Crea un usuario y se le asigna un rol existente
-   SELECT add_usuario_with_existing_rol('RELLENAR_USUARIO_LDAP', 'RELLENAR_NOMBRE_USUARIO', 'RELLENAR_PRIMER_APPELLIDO_USUARIO', 'RELLENAR_SEGUNDO_APPELLIDO_USUARIO', 'RELLENAR_CORREO_ELECTRONICO_USUARIO', 'RELLENAR_CODIGO_ROL_EXISTENTE');
-   ```
+> RewriteRule ^/aplicaciones/appsistac/external-users(.*) - [ENV=IGNORE_SET_COOKIE]
+>
+> ...
+>  
+> Header edit Set-Cookie ^(.*)$ $1;HttpOnly;Secure env=!IGNORE_SET_COOKIE
+>
+> ...
+>  
+> Header set Access-Control-Allow-Headers "Content-Type,x-requested-with,X-XSRF-TOKEN" env=SET_ACCESS_CONTROL_ALLOW_HEADERS
+ 
 
-Una vez generado este usuario administrador (con todos los permisos), este tendrá los permisos necesario para dar de alta el resto de usuarios mediante la aplicación, en la sección de **Gestión de usuarios**.
+### Paso 5. Arrancar la aplicación.
 
->  **Importante:** Existe un fichero script SQL sobre el que basarse para realizar las acciones anteriores. Dicho fichero se encuentra en: [etc/db/01-configuraciones/01-insercion-roles-y-usuarios.sql](etc/db/01-configuraciones/01-insercion-roles-y-usuarios.sql "Fichero de inserción de roles y usuarios").
+### Paso 6. Permisos para el acceder a la aplicación
+- Para poder acceder a la aplicación de gestión interna es necesario acceder a la aplicación control de acceso y asignar al usuario con el que se desee acceder permisos para la aplicación "Gestor de usuarios externos" con el rol que se estime conveniente.
 
 ----------
 

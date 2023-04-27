@@ -23,10 +23,11 @@ public class DeleteCaptchaResponses {
     }
 
     @Transactional
-    @Scheduled(cron = "0 0/30 * * * ?") // Every 30 minutes
+    @Scheduled(cron = "${application.jobs.cron.captchaResponses}")
     public void execute() {
-        LOG.info("Starting to clean captcha responses that have existed for too long...");
-        captchaResponseRepository.deleteByCreatedDateBefore(Instant.now().minusMillis(CaptchaConstants.CAPTCHA_LIFESPAN));
-        LOG.info("All captcha that have existed for too long were deleted");
+        Long numberOfDeletedRows = captchaResponseRepository.deleteByCreatedDateBefore(Instant.now().minusMillis(CaptchaConstants.CAPTCHA_LIFESPAN));
+        if (numberOfDeletedRows > 0) {
+            LOG.info("All captcha responses that have existed for too long (" + numberOfDeletedRows + ") were deleted");
+        }
     }
 }

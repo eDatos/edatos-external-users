@@ -11,11 +11,14 @@ public interface NotificationService {
 
     void createNewExternalUserAccountNotification(ExternalUserEntity externalUserEntity);
     void createDeleteExternalUserAccountNotification(ExternalUserEntity externalUserEntity);
-    void createChangePasswordExternaluserAccountNotification(ExternalUserEntity externalUserEntity);
     void createResetPasswordExternaluserAccountNotification(ExternalUserEntity externalUserEntity);
+
+    void createRegisterExternalUserAccountNotification(ExternalUserEntity externalUserEntity);
+    void createExternalUserAlreadyRegisteredNotification(ExternalUserEntity externalUserEntity);
+    void createExternalUserRegistrationAlreadyRequested(ExternalUserEntity externalUserEntity);
 
     void createNoticeOfSusbcritionsJob(List<FavoriteEntity> listFavorites);
 
     void createNotificationWithReceivers(String message, String subject, Receivers receivers);
-    Receivers createReceiversList(List<String> emails);
+    Receivers createReceiversList(List<String> emails, List<Long> categories, List<Long> externalOperations);
 }

@@ -30,7 +30,7 @@ public class LoginServiceImpl implements LoginService {
         loginValidator.validate(login);
 
         //@formatter:off
-        ExternalUserEntity usuarioToAuthenticate = externalUserRepository.findOneByEmailIgnoreCaseAndDeletionDateIsNull(login)
+        ExternalUserEntity usuarioToAuthenticate = externalUserRepository.findOneByEmailIgnoreCaseAndEnabledTrue(login)
             .filter(usuario -> SecurityUtils.passwordEncoderMatches(password, usuario.getPassword())).orElseThrow( () -> new EDatosException(ServiceExceptionType.LOGIN_FAILED));
         //@formatter:on
 

@@ -6,6 +6,8 @@ import { AuthServerProvider, Principal } from '@app/core/service';
 import { DOCUMENT } from '@angular/common';
 import { addQueryParamToRoute } from '@app/shared/utils/routesUtils';
 import { CaptchaService } from '@app/shared/service';
+import { MessageService } from 'primeng';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-login',
@@ -33,7 +35,9 @@ export class LoginComponent implements OnInit {
         private authServerProvider: AuthServerProvider,
         @Inject(DOCUMENT) readonly document: Document,
         private captchaService: CaptchaService,
-        private externalUserService: ExternalLoginService
+        private externalUserService: ExternalLoginService,
+        private messageService: MessageService,
+        private translateService: TranslateService
     ) {
         this.credentials = new Credentials();
         this.route.queryParams.subscribe((queryParams) => {
@@ -46,7 +50,25 @@ export class LoginComponent implements OnInit {
         });
     }
 
-    ngOnInit() {}
+    ngOnInit() {
+        this.route.queryParams.subscribe((params) => {
+            if(params['registration-key']) {
+                const urlWithoutRegistrationKeyToken = new URL(document.URL);
+                urlWithoutRegistrationKeyToken.searchParams.delete("registration-key");
+                window.history.pushState({}, "", urlWithoutRegistrationKeyToken.href);
+
+                this.accountUserService.confirmRegistration(params['registration-key']).subscribe(() => {
+                    this.messageService.add({
+                        key: 'customAlertKey',
+                        severity: 'success',
+                        summary: this.translateService.instant('signup.messages.onSuccessSumary'),
+                        detail: this.translateService.instant('signup.messages.onSuccess'),
+                        life: 5000,
+                    });
+                });
+            }
+        });
+    }
 
     login() {
         this.accountUserService.login(this.captchaContainerEl, this.credentials).then((foo: any) => {

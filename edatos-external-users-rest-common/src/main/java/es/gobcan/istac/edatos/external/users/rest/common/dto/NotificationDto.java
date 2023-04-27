@@ -3,10 +3,6 @@ package es.gobcan.istac.edatos.external.users.rest.common.dto;
 import java.io.Serializable;
 import java.util.List;
 
-import org.siemac.metamac.rest.notices.v1_0.domain.Receivers;
-
-import es.gobcan.istac.edatos.external.users.core.domain.enumeration.Language;
-import es.gobcan.istac.edatos.external.users.core.domain.enumeration.Treatment;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.interfaces.AbstractVersionedAndAuditingAndLogicalDeletionDto;
 
 public class NotificationDto extends AbstractVersionedAndAuditingAndLogicalDeletionDto implements Serializable {
@@ -14,8 +10,9 @@ public class NotificationDto extends AbstractVersionedAndAuditingAndLogicalDelet
     private static final long serialVersionUID = 1L;
     private String subject;
     private String message;
-
     private List<String> receivers;
+    private List<Long> categoriesIds;
+    private List<Long> externalOperationsIds;
 
     public String getSubject() {
         return subject;
@@ -39,5 +36,21 @@ public class NotificationDto extends AbstractVersionedAndAuditingAndLogicalDelet
 
     public void setReceivers(List<String> receivers) {
         this.receivers = receivers;
+    }
+
+    public List<Long> getCategoriesIds() {
+        return categoriesIds;
+    }
+
+    public void setCategoriesIds(List<Long> categoriesIds) {
+        this.categoriesIds = categoriesIds;
+    }
+
+    public List<Long> getExternalOperationsIds() {
+        return externalOperationsIds;
+    }
+
+    public void setExternalOperationsIds(List<Long> externalOperationsIds) {
+        this.externalOperationsIds = externalOperationsIds;
     }
 }

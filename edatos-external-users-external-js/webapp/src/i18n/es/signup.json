@@ -10,16 +10,23 @@
             "password": "Contraseña",
             "confirmPassword": "Confirmar contraseña",
             "email": " Correo electrónico",
-            "treatment": "Tratamiento",
             "language": "Idioma",
             "phoneNumber": "Número teléfono",
             "organism": "Organismo",
             "enableEmailNotifications": "Habilitar notificaciones a través de correo electrónico",
-            "captchaModal": "Resuelva el captcha para terminar el registro"
+            "captchaModal": "Resuelva el captcha para terminar el registro",
+            "termsAndConditions": "Acepto términos y condiciones"
         },
         "messages": {
             "onSuccessSumary": "Registro de nuevo usuario",
-            "onSuccess": "El usuario se ha registrado con éxito"
+            "onSuccess": "El usuario se ha registrado con éxito",
+            "onRequest": "Se ha enviado un correo para confirmar el registro"
+        },
+        "document": {
+            "onErrorDownload": {
+                "label" : "Error en la descarga PDF",
+                "detail" :  "Lo sentimos, no se ha podido generar el documento PDF."
+            }
         }
     }
 }

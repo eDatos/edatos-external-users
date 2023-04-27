@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Language, Treatment } from '@app/core/model';
+import { Language } from '@app/core/model';
 import { AccountUserService } from '@app/core/service/user';
 import { TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
@@ -16,7 +16,8 @@ export class AccountManagementComponent implements OnInit {
     public account: any;
 
     public languageEnum = Language;
-    public treatmentEnum = Treatment;
+
+    public downloadingPdf = false;
 
     constructor(
         private userService: AccountUserService,
@@ -31,7 +32,7 @@ export class AccountManagementComponent implements OnInit {
         this.account = this.route.snapshot.data.user;
     }
 
-    save() {
+    public save() {
         this.isSaving = true;
         this.userService.update(this.account).subscribe(
             () => {
@@ -45,12 +46,12 @@ export class AccountManagementComponent implements OnInit {
         );
     }
 
-    clear() {
+    public clear() {
         const returnPath = ['account-management'];
         this.router.navigate(returnPath);
     }
 
-    isEditMode(): Boolean {
+    public isEditMode(): Boolean {
         if (this.route.snapshot.url.length == 0) {
             return false;
         }
@@ -70,5 +71,21 @@ export class AccountManagementComponent implements OnInit {
         this.success = 'OK';
         this.isSaving = false;
         this.router.navigate(['account-management']);
+    }
+
+    public download(event: Event) {
+        this.downloadingPdf = true;
+        this.userService.download(this.account.id).subscribe(
+            (response) => this.userService.saveToFileSystem(response),
+            (error) =>
+                this.messageService.add({
+                    key: 'customAlertKey',
+                    severity: 'error',
+                    summary: this.translateService.instant('signup.document.onErrorDownload.label'),
+                    detail: this.translateService.instant('signup.document.onErrorDownload.detail'),
+                    life: 5000,
+                }),
+            () => (this.downloadingPdf = false)
+        );
     }
 }

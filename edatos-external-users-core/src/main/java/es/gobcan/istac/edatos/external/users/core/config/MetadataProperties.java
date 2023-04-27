@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import es.gobcan.istac.edatos.external.users.core.service.HtmlService;
 import es.gobcan.istac.edatos.external.users.core.service.MetadataConfigurationService;
 
 @Component("metadataProperties")
@@ -21,15 +20,13 @@ public class MetadataProperties {
     @Autowired
     private MetadataConfigurationService configurationService;
 
-    @Autowired
-    private HtmlService htmlService;
-
     private String metamacNavbar;
     private String metamacCasPrefix;
     private String metamacCasLoginUrl;
     private String metamacCasLogoutUrl;
     private String defaultLanguage;
     private List<String> availableLanguages;
+    private String languageCookie;
 
     private boolean captchaEnable;
     private String captchaProvider;
@@ -45,24 +42,27 @@ public class MetadataProperties {
 
     @PostConstruct
     public void setValues() {
-        try {
-            metamacNavbar = normalizeUrl(configurationService.retrieveNavbarUrl());
-            metamacCasPrefix = normalizeUrl(configurationService.retrieveSecurityCasServerUrlPrefix());
-            metamacCasLoginUrl = normalizeUrl(configurationService.retrieveSecurityCasServiceLoginUrl());
-            metamacCasLogoutUrl = normalizeUrl(configurationService.retrieveSecurityCasServiceLogoutUrl());
-            captchaEnable = configurationService.retrieveCaptchaEnable();
-            captchaProvider = configurationService.retrieveCaptchaProvider();
+        metamacNavbar = normalizeUrl(configurationService.retrieveNavbarUrl());
+        metamacCasPrefix = normalizeUrl(configurationService.retrieveSecurityCasServerUrlPrefix());
+        metamacCasLoginUrl = normalizeUrl(configurationService.retrieveSecurityCasServiceLoginUrl());
+        metamacCasLogoutUrl = normalizeUrl(configurationService.retrieveSecurityCasServiceLogoutUrl());
+        captchaEnable = configurationService.retrieveCaptchaEnable();
+        captchaProvider = configurationService.retrieveCaptchaProvider();
+        if (CaptchaConstants.CAPTCHA_PROVIDER_RECAPTCHA.equals(captchaProvider)) {
             recaptchaSiteKey = configurationService.retrieveRecaptchaSiteKey();
             recaptchaSecretKey = configurationService.retrieveRecaptchaSecretKey();
-            captchaUrl = normalizeUrl(configurationService.retrieveCaptchaExternalApiUrlBase());
-            availableLanguages = configurationService.retrieveLanguages();
-            externalAppUrl = normalizeUrl(configurationService.retrieveExternalUsersExternalWebApplicationUrlBase());
-            internalAppUrl = normalizeUrl(configurationService.retrieveExternalUsersInternalWebApplicationUrlBase());
-            casService = internalAppUrl + "/login/cas";
-            visualizerPath = configurationService.retrievePortalExternalWebApplicationUrlVisualizer();
-            defaultLanguage = availableLanguages.get(0);
+        }
+        captchaUrl = normalizeUrl(configurationService.retrieveCaptchaExternalApiUrlBase());
+        availableLanguages = configurationService.retrieveLanguages();
+        externalAppUrl = normalizeUrl(configurationService.retrieveExternalUsersExternalWebApplicationUrlBase());
+        internalAppUrl = normalizeUrl(configurationService.retrieveExternalUsersInternalWebApplicationUrlBase());
+        casService = internalAppUrl + "/login/cas";
+        visualizerPath = configurationService.retrievePortalExternalWebApplicationUrlVisualizer();
+        defaultLanguage = availableLanguages.get(0);
+        try {
+            languageCookie = configurationService.retrieveInternationalizationCookieId();
         } catch (Exception e) {
-            log.error("Error getting the value of a metadata {}", e);
+            languageCookie = null;
         }
     }
 
@@ -121,6 +121,10 @@ public class MetadataProperties {
     public List<String> getAvailableLanguages() {
         // The languages are retrieved each time it is needed so that multi-language fields can be updated
         return availableLanguages;
+    }
+
+    public String getLanguageCookie() {
+        return languageCookie;
     }
 
     private String normalizeUrl(String url) {

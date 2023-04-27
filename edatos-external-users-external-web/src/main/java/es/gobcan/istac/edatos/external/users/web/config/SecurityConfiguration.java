@@ -1,20 +1,10 @@
 package es.gobcan.istac.edatos.external.users.web.config;
 
-import es.gobcan.istac.edatos.external.users.core.config.MetadataProperties;
-import es.gobcan.istac.edatos.external.users.core.errors.AccessDeniedCustomHandler;
-import es.gobcan.istac.edatos.external.users.web.security.provider.LoginPasswordAuthenticationProvider;
-import es.gobcan.istac.edatos.external.users.web.security.filter.CaptchaFilter;
-import es.gobcan.istac.edatos.external.users.web.security.filter.JWTAuthenticationFilter;
-import es.gobcan.istac.edatos.external.users.web.security.filter.JWTAuthorizationFilter;
-import es.gobcan.istac.edatos.external.users.web.security.provider.TokenProvider;
-import io.github.jhipster.config.JHipsterProperties;
-import io.github.jhipster.security.Http401UnauthorizedEntryPoint;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -28,8 +18,20 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.data.repository.query.SecurityEvaluationContextExtension;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+import es.gobcan.istac.edatos.external.users.core.config.MetadataProperties;
+import es.gobcan.istac.edatos.external.users.core.errors.AccessDeniedCustomHandler;
+import es.gobcan.istac.edatos.external.users.web.security.filter.CaptchaFilter;
+import es.gobcan.istac.edatos.external.users.web.security.filter.JWTAuthenticationFilter;
+import es.gobcan.istac.edatos.external.users.web.security.filter.JWTAuthorizationFilter;
+import es.gobcan.istac.edatos.external.users.web.security.provider.LoginPasswordAuthenticationProvider;
+import es.gobcan.istac.edatos.external.users.web.security.provider.TokenProvider;
+import io.github.jhipster.config.JHipsterProperties;
+import io.github.jhipster.security.Http401UnauthorizedEntryPoint;
 
 @Configuration
 @EnableWebSecurity
@@ -38,12 +40,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final TokenProvider tokenProvider;
 
-    private JHipsterProperties jHipsterProperties;
+    private JHipsterProperties  jHipsterProperties;
 
     @Autowired
-    private MetadataProperties metadataProperties;
+    private MetadataProperties  metadataProperties;
 
-    private final Environment env;
+    private final Environment   env;
 
     public SecurityConfiguration(AuthenticationManagerBuilder authenticationManagerBuilder, TokenProvider tokenProvider, JHipsterProperties jHipsterProperties, Environment env) {
 
@@ -81,7 +83,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     private CsrfTokenRepository getCsrfTokenRepository() {
-        CookieCsrfTokenRepository tokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse();
+        CookieAndHeaderCsrfTokenRepository tokenRepository = CookieAndHeaderCsrfTokenRepository.withHttpOnlyFalse();
         tokenRepository.setCookiePath("/");
         return tokenRepository;
     }
@@ -89,8 +91,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         //@formatter:off
-        web.ignoring()
-            .antMatchers(HttpMethod.OPTIONS, "/**")
+        web
+            .ignoring()
             .antMatchers("/*")
             .antMatchers("/app/**/*.{js,html}")
             .antMatchers("/bower_components/**")
@@ -100,10 +102,32 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         //@formatter:on
     }
 
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        // One way to configure CORS on this spring version when we are using spring-mvc
+        return new WebMvcConfigurerAdapter() {
+
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                //@formatter:off
+                registry.addMapping("/api/**") // As the doc says, just adding the mapping is super permissive, so is needed to securize it
+                        .allowedOrigins("*") // EDATOS-3702, this is UNSAFE, this needs to be changed to a whitelist because now it allow evil domains to send CORS petitions
+                        .allowedMethods("GET", "POST")
+                        .allowedHeaders("authorization", "content-type", "x-xsrf-token")
+                        .exposedHeaders("x-xsrf-token") // We need to be able to read it from the response
+                        .allowCredentials(true) // Needed for sending cookies on the requests
+                ;
+                //@formatter:on
+            }
+        };
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         //@formatter:off
         http
+             .cors() // This is needed here so spring-security can take into account the spring-mvc cors configuration, mainly to allow the OPTIONS requests done on preflight
+         .and()
             .addFilterBefore(new CaptchaFilter(metadataProperties), JWTAuthenticationFilter.class)
             .addFilter(new JWTAuthenticationFilter(authenticationProvider(), tokenProvider, mapper(),jHipsterProperties, env, metadataProperties))
             .addFilter(new JWTAuthorizationFilter(authenticationManager(), tokenProvider))
@@ -111,7 +135,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .accessDeniedHandler(accessDeniedHandler())
             .authenticationEntryPoint(http401UnauthorizedEntryPoint())
         .and()
-            .csrf().csrfTokenRepository(this.getCsrfTokenRepository())
+            .csrf().csrfTokenRepository(getCsrfTokenRepository())
         .and()
             .headers().frameOptions().sameOrigin()
         .and()
@@ -122,7 +146,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/activate").permitAll()
                 .antMatchers("/api/authenticate").permitAll()
                 .antMatchers("/api/profile-info").permitAll()
-                .antMatchers("/api/account/signup").permitAll()
+                .antMatchers("/api/account/signup/**").permitAll()
                 .antMatchers("/api/login").permitAll()
                 .antMatchers("/api/recover-password/**").permitAll()
                 .antMatchers("/v2/api-docs/**").permitAll()

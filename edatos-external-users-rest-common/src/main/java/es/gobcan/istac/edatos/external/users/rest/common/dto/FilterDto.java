@@ -3,6 +3,7 @@ package es.gobcan.istac.edatos.external.users.rest.common.dto;
 import java.io.Serializable;
 import java.time.Instant;
 
+import es.gobcan.istac.edatos.external.users.core.domain.enumeration.PermalinkType;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.interfaces.AbstractVersionedAndAuditingDto;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.interfaces.Identifiable;
 
@@ -19,6 +20,7 @@ public class FilterDto extends AbstractVersionedAndAuditingDto implements Serial
     private Instant lastAccessDate;
     private String notes;
     private ExternalOperationDto externalOperation;
+    private PermalinkType permalinkType;
 
     @Override
     public Long getId() {
@@ -92,5 +94,13 @@ public class FilterDto extends AbstractVersionedAndAuditingDto implements Serial
 
     public void setUrlPermalink(String urlPermalink) {
         this.urlPermalink = urlPermalink;
+    }
+
+    public PermalinkType getPermalinkType() {
+        return permalinkType;
+    }
+
+    public void setPermalinkType(PermalinkType permalinkType) {
+        this.permalinkType = permalinkType;
     }
 }

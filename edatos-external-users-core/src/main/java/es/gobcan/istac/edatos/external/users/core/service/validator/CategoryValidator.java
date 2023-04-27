@@ -36,7 +36,7 @@ public class CategoryValidator extends AbstractValidator<CategoryEntity> {
 
         // Get categories that are no longer present in the tree but are in the database
         Set<CategoryEntity> deletedCategories = new HashSet<>(allCategories);
-        deletedCategories.removeIf(c1 -> updatedCategories.stream().anyMatch(c2 -> Objects.equals(c1.getName(), c2.getName())));
+        deletedCategories.removeIf(c1 -> updatedCategories.stream().anyMatch(c2 -> Objects.equals(c1.getId(), c2.getId())));
 
         for (CategoryEntity category : deletedCategories) {
             if (!favoriteService.findByCategory(category).isEmpty()) {

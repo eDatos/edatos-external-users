@@ -1,5 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
+import { Params } from '@angular/router';
 import { BaseEntityFilter, EntityFilter } from 'arte-ng/model';
 import * as _ from 'lodash';
 
@@ -8,15 +9,21 @@ export class FilterFilter extends BaseEntityFilter implements EntityFilter {
     public name: string | null;
     public user: string | null;
     public userId: number | null;
-    public includeFromDeletedUsers = false;
     public lastAccessDate: Date | null;
 
     constructor(public datePipe?: DatePipe) {
         super(datePipe);
     }
 
+    public processUrlParams(queryParams: Params) {
+        this.name = queryParams.name;
+        this.user = queryParams.user;
+        this.userId = queryParams.userId;
+        this.lastAccessDate = queryParams.lastAccessDate;
+    }
+
     public getCriterias() {
-        const criterias = ['USER_DELETION_DATE IS_NULL'];
+        const criterias: string[] = [];
         if (this.name) {
             criterias.push(`NAME ILIKE '%${this.escapeSingleQuotes(this.name)}%'`);
         }
@@ -25,9 +32,6 @@ export class FilterFilter extends BaseEntityFilter implements EntityFilter {
         }
         if (this.userId) {
             criterias.push(`USER_ID EQ ${this.userId}`);
-        }
-        if (this.includeFromDeletedUsers) {
-            _.pull(criterias, 'USER_DELETION_DATE IS_NULL');
         }
         if (this.lastAccessDate) {
             criterias.push(`LAST_ACCESS_DATE EQ '%${this.escapeSingleQuotes(this.lastAccessDate.toString())}%'`);
@@ -50,13 +54,6 @@ export class FilterFilter extends BaseEntityFilter implements EntityFilter {
             paramName: 'userId',
             updateFilterFromParam: (param) => (this.userId = param),
             clearFilter: () => (this.userId = null),
-        });
-        this.registerParam({
-            paramName: 'includeFromDeletedUsers',
-            updateFilterFromParam: (param) => {
-                this.includeFromDeletedUsers = param === 'true';
-            },
-            clearFilter: () => (this.includeFromDeletedUsers = false),
         });
         this.registerParam({
             paramName: 'lastAccessDate',

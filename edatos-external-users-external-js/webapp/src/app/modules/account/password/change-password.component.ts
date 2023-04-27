@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AccountUserService, Principal } from '@app/core/service';
 import { User, UserAccountChangePassword } from '@app/core/model';
 import { Router } from '@angular/router';
+import { MessageService } from "primeng/api";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
     selector: 'change-password',
@@ -15,7 +17,7 @@ export class ChangePasswordComponent implements OnInit {
     public newPassword: string;
     public confirmNewPassword: string;
 
-    constructor(private userService: AccountUserService, private principal: Principal, private router: Router) {}
+    constructor(private userService: AccountUserService, private principal: Principal, private router: Router, private messageService: MessageService, private translateService: TranslateService) {}
 
     ngOnInit() {
         this.principal.identity().then((account) => {
@@ -41,7 +43,14 @@ export class ChangePasswordComponent implements OnInit {
     }
 
     private onSaveSuccess(result: User): void {
-        this.isSaving = false;
+        this.messageService.add({
+            key: 'customAlertKey',
+            severity: 'success',
+            summary: this.translateService.instant('userManagement.password.messages.onSuccessSumary'),
+            detail: this.translateService.instant('userManagement.password.messages.onSuccess'),
+            life: 5000,
+        });
+        this.clear();
     }
 
     private onSaveError(error: any): void {

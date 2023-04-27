@@ -10,6 +10,9 @@
             <button *ngIf="!isEditMode()" type="button" class="btn btn-secondary" routerLink="/account-management/edit">
                 <span class="fa fa-pencil"></span> <span translate="entity.action.edit"></span>
             </button>
+            <button *ngIf="!isEditMode()" type="button" class="btn btn-primary" (click)="download($event)">
+                <span [ngClass]="downloadingPdf ? 'fa fa-spinner fa-spin' : 'fa  fa-download'"></span> <span translate="account.download.myInformation"></span>
+            </button>
             <button *ngIf="isEditMode()" type="submit" form="settings-form" [disabled]="settingsForm && settingsForm.form.invalid || isSaving" class="btn btn-primary">
                 <span class="fa fa-floppy-o"></span>
                 <span translate="entity.action.save"></span>
@@ -85,22 +88,6 @@
                                 <div class="form-errors-messages" *hasErrors="let messages">
                                     <li *ngFor="let m of messages">{{m}}</li>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group form-group-inline col-md-6">
-                        <div class="form-row">
-                            <label class="col-form-label col-md-4" translate="signup.form.treatment"></label>
-                            <div class="col-md-8">
-                                <arte-autocomplete-enum
-                                    name="treatment"
-                                    [multiple]="false"
-                                    [(ngModel)]="account.treatment"
-                                    [suggestionsEnum]="treatmentEnum"
-                                    [translationPath]="'treatment.'"
-                                >
-                                </arte-autocomplete-enum>
                             </div>
                         </div>
                     </div>

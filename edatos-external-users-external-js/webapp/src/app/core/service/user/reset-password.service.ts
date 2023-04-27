@@ -12,8 +12,8 @@ export class ResetPasswordService {
 
     constructor(private http: HttpClient) {}
 
-    resetPassword(email: string): Observable<String> {
-        return this.http.post(this.resourceUrl, email, { responseType: 'text' });
+    resetPassword(email: string): Observable<any> {
+        return this.http.post(this.resourceUrl, email);
     }
 
     changePasswordReset(keyAndPassword: KeyAndPassword): Observable<String> {

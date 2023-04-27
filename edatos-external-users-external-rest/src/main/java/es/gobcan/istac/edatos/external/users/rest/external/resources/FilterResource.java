@@ -88,7 +88,7 @@ public class FilterResource extends AbstractResource {
             throw new EDatosException(CommonServiceExceptionType.PARAMETER_UNEXPECTED, "id");
         }
 
-        FilterEntity entity = filterMapper.toEntity(dto);
+        FilterEntity entity = filterMapper.toEntityWithAuthenticatedUser(dto);
         entity = filterService.create(entity);
         FilterDto newDto = filterMapper.toDto(entity);
 
@@ -104,7 +104,7 @@ public class FilterResource extends AbstractResource {
             throw new EDatosException(CommonServiceExceptionType.PARAMETER_REQUIRED, "id");
         }
 
-        FilterEntity entity = filterMapper.toEntity(dto);
+        FilterEntity entity = filterMapper.toEntityWithAuthenticatedUser(dto);
         entity = filterService.update(entity);
         FilterDto newDto = filterMapper.toDto(entity);
 

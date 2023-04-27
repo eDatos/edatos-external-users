@@ -10,6 +10,9 @@
             "apellido2.placeholder": "Su segundo apellido",
             "button": "Guardar"
         },
+        "download": {
+            "myInformation" : "Descargar mi información"
+        },
         "messages": {
             "error": {
                 "fail": "<strong>¡Ha ocurrido un error!</strong> Los ajustes no se han podido guardar.",
@@ -34,7 +37,7 @@
                 }
             },
             "delete": {
-                "text": "Al confirmar se dará de baja en el sistema."
+                "text": "¿Seguro que desea eliminar el usuario?. La información eliminada no podrá ser recuperada"
             },
             "onSuccessSumary": "Usuario editado",
             "onSuccess": "Se han modificado los datos del usuario correctamente."

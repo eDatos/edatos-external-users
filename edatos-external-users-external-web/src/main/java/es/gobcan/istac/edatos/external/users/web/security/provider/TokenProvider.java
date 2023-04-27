@@ -1,6 +1,6 @@
 package es.gobcan.istac.edatos.external.users.web.security.provider;
 
-import es.gobcan.istac.edatos.external.users.core.repository.DisabledTokenRepository;
+import es.gobcan.istac.edatos.external.users.core.service.DisabledTokenService;
 import es.gobcan.istac.edatos.external.users.web.config.JHipsterExtraProperties;
 import io.github.jhipster.config.JHipsterProperties;
 import io.jsonwebtoken.*;
@@ -42,13 +42,13 @@ public class TokenProvider {
     private final JHipsterProperties jHipsterProperties;
 
     private final JHipsterExtraProperties jHipsterExtraProperties;
-    
-    private final DisabledTokenRepository disabledTokenRepository;
 
-    public TokenProvider(JHipsterProperties jHipsterProperties, JHipsterExtraProperties jHipsterExtraProperties, DisabledTokenRepository disabledTokenRepository) {
+    private final DisabledTokenService disabledTokenService;
+
+    public TokenProvider(JHipsterProperties jHipsterProperties, JHipsterExtraProperties jHipsterExtraProperties, DisabledTokenService disabledTokenService) {
         this.jHipsterProperties = jHipsterProperties;
         this.jHipsterExtraProperties = jHipsterExtraProperties;
-        this.disabledTokenRepository = disabledTokenRepository;
+        this.disabledTokenService = disabledTokenService;
     }
 
     @PostConstruct
@@ -88,29 +88,13 @@ public class TokenProvider {
     public Jws<Claims> validateToken(String authToken) {
         Jws<Claims> claimsJws = null;
         try {
-            boolean thereIsATokenAndItIsDisabled = StringUtils.hasText(authToken) && disabledTokenRepository.exists(authToken);
+            boolean thereIsATokenAndItIsDisabled = StringUtils.hasText(authToken) && disabledTokenService.exists(authToken);
             if(thereIsATokenAndItIsDisabled) {
                 throw new CredentialsExpiredException("The authentication token is disabled. Login again.");
             }
             return claimsJws = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(authToken);
-        } catch (SignatureException e) {
-            log.info("JWT: Firma no válida.");
-            log.trace("JWT: Firma no válida traza: {}", e);
-        } catch (MalformedJwtException e) {
-            log.info("JWT: Token no valido.");
-            log.trace("JWT: Token no valido trace: {}", e);
-        } catch (ExpiredJwtException e) {
-            log.info("JWT: Token expirado.");
-            log.trace("JWT: Token expirado trace: {}", e);
-        } catch (UnsupportedJwtException e) {
-            log.info("JWT: Token no soportado.");
-            log.trace("JWT: Token no soportado trace: {}", e);
-        } catch (IllegalArgumentException e) {
-            log.info("JWT: token del handler no es válido.");
-            log.trace("JWT: token del handler no es válido trace: {}", e);
-        } catch (CredentialsExpiredException e) {
-            log.info("JWT: token deshabilitado.");
-            log.trace("JWT: token deshabilitado trace: {}", e);
+        } catch (SignatureException | MalformedJwtException | ExpiredJwtException | UnsupportedJwtException | IllegalArgumentException | CredentialsExpiredException e) {
+            log.debug("JWT: token no válido trace: {}", e);
         }
 
         return claimsJws;

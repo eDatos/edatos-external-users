@@ -382,8 +382,8 @@
         "activado": "Activated",
         "created": "User {{ param }}has been created",
         "createdDate": "Registration date",
-        "deactivate": {
-            "question": "Are you sure you want to delete user <strong>{{ email }}</strong>?"
+        "delete": {
+            "question": "Are you sure you want to delete user <strong>{{ email }}</strong>?. Deleted information cannot be recovered"
         },
         "deleted": "User {{ param }}has been removed",
         "deletionDate": "Deletion date",
@@ -398,7 +398,8 @@
                 "categories": "Thematic subscriptions",
                 "fullname": "Name or surname",
                 "language": "Language",
-                "service": "Service"
+                "service": "Service",
+                "registration": "Include unregistered"
             },
             "placeholders": {
                 "fullname": "Enter name or surname",
@@ -444,7 +445,7 @@
         "rol": "Role",
         "roles": "Roles",
         "serviceEnum": {
-            "FILTERS": "Filters",
+            "FILTERS": "Custom queries",
             "FAVORITES": "Favorites"
         },
         "status": {
@@ -454,11 +455,6 @@
         },
         "surname1": "Surname",
         "surname2": "Second surname",
-        "treatment": "Treatment",
-        "treatmentEnum": {
-            "LADY": "Mrs",
-            "MISTER": "Mister"
-        },
         "updated": "User {{ param }}has been updated"
     },
     "family": {
@@ -629,8 +625,11 @@
             "cas": "Cas",
             "db": "Database",
             "diskSpace": "Disc space",
+            "kafka": "Kafka",
             "ldap": "LDAP",
-            "mail": "e-mail"
+            "mail": "Email",
+            "noticesInternal": "Notices Manager",
+            "structuralResourcesExternal": "Structural Resources Manager"
         },
         "refresh.button": "Refresh",
         "stacktrace": "Trace",

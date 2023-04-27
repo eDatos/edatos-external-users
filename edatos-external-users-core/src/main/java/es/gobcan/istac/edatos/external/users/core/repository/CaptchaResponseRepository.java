@@ -10,5 +10,5 @@ import es.gobcan.istac.edatos.external.users.core.domain.CaptchaResponseEntity;
 @Repository
 public interface CaptchaResponseRepository extends JpaRepository<CaptchaResponseEntity, String> {
 
-    public void deleteByCreatedDateBefore(Instant date);
+    Long deleteByCreatedDateBefore(Instant date);
 }

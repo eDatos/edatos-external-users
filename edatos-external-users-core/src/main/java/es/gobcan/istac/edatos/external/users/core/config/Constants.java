@@ -24,6 +24,8 @@ public final class Constants {
 
     public static final int HEALTH_INDICATOR_REQUEST_TIMEOUT_MS = 3000;
 
+    public static final String PATH_PERMALINK = "/data.html?permalink=";
+
     private Constants() {
     }
 }

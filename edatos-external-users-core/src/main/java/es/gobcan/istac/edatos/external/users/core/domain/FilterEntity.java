@@ -3,19 +3,11 @@ package es.gobcan.istac.edatos.external.users.core.domain;
 import java.io.Serializable;
 import java.time.Instant;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import es.gobcan.istac.edatos.external.users.core.domain.enumeration.PermalinkType;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.NotBlank;
@@ -64,6 +56,10 @@ public class FilterEntity extends AbstractVersionedAndAuditingEntity implements 
     @ManyToOne(targetEntity = ExternalItemEntity.class)
     @JoinColumn(columnDefinition = "external_operation_fk", referencedColumnName = "urn")
     private ExternalOperationEntity externalOperation;
+
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "permalink_type default VISUALIZER", nullable = false)
+    private PermalinkType permalinkType;
 
     @Override
     public Long getId() {
@@ -120,5 +116,13 @@ public class FilterEntity extends AbstractVersionedAndAuditingEntity implements 
 
     public void setExternalOperation(ExternalOperationEntity externalOperation) {
         this.externalOperation = externalOperation;
+    }
+
+    public PermalinkType getPermalinkType() {
+        return permalinkType;
+    }
+
+    public void setPermalinkType(PermalinkType permalinkType) {
+        this.permalinkType = permalinkType;
     }
 }

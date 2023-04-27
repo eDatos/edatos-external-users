@@ -10,6 +10,9 @@
             "apellido2.placeholder": "El seu segon cognom",
             "button": "Guardar"
         },
+        "download": {
+            "myInformation" : "Descarregar la meva informació"
+        },
         "messages": {
             "error": {
                 "emailexists": "<strong>¡L'adreça de correu electrònic ja existeix!</strong> Si us plau, triï una altra.",
@@ -34,7 +37,7 @@
                 }
             },
             "delete": {
-                "text": "En confirmar es donarà de baixa en el sistema."
+                "text": "Està segur que vol eliminar a l'usuari?. La informació eliminada no podrà ser recuperada"
             },
             "onSuccessSumary": "Usuari editat",
             "onSuccess": "S'han modificat les dades de l'usuari correctament."

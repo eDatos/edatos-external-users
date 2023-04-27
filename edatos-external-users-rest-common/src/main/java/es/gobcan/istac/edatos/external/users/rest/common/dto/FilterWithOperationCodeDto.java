@@ -3,6 +3,7 @@ package es.gobcan.istac.edatos.external.users.rest.common.dto;
 import java.io.Serializable;
 import java.time.Instant;
 
+import es.gobcan.istac.edatos.external.users.core.domain.enumeration.PermalinkType;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.interfaces.Identifiable;
 
 public class FilterWithOperationCodeDto implements Serializable, Identifiable {
@@ -15,6 +16,7 @@ public class FilterWithOperationCodeDto implements Serializable, Identifiable {
     private Instant lastAccessDate;
     private String notes;
     private String externalOperationCode;
+    private PermalinkType permalinkType;
 
     @Override
     public Long getId() {
@@ -79,5 +81,13 @@ public class FilterWithOperationCodeDto implements Serializable, Identifiable {
 
     public void setExternalOperationCode(String externalOperationCode) {
         this.externalOperationCode = externalOperationCode;
+    }
+
+    public PermalinkType getPermalinkType() {
+        return permalinkType;
+    }
+
+    public void setPermalinkType(PermalinkType permalinkType) {
+        this.permalinkType = permalinkType;
     }
 }

@@ -11,7 +11,7 @@
 
 	<property name="LOGS_HOME" value="/servers/metamac/data/edatos-external-users-external/logs" />
 
-	<!-- <turboFilter class="ExpiringDuplicateMessageFilter"> -->
+	<!-- <turboFilter class="org.siemac.edatos.core.common.util.ExpiringDuplicateMessageFilter"> -->
 	<!-- <allowedRepetitions>4</allowedRepetitions> -->
 	<!-- <cacheSize>200</cacheSize> -->
 	<!-- <expireAfterWriteSeconds>1800</expireAfterWriteSeconds> -->

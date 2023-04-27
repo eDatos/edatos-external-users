@@ -9,7 +9,6 @@ import es.gobcan.istac.edatos.external.users.rest.common.dto.ExternalUserAccount
 import es.gobcan.istac.edatos.external.users.rest.common.dto.KeyAndPasswordDto;
 import org.siemac.edatos.core.common.exception.EDatosException;
 import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +19,6 @@ import es.gobcan.istac.edatos.external.users.core.config.audit.AuditEventPublish
 import es.gobcan.istac.edatos.external.users.core.service.ExternalUserService;
 import es.gobcan.istac.edatos.external.users.rest.common.mapper.ExternalUserAccountMapper;
 
-import java.util.Locale;
 import java.util.Optional;
 
 @RestController
@@ -47,12 +45,14 @@ public class PasswordResource extends AbstractResource {
 
     @PostMapping
     @Timed
-    public ResponseEntity<String> recoverPassword(@Valid @RequestBody String email) {
-        ExternalUserEntity user = externalUserService.recoverExternalUserAccountPassword(email).get();
-        notificationService.createResetPasswordExternaluserAccountNotification(user);
+    public ResponseEntity<Void> recoverPassword(@Valid @RequestBody String email) {
+        ExternalUserEntity user = externalUserService.recoverExternalUserAccountPassword(email).orElse(null);
+        if(user != null) {
+            notificationService.createResetPasswordExternaluserAccountNotification(user);
 
-        auditPublisher.publish(AuditConstants.EXT_USUARIO_EDICION, email);
-        return ResponseEntity.ok().body(generateTextI18n("resource.external_users.password.email"));
+            auditPublisher.publish(AuditConstants.EXT_USUARIO_EDICION, email);
+        }
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/change-password")
@@ -73,11 +73,5 @@ public class PasswordResource extends AbstractResource {
     @Timed
     public ResponseEntity<Boolean> existsResetKey(@PathVariable String key) {
         return ResponseEntity.ok().body(externalUserService.findOneByResetKey(key).isPresent());
-    }
-
-    private String generateTextI18n(String text) {
-        Locale locale = LocaleContextHolder.getLocale();
-        return messageSource.getMessage(text, null, locale);
-
     }
 }

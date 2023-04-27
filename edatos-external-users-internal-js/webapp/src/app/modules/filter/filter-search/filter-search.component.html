@@ -20,12 +20,6 @@
                 [placeholder]="'filter.search.placeholderForUserSearch'"
             ></arte-input>
         </div>
-        <div class="form-group col-md-2 ac-ui-unfluid">
-            <label translate="filter.search.includeFromDeactivatedUsers"></label>
-            <div>
-                <arte-tri-input-switch (onChange)="filter()" [(ngModel)]="filters.includeFromDeletedUsers" [required]="true"></arte-tri-input-switch>
-            </div>
-        </div>
         <div class="page-filters-btns col-md-2">
             <label class="w-100">&nbsp;</label>
             <button (click)="resetFilters()" class="btn btn-light">

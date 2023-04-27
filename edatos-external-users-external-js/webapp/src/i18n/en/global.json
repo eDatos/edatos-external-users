@@ -4,18 +4,51 @@
         "version": "Version",
         "yes": "Yes",
         "no": "No",
+        "browsehappy": "You are using an <strong>outdated</strong> browser. Please <a href=\"http://browsehappy.com/?locale=en\">update your browser</a> to improve your experience.",
         "menu": {
+            "home": "Inicio",
+            "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
+            "entities": {
+                "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
+            },
             "account": {
                 "main": "Account",
                 "sessions": "Sessions",
                 "login": "Login",
                 "logout": "Logout",
                 "myAccount": "My account"
+            },
+            "admin": {
+                "main": "Administration",
+                "userManagement": "User management",
+                "configuration": "Configuration",
+                "logs": "Logs",
+                "audits": "Audit",
+                "apidocs": "API",
+                "jhipster-needle-menu-add-admin-element": "JHipster will add additional menu entries here (do not translate!)",
+                "filter": "Custom queries",
+                "favorite": "Thematic subscriptions"
+            },
+            "administracion": {
+                "main": "Administration"
             }
         },
+        "form": {
+            "email": "Email",
+            "email.placeholder": "Your email"
+        },
         "messages": {
+            "validate": {
+                "email": {
+                    "required": "An email is required.",
+                    "invalid": "Your email is not valid.",
+                    "minlength": "Your email is required to be at least 5 characters long",
+                    "maxlength": "Your email cannot be longer than 50 characters"
+                }
+            },
             "recoverPasswordEmail": "Email sent correctly"
         },
+        "item-count": "{{first}} - {{second}} of {{total}}",
         "pageSizeSelector": "Page size",
         "loading": "Loading",
         "alerts": {
@@ -24,8 +57,109 @@
             }
         }
     },
+    "entity": {
+        "action": {
+            "back": "Return",
+            "cancel": "Cancel",
+            "close": "Close",
+            "confirm": "Confirm",
+            "crear": "Create",
+            "delete": "Remove",
+            "edit": "Edit",
+            "restore": "Restore",
+            "eliminar": "Remove",
+            "filtersReset": "Reset filters",
+            "modificar": "modify",
+            "open": "Open",
+            "publishExternally": "Publish externally",
+            "publishInternally": "Publish internally",
+            "recuperar": "Recover",
+            "save": "Save",
+            "view": "Watch",
+            "change-password": "Change password",
+            "data-protection-policy": "Data Protection Policy",
+            "unsubscribe": "Unsubscribe",
+            "about": "About"
+        },
+        "delete": {
+            "title": "Confirm delete operation"
+        },
+        "restore": {
+            "title": "Confirm restoration"
+        },
+        "recuperar": {
+            "title": "Confirm recovery"
+        },
+        "eliminar": {
+            "title": "Confirm elimination"
+        },
+        "crear": {
+            "title": "Confirm creation"
+        },
+        "modificar": {
+            "title": "Confirm modification"
+        },
+        "validation": {
+            "required": "This field is required.",
+            "minlength": "This field requires at least {{requiredLength}} characters.",
+            "maxlength": "This field cannot exceed {{max}} characters.",
+            "min": "This field must be greater than {{min}}.",
+            "max": "This field cannot be greater than {{max}}.",
+            "minbytes": "This field must be at least {{min}} bytes.",
+            "maxbytes": "This field cannot be more than {{max}} bytes.",
+            "pattern": "This field must follow the pattern {{pattern}}.",
+            "number": "This field must be a number.",
+            "datetimelocal": "This field must be a date and time.",
+            "ZonedDateTimelocal": "This field must be a date and time.",
+            "not-valid": "The value of this field is not valid"
+        },
+        "list": {
+            "empty": {
+                "sorry": "We are sorry.",
+                "detail": "There were no results that meet the search criteria.",
+                "createNewIitem": "(Add new)",
+                "writeForSuggestions": "Start typing to suggest results",
+                "selectOption": "Select one of the available options",
+                "multiInput": "Type the value and hit enter to add it"
+            }
+        },
+        "audits": {
+            "title": "Audit",
+            "createdBy": "Created By",
+            "createdDate": "Creation date",
+            "deletedBy": "Removed By",
+            "deletionDate": "Date of deletion",
+            "lastModifiedBy": "Modified by",
+            "lastModifiedDate": "Modification date"
+        },
+        "input": {
+            "placeholder": "Enter the desired text here"
+        },
+        "currency": {
+            "errors": {
+                "notANumber": "The entered value must be numeric"
+            }
+        },
+        "calendar": {
+            "placeholder": "Select the desired date on the calendar"
+        }
+    },
+    "enum": {
+        "procStatus": {
+            "label": "Lifecycle status",
+            "DRAFT": "Draft",
+            "INTERNALLY_PUBLISHED": "Published internally",
+            "EXTERNALLY_PUBLISHED": "published externally"
+        }
+    },
     "home": {
         "pageTitle": "Welcome",
-        "title": "Welcome, {{user}}"
+        "title": "Welcome, {{user}}",
+        "detail": "Access the desired section through the navigation menu"
+    },
+    "table": {
+        "globalSearchPlaceholder": "Enter search terms",
+        "pageCount": "{{pageFirst}} - {{pageLast}} of {{total}}",
+        "pageReport": "{first}–{last} of {totalRecords}"
     }
 }

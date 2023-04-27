@@ -37,7 +37,7 @@
                 name="services"
             ></arte-autocomplete-enum>
         </div>
-        <div class="form-group col-md-8 thematic-subscriptions">
+        <div class="form-group col-xl-6 thematic-subscriptions">
             <label class="label-selected-resources">{{'externalUser.filters.labels.categories' | translate}}</label>
             <div class="thematic-subscriptions-input">
                 <div *ngIf="selectedResources?.length !== 0; else noSelectedResources" class="selected-resources-wrapper">
@@ -79,19 +79,21 @@
                 </p-footer>
             </p-dialog>
         </div>
-        <div class="ac-ui-unfluid include-deactivated form-group small-form-field">
-            <label translate="externalUser.home.includeDeleted"></label>
-            <div class="">
-                <!-- d-md-inline-block ml-3 -->
-                <arte-tri-input-switch [(ngModel)]="filters.includeDeleted" (onChange)="filter()" [required]="true"></arte-tri-input-switch>
+        <div class="form-group col-xl-6 row">
+            <div class="col-sm-4 ac-ui-unfluid form-group small-form-field">
+                <label translate="externalUser.filters.labels.registration"></label>
+                <div class="">
+                    <!-- d-md-inline-block ml-3 -->
+                    <arte-tri-input-switch [(ngModel)]="filters.includeUnregistered" (onChange)="filter()" [required]="true"></arte-tri-input-switch>
+                </div>
             </div>
-        </div>
-        <div class="form-group small-form-field">
-            <label class="w-100">&nbsp;</label>
-            <button class="btn btn-light" (click)="resetFilters();">
-                <i class="btn-icon fa fa-times"></i>
-                <span translate="entity.action.filtersReset"></span>
-            </button>
+            <div class="col-sm-4 form-group small-form-field">
+                <label class="w-100">&nbsp;</label>
+                <button class="btn btn-light" (click)="resetFilters();">
+                    <i class="btn-icon fa fa-times"></i>
+                    <span translate="entity.action.filtersReset"></span>
+                </button>
+            </div>
         </div>
     </div>
 </div>

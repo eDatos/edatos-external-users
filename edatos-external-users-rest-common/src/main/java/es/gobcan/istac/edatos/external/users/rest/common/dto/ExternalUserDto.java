@@ -3,7 +3,6 @@ package es.gobcan.istac.edatos.external.users.rest.common.dto;
 import java.io.Serializable;
 
 import es.gobcan.istac.edatos.external.users.core.domain.enumeration.Language;
-import es.gobcan.istac.edatos.external.users.core.domain.enumeration.Treatment;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.interfaces.AbstractVersionedAndAuditingAndLogicalDeletionDto;
 
 public class ExternalUserDto extends AbstractVersionedAndAuditingAndLogicalDeletionDto implements Serializable {
@@ -15,12 +14,13 @@ public class ExternalUserDto extends AbstractVersionedAndAuditingAndLogicalDelet
     private String surname1;
     private String surname2;
 
-    private Treatment treatment;
     private Language language;
     private String phoneNumber;
     private String password;
     private String organism;
     private boolean emailNotificationsEnabled;
+
+    private DataProtectionPolicyDto dataProtectionPolicyDto;
 
     public String getName() {
         return name;
@@ -62,14 +62,6 @@ public class ExternalUserDto extends AbstractVersionedAndAuditingAndLogicalDelet
         this.password = password;
     }
 
-    public Treatment getTreatment() {
-        return treatment;
-    }
-
-    public void setTreatment(Treatment treatment) {
-        this.treatment = treatment;
-    }
-
     public Language getLanguage() {
         return language;
     }
@@ -100,5 +92,12 @@ public class ExternalUserDto extends AbstractVersionedAndAuditingAndLogicalDelet
 
     public void setEmailNotificationsEnabled(boolean emailNotificationsEnabled) {
         this.emailNotificationsEnabled = emailNotificationsEnabled;
+    }
+
+    public DataProtectionPolicyDto getDataProtectionPolicyDto() {
+        return dataProtectionPolicyDto;
+    }
+    public void setDataProtectionPolicyDto(DataProtectionPolicyDto dataProtectionPolicyDto) {
+        this.dataProtectionPolicyDto = dataProtectionPolicyDto;
     }
 }

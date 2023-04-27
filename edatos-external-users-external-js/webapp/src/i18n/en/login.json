@@ -4,8 +4,8 @@
             "title": "Login"
         },
         "form": {
-            "username": "Username",
-            "password": "Passowrd"
+            "email": "Email",
+            "password": "Password"
         },
         "action": {
             "forgottenPassword": "Forgotten password",

@@ -382,8 +382,8 @@
         "activado": "Activado",
         "created": "Se ha creado el usuario {{ param }}",
         "createdDate": "Fecha de registro",
-        "deactivate": {
-            "question": "¿Seguro que desea desactivar el usuario <strong>{{ email }}</strong>?"
+        "delete": {
+            "question": "¿Seguro que desea eliminar el usuario <strong>{{ email }}</strong>?. La información eliminada no podrá ser recuperada"
         },
         "deleted": "Se ha eliminado el usuario {{ param }}",
         "deletionDate": "Fecha de borrado",
@@ -398,7 +398,8 @@
                 "categories": "Suscripciones temáticas",
                 "fullname": "Nombre o apellidos",
                 "language": "Idioma",
-                "service": "Servicio"
+                "service": "Servicio",
+                "registration": "Incluir no registrados"
             },
             "placeholders": {
                 "fullname": "Introduzca nombre o apellidos",
@@ -444,7 +445,7 @@
         "rol": "Rol",
         "roles": "Roles",
         "serviceEnum": {
-            "FILTERS": "Filtros",
+            "FILTERS": "Consultas personalizadas",
             "FAVORITES": "Favoritos"
         },
         "status": {
@@ -454,11 +455,6 @@
         },
         "surname1": "Primer apellido",
         "surname2": "Segundo apellido",
-        "treatment": "Tratamiento",
-        "treatmentEnum": {
-            "LADY": "Señora",
-            "MISTER": "Señor"
-        },
         "updated": "Se ha actualizado el usuario {{ param }}"
     },
     "family": {
@@ -629,8 +625,11 @@
             "cas": "CAS",
             "db": "Base de datos",
             "diskSpace": "Espacio en disco",
+            "kafka": "Kafka",
             "ldap": "LDAP",
-            "mail": "Email"
+            "mail": "Email",
+            "noticesInternal": "Gestor de notificaciones",
+            "structuralResourcesExternal": "Gestor de recursos estructurales"
         },
         "refresh.button": "Refrescar",
         "stacktrace": "Traza",

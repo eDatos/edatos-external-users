@@ -13,6 +13,7 @@ import es.gobcan.istac.edatos.external.users.core.domain.vo.InternationalStringV
 import es.gobcan.istac.edatos.external.users.core.repository.ExternalDatasetRepository;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.ExternalDatasetDto;
 import es.gobcan.istac.edatos.external.users.rest.common.mapper.config.AuditingMapperConfig;
+import es.ibestat.jaxi.stream.messages.DatasetAvro;
 
 @Mapper(componentModel = "spring",
         config = AuditingMapperConfig.class,
@@ -36,9 +37,6 @@ public abstract class ExternalDatasetMapper implements EntityMapper<ExternalData
     @Mapping(target = "createdDate", ignore = true)
     public abstract ExternalDatasetEntity toEntity(DatasetVersionAvro value);
 
-    @Mapping(target = "texts", source = "localisedStrings")
-    public abstract InternationalStringVO toVO(InternationalStringAvro source);
-
     @ObjectFactory
     public ExternalDatasetEntity resolver(DatasetVersionAvro dataset, @TargetType Class<ExternalDatasetEntity> type) {
         if (dataset == null) {
@@ -50,6 +48,35 @@ public abstract class ExternalDatasetMapper implements EntityMapper<ExternalData
                             .getNameableStatisticalResource()
                             .getIdentifiableStatisticalResource()
                             .getUrn();
+        if (urn == null) {
+            return new ExternalDatasetEntity();
+        }
+        return externalDatasetRepository.findByUrn(urn).orElseGet(ExternalDatasetEntity::new);
+    }
+    
+    @Mapping(target = "name",
+            source = "title")
+   @Mapping(target = "urn",
+            source = "urn")
+   @Mapping(target = "code",
+            source = "code")
+   @Mapping(target = "externalOperationUrn",
+            source = "statisticalOperation.urn")
+   @Mapping(target = "id", ignore = true)
+   @Mapping(target = "type", ignore = true)
+   @Mapping(target = "optLock", ignore = true)
+   @Mapping(target = "createdDate", ignore = true)
+   public abstract ExternalDatasetEntity toEntity(DatasetAvro value);
+    
+    @Mapping(target = "texts", source = "localisedStrings")
+    public abstract InternationalStringVO toVO(InternationalStringAvro source);
+    
+    @ObjectFactory
+    public ExternalDatasetEntity resolver(DatasetAvro dataset, @TargetType Class<ExternalDatasetEntity> type) {
+        if (dataset == null) {
+            return new ExternalDatasetEntity();
+        }
+        String urn = dataset.getUrn();
         if (urn == null) {
             return new ExternalDatasetEntity();
         }

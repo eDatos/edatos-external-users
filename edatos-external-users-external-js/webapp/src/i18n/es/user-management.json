@@ -2,13 +2,18 @@
     "userManagement": {
         "personalData": "Datos personales",
         "permissions": "Permisos",
+        "activado": "Activado",
+        "desactivado": "Desactivado",
+        "createdDate": "Fecha de creación",
         "home": {
             "title": "Usuarios",
             "createLabel": "Añadir nuevo usuario",
             "createOrEditLabel": "Crear o editar un usuario",
-            "includeDeleted": "Incluir desactivados"
+            "includeDeleted": "Incluir desactivados",
+            "favorites": "Favoritos",
+            "filters": "Filtros",
+            "createDeactivatedTooltip": "La creación de usuarios está desactivada"
         },
-        "created": "Se ha creado el usuario {{ param }}",
         "updated": "Se ha actualizado el usuario {{ param }}",
         "deleted": "Se ha eliminado el usuario {{ param }}",
         "delete": {
@@ -31,7 +36,11 @@
         "password": {
             "new": "Nueva contraseña",
             "confirmNew": "Confirmar contraseña",
-            "old": "Contraseña actual"
+            "old": "Contraseña actual",
+            "messages": {
+                "onSuccessSumary": "Contraseña editada",
+                "onSuccess": "Se ha modificado la contraseña de usuario correctamente."
+            }
         },
         "activated": "Activado",
         "deactivated": "Desactivado",

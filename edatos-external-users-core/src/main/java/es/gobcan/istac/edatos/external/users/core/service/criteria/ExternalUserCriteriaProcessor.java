@@ -33,7 +33,6 @@ public class ExternalUserCriteriaProcessor extends AbstractCriteriaProcessor {
     private static final String ENTITY_FIELD_EMAIL = "email";
     private static final String ENTITY_FIELD_DELETION_DATE = "deletionDate";
     private static final String ENTITY_FIELD_LANGUAGE = "language";
-    private static final String ENTITY_FIELD_TREATMENT = "treatment";
 
     private static final String ENTITY_FIELD_FAVORITES = "favorites";
 
@@ -43,23 +42,23 @@ public class ExternalUserCriteriaProcessor extends AbstractCriteriaProcessor {
         SURNAME2,
         EMAIL,
         LANGUAGE,
-        TREATMENT,
         DELETION_DATE,
         FULLNAME,
         FAVORITE_CATEGORIES,
         FAVORITE_EXTERNAL_OPERATIONS,
-        SERVICES
+        SERVICES,
+        ENABLED
     }
-    
+
     public enum Service {
         FILTERS("tb_filters"), FAVORITES("tb_favorites");
-        
+
         private String tableName = "";
-        
+
         Service(String tableName) {
             this.tableName = tableName;
         }
-        
+
         String getTableName() {
             return tableName;
         }
@@ -101,10 +100,6 @@ public class ExternalUserCriteriaProcessor extends AbstractCriteriaProcessor {
                 .withQueryProperty(QueryProperty.LANGUAGE)
                 .withEntityProperty(ENTITY_FIELD_LANGUAGE)
                 .build());
-        registerOrderProcessor(OrderProcessorBuilder.orderProcessor()
-                .withQueryProperty(QueryProperty.TREATMENT)
-                .withEntityProperty(ENTITY_FIELD_TREATMENT)
-                .build());
         registerRestrictionProcessor(RestrictionProcessorBuilder.longRestrictionProcessor()
                 .withQueryProperty(QueryProperty.FAVORITE_CATEGORIES)
                 .withCriterionConverter(new SqlCriterionBuilder())
@@ -115,6 +110,10 @@ public class ExternalUserCriteriaProcessor extends AbstractCriteriaProcessor {
                 .build());
         registerRestrictionProcessor(RestrictionProcessorBuilder.longRestrictionProcessor()
                 .withQueryProperty(QueryProperty.SERVICES)
+                .withCriterionConverter(new SqlCriterionBuilder())
+                .build());
+        registerRestrictionProcessor(RestrictionProcessorBuilder.stringRestrictionProcessor()
+                .withQueryProperty(QueryProperty.ENABLED)
                 .withCriterionConverter(new SqlCriterionBuilder())
                 .build());
         //@formatter:on
@@ -136,6 +135,9 @@ public class ExternalUserCriteriaProcessor extends AbstractCriteriaProcessor {
             }
             if (QueryProperty.SERVICES.name().equalsIgnoreCase(property.getLeftExpression()) && property.getRightExpressions().size() > 0) {
                 return servicesCriterion(property);
+            }
+            if (QueryProperty.ENABLED.name().equalsIgnoreCase(property.getLeftExpression()) && property.getRightExpressions().size() == 1) {
+                return enabledCriterion(property);
             }
             throw new CustomParameterizedExceptionBuilder().message(String.format("Parámetro de búsqueda no soportado: '%s'", property))
                     .code(ErrorConstants.QUERY_NO_SOPORTADA, property.getLeftExpression(), property.getOperationType().name()).build();
@@ -177,16 +179,27 @@ public class ExternalUserCriteriaProcessor extends AbstractCriteriaProcessor {
             Service[] services = property.getRightExpressions().stream().map(service -> Service.valueOf(service)).toArray(Service[]::new);
             // @formatter:off
             StringBuilder sqlBuilder = new StringBuilder(String.format("{alias}.ID IN (" +
-                    "select distinct external_user.id\n" + 
-                    "from tb_external_users external_user\n" + 
-                    "where external_user.id in\n" + 
-                    "    (select %s.external_user_fk \n" + 
+                    "select distinct external_user.id\n" +
+                    "from tb_external_users external_user\n" +
+                    "where external_user.id in\n" +
+                    "    (select %s.external_user_fk \n" +
                     "    from %1$s", services[0].getTableName()));
             // @formatter:on
             for (int i = 1; i < services.length; ++i) {
                 sqlBuilder.append(String.format(" inner join %s on %s.external_user_fk = %1$s.external_user_fk", services[i].getTableName(), services[0].getTableName()));
             }
             return Restrictions.sqlRestriction(sqlBuilder.append("))").toString());
+        }
+
+        private Criterion enabledCriterion(QueryPropertyRestriction property) {
+            // @formatter:off
+            String sql = String.format("{alias}.ID IN (" +
+                "select distinct id\n" +
+                "from tb_external_users external_user\n" +
+                "where enabled is %s" +
+                ")", property.getRightExpressions().get(0).toLowerCase());
+            // @formatter:on
+            return Restrictions.sqlRestriction(sql);
         }
     }
 }

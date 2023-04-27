@@ -1,31 +1,36 @@
 {
     "error": {
+        "default": {
+            "title": "Error",
+            "message": "Unknown error"
+        },
         "403": {
-            "detail": "Sorry, you do not have permissions to access the page.",
+            "detail": "Sorry, you do not have permissions to access the page",
             "title": "Error 403"
         },
         "404": {
-            "detail": "Sorry, the page you are looking for does not exist.",
+            "detail": "Sorry, the page you are looking for does not exist",
             "title": "Error 404"
         },
         "NotNull": "Field {{0}} cannot be empty!",
         "Size": "Field {{0}} does not meet the minimum / maximum size requirements!",
-        "accessDenied": "Sorry, you do not have permissions to access the page.",
+        "accessDenied": "Sorry, you do not have permissions to access the page",
         "blockedUser": {
-            "detail": "Sorry, the user you are trying to access with is blocked.",
+            "detail": "Sorry, the user you are trying to access with is blocked",
             "title": "User error"
         },
         "entidad-no-encontrada": "Result of {{0}} not found",
         "file": {
-            "empty": "Empty file.",
-            "maxFileSize": "Files larger than {{0}} MB cannot be attached.",
-            "notFound": "File not found."
+            "empty": "Empty file",
+            "maxFileSize": "Files larger than {{0}} MB cannot be attached",
+            "notFound": "File not found"
         },
         "file-empty": "The file is empty",
         "id-existe": "A new {{0}} cannot previously have an ID",
         "internalServerError": "Internal server error",
+        "dataConstraintViolation": "Internal server error",
         "nonExistingUser": {
-            "detail": "Sorry, the user you are trying to access with has not registered.",
+            "detail": "Sorry, the user you are trying to access with has not registered",
             "title": "User error"
         },
         "query-no-soportada": "Search parameter {{0}} not supported",
@@ -35,12 +40,42 @@
         "server.not.reachable": "Server not accessible",
         "title": "Oops, an error occurred!",
         "url.not.found": "Not found",
-        "userManagement": {
-            "usuario-ldap-no-encontrado": "The specified user was not found"
-        },
         "usuario-existe": "The username entered is already in use",
         "quartz": {
             "jobExecutionError": "Error while running a job Quartz"
+        },
+        "concurrencyFailure": "Internal server error",
+        "validation": "Error during data validation",
+        "methodNotSupported": "Action not available",
+        "userManagement": {
+            "invalid-username": "Invalid username"
+        },
+        "pdf": "Error generating the pdf"
+    },
+    "exception": {
+        "external_users": {
+            "generic": "An internal problem occurred and the task could not be executed. Contact the administrator",
+            "category.cannot_delete_category_if_it_has_subscribers": "A category cannot be deleted if there are people subscribed to it or any of its descendants",
+            "query.not_supported": "Search parameter not supported in Catalan: {{0}}",
+            "login": {
+                "user_disabled": "User disabled. Contact administrator",
+                "void": "Field cannot be empty",
+                "failed": "The username and/or password are not correct or are not in the system"
+            },
+            "register_account.create_notice": "The new password cannot be the same as the current one",
+            "unsubscribe_account.create_notice": "Error sending unsubscribe request email. Please try again later",
+            "change_password.create_notice": "The password change was successful, but there was an error sending the confirmation email",
+            "reset_password.create_notice": "Error sending password recovery email. Please check email address or try again later",
+            "confirm_signup.create_notice": "Error sending signup confirmation email. Please check email address or try again later",
+            "email_in_use.create_notice": "Error sending registration confirmation email. Please check email address or try again later",
+            "repeated_signup.create_notice": "Error sending signup confirmation email. Please check email address or try again later",
+            "subscription_job.create_notice": "Error sending mail to users subscribed to a statistical operation",
+            "deleted": "The user has been deleted from the system",
+            "deactivate": "User has been deactivated",
+            "deauthenticated": "User does not have access permissions",
+            "registration_confirmation": "User registration could not be confirmed",
+            "password.not_match": "The new password cannot be the same as the current one",
+            "jasperreports.generating": "Error generating document"
         }
     }
 }

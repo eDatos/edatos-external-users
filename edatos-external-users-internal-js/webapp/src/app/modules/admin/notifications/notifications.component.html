@@ -1,9 +1,10 @@
+<div #dialogWrapper></div>
 <div class="page">
     <div class="page-header page-header-top">
         <h2 class="page-header-title">
             <span class="page-header-title-text">{{ 'notifications.home.title' | translate }}</span>
         </h2>
-        <button class="btn btn-primary mr-2" (click)="send()" [disabled]="notificationForm && notificationForm.form.invalid || !selectedReceivers.length">
+        <button class="btn btn-primary mr-2" (click)="send()" [disabled]="notificationForm && notificationForm.form.invalid || !thereAreReceivers()">
             <span class="fa fa-send"></span>
             <span translate="notifications.form.send"></span>
         </button>
@@ -23,7 +24,6 @@
                                     (onSelect)="onSelectReceivers($event)"
                                     [suggestions]="externalUsers"
                                     dataKey="email"
-                                    [required]="true"
                                     [properties]="['email']"
                                     [multiple]="true"
                                 >
@@ -32,6 +32,52 @@
                                     <span *ngFor="let m of messages">{{m}}</span>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group form-group-inline col-md-6 thematic-subscriptions">
+                        <div class="form-row">
+                            <label class="label-selected-resources col-md-4">{{'externalUser.filters.labels.categories' | translate}}</label>
+                            <div class="col-md-8 thematic-subscriptions-input">
+                                <div *ngIf="selectedResources?.length !== 0; else noSelectedResources" class="selected-resources-wrapper">
+                                    <div class="selected-resources">
+                                    <span *ngFor="let resource of selectedResources; trackBy: trackSelectedResource" class="badge badge-primary d-flex align-items-center">
+                                        <i class="pi pi-times" aria-hidden="true" (click)="deleteResource(resource)"></i>
+                                        {{resource.name.val}}
+                                    </span>
+                                    </div>
+                                </div>
+                                <ng-template #noSelectedResources>
+                                    <span class="no-selected-resource">{{'externalUser.filters.placeholders.noResourceSelected' | translate}}</span>
+                                </ng-template>
+                                <button type="button" class="btn btn-secondary btn-sm select-resources-button" (click)="openCategoryModal()">
+                                    <i class="fa fa-hand-pointer-o mr-0" aria-hidden="true"></i>
+                                </button>
+                            </div>
+
+                            <p-dialog
+                                *ngIf="isSelectingResource"
+                                [visible]="true"
+                                [focusOnShow]="true"
+                                [modal]="true"
+                                [dismissableMask]="true"
+                                [header]="'externalUser.filters.labels.categories' | translate"
+                                [resizable]="false"
+                                [style]="{width: '80vw'}"
+                                [appendTo]="dialogWrapper"
+                                styleClass="ui-fluid"
+                                [contentStyle]="{padding: '1.5em 2em', overflow: 'visible', 'max-height': '90vh', 'overflow-y': 'auto'}"
+                                (visibleChange)="closeCategoryModal()"
+                            >
+                                <app-structural-resources-tree [disabled]="false" [preselectedResources]="selectedResources" mode="simpleSelect"></app-structural-resources-tree>
+                                <p-footer>
+                                    <button type="button" class="btn btn-primary" (click)="selectCategories()">
+                                        <i class="fa fa-hand-o-up" aria-hidden="true"></i>
+                                        <span translate="entity.action.select"></span>
+                                    </button>
+                                </p-footer>
+                            </p-dialog>
                         </div>
                     </div>
                 </div>
@@ -63,6 +109,7 @@
                                     [(ngModel)]="notification.message"
                                     [maxlength]="4000"
                                     required
+                                    style="margin-bottom: -7px;"
                                 ></textarea>
                             </div>
                             <div class="form-errors-messages" *hasErrors="let messages">

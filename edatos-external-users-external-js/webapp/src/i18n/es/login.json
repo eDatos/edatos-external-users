@@ -4,7 +4,7 @@
             "title": "Inicio de sesión"
         },
         "form": {
-            "username": "Usuario",
+            "email": "Correo electrónico",
             "password": "Contraseña"
         },
         "action": {

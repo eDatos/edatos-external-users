@@ -41,7 +41,7 @@ export class HealthCheckComponent implements OnInit {
             },
             (error) => {
                 if (error.status === 503) {
-                    this.healthData = this.healthService.transformHealthData(error.json());
+                    this.healthData = this.healthService.transformHealthData(error.error);
                     this.updatingHealth = false;
                 }
             }
@@ -49,7 +49,7 @@ export class HealthCheckComponent implements OnInit {
     }
 
     showHealth(health: any) {
-        const modalRef = this.modalService.open(HealthModalComponent);
+        const modalRef = this.modalService.open(HealthModalComponent, { container: '.page' });
         modalRef.componentInstance.currentHealth = health;
         modalRef.result.then(
             (result) => {

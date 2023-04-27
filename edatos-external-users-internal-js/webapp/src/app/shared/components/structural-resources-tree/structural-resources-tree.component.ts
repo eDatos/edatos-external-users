@@ -1,10 +1,10 @@
 import { ChangeDetectorRef, Component, DoCheck, EventEmitter, Input, IterableDiffer, IterableDiffers, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { EUsuariosAlertService } from '@app/core/service/alert/eusuarios-alert.service';
 import { MultiLanguageInputComponent } from '@app/shared/components/multi-language-input';
 import { Category, ExternalCategory, ExternalOperation, Favorite, FavoriteResource, InternationalString } from '@app/shared/model';
 import { CategoryService, ExternalOperationService, LanguageService } from '@app/shared/service';
 import { TranslateService } from '@ngx-translate/core';
 import * as _ from 'lodash';
+import { Tree } from 'primeng';
 import { TreeNode } from 'primeng/api';
 import { Observable, of } from 'rxjs';
 import { finalize, shareReplay } from 'rxjs/operators';
@@ -87,6 +87,10 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
     @ViewChild(MultiLanguageInputComponent)
     public languageInputComponent: MultiLanguageInputComponent;
 
+
+    @ViewChild(Tree)
+    public ptree: Tree;
+
     public tree: CategoryTreeNode[];
     public selectedResources: CategoryTreeNode[] = [];
     public selectionMode: 'checkbox' | 'single' | 'multiple' = 'checkbox';
@@ -99,7 +103,6 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
     private nodeList: CategoryTreeNode[] = [];
 
     constructor(
-        private alertService: EUsuariosAlertService,
         private categoryService: CategoryService,
         private translateService: TranslateService,
         private externalOperationService: ExternalOperationService,
@@ -145,6 +148,17 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
         this.categoryService.getTree().subscribe((tree) => {
             this.createTree(tree);
         });
+    }
+
+    public isEditMode(): boolean {
+        return this.mode === 'edit';
+    }
+
+    public isEditModeOrFiltered(): boolean {
+        if(this.ptree && this.ptree.filteredNodes){
+            return false;
+        }
+        return this.isEditMode();
     }
 
     public createTree(tree: Category[]) {
@@ -358,6 +372,9 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
             selectable: !this.disabled,
             editMode: null,
             makingRequest: false,
+            // We need to add key in the model to provide selection when filter
+            // https://github.com/primefaces/primeng/issues/8429#issuecomment-573529483
+            key: category.id
         };
 
         if (this.isFavorite(category) || this.isPreselected(category)) {
@@ -442,6 +459,7 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
             droppable: false,
             editMode: null,
             makingRequest: false,
+            key: externalOperation.code
         };
 
         if (this.isFavorite(externalOperation) || this.isPreselected(externalOperation)) {

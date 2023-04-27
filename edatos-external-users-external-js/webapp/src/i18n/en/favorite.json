@@ -1,4 +1,22 @@
 {
+    "favorite": {
+        "entity": {
+            "email": "Email"
+        },
+        "form": {
+            "cancel": "Cancel",
+            "edit": "Edit favorite",
+            "goBack": "Back to List",
+            "legend": "Favorite details",
+            "new": "Create a new favorite",
+            "save": "Save favorite"
+        },
+        "home": {
+            "createLabel": "Crear favorito",
+            "title": "Thematic subscriptions"
+        },
+        "name": "Thematic subscriptions "
+    },
     "structuralResourcesTree": {
         "noRecordsFound": "No subject or operation found"
     }

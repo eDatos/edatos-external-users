@@ -7,20 +7,22 @@
             "name": "Nom",
             "notes": "Notes",
             "owner": "Propietari",
-            "permalink": "URL"
+            "permalink": "URL",
+            "lastModifiedDate": "Data de modificació"
         },
         "form": {
+            "audit": "Audit",
             "cancel": "Cancel·lar",
             "delete": "Eliminar consulta",
             "edit": "Editar consulta",
-            "goBack": "Tornat al llistat",
+            "goBack": "Tornar al llistat",
             "legend": "Detalls de la consulta personalitzada",
             "new": "Crear una nova consulta personalitzada",
             "save": "Guardar consulta"
         },
         "home": {
-            "createLabel": "Crear consulta personalizada",
-            "title": "Crear consulta personalitzada"
+            "createLabel": "Consulta personalizada",
+            "title": "Consulta personalitzada"
         },
         "name": "Consulta personalitzada",
         "list": {

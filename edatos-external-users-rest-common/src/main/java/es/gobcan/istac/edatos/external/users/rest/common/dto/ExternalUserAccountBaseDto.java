@@ -3,7 +3,6 @@ package es.gobcan.istac.edatos.external.users.rest.common.dto;
 import java.io.Serializable;
 
 import es.gobcan.istac.edatos.external.users.core.domain.enumeration.Language;
-import es.gobcan.istac.edatos.external.users.core.domain.enumeration.Treatment;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.interfaces.AbstractVersionedAndAuditingAndLogicalDeletionDto;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.interfaces.Identifiable;
 
@@ -17,12 +16,12 @@ public class ExternalUserAccountBaseDto extends AbstractVersionedAndAuditingAndL
     private String surname1;
     private String surname2;
 
-    private Treatment treatment;
     private Language language;
     private String phoneNumber;
 
     private String organism;
     private boolean emailNotificationsEnabled;
+    private Long dataProtectionPolicyId;
 
     @Override
     public Long getId() {
@@ -66,14 +65,6 @@ public class ExternalUserAccountBaseDto extends AbstractVersionedAndAuditingAndL
         this.email = email;
     }
 
-    public Treatment getTreatment() {
-        return treatment;
-    }
-
-    public void setTreatment(Treatment treatment) {
-        this.treatment = treatment;
-    }
-
     public Language getLanguage() {
         return language;
     }
@@ -106,13 +97,18 @@ public class ExternalUserAccountBaseDto extends AbstractVersionedAndAuditingAndL
         this.emailNotificationsEnabled = emailNotificationsEnabled;
     }
 
+    public Long getDataProtectionPolicyId() {
+        return dataProtectionPolicyId;
+    }
+    public void setDataProtectionPolicyId(Long dataProtectionPolicyId) {
+        this.dataProtectionPolicyId = dataProtectionPolicyId;
+    }
     public void updateFrom(ExternalUserAccountBaseDto source) {
         this.id = source.getId();
         this.name = source.getName();
         this.surname1 = source.getSurname1();
         this.surname2 = source.getSurname2();
         this.email = source.getEmail();
-        this.treatment = source.getTreatment();
         this.language = source.getLanguage();
         this.phoneNumber = source.getPhoneNumber();
         this.organism = source.getOrganism();

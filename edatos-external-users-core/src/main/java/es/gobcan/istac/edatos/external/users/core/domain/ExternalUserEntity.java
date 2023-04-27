@@ -16,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -28,13 +29,12 @@ import org.hibernate.validator.constraints.Email;
 
 import es.gobcan.istac.edatos.external.users.core.domain.enumeration.ExternalUserRole;
 import es.gobcan.istac.edatos.external.users.core.domain.enumeration.Language;
-import es.gobcan.istac.edatos.external.users.core.domain.enumeration.Treatment;
-import es.gobcan.istac.edatos.external.users.core.domain.interfaces.AbstractVersionedAndAuditingAndLogicalDeletionEntity;
+import es.gobcan.istac.edatos.external.users.core.domain.interfaces.AbstractVersionedAndAuditingEntity;
 
 @Entity
 @Table(name = "tb_external_users")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class ExternalUserEntity extends AbstractVersionedAndAuditingAndLogicalDeletionEntity {
+public class ExternalUserEntity extends AbstractVersionedAndAuditingEntity {
 
     private static final long serialVersionUID = 1L;
 
@@ -60,9 +60,6 @@ public class ExternalUserEntity extends AbstractVersionedAndAuditingAndLogicalDe
     @Email
     @Column(unique = true, nullable = false)
     private String email;
-
-    @Enumerated(EnumType.STRING)
-    private Treatment treatment;
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -99,6 +96,17 @@ public class ExternalUserEntity extends AbstractVersionedAndAuditingAndLogicalDe
     @NotNull
     @OneToMany(mappedBy = "externalUser", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private final Set<FavoriteEntity> favorites = new HashSet<>();
+
+    @NotNull
+    @Column(columnDefinition = "boolean default true", nullable = false)
+    private boolean enabled;
+
+    @Column(name = "registration_token", unique = true)
+    private String registrationToken;
+
+    @ManyToOne
+    @JoinColumn(name = "data_protection_policy_fk")
+    private DataProtectionPolicyEntity dataProtectionPolicy;
 
     @Override
     public Long getId() {
@@ -139,14 +147,6 @@ public class ExternalUserEntity extends AbstractVersionedAndAuditingAndLogicalDe
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public Treatment getTreatment() {
-        return treatment;
-    }
-
-    public void setTreatment(Treatment treatment) {
-        this.treatment = treatment;
     }
 
     public Language getLanguage() {
@@ -238,5 +238,29 @@ public class ExternalUserEntity extends AbstractVersionedAndAuditingAndLogicalDe
     public void removeFavorite(FavoriteEntity favorite) {
         favorite.setExternalUser(null);
         this.favorites.remove(favorite);
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public String getRegistrationToken() {
+        return registrationToken;
+    }
+
+    public void setRegistrationToken(String registrationToken) {
+        this.registrationToken = registrationToken;
+    }
+
+    public DataProtectionPolicyEntity getDataProtectionPolicy() {
+        return dataProtectionPolicy;
+    }
+
+    public void setDataProtectionPolicy(DataProtectionPolicyEntity dataProtectionPolicy) {
+        this.dataProtectionPolicy = dataProtectionPolicy;
     }
 }

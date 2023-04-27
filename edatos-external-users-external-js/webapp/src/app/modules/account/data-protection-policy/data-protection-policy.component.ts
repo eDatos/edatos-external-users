@@ -15,8 +15,7 @@ export class DataProtectionPolicyComponent {
     constructor(dataProtectionPolicyService: DataProtectionPolicyService, translateService: TranslateService, principal: Principal) {
         principal.identity();
         dataProtectionPolicyService.getDataProtectionPolicy().subscribe((dataProtectionPolicy) => {
-            this.dataProtectionPolicy =
-                dataProtectionPolicy.value.getLocalisedLabel(translateService.getDefaultLang()) || dataProtectionPolicy.value.getLocalisedLabel(DEFAULT_LANG);
+            this.dataProtectionPolicy = dataProtectionPolicy.value.val;
         });
     }
 }

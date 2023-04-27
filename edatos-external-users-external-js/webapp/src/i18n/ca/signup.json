@@ -10,16 +10,24 @@
             "password": "Contrasenya",
             "confirmPassword": "Confirmar contrasenya",
             "email": "Correu electrònic",
-            "treatment": "Tractament",
             "language": "Idioma",
             "phoneNumber": "Número telèfon",
             "organism": "Organisme",
             "enableEmailNotifications": "Habilitar notificacions a través de correu electrònic per a aquest usuari",
-            "captchaModal": "Resolgui el captcha per a acabar el registre"
+            "captchaModal": "Resolgui el captcha per a acabar el registre",
+            "termsAndConditions": "Accepto els termes i condicions"
         },
         "messages": {
             "onSuccessSumary": "Registre de nou usuari",
-            "onSuccess": "L'usuari s'ha registrat amb èxit"
+            "onSuccess": "L'usuari s'ha registrat amb èxit",
+            "onRequest": "S'ha enviat un correu per confirmar el registre"
+        },
+        "document": {
+            "onErrorDownload": {
+                "label" : "Error en la descàrrega del PDF",
+                "detail" :  "No s'ha pogut generar el document PDF."
+            }
+
         }
     }
 }

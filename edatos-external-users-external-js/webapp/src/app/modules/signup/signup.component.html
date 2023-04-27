@@ -107,22 +107,6 @@
                         </div>
                     </div>
 
-                    <div class="form-group form-group-inline col-md-6">
-                        <div class="form-row">
-                            <label class="form-label col-md-4" translate="signup.form.treatment"></label>
-                            <div class="col-md-8">
-                                <arte-autocomplete-enum
-                                    name="treatment"
-                                    [multiple]="false"
-                                    [(ngModel)]="user.treatment"
-                                    [suggestionsEnum]="treatmentEnum"
-                                    [translationPath]="'treatment.'"
-                                >
-                                </arte-autocomplete-enum>
-                            </div>
-                        </div>
-                    </div>
-
                     <div class="form-group form-group-inline col-md-6 required" [formControlStatus]="editForm.controls.language">
                         <div class="form-row">
                             <label class="form-label col-md-4" translate="signup.form.language" for="language"></label>
@@ -166,6 +150,11 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <input type="checkbox" name="active" ngModel required />
+                        <a target="_blank" routerLink="/data-protection-policy" routerLinkActive="active" translate="signup.form.termsAndConditions"></a>
                     </div>
 
                     <div class="col-md-12" [formControlStatus]="editForm.controls.organism">

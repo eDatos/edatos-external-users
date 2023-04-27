@@ -18,4 +18,5 @@ public interface ExternalOperationRepository extends AbstractExternalItemReposit
     List<ExternalOperationEntity> findByUrnIn(List<String> urns);
     Optional<ExternalOperationEntity> findByCode(String code);
     Optional<ExternalOperationEntity> findByUrn(String urn);
+    List<ExternalOperationEntity> findByEnabledTrue();
 }

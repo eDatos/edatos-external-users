@@ -66,20 +66,6 @@ export class ExternalUserListComponent implements OnInit, OnDestroy {
                 translatePath: 'externalUser.language',
             },
         },
-        {
-            fieldName: 'treatment',
-            header: {
-                handler: 'translate',
-                translatePath: 'externalUser.treatment',
-            },
-        },
-        {
-            fieldName: 'status',
-            header: {
-                handler: 'translate',
-                translatePath: 'externalUser.status.name',
-            },
-        },
     ];
     private eventSubscriber: Subscription;
     private searchSubscription: Subscription;
