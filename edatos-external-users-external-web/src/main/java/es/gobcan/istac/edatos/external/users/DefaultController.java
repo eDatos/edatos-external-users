@@ -73,7 +73,7 @@ public class DefaultController {
         return new ModelAndView("index", model);
     }
 
-    @GetMapping("/authenticate")
+    @GetMapping("/api/authenticate")
     @ResponseStatus(HttpStatus.FOUND)
     public ResponseEntity<Void> authenticate(@RequestParam String origin, @RequestParam(required = false, defaultValue = "false") boolean force,
             @CookieValue(value = "authenticationtoken", required = false) String token) throws UnsupportedEncodingException {
