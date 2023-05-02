@@ -1,7 +1,8 @@
 import { BaseVersionedEntity } from 'arte-ng/model';
 import { Exclude, Type, TypeOptions } from 'class-transformer';
-import { InternationalStringV1 } from './international-string-v1.model';
+
 import { InternationalString } from './international-string.model';
+import { InternationalStringStructuralResources } from "./international-string-structural-resources.model";
 
 /**
  * This enum is a subset from the one located at
@@ -58,13 +59,13 @@ export class ExternalItemCode extends BaseVersionedEntity {
     public id: string;
     public urn: string;
 
-    @Type(() => InternationalStringV1)
-    public name: InternationalStringV1;
+    @Type(() => InternationalStringStructuralResources)
+    public name: InternationalStringStructuralResources;
 
     public type: TypeExternalArtefacts;
 
     public getLocalisedName(languageCode: string): string | undefined {
-        return this.name?.getLocalisedLabel(languageCode);
+        return this.name?.getLocalisedValue(languageCode);
     }
 }
 

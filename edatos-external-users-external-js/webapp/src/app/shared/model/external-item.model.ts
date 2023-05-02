@@ -1,6 +1,6 @@
 import { BaseVersionedEntity } from 'arte-ng/model';
 import { Exclude, Type, TypeOptions } from 'class-transformer';
-import { InternationalStringV1 } from './international-string-v1.model';
+import { InternationalStringStructuralResources } from './international-string-structural-resources.model';
 import { InternationalString } from './international-string.model';
 
 /**
@@ -55,31 +55,16 @@ export class ExternalItemCode extends BaseVersionedEntity {
     public id: string;
     public urn: string;
 
-    @Type(() => InternationalStringV1)
-    public name: InternationalStringV1;
+    @Type(() => InternationalStringStructuralResources)
+    public name: InternationalStringStructuralResources;
 
     public type: TypeExternalArtefacts;
 
     public getLocalisedName(languageCode: string): string | undefined {
-        return this.name?.getLocalisedLabel(languageCode);
+        return this.name?.getLocalisedValue(languageCode);
     }
 }
 
 export class ExternalCodes {
     public code: ExternalItemCode[];
 }
-
-/**
- * This configuration object inform class-transformer how to instantiate the
- * ExternalItem to the right subclass, if necessary.
- */
-export const EXTERNAL_ITEM_DISCRIMINATOR: TypeOptions = {
-    discriminator: {
-        property: 'type',
-        subTypes: [
-            { value: ExternalCategory, name: TypeExternalArtefacts.CATEGORY },
-            { value: ExternalOperation, name: TypeExternalArtefacts.STATISTICAL_OPERATION },
-        ],
-    },
-    keepDiscriminatorProperty: true,
-};

@@ -20,26 +20,26 @@ export class CodelistService {
         const restriction = '&restriction=PAISES';
         const extended = '&extended=false';
         const url = getCodesUrlJSONType(this.configService, TYPE_EXTERNAL_CODELISTS, this.configService.getConfig().metadata.nationalities, '', restriction, extended);
-        return this.http.get<ExternalCodes>(url).pipe(map((res) => convert(ExternalCodes, res)));
+        return this.http.get<ExternalCodes>(url, {headers:{"X-Public-Request":"1"}}).pipe(map((res) => convert(ExternalCodes, res)));
     }
 
     public findNationality(code: string): Observable<ExternalCodes> {
         const query = "&query=ID%20EQ%20'" + code + "'";
         const url = getCodesUrlJSONType(this.configService, TYPE_EXTERNAL_CODELISTS, this.configService.getConfig().metadata.nationalities, query, '', '');
-        return this.http.get<ExternalCodes>(url).pipe(map((res) => convert(ExternalCodes, res)));
+        return this.http.get<ExternalCodes>(url, {headers:{"X-Public-Request":"1"}}).pipe(map((res) => convert(ExternalCodes, res)));
     }
 
     public findAllGenders(): Observable<ExternalCodes> {
         const restriction = '&restriction=SEXO';
         const extended = '&extended=false';
         const url = getCodesUrlJSONType(this.configService, TYPE_EXTERNAL_CODELISTS, this.configService.getConfig().metadata.gender, '', restriction, extended);
-        return this.http.get<ExternalCodes>(url).pipe(map((res) => convert(ExternalCodes, res)));
+        return this.http.get<ExternalCodes>(url, {headers:{"X-Public-Request":"1"}}).pipe(map((res) => convert(ExternalCodes, res)));
     }
 
     public findGender(code: string): Observable<ExternalCodes> {
         const query = "&query=ID%20EQ%20'" + code + "'";
         const url = getCodesUrlJSONType(this.configService, TYPE_EXTERNAL_CODELISTS, this.configService.getConfig().metadata.gender, query, '', '');
-        return this.http.get<ExternalCodes>(url).pipe(map((res) => convert(ExternalCodes, res)));
+        return this.http.get<ExternalCodes>(url, {headers:{"X-Public-Request":"1"}}).pipe(map((res) => convert(ExternalCodes, res)));
     }
 
     public getValue(texts: any[]): string {
