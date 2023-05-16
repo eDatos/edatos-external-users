@@ -40,6 +40,8 @@ public class MetadataProperties {
 
     private String visualizerPath;
 
+    private List<String> allowedOrigins;
+
     @PostConstruct
     public void setValues() {
         metamacNavbar = normalizeUrl(configurationService.retrieveNavbarUrl());
@@ -64,6 +66,7 @@ public class MetadataProperties {
         } catch (Exception e) {
             languageCookie = null;
         }
+        allowedOrigins = configurationService.retrieveExternalUsersAllowedOrigins();
     }
 
     public String getMetamacNavbar() {
@@ -133,5 +136,9 @@ public class MetadataProperties {
 
     public String getVisualizerPath() {
         return visualizerPath;
+    }
+
+    public List<String> getAllowedOrigins() {
+        return allowedOrigins;
     }
 }
