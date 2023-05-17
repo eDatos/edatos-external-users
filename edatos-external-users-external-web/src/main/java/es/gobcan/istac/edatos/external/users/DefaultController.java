@@ -79,7 +79,9 @@ public class DefaultController {
             @CookieValue(value = "authenticationtoken", required = false) String token) throws UnsupportedEncodingException {
 
         String location;
-        if (StringUtils.isNotBlank(token) && !disabledTokenService.exists(token)) {
+        if (metadataProperties.getAllowedOrigins().stream().noneMatch(origin::startsWith)) {
+            location = origin;
+        } else if (StringUtils.isNotBlank(token) && !disabledTokenService.exists(token)) {
             location = UriBuilder.fromUri(origin).queryParam("token", token).build().toString();
         } else {
             location = force ? metadataService.retrieveExternalUsersExternalWebApplicationUrlBase() + "/#/login?origin=" + URLEncoder.encode(origin, "UTF-8") : origin;
