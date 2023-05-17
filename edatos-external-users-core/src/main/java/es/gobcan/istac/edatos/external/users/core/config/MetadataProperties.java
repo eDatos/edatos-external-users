@@ -66,7 +66,7 @@ public class MetadataProperties {
         } catch (Exception e) {
             languageCookie = null;
         }
-        allowedOrigins = configurationService.retrieveExternalUsersAllowedOrigins();
+        allowedOrigins = configurationService.retrieveAllowedOrigins();
     }
 
     public String getMetamacNavbar() {
