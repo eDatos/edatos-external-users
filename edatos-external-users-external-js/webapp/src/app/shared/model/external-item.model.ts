@@ -1,12 +1,11 @@
 import { BaseVersionedEntity } from 'arte-ng/model';
-import { Exclude, Type, TypeOptions } from 'class-transformer';
-import { InternationalStringStructuralResources } from './international-string-structural-resources.model';
+import { Exclude, Type } from 'class-transformer';
 import { InternationalString } from './international-string.model';
 
 /**
  * This enum is a subset from the one located at
  * {@link
- * https://git.arte-consultores.com/istac/edatos-core-common/blob/master/src/main/java/org/siemac/edatos/core/common/enume/TypeExternalArtefactsEnum.java|edatos-core-common}.
+    * https://git.arte-consultores.com/istac/edatos-core-common/blob/master/src/main/java/org/siemac/edatos/core/common/enume/TypeExternalArtefactsEnum.java|edatos-core-common}.
  */
 export enum TypeExternalArtefacts {
     CATEGORY = 'CATEGORY',
@@ -49,22 +48,4 @@ export class ExternalOperation extends ExternalItem {
         super();
         this.type = TypeExternalArtefacts.STATISTICAL_OPERATION;
     }
-}
-
-export class ExternalItemCode extends BaseVersionedEntity {
-    public id: string;
-    public urn: string;
-
-    @Type(() => InternationalStringStructuralResources)
-    public name: InternationalStringStructuralResources;
-
-    public type: TypeExternalArtefacts;
-
-    public getLocalisedName(languageCode: string): string | undefined {
-        return this.name?.getLocalisedValue(languageCode);
-    }
-}
-
-export class ExternalCodes {
-    public code: ExternalItemCode[];
 }

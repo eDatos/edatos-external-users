@@ -1,180 +1,204 @@
-<div class="page" *ngIf="account">
-    <div class="page-header page-header-top">
-        <h2 class="page-header-title">
-            <span class="page-header-title-icon">
-                <i class="fa fa-fw fa-user" aria-hidden="true"></i>
+<div class='page' *ngIf='account'>
+    <div class='page-header page-header-top'>
+        <h2 class='page-header-title'>
+            <span class='page-header-title-icon'>
+                <i class='fa fa-fw fa-user' aria-hidden='true'></i>
             </span>
-            <span class="page-header-title-text" translate="account.title"></span>
+            <span class='page-header-title-text' translate='account.title'></span>
         </h2>
-        <div class="page-header-btns">
-            <button *ngIf="!isEditMode()" type="button" class="btn btn-secondary" routerLink="/account-management/edit">
-                <span class="fa fa-pencil"></span> <span translate="entity.action.edit"></span>
+        <div class='page-header-btns'>
+            <button *ngIf='!isEditMode()' type='button' class='btn btn-secondary' routerLink='/account-management/edit'>
+                <span class='fa fa-pencil'></span> <span translate='entity.action.edit'></span>
             </button>
-            <button *ngIf="!isEditMode()" type="button" class="btn btn-primary" (click)="download($event)">
-                <span [ngClass]="downloadingPdf ? 'fa fa-spinner fa-spin' : 'fa  fa-download'"></span> <span translate="account.download.myInformation"></span>
+            <button *ngIf='!isEditMode()' type='button' class='btn btn-primary' (click)='download($event)'>
+                <span [ngClass]="downloadingPdf ? 'fa fa-spinner fa-spin' : 'fa  fa-download'"></span> <span
+                translate='account.download.myInformation'></span>
             </button>
-            <button *ngIf="isEditMode()" type="submit" form="settings-form" [disabled]="settingsForm && settingsForm.form.invalid || isSaving" class="btn btn-primary">
-                <span class="fa fa-floppy-o"></span>
-                <span translate="entity.action.save"></span>
+            <button *ngIf='isEditMode()' type='submit' form='settings-form'
+                    [disabled]='settingsForm && settingsForm.form.invalid || isSaving' class='btn btn-primary'>
+                <span class='fa fa-floppy-o'></span>
+                <span translate='entity.action.save'></span>
             </button>
-            <button *ngIf="isEditMode()" type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
-                <span class="fa fa-ban"></span>
-                <span translate="entity.action.cancel"></span>
+            <button *ngIf='isEditMode()' type='button' class='btn btn-secondary' data-dismiss='modal' (click)='clear()'>
+                <span class='fa fa-ban'></span>
+                <span translate='entity.action.cancel'></span>
             </button>
         </div>
     </div>
-    <div class="page-body">
-        <form class="page-form" name="settingsForm" role="form" id="settings-form" (ngSubmit)="save()" #settingsForm="ngForm" novalidate autocomplete="off">
-            <fieldset class="page-section" [disabled]="!isEditMode()" arteAutofocus>
-                <div class="row divider">
-                    <div class="form-group form-group-inline col-md-6" [formControlStatus]="settingsForm.controls.name">
-                        <div class="form-row">
-                            <label class="col-form-label col-md-4" translate="signup.form.name" for="name"></label>
-                            <div class="col-md-8 form-input-container errors-on-hover">
-                                <arte-input id="name" name="name" [(ngModel)]="account.name" [maxlength]="255" [required]="true"></arte-input>
-                                <div class="form-errors-messages" *hasErrors="let messages">
-                                    <span *ngFor="let m of messages">{{m}}</span>
+    <div class='page-body'>
+        <form class='page-form' name='settingsForm' role='form' id='settings-form' (ngSubmit)='save()'
+              #settingsForm='ngForm' novalidate autocomplete='off'>
+            <fieldset class='page-section' [disabled]='!isEditMode()' arteAutofocus>
+                <div class='row divider'>
+                    <div class='form-group form-group-inline col-md-6' [formControlStatus]='settingsForm.controls.name'>
+                        <div class='form-row'>
+                            <label class='col-form-label col-md-4' translate='signup.form.name' for='name'></label>
+                            <div class='col-md-8 form-input-container errors-on-hover'>
+                                <arte-input id='name' name='name' [(ngModel)]='account.name' [maxlength]='255'
+                                            [required]='true'></arte-input>
+                                <div class='form-errors-messages' *hasErrors='let messages'>
+                                    <span *ngFor='let m of messages'>{{m}}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="form-group form-group-inline col-md-6" [formControlStatus]="settingsForm.controls.surname1">
-                        <div class="form-row">
-                            <label class="col-form-label col-md-4" translate="signup.form.surname1" for="surname1"></label>
-                            <div class="col-md-8 form-input-container errors-on-hover">
-                                <arte-input id="surname1" name="surname1" [(ngModel)]="account.surname1" [maxlength]="255" [required]="true"></arte-input>
-                                <div class="form-errors-messages" *hasErrors="let messages">
-                                    <span *ngFor="let m of messages">{{m}}</span>
+                    <div class='form-group form-group-inline col-md-6'
+                         [formControlStatus]='settingsForm.controls.surname1'>
+                        <div class='form-row'>
+                            <label class='col-form-label col-md-4' translate='signup.form.surname1'
+                                   for='surname1'></label>
+                            <div class='col-md-8 form-input-container errors-on-hover'>
+                                <arte-input id='surname1' name='surname1' [(ngModel)]='account.surname1'
+                                            [maxlength]='255' [required]='true'></arte-input>
+                                <div class='form-errors-messages' *hasErrors='let messages'>
+                                    <span *ngFor='let m of messages'>{{m}}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="form-group form-group-inline col-md-6" [formControlStatus]="settingsForm.controls.surname2">
-                        <div class="form-row">
-                            <label class="col-form-label col-md-4" translate="signup.form.surname2" for="surname2"></label>
-                            <div class="col-md-8 form-input-container errors-on-hover">
-                                <arte-input id="surname2" name="surname2" [(ngModel)]="account.surname2" [maxlength]="255"></arte-input>
-                                <div class="form-errors-messages" *hasErrors="let messages">
-                                    <span *ngFor="let m of messages">{{m}}</span>
+                    <div class='form-group form-group-inline col-md-6'
+                         [formControlStatus]='settingsForm.controls.surname2'>
+                        <div class='form-row'>
+                            <label class='col-form-label col-md-4' translate='signup.form.surname2'
+                                   for='surname2'></label>
+                            <div class='col-md-8 form-input-container errors-on-hover'>
+                                <arte-input id='surname2' name='surname2' [(ngModel)]='account.surname2'
+                                            [maxlength]='255'></arte-input>
+                                <div class='form-errors-messages' *hasErrors='let messages'>
+                                    <span *ngFor='let m of messages'>{{m}}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="form-group form-group-inline col-md-6">
-                        <div class="form-row">
-                            <label class="form-label col-md-4" translate="signup.form.gender" for="gender"></label>
-                            <div class="col-md-8 form-input-container errors-on-hover">
+                    <div class='form-group form-group-inline col-md-6'>
+                        <div class='form-row'>
+                            <label class='form-label col-md-4' translate='signup.form.gender' for='gender'></label>
+                            <div class='col-md-8 form-input-container errors-on-hover'>
                                 <arte-autocomplete-short-list
-                                    [required]="false"
-                                    inputId="gender"
-                                    name="gender"
-                                    [multiple]="false"
-                                    [(ngModel)]="gender"
-                                    [suggestions]="genders"
+                                    [required]='false'
+                                    inputId='gender'
+                                    name='gender'
+                                    [multiple]='false'
+                                    [(ngModel)]='gender'
+                                    [suggestions]='genders'
                                     [properties]="['name']"
-                                    [disabled]="!isEditMode()"
+                                    [disabled]='!isEditMode()'
                                 >
                                 </arte-autocomplete-short-list>
                             </div>
                         </div>
                     </div>
-                    <div class="form-group form-group-inline col-md-6">
-                        <div class="form-row">
-                            <label class="form-label col-md-4" translate="signup.form.birthday"></label>
-                            <arte-calendar [(ngModel)]="account.birthday" [required]="false" [maxDate]="today" name="birthday" class="calendar"></arte-calendar>
+                    <div class='form-group form-group-inline col-md-6'>
+                        <div class='form-row'>
+                            <label class='form-label col-md-4' translate='signup.form.birthday'></label>
+                            <arte-calendar [(ngModel)]='account.birthday' [required]='false' [maxDate]='maxDate'
+                                           name='birthday' class='calendar'></arte-calendar>
                         </div>
                     </div>
                 </div>
-                <div class="row divider">
-                    <div class="form-group form-group-inline col-md-6" [formControlStatus]="settingsForm.controls.email">
-                        <div class="form-row">
-                            <label class="col-form-label col-md-4" translate="signup.form.email" for="email"></label>
-                            <div class="col-md-8 form-input-container errors-on-hover">
-                                <arte-input id="email" name="email" [(ngModel)]="account.email" [required]="true" [minlength]="3" [maxlength]="255" [email]="true"></arte-input>
-                                <div class="form-errors-messages" *hasErrors="let messages">
-                                    <li *ngFor="let m of messages">{{m}}</li>
+                <div class='row divider'>
+                    <div class='form-group form-group-inline col-md-6'
+                         [formControlStatus]='settingsForm.controls.email'>
+                        <div class='form-row'>
+                            <label class='col-form-label col-md-4' translate='signup.form.email' for='email'></label>
+                            <div class='col-md-8 form-input-container errors-on-hover'>
+                                <arte-input id='email' name='email' [(ngModel)]='account.email' [required]='true'
+                                            [minlength]='3' [maxlength]='255' [email]='true'></arte-input>
+                                <div class='form-errors-messages' *hasErrors='let messages'>
+                                    <li *ngFor='let m of messages'>{{m}}</li>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="form-group form-group-inline col-md-6" [formControlStatus]="settingsForm.controls.phoneNumber">
-                        <div class="form-row">
-                            <label class="col-form-label col-md-4" translate="signup.form.phoneNumber" for="phoneNumber"></label>
-                            <div class="col-md-8 form-input-container errors-on-hover">
-                                <arte-input id="phoneNumber" name="phoneNumber" [(ngModel)]="account.phoneNumber" [maxlength]="50"></arte-input>
-                                <div class="form-errors-messages" *hasErrors="let messages">
-                                    <span *ngFor="let m of messages">{{m}}</span>
+                    <div class='form-group form-group-inline col-md-6'
+                         [formControlStatus]='settingsForm.controls.phoneNumber'>
+                        <div class='form-row'>
+                            <label class='col-form-label col-md-4' translate='signup.form.phoneNumber'
+                                   for='phoneNumber'></label>
+                            <div class='col-md-8 form-input-container errors-on-hover'>
+                                <arte-input id='phoneNumber' name='phoneNumber' [(ngModel)]='account.phoneNumber'
+                                            [maxlength]='50'></arte-input>
+                                <div class='form-errors-messages' *hasErrors='let messages'>
+                                    <span *ngFor='let m of messages'>{{m}}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="form-group form-group-inline col-md-6">
-                        <div class="form-row">
-                            <label class="form-label col-md-4" translate="signup.form.nationality" for="nationality"></label>
-                            <div class="col-md-8 form-input-container">
+                    <div class='form-group form-group-inline col-md-6'>
+                        <div class='form-row'>
+                            <label class='form-label col-md-4' translate='signup.form.nationality'
+                                   for='nationality'></label>
+                            <div class='col-md-8 form-input-container'>
                                 <arte-autocomplete-short-list
-                                    [required]="false"
-                                    inputId="nationality"
-                                    name="nationality"
-                                    [multiple]="false"
-                                    [(ngModel)]="nationality"
-                                    [suggestions]="countries"
+                                    [required]='false'
+                                    inputId='nationality'
+                                    name='nationality'
+                                    [multiple]='false'
+                                    [(ngModel)]='nationality'
+                                    [suggestions]='countries'
                                     [properties]="['name']"
-                                    [disabled]="!isEditMode()"
+                                    [disabled]='!isEditMode()'
                                 >
                                 </arte-autocomplete-short-list>
                             </div>
                         </div>
                     </div>
 
-                    <div class="form-group form-group-inline col-md-6" [formControlStatus]="settingsForm.controls.language">
-                        <div class="form-row">
-                            <label class="col-form-label col-md-4" translate="signup.form.language" for="language"></label>
-                            <div class="col-md-8 form-input-container errors-on-hover">
+                    <div class='form-group form-group-inline col-md-6'
+                         [formControlStatus]='settingsForm.controls.language'>
+                        <div class='form-row'>
+                            <label class='col-form-label col-md-4' translate='signup.form.language'
+                                   for='language'></label>
+                            <div class='col-md-8 form-input-container errors-on-hover'>
                                 <arte-autocomplete-enum
-                                    id="language"
-                                    name="language"
-                                    [multiple]="false"
-                                    [(ngModel)]="account.language"
-                                    [suggestionsEnum]="languageEnum"
+                                    id='language'
+                                    name='language'
+                                    [multiple]='false'
+                                    [(ngModel)]='account.language'
+                                    [suggestionsEnum]='languageEnum'
                                     [translationPath]="'language.'"
-                                    [required]="true"
+                                    [required]='true'
                                 >
                                 </arte-autocomplete-enum>
-                                <div class="form-errors-messages" *hasErrors="let messages">
-                                    <span *ngFor="let m of messages">{{m}}</span>
+                                <div class='form-errors-messages' *hasErrors='let messages'>
+                                    <span *ngFor='let m of messages'>{{m}}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="form-group form-group-inline col-md-6" [formControlStatus]="settingsForm.controls.organism">
-                        <div class="form-row">
-                            <label class="col-form-label col-md-4" translate="signup.form.organism" for="organism"></label>
-                            <div class="col-md-8 form-input-container errors-on-hover">
-                                <arte-input name="organism" [(ngModel)]="account.organism" [maxlength]="255"></arte-input>
-                                <div class="form-errors-messages" *hasErrors="let messages">
-                                    <span *ngFor="let m of messages">{{m}}</span>
+                    <div class='form-group form-group-inline col-md-6'
+                         [formControlStatus]='settingsForm.controls.organism'>
+                        <div class='form-row'>
+                            <label class='col-form-label col-md-4' translate='signup.form.organism'
+                                   for='organism'></label>
+                            <div class='col-md-8 form-input-container errors-on-hover'>
+                                <arte-input name='organism' [(ngModel)]='account.organism'
+                                            [maxlength]='255'></arte-input>
+                                <div class='form-errors-messages' *hasErrors='let messages'>
+                                    <span *ngFor='let m of messages'>{{m}}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="form-group form-group-inline col-md-6" [formControlStatus]="settingsForm.controls.enableEmailNotifications">
-                        <div class="form-row">
-                            <label class="col-form-label col-md-4" translate="signup.form.enableEmailNotifications"></label>
-                            <div class="col-md-8 form-input-container errors-on-hover">
+                    <div class='form-group form-group-inline col-md-6'
+                         [formControlStatus]='settingsForm.controls.enableEmailNotifications'>
+                        <div class='form-row'>
+                            <label class='col-form-label col-md-4'
+                                   translate='signup.form.enableEmailNotifications'></label>
+                            <div class='col-md-8 form-input-container errors-on-hover'>
                                 <arte-tri-input-switch
-                                    [disabled]="!isEditMode()"
-                                    [(ngModel)]="account.emailNotificationsEnabled"
-                                    [required]="true"
-                                    name="emailNotificationsEnabled"
+                                    [disabled]='!isEditMode()'
+                                    [(ngModel)]='account.emailNotificationsEnabled'
+                                    [required]='true'
+                                    name='emailNotificationsEnabled'
                                 ></arte-tri-input-switch>
-                                <div class="form-errors-messages" *hasErrors="let messages">
-                                    <li *ngFor="let m of messages">{{m}}</li>
+                                <div class='form-errors-messages' *hasErrors='let messages'>
+                                    <li *ngFor='let m of messages'>{{m}}</li>
                                 </div>
                             </div>
                         </div>

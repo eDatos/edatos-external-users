@@ -5,27 +5,27 @@ import { AccountUserService } from '@app/core/service/user';
 import { TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 import { CodelistService } from '@app/shared/service';
+import { ItemCode } from '@app/shared';
 
 @Component({
     selector: 'ac-account-management',
     templateUrl: './account-management.component.html',
-    styleUrls: ['./account-management.component.scss'],
+    styleUrls: ['./account-management.component.scss']
 })
 export class AccountManagementComponent implements OnInit {
     error: string;
     success: string;
     public isSaving: Boolean;
     public account: any;
-    toDate: Date;
-    today: Date;
+    public maxDate: Date;
 
-    public nationality: { code: string; name: string };
-    public gender: { code: string; name: string };
+    public nationality: ItemCode;
+    public gender: ItemCode;
 
     public languageEnum = Language;
 
-    public countries: any[] = [];
-    public genders: any[] = [];
+    public countries: ItemCode[] = [];
+    public genders: ItemCode[] = [];
 
     public downloadingPdf = false;
 
@@ -36,7 +36,8 @@ export class AccountManagementComponent implements OnInit {
         private router: Router,
         private messageService: MessageService,
         private translateService: TranslateService
-    ) {}
+    ) {
+    }
 
     ngOnInit() {
         this.getToday();
@@ -48,8 +49,8 @@ export class AccountManagementComponent implements OnInit {
 
     public save() {
         this.isSaving = true;
-        this.account.nationality = this.nationality.code.toString();
-        this.account.gender = this.gender.code.toString();
+        this.account.nationality = this.nationality.id;
+        this.account.gender = this.gender.id;
         this.userService.update(this.account).subscribe(
             () => {
                 this.onSuccess();
@@ -81,7 +82,7 @@ export class AccountManagementComponent implements OnInit {
             severity: 'success',
             summary: this.translateService.instant('account.messages.onSuccessSumary'),
             detail: this.translateService.instant('account.messages.onSuccess'),
-            life: 5000,
+            life: 5000
         });
         this.error = null;
         this.success = 'OK';
@@ -91,9 +92,7 @@ export class AccountManagementComponent implements OnInit {
 
     getToday() {
         const today: Date = new Date();
-        const date = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-        this.toDate = date;
-        this.today = date;
+        this.maxDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
     }
 
     public download(event: Event) {
@@ -106,7 +105,7 @@ export class AccountManagementComponent implements OnInit {
                     severity: 'error',
                     summary: this.translateService.instant('signup.document.onErrorDownload.label'),
                     detail: this.translateService.instant('signup.document.onErrorDownload.detail'),
-                    life: 5000,
+                    life: 5000
                 }),
             () => (this.downloadingPdf = false)
         );
@@ -114,30 +113,24 @@ export class AccountManagementComponent implements OnInit {
 
     private getNationalities(code?: any) {
         this.codeListService.findAllCountries().subscribe((response) => {
-            for (let i = 0; i < response.code.length; i++) {
-                let nationalities = { code: response.code[i].id, name: this.codeListService.getValue(response.code[i].name.text) };
-                this.countries.push(nationalities);
-            }
+            this.countries = response;
         });
 
         if (code) {
             this.codeListService.findNationality(code).subscribe((response) => {
-                this.nationality = { code: response.code[0].id, name: this.codeListService.getValue(response.code[0].name.text) };
+                this.nationality = response;
             });
         }
     }
 
     private getGenders(code?: any) {
         this.codeListService.findAllGenders().subscribe((response) => {
-            for (let i = 0; i < response.code.length; i++) {
-                let nationalities = { code: response.code[i].id, name: this.codeListService.getValue(response.code[i].name.text) };
-                this.genders.push(nationalities);
-            }
+            this.genders = response;
         });
 
         if (code) {
             this.codeListService.findGender(code).subscribe((response) => {
-                this.gender = { code: response.code[0].id, name: this.codeListService.getValue(response.code[0].name.text) };
+                this.gender = response;
             });
         }
     }

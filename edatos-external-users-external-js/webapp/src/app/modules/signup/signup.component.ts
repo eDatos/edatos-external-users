@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Language, Role, User } from '@app/core/model';
+import { Language, User } from '@app/core/model';
 import { Router } from '@angular/router';
 import { AccountUserService } from '@app/core/service/user';
 import { CaptchaService, CodelistService } from '@app/shared/service';
@@ -8,6 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import {
     DataProtectionPolicyService
 } from '@app/modules/account/data-protection-policy/data-protection-policy.service';
+import { ItemCode } from '@app/shared';
 
 type SignUp = Omit<User, 'id' | 'roles'>;
 
@@ -21,11 +22,10 @@ export class SignupFormComponent implements OnInit {
     public isSaving: Boolean = false;
     public validUser = false;
     private paramLogin: string;
-    public rolesEnum = Role;
     public languageEnum = Language;
 
-    public countries: any[] = [];
-    public genders: any[] = [];
+    public countries: ItemCode[] = [];
+    public genders: ItemCode[] = [];
 
     public maxDate: Date;
     public confirmPassword: string;
@@ -121,25 +121,13 @@ export class SignupFormComponent implements OnInit {
 
     private getNationalities() {
         this.codeListService.findAllCountries().subscribe((response) => {
-            for (let i = 0; i < response.code.length; i++) {
-                let nationalities = {
-                    code: response.code[i].id,
-                    name: this.codeListService.getValue(response.code[i].name.text)
-                };
-                this.countries.push(nationalities);
-            }
+            this.countries = response;
         });
     }
 
     private getGenders() {
         this.codeListService.findAllGenders().subscribe((response) => {
-            for (let i = 0; i < response.code.length; i++) {
-                let nationalities = {
-                    code: response.code[i].id,
-                    name: this.codeListService.getValue(response.code[i].name.text)
-                };
-                this.genders.push(nationalities);
-            }
+            this.genders = response;
         });
     }
 }
