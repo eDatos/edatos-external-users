@@ -1,18 +1,20 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { User, Role, Language } from '@app/core/model';
+import { Language, Role, User } from '@app/core/model';
 import { Router } from '@angular/router';
 import { AccountUserService } from '@app/core/service/user';
 import { CaptchaService, CodelistService } from '@app/shared/service';
 import { MessageService } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
-import { DataProtectionPolicyService } from '@app/modules/account/data-protection-policy/data-protection-policy.service';
+import {
+    DataProtectionPolicyService
+} from '@app/modules/account/data-protection-policy/data-protection-policy.service';
 
 type SignUp = Omit<User, 'id' | 'roles'>;
 
 @Component({
     selector: 'app-signup',
     templateUrl: './signup.component.html',
-    styleUrls: ['signup.component.scss'],
+    styleUrls: ['signup.component.scss']
 })
 export class SignupFormComponent implements OnInit {
     public user: User = new User();
@@ -25,8 +27,7 @@ export class SignupFormComponent implements OnInit {
     public countries: any[] = [];
     public genders: any[] = [];
 
-    toDate: Date;
-    today: Date;
+    public maxDate: Date;
     public confirmPassword: string;
 
     private captchaContainerEl: ElementRef;
@@ -47,7 +48,8 @@ export class SignupFormComponent implements OnInit {
         private translateService: TranslateService,
         private dataProtectionPolicyService: DataProtectionPolicyService,
         private codeListService: CodelistService
-    ) {}
+    ) {
+    }
 
     ngOnInit() {
         this.getToday();
@@ -93,7 +95,7 @@ export class SignupFormComponent implements OnInit {
             severity: 'success',
             summary: this.translateService.instant('signup.messages.onSuccessSumary'),
             detail: this.translateService.instant('signup.messages.onRequest'),
-            life: 5000,
+            life: 5000
         });
         this.isSaving = false;
 
@@ -101,11 +103,10 @@ export class SignupFormComponent implements OnInit {
     }
 
     public getToday() {
-        const today: Date = new Date();
-        const date = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-        this.toDate = date;
-        this.today = date;
+        let today: Date = new Date();
+        this.maxDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
     }
+
     acceptDataProteccionPolicy() {
         return new Promise<any>((id, reject) => {
             this.dataProtectionPolicyService.getDataProtectionPolicy().subscribe((dataProtectionPolicy) => {
@@ -121,7 +122,10 @@ export class SignupFormComponent implements OnInit {
     private getNationalities() {
         this.codeListService.findAllCountries().subscribe((response) => {
             for (let i = 0; i < response.code.length; i++) {
-                let nationalities = { code: response.code[i].id, name: this.codeListService.getValue(response.code[i].name.text) };
+                let nationalities = {
+                    code: response.code[i].id,
+                    name: this.codeListService.getValue(response.code[i].name.text)
+                };
                 this.countries.push(nationalities);
             }
         });
@@ -130,7 +134,10 @@ export class SignupFormComponent implements OnInit {
     private getGenders() {
         this.codeListService.findAllGenders().subscribe((response) => {
             for (let i = 0; i < response.code.length; i++) {
-                let nationalities = { code: response.code[i].id, name: this.codeListService.getValue(response.code[i].name.text) };
+                let nationalities = {
+                    code: response.code[i].id,
+                    name: this.codeListService.getValue(response.code[i].name.text)
+                };
                 this.genders.push(nationalities);
             }
         });
