@@ -26,23 +26,23 @@ describe('ResponseUtils', () => {
                     texts: [
                         {
                             label: 'ejemplo',
-                            locale: 'es',
-                        },
-                    ],
-                },
-            },
+                            locale: 'es'
+                        }
+                    ]
+                }
+            }
         };
 
         httpResponse = new HttpResponse({
             body: favoritePlainObject,
             headers: new HttpHeaders({ 'Test-Header': 'OK' }),
-            status: 200,
+            status: 200
         });
 
         httpResponseList = new HttpResponse({
             body: [favoritePlainObject, favoritePlainObject],
             headers: new HttpHeaders({ 'Test-Header': 'OK' }),
-            status: 200,
+            status: 200
         });
     });
 
