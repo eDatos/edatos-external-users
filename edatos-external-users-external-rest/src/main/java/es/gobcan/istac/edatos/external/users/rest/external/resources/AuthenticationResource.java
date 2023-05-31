@@ -1,5 +1,6 @@
 package es.gobcan.istac.edatos.external.users.rest.external.resources;
 
+import es.gobcan.istac.edatos.external.users.core.config.MetadataProperties;
 import es.gobcan.istac.edatos.external.users.core.service.DisabledTokenService;
 import es.gobcan.istac.edatos.external.users.core.service.MetadataConfigurationService;
 import org.apache.commons.lang.StringUtils;
@@ -25,13 +26,18 @@ public class AuthenticationResource {
     @Autowired
     private DisabledTokenService disabledTokenService;
 
+    @Autowired
+    private MetadataProperties metadataProperties;
+
     @GetMapping("/api/authenticate")
     @ResponseStatus(HttpStatus.FOUND)
     public ResponseEntity<Void> authenticate(@RequestParam String origin, @RequestParam(required = false, defaultValue = "false") boolean force,
         @CookieValue(value = "authenticationtoken", required = false) String token) throws UnsupportedEncodingException {
 
         String location;
-        if (StringUtils.isNotBlank(token) && !disabledTokenService.exists(token)) {
+        if (metadataProperties.getAllowedOrigins().stream().noneMatch(origin::startsWith)) {
+            location = origin;
+        } else if (StringUtils.isNotBlank(token) && !disabledTokenService.exists(token)) {
             location = UriBuilder.fromUri(origin).queryParam("token", token).build().toString();
         } else {
             location = force ? metadataService.retrieveExternalUsersExternalWebApplicationUrlBase() + "/#/login?origin=" + URLEncoder.encode(origin, "UTF-8") : origin;
