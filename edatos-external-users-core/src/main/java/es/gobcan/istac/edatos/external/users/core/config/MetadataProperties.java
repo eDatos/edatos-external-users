@@ -12,6 +12,7 @@ import es.gobcan.istac.edatos.external.users.core.service.MetadataConfigurationS
 
 @Component("metadataProperties")
 public class MetadataProperties {
+
     @Autowired
     private MetadataConfigurationService configurationService;
 
@@ -40,6 +41,8 @@ public class MetadataProperties {
     private String nationalityUrnKey;
     private String genderUrnKey;
 
+    private List<String> allowedOrigins;
+
     @PostConstruct
     public void setValues() {
         metamacNavbar = normalizeUrl(configurationService.retrieveNavbarUrl());
@@ -67,6 +70,7 @@ public class MetadataProperties {
         } catch (Exception e) {
             languageCookie = null;
         }
+        allowedOrigins = configurationService.retrieveAllowedOrigins();
     }
 
     public String getMetamacNavbar() {
@@ -122,7 +126,6 @@ public class MetadataProperties {
     }
 
     public List<String> getAvailableLanguages() {
-        // The languages are retrieved each time it is needed so that multi-language fields can be updated
         return availableLanguages;
     }
 
@@ -147,5 +150,8 @@ public class MetadataProperties {
     }
     public String getGenderUrnKey() {
         return genderUrnKey;
+    }
+    public List<String> getAllowedOrigins() {
+        return allowedOrigins;
     }
 }

@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
         this.credentials = new Credentials();
         this.route.queryParams.subscribe((queryParams) => {
             if (queryParams['origin']) {
-                this.origin = queryParams['origin'].replace(/^http:\/\//i, 'https://');
+                this.origin = queryParams['origin'];
                 this.externalUserService.urlToReturnToAfterLogin = this.origin.toString();
             } else {
                 this.origin = this.externalUserService.urlToReturnToAfterLogin;
@@ -87,7 +87,7 @@ export class LoginComponent implements OnInit {
     }
 
     private navigateToOrigin() {
-        const originRouteWithTokenParam = addQueryParamToRoute(this.origin.toString(), 'token', encodeURIComponent(this.authServerProvider.getToken()));
+        const originRouteWithTokenParam = addQueryParamToRoute(window.location.href.replace(/\/#.*/, '/authenticate'), 'origin', this.origin.toString());
         this.document.defaultView.open(originRouteWithTokenParam, '_self');
     }
 
