@@ -32,6 +32,7 @@ public class MetadataProperties {
     private String captchaProvider;
     private String recaptchaSiteKey;
     private String recaptchaSecretKey;
+    private double recaptchaThreshold;
     private String captchaUrl;
 
     private String externalAppUrl;
@@ -53,6 +54,7 @@ public class MetadataProperties {
         if (CaptchaConstants.CAPTCHA_PROVIDER_RECAPTCHA.equals(captchaProvider)) {
             recaptchaSiteKey = configurationService.retrieveRecaptchaSiteKey();
             recaptchaSecretKey = configurationService.retrieveRecaptchaSecretKey();
+            recaptchaThreshold = configurationService.retrieveRecaptchaThreshold();
         }
         captchaUrl = normalizeUrl(configurationService.retrieveCaptchaExternalApiUrlBase());
         availableLanguages = configurationService.retrieveLanguages();
@@ -140,5 +142,9 @@ public class MetadataProperties {
 
     public List<String> getAllowedOrigins() {
         return allowedOrigins;
+    }
+
+    public double getRecaptchaThreshold() {
+        return recaptchaThreshold;
     }
 }
