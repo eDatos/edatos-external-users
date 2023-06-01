@@ -15,7 +15,7 @@
 etc/changes-from-release/1.1.1/db/common-metadata/postgresql/20230516_insert_allowed_origins_configuration.sql
 ```
 
-* Se añade la propiedad `edatos.external_users.recaptcha_threshold`, que hace referencia al número límite que diferencia a los bots (números menores al de la propiedad) de las personas (números mayores o iguales al de la propiedad) si el captcha en uso es el recaptcha. Para añadir la propiedad hace falta ejecutar el siguiente script SQL:
+* Se añade la propiedad `metamac.portal.rest.external.authentication.captcha.threshold`, que hace referencia al número límite que diferencia a los bots (números menores al de la propiedad) de las personas (números mayores o iguales al de la propiedad) si el captcha en uso es el recaptcha. Para añadir la propiedad hace falta ejecutar el siguiente script SQL:
 
 ```
 etc/changes-from-release/1.1.1/db/common-metadata/postgresql/20230516_insert_allowed_origins_configuration.sql
