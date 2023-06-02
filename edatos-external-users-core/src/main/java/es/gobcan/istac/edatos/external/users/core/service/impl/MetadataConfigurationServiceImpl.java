@@ -31,6 +31,11 @@ public class MetadataConfigurationServiceImpl extends ConfigurationServiceImpl i
     }
 
     @Override
+    public double retrieveRecaptchaThreshold() throws EDatosException {
+        return Double.parseDouble(retrieveProperty(ExternalUsersConfigurationConstants.CAPTCHA_RECAPTCHA_THRESHOLD));
+    }
+
+    @Override
     public String retrieveBaseUrl() throws EDatosException {
         return retrieveProperty(ExternalUsersConfigurationConstants.BASE_URL);
     }
