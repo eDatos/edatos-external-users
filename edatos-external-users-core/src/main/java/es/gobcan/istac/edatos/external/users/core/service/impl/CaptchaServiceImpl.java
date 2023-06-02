@@ -22,10 +22,10 @@ import es.gobcan.istac.edatos.external.users.core.service.CaptchaService;
 public class CaptchaServiceImpl implements CaptchaService {
 
     private RestTemplate restTemplate = new RestTemplate();
-    
+
     @Autowired
     private MetadataProperties metadataProperties;
-    
+
     @Autowired
     private CaptchaResponseRepository captchaResponseRepository;
 
@@ -68,7 +68,7 @@ public class CaptchaServiceImpl implements CaptchaService {
             throw new EDatosException(ServiceExceptionType.GENERIC_ERROR);
         }
 
-        return recaptchaVerification.getScore() >= CaptchaConstants.RECAPTCHA_SCORE_THRESHOLD;
+        return recaptchaVerification.getScore() >= metadataProperties.getRecaptchaThreshold();
     }
 
     @Override

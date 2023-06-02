@@ -12,6 +12,7 @@ public final class ExternalUsersConfigurationConstants extends ConfigurationCons
     public static final String CAPTCHA_PROVIDER = "metamac.portal.rest.external.authentication.captcha.provider";
     public static final String CAPTCHA_RECAPTCHA_SITE_KEY = "metamac.portal.rest.external.authentication.captcha.public_key";
     public static final String CAPTCHA_RECAPTCHA_SECRET_KEY = "metamac.portal.rest.external.authentication.captcha.private_key";
+    public static final String CAPTCHA_RECAPTCHA_THRESHOLD = "metamac.portal.rest.external.authentication.captcha.threshold";
 
     // OTHER PROPERTIES
     public static final String BASE_URL = "metamac.edatos_external_users.rest.external.base";
