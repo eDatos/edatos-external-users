@@ -5,8 +5,6 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,8 +12,6 @@ import es.gobcan.istac.edatos.external.users.core.service.MetadataConfigurationS
 
 @Component("metadataProperties")
 public class MetadataProperties {
-
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private MetadataConfigurationService configurationService;
@@ -39,7 +35,12 @@ public class MetadataProperties {
     private String internalAppUrl;
     private String casService;
 
+    private String srmExternalEndpoint;
+
     private String visualizerPath;
+
+    private String nationalityUrnKey;
+    private String genderUrnKey;
 
     private List<String> allowedOrigins;
 
@@ -63,6 +64,9 @@ public class MetadataProperties {
         casService = internalAppUrl + "/login/cas";
         visualizerPath = configurationService.retrievePortalExternalWebApplicationUrlVisualizer();
         defaultLanguage = availableLanguages.get(0);
+        nationalityUrnKey = configurationService.retrieveNationalityUrnKey();
+        genderUrnKey = configurationService.retrieveGenderUrnKey();
+        srmExternalEndpoint = configurationService.retrieveSrmExternalApiUrlBase();
         try {
             languageCookie = configurationService.retrieveInternationalizationCookieId();
         } catch (Exception e) {
@@ -124,7 +128,6 @@ public class MetadataProperties {
     }
 
     public List<String> getAvailableLanguages() {
-        // The languages are retrieved each time it is needed so that multi-language fields can be updated
         return availableLanguages;
     }
 
@@ -140,6 +143,16 @@ public class MetadataProperties {
         return visualizerPath;
     }
 
+    public String getNationalityUrnKey() {
+        return nationalityUrnKey;
+    }
+
+    public String getSrmExternalEndpoint() {
+        return srmExternalEndpoint;
+    }
+    public String getGenderUrnKey() {
+        return genderUrnKey;
+    }
     public List<String> getAllowedOrigins() {
         return allowedOrigins;
     }

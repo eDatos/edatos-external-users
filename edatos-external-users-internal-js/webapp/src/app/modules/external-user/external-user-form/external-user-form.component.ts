@@ -2,9 +2,10 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ExternalUser, Language, Role } from '@app/core/model';
 import { PermissionService } from '@app/core/service/auth';
-import { ExternalUserService } from '@app/core/service/user';
+import { CodelistService, ExternalUserService } from '@app/core/service/user';
 import { StructuralResourcesTreeComponent } from '@app/shared/components/structural-resources-tree';
 import { Favorite, FavoriteResource } from '@app/shared/model';
+import { ItemCode } from '@app/shared/model/external-item-code-response.model';
 import { FavoriteService } from '@app/shared/service';
 import { ArteEventManager, GenericModalService } from 'arte-ng/services';
 import { Subscription } from 'rxjs';
@@ -22,10 +23,14 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
     public userId: number;
     public eventSubscriber: Subscription;
 
-    public rolesEnum = Role;
+    public maxDate: Date;
     public languageEnum = Language;
-    public favorites: Favorite[];
 
+    public countries: ItemCode[] = [];
+    public genders: ItemCode[] = [];
+    public nationality: ItemCode;
+    public gender: ItemCode;
+    public favorites: Favorite[];
     public editMode: 'user' | 'favorites' | null = null;
 
     @ViewChild(StructuralResourcesTreeComponent)
@@ -40,10 +45,12 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
         private favoriteService: FavoriteService,
         private eventManager: ArteEventManager,
         private route: ActivatedRoute,
-        private router: Router
+        private router: Router,
+        private codeListService: CodelistService
     ) {}
 
     public ngOnInit() {
+        this.getToday();
         this.isSaving = false;
 
         this.subscription = this.route.params.subscribe((params) => {
@@ -56,6 +63,10 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
         });
     }
 
+    public ngOnDestroy() {
+        this.subscription.unsubscribe();
+    }
+
     public createFavorite(resource: FavoriteResource): Favorite {
         const favorite = new Favorite();
         favorite.externalUser = this.externalUser;
@@ -63,6 +74,17 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
         return favorite;
     }
 
+    public restore() {
+        this.genericModalService.open(ExternalUserDeleteDialogComponent as Component, { user: this.externalUser }, { container: '.app' });
+    }
+
+    public deleteFavorite(resource: FavoriteResource): void {
+        const favorite = this.favorites.find((fav) => fav.resource?.id === resource.id && fav.resource?.favoriteType === resource.favoriteType)!;
+        this.favoriteService
+            .delete(favorite.id)
+            .pipe(finalize(() => this.updateFavorites()))
+            .subscribe();
+    }
     public saveFavorites() {
         if (this.externalUser.id && this.favoriteTree.favorites) {
             this.favoriteService
@@ -80,6 +102,16 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
         this.disabledEdit();
     }
 
+    public editUserData() {
+        this.editMode = 'user';
+    }
+
+    public editFavorites() {
+        this.editMode = 'favorites';
+        if (!this.userId) {
+            this.router.navigate(['..']);
+        }
+    }
     public load(id: number) {
         if (id) {
             if (this.editMode !== 'user') {
@@ -87,9 +119,13 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
             }
             this.externalUserService.get(id).subscribe((user) => {
                 this.externalUser = user;
+                this.getNationalities(this.externalUser.nationality);
+                this.getGenders(this.externalUser.gender);
             });
         } else {
             this.externalUser = new ExternalUser();
+            this.getNationalities();
+            this.getGenders();
         }
     }
 
@@ -104,6 +140,8 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
 
     public save() {
         this.isSaving = true;
+        this.externalUser.nationality = this.nationality.id;
+        this.externalUser.gender = this.gender.id;
         if (this.userId) {
             this.externalUserService.update(this.externalUser).subscribe(
                 (response) => this.onSaveSuccess(response),
@@ -121,7 +159,6 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
     public delete() {
         const modalRef = this.genericModalService.open(ExternalUserDeleteDialogComponent as Component, { user: this.externalUser }, { container: '.app' });
         modalRef.result.subscribe((isDelete) => this.onDeleteSuccess(isDelete));
-
     }
 
     private onDeleteSuccess(isDelete: boolean) {
@@ -130,35 +167,13 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
         }
     }
 
-    public restore() {
-        this.genericModalService.open(ExternalUserDeleteDialogComponent as Component, { user: this.externalUser }, { container: '.app' });
-    }
-
-    public ngOnDestroy() {
-        this.subscription.unsubscribe();
-    }
-
-    public deleteFavorite(resource: FavoriteResource): void {
-        const favorite = this.favorites.find((fav) => fav.resource?.id === resource.id && fav.resource?.favoriteType === resource.favoriteType)!;
-        this.favoriteService
-            .delete(favorite.id)
-            .pipe(finalize(() => this.updateFavorites()))
-            .subscribe();
-    }
-
-    public disabledEdit() {
+    private disabledEdit() {
         this.editMode = null;
     }
 
-    public editUserData() {
-        this.editMode = 'user';
-    }
-
-    public editFavorites() {
-        this.editMode = 'favorites';
-        if (!this.userId) {
-            this.router.navigate(['..']);
-        }
+    private getToday() {
+        const today: Date = new Date();
+        this.maxDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
     }
 
     private updateFavorites() {
@@ -178,5 +193,29 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
 
     private onSaveError() {
         this.isSaving = false;
+    }
+
+    private getNationalities(code?: any) {
+        this.codeListService.findAllCountries().subscribe((response) => {
+            this.countries = response;
+        });
+
+        if (code) {
+            this.codeListService.findNationality(code).subscribe((response) => {
+                this.nationality = response;
+            });
+        }
+    }
+
+    private getGenders(code?: any) {
+        this.codeListService.findAllGenders().subscribe((response) => {
+            this.genders = response;
+        });
+
+        if (code) {
+            this.codeListService.findGender(code).subscribe((response) => {
+                this.gender = response;
+            });
+        }
     }
 }

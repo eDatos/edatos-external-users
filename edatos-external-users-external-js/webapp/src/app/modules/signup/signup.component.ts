@@ -1,27 +1,33 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { User, Role, Language } from '@app/core/model';
+import { Language, User } from '@app/core/model';
 import { Router } from '@angular/router';
 import { AccountUserService } from '@app/core/service/user';
-import { CaptchaService } from '@app/shared/service';
+import { CaptchaService, CodelistService } from '@app/shared/service';
 import { MessageService } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
-import { DataProtectionPolicyService } from '@app/modules/account/data-protection-policy/data-protection-policy.service';
+import {
+    DataProtectionPolicyService
+} from '@app/modules/account/data-protection-policy/data-protection-policy.service';
+import { ItemCode } from '@app/shared';
 
 type SignUp = Omit<User, 'id' | 'roles'>;
 
 @Component({
     selector: 'app-signup',
     templateUrl: './signup.component.html',
-    styleUrls: ['signup.component.scss'],
+    styleUrls: ['signup.component.scss']
 })
 export class SignupFormComponent implements OnInit {
     public user: User = new User();
     public isSaving: Boolean = false;
     public validUser = false;
     private paramLogin: string;
-    public rolesEnum = Role;
     public languageEnum = Language;
 
+    public countries: ItemCode[] = [];
+    public genders: ItemCode[] = [];
+
+    public maxDate: Date;
     public confirmPassword: string;
 
     private captchaContainerEl: ElementRef;
@@ -40,11 +46,16 @@ export class SignupFormComponent implements OnInit {
         private captchaService: CaptchaService,
         private messageService: MessageService,
         private translateService: TranslateService,
-        private dataProtectionPolicyService: DataProtectionPolicyService
-    ) {}
+        private dataProtectionPolicyService: DataProtectionPolicyService,
+        private codeListService: CodelistService
+    ) {
+    }
 
     ngOnInit() {
+        this.getToday();
         this.isSaving = false;
+        this.getNationalities();
+        this.getGenders();
     }
 
     clear() {
@@ -84,11 +95,16 @@ export class SignupFormComponent implements OnInit {
             severity: 'success',
             summary: this.translateService.instant('signup.messages.onSuccessSumary'),
             detail: this.translateService.instant('signup.messages.onRequest'),
-            life: 5000,
+            life: 5000
         });
         this.isSaving = false;
 
         this.navigateToLogin();
+    }
+
+    public getToday() {
+        let today: Date = new Date();
+        this.maxDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
     }
 
     acceptDataProteccionPolicy() {
@@ -100,6 +116,18 @@ export class SignupFormComponent implements OnInit {
                     reject('dataProtectionPolicy cannot be get');
                 }
             });
+        });
+    }
+
+    private getNationalities() {
+        this.codeListService.findAllCountries().subscribe((response) => {
+            this.countries = response;
+        });
+    }
+
+    private getGenders() {
+        this.codeListService.findAllGenders().subscribe((response) => {
+            this.genders = response;
         });
     }
 }

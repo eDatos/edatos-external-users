@@ -17,7 +17,13 @@ export class ChangePasswordComponent implements OnInit {
     public newPassword: string;
     public confirmNewPassword: string;
 
-    constructor(private userService: AccountUserService, private principal: Principal, private router: Router, private messageService: MessageService, private translateService: TranslateService) {}
+    constructor(
+        private userService: AccountUserService,
+        private principal: Principal,
+        private router: Router,
+        private messageService: MessageService,
+        private translateService: TranslateService
+    ) {}
 
     ngOnInit() {
         this.principal.identity().then((account) => {

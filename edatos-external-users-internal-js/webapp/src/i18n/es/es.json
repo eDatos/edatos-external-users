@@ -393,6 +393,8 @@
         },
         "email": "Email",
         "enableEmailNotifications": "Habilitar notificaciones a través de correo electrónico para este usuario",
+        "phoneNumber": "Número télefono",
+        "organism": "Organismo",
         "filters": {
             "labels": {
                 "categories": "Suscripciones temáticas",
@@ -455,7 +457,10 @@
         },
         "surname1": "Primer apellido",
         "surname2": "Segundo apellido",
-        "updated": "Se ha actualizado el usuario {{ param }}"
+        "updated": "Se ha actualizado el usuario {{ param }}",
+        "gender": "Género",
+        "nationality": "Nacionalidad",
+        "birthday": "Fecha nacimiento"
     },
     "family": {
         "acronym": {

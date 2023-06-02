@@ -70,7 +70,7 @@
     </subDataset>
     <parameter name="PATH_LOGO" class="java.lang.String" isForPrompting="false"/>
     <parameter name="LOCALE" class="java.lang.String"/>
-    <parameter name="PERSONAL_INFORMATION" class="es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity"/>
+    <parameter name="PERSONAL_INFORMATION" class="es.gobcan.istac.edatos.external.users.core.domain.vo.ExternalUserVO"/>
     <parameter name="FILTERS" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
     <parameter name="PERMALINK_PATH" class="java.lang.String"/>
     <parameter name="FAVORITES" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
@@ -150,7 +150,7 @@
                 <textElement>
                     <font size="12"/>
                 </textElement>
-                <textFieldExpression><![CDATA[]]></textFieldExpression>
+                <textFieldExpression><![CDATA[$P{PERSONAL_INFORMATION}.getBirthday()]]></textFieldExpression>
             </textField>
             <textField>
                 <reportElement x="310" y="80" width="150" height="20" uuid="8dd58bc2-c06c-481a-aafb-005a86a828fd"/>
@@ -164,7 +164,7 @@
                 <textElement>
                     <font size="12"/>
                 </textElement>
-                <textFieldExpression><![CDATA[]]></textFieldExpression>
+                <textFieldExpression><![CDATA[$P{PERSONAL_INFORMATION}.getNationality()]]></textFieldExpression>
             </textField>
             <textField>
                 <reportElement x="550" y="80" width="150" height="20" uuid="8dd58bc2-c06c-481a-aafb-005a86a828fd"/>
@@ -206,7 +206,7 @@
                 <textElement>
                     <font size="12"/>
                 </textElement>
-                <textFieldExpression><![CDATA[]]></textFieldExpression>
+                <textFieldExpression><![CDATA[$P{PERSONAL_INFORMATION}.getGender()]]></textFieldExpression>
             </textField>
             <textField>
                 <reportElement x="20" y="130" width="210" height="20" uuid="8dd58bc2-c06c-481a-aafb-005a86a828fd"/>

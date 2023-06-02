@@ -20,3 +20,9 @@ etc/changes-from-release/1.1.1/db/common-metadata/postgresql/20230516_insert_all
 ```
 etc/changes-from-release/1.1.1/db/common-metadata/postgresql/20230601_insert_recaptcha_threshold_configuration.sql
 ```
+
+* Se añaden las propiedades `metamac.default.codelist.nationality.urn` y `metamac.default.codelist.gender.urn`, que hace referencia al URN para obtener los datos de las nacionalidades y géneros de la API externa de stadistical-resources. Si una url que no está incluida en la propiedad intentara hacer una petición aparecería un error de CORS. Para añadir la propiedad hace falta ejecutar el siguiente script SQL:
+
+```
+etc/changes-from-release/1.1.1/db/common-metadata/postgresql/20230602_insert_urn_nationalities_and_genders_configuration.sql
+```

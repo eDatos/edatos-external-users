@@ -32,7 +32,7 @@
             <div class="d-flex align-items-center justify-content-between mt-2">
                 <div class="d-flex align-items-baseline flex-column">
                     <h3 class="mt-2 mb-0" translate="externalUser.personalData"></h3>
-                    <small class="text-muted">{{'externalUser.createdDate' | translate}}: {{externalUser.createdDate | date: 'd/M/yyyy, H:mm:ss' }}</small>
+                    <small class="text-muted">{{'externalUser.createdDate' | translate}} : {{externalUser.createdDate | date: 'd/M/yyyy, H:mm:ss' }}</small>
                 </div>
                 <div class="page-header-btns button-edit">
                     <ng-container *ngIf="permissionService.canNavigateUserManagement()">
@@ -52,7 +52,7 @@
                 </div>
             </div>
             <fieldset [disabled]="editMode !== 'user'" arteAutofocus class="page-section">
-                <div class="row">
+                <div class="row divider">
                     <div class="form-group form-group-inline col-md-6">
                         <div class="form-row">
                             <label class="col-form-label col-md-4" translate="externalUser.name"></label>
@@ -112,22 +112,32 @@
 
                     <div class="form-group form-group-inline col-md-6">
                         <div class="form-row">
-                            <label class="col-form-label col-md-4" translate="externalUser.language"></label>
-                            <div class="col-md-8">
-                                <arte-autocomplete-enum
-                                    name="language"
+                            <label class="form-label col-md-4" translate="externalUser.gender" for="gender"></label>
+                            <div class="col-md-8 form-input-container errors-on-hover">
+                                <arte-autocomplete-short-list
+                                    [required]="false"
+                                    inputId="gender"
+                                    name="gender"
                                     [multiple]="false"
-                                    [(ngModel)]="externalUser.language"
-                                    [suggestionsEnum]="languageEnum"
-                                    [translationPath]="'externalUser.languageEnum.'"
+                                    [(ngModel)]="gender"
+                                    [suggestions]="genders"
+                                    [properties]="['name']"
                                     [disabled]="editMode !== 'user'"
-                                    required
                                 >
-                                </arte-autocomplete-enum>
+                                </arte-autocomplete-short-list>
                             </div>
                         </div>
                     </div>
 
+                    <div class="form-group form-group-inline col-md-6">
+                        <div class="form-row">
+                            <label class="form-label col-md-4" translate="externalUser.birthday"></label>
+                            <arte-calendar [(ngModel)]="externalUser.birthday" [required]="false" name="birthday" [maxDate]="maxDate" class="calendar"></arte-calendar>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row divider">
                     <div class="form-group form-group-inline col-md-6">
                         <div class="form-row">
                             <label class="col-form-label col-md-4" translate="externalUser.email"></label>
@@ -154,6 +164,67 @@
                                 </small>
                                 <small class="form-text text-danger" *ngIf="editForm.controls.email?.errors?.email" translate="global.messages.validate.email.invalid"> </small>
                             </ng-container>
+                        </div>
+                    </div>
+
+                    <div class="form-group form-group-inline col-md-6">
+                        <div class="form-row">
+                            <label class="col-form-label col-md-4" translate="externalUser.phoneNumber" for="phoneNumber"></label>
+                            <div class="col-md-8 form-input-container errors-on-hover">
+                                <arte-input id="phoneNumber" name="phoneNumber" [(ngModel)]="externalUser.phoneNumber" [maxlength]="50"></arte-input>
+                                <div class="form-errors-messages" *hasErrors="let messages">
+                                    <span *ngFor="let m of messages">{{m}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group form-group-inline col-md-6">
+                        <div class="form-row">
+                            <label class="col-form-label col-md-4" translate="externalUser.language"></label>
+                            <div class="col-md-8">
+                                <arte-autocomplete-enum
+                                    name="language"
+                                    [multiple]="false"
+                                    [(ngModel)]="externalUser.language"
+                                    [suggestionsEnum]="languageEnum"
+                                    [translationPath]="'externalUser.languageEnum.'"
+                                    [disabled]="editMode !== 'user'"
+                                    required
+                                >
+                                </arte-autocomplete-enum>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group form-group-inline col-md-6">
+                        <div class="form-row">
+                            <label class="form-label col-md-4" translate="externalUser.nationality" for="nationality"></label>
+                            <div class="col-md-8 form-input-container">
+                                <arte-autocomplete-short-list
+                                    [required]="false"
+                                    inputId="nationality"
+                                    name="nationality"
+                                    [multiple]="false"
+                                    [(ngModel)]="nationality"
+                                    [suggestions]="countries"
+                                    [properties]="['name']"
+                                    [disabled]="editMode !== 'user'"
+                                >
+                                </arte-autocomplete-short-list>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group form-group-inline col-md-6">
+                        <div class="form-row">
+                            <label class="col-form-label col-md-4" translate="externalUser.organism" for="organism"></label>
+                            <div class="col-md-8 form-input-container errors-on-hover">
+                                <arte-input name="organism" [(ngModel)]="externalUser.organism" [maxlength]="255"></arte-input>
+                                <div class="form-errors-messages" *hasErrors="let messages">
+                                    <span *ngFor="let m of messages">{{m}}</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -199,6 +270,7 @@
             <h3 class="button-tree" translate="externalUser.home.favorites"></h3>
             <app-structural-resources-tree [disabled]="editMode !== 'favorites'" [favorites]="favorites"></app-structural-resources-tree>
         </fieldset>
+
         <div *ngIf="userId" class="page-section">
             <div class="d-flex align-items-baseline justify-content-between">
                 <h3 class="mt-3" translate="externalUser.home.filters"></h3>

@@ -17,6 +17,8 @@ public final class ExternalUsersConfigurationConstants extends ConfigurationCons
     // OTHER PROPERTIES
     public static final String BASE_URL = "metamac.edatos_external_users.rest.external.base";
     public static final String CRON_EXPRESSION_SEND_NOTICE_JOB = "metamac.edatos_external_users.rest.internal.job.send_notice.cron_expression";
+    public static final String NATIONALITY_URN_KEY = "metamac.default.codelist.nationality.urn";
+    public static final String GENDER_URN_KEY = "metamac.default.codelist.gender.urn";
 
     private ExternalUsersConfigurationConstants() {
 

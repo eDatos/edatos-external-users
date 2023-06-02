@@ -1,5 +1,5 @@
-import {BaseVersionedAndAuditingWithDeletionEntity} from 'arte-ng/model';
-import {Role} from './rol.model';
+import { BaseVersionedAndAuditingWithDeletionEntity } from 'arte-ng/model';
+import { Role } from './rol.model';
 import * as jwtDecode from 'jwt-decode';
 
 export class User extends BaseVersionedAndAuditingWithDeletionEntity {
@@ -14,6 +14,9 @@ export class User extends BaseVersionedAndAuditingWithDeletionEntity {
     public phoneNumber?: string;
     public emailNotificationsEnabled?: boolean;
     public roles?: any[];
+    public gender?: string;
+    public nationality?: string;
+    public birthday?: Date;
     public dataProtectionPolicyId?: number;
 
     constructor(
@@ -28,6 +31,9 @@ export class User extends BaseVersionedAndAuditingWithDeletionEntity {
         phoneNumber?: string,
         emailNotificationsEnabled?: boolean,
         roles?: any[],
+        gender?: string,
+        nationality?: string,
+        birthday?: Date,
         dataProtectionPolicyId?: number
     ) {
         super();
@@ -42,6 +48,9 @@ export class User extends BaseVersionedAndAuditingWithDeletionEntity {
         this.roles = roles ? roles : null;
         this.language = language ? language : null;
         this.emailNotificationsEnabled = emailNotificationsEnabled ? emailNotificationsEnabled : null;
+        this.gender = gender ? gender : null;
+        this.nationality = nationality ? nationality : null;
+        this.birthday = birthday ? birthday : null;
         this.dataProtectionPolicyId = dataProtectionPolicyId == null ? null : dataProtectionPolicyId;
     }
 
@@ -60,14 +69,13 @@ export interface RoleUserAccount {
 }
 
 export class UserAccount {
-    constructor(public login: string, public roles: RoleUserAccount[]) {
-    }
+    constructor(public login: string, public roles: RoleUserAccount[]) {}
 
     public static fromJwt(token: string) {
         const payload: { sub: string; auth: string; exp: string } = jwtDecode(token);
         const roles = payload.auth.split(',').map((appRole) => {
             const [app, role] = appRole.split('#', 2);
-            return {app, role} as RoleUserAccount;
+            return { app, role } as RoleUserAccount;
         });
         return new UserAccount(payload.sub, roles);
     }
@@ -78,6 +86,5 @@ export class UserAccount {
 }
 
 export class UserAccountChangePassword {
-    constructor(public currentPassword: string, public newPassword: string) {
-    }
+    constructor(public currentPassword: string, public newPassword: string) {}
 }

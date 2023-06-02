@@ -4,36 +4,53 @@ import { Language } from '@app/core/model';
 import { AccountUserService } from '@app/core/service/user';
 import { TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
+import { CodelistService } from '@app/shared/service';
+import { ItemCode } from '@app/shared';
 
 @Component({
     selector: 'ac-account-management',
     templateUrl: './account-management.component.html',
+    styleUrls: ['./account-management.component.scss']
 })
 export class AccountManagementComponent implements OnInit {
     error: string;
     success: string;
     public isSaving: Boolean;
     public account: any;
+    public maxDate: Date;
+
+    public nationality: ItemCode;
+    public gender: ItemCode;
 
     public languageEnum = Language;
+
+    public countries: ItemCode[] = [];
+    public genders: ItemCode[] = [];
 
     public downloadingPdf = false;
 
     constructor(
         private userService: AccountUserService,
+        private codeListService: CodelistService,
         private route: ActivatedRoute,
         private router: Router,
         private messageService: MessageService,
         private translateService: TranslateService
-    ) {}
+    ) {
+    }
 
     ngOnInit() {
+        this.getToday();
         this.isSaving = false;
         this.account = this.route.snapshot.data.user;
+        this.getNationalities(this.account.nationality);
+        this.getGenders(this.account.gender);
     }
 
     public save() {
         this.isSaving = true;
+        this.account.nationality = this.nationality.id;
+        this.account.gender = this.gender.id;
         this.userService.update(this.account).subscribe(
             () => {
                 this.onSuccess();
@@ -65,12 +82,17 @@ export class AccountManagementComponent implements OnInit {
             severity: 'success',
             summary: this.translateService.instant('account.messages.onSuccessSumary'),
             detail: this.translateService.instant('account.messages.onSuccess'),
-            life: 5000,
+            life: 5000
         });
         this.error = null;
         this.success = 'OK';
         this.isSaving = false;
         this.router.navigate(['account-management']);
+    }
+
+    getToday() {
+        const today: Date = new Date();
+        this.maxDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
     }
 
     public download(event: Event) {
@@ -83,9 +105,33 @@ export class AccountManagementComponent implements OnInit {
                     severity: 'error',
                     summary: this.translateService.instant('signup.document.onErrorDownload.label'),
                     detail: this.translateService.instant('signup.document.onErrorDownload.detail'),
-                    life: 5000,
+                    life: 5000
                 }),
             () => (this.downloadingPdf = false)
         );
+    }
+
+    private getNationalities(code?: any) {
+        this.codeListService.findAllCountries().subscribe((response) => {
+            this.countries = response;
+        });
+
+        if (code) {
+            this.codeListService.findNationality(code).subscribe((response) => {
+                this.nationality = response;
+            });
+        }
+    }
+
+    private getGenders(code?: any) {
+        this.codeListService.findAllGenders().subscribe((response) => {
+            this.genders = response;
+        });
+
+        if (code) {
+            this.codeListService.findGender(code).subscribe((response) => {
+                this.gender = response;
+            });
+        }
     }
 }

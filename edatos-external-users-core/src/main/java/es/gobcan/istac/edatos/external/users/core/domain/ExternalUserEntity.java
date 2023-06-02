@@ -1,5 +1,6 @@
 package es.gobcan.istac.edatos.external.users.core.domain;
 
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -104,6 +105,14 @@ public class ExternalUserEntity extends AbstractVersionedAndAuditingEntity {
     @Column(name = "registration_token", unique = true)
     private String registrationToken;
 
+    @Column(name = "nationality", nullable = false)
+    private String nationality;
+
+    @Column(name = "gender", nullable = false)
+    private String gender;
+
+    @Column(name = "birthday", nullable = false)
+    private LocalDate birthday;
     @ManyToOne
     @JoinColumn(name = "data_protection_policy_fk")
     private DataProtectionPolicyEntity dataProtectionPolicy;
@@ -230,16 +239,6 @@ public class ExternalUserEntity extends AbstractVersionedAndAuditingEntity {
         this.favorites.addAll(favorites);
     }
 
-    public void addFavorite(FavoriteEntity favorite) {
-        favorite.setExternalUser(this);
-        this.favorites.add(favorite);
-    }
-
-    public void removeFavorite(FavoriteEntity favorite) {
-        favorite.setExternalUser(null);
-        this.favorites.remove(favorite);
-    }
-
     public boolean isEnabled() {
         return enabled;
     }
@@ -254,6 +253,28 @@ public class ExternalUserEntity extends AbstractVersionedAndAuditingEntity {
 
     public void setRegistrationToken(String registrationToken) {
         this.registrationToken = registrationToken;
+    }
+
+    public String getNationality() {
+        return nationality;
+    }
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
+    }
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public LocalDate getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(LocalDate birthday) {
+        this.birthday = birthday;
     }
 
     public DataProtectionPolicyEntity getDataProtectionPolicy() {

@@ -12,7 +12,8 @@ import * as FileSaver from 'file-saver';
 export class AccountUserService {
     private resourceUrl = 'api/account';
 
-    constructor(private http: HttpClient, private captchaService: CaptchaService) {}
+    constructor(private http: HttpClient, private captchaService: CaptchaService) {
+    }
 
     create(el: ElementRef | string, user: User): Promise<User> {
         return this.captchaService.postRequestWithCaptcha(el, User, `${this.resourceUrl}/signup`, user, 'signup');
@@ -48,7 +49,10 @@ export class AccountUserService {
 
     find(req?: any): Observable<ResponseWrapper<User>> {
         const options = createRequestOption(req);
-        return this.http.get<User>(this.resourceUrl, { ...options, observe: 'response' }).pipe(map((res) => convert(User, res)));
+        return this.http.get<User>(this.resourceUrl, {
+            ...options,
+            observe: 'response'
+        }).pipe(map((res) => convert(User, res)));
     }
 
     get(id: number): Observable<User> {

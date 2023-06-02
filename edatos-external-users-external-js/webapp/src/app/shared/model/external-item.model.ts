@@ -1,11 +1,11 @@
 import { BaseVersionedEntity } from 'arte-ng/model';
-import { Exclude, Type, TypeOptions } from 'class-transformer';
+import { Exclude, Type } from 'class-transformer';
 import { InternationalString } from './international-string.model';
 
 /**
  * This enum is a subset from the one located at
  * {@link
- * https://git.arte-consultores.com/istac/edatos-core-common/blob/master/src/main/java/org/siemac/edatos/core/common/enume/TypeExternalArtefactsEnum.java|edatos-core-common}.
+    * https://git.arte-consultores.com/istac/edatos-core-common/blob/master/src/main/java/org/siemac/edatos/core/common/enume/TypeExternalArtefactsEnum.java|edatos-core-common}.
  */
 export enum TypeExternalArtefacts {
     CATEGORY = 'CATEGORY',
@@ -24,14 +24,6 @@ export class ExternalItem extends BaseVersionedEntity {
 
     public getLocalisedName(languageCode: string): string | undefined {
         return this.name?.getLocalisedLabel(languageCode);
-    }
-
-    public get schema(): { code?: string; version?: string } {
-        const regex = /^urn:(?:\w+:)?(?:\w+\.)+\w+=\w+:(?<schemaCode>\w+)\((?<schemaVersion>.+?)\)/.exec(this.urn);
-        return {
-            code: regex?.groups?.schemaCode,
-            version: regex?.groups?.schemaVersion,
-        };
     }
 }
 
@@ -57,18 +49,3 @@ export class ExternalOperation extends ExternalItem {
         this.type = TypeExternalArtefacts.STATISTICAL_OPERATION;
     }
 }
-
-/**
- * This configuration object inform class-transformer how to instantiate the
- * ExternalItem to the right subclass, if necessary.
- */
-export const EXTERNAL_ITEM_DISCRIMINATOR: TypeOptions = {
-    discriminator: {
-        property: 'type',
-        subTypes: [
-            { value: ExternalCategory, name: TypeExternalArtefacts.CATEGORY },
-            { value: ExternalOperation, name: TypeExternalArtefacts.STATISTICAL_OPERATION },
-        ],
-    },
-    keepDiscriminatorProperty: true,
-};

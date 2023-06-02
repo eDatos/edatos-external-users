@@ -26,13 +26,17 @@ export class Principal {
         return new Promise((resolve, reject) => {
             const token: string = this.authServerProvider.getToken();
             if (token) {
-                this.accountUserService.getLogueado().toPromise().then(user => {
-                    this.authenticationState.next(true);
-                    resolve(UserAccount.fromJwt(token));
-                }).catch(() => {
-                    this.authenticationState.next(false);
-                    resolve(null);
-                });
+                this.accountUserService
+                    .getLogueado()
+                    .toPromise()
+                    .then((user) => {
+                        this.authenticationState.next(true);
+                        resolve(UserAccount.fromJwt(token));
+                    })
+                    .catch(() => {
+                        this.authenticationState.next(false);
+                        resolve(null);
+                    });
             } else {
                 this.authenticationState.next(false);
                 resolve(null);
