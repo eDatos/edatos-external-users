@@ -5,6 +5,7 @@ import { PermissionService } from '@app/core/service/auth';
 import { CodelistService, ExternalUserService } from '@app/core/service/user';
 import { StructuralResourcesTreeComponent } from '@app/shared/components/structural-resources-tree';
 import { Favorite, FavoriteResource } from '@app/shared/model';
+import { ItemCode } from '@app/shared/model/external-item-code-response.model';
 import { FavoriteService } from '@app/shared/service';
 import { ArteEventManager, GenericModalService } from 'arte-ng/services';
 import { Subscription } from 'rxjs';
@@ -21,15 +22,14 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
     public isSaving: boolean;
     public userId: number;
     public eventSubscriber: Subscription;
-    toDate: Date;
-    today: Date;
 
-    public rolesEnum = Role;
+    public maxDate: Date;
     public languageEnum = Language;
-    public nationality: { code: string; name: string };
-    public gender: { code: string; name: string };
-    public countries: any[] = [];
-    public genders: any[] = [];
+
+    public countries: ItemCode[] = [];
+    public genders: ItemCode[] = [];
+    public nationality: ItemCode;
+    public gender: ItemCode;
     public favorites: Favorite[];
     public editMode: 'user' | 'favorites' | null = null;
 
@@ -63,6 +63,10 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
         });
     }
 
+    public ngOnDestroy() {
+        this.subscription.unsubscribe();
+    }
+
     public createFavorite(resource: FavoriteResource): Favorite {
         const favorite = new Favorite();
         favorite.externalUser = this.externalUser;
@@ -70,6 +74,17 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
         return favorite;
     }
 
+    public restore() {
+        this.genericModalService.open(ExternalUserDeleteDialogComponent as Component, { user: this.externalUser }, { container: '.app' });
+    }
+
+    public deleteFavorite(resource: FavoriteResource): void {
+        const favorite = this.favorites.find((fav) => fav.resource?.id === resource.id && fav.resource?.favoriteType === resource.favoriteType)!;
+        this.favoriteService
+            .delete(favorite.id)
+            .pipe(finalize(() => this.updateFavorites()))
+            .subscribe();
+    }
     public saveFavorites() {
         if (this.externalUser.id && this.favoriteTree.favorites) {
             this.favoriteService
@@ -87,6 +102,16 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
         this.disabledEdit();
     }
 
+    public editUserData() {
+        this.editMode = 'user';
+    }
+
+    public editFavorites() {
+        this.editMode = 'favorites';
+        if (!this.userId) {
+            this.router.navigate(['..']);
+        }
+    }
     public load(id: number) {
         if (id) {
             if (this.editMode !== 'user') {
@@ -115,8 +140,8 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
 
     public save() {
         this.isSaving = true;
-        this.externalUser.nationality = this.nationality.code.toString();
-        this.externalUser.gender = this.gender.code.toString();
+        this.externalUser.nationality = this.nationality.id;
+        this.externalUser.gender = this.gender.id;
         if (this.userId) {
             this.externalUserService.update(this.externalUser).subscribe(
                 (response) => this.onSaveSuccess(response),
@@ -142,42 +167,13 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
         }
     }
 
-    public restore() {
-        this.genericModalService.open(ExternalUserDeleteDialogComponent as Component, { user: this.externalUser }, { container: '.app' });
-    }
-
-    public ngOnDestroy() {
-        this.subscription.unsubscribe();
-    }
-
-    public deleteFavorite(resource: FavoriteResource): void {
-        const favorite = this.favorites.find((fav) => fav.resource?.id === resource.id && fav.resource?.favoriteType === resource.favoriteType)!;
-        this.favoriteService
-            .delete(favorite.id)
-            .pipe(finalize(() => this.updateFavorites()))
-            .subscribe();
-    }
-
-    public disabledEdit() {
+    private disabledEdit() {
         this.editMode = null;
     }
 
-    public editUserData() {
-        this.editMode = 'user';
-    }
-
-    public editFavorites() {
-        this.editMode = 'favorites';
-        if (!this.userId) {
-            this.router.navigate(['..']);
-        }
-    }
-
-    public getToday() {
+    private getToday() {
         const today: Date = new Date();
-        const date = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-        this.toDate = date;
-        this.today = date;
+        this.maxDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
     }
 
     private updateFavorites() {
@@ -201,30 +197,24 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
 
     private getNationalities(code?: any) {
         this.codeListService.findAllCountries().subscribe((response) => {
-            for (let i = 0; i < response.code.length; i++) {
-                let nationalities = { code: response.code[i].id, name: this.codeListService.getValue(response.code[i].name.text) };
-                this.countries.push(nationalities);
-            }
+            this.countries = response;
         });
 
         if (code) {
             this.codeListService.findNationality(code).subscribe((response) => {
-                this.nationality = { code: response.code[0].id, name: this.codeListService.getValue(response.code[0].name.text) };
+                this.nationality = response;
             });
         }
     }
 
     private getGenders(code?: any) {
         this.codeListService.findAllGenders().subscribe((response) => {
-            for (let i = 0; i < response.code.length; i++) {
-                let nationalities = { code: response.code[i].id, name: this.codeListService.getValue(response.code[i].name.text) };
-                this.genders.push(nationalities);
-            }
+            this.genders = response;
         });
 
         if (code) {
             this.codeListService.findGender(code).subscribe((response) => {
-                this.gender = { code: response.code[0].id, name: this.codeListService.getValue(response.code[0].name.text) };
+                this.gender = response;
             });
         }
     }

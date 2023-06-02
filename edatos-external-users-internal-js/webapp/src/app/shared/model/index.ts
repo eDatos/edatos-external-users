@@ -5,5 +5,3 @@ export * from './external-item.model';
 export * from './localised-string.model';
 export * from './international-string.model';
 export * from './data-protection-policy.model';
-export * from './international-string-structural-resources.model';
-export * from './localised-string-structural-resources.model';
