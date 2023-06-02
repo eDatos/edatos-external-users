@@ -4,7 +4,6 @@ import { Injectable } from '@angular/core';
 import { instanceToPlain } from 'class-transformer';
 import { TOKEN_AUTH_NAME } from '@app/app.constants';
 import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
-import { ConfigService } from '@app/config';
 import { CookieService } from 'ngx-cookie-service';
 import { map } from 'rxjs/operators';
 

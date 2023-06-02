@@ -20,7 +20,7 @@ export function getCodesUrlJSONType(configService: ConfigService, typeExternal: 
     const type = 'codes' + TYPE_JSON;
 
     const url =
-        configService.getConfig().endpoint.srmExternal +
+        configService.getConfig().endpoint.srmExternalEndpoint +
         typeExternal +
         '/' +
         getIdentifierFromUrn(urn).agency +
