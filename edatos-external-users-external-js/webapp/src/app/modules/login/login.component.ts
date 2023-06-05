@@ -87,7 +87,7 @@ export class LoginComponent implements OnInit {
     }
 
     private navigateToOrigin() {
-        const originRouteWithTokenParam = addQueryParamToRoute(window.location.href.replace(/\/#.*/, '/authenticate'), 'origin', this.origin.toString());
+        const originRouteWithTokenParam = addQueryParamToRoute(window.location.href.replace(/\/#.*/, '/api/authenticate'), 'origin', this.origin.toString());
         this.document.defaultView.open(originRouteWithTokenParam, '_self');
     }
 
