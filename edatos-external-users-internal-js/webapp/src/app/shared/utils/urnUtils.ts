@@ -1,6 +1,7 @@
 ﻿import { ConfigService } from '@app/config';
 
 export const TYPE_JSON = '.json?_type=json';
+export const API_VERSION = '/v1.0/';
 
 export function getIdentifierFromUrn(urn: string) {
     var splittedUrn = urn.split('=');
@@ -21,6 +22,7 @@ export function getCodesUrlJSONType(configService: ConfigService, typeExternal: 
 
     const url =
         configService.getConfig().endpoint.srmExternalEndpoint +
+        API_VERSION +
         typeExternal +
         '/' +
         getIdentifierFromUrn(urn).agency +
