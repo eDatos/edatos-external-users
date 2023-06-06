@@ -25,6 +25,14 @@ export class ExternalItem extends BaseVersionedEntity {
     public getLocalisedName(languageCode: string): string | undefined {
         return this.name?.getLocalisedLabel(languageCode);
     }
+
+    public get schema(): { code?: string; version?: string } {
+        const regex = /^urn:(?:\w+:)?(?:\w+\.)+\w+=\w+:(?<schemaCode>\w+)\((?<schemaVersion>.+?)\)/.exec(this.urn);
+        return {
+            code: regex?.groups?.schemaCode,
+            version: regex?.groups?.schemaVersion
+        };
+    }
 }
 
 export class ExternalCategory extends ExternalItem {
