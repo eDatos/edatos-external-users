@@ -4,8 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --aot=true",
-    "build:prod": "cross-env ENV=production ng build --prod=true --aot=true",
+    "build": "ng build --aot=true --base-href=./",
+    "build:prod": "cross-env ENV=production ng build --prod=true --aot=true --base-href=./",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
