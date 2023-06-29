@@ -161,5 +161,30 @@
         "globalSearchPlaceholder": "Introducir términos de búsqueda",
         "pageCount": "{{pageFirst}} - {{pageLast}} de {{total}}",
         "pageReport": "{first}–{last} de {totalRecords}"
+    },
+    "calendar": {
+        "monthNames": {
+            "january": "Enero",
+            "february": "Febrero",
+            "march": "Marzo",
+            "april": "Abril",
+            "may": "Mayo",
+            "june": "Junio",
+            "july": "Julio",
+            "august": "Agosto",
+            "september": "Septiembre",
+            "october": "Octubre",
+            "november": "Noviembre",
+            "december": "Dicembre"
+        },
+        "dayNamesMin": {
+            "monday": "Lu",
+            "tuesday": "Ma",
+            "wednesday": "Mi",
+            "thursday": "Ju",
+            "friday": "Vi",
+            "saturday": "Sa",
+            "sunday": "Do"
+        }
     }
 }

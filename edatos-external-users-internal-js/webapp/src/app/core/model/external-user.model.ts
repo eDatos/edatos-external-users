@@ -13,8 +13,8 @@ export class ExternalUser extends BaseVersionedAndAuditingWithDeletionEntity {
     public language: Language;
     public phoneNumber: string;
     public emailNotificationsEnabled: boolean;
-    public gender: string;
-    public nationality: string;
+    public gender: string | null;
+    public nationality: string | null;
     public birthday: Date;
 
     public getFullName(): string {

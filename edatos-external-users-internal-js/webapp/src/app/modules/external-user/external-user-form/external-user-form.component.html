@@ -118,6 +118,7 @@
                                     [required]="false"
                                     inputId="gender"
                                     name="gender"
+                                    id='gender'
                                     [multiple]="false"
                                     [(ngModel)]="gender"
                                     [suggestions]="genders"
@@ -132,7 +133,9 @@
                     <div class="form-group form-group-inline col-md-6">
                         <div class="form-row">
                             <label class="form-label col-md-4" translate="externalUser.birthday"></label>
-                            <arte-calendar [(ngModel)]="externalUser.birthday" [required]="false" name="birthday" [maxDate]="maxDate" class="calendar"></arte-calendar>
+                            <app-custom-calendar id='birthday' name='birthday' [(ngModel)]='externalUser.birthday'
+                                                 [required]='false'class='calendar'>
+                            </app-custom-calendar>
                         </div>
                     </div>
                 </div>
@@ -205,6 +208,7 @@
                                     [required]="false"
                                     inputId="nationality"
                                     name="nationality"
+                                    id='nationality'
                                     [multiple]="false"
                                     [(ngModel)]="nationality"
                                     [suggestions]="countries"
@@ -220,7 +224,7 @@
                         <div class="form-row">
                             <label class="col-form-label col-md-4" translate="externalUser.organism" for="organism"></label>
                             <div class="col-md-8 form-input-container errors-on-hover">
-                                <arte-input name="organism" [(ngModel)]="externalUser.organism" [maxlength]="255"></arte-input>
+                                <arte-input name="organism" id='organism' [(ngModel)]="externalUser.organism" [maxlength]="255"></arte-input>
                                 <div class="form-errors-messages" *hasErrors="let messages">
                                     <span *ngFor="let m of messages">{{m}}</span>
                                 </div>

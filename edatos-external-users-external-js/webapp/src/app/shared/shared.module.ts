@@ -1,15 +1,22 @@
-import { DatePipe, CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { StructuralResourcesTreeComponent } from '@app/shared/components/structural-resources-tree';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { ArteAutocompleteModule, ArteEntityListEmptyModule, ArteInputModule, ArteOrderListModule, ArteSpinnerModule, ArteTableModule } from 'arte-ng';
+import {
+    ArteAutocompleteModule,
+    ArteEntityListEmptyModule,
+    ArteInputModule,
+    ArteOrderListModule,
+    ArteSpinnerModule,
+    ArteTableModule
+} from 'arte-ng';
 
 import { GenericModalService } from 'arte-ng/services';
-import { FormcontrolStatusService, ArteDirectivesModule } from 'arte-ng/directives';
+import { ArteDirectivesModule, FormcontrolStatusService } from 'arte-ng/directives';
 
-import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 import { TranslateModule } from '@ngx-translate/core';
@@ -32,15 +39,15 @@ import { DropdownModule } from 'primeng';
 import { NgArrayPipesModule } from 'ngx-pipes';
 import { QuillModule } from 'ngx-quill';
 
-import { PasswordMatchValidatorDirective } from './directives';
-import { PasswordNotMatchValidatorDirective } from './directives';
+import { PasswordMatchValidatorDirective, PasswordNotMatchValidatorDirective } from './directives';
 import { MultiLanguageEditorComponent } from './components/multi-language-editor/multi-language-editor.component';
 import { MultiLanguageInputComponent } from './components/multi-language-input/multi-language-input.component';
-import { NavbarComponent } from "./components/navbar/navbar.component";
-import { FooterComponent } from "./components/footer/footer.component";
-import { SafeHtmlPipe } from "./pipe/safe-html.pipe";
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { SafeHtmlPipe } from './pipe/safe-html.pipe';
 import { NbButtonModule, NbCardModule } from '@nebular/theme';
 import { EUsuariosAlertService } from '@app/core/service';
+import { CustomCalendarComponent } from '@app/shared/components/calendar/custom-calendar.component';
 
 @NgModule({
     imports: [
@@ -77,7 +84,7 @@ import { EUsuariosAlertService } from '@app/core/service';
         QuillModule.forRoot(),
         NbButtonModule,
         NbCardModule,
-        DropdownModule,
+        DropdownModule
     ],
     declarations: [
         PasswordMatchValidatorDirective,
@@ -87,6 +94,7 @@ import { EUsuariosAlertService } from '@app/core/service';
         StructuralResourcesTreeComponent,
         NavbarComponent,
         FooterComponent,
+        CustomCalendarComponent,
         SafeHtmlPipe
     ],
     providers: [
@@ -96,9 +104,9 @@ import { EUsuariosAlertService } from '@app/core/service';
             // INFRASTR-205 Way to avoid null injection of NgbModal in GenericModalService constructor
             provide: GenericModalService,
             useClass: GenericModalService,
-            deps: [NgbModal],
+            deps: [NgbModal]
         }, // Add at this point toa void No component factory found for <Component>. Did you add it to @NgModule.entryComponents?
-        EUsuariosAlertService,
+        EUsuariosAlertService
     ],
     exports: [
         FormsModule,
@@ -139,8 +147,10 @@ import { EUsuariosAlertService } from '@app/core/service';
         MultiLanguageInputComponent,
         NavbarComponent,
         FooterComponent,
+        CustomCalendarComponent,
         SafeHtmlPipe
     ],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class SharedModule {}
+export class SharedModule {
+}
