@@ -27,7 +27,6 @@ export class SignupFormComponent implements OnInit {
     public countries: ItemCode[] = [];
     public genders: ItemCode[] = [];
 
-    public maxDate: Date;
     public confirmPassword: string;
 
     private captchaContainerEl: ElementRef;
@@ -52,7 +51,6 @@ export class SignupFormComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.getToday();
         this.isSaving = false;
         this.getNationalities();
         this.getGenders();
@@ -100,11 +98,6 @@ export class SignupFormComponent implements OnInit {
         this.isSaving = false;
 
         this.navigateToLogin();
-    }
-
-    public getToday() {
-        let today: Date = new Date();
-        this.maxDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
     }
 
     acceptDataProteccionPolicy() {

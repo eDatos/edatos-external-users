@@ -1,0 +1,14 @@
+<p-calendar [showIcon]='true' [yearNavigator]='true' [monthNavigator]='true'
+            [locale]='customLocaleProperties' [dateFormat]='dateFormat' [(ngModel)]='date'
+            class='calendar' [yearRange]='yearRange' [maxDate]='maxDate'
+            [inputId]='inputId'
+            (onFocus)='onModelTouched()'
+            (onClose)='onModelTouched()'
+            (onClearClick)='onModelTouched()'
+            (onInput)='onInputMethod($event)'
+            [disabled]='disabled'
+            [name]='name'
+            (onSelect)='onSelectMethod($event)'
+            [required]='required'
+            [minDate]='minDate'>
+</p-calendar>

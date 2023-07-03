@@ -787,5 +787,30 @@
             "onSuccessSumary": "Notificació enviada",
             "onSuccess": "La notificació s'ha enviat correctament."
         }
+    },
+    "calendar": {
+        "monthNames": {
+            "january": "Gener",
+            "february": "Fabrer",
+            "march": "Març",
+            "april": "Abril",
+            "may": "Maig",
+            "june": "Juny",
+            "july": "Juliol",
+            "august": "Agost",
+            "september": "Setembre",
+            "october": "Octubre",
+            "november": "Novembre",
+            "december": "Desembre"
+        },
+        "dayNamesMin": {
+            "monday": "Dl",
+            "tuesday": "Dt",
+            "wednesday": "Dc",
+            "thursday": "Dj",
+            "friday": "Dv",
+            "saturday": "Ds",
+            "sunday": "Dg"
+        }
     }
 }

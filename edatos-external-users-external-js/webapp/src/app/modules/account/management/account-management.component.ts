@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Language } from '@app/core/model';
+import { Language, User } from '@app/core/model';
 import { AccountUserService } from '@app/core/service/user';
 import { TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
@@ -16,8 +16,7 @@ export class AccountManagementComponent implements OnInit {
     error: string;
     success: string;
     public isSaving: Boolean;
-    public account: any;
-    public maxDate: Date;
+    public account: User;
 
     public nationality: ItemCode;
     public gender: ItemCode;
@@ -40,7 +39,6 @@ export class AccountManagementComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.getToday();
         this.isSaving = false;
         this.account = this.route.snapshot.data.user;
         this.getNationalities(this.account.nationality);
@@ -49,8 +47,8 @@ export class AccountManagementComponent implements OnInit {
 
     public save() {
         this.isSaving = true;
-        this.account.nationality = this.nationality.id;
-        this.account.gender = this.gender.id;
+        this.account.nationality = this.nationality ? this.nationality.id : null;
+        this.account.gender = this.gender ? this.gender.id : null;
         this.userService.update(this.account).subscribe(
             () => {
                 this.onSuccess();
@@ -67,6 +65,7 @@ export class AccountManagementComponent implements OnInit {
         const returnPath = ['account-management'];
         this.router.navigate(returnPath);
     }
+
 
     public isEditMode(): Boolean {
         if (this.route.snapshot.url.length == 0) {
@@ -88,11 +87,6 @@ export class AccountManagementComponent implements OnInit {
         this.success = 'OK';
         this.isSaving = false;
         this.router.navigate(['account-management']);
-    }
-
-    getToday() {
-        const today: Date = new Date();
-        this.maxDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
     }
 
     public download(event: Event) {

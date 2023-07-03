@@ -72,13 +72,15 @@
                             </div>
                         </div>
                     </div>
-                    <div class='form-group form-group-inline col-md-6'>
+                    <div class='form-group form-group-inline col-md-6'
+                         [formControlStatus]='settingsForm.controls.gender'>
                         <div class='form-row'>
                             <label class='form-label col-md-4' translate='signup.form.gender' for='gender'></label>
                             <div class='col-md-8 form-input-container errors-on-hover'>
                                 <arte-autocomplete-short-list
                                     [required]='false'
                                     inputId='gender'
+                                    id='gender'
                                     name='gender'
                                     [multiple]='false'
                                     [(ngModel)]='gender'
@@ -90,11 +92,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class='form-group form-group-inline col-md-6'>
+                    <div class='form-group form-group-inline col-md-6'
+                         [formControlStatus]='settingsForm.controls.birthday'>
                         <div class='form-row'>
-                            <label class='form-label col-md-4' translate='signup.form.birthday'></label>
-                            <arte-calendar [(ngModel)]='account.birthday' [required]='false' [maxDate]='maxDate'
-                                           name='birthday' class='calendar'></arte-calendar>
+                            <label class='form-label col-md-4' translate='signup.form.birthday' for='birthday'></label>
+                            <app-custom-calendar id='birthday' name='birthday' [(ngModel)]='account.birthday'
+                                                 [required]='false'
+                                                 class='calendar'>
+                            </app-custom-calendar>
                         </div>
                     </div>
                 </div>
@@ -128,7 +133,8 @@
                         </div>
                     </div>
 
-                    <div class='form-group form-group-inline col-md-6'>
+                    <div class='form-group form-group-inline col-md-6'
+                         [formControlStatus]='settingsForm.controls.nationality'>
                         <div class='form-row'>
                             <label class='form-label col-md-4' translate='signup.form.nationality'
                                    for='nationality'></label>
@@ -137,6 +143,7 @@
                                     [required]='false'
                                     inputId='nationality'
                                     name='nationality'
+                                    id='nationality'
                                     [multiple]='false'
                                     [(ngModel)]='nationality'
                                     [suggestions]='countries'
@@ -177,7 +184,7 @@
                             <label class='col-form-label col-md-4' translate='signup.form.organism'
                                    for='organism'></label>
                             <div class='col-md-8 form-input-container errors-on-hover'>
-                                <arte-input name='organism' [(ngModel)]='account.organism'
+                                <arte-input name='organism' id='organism' [(ngModel)]='account.organism'
                                             [maxlength]='255'></arte-input>
                                 <div class='form-errors-messages' *hasErrors='let messages'>
                                     <span *ngFor='let m of messages'>{{m}}</span>

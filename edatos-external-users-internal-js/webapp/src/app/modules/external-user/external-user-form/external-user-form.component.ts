@@ -23,7 +23,6 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
     public userId: number;
     public eventSubscriber: Subscription;
 
-    public maxDate: Date;
     public languageEnum = Language;
 
     public countries: ItemCode[] = [];
@@ -50,7 +49,6 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
     ) {}
 
     public ngOnInit() {
-        this.getToday();
         this.isSaving = false;
 
         this.subscription = this.route.params.subscribe((params) => {
@@ -140,8 +138,8 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
 
     public save() {
         this.isSaving = true;
-        this.externalUser.nationality = this.nationality.id;
-        this.externalUser.gender = this.gender.id;
+        this.externalUser.nationality = this.nationality ? this.nationality.id : null;
+        this.externalUser.gender = this.gender ? this.gender.id : null;
         if (this.userId) {
             this.externalUserService.update(this.externalUser).subscribe(
                 (response) => this.onSaveSuccess(response),
@@ -169,11 +167,6 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
 
     private disabledEdit() {
         this.editMode = null;
-    }
-
-    private getToday() {
-        const today: Date = new Date();
-        this.maxDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
     }
 
     private updateFavorites() {
