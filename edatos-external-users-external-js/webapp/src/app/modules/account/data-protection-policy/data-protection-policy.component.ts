@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { DEFAULT_LANG } from '@app/app.constants';
 import { Principal } from '@app/core/service';
 import { TranslateService } from '@ngx-translate/core';
 import { DataProtectionPolicyService } from './data-protection-policy.service';

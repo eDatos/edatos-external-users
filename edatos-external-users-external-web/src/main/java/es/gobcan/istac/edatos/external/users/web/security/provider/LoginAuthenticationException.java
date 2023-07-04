@@ -1,15 +1,12 @@
 package es.gobcan.istac.edatos.external.users.web.security.provider;
 
-import es.gobcan.istac.edatos.external.users.core.errors.ParameterizedErrorItem;
 import es.gobcan.istac.edatos.external.users.core.errors.ParameterizedErrorVM;
+import es.gobcan.istac.edatos.external.users.core.i18n.LocaleContext;
 import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Locale;
 
 public class LoginAuthenticationException extends AuthenticationException {
@@ -71,7 +68,7 @@ public class LoginAuthenticationException extends AuthenticationException {
     }
 
     private String getTranslatedMessage(MessageSource messageSource) {
-        Locale currentLocale = LocaleContextHolder.getLocale();
+        Locale currentLocale = LocaleContext.getLocale();
         return messageSource.getMessage(code, translateArgs, currentLocale);
     }
 

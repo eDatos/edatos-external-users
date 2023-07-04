@@ -22,10 +22,6 @@ export class ExternalItem extends BaseVersionedEntity {
 
     public type: TypeExternalArtefacts;
 
-    public getLocalisedName(languageCode: string): string | undefined {
-        return this.name?.getLocalisedLabel(languageCode);
-    }
-
     public get schema(): { code?: string; version?: string } {
         const regex = /^urn:(?:\w+:)?(?:\w+\.)+\w+=\w+:(?<schemaCode>\w+)\((?<schemaVersion>.+?)\)/.exec(this.urn);
         return {

@@ -1,8 +1,8 @@
 package es.gobcan.istac.edatos.external.users.rest.external.conf;
 
 import es.gobcan.istac.edatos.external.users.core.config.MetadataProperties;
+import es.gobcan.istac.edatos.external.users.core.i18n.LocaleContext;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -28,8 +28,10 @@ public class LocaleConfiguration extends WebMvcConfigurerAdapter {
         public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
             Cookie langCookie = metadataProperties.getLanguageCookie() != null ? WebUtils.getCookie(request, metadataProperties.getLanguageCookie()) : null;
             if (langCookie != null) {
-                LocaleContextHolder.setLocale(Locale.forLanguageTag(langCookie.getValue()));
+                LocaleContext.setLocale(Locale.forLanguageTag(langCookie.getValue()));
             }
+            LocaleContext.setDefaultLocale(Locale.forLanguageTag(metadataProperties.getDefaultLanguage()));
+
             return true;
         }
     }

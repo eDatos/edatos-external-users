@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.FavoriteEntity;
+import es.gobcan.istac.edatos.external.users.core.i18n.LocaleContext;
 import es.gobcan.istac.edatos.external.users.core.service.DataProtectionPolicyService;
 import es.gobcan.istac.edatos.external.users.core.service.EDatosApisLocator;
 import es.gobcan.istac.edatos.external.users.core.service.ExternalUserService;
@@ -29,7 +30,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.ws.rs.core.Response;
@@ -220,7 +220,7 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     private String generateTextI18n(String text, String[] args) {
-        Locale locale = LocaleContextHolder.getLocale();
+        Locale locale = LocaleContext.getLocale();
 
         return messageSource.getMessage(text, args, locale);
     }
@@ -234,8 +234,6 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     private String getLocale() {
-        String[] locale = LocaleContextHolder.getLocale().toString().split("_");
-        // toLowerCase locale
-        return locale[0];
+        return LocaleContext.getLocale().toString();
     }
 }
