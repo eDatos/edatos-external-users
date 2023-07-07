@@ -314,6 +314,9 @@
         }
     },
     "error": {
+        "default": {
+            "title": "Error"
+        },
         "403": {
             "detail": "Lo sentimos, no tiene permisos para acceder a la página.",
             "title": "Error 403"

@@ -314,6 +314,9 @@
         }
     },
     "error": {
+        "default": {
+            "title": "Error"
+        },
         "403": {
             "detail": "Sorry, you do not have permissions to access the page.",
             "title": "Error 403"
