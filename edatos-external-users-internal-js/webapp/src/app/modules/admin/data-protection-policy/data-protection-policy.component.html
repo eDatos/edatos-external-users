@@ -1,5 +1,5 @@
 <div class="page has-header-fixed">
-    
+
     <div class="page-header page-header-top">
         <h2 class="page-header-title">
             <span class="page-header-title-text" translate="dataProtectionPolicy.home.title"></span>
@@ -9,11 +9,11 @@
                 routerLink="/admin/data-protection-policy/edit">
                 <span class="fa fa-pencil"></span> <span translate="entity.action.edit"></span>
             </button>
-            <button *ngIf="isEditMode" type="submit" form="data-protection-policy-form" class="btn btn-primary">
+            <button *ngIf="isEditMode" type="submit" form="data-protection-policy-form" class="btn btn-primary" [disabled]="isDataProtectionPolicySaving">
                 <span class="fa fa-floppy-o"></span>
                 <span translate="entity.action.save"></span>
             </button>
-            <button *ngIf="isEditMode" type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <button *ngIf="isEditMode" type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()" [disabled]="isDataProtectionPolicySaving">
                 <span class="fa fa-ban"></span>
                 <span translate="entity.action.cancel"></span>
             </button>

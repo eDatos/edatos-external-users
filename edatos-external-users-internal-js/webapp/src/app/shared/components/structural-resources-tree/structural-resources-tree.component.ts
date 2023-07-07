@@ -98,6 +98,7 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
     public allowedLanguages: string[];
     public clickedDelete: boolean;
 
+    public isNodeSaving = false;
     public loading = false;
     private iterableDiffer: IterableDiffer<Favorite>;
     private nodeList: CategoryTreeNode[] = [];
@@ -245,13 +246,14 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
 
     public saveNodeName(node: CategoryTreeNode, name: InternationalString) {
         this.setNodeNameFromInternationalString(node, name);
-        this.disableNodeEdit(node);
+        this.disableEditButtons();
         this.updateTree();
     }
 
-    public disableNodeEdit(node: CategoryTreeNode) {
-        if (node.data.name.isEmptyOrBlank()) {
+    public cancelNodeEdit(node: CategoryTreeNode) {
+        if (node.editMode === 'name') {
             this.deleteNode(node);
+            this.enableEditButtons();
         }
         node.editMode = null;
     }
@@ -320,9 +322,20 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
             .updateTree(this.tree.map((node) => node.data as Category))
             .pipe(finalize(() => (this.loading = false)))
             .subscribe({
-                next: (tree) => this.createTree(tree),
-                error: () => this.ngOnInit(),
+                next: (tree) => {
+                    this.enableEditButtons();
+                    this.createTree(tree)
+                },
+                error: () => this.enableEditButtons()
             });
+    }
+
+    private enableEditButtons() {
+        this.isNodeSaving = false;
+    }
+
+    private disableEditButtons() {
+        this.isNodeSaving = true;
     }
 
     private setNodeNameFromInternationalString(node: CategoryTreeNode, name: InternationalString) {

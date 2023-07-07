@@ -14,16 +14,19 @@ import es.gobcan.istac.edatos.external.users.core.domain.vo.InternationalStringV
 import es.gobcan.istac.edatos.external.users.core.domain.vo.LocalisedStringVO;
 import es.gobcan.istac.edatos.external.users.core.repository.DataProtectionPolicyRepository;
 import es.gobcan.istac.edatos.external.users.core.service.DataProtectionPolicyService;
+import es.gobcan.istac.edatos.external.users.core.service.validator.InternationalStringValidator;
 
 @Service
 public class DataProtectionPolicyServiceImpl implements DataProtectionPolicyService {
 
     private final DataProtectionPolicyRepository dataProtectionPolicyRepository;
     private final MetadataProperties metadataProperties;
+    private final InternationalStringValidator internationalStringValidator;
 
-    public DataProtectionPolicyServiceImpl(DataProtectionPolicyRepository configurationRepository, MetadataProperties metadataProperties) {
+    public DataProtectionPolicyServiceImpl(DataProtectionPolicyRepository configurationRepository, MetadataProperties metadataProperties, InternationalStringValidator internationalStringValidator) {
         this.dataProtectionPolicyRepository = configurationRepository;
         this.metadataProperties = metadataProperties;
+        this.internationalStringValidator = internationalStringValidator;
         if (this.dataProtectionPolicyRepository.findFirstByOrderByIdAsc() == null) {
             DataProtectionPolicyEntity entity = new DataProtectionPolicyEntity();
             InternationalStringVO internationalString = new InternationalStringVO();
@@ -67,6 +70,7 @@ public class DataProtectionPolicyServiceImpl implements DataProtectionPolicyServ
                 }
             }
         }
+        internationalStringValidator.checkMandatoryLanguageIsSet(entity.getValue());
         return dataProtectionPolicyRepository.save(entity);
     }
 }
