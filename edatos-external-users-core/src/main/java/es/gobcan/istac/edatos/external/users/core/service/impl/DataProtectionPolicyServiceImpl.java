@@ -42,7 +42,7 @@ public class DataProtectionPolicyServiceImpl implements DataProtectionPolicyServ
         Set<LocalisedStringVO> texts = new HashSet<>();
         List<String> languages = metadataProperties.getAvailableLanguages().stream().map(language -> language.toLowerCase()).collect(Collectors.toList());
         for (String language : languages) {
-            LocalisedStringVO localisedString = entity.getValue().getLocalisedLabelEntity(language);
+            LocalisedStringVO localisedString = entity.getValue().getLocalisedLabelEntity(language, null);
             if (localisedString == null) {
                 localisedString = new LocalisedStringVO();
                 localisedString.setLabel("");
@@ -61,7 +61,7 @@ public class DataProtectionPolicyServiceImpl implements DataProtectionPolicyServ
         List<String> languages = metadataProperties.getAvailableLanguages().stream().map(language -> language.toLowerCase()).collect(Collectors.toList());
         for (LocalisedStringVO localisedString : new ArrayList<>(updatedEntity.getValue().getTexts())) {
             if (localisedString != null) {
-                LocalisedStringVO storedLocalisedString = entity.getValue().getLocalisedLabelEntity(localisedString.getLocale());
+                LocalisedStringVO storedLocalisedString = entity.getValue().getLocalisedLabelEntity(localisedString.getLocale(), null);
                 if (storedLocalisedString != null) {
                     entity.getValue().removeText(storedLocalisedString);
                     entity.getValue().addText(localisedString);

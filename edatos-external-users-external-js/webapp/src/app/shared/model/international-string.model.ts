@@ -1,4 +1,4 @@
-import { CURRENT_LANGUAGE } from '@app/core/service';
+import { CURRENT_LANGUAGE, DEFAULT_LANGUAGE } from '@app/core/service';
 import { Type } from 'class-transformer';
 import * as _ from 'lodash';
 import { LocalisedString } from './localised-string.model';
@@ -56,6 +56,6 @@ export class InternationalString {
     }
 
     public get val(): string | undefined {
-        return this.getLocalisedLabel(CURRENT_LANGUAGE);
+        return this.getLocalisedLabel(CURRENT_LANGUAGE) || this.getLocalisedLabel(DEFAULT_LANGUAGE);
     }
 }

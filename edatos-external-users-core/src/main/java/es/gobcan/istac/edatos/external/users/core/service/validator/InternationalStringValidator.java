@@ -17,7 +17,7 @@ public class InternationalStringValidator extends AbstractValidator<Internationa
     private MetadataProperties metadataProperties;
 
     public void checkMandatoryLanguageIsSet(InternationalStringVO internationalString) {
-        if(internationalString != null && StringUtils.isBlank(internationalString.getLocalisedLabel(metadataProperties.getDefaultLanguage()))) {
+        if (internationalString != null && StringUtils.isBlank(internationalString.getLocalisedLabel(metadataProperties.getDefaultLanguage(), null))) {
             String defaultLanguageName = Locale.forLanguageTag(metadataProperties.getDefaultLanguage()).getDisplayLanguage(Locale.getDefault()).toLowerCase();
             throw new EDatosException(ServiceExceptionType.MISSING_DEFAULT_LOCALE_TRANSLATION, defaultLanguageName);
         }

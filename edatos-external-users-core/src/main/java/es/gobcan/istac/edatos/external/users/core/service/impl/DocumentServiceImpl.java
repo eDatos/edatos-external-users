@@ -85,6 +85,7 @@ public class DocumentServiceImpl implements DocumentService {
             Locale locale = LocaleContext.getLocale();
             String language = locale.toString().split("_")[0];
             parameters.put("LOCALE", language);
+            parameters.put("DEFAULT_LOCALE", LocaleContext.getDefaultLocale().toString());
 
             parameters.put("HEADER_TITLE", messageSource.getMessage("report.header.title", null, locale));
 

@@ -52,6 +52,7 @@
     <subDataset name="favorites" uuid="8a90e07a-9112-4733-a833-8f0b6e0c928d">
         <property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
         <parameter name="LOCALE" class="java.lang.String"/>
+        <parameter name="DEFAULT_LOCALE" class="java.lang.String"/>
         <queryString>
             <![CDATA[]]>
         </queryString>
@@ -60,6 +61,9 @@
         <field name="createdDate" class="java.time.Instant"/>
         <variable name="locale" class="java.lang.String">
             <variableExpression><![CDATA[$P{LOCALE}.toString()]]></variableExpression>
+        </variable>
+        <variable name="defaultLocale" class="java.lang.String">
+            <variableExpression><![CDATA[$P{DEFAULT_LOCALE}.toString()]]></variableExpression>
         </variable>
     </subDataset>
     <subDataset name="audit" uuid="8a90e07a-9112-4733-a833-8f0b6e0c928d">
@@ -70,6 +74,7 @@
     </subDataset>
     <parameter name="PATH_LOGO" class="java.lang.String" isForPrompting="false"/>
     <parameter name="LOCALE" class="java.lang.String"/>
+    <parameter name="DEFAULT_LOCALE" class="java.lang.String"/>
     <parameter name="PERSONAL_INFORMATION" class="es.gobcan.istac.edatos.external.users.core.domain.vo.ExternalUserVO"/>
     <parameter name="FILTERS" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
     <parameter name="PERMALINK_PATH" class="java.lang.String"/>
@@ -403,6 +408,9 @@
                         <datasetParameter name="LOCALE">
                             <datasetParameterExpression><![CDATA[$P{LOCALE}]]></datasetParameterExpression>
                         </datasetParameter>
+                        <datasetParameter name="DEFAULT_LOCALE">
+                            <datasetParameterExpression><![CDATA[$P{DEFAULT_LOCALE}]]></datasetParameterExpression>
+                        </datasetParameter>
                         <dataSourceExpression><![CDATA[$P{FAVORITES}]]></dataSourceExpression>
                     </datasetRun>
                     <jr:column width="180" uuid="441cc12c-1e2b-4561-aaf8-82975a2b5ad9">
@@ -416,7 +424,7 @@
                                 <textElement verticalAlignment="Middle">
                                     <paragraph leftIndent="5"/>
                                 </textElement>
-                                <textFieldExpression><![CDATA[$F{category} != null ?  $F{category}.getName().getLocalisedLabel($V{locale}) : $F{externalOperation}.getName().getLocalisedLabel($V{locale})]]></textFieldExpression>
+                                <textFieldExpression><![CDATA[$F{category} != null ?  $F{category}.getName().getLocalisedLabel($V{locale},$V{defaultLocale}) : $F{externalOperation}.getName().getLocalisedLabel($V{locale},$V{defaultLocale})]]></textFieldExpression>
                             </textField>
                         </jr:detailCell>
                     </jr:column>
@@ -431,7 +439,7 @@
                                 <textElement verticalAlignment="Middle">
                                     <paragraph leftIndent="5"/>
                                 </textElement>
-                                <textFieldExpression><![CDATA[$F{category}.getParent().getName().getLocalisedLabel($V{locale})]]></textFieldExpression>
+                                <textFieldExpression><![CDATA[$F{category}.getParent().getName().getLocalisedLabel($V{locale},$V{defaultLocale})]]></textFieldExpression>
                             </textField>
                         </jr:detailCell>
                     </jr:column>

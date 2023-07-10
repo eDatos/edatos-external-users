@@ -11,12 +11,12 @@ import java.util.stream.Collectors;
 
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.FavoriteEntity;
-import es.gobcan.istac.edatos.external.users.core.i18n.LocaleContext;
 import es.gobcan.istac.edatos.external.users.core.service.DataProtectionPolicyService;
 import es.gobcan.istac.edatos.external.users.core.service.EDatosApisLocator;
 import es.gobcan.istac.edatos.external.users.core.service.ExternalUserService;
 import es.gobcan.istac.edatos.external.users.core.service.MetadataConfigurationService;
 import es.gobcan.istac.edatos.external.users.core.service.NotificationService;
+import es.gobcan.istac.edatos.external.users.core.i18n.LocaleContext;
 import org.siemac.edatos.core.common.exception.CommonServiceExceptionType;
 import org.siemac.edatos.core.common.exception.EDatosException;
 import org.siemac.metamac.rest.notices.v1_0.domain.Message;
@@ -136,7 +136,7 @@ public class NotificationServiceImpl implements NotificationService {
         for (FavoriteEntity favorite : listFavorites) {
             ExternalUserEntity externalUserEntity = favorite.getExternalUser();
             ArrayList<String> argsList = new ArrayList<String>(Arrays.asList(argsByExternalUser(externalUserEntity)));
-            argsList.add(favorite.getExternalOperation().getName().getLocalisedLabel(getLocale()));
+            argsList.add(favorite.getExternalOperation().getName().getLocalisedLabel(getLocale(), getDefaultLocale()));
 
             if (externalUserEntity.isEmailNotificationsEnabled() && favorite.getExternalOperation().isNotificationsEnabled()) {
                 createNotificationWithReceiver(codeSubject, messageCode, externalUserEntity.getEmail(), argsList.toArray(new String[argsList.size()]), SUBSCRIPTION_JOB_NOTICE_FAILED);
@@ -230,10 +230,14 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     private String getLopd() {
-        return dataProtectionPolicyService.find().getValue().getLocalisedLabel(getLocale());
+        return dataProtectionPolicyService.find().getValue().getLocalisedLabel(getLocale(), getDefaultLocale());
     }
 
     private String getLocale() {
         return LocaleContext.getLocale().toString();
+    }
+
+    private String getDefaultLocale() {
+        return LocaleContext.getDefaultLocale().toString();
     }
 }

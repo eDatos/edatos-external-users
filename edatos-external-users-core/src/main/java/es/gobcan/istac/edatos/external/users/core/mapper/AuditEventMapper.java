@@ -50,15 +50,16 @@ public abstract class AuditEventMapper{
 
     private String getFavoriteValue(AuditEvent entity){
         String locale = LocaleContext.getLocale().toString();
+        String defaultLocale = LocaleContext.getDefaultLocale().toString();
 
         String code = entity.getData().values().stream().collect(Collectors.toList()).get(0).toString();
         Long id = Long.valueOf(code).longValue();
         FavoriteEntity favorite = favoriteRepository.findOne(id);
         if(favorite != null) {
             if (favorite.getCategory() != null) {
-                return favorite.getCategory().getName().getLocalisedLabel(locale);
+                return favorite.getCategory().getName().getLocalisedLabel(locale, defaultLocale);
             } else if (favorite.getExternalOperation() != null) {
-                return favorite.getExternalOperation().getName().getLocalisedLabel(locale);
+                return favorite.getExternalOperation().getName().getLocalisedLabel(locale, defaultLocale);
             }
         }
         return code;
