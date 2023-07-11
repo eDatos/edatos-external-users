@@ -7,8 +7,11 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import es.gobcan.istac.edatos.external.users.core.config.MetadataProperties;
+import es.gobcan.istac.edatos.external.users.core.i18n.LocaleContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -23,10 +26,19 @@ import es.gobcan.istac.edatos.external.users.core.config.Constants;
 @Configuration
 public class LocaleConfiguration extends WebMvcConfigurerAdapter {
 
-    public static class LocaleCheckInterceptor extends HandlerInterceptorAdapter {
+    private final MetadataProperties metadataProperties;
+
+    public LocaleConfiguration(MetadataProperties metadataProperties) {
+        this.metadataProperties = metadataProperties;
+    }
+
+    public class LocaleCheckInterceptor extends HandlerInterceptorAdapter {
 
         @Override
         public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
+            LocaleContext.setLocale(LocaleContextHolder.getLocale());
+            LocaleContext.setDefaultLocale(Locale.forLanguageTag(metadataProperties.getDefaultLanguage()));
+
             String lang = request.getParameter(Constants.NAME_ATTRIBUTE_LANG);
 
             if (lang == null) {
@@ -44,7 +56,7 @@ public class LocaleConfiguration extends WebMvcConfigurerAdapter {
         }
 
         private void redirect(HttpServletRequest request, HttpServletResponse response) throws IOException {
-            response.sendRedirect(UriComponentsBuilder.fromHttpUrl(request.getRequestURL().toString()).queryParam(Constants.NAME_ATTRIBUTE_LANG, Constants.DEFAULT_LANG).build().toString());
+            response.sendRedirect(UriComponentsBuilder.fromHttpUrl(request.getRequestURL().toString()).queryParam(Constants.NAME_ATTRIBUTE_LANG, metadataProperties.getDefaultLanguage()).build().toString());
         }
 
         private Boolean isValidLang(String lang) {
@@ -55,7 +67,7 @@ public class LocaleConfiguration extends WebMvcConfigurerAdapter {
     @Bean(name = "localeResolver")
     public LocaleResolver localeResolver() {
         CookieLocaleResolver r = new CookieLocaleResolver();
-        r.setDefaultLocale(Constants.DEFAULT_LOCALE);
+        r.setDefaultLocale(Locale.forLanguageTag(metadataProperties.getDefaultLanguage()));
         r.setCookieName(Constants.NAME_ATTRIBUTE_LANG);
         r.setCookieMaxAge(86400); // 24 * 60 * 60
         r.setCookieHttpOnly(false);
