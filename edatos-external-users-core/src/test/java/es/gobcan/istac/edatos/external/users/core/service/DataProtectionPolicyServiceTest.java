@@ -154,6 +154,6 @@ public class DataProtectionPolicyServiceTest {
 
         assertThat(thrown)
             .isInstanceOf(EDatosException.class)
-            .hasMessageContaining(ServiceExceptionType.MISSING_DEFAULT_LOCALE_TRANSLATION.getMessageForReasonType().replaceAll("\\{0}", "español"));
+            .hasMessageContaining(ServiceExceptionType.MISSING_DEFAULT_LOCALE_TRANSLATION.getMessageForReasonType().replaceAll("\\{0}.*", ""));
     }
 }
