@@ -33,7 +33,7 @@ public class InternationalStringVO implements Serializable {
         }
         LocalisedStringVO defaultLocaleEntity = null;
         for (LocalisedStringVO localstr : getTexts()) {
-            if (locale.equalsIgnoreCase(localstr.getLocale()) && StringUtils.isNotBlank(localstr.getLabel())) {
+            if (locale.equalsIgnoreCase(localstr.getLocale()) && (StringUtils.isNotBlank(localstr.getLabel()) || defaultLocale == null)) {
                 return localstr;
             } else if (defaultLocale != null && defaultLocale.equalsIgnoreCase(localstr.getLocale())) {
                 defaultLocaleEntity = localstr;
@@ -48,7 +48,7 @@ public class InternationalStringVO implements Serializable {
         }
         String defaultLocaleLabel = null;
         for (LocalisedStringVO localstr : getTexts()) {
-            if (locale.equalsIgnoreCase(localstr.getLocale()) && StringUtils.isNotBlank(localstr.getLabel())) {
+            if (locale.equalsIgnoreCase(localstr.getLocale()) && (StringUtils.isNotBlank(localstr.getLabel()) || defaultLocale == null)) {
                 return localstr.getLabel();
             } else if (defaultLocale != null && defaultLocale.equalsIgnoreCase(localstr.getLocale())) {
                 defaultLocaleLabel = localstr.getLabel();
