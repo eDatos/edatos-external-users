@@ -3,10 +3,12 @@ package es.gobcan.istac.edatos.external.users.core.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.siemac.edatos.core.common.exception.EDatosException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -17,6 +19,7 @@ import es.gobcan.istac.edatos.external.users.core.domain.vo.InternationalStringV
 import es.gobcan.istac.edatos.external.users.core.domain.vo.LocalisedStringVO;
 import es.gobcan.istac.edatos.external.users.core.repository.DataProtectionPolicyRepository;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.ThrowableAssert.catchThrowable;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = EdatosExternalUsersCoreTestApp.class)
@@ -89,7 +92,7 @@ public class DataProtectionPolicyServiceTest {
         DataProtectionPolicyEntity databaseEntity = dataProtectionPolicyRepository.findFirstByOrderByIdAsc();
         DataProtectionPolicyEntity updateParam = new DataProtectionPolicyEntity();
         InternationalStringVO texts = new InternationalStringVO();
-        for (String language : languages.subList(1, languages.size())) {
+        for (String language : languages.subList(0, languages.size() - 1)) {
             LocalisedStringVO rightLocaleString = new LocalisedStringVO(language, language);
             texts.addText(rightLocaleString);
         }
@@ -103,7 +106,7 @@ public class DataProtectionPolicyServiceTest {
         assertThat(returnedValue.getOptLock()).isNotEqualTo(databaseEntity.getOptLock());
         assertThat(returnedValue.getCreatedBy()).isEqualTo(databaseEntity.getCreatedBy());
         assertThat(returnedValue.getCreatedDate()).isEqualTo(databaseEntity.getCreatedDate());
-        for (String language : languages.subList(1, languages.size())) {
+        for (String language : languages.subList(0, languages.size() - 1)) {
             assertThat(value.getLocalisedLabel(language, null)).isEqualTo(language);
         }
         assertThat(value.getTexts()).hasSize(languages.size() - 1);
@@ -113,13 +116,13 @@ public class DataProtectionPolicyServiceTest {
     public void testUpdateDataProtectionPolicyIgnoreWrongLocales() throws Exception {
         DataProtectionPolicyEntity databaseEntity = dataProtectionPolicyRepository.findFirstByOrderByIdAsc();
         databaseEntity.getValue().removeAllTexts();
-        databaseEntity.getValue().addText(new LocalisedStringVO("en", "en"));
+        databaseEntity.getValue().addText(new LocalisedStringVO("es", "es"));
         dataProtectionPolicyRepository.saveAndFlush(databaseEntity);
 
         DataProtectionPolicyEntity updateParam = new DataProtectionPolicyEntity();
         InternationalStringVO texts = new InternationalStringVO();
         texts.addText(new LocalisedStringVO("klingon", "klingon"));
-        texts.addText(new LocalisedStringVO("English klingon", "en"));
+        texts.addText(new LocalisedStringVO("Spanish klingon", "es"));
         updateParam.setValue(texts);
 
         dataProtectionPolicyService.update(updateParam);
@@ -131,7 +134,26 @@ public class DataProtectionPolicyServiceTest {
         assertThat(returnedValue.getCreatedBy()).isEqualTo(databaseEntity.getCreatedBy());
         assertThat(returnedValue.getCreatedDate()).isEqualTo(databaseEntity.getCreatedDate());
         assertThat(value.getLocalisedLabel("klingon", null)).isNull();
-        assertThat(value.getLocalisedLabel("en", null)).isEqualTo("English klingon");
+        assertThat(value.getLocalisedLabel("es", null)).isEqualTo("Spanish klingon");
         assertThat(value.getTexts()).hasSize(1);
+    }
+
+    @Test
+    public void testUpdateDataProtectionPolicyMandatoryDefaultLocale() {
+        DataProtectionPolicyEntity databaseEntity = dataProtectionPolicyRepository.findFirstByOrderByIdAsc();
+        databaseEntity.getValue().removeAllTexts();
+        databaseEntity.getValue().addText(new LocalisedStringVO("en", "en"));
+        dataProtectionPolicyRepository.saveAndFlush(databaseEntity);
+
+        DataProtectionPolicyEntity updateParam = new DataProtectionPolicyEntity();
+        InternationalStringVO texts = new InternationalStringVO();
+        texts.addText(new LocalisedStringVO("klingon", "klingon"));
+        updateParam.setValue(texts);
+
+        Throwable thrown = catchThrowable(() -> dataProtectionPolicyService.update(updateParam));
+
+        assertThat(thrown)
+            .isInstanceOf(EDatosException.class)
+            .hasMessageContaining(ServiceExceptionType.MISSING_DEFAULT_LOCALE_TRANSLATION.getMessageForReasonType().replaceAll("\\{0}", "español"));
     }
 }
