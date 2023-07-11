@@ -85,7 +85,7 @@
             [style]="{width: '50vw'}"
             [contentStyle]="{padding: '1.5em 2em'}"
             [appendTo]="modalWrapper"
-            (visibleChange)="disableNodeEdit(node)"
+            (visibleChange)="cancelNodeEdit(node)"
         >
             <app-multi-language-input
                 *ngIf="allowedLanguages"
@@ -94,11 +94,11 @@
                 (onEnterKeyDown)="saveNodeName(node, $event)"
             ></app-multi-language-input>
             <p-footer>
-                <button type="button" class="btn btn-secondary" (click)="disableNodeEdit(node)">
+                <button type="button" class="btn btn-secondary" (click)="cancelNodeEdit(node)" [disabled]="isNodeSaving">
                     <i class="fa fa-times" aria-hidden="true"></i>
                     <span>{{ 'entity.action.cancel' | translate }}</span>
                 </button>
-                <button type="button" class="btn btn-primary" (click)="saveNodeName(node, languageInputComponent.value)">
+                <button type="button" class="btn btn-primary" (click)="saveNodeName(node, languageInputComponent.value)" [disabled]="isNodeSaving">
                     <i class="fa fa-save" aria-hidden="true"></i>
                     <span>{{ 'entity.action.save' | translate }}</span>
                 </button>
@@ -115,7 +115,7 @@
             [style]="{width: '80vw'}"
             [contentStyle]="{padding: '0', 'overflow-y': 'auto'}"
             [appendTo]="modalWrapper"
-            (visibleChange)="disableNodeEdit(node)"
+            (visibleChange)="cancelNodeEdit(node)"
         >
             <app-external-categories-table
                 #table
@@ -123,7 +123,7 @@
                 [disabledExternalCategories]="getDisabledExternalCategories(node.data)"
             ></app-external-categories-table>
             <p-footer>
-                <button (click)="disableNodeEdit(node)" class="btn btn-secondary" type="button">
+                <button (click)="cancelNodeEdit(node)" class="btn btn-secondary" type="button">
                     <i class="fa fa-times" aria-hidden="true"></i>
                     <span>{{ 'entity.action.cancel' | translate }}</span>
                 </button>

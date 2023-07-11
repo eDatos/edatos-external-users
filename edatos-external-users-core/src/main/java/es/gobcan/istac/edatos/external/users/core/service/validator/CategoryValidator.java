@@ -17,9 +17,11 @@ import es.gobcan.istac.edatos.external.users.core.service.FavoriteService;
 public class CategoryValidator extends AbstractValidator<CategoryEntity> {
 
     private final FavoriteService favoriteService;
+    private final InternationalStringValidator internationalStringValidator;
 
-    public CategoryValidator(FavoriteService favoriteService) {
+    public CategoryValidator(FavoriteService favoriteService, InternationalStringValidator internationalStringValidator) {
         this.favoriteService = favoriteService;
+        this.internationalStringValidator = internationalStringValidator;
     }
 
     public void checkCategoriesWithSubscribers(CategoryEntity category) {
@@ -42,6 +44,12 @@ public class CategoryValidator extends AbstractValidator<CategoryEntity> {
             if (!favoriteService.findByCategory(category).isEmpty()) {
                 throw new EDatosException(ServiceExceptionType.CANNOT_DELETE_CATEGORY_IF_IT_HAS_SUBSCRIBERS);
             }
+        }
+    }
+
+    public void checkMandatoryLanguageIsSetInCategoriesNames(List<CategoryEntity> tree) {
+        for (CategoryEntity category : tree) {
+            internationalStringValidator.checkMandatoryLanguageIsSet(category.getName());
         }
     }
 }

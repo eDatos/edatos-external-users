@@ -10,6 +10,9 @@
             "nombre.placeholder": "El seu nom"
         },
         "messages": {
+            "default": {
+                "title": "Error"
+            },
             "error": {
                 "emailexists": "<strong>¡L'adreça de correu electrònic ja existeix!</strong> Si us plau, triï una altra.",
                 "fail": "<strong>¡Ha ocorregut un error!</strong> Els ajustos no s'han pogut guardar."

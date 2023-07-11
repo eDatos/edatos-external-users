@@ -52,4 +52,9 @@ public class ServiceExceptionType extends CommonServiceExceptionType {
      ********/
     public static final CommonServiceExceptionType ERROR_JASPER_REPORTS_GENERATING = create("exception.external_users.jasperreports.generating");
 
+    /********
+     * INTERNATIONAL_STRING
+     ********/
+    public static final CommonServiceExceptionType MISSING_DEFAULT_LOCALE_TRANSLATION = create("exception.external_users.international_string.missing_default_locale_translation");
+
 }

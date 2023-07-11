@@ -2,6 +2,7 @@ package es.gobcan.istac.edatos.external.users.core.mapper;
 
 import java.util.Locale;
 
+import es.gobcan.istac.edatos.external.users.core.i18n.LocaleContext;
 import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -10,7 +11,6 @@ import org.siemac.edatos.core.common.util.GeneratorUrnUtils;
 import org.siemac.metamac.rest.common.v1_0.domain.LocalisedString;
 import org.siemac.metamac.rest.structural_resources.v1_0.domain.Code;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.i18n.LocaleContextHolder;
 
 import es.gobcan.istac.edatos.external.users.core.config.MetadataProperties;
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
@@ -33,7 +33,7 @@ public abstract class ExternalUserVOMapper {
     @Named("getGender")
     public String getGender(ExternalUserEntity entity) {
         if (StringUtils.isNotEmpty(entity.getGender())) {
-            Locale locale = LocaleContextHolder.getLocale();
+            Locale locale = LocaleContext.getLocale();
             String language = locale.toString().split("_")[0];
 
             String urn = metadataProperties.getGenderUrnKey();
@@ -55,7 +55,7 @@ public abstract class ExternalUserVOMapper {
     @Named("getNationality")
     public String getNationality(ExternalUserEntity entity) {
         if (StringUtils.isNotEmpty(entity.getNationality())) {
-            Locale locale = LocaleContextHolder.getLocale();
+            Locale locale = LocaleContext.getLocale();
             String language = locale.toString().split("_")[0];
 
             String urn = metadataProperties.getNationalityUrnKey();

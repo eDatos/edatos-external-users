@@ -54,7 +54,7 @@ public class DataProtectionPolicyServiceTest {
 
         InternationalStringVO value = returnedValue.getValue();
         for (String language : languages) {
-            assertThat(value.getLocalisedLabel(language)).isEmpty();
+            assertThat(value.getLocalisedLabel(language, null)).isEmpty();
         }
     }
 
@@ -79,7 +79,7 @@ public class DataProtectionPolicyServiceTest {
         assertThat(returnedValue.getCreatedBy()).isEqualTo(databaseEntity.getCreatedBy());
         assertThat(returnedValue.getCreatedDate()).isEqualTo(databaseEntity.getCreatedDate());
         for (String language : languages) {
-            assertThat(value.getLocalisedLabel(language)).isEqualTo(language);
+            assertThat(value.getLocalisedLabel(language, null)).isEqualTo(language);
         }
         assertThat(value.getTexts()).hasSize(languages.size());
     }
@@ -104,7 +104,7 @@ public class DataProtectionPolicyServiceTest {
         assertThat(returnedValue.getCreatedBy()).isEqualTo(databaseEntity.getCreatedBy());
         assertThat(returnedValue.getCreatedDate()).isEqualTo(databaseEntity.getCreatedDate());
         for (String language : languages.subList(1, languages.size())) {
-            assertThat(value.getLocalisedLabel(language)).isEqualTo(language);
+            assertThat(value.getLocalisedLabel(language, null)).isEqualTo(language);
         }
         assertThat(value.getTexts()).hasSize(languages.size() - 1);
     }
@@ -130,8 +130,8 @@ public class DataProtectionPolicyServiceTest {
         assertThat(returnedValue.getOptLock()).isNotEqualTo(databaseEntity.getOptLock());
         assertThat(returnedValue.getCreatedBy()).isEqualTo(databaseEntity.getCreatedBy());
         assertThat(returnedValue.getCreatedDate()).isEqualTo(databaseEntity.getCreatedDate());
-        assertThat(value.getLocalisedLabel("klingon")).isNull();
-        assertThat(value.getLocalisedLabel("en")).isEqualTo("English klingon");
+        assertThat(value.getLocalisedLabel("klingon", null)).isNull();
+        assertThat(value.getLocalisedLabel("en", null)).isEqualTo("English klingon");
         assertThat(value.getTexts()).hasSize(1);
     }
 }

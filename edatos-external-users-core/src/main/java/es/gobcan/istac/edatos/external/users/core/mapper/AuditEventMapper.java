@@ -1,19 +1,17 @@
 package es.gobcan.istac.edatos.external.users.core.mapper;
 
-import java.util.Locale;
-import java.util.stream.Collectors;
-
+import es.gobcan.istac.edatos.external.users.core.domain.FavoriteEntity;
+import es.gobcan.istac.edatos.external.users.core.domain.vo.AuditEventVO;
+import es.gobcan.istac.edatos.external.users.core.repository.FavoriteRepository;
+import es.gobcan.istac.edatos.external.users.core.repository.FilterRepository;
+import es.gobcan.istac.edatos.external.users.core.i18n.LocaleContext;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.audit.AuditEvent;
-import org.springframework.context.i18n.LocaleContextHolder;
 
-import es.gobcan.istac.edatos.external.users.core.domain.FavoriteEntity;
-import es.gobcan.istac.edatos.external.users.core.domain.vo.AuditEventVO;
-import es.gobcan.istac.edatos.external.users.core.repository.FavoriteRepository;
-import es.gobcan.istac.edatos.external.users.core.repository.FilterRepository;
+import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public abstract class AuditEventMapper{
@@ -51,17 +49,17 @@ public abstract class AuditEventMapper{
     }
 
     private String getFavoriteValue(AuditEvent entity){
-        Locale locale = LocaleContextHolder.getLocale();
-        String language = locale.toString().split("_")[0];
+        String locale = LocaleContext.getLocale().toString();
+        String defaultLocale = LocaleContext.getDefaultLocale().toString();
 
         String code = entity.getData().values().stream().collect(Collectors.toList()).get(0).toString();
         Long id = Long.valueOf(code).longValue();
         FavoriteEntity favorite = favoriteRepository.findOne(id);
         if(favorite != null) {
             if (favorite.getCategory() != null) {
-                return favorite.getCategory().getName().getLocalisedLabel(language);
+                return favorite.getCategory().getName().getLocalisedLabel(locale, defaultLocale);
             } else if (favorite.getExternalOperation() != null) {
-                return favorite.getExternalOperation().getName().getLocalisedLabel(language);
+                return favorite.getExternalOperation().getName().getLocalisedLabel(locale, defaultLocale);
             }
         }
         return code;

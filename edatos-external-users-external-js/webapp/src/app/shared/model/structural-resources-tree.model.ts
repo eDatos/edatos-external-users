@@ -13,8 +13,4 @@ export class StructuralResourcesTree {
     public children: StructuralResourcesTree[] = [];
 
     public index: number = 0;
-
-    public getLocalisedName(): string | undefined {
-        return this.name.getLocalisedLabel('es');
-    }
 }

@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
 import es.gobcan.istac.edatos.external.users.core.config.Constants;
@@ -25,6 +24,7 @@ import es.gobcan.istac.edatos.external.users.core.domain.vo.AuditEventVO;
 import es.gobcan.istac.edatos.external.users.core.domain.vo.ExternalUserVO;
 import es.gobcan.istac.edatos.external.users.core.errors.CustomParameterizedExceptionBuilder;
 import es.gobcan.istac.edatos.external.users.core.errors.ErrorConstants;
+import es.gobcan.istac.edatos.external.users.core.i18n.LocaleContext;
 import es.gobcan.istac.edatos.external.users.core.mapper.AuditEventMapper;
 import es.gobcan.istac.edatos.external.users.core.mapper.ExternalUserVOMapper;
 import es.gobcan.istac.edatos.external.users.core.repository.ExternalUserRepository;
@@ -82,9 +82,10 @@ public class DocumentServiceImpl implements DocumentService {
             parameters.put("PATH_LOGO", new URI(getClass().getResource(DocumentConstants.FOLDER_JASPER_REPORT + DocumentConstants.LOGO_CABECERA).toString()).getPath());
 
             // Headers
-            Locale locale = LocaleContextHolder.getLocale();
+            Locale locale = LocaleContext.getLocale();
             String language = locale.toString().split("_")[0];
             parameters.put("LOCALE", language);
+            parameters.put("DEFAULT_LOCALE", LocaleContext.getDefaultLocale().toString());
 
             parameters.put("HEADER_TITLE", messageSource.getMessage("report.header.title", null, locale));
 

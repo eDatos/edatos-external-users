@@ -12,6 +12,7 @@ import { DataProtectionPolicyService } from './data-protection-policy.service';
 export class DataProtectionPolicyComponent {
     public dataProtectionPolicy: DataProtectionPolicy = new DataProtectionPolicy();
     public isEditMode = false;
+    public isDataProtectionPolicySaving = false;
     public locales: string[] = [];
     public locale = '';
 
@@ -35,8 +36,12 @@ export class DataProtectionPolicyComponent {
     }
 
     public save() {
+        this.isDataProtectionPolicySaving = true;
         this.dataProtectionPolicyService.updateDataProtectionPolicy(this.dataProtectionPolicy).subscribe(() => {
             this.clear();
+            this.isDataProtectionPolicySaving = false;
+        }, () => {
+            this.isDataProtectionPolicySaving = false;
         });
     }
 }

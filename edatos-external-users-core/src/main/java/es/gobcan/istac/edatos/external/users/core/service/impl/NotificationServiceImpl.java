@@ -16,6 +16,7 @@ import es.gobcan.istac.edatos.external.users.core.service.EDatosApisLocator;
 import es.gobcan.istac.edatos.external.users.core.service.ExternalUserService;
 import es.gobcan.istac.edatos.external.users.core.service.MetadataConfigurationService;
 import es.gobcan.istac.edatos.external.users.core.service.NotificationService;
+import es.gobcan.istac.edatos.external.users.core.i18n.LocaleContext;
 import org.siemac.edatos.core.common.exception.CommonServiceExceptionType;
 import org.siemac.edatos.core.common.exception.EDatosException;
 import org.siemac.metamac.rest.notices.v1_0.domain.Message;
@@ -29,7 +30,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.ws.rs.core.Response;
@@ -136,7 +136,7 @@ public class NotificationServiceImpl implements NotificationService {
         for (FavoriteEntity favorite : listFavorites) {
             ExternalUserEntity externalUserEntity = favorite.getExternalUser();
             ArrayList<String> argsList = new ArrayList<String>(Arrays.asList(argsByExternalUser(externalUserEntity)));
-            argsList.add(favorite.getExternalOperation().getName().getLocalisedLabel(getLocale()));
+            argsList.add(favorite.getExternalOperation().getName().getLocalisedLabel(getLocale(), getDefaultLocale()));
 
             if (externalUserEntity.isEmailNotificationsEnabled() && favorite.getExternalOperation().isNotificationsEnabled()) {
                 createNotificationWithReceiver(codeSubject, messageCode, externalUserEntity.getEmail(), argsList.toArray(new String[argsList.size()]), SUBSCRIPTION_JOB_NOTICE_FAILED);
@@ -220,7 +220,7 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     private String generateTextI18n(String text, String[] args) {
-        Locale locale = LocaleContextHolder.getLocale();
+        Locale locale = LocaleContext.getLocale();
 
         return messageSource.getMessage(text, args, locale);
     }
@@ -230,12 +230,14 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     private String getLopd() {
-        return dataProtectionPolicyService.find().getValue().getLocalisedLabel(getLocale());
+        return dataProtectionPolicyService.find().getValue().getLocalisedLabel(getLocale(), getDefaultLocale());
     }
 
     private String getLocale() {
-        String[] locale = LocaleContextHolder.getLocale().toString().split("_");
-        // toLowerCase locale
-        return locale[0];
+        return LocaleContext.getLocale().toString();
+    }
+
+    private String getDefaultLocale() {
+        return LocaleContext.getDefaultLocale().toString();
     }
 }
