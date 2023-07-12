@@ -10,5 +10,7 @@
             [name]='name'
             (onSelect)='onSelectMethod($event)'
             [required]='required'
-            [minDate]='minDate'>
+            [minDate]='minDate'
+            (onYearChange)='checkYear($event)'
+            (onMonthChange)='checkYear($event)'>
 </p-calendar>
