@@ -101,7 +101,6 @@ export class CustomCalendarComponent extends Calendar implements ControlValueAcc
         }
     }
 
-    // Value Accesor
     writeValue(value: any): void {
         this._date = value ? new Date(value) : undefined;
     }
@@ -127,8 +126,25 @@ export class CustomCalendarComponent extends Calendar implements ControlValueAcc
 
     private setPropertiesDate() {
         let today: Date = new Date();
+        this.minDate = new Date(today.getFullYear() - 100, today.getMonth(), today.getDate());
         this.maxDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-        this.yearRange = '1950:' + today.getFullYear();
+        this.yearRange = this.minDate.getFullYear() + ':' + today.getFullYear();
+    }
+
+    public checkYear(date: { month: number; year: number }) {
+        if (this.calendar) {
+            if (date.year < this.minDate.getFullYear()) {
+                this.calendar.onModelTouched();
+                this.date = new Date(this.minDate);
+                this.calendar.yearRange = this.minDate.getFullYear() + ':' + this.maxDate.getFullYear();
+            }
+            if (date.year > this.maxDate.getFullYear()) {
+                this.calendar.onModelTouched();
+                let lastDayOfYear = new Date(this.maxDate.getFullYear(), 11, 31);
+                this.date = new Date(lastDayOfYear.valueOf());
+                this.calendar.yearRange = this.minDate.getFullYear() + ':' + this.maxDate.getFullYear();
+            }
+        }
     }
 
     private customMonthNames(): string[] {

@@ -1,21 +1,8 @@
-import {
-    ChangeDetectorRef,
-    Component,
-    ElementRef,
-    EventEmitter,
-    forwardRef,
-    HostBinding,
-    Input,
-    NgZone,
-    OnInit,
-    Output,
-    Renderer2,
-    ViewChild
-} from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { TranslateService } from '@ngx-translate/core';
-import { Calendar } from 'primeng/calendar';
-import { LocaleSettings } from 'primeng/calendar/calendar';
+import {ChangeDetectorRef, Component, ElementRef, EventEmitter, forwardRef, HostBinding, Input, NgZone, OnInit, Output, Renderer2, ViewChild} from '@angular/core';
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {TranslateService} from '@ngx-translate/core';
+import {Calendar} from 'primeng/calendar';
+import {LocaleSettings} from 'primeng/calendar/calendar';
 
 @Component({
     selector: 'app-custom-calendar',
@@ -85,7 +72,9 @@ export class CustomCalendarComponent extends Calendar implements ControlValueAcc
     constructor(private translateService: TranslateService, el: ElementRef, renderer: Renderer2, cd: ChangeDetectorRef, zone: NgZone) {
         super(el, renderer, cd, zone);
     }
-    public onModelTouched: (any?) => void = () => {};
+
+    public onModelTouched: (any?) => void = () => {
+    };
 
     public onSelectMethod($event) {
         this.onSelect.emit($event);
@@ -122,8 +111,25 @@ export class CustomCalendarComponent extends Calendar implements ControlValueAcc
 
     private setPropertiesDate() {
         const today: Date = new Date();
+        this.minDate = new Date(today.getFullYear() - 100, today.getMonth(), today.getDate());
         this.maxDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-        this.yearRange = '1950:' + today.getFullYear();
+        this.yearRange = this.minDate.getFullYear() + ':' + today.getFullYear();
+    }
+
+    public checkYear(date: { month: number; year: number }) {
+        if (this.calendar) {
+            if (date.year < this.minDate.getFullYear()) {
+                this.calendar.onModelTouched();
+                this.date = new Date(this.minDate);
+                this.calendar.yearRange = this.minDate.getFullYear() + ':' + this.maxDate.getFullYear();
+            }
+            if (date.year > this.maxDate.getFullYear()) {
+                this.calendar.onModelTouched();
+                let lastDayOfYear = new Date(this.maxDate.getFullYear(), 11, 31);
+                this.date = new Date(lastDayOfYear.valueOf());
+                this.calendar.yearRange = this.minDate.getFullYear() + ':' + this.maxDate.getFullYear();
+            }
+        }
     }
 
     private customMonthNames(): string[] {
