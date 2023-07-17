@@ -25,7 +25,14 @@ export class DataProtectionPolicyComponent {
 
         this.dataProtectionPolicyService.getDataProtectionPolicy().subscribe((dataProtectionPolicy) => {
             this.dataProtectionPolicy = dataProtectionPolicy;
-            this.locales = this.dataProtectionPolicy.value.texts.map((text) => text.locale).sort((a, b) => (a < b ? -1 : +(a > b)));
+            this.locales = this.dataProtectionPolicy.value.texts.map((text) => text.locale).sort((a, b) => {
+                if (a === translateService.getDefaultLang()) {
+                    return -1;
+                } else if (b === translateService.getDefaultLang()) {
+                    return 1;
+                }
+                return a < b ? -1 : +(a > b);
+            });
         });
     }
 
