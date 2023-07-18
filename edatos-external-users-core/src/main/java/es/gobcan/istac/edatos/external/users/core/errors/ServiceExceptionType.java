@@ -10,6 +10,7 @@ public class ServiceExceptionType extends CommonServiceExceptionType {
      * CATEGORY
      ********/
     public static final CommonServiceExceptionType CANNOT_DELETE_CATEGORY_IF_IT_HAS_SUBSCRIBERS = create("exception.external_users.category.cannot_delete_category_if_it_has_subscribers");
+    public static final CommonServiceExceptionType CANNOT_UPDATE_CATEGORY_TREE_IF_MISSING_DEFAULT_TRANSLATION = create("exception.external_users.category.cannot_update_category_tree_if_missing_default_translation");
 
     /********
      * QUERY

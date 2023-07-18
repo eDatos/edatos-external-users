@@ -1,9 +1,6 @@
 package es.gobcan.istac.edatos.external.users.core.service.validator;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.siemac.edatos.core.common.exception.EDatosException;
@@ -48,8 +45,16 @@ public class CategoryValidator extends AbstractValidator<CategoryEntity> {
     }
 
     public void checkMandatoryLanguageIsSetInCategoriesNames(List<CategoryEntity> tree) {
-        for (CategoryEntity category : tree) {
-            internationalStringValidator.checkMandatoryLanguageIsSet(category.getName());
+        try {
+            for (CategoryEntity category : tree) {
+                internationalStringValidator.checkMandatoryLanguageIsSet(category.getName());
+            }
+        } catch (EDatosException exception) {
+            throw new EDatosException(ServiceExceptionType.CANNOT_UPDATE_CATEGORY_TREE_IF_MISSING_DEFAULT_TRANSLATION, exception.getExceptionItems().get(0).getMessageParameters());
         }
+    }
+
+    public void checkMandatoryLanguageIsSetInCategoryName(CategoryEntity category) {
+        internationalStringValidator.checkMandatoryLanguageIsSet(category.getName());
     }
 }

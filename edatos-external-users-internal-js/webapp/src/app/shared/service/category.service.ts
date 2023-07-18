@@ -35,6 +35,10 @@ export class CategoryService {
         return this.http.put<Category[]>(`${this.resourceUrl}/tree`, categories).pipe(map((cat) => convert(Category, cat)));
     }
 
+    public updateCategory(category: Category): Observable<Category> {
+        return this.http.put<Category>(`${this.resourceUrl}/category`, category).pipe(map((cat) => convert(Category, cat)));
+    }
+
     public deleteCategory(id: number): Observable<HttpResponse<void>> {
         return this.http.delete<void>(`${this.resourceUrl}/${id}`, { observe: 'response' });
     }

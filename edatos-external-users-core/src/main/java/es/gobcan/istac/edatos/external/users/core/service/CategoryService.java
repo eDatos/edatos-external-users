@@ -20,5 +20,6 @@ public interface CategoryService {
     List<CategoryEntity> getTree();
     Map<CategoryEntity, List<ExternalCategoryEntity>> getCategoryExternalCategories();
     List<CategoryEntity> updateTree(List<CategoryEntity> tree);
+    CategoryEntity updateCategory(CategoryEntity category);
     Optional<CategoryEntity> delete(Long id);
 }

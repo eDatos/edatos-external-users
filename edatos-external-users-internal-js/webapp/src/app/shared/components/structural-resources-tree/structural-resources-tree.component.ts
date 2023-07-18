@@ -245,14 +245,15 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
     }
 
     public saveNodeName(node: CategoryTreeNode, name: InternationalString) {
-        this.setNodeNameFromInternationalString(node, name);
         this.disableEditButtons();
-        this.updateTree();
+        this.updateCategoryName(node, name);
     }
 
     public cancelNodeEdit(node: CategoryTreeNode) {
         if (node.editMode === 'name') {
-            this.deleteNode(node);
+            if (node.data.name.isEmptyOrBlank()) {
+                this.deleteNode(node);
+            }
             this.enableEditButtons();
         }
         node.editMode = null;
@@ -322,9 +323,18 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
             .updateTree(this.tree.map((node) => node.data as Category))
             .pipe(finalize(() => (this.loading = false)))
             .subscribe({
+                next: (tree) => this.createTree(tree)
+            });
+    }
+
+    private updateCategoryName(category: CategoryTreeNode, name: InternationalString) {
+        this.categoryService
+            .updateCategory({...category.data, name} as Category)
+            .subscribe({
                 next: (tree) => {
                     this.enableEditButtons();
-                    this.createTree(tree)
+                    category.editMode = null;
+                    this.setNodeNameFromInternationalString(category, name);
                 },
                 error: () => this.enableEditButtons()
             });
