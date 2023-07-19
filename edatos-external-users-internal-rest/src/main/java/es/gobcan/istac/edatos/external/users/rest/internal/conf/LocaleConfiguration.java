@@ -1,27 +1,20 @@
 package es.gobcan.istac.edatos.external.users.rest.internal.conf;
 
-import java.io.IOException;
-import java.util.Locale;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import es.gobcan.istac.edatos.external.users.core.config.Constants;
 import es.gobcan.istac.edatos.external.users.core.config.MetadataProperties;
 import es.gobcan.istac.edatos.external.users.core.i18n.LocaleContext;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
-import org.springframework.web.servlet.i18n.CookieLocaleResolver;
-import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
-import org.springframework.web.util.UriComponentsBuilder;
-import org.springframework.web.util.WebUtils;
 
-import es.gobcan.istac.edatos.external.users.core.config.Constants;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Locale;
+
+import static org.siemac.edatos.core.common.util.AbstractInternationalizationUtils.ACCEPT_LANGUAGE_HEADER;
 
 @Configuration
 public class LocaleConfiguration extends WebMvcConfigurerAdapter {
@@ -35,28 +28,16 @@ public class LocaleConfiguration extends WebMvcConfigurerAdapter {
     public class LocaleCheckInterceptor extends HandlerInterceptorAdapter {
 
         @Override
-        public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
-            LocaleContext.setLocale(LocaleContextHolder.getLocale());
-            LocaleContext.setDefaultLocale(Locale.forLanguageTag(metadataProperties.getDefaultLanguage()));
-
-            String lang = request.getParameter(Constants.NAME_ATTRIBUTE_LANG);
-
-            if (lang == null) {
-                Cookie langCookie = WebUtils.getCookie(request, Constants.NAME_ATTRIBUTE_LANG);
-                if (langCookie != null && !isValidLang(langCookie.getValue())) {
-                    this.redirect(request, response);
-                }
-            } else if (!isValidLang(lang)) {
-                this.redirect(request, response);
-            } else {
-                Locale.setDefault(Locale.forLanguageTag(lang));
+        public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+            String requestLocale = request.getLocale().getLanguage() == null ? null : request.getLocale().getLanguage().replaceFirst("_.*", "");
+            if (request.getHeader(ACCEPT_LANGUAGE_HEADER) != null && requestLocale != null && isValidLang(requestLocale)) {
+                LocaleContext.setLocale(LocaleContextHolder.getLocale());
             }
 
-            return true;
-        }
+            LocaleContext.setDefaultLocale(Locale.forLanguageTag(metadataProperties.getDefaultLanguage()));
+            Locale.setDefault(Locale.forLanguageTag(metadataProperties.getDefaultLanguage()));
 
-        private void redirect(HttpServletRequest request, HttpServletResponse response) throws IOException {
-            response.sendRedirect(UriComponentsBuilder.fromHttpUrl(request.getRequestURL().toString()).queryParam(Constants.NAME_ATTRIBUTE_LANG, metadataProperties.getDefaultLanguage()).build().toString());
+            return true;
         }
 
         private Boolean isValidLang(String lang) {
@@ -64,21 +45,8 @@ public class LocaleConfiguration extends WebMvcConfigurerAdapter {
         }
     }
 
-    @Bean(name = "localeResolver")
-    public LocaleResolver localeResolver() {
-        CookieLocaleResolver r = new CookieLocaleResolver();
-        r.setDefaultLocale(Locale.forLanguageTag(metadataProperties.getDefaultLanguage()));
-        r.setCookieName(Constants.NAME_ATTRIBUTE_LANG);
-        r.setCookieMaxAge(86400); // 24 * 60 * 60
-        r.setCookieHttpOnly(false);
-        return r;
-    }
-
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
-        localeChangeInterceptor.setParamName(Constants.NAME_ATTRIBUTE_LANG);
         registry.addInterceptor(new LocaleCheckInterceptor());
-        registry.addInterceptor(localeChangeInterceptor);
     }
 }

@@ -58,7 +58,7 @@ export class CodelistService {
     }
 
     public getValue(texts: { lang: string, value: string }[]): string {
-        var value = texts.find((ll) => ll.lang == this.translateService.currentLang).value;
+        var value = texts.find((ll) => ll.lang == this.translateService.currentLang)?.value;
         if (!value) {
             value = texts.find((ll) => ll.lang == this.translateService.defaultLang).value;
         }
