@@ -56,13 +56,11 @@ export class CodelistService {
     }
 
     private getValue(texts: { lang: string, value: string }[]): string {
-        // @ts-ignore
         var value = texts.find((ll) => ll.lang == this.translateService.currentLang)?.value;
         if (!value) {
-            // @ts-ignore
-            value = texts.find((ll) => ll.lang == this.translateService.defaultLang).value;
+            value = texts.find((ll) => ll.lang == this.translateService.defaultLang)?.value;
         }
-        return value;
+        return value || "";
 
     }
 }
