@@ -51,8 +51,7 @@ export function createTranslateLoader(http: HttpClient) {
 }
 
 export function initTranslations(translateService: TranslateService, cookieService: CookieService, configService: ConfigService) {
-    const navigatorLang = navigator.language.replace(/_.*/, '');
-    const currentLang: string = AVAILABLE_LANGUAGES.some(lang => lang === navigatorLang) ? navigatorLang : configService.getConfig().metadata.defaultLanguage;
+    const currentLang: string = configService.getConfig().metadata.language || configService.getConfig().metadata.defaultLanguage;
     translateService.setDefaultLang(configService.getConfig().metadata.defaultLanguage);
     translateService.addLangs(AVAILABLE_LANGUAGES);
     return () => translateService.use(currentLang).toPromise();
