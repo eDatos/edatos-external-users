@@ -37,7 +37,7 @@ export class MultiLanguageEditorComponent implements ControlValueAccessor {
     }
   }
 
-  constructor() { 
+  constructor() {
     this.value.texts = [];
   }
 

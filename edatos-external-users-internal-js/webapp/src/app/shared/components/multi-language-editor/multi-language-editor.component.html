@@ -1,6 +1,6 @@
 <div *ngFor="let locale of locales" class="single-language-editor">
     <div *ngIf="isEditMode || value.getLocalisedLabel(locale)">
-        <h3>{{'enum.localeToLanguage.' + locale.toUpperCase() | translate: {default: locale} }}</h3>
+        <h3 [class.required]="locale===defaultLocale && isEditMode">{{'enum.localeToLanguage.' + locale.toUpperCase() | translate: {default: locale} }}</h3>
         <p-editor [id]="locale" (onTextChange)="onEditorChange($event, locale)" (onInit)="onEditorInit($event, locale)" (onSelectionChange)="onEditorTouched($event)"
             [style]="{'height':'500px'}" [modules]="isEditMode ? null : { toolbar: false }" [class.no-toolbar]="!isEditMode" scrollingContainer=".scrolling-editor">
         </p-editor>

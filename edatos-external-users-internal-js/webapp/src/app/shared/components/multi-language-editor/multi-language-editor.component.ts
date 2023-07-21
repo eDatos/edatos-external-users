@@ -2,6 +2,7 @@ import { Component, forwardRef, Input, QueryList, ViewChildren } from '@angular/
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { InternationalString } from '@app/shared/model';
 import { Editor } from 'primeng/editor';
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-multi-language-editor',
@@ -22,6 +23,7 @@ export class MultiLanguageEditorComponent implements ControlValueAccessor {
   isDisabled: boolean = false;
   editors: any = {};
   value: InternationalString = new InternationalString();
+  defaultLocale: string = "";
 
   @Input()
   locales: String[] = [];
@@ -37,8 +39,9 @@ export class MultiLanguageEditorComponent implements ControlValueAccessor {
     }
   }
 
-  constructor() { 
+  constructor(translateService: TranslateService) {
     this.value.texts = [];
+    this.defaultLocale = translateService.getDefaultLang()
   }
 
   writeValue(value: InternationalString): void {
@@ -59,7 +62,7 @@ export class MultiLanguageEditorComponent implements ControlValueAccessor {
   }
 
   setDisabledState?(isDisabled: boolean): void {
-    this.isDisabled = isDisabled; 
+    this.isDisabled = isDisabled;
     this.editors?.forEach(editor => {
       (this.isDisabled || !this.isEditMode) ? editor.disable() : editor.enable();
     });

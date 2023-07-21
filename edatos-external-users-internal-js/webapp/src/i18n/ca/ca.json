@@ -317,6 +317,9 @@
         }
     },
     "error": {
+        "default": {
+            "title": "Error"
+        },
         "403": {
             "detail": "Ho sentim, no té permisos per a accedir a la pàgina.",
             "title": "Error 403"
@@ -460,7 +463,10 @@
         },
         "surname1": "Primer cognom",
         "surname2": "Segon cognom",
-        "updated": "S'ha actualitzat l'usuari {{ param }}"
+        "updated": "S'ha actualitzat l'usuari {{ param }}",
+        "gender": "Gènere",
+        "nationality": "Nacionalitat",
+        "birthday": "Data de naixement"
     },
     "family": {
         "acronym": {
@@ -630,8 +636,11 @@
             "cas": "CAS",
             "db": "Base de dades",
             "diskSpace": "Espai en disc",
+            "kafka": "Kafka",
             "ldap": "LDAP",
-            "mail": "Email"
+            "mail": "Email",
+            "noticesInternal": "Gestor de notificacions",
+            "structuralResourcesExternal": "Gestor de recursos estructurals"
         },
         "refresh.button": "Refrescar",
         "stacktrace": "Traça",

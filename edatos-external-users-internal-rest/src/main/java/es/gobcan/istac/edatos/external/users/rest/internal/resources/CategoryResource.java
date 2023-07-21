@@ -107,10 +107,19 @@ public class CategoryResource extends AbstractResource {
     @Timed
     @PutMapping("/tree")
     @PreAuthorize("@secChecker.canUpdateCategory(authentication)")
-    public ResponseEntity<List<CategoryDto>> updateCategory(@RequestBody List<CategoryDto> category) {
+    public ResponseEntity<List<CategoryDto>> updateCategoryTree(@RequestBody List<CategoryDto> category) {
         List<CategoryEntity> categoryEntity = categoryMapper.toEntities(category);
         List<CategoryEntity> updatedTree = categoryService.updateTree(categoryEntity);
         return ResponseEntity.ok(getTreeWithSubscribers(updatedTree));
+    }
+
+    @Timed
+    @PutMapping("/category")
+    @PreAuthorize("@secChecker.canUpdateCategory(authentication)")
+    public ResponseEntity<CategoryDto> updateCategory(@RequestBody CategoryDto category) {
+        CategoryEntity categoryEntity = categoryMapper.toEntity(category);
+        CategoryEntity updatedCategory = categoryService.updateCategory(categoryEntity);
+        return ResponseEntity.ok(categoryMapper.toDto(updatedCategory));
     }
 
     @Timed

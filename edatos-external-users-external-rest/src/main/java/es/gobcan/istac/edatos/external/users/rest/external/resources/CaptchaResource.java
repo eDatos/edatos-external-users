@@ -7,6 +7,7 @@ import es.gobcan.istac.edatos.external.users.core.config.CaptchaConstants;
 import es.gobcan.istac.edatos.external.users.core.config.MetadataProperties;
 import es.gobcan.istac.edatos.external.users.core.errors.CaptchaClientError;
 import es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType;
+import es.gobcan.istac.edatos.external.users.core.i18n.LocaleContext;
 
 import https.www_gobiernodecanarias_org.ws.wscaptcha.service_asmx.CaptchaService;
 import https.www_gobiernodecanarias_org.ws.wscaptcha.service_asmx.CaptchaServiceSoap;
@@ -40,7 +41,7 @@ import nl.captcha.servlet.CaptchaServletUtil;
 public class CaptchaResource extends AbstractResource {
 
     public static final String BASE_URL = "/api/captcha";
-    
+
     private final Random random = new Random();
 
     @Autowired
@@ -53,7 +54,7 @@ public class CaptchaResource extends AbstractResource {
     @ResponseBody
     public ResponseEntity<Boolean> validateCaptcha(@RequestParam(required = false) String userValue, @RequestParam(required = false) String sessionKey,
             @RequestParam(required = false) String captchaAction) {
-        
+
         boolean captchaEnabled = metadataService.isCaptchaEnable();
         String captchaProvider = metadataService.getCaptchaProvider();
         if (BooleanUtils.equals(null, captchaEnabled)) {
@@ -86,7 +87,7 @@ public class CaptchaResource extends AbstractResource {
     public void drawSimpleCaptcha(HttpServletRequest request, HttpServletResponse response, @RequestParam String sessionKey,
             @RequestParam(required = false, defaultValue = "" + CaptchaConstants.CAPTCHA_SIMPLE_WIDTH) int width,
             @RequestParam(required = false, defaultValue = "" + CaptchaConstants.CAPTCHA_SIMPLE_HEIGHT) int height) {
-        
+
         Captcha captcha = new Captcha.Builder(width, height).addText().addBackground().addNoise().gimp().addBorder().build();
 
         captchaService.saveResponse(sessionKey, captcha.getAnswer());
@@ -97,7 +98,7 @@ public class CaptchaResource extends AbstractResource {
     public void drawGobcanCaptcha(HttpServletRequest request, HttpServletResponse response, @RequestParam String sessionKey,
             @RequestParam(required = false, defaultValue = "" + CaptchaConstants.CAPTCHA_GOBCAN_WIDTH) int width,
             @RequestParam(required = false, defaultValue = "" + CaptchaConstants.CAPTCHA_GOBCAN_HEIGHT) int height) {
-        
+
         response.setContentType("image/" + CaptchaConstants.CAPTCHA_GOBCAN_IMAGE_FORMAT);
 
         try {
@@ -108,7 +109,7 @@ public class CaptchaResource extends AbstractResource {
             int operandInt2 = Integer.parseInt(String.valueOf(operandChar2));
 
             char operator = CAPTCHA_GOBCAN_OPERATORS[random.nextInt((CAPTCHA_GOBCAN_OPERATORS.length))];
-            
+
             String keyword = "";
             int result = 0;
             if (operator == '+') {
@@ -134,7 +135,7 @@ public class CaptchaResource extends AbstractResource {
             byte[] imgCaptcha = captchaServ.captchaImage1(width, height, keyword, CaptchaConstants.CAPTCHA_GOBCAN_FONTNAME, 45f);
             CaptchaServletUtil.writeImage(response, ImageIO.read(new ByteArrayInputStream(imgCaptcha)));
 
-            captchaService.saveResponse(sessionKey, String.valueOf(result));            
+            captchaService.saveResponse(sessionKey, String.valueOf(result));
         } catch (Exception e) {
             throw new EDatosException(ServiceExceptionType.GENERIC_ERROR);
         }
@@ -146,7 +147,7 @@ public class CaptchaResource extends AbstractResource {
         String captchaProvider = metadataService.getCaptchaProvider();
         boolean captchaEnable = metadataService.isCaptchaEnable();
         model.addAttribute(CaptchaConstants.CAPTCHA_ENABLED_MODEL_ATTR, captchaEnable);
-        
+
         UriBuilder captchaPictureUri = UriBuilder.fromUri(metadataService.getCaptchaUrl());
         if (CaptchaConstants.CAPTCHA_PROVIDER_SIMPLE.equals(captchaProvider)) {
             model.addAttribute(CaptchaConstants.CAPTCHA_PICTURE_MODEL_ATTR, captchaPictureUri.path("/picture/simple").build().toString());
@@ -157,6 +158,7 @@ public class CaptchaResource extends AbstractResource {
         } else if(CaptchaConstants.CAPTCHA_PROVIDER_RECAPTCHA.equals(captchaProvider)) {
             String recaptchaSiteKey = metadataService.getRecaptchaSiteKey();
             model.addAttribute(CaptchaConstants.RECAPTCHA_SITE_KEY_MODEL_ATTR, recaptchaSiteKey);
+            model.addAttribute("locale", LocaleContext.getLocale() == null ? LocaleContext.getDefaultLocale().toString() : LocaleContext.getLocale().toString());
             return "authentication-recaptcha";
         }
         return null;

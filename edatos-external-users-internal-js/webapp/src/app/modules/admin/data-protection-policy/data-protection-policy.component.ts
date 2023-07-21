@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DataProtectionPolicy } from '@app/shared/model';
 import { TranslateService } from '@ngx-translate/core';
 import { DataProtectionPolicyService } from './data-protection-policy.service';
+import { shareReplay } from "rxjs/operators";
+import { LanguageService } from "@app/shared/service";
 
 @Component({
     selector: 'app-data-protection-policy',
@@ -16,7 +18,7 @@ export class DataProtectionPolicyComponent {
     public locales: string[] = [];
     public locale = '';
 
-    constructor(route: ActivatedRoute, private router: Router, private dataProtectionPolicyService: DataProtectionPolicyService, translateService: TranslateService) {
+    constructor(route: ActivatedRoute, private router: Router, private dataProtectionPolicyService: DataProtectionPolicyService, translateService: TranslateService, languageService: LanguageService) {
         this.locale = translateService.getDefaultLang();
         if (route.snapshot.url.length !== 0) {
             const lastPath = route.snapshot.url[route.snapshot.url.length - 1].path;
@@ -25,8 +27,12 @@ export class DataProtectionPolicyComponent {
 
         this.dataProtectionPolicyService.getDataProtectionPolicy().subscribe((dataProtectionPolicy) => {
             this.dataProtectionPolicy = dataProtectionPolicy;
-            this.locales = this.dataProtectionPolicy.value.texts.map((text) => text.locale).sort((a, b) => (a < b ? -1 : +(a > b)));
         });
+
+        languageService
+            .getAllowed()
+            .pipe(shareReplay({ bufferSize: 1, refCount: true }))
+            .subscribe((languages) => (this.locales = languages));
     }
 
     public clear() {
