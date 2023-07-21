@@ -3,8 +3,8 @@ package es.gobcan.istac.edatos.external.users.rest.internal.conf;
 import es.gobcan.istac.edatos.external.users.core.config.Constants;
 import es.gobcan.istac.edatos.external.users.core.config.MetadataProperties;
 import es.gobcan.istac.edatos.external.users.core.i18n.LocaleContext;
+import org.siemac.edatos.core.common.util.shared.StringUtils;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -28,9 +28,9 @@ public class LocaleConfiguration extends WebMvcConfigurerAdapter {
 
         @Override
         public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-            String requestLocale = request.getLocale().getLanguage() == null ? null : request.getLocale().getLanguage().replaceFirst("_.*", "");
+            String requestLocale = request.getLocale().getLanguage() == null ? null : StringUtils.substring(request.getLocale().getLanguage(), 0, 2);
             if (request.getHeader(ACCEPT_LANGUAGE_HEADER) != null && requestLocale != null && isValidLang(requestLocale)) {
-                LocaleContext.setLocale(LocaleContextHolder.getLocale());
+                LocaleContext.setLocale(Locale.forLanguageTag(requestLocale));
             }
 
             LocaleContext.setDefaultLocale(Locale.forLanguageTag(metadataProperties.getDefaultLanguage()));
