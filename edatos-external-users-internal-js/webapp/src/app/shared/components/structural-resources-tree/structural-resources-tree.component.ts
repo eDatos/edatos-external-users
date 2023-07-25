@@ -256,7 +256,7 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
             }
             this.enableEditButtons();
         }
-        node.editMode = null;
+        this.closeEditDialog(node);
     }
 
     public editNodeName(node: CategoryTreeNode) {
@@ -271,7 +271,7 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
         if (node.data instanceof Category) {
             node.data.externalCategories = selectedResources;
         }
-        node.editMode = null;
+        this.closeEditDialog(node);
         this.updateTree();
     }
 
@@ -331,13 +331,17 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
         this.categoryService
             .updateCategory({...category.data, name} as Category)
             .subscribe({
-                next: (tree) => {
+                next: (savedCategory) => {
+                    this.closeEditDialog(category);
                     this.enableEditButtons();
-                    category.editMode = null;
-                    this.setNodeNameFromInternationalString(category, name);
+                    this.updateCategoryTreeNode(category, savedCategory);
                 },
                 error: () => this.enableEditButtons()
             });
+    }
+
+    private closeEditDialog(categoryTreeNode: CategoryTreeNode) {
+        categoryTreeNode.editMode = null;
     }
 
     private enableEditButtons() {
@@ -348,9 +352,9 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
         this.isNodeSaving = true;
     }
 
-    private setNodeNameFromInternationalString(node: CategoryTreeNode, name: InternationalString) {
-        node.data.name = name;
-        node.label = name.val;
+    private updateCategoryTreeNode(node: CategoryTreeNode, category: Category) {
+        node.data = category;
+        node.label = node.data.name.val;
     }
 
     private categoryListToCategoryTree(categories: Category[]): Observable<CategoryTreeNode[]> {

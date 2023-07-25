@@ -106,7 +106,10 @@ public class CategoryServiceImpl implements CategoryService {
         CategoryEntity databaseEntity = categoryRepository.findOne(category.getId());
         category.setParent(databaseEntity == null ? null : databaseEntity.getParent());
 
-        return categoryRepository.save(category);
+        CategoryEntity saved = categoryRepository.save(category);
+        entityManager.flush();
+        entityManager.refresh(saved);
+        return saved;
     }
 
     @Override
