@@ -202,6 +202,7 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
             children: [],
             selectable: !this.disabled,
             editMode: null,
+            parent: parent
         };
         if (parent) {
             if (!parent.children) {
@@ -246,7 +247,11 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
 
     public saveNodeName(node: CategoryTreeNode, name: InternationalString) {
         this.disableEditButtons();
-        this.updateCategoryName(node, name);
+        if (node.data.id) {
+            this.updateCategoryName(node, name);
+        } else {
+            this.createCategoryName(node, name);
+        }
     }
 
     public cancelNodeEdit(node: CategoryTreeNode) {
@@ -329,7 +334,20 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
 
     private updateCategoryName(category: CategoryTreeNode, name: InternationalString) {
         this.categoryService
-            .updateCategory({...category.data, name} as Category)
+            .updateCategory({...category.data, parentId: category.parent?.data?.id, name} as Category)
+            .subscribe({
+                next: (savedCategory) => {
+                    this.closeEditDialog(category);
+                    this.enableEditButtons();
+                    this.updateCategoryTreeNode(category, savedCategory);
+                },
+                error: () => this.enableEditButtons()
+            });
+    }
+
+    private createCategoryName(category: CategoryTreeNode, name: InternationalString) {
+        this.categoryService
+            .createCategory({...category.data, parentId: category.parent?.data?.id, name} as Category)
             .subscribe({
                 next: (savedCategory) => {
                     this.closeEditDialog(category);
@@ -357,11 +375,12 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
         node.label = node.data.name.val;
     }
 
-    private categoryListToCategoryTree(categories: Category[]): Observable<CategoryTreeNode[]> {
+    private categoryListToCategoryTree(categories: Category[], parent?: Category): Observable<CategoryTreeNode[]> {
         return of(
             categories?.map((category) => {
+                category.parentId = parent?.id;
                 const children: CategoryTreeNode[] = [];
-                this.categoryListToCategoryTree(category.children).subscribe((treeNodes) => {
+                this.categoryListToCategoryTree(category.children, category).subscribe((treeNodes) => {
                     children.push(...treeNodes);
                 });
                 if (this.mode !== 'edit') {

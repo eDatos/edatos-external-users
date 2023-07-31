@@ -101,15 +101,17 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryEntity updateCategory(CategoryEntity category) {
+        return this.saveCategory(category);
+    }
+
+    @Override
+    public CategoryEntity createCategory(CategoryEntity category) {
+        return this.saveCategory(category);
+    }
+
+    private CategoryEntity saveCategory(CategoryEntity category) {
         categoryValidator.checkMandatoryLanguageIsSetInCategoryName(category);
-
-        CategoryEntity databaseEntity = categoryRepository.findOne(category.getId());
-        category.setParent(databaseEntity == null ? null : databaseEntity.getParent());
-
-        CategoryEntity saved = categoryRepository.save(category);
-        entityManager.flush();
-        entityManager.refresh(saved);
-        return saved;
+        return categoryRepository.saveAndFlush(category);
     }
 
     @Override
