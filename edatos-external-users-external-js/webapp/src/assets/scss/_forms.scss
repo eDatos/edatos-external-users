@@ -1,9 +1,15 @@
 /* BEGIN FORMULARIO */
 
 @keyframes animate-border-color {
-    0%   { border-color: transparent; }
-    65%  { border-color: black; }
-    100% { border-color: #c4c4c4; }
+    0% {
+        border-color: transparent;
+    }
+    65% {
+        border-color: black;
+    }
+    100% {
+        border-color: #c4c4c4;
+    }
 }
 
 fieldset:enabled {
@@ -50,8 +56,8 @@ fieldset:enabled {
     .form-row {
         // TODO: actualzar el uso de form-group-inline y quitar
         width: 100%;
-        width: -moz-available;          /* WebKit-based browsers will ignore this. */
-        width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
+        width: -moz-available; /* WebKit-based browsers will ignore this. */
+        width: -webkit-fill-available; /* Mozilla-based browsers will ignore this. */
 
     }
 
@@ -70,17 +76,23 @@ fieldset:enabled {
             animation: animate-border-color 0.15s forwards;
         }
     }
+
     /* END PRIMENG */
 }
 
 .form-input-container {
     position: relative;
+
     &:focus-within,
     &.errors-on-hover:hover {
         .form-errors-messages {
             opacity: 1;
             visibility: visible;
         }
+    }
+
+    input, li {
+        font-size: initial !important;
     }
 }
 
@@ -99,6 +111,7 @@ fieldset:enabled {
     visibility: hidden;
     transition: opacity ease-in-out 0.3s;
     z-index: 1;
+
     &:after {
         content: '';
         position: absolute;
@@ -118,6 +131,7 @@ fieldset:enabled {
         transform: translateX(-50%);
         margin: 0;
         margin-bottom: 5px;
+
         &:after {
             left: 50%;
             transform: translateX(-50%);
@@ -127,4 +141,5 @@ fieldset:enabled {
         }
     }
 }
+
 /* END FORMULARIO */
