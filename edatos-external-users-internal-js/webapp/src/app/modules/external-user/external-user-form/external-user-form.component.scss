@@ -29,3 +29,11 @@ h3.button-tree {
 .divider {
     margin-bottom: 30px;
 }
+
+:host ::ng-deep arte-autocomplete-short-list span > input,
+:host ::ng-deep arte-autocomplete-short-list li,
+:host ::ng-deep arte-autocomplete-enum span > input,
+:host ::ng-deep arte-autocomplete-enum li {
+    font-size: initial !important;
+}
+

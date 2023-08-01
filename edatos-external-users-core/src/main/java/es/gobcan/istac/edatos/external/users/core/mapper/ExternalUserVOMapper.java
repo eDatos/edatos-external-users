@@ -1,5 +1,6 @@
 package es.gobcan.istac.edatos.external.users.core.mapper;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 import es.gobcan.istac.edatos.external.users.core.i18n.LocaleContext;
@@ -28,6 +29,7 @@ public abstract class ExternalUserVOMapper {
 
     @Mapping(target = "gender", source = "entity", qualifiedByName = "getGender")
     @Mapping(target = "nationality", source = "entity", qualifiedByName = "getNationality")
+    @Mapping(target = "birthday", source = "entity", qualifiedByName = "formatBirthday")
     public abstract ExternalUserVO toDto(ExternalUserEntity entity);
 
     @Named("getGender")
@@ -75,5 +77,12 @@ public abstract class ExternalUserVOMapper {
         return null;
     }
 
+    @Named("formatBirthday")
+    public String formatBirthday(ExternalUserEntity entity) {
+        if (entity.getBirthday() != null) {
+            return DateTimeFormatter.ofPattern("dd/MM/yyyy").format(entity.getBirthday());
+        }
+        return null;
+    }
 
 }
