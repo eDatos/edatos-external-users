@@ -16,7 +16,7 @@ export class User extends BaseVersionedAndAuditingWithDeletionEntity {
     public roles?: any[];
     public gender?: string;
     public nationality?: string;
-    public birthday?: Date;
+    public birthday?: string;
     public dataProtectionPolicyId?: number;
 
     constructor(
@@ -33,7 +33,7 @@ export class User extends BaseVersionedAndAuditingWithDeletionEntity {
         roles?: any[],
         gender?: string,
         nationality?: string,
-        birthday?: Date,
+        birthday?: string,
         dataProtectionPolicyId?: number
     ) {
         super();
