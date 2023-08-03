@@ -23,7 +23,7 @@ public class ExternalUserDto extends AbstractVersionedAndAuditingAndLogicalDelet
 
     private String nationality;
     private String gender;
-    private LocalDate birthday;
+    private String birthday;
     private DataProtectionPolicyDto dataProtectionPolicyDto;
 
     public String getName() {
@@ -110,10 +110,10 @@ public class ExternalUserDto extends AbstractVersionedAndAuditingAndLogicalDelet
     public void setGender(String gender) {
         this.gender = gender;
     }
-    public LocalDate getBirthday() {
+    public String getBirthday() {
         return birthday;
     }
-    public void setBirthday(LocalDate birthday) {
+    public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
     public DataProtectionPolicyDto getDataProtectionPolicyDto() {

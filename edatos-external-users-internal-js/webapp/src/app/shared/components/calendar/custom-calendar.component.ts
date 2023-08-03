@@ -25,7 +25,6 @@ export class CustomCalendarComponent extends Calendar implements ControlValueAcc
 
     public set date(value) {
         this._date = value;
-        this._date?.setHours(1);
         this.onModelChange(this._date);
     }
 
@@ -73,8 +72,7 @@ export class CustomCalendarComponent extends Calendar implements ControlValueAcc
         super(el, renderer, cd, zone);
     }
 
-    public onModelTouched: (any?) => void = () => {
-    };
+    public onModelTouched: (any?) => void = () => {};
 
     public onSelectMethod($event) {
         this.onSelect.emit($event);
@@ -97,7 +95,7 @@ export class CustomCalendarComponent extends Calendar implements ControlValueAcc
     }
 
     public writeValue(value: any): void {
-        this._date = value ? new Date(value) : undefined;
+        this._date = value ? value : undefined;
     }
 
     public ngOnInit() {
