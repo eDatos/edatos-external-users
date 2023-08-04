@@ -102,18 +102,6 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     }
 
     private String getCookiePath() {
-        if (org.apache.commons.lang3.StringUtils.isBlank(metadataProperties.getExternalAppUrl())) {
-            return ROOT_PATH;
-        }
-
-        UriComponents uriComponents = UriComponentsBuilder.fromHttpUrl(metadataProperties.getExternalAppUrl()).build();
-        String path = uriComponents.getPath();
-
-        if (org.apache.commons.lang3.StringUtils.isBlank(path)) {
-            return ROOT_PATH;
-        }
-
-        return StringUtils.prependIfMissing(path, ROOT_PATH);
+        return ROOT_PATH;
     }
-
 }
