@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.UriBuilder;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.net.URLEncoder;
 
 @Controller
@@ -32,10 +35,13 @@ public class AuthenticationResource {
     @GetMapping("/api/authenticate")
     @ResponseStatus(HttpStatus.FOUND)
     public ResponseEntity<Void> authenticate(@RequestParam String origin, @RequestParam(required = false, defaultValue = "false") boolean force,
-        @CookieValue(value = "authenticationtoken", required = false) String token) throws UnsupportedEncodingException {
+        @CookieValue(value = "authenticationtoken", required = false) String token, HttpServletRequest request) throws UnsupportedEncodingException, MalformedURLException {
+
+        URL endpointURL = new URL(request.getRequestURL().toString());
+        String externalUsersDomain = endpointURL.getProtocol() + "://" + endpointURL.getAuthority();
 
         String location;
-        if (metadataProperties.getAllowedOrigins().stream().noneMatch(origin::startsWith)) {
+        if (!origin.startsWith(externalUsersDomain) && metadataProperties.getAllowedOrigins().stream().noneMatch(origin::startsWith)) {
             location = origin;
         } else if (StringUtils.isNotBlank(token) && !disabledTokenService.exists(token)) {
             location = UriBuilder.fromUri(origin).queryParam("token", token).build().toString();
