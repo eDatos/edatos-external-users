@@ -6,9 +6,10 @@
     100% { border-color: #c4c4c4; }
 }
 
-fieldset:enabled {
+fieldset:enabled, .single-language-editor, .language-input-list {
     .form-group.required label.form-label,
-    label.form-label.required {
+    label.form-label.required,
+    h3.required {
         &:after {
             content: '*';
             display: inline-block;
@@ -55,7 +56,7 @@ fieldset:enabled {
         min-height: 40px;
         background: none !important;
         border-bottom: 2px solid transparent;
-        
+
         &:enabled:hover {
             animation: animate-border-color 0.15s forwards;
         }

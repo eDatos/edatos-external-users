@@ -10,6 +10,9 @@
             "nombre.placeholder": "El seu nom"
         },
         "messages": {
+            "default": {
+                "title": "Error"
+            },
             "error": {
                 "emailexists": "<strong>¡L'adreça de correu electrònic ja existeix!</strong> Si us plau, triï una altra.",
                 "fail": "<strong>¡Ha ocorregut un error!</strong> Els ajustos no s'han pogut guardar."
@@ -314,6 +317,9 @@
         }
     },
     "error": {
+        "default": {
+            "title": "Error"
+        },
         "403": {
             "detail": "Ho sentim, no té permisos per a accedir a la pàgina.",
             "title": "Error 403"
@@ -392,6 +398,8 @@
             "title": "Usuari"
         },
         "email": "Email",
+        "organism": "Organisme",
+        "phoneNumber": "Número telèfon",
         "enableEmailNotifications": "Habilitar notificacions a través de correu electrònic per a aquest usuari",
         "filters": {
             "labels": {
@@ -455,7 +463,10 @@
         },
         "surname1": "Primer cognom",
         "surname2": "Segon cognom",
-        "updated": "S'ha actualitzat l'usuari {{ param }}"
+        "updated": "S'ha actualitzat l'usuari {{ param }}",
+        "gender": "Gènere",
+        "nationality": "Nacionalitat",
+        "birthday": "Data de naixement"
     },
     "family": {
         "acronym": {
@@ -625,8 +636,11 @@
             "cas": "CAS",
             "db": "Base de dades",
             "diskSpace": "Espai en disc",
+            "kafka": "Kafka",
             "ldap": "LDAP",
-            "mail": "Email"
+            "mail": "Email",
+            "noticesInternal": "Gestor de notificacions",
+            "structuralResourcesExternal": "Gestor de recursos estructurals"
         },
         "refresh.button": "Refrescar",
         "stacktrace": "Traça",
@@ -784,6 +798,31 @@
         "message": {
             "onSuccessSumary": "Notificació enviada",
             "onSuccess": "La notificació s'ha enviat correctament."
+        }
+    },
+    "calendar": {
+        "monthNames": {
+            "january": "Gener",
+            "february": "Fabrer",
+            "march": "Març",
+            "april": "Abril",
+            "may": "Maig",
+            "june": "Juny",
+            "july": "Juliol",
+            "august": "Agost",
+            "september": "Setembre",
+            "october": "Octubre",
+            "november": "Novembre",
+            "december": "Desembre"
+        },
+        "dayNamesMin": {
+            "monday": "Dl",
+            "tuesday": "Dt",
+            "wednesday": "Dc",
+            "thursday": "Dj",
+            "friday": "Dv",
+            "saturday": "Ds",
+            "sunday": "Dg"
         }
     }
 }

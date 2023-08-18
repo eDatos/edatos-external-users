@@ -40,7 +40,7 @@ public class ExternalCategoryServiceImpl implements ExternalCategoryService {
     @Cacheable(cacheManager = "requestScopedCacheManager", cacheNames = "externalCategories")
     public List<ExternalCategoryEntity> requestAllExternalCategories() {
         LOG.info("Making request to Structural Resources Manager to GET all the categories");
-        Categories categories = eDatosApisLocator.srmExternal().findCategories("~all", "~all", "~all", null, null, LIMIT, null);
+        Categories categories = eDatosApisLocator.srmExternal().findCategories("~all", "~all", "~all", null, null, LIMIT, null, null);
         return itemResourceMapper.toExternalCategoryEntities(categories);
     }
 
@@ -51,8 +51,8 @@ public class ExternalCategoryServiceImpl implements ExternalCategoryService {
         if (pageable.getSort() != null) {
             sort = pageable.getSort().toString().replace(": ", " ");
         }
-        Categories categories = eDatosApisLocator.srmExternal().findCategories("~all", "~all", "~all", getQuery(search), sort,
-                String.valueOf(pageable.getPageSize()), String.valueOf(pageable.getOffset()));
+        Categories categories = eDatosApisLocator.srmExternal().findCategories("~all", "~all", "~all", getQuery(search), sort, String.valueOf(pageable.getPageSize()),
+                String.valueOf(pageable.getOffset()), null);
         List<ExternalCategoryEntity> externalCategories = itemResourceMapper.toExternalCategoryEntities(categories);
         return new PageImpl<>(externalCategories, pageable, categories.getTotal().longValue());
     }

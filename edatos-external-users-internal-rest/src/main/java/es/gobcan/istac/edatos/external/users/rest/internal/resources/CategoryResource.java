@@ -5,19 +5,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.siemac.edatos.core.common.exception.CommonServiceExceptionType;
+import org.siemac.edatos.core.common.exception.EDatosException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.codahale.metrics.annotation.Timed;
 
@@ -107,10 +102,36 @@ public class CategoryResource extends AbstractResource {
     @Timed
     @PutMapping("/tree")
     @PreAuthorize("@secChecker.canUpdateCategory(authentication)")
-    public ResponseEntity<List<CategoryDto>> updateCategory(@RequestBody List<CategoryDto> category) {
+    public ResponseEntity<List<CategoryDto>> updateCategoryTree(@RequestBody List<CategoryDto> category) {
         List<CategoryEntity> categoryEntity = categoryMapper.toEntities(category);
         List<CategoryEntity> updatedTree = categoryService.updateTree(categoryEntity);
         return ResponseEntity.ok(getTreeWithSubscribers(updatedTree));
+    }
+
+    @Timed
+    @PutMapping("/category")
+    @PreAuthorize("@secChecker.canUpdateCategory(authentication)")
+    public ResponseEntity<CategoryDto> updateCategory(@RequestBody CategoryDto category) {
+        if (category == null || category.getId() == null) {
+            throw new EDatosException(CommonServiceExceptionType.PARAMETER_REQUIRED, "id");
+        }
+
+        CategoryEntity categoryEntity = categoryMapper.toEntity(category);
+        CategoryEntity updatedCategory = categoryService.updateCategory(categoryEntity);
+        return ResponseEntity.ok(categoryMapper.toDto(updatedCategory));
+    }
+
+    @Timed
+    @PostMapping("/category")
+    @PreAuthorize("@secChecker.canCreateCategory(authentication)")
+    public ResponseEntity<CategoryDto> createCategory(@RequestBody CategoryDto category) {
+        if (category != null && category.getId() != null) {
+            throw new EDatosException(CommonServiceExceptionType.PARAMETER_UNEXPECTED, "id");
+        }
+
+        CategoryEntity categoryEntity = categoryMapper.toEntity(category);
+        CategoryEntity updatedCategory = categoryService.createCategory(categoryEntity);
+        return ResponseEntity.ok(categoryMapper.toDto(updatedCategory));
     }
 
     @Timed

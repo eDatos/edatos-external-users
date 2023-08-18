@@ -1,9 +1,6 @@
 package es.gobcan.istac.edatos.external.users.core.service.validator;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.siemac.edatos.core.common.exception.EDatosException;
@@ -17,9 +14,11 @@ import es.gobcan.istac.edatos.external.users.core.service.FavoriteService;
 public class CategoryValidator extends AbstractValidator<CategoryEntity> {
 
     private final FavoriteService favoriteService;
+    private final InternationalStringValidator internationalStringValidator;
 
-    public CategoryValidator(FavoriteService favoriteService) {
+    public CategoryValidator(FavoriteService favoriteService, InternationalStringValidator internationalStringValidator) {
         this.favoriteService = favoriteService;
+        this.internationalStringValidator = internationalStringValidator;
     }
 
     public void checkCategoriesWithSubscribers(CategoryEntity category) {
@@ -43,5 +42,19 @@ public class CategoryValidator extends AbstractValidator<CategoryEntity> {
                 throw new EDatosException(ServiceExceptionType.CANNOT_DELETE_CATEGORY_IF_IT_HAS_SUBSCRIBERS);
             }
         }
+    }
+
+    public void checkMandatoryLanguageIsSetInCategoriesNames(List<CategoryEntity> tree) {
+        try {
+            for (CategoryEntity category : tree) {
+                internationalStringValidator.checkMandatoryLanguageIsSet(category.getName());
+            }
+        } catch (EDatosException exception) {
+            throw new EDatosException(ServiceExceptionType.CANNOT_UPDATE_CATEGORY_TREE_IF_MISSING_DEFAULT_TRANSLATION, exception.getExceptionItems().get(0).getMessageParameters());
+        }
+    }
+
+    public void checkMandatoryLanguageIsSetInCategoryName(CategoryEntity category) {
+        internationalStringValidator.checkMandatoryLanguageIsSet(category.getName());
     }
 }

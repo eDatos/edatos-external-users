@@ -1,39 +1,54 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Language } from '@app/core/model';
+import { Language, User } from '@app/core/model';
 import { AccountUserService } from '@app/core/service/user';
 import { TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
+import { CodelistService } from '@app/shared/service';
+import { ItemCode } from '@app/shared';
 
 @Component({
     selector: 'ac-account-management',
     templateUrl: './account-management.component.html',
+    styleUrls: ['./account-management.component.scss']
 })
 export class AccountManagementComponent implements OnInit {
     error: string;
     success: string;
     public isSaving: Boolean;
-    public account: any;
+    public account: User;
+
+    public nationality: ItemCode;
+    public gender: ItemCode;
 
     public languageEnum = Language;
+
+    public countries: ItemCode[] = [];
+    public genders: ItemCode[] = [];
 
     public downloadingPdf = false;
 
     constructor(
         private userService: AccountUserService,
+        private codeListService: CodelistService,
         private route: ActivatedRoute,
         private router: Router,
         private messageService: MessageService,
         private translateService: TranslateService
-    ) {}
+    ) {
+    }
 
     ngOnInit() {
         this.isSaving = false;
         this.account = this.route.snapshot.data.user;
+        this.getNationalities(this.account.nationality);
+        this.getGenders(this.account.gender);
     }
 
     public save() {
         this.isSaving = true;
+        this.account.nationality = this.nationality ? this.nationality.id : null;
+        this.account.gender = this.gender ? this.gender.id : null;
         this.userService.update(this.account).subscribe(
             () => {
                 this.onSuccess();
@@ -51,6 +66,7 @@ export class AccountManagementComponent implements OnInit {
         this.router.navigate(returnPath);
     }
 
+
     public isEditMode(): Boolean {
         if (this.route.snapshot.url.length == 0) {
             return false;
@@ -65,7 +81,7 @@ export class AccountManagementComponent implements OnInit {
             severity: 'success',
             summary: this.translateService.instant('account.messages.onSuccessSumary'),
             detail: this.translateService.instant('account.messages.onSuccess'),
-            life: 5000,
+            life: 5000
         });
         this.error = null;
         this.success = 'OK';
@@ -83,9 +99,33 @@ export class AccountManagementComponent implements OnInit {
                     severity: 'error',
                     summary: this.translateService.instant('signup.document.onErrorDownload.label'),
                     detail: this.translateService.instant('signup.document.onErrorDownload.detail'),
-                    life: 5000,
+                    life: 5000
                 }),
             () => (this.downloadingPdf = false)
         );
+    }
+
+    private getNationalities(code?: any) {
+        this.codeListService.findAllCountries().subscribe((response) => {
+            this.countries = response;
+        });
+
+        if (code) {
+            this.codeListService.findNationality(code).subscribe((response) => {
+                this.nationality = response;
+            });
+        }
+    }
+
+    private getGenders(code?: any) {
+        this.codeListService.findAllGenders().subscribe((response) => {
+            this.genders = response;
+        });
+
+        if (code) {
+            this.codeListService.findGender(code).subscribe((response) => {
+                this.gender = response;
+            });
+        }
     }
 }

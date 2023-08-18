@@ -35,6 +35,10 @@ public class ApplicationTemplateSecurity {
         return isAdmin(authentication) || isManager(authentication);
     }
 
+    public boolean canCreateCategory(Authentication authentication) {
+        return isAdmin(authentication) || isManager(authentication);
+    }
+
     public boolean canDeleteCategory(Authentication authentication) {
         return isAdmin(authentication) || isManager(authentication);
     }

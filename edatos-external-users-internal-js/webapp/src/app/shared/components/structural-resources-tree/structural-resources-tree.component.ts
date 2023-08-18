@@ -98,6 +98,7 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
     public allowedLanguages: string[];
     public clickedDelete: boolean;
 
+    public isNodeSaving = false;
     public loading = false;
     private iterableDiffer: IterableDiffer<Favorite>;
     private nodeList: CategoryTreeNode[] = [];
@@ -201,6 +202,7 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
             children: [],
             selectable: !this.disabled,
             editMode: null,
+            parent: parent
         };
         if (parent) {
             if (!parent.children) {
@@ -244,16 +246,22 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
     }
 
     public saveNodeName(node: CategoryTreeNode, name: InternationalString) {
-        this.setNodeNameFromInternationalString(node, name);
-        this.disableNodeEdit(node);
-        this.updateTree();
+        this.disableEditButtons();
+        if (node.data.id) {
+            this.updateCategoryName(node, name);
+        } else {
+            this.createCategoryName(node, name);
+        }
     }
 
-    public disableNodeEdit(node: CategoryTreeNode) {
-        if (node.data.name.isEmptyOrBlank()) {
-            this.deleteNode(node);
+    public cancelNodeEdit(node: CategoryTreeNode) {
+        if (node.editMode === 'name') {
+            if (node.data.name.isEmptyOrBlank()) {
+                this.deleteNode(node);
+            }
+            this.enableEditButtons();
         }
-        node.editMode = null;
+        this.closeEditDialog(node);
     }
 
     public editNodeName(node: CategoryTreeNode) {
@@ -268,7 +276,7 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
         if (node.data instanceof Category) {
             node.data.externalCategories = selectedResources;
         }
-        node.editMode = null;
+        this.closeEditDialog(node);
         this.updateTree();
     }
 
@@ -320,21 +328,59 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
             .updateTree(this.tree.map((node) => node.data as Category))
             .pipe(finalize(() => (this.loading = false)))
             .subscribe({
-                next: (tree) => this.createTree(tree),
-                error: () => this.ngOnInit(),
+                next: (tree) => this.createTree(tree)
             });
     }
 
-    private setNodeNameFromInternationalString(node: CategoryTreeNode, name: InternationalString) {
-        node.data.name = name;
-        node.label = name.val;
+    private updateCategoryName(category: CategoryTreeNode, name: InternationalString) {
+        this.categoryService
+            .updateCategory({...category.data, parentId: category.parent?.data?.id, name} as Category)
+            .subscribe({
+                next: (savedCategory) => {
+                    this.closeEditDialog(category);
+                    this.enableEditButtons();
+                    this.updateCategoryTreeNode(category, savedCategory);
+                },
+                error: () => this.enableEditButtons()
+            });
     }
 
-    private categoryListToCategoryTree(categories: Category[]): Observable<CategoryTreeNode[]> {
+    private createCategoryName(category: CategoryTreeNode, name: InternationalString) {
+        this.categoryService
+            .createCategory({...category.data, parentId: category.parent?.data?.id, name} as Category)
+            .subscribe({
+                next: (savedCategory) => {
+                    this.closeEditDialog(category);
+                    this.enableEditButtons();
+                    this.updateCategoryTreeNode(category, savedCategory);
+                },
+                error: () => this.enableEditButtons()
+            });
+    }
+
+    private closeEditDialog(categoryTreeNode: CategoryTreeNode) {
+        categoryTreeNode.editMode = null;
+    }
+
+    private enableEditButtons() {
+        this.isNodeSaving = false;
+    }
+
+    private disableEditButtons() {
+        this.isNodeSaving = true;
+    }
+
+    private updateCategoryTreeNode(node: CategoryTreeNode, category: Category) {
+        node.data = category;
+        node.label = node.data.name.val;
+    }
+
+    private categoryListToCategoryTree(categories: Category[], parent?: Category): Observable<CategoryTreeNode[]> {
         return of(
             categories?.map((category) => {
+                category.parentId = parent?.id;
                 const children: CategoryTreeNode[] = [];
-                this.categoryListToCategoryTree(category.children).subscribe((treeNodes) => {
+                this.categoryListToCategoryTree(category.children, category).subscribe((treeNodes) => {
                     children.push(...treeNodes);
                 });
                 if (this.mode !== 'edit') {

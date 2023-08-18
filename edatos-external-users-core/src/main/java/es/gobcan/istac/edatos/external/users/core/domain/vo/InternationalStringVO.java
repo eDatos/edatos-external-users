@@ -1,5 +1,7 @@
 package es.gobcan.istac.edatos.external.users.core.domain.vo;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
@@ -25,28 +27,34 @@ public class InternationalStringVO implements Serializable {
         getTexts().clear();
     }
 
-    public LocalisedStringVO getLocalisedLabelEntity(String locale) {
+    public LocalisedStringVO getLocalisedLabelEntity(String locale, String defaultLocale) {
         if (locale == null) {
             return null;
         }
+        LocalisedStringVO defaultLocaleEntity = null;
         for (LocalisedStringVO localstr : getTexts()) {
-            if (locale.equalsIgnoreCase(localstr.getLocale())) {
+            if (locale.equalsIgnoreCase(localstr.getLocale()) && (StringUtils.isNotBlank(localstr.getLabel()) || defaultLocale == null)) {
                 return localstr;
+            } else if (defaultLocale != null && defaultLocale.equalsIgnoreCase(localstr.getLocale())) {
+                defaultLocaleEntity = localstr;
             }
         }
-        return null;
+        return defaultLocaleEntity;
     }
 
-    public String getLocalisedLabel(String locale) {
+    public String getLocalisedLabel(String locale, String defaultLocale) {
         if (locale == null) {
             return null;
         }
+        String defaultLocaleLabel = null;
         for (LocalisedStringVO localstr : getTexts()) {
-            if (locale.equalsIgnoreCase(localstr.getLocale())) {
+            if (locale.equalsIgnoreCase(localstr.getLocale()) && (StringUtils.isNotBlank(localstr.getLabel()) || defaultLocale == null)) {
                 return localstr.getLabel();
+            } else if (defaultLocale != null && defaultLocale.equalsIgnoreCase(localstr.getLocale())) {
+                defaultLocaleLabel = localstr.getLabel();
             }
         }
-        return null;
+        return defaultLocaleLabel;
     }
 
     @Override

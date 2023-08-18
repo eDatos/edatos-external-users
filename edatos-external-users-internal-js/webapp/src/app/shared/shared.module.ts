@@ -2,6 +2,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { CustomCalendarComponent } from '@app/shared/components/calendar/custom-calendar.component';
 import { StructuralResourcesTreeModule } from '@app/shared/components/structural-resources-tree';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -99,8 +100,9 @@ import { MultiLanguageEditorComponent } from './components/multi-language-editor
         StructuralResourcesTreeModule,
         AppAuditInfoComponent,
         MultiLanguageEditorComponent,
+        CustomCalendarComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    declarations: [AppAuditInfoComponent, MultiLanguageEditorComponent],
+    declarations: [AppAuditInfoComponent, MultiLanguageEditorComponent, CustomCalendarComponent],
 })
 export class SharedModule {}

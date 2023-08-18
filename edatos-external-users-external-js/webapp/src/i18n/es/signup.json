@@ -15,8 +15,12 @@
             "organism": "Organismo",
             "enableEmailNotifications": "Habilitar notificaciones a través de correo electrónico",
             "captchaModal": "Resuelva el captcha para terminar el registro",
+            "gender": "Género",
+            "nationality": "Nacionalidad",
+            "birthday": "Fecha nacimiento",
             "termsAndConditions": "Acepto términos y condiciones"
         },
+
         "messages": {
             "onSuccessSumary": "Registro de nuevo usuario",
             "onSuccess": "El usuario se ha registrado con éxito",

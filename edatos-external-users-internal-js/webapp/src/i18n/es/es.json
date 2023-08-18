@@ -10,6 +10,9 @@
             "nombre.placeholder": "Su nombre"
         },
         "messages": {
+            "default": {
+                "title": "Error"
+            },
             "error": {
                 "emailexists": "<strong>¡La dirección de correo ya existe!</strong> Por favor, escoja otra.",
                 "fail": "<strong>¡Ha ocurrido un error!</strong> Los ajustes no se han podido guardar."
@@ -314,6 +317,9 @@
         }
     },
     "error": {
+        "default": {
+            "title": "Error"
+        },
         "403": {
             "detail": "Lo sentimos, no tiene permisos para acceder a la página.",
             "title": "Error 403"
@@ -392,6 +398,8 @@
             "title": "Usuario"
         },
         "email": "Email",
+        "organism": "Organismo",
+        "phoneNumber": "Número télefono",
         "enableEmailNotifications": "Habilitar notificaciones a través de correo electrónico para este usuario",
         "filters": {
             "labels": {
@@ -455,7 +463,10 @@
         },
         "surname1": "Primer apellido",
         "surname2": "Segundo apellido",
-        "updated": "Se ha actualizado el usuario {{ param }}"
+        "updated": "Se ha actualizado el usuario {{ param }}",
+        "gender": "Género",
+        "nationality": "Nacionalidad",
+        "birthday": "Fecha nacimiento"
     },
     "family": {
         "acronym": {
@@ -787,6 +798,31 @@
         "message": {
             "onSuccessSumary": "Notificación enviada",
             "onSuccess": "La notificación se ha enviado correctamente."
+        }
+    },
+    "calendar": {
+        "monthNames": {
+            "january": "Enero",
+            "february": "Febrero",
+            "march": "Marzo",
+            "april": "Abril",
+            "may": "Mayo",
+            "june": "Junio",
+            "july": "Julio",
+            "august": "Agosto",
+            "september": "Septiembre",
+            "october": "Octubre",
+            "november": "Noviembre",
+            "december": "Diciembre"
+        },
+        "dayNamesMin": {
+            "monday": "Lu",
+            "tuesday": "Ma",
+            "wednesday": "Mi",
+            "thursday": "Ju",
+            "friday": "Vi",
+            "saturday": "Sa",
+            "sunday": "Do"
         }
     }
 }

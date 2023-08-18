@@ -18,7 +18,7 @@ import { catchError } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AVAILABLE_LANGUAGES, DEFAULT_LANG } from './app.constants';
+import { AVAILABLE_LANGUAGES } from './app.constants';
 import { ConfigService } from './config';
 import { ConfigModule } from './config/config.module';
 import { MissingTranslationHandlerImpl } from './config/missing-translation-handler-impl';
@@ -45,14 +45,14 @@ class CustomTranslateHttpLoader extends TranslateHttpLoader {
     }
 }
 
-export function createTranslateLoader(http: HttpClient) {
-    return new CustomTranslateHttpLoader(http, DEFAULT_LANG, './i18n/', '.json');
+export function createTranslateLoader(http: HttpClient, configService: ConfigService) {
+    return new CustomTranslateHttpLoader(http, configService.getConfig().metadata.defaultLanguage, './i18n/', '.json');
 }
 
 export function initTranslations(translateService: TranslateService, cookieService: CookieService, configService: ConfigService) {
     const languageCookie = configService.getConfig().metadata.languageCookie;
-    const currentLang: string = cookieService.get(languageCookie) || DEFAULT_LANG;
-    translateService.setDefaultLang(DEFAULT_LANG);
+    const currentLang: string = cookieService.get(languageCookie) || configService.getConfig().metadata.defaultLanguage;
+    translateService.setDefaultLang(configService.getConfig().metadata.defaultLanguage);
     translateService.addLangs(AVAILABLE_LANGUAGES);
     return () => translateService.use(currentLang).toPromise();
 }
@@ -73,7 +73,7 @@ export function initTranslations(translateService: TranslateService, cookieServi
             loader: {
                 provide: TranslateLoader,
                 useFactory: createTranslateLoader,
-                deps: [HttpClient],
+                deps: [HttpClient, ConfigService],
             },
         }),
         ToastModule,

@@ -15,6 +15,7 @@
 
             window.CONFIGURATION.endpoint = {};
             window.CONFIGURATION.endpoint.appUrl = /*[[${@metadataProperties.internalAppUrl}]]*/ 'http://localhost:4200';
+            window.CONFIGURATION.endpoint.srmExternalEndpoint = /*[[${@metadataProperties.srmExternalEndpoint}]]*/ 'https://estadisticas.arte-consultores.com/structural-resources';
 
             window.CONFIGURATION.cas = {};
             window.CONFIGURATION.cas.login = /*[[${@metadataProperties.metamacCasLoginUrl}]]*/ 'https://estadisticas.arte-consultores.com/authentication-service-internal/login';
@@ -23,7 +24,11 @@
 
             window.CONFIGURATION.metadata = {};
             window.CONFIGURATION.metadata.navbarScriptUrl = /*[[${@metadataProperties.metamacNavbar}]]*/ '//estadisticas.arte-consultores.com/navigation-bar-internal/';
+            window.CONFIGURATION.metadata.language =/*[[${language}]]*/ 'es';
             window.CONFIGURATION.metadata.defaultLanguage = /*[[${@metadataProperties.defaultLanguage}]]*/ 'es';
+            window.CONFIGURATION.metadata.nationalities = /*[[${@metadataProperties.nationalityUrnKey}]]*/ 'urn:sdmx:org.sdmx.infomodel.codelist.Codelist=ISTAC:CL_M49_724(01.005)';
+            window.CONFIGURATION.metadata.gender = /*[[${@metadataProperties.genderUrnKey}]]*/ 'urn:sdmx:org.sdmx.infomodel.codelist.Codelist=ESTAT:CL_GENDER(2.0)';
+
             /*]]>*/
         </script>
         <app-root></app-root>

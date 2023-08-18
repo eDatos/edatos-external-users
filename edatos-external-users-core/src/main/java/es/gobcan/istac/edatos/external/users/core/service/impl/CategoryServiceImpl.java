@@ -75,6 +75,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<CategoryEntity> updateTree(List<CategoryEntity> tree) {
         categoryValidator.checkCategoriesWithSubscribers(tree, categoryRepository.findAll());
+        categoryValidator.checkMandatoryLanguageIsSetInCategoriesNames(tree);
         List<CategoryEntity> saved = categoryRepository.save(tree);
 
         // During development there was a bug that would cause the server to return stale data of the tree
@@ -96,6 +97,21 @@ public class CategoryServiceImpl implements CategoryService {
         }
 
         return saved;
+    }
+
+    @Override
+    public CategoryEntity updateCategory(CategoryEntity category) {
+        return this.saveCategory(category);
+    }
+
+    @Override
+    public CategoryEntity createCategory(CategoryEntity category) {
+        return this.saveCategory(category);
+    }
+
+    private CategoryEntity saveCategory(CategoryEntity category) {
+        categoryValidator.checkMandatoryLanguageIsSetInCategoryName(category);
+        return categoryRepository.saveAndFlush(category);
     }
 
     @Override

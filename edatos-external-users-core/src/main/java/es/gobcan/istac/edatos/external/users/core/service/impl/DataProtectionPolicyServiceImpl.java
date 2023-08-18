@@ -14,16 +14,19 @@ import es.gobcan.istac.edatos.external.users.core.domain.vo.InternationalStringV
 import es.gobcan.istac.edatos.external.users.core.domain.vo.LocalisedStringVO;
 import es.gobcan.istac.edatos.external.users.core.repository.DataProtectionPolicyRepository;
 import es.gobcan.istac.edatos.external.users.core.service.DataProtectionPolicyService;
+import es.gobcan.istac.edatos.external.users.core.service.validator.InternationalStringValidator;
 
 @Service
 public class DataProtectionPolicyServiceImpl implements DataProtectionPolicyService {
 
     private final DataProtectionPolicyRepository dataProtectionPolicyRepository;
     private final MetadataProperties metadataProperties;
+    private final InternationalStringValidator internationalStringValidator;
 
-    public DataProtectionPolicyServiceImpl(DataProtectionPolicyRepository configurationRepository, MetadataProperties metadataProperties) {
+    public DataProtectionPolicyServiceImpl(DataProtectionPolicyRepository configurationRepository, MetadataProperties metadataProperties, InternationalStringValidator internationalStringValidator) {
         this.dataProtectionPolicyRepository = configurationRepository;
         this.metadataProperties = metadataProperties;
+        this.internationalStringValidator = internationalStringValidator;
         if (this.dataProtectionPolicyRepository.findFirstByOrderByIdAsc() == null) {
             DataProtectionPolicyEntity entity = new DataProtectionPolicyEntity();
             InternationalStringVO internationalString = new InternationalStringVO();
@@ -39,7 +42,7 @@ public class DataProtectionPolicyServiceImpl implements DataProtectionPolicyServ
         Set<LocalisedStringVO> texts = new HashSet<>();
         List<String> languages = metadataProperties.getAvailableLanguages().stream().map(language -> language.toLowerCase()).collect(Collectors.toList());
         for (String language : languages) {
-            LocalisedStringVO localisedString = entity.getValue().getLocalisedLabelEntity(language);
+            LocalisedStringVO localisedString = entity.getValue().getLocalisedLabelEntity(language, null);
             if (localisedString == null) {
                 localisedString = new LocalisedStringVO();
                 localisedString.setLabel("");
@@ -58,7 +61,7 @@ public class DataProtectionPolicyServiceImpl implements DataProtectionPolicyServ
         List<String> languages = metadataProperties.getAvailableLanguages().stream().map(language -> language.toLowerCase()).collect(Collectors.toList());
         for (LocalisedStringVO localisedString : new ArrayList<>(updatedEntity.getValue().getTexts())) {
             if (localisedString != null) {
-                LocalisedStringVO storedLocalisedString = entity.getValue().getLocalisedLabelEntity(localisedString.getLocale());
+                LocalisedStringVO storedLocalisedString = entity.getValue().getLocalisedLabelEntity(localisedString.getLocale(), null);
                 if (storedLocalisedString != null) {
                     entity.getValue().removeText(storedLocalisedString);
                     entity.getValue().addText(localisedString);
@@ -67,6 +70,7 @@ public class DataProtectionPolicyServiceImpl implements DataProtectionPolicyServ
                 }
             }
         }
+        internationalStringValidator.checkMandatoryLanguageIsSet(entity.getValue());
         return dataProtectionPolicyRepository.save(entity);
     }
 }

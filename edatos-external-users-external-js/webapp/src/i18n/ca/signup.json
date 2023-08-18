@@ -15,6 +15,9 @@
             "organism": "Organisme",
             "enableEmailNotifications": "Habilitar notificacions a través de correu electrònic per a aquest usuari",
             "captchaModal": "Resolgui el captcha per a acabar el registre",
+            "gender": "Gènere",
+            "nationality": "Nacionalitat",
+            "birthday": "Data naixement",
             "termsAndConditions": "Accepto els termes i condicions"
         },
         "messages": {

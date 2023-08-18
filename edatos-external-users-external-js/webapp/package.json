@@ -4,8 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --aot=true",
-    "build:prod": "cross-env ENV=production ng build --prod=true --aot=true",
+    "build": "ng build --aot=true --base-href=./",
+    "build:prod": "cross-env ENV=production ng build --prod=true --aot=true --base-href=./",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -22,7 +22,7 @@
     "@angular/platform-browser": "^9.1.13",
     "@angular/platform-browser-dynamic": "^9.1.13",
     "@angular/router": "^9.1.13",
-    "@angular/service-worker": "^9.1.13",
+    "@angular/service-worker": "^10.2.5",
     "@fullcalendar/core": "^5.11.0",
     "@nebular/eva-icons": "^5.1.0",
     "@nebular/theme": "^5.1.0",
@@ -32,7 +32,7 @@
     "arte-ng": "^2.0.0",
     "bootstrap": "^4.6.0",
     "chart.js": "^3.8.0",
-    "class-transformer": "^0.4.0",
+    "class-transformer": "^0.5.1",
     "eva-icons": "^1.1.3",
     "file-saver": "^2.0.5",
     "font-awesome": "^4.7.0",

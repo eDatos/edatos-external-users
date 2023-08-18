@@ -29,6 +29,11 @@ public class MetadataConfigurationServiceMockImpl extends ConfigurationServiceMo
     }
 
     @Override
+    public double retrieveRecaptchaThreshold() throws EDatosException {
+        return Double.parseDouble(retrieveProperty(ExternalUsersConfigurationConstants.CAPTCHA_RECAPTCHA_THRESHOLD));
+    }
+
+    @Override
     public String retrieveBaseUrl() throws EDatosException {
         return retrieveProperty(ExternalUsersConfigurationConstants.BASE_URL);
     }
@@ -36,6 +41,12 @@ public class MetadataConfigurationServiceMockImpl extends ConfigurationServiceMo
     @Override
     public String retrieveCronExpressionSendNoticeJob() throws EDatosException {
         return retrieveProperty(ExternalUsersConfigurationConstants.CRON_EXPRESSION_SEND_NOTICE_JOB);
+    }
+    @Override public String retrieveNationalityUrnKey() throws EDatosException {
+        return retrieveProperty(ExternalUsersConfigurationConstants.NATIONALITY_URN_KEY);
+    }
+    @Override public String retrieveGenderUrnKey() throws EDatosException {
+        return retrieveProperty(ExternalUsersConfigurationConstants.GENDER_URN_KEY);
     }
 
 }

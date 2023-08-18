@@ -8,13 +8,13 @@ import java.util.stream.Stream;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
+import es.gobcan.istac.edatos.external.users.core.i18n.LocaleContext;
 import org.apache.commons.collections.CollectionUtils;
 import org.siemac.edatos.core.common.exception.EDatosException;
 import org.siemac.edatos.core.common.exception.EDatosExceptionItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.dao.ConcurrencyFailureException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -153,7 +153,7 @@ public class ExceptionTranslator {
     @ResponseStatus(HttpStatus.CONFLICT)
     @ResponseBody
     public ParameterizedErrorVM optimistickLockingError(JpaOptimisticLockingFailureException ex) {
-        return new ParameterizedErrorVM(ServiceExceptionType.OPTIMISTIC_LOCKING.getMessageForReasonType(LocaleContextHolder.getLocale()), ServiceExceptionType.OPTIMISTIC_LOCKING.getCode(), null,
+        return new ParameterizedErrorVM(ServiceExceptionType.OPTIMISTIC_LOCKING.getMessageForReasonType(LocaleContext.getLocale()), ServiceExceptionType.OPTIMISTIC_LOCKING.getCode(), null,
                 null);
     }
 

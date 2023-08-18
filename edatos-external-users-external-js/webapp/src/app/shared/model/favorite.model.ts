@@ -35,8 +35,4 @@ export class Favorite extends BaseVersionedAndAuditingEntity {
     public get favoriteType(): 'category' | 'externalOperation' | undefined {
         return this.resource?.favoriteType;
     }
-
-    public getLocalisedName(languageCode: string): string | undefined {
-        return (this.category || this.externalOperation)?.name?.getLocalisedLabel(languageCode);
-    }
 }

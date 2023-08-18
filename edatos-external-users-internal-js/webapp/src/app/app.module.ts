@@ -19,7 +19,7 @@ import { ToastModule } from 'primeng/toast';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import {AVAILABLE_LANGUAGES, DEFAULT_LANG, LANG_KEY} from './app.constants';
+import { AVAILABLE_LANGUAGES } from './app.constants';
 import { ConfigService } from './config';
 import { ConfigModule } from './config/config.module';
 import { MissingTranslationHandlerImpl } from './config/missing-translation-handler-impl';
@@ -50,9 +50,9 @@ export function createTranslateLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, './i18n/', '.json');
 }
 
-export function initTranslations(translateService: TranslateService, cookieService: CookieService) {
-    const currentLang: string = cookieService.get(LANG_KEY) || DEFAULT_LANG;
-    translateService.setDefaultLang(DEFAULT_LANG);
+export function initTranslations(translateService: TranslateService, cookieService: CookieService, configService: ConfigService) {
+    const currentLang: string = configService.getConfig().metadata.language || configService.getConfig().metadata.defaultLanguage;
+    translateService.setDefaultLang(configService.getConfig().metadata.defaultLanguage);
     translateService.addLangs(AVAILABLE_LANGUAGES);
     return () => translateService.use(currentLang).toPromise();
 }
@@ -91,7 +91,7 @@ export function initTranslations(translateService: TranslateService, cookieServi
         {
             provide: APP_INITIALIZER,
             useFactory: initTranslations,
-            deps: [TranslateService, CookieService],
+            deps: [TranslateService, CookieService, ConfigService],
             multi: true,
         },
         {

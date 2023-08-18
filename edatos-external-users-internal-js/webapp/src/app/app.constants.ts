@@ -13,8 +13,6 @@ export const AVAILABLE_LANGUAGES = _AVAILABLE_LANGUAGES;
 export const TOKEN_AUTH_NAME = 'authentication_token_internal';
 export const BASE_DECIMAL = 10;
 export const ERROR_ALERT_KEY = 'alert-errors';
-export const LANG_KEY = 'lang';
-export const DEFAULT_LANG = 'es';
 
 export const DEFAULT_PATH = '/external-users';
 

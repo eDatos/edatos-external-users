@@ -1,6 +1,6 @@
 <div class="language-input-list">
     <div *ngFor="let locale of locales" class="single-language-input">
-        <label *ngIf="isEditMode || mappedValue[locale]" [for]="locale">{{'enum.localeToLanguage.' + locale.toUpperCase() | translate: {default: locale} }}</label>
+        <label *ngIf="isEditMode || mappedValue[locale]" [for]="locale" class="form-label" [class.required]="locale===defaultLocale && isEditMode">{{'enum.localeToLanguage.' + locale.toUpperCase() | translate: {default: locale} }}</label>
         <input
             *ngIf="isEditMode || mappedValue[locale]"
             pInputText

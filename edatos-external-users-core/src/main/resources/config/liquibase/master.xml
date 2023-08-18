@@ -39,5 +39,9 @@
              relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20221124095900_add_column_entity_ExternalUser.xml"
              relativeToChangelogFile="false"/>
-
+    <include file="config/liquibase/changelog/20221212140802_modify_entity_ExternalUser.xml"
+             relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230703131200_delete_duplicate_index.xml"
+             relativeToChangelogFile="false"/>
+             
 </databaseChangeLog>

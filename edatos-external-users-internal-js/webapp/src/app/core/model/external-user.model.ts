@@ -1,5 +1,5 @@
-import { Language } from '@app/core/model/language.model';
-import { BaseVersionedAndAuditingWithDeletionEntity } from 'arte-ng/model';
+import {Language} from '@app/core/model/language.model';
+import {BaseVersionedAndAuditingWithDeletionEntity} from 'arte-ng/model';
 
 export class ExternalUser extends BaseVersionedAndAuditingWithDeletionEntity {
     public id: number;
@@ -13,6 +13,9 @@ export class ExternalUser extends BaseVersionedAndAuditingWithDeletionEntity {
     public language: Language;
     public phoneNumber: string;
     public emailNotificationsEnabled: boolean;
+    public gender: string | null;
+    public nationality: string | null;
+    public birthday: string;
 
     public getFullName(): string {
         return `${this.name} ${this.surname1} ${this.surname2 ? this.surname2 : ''}`;

@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { instanceToPlain } from 'class-transformer';
 
 @Injectable({
     providedIn: 'root',
@@ -24,6 +25,12 @@ export class AuthInterceptor implements HttpInterceptor {
 
         const token = this.localStorage.retrieve(TOKEN_AUTH_NAME) || this.sessionStorage.retrieve(TOKEN_AUTH_NAME);
 
+        if (headers.get('X-Public-Request') == "1") {
+            // Bypassing authentication for those requests that are marked as public because of CORS problems
+            headers = headers.delete('X-Public-Request');
+            return next.handle(req.clone({ headers: headers, body: instanceToPlain(req.body) }));
+        }
+
         if (!!token) {
             headers = headers.append('Authorization', 'Bearer ' + token);
         } else {
@@ -31,13 +38,6 @@ export class AuthInterceptor implements HttpInterceptor {
             if (!!tokenFromCookie) {
                 this.storeAuthenticationToken(tokenFromCookie, false);
                 headers = headers.append('Authorization', 'Bearer ' + tokenFromCookie);
-
-                /*
-                Si se borrar la cookie y el token se guarda en session storage, al abrir una nueva pesta�a en el navegador la primera petici�n a la API dar� un 401
-                y en consecuencia el navegador redireccionar� a la ruta ra�z de la aplicaci�n.
-                */
-                //const config = this.configService.getConfig();
-                //this.cookieService.remove(TOKEN_AUTH_NAME, { path: this.getLocation(config.endpoint.appUrl).pathname });
             }
         }
 
@@ -67,4 +67,5 @@ export class AuthInterceptor implements HttpInterceptor {
         l.href = href;
         return l;
     }
+
 }

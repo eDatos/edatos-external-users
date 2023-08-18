@@ -11,6 +11,7 @@ public class CategoryDto extends AbstractVersionedAndAuditingDto {
     private InternationalStringDto name;
     private Integer index;
     private List<CategoryDto> children = new ArrayList<>();
+    private Long parentId;
     private List<ExternalCategoryDto> externalCategories = new ArrayList<>();
     private List<ExternalOperationDto> externalOperations = new ArrayList<>();
 
@@ -52,6 +53,14 @@ public class CategoryDto extends AbstractVersionedAndAuditingDto {
 
     public void setChildren(List<CategoryDto> children) {
         this.children = children;
+    }
+
+    public Long getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Long parentId) {
+        this.parentId = parentId;
     }
 
     public List<ExternalOperationDto> getExternalOperations() {

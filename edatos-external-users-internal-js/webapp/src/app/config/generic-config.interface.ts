@@ -6,9 +6,13 @@ export interface GenericConfig {
     };
     endpoint: {
         appUrl: any;
+        srmExternalEndpoint: string;
     };
     metadata: {
         navbarScriptUrl: string;
+        language: string;
         defaultLanguage: string;
+        nationalities: string;
+        gender: string;
     };
 }

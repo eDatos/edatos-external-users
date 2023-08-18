@@ -55,7 +55,6 @@ public class ExternalAccountResource extends AbstractResource {
     private final ExternalUserAccountMapper externalUserMapper;
     private final AuditEventPublisher auditPublisher;
     private final NotificationService notificationService;
-
     private final DocumentService documentService;
 
     public ExternalAccountResource(ExternalUserRepository externalUserRepository, ExternalUserService externalUserService, ExternalUserAccountMapper externalUserMapper,
@@ -168,4 +167,5 @@ public class ExternalAccountResource extends AbstractResource {
         auditPublisher.publish(AuditConstants.EXT_USUARIO_DOWNLOAD_DOCUMENT, DocumentConstants.EXTERNAL_USER_INFORMATION);
         return ResponseEntity.ok().build();
     }
+
 }

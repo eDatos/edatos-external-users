@@ -10,6 +10,9 @@
             "nombre.placeholder": "Your Name"
         },
         "messages": {
+            "default": {
+                "title": "Error"
+            },
             "error": {
                 "emailexists": "<strong>The email address already exists!</strong> Please choose another.",
                 "fail": "<strong>An error has occurred!</strong> The settings could not be saved."
@@ -314,6 +317,9 @@
         }
     },
     "error": {
+        "default": {
+            "title": "Error"
+        },
         "403": {
             "detail": "Sorry, you do not have permissions to access the page.",
             "title": "Error 403"
@@ -392,6 +398,8 @@
             "title": "User"
         },
         "email": "e-mail",
+        "organism": "Organism",
+        "phoneNumber": "Phone number",
         "enableEmailNotifications": "Enable email notifications for this user",
         "filters": {
             "labels": {
@@ -455,7 +463,10 @@
         },
         "surname1": "Surname",
         "surname2": "Second surname",
-        "updated": "User {{ param }}has been updated"
+        "updated": "User {{ param }}has been updated",
+        "gender": "Gender",
+        "nationality": "Nationality",
+        "birthday": "Date of birth"
     },
     "family": {
         "acronym": {
@@ -787,6 +798,31 @@
         "message": {
             "onSuccessSumary": "Notification sent",
             "onSuccess": "The notification has been sent correctly."
+        }
+    },
+    "calendar": {
+        "monthNames": {
+            "january": "January",
+            "february": "February",
+            "march": "March",
+            "april": "April",
+            "may": "May",
+            "june": "June",
+            "july": "July",
+            "august": "August",
+            "september": "September",
+            "october": "October",
+            "november": "November",
+            "december": "December"
+        },
+        "dayNamesMin": {
+            "monday": "Mo",
+            "tuesday": "Tu",
+            "wednesday": "We",
+            "thursday": "Th",
+            "friday": "Fr",
+            "saturday": "Sa",
+            "sunday": "Su"
         }
     }
 }

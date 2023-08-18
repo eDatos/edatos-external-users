@@ -9,21 +9,24 @@
         <link rel="manifest" href="manifest.webmanifest" />
     </head>
     <body>
-
         <script th:inline="javascript">
             /*<![CDATA[*/
             window.CONFIGURATION = {};
 
             window.CONFIGURATION.endpoint = {};
             window.CONFIGURATION.endpoint.appUrl = /*[[${@metadataProperties.externalAppUrl}]]*/ 'http://localhost:4200';
+            window.CONFIGURATION.endpoint.srmExternalEndpoint = /*[[${@metadataProperties.srmExternalEndpoint}]]*/ 'https://estadisticas.arte-consultores.com/structural-resources';
 
             window.CONFIGURATION.metadata = {};
             window.CONFIGURATION.metadata.defaultLanguage = /*[[${@metadataProperties.defaultLanguage}]]*/ 'es';
             window.CONFIGURATION.metadata.languageCookie = /*[[${@metadataProperties.languageCookie}]]*/ 'chosenLocale';
+            window.CONFIGURATION.metadata.nationalities = /*[[${@metadataProperties.nationalityUrnKey}]]*/ 'urn:sdmx:org.sdmx.infomodel.codelist.Codelist=ISTAC:CL_M49_724(01.005)';
+            window.CONFIGURATION.metadata.gender = /*[[${@metadataProperties.genderUrnKey}]]*/ 'urn:sdmx:org.sdmx.infomodel.codelist.Codelist=ESTAT:CL_GENDER(2.0)';
 
             window.CONFIGURATION.template = {};
-            window.CONFIGURATION.template.headerUrl = /*[[${headerUrl}]]*/ "http://localhost:8070/complementos-apps/organisations/istac/common/header/header.html?appName=Mi%20%C3%A1rea%20personal";
-            window.CONFIGURATION.template.footerUrl = /*[[${footerUrl}]]*/ "http://localhost:8070/complementos-apps/organisations/istac/common/footer/footer.html";
+            window.CONFIGURATION.template.headerUrl =
+                /*[[${headerUrl}]]*/ 'https://estadisticas.arte-consultores.com/apps/organisations/istac/common/header/header.html?appName=Mi%20%C3%A1rea%20personal';
+            window.CONFIGURATION.template.footerUrl = /*[[${footerUrl}]]*/ 'https://estadisticas.arte-consultores.com/apps/organisations/istac/common/footer/footer.html';
             /*]]>*/
         </script>
         <script src="http://localhost:8080/api/captcha/authentication.js" th:src="${captchaAuthenticationUrl}"></script>

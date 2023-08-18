@@ -1,5 +1,7 @@
 package es.gobcan.istac.edatos.external.users.rest.common.mapper;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -21,6 +23,7 @@ import es.gobcan.istac.edatos.external.users.rest.common.dto.ExternalUserAccount
 import es.gobcan.istac.edatos.external.users.rest.common.dto.ExternalUserAccountDto;
 import es.gobcan.istac.edatos.external.users.rest.common.mapper.config.AuditingMapperConfig;
 import es.gobcan.istac.edatos.external.users.rest.common.mapper.resolver.GenericMapperResolver;
+import es.gobcan.istac.edatos.external.users.rest.common.util.FormatDateUtil;
 
 @Mapper(componentModel = "spring", config = AuditingMapperConfig.class, uses = {GenericMapperResolver.class})
 public abstract class ExternalUserAccountMapper implements EntityMapper<ExternalUserAccountDto, ExternalUserEntity> {
@@ -33,6 +36,7 @@ public abstract class ExternalUserAccountMapper implements EntityMapper<External
     @Override
     @Mapping(target = "password", source = "password", qualifiedByName = "encodePassword")
     @Mapping(target = "dataProtectionPolicy", source = "dataProtectionPolicyId", qualifiedByName = "protectionPolicyFromId")
+    @Mapping(target = "birthday", source = "birthday", qualifiedByName = "formatBirthdayStringToLocalDate")
     public abstract ExternalUserEntity toEntity(ExternalUserAccountDto dto);
 
     @Named("encodePassword")
@@ -50,15 +54,19 @@ public abstract class ExternalUserAccountMapper implements EntityMapper<External
 
     @Override
     @Mapping(target = "password", ignore = true)
-    public abstract ExternalUserAccountDto toDto(ExternalUserEntity dto);
+    @Mapping(target = "birthday", source = "birthday", qualifiedByName = "formatBirthdayLocalDateToString")
+    public abstract ExternalUserAccountDto toDto(ExternalUserEntity entity);
 
     public ExternalUserEntity getUserFromEmail(String email) {
         return externalUserRepository.findOneByEmail(email).orElse(null);
     }
 
     @Named("externalUserToBaseDto")
+    @Mapping(target = "birthday", source = "birthday", qualifiedByName = "formatBirthdayLocalDateToString")
     public abstract ExternalUserAccountBaseDto toBaseDto(ExternalUserEntity entity);
 
+
+    @Mapping(target = "birthday", source = "birthday", qualifiedByName = "formatBirthdayStringToLocalDate")
     public abstract ExternalUserEntity baseDtoToEntity(ExternalUserAccountBaseDto dto);
 
     @Named("protectionPolicyFromId")
@@ -67,5 +75,15 @@ public abstract class ExternalUserAccountMapper implements EntityMapper<External
             return null;
         }
         return dataProtectionPolicyRepository.findOne(id);
+    }
+
+    @Named("formatBirthdayStringToLocalDate")
+    public LocalDate formatBirthdayStringToLocalDate(String date){
+        return FormatDateUtil.formatBirthdayStringToLocalDate(date);
+    }
+
+    @Named("formatBirthdayLocalDateToString")
+    public String formatBirthdayLocalDateToString(LocalDate date){
+        return FormatDateUtil.formatBirthdayLocalDateToString(date);
     }
 }

@@ -1,5 +1,6 @@
 import { BaseVersionedEntity } from 'arte-ng/model';
 import { Exclude, Type, TypeOptions } from 'class-transformer';
+
 import { InternationalString } from './international-string.model';
 
 /**
@@ -21,10 +22,6 @@ export class ExternalItem extends BaseVersionedEntity {
     public name: InternationalString;
 
     public type: TypeExternalArtefacts;
-
-    public getLocalisedName(languageCode: string): string | undefined {
-        return this.name?.getLocalisedLabel(languageCode);
-    }
 
     public get schema(): { code?: string; version?: string } {
         const regex = /^urn:(?:\w+:)?(?:\w+\.)+\w+=\w+:(?<schemaCode>\w+)\((?<schemaVersion>.+?)\)/.exec(this.urn);

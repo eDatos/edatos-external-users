@@ -2,7 +2,8 @@ import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { plainToClass, Type } from 'class-transformer';
 
 export class ResponseWrapper<T> {
-    constructor(public headers: HttpHeaders, public body: T, public status: number) {}
+    constructor(public headers: HttpHeaders, public body: T, public status: number) {
+    }
 
     public totalCount(): number | null {
         const val = this.headers.get('X-Total-Count');
@@ -48,7 +49,7 @@ export class ResponseWrapper<T> {
  * console.log(instantiatedObject.nested instanceof MySubclass); // true
  * ```
  */
-export function convert<T>(clazz: { new (): T }, plain: T): T;
+export function convert<T>(clazz: { new(): T }, plain: T): T;
 
 /**
  * Converts every plain object from the array into an instance of a class,.
@@ -63,7 +64,7 @@ export function convert<T>(clazz: { new (): T }, plain: T): T;
  * @return an array with instances of the class filled with the data from the plain objects, including
  * nested fields to an arbitrary level if they were annotated in the class with `@Type`.
  */
-export function convert<T>(clazz: { new (): T }, arrayOfPlains: T[]): T[];
+export function convert<T>(clazz: { new(): T }, arrayOfPlains: T[]): T[];
 
 /**
  * Converts a plain object that is contained in the {@link HttpResponse} into an instance of a class, and returns
@@ -103,7 +104,7 @@ export function convert<T>(clazz: { new (): T }, arrayOfPlains: T[]): T[];
  * );
  * ```
  */
-export function convert<T>(clazz: { new (): T }, response: HttpResponse<T>): ResponseWrapper<T>;
+export function convert<T>(clazz: { new(): T }, response: HttpResponse<T>): ResponseWrapper<T>;
 
 /**
  * Converts an array of plain objects that are contained in the HttpResponse into instances of a class, and returns
@@ -133,9 +134,11 @@ export function convert<T>(clazz: { new (): T }, response: HttpResponse<T>): Res
  * }
  * ```
  */
-export function convert<T>(clazz: { new (): T }, response: HttpResponse<T[]>): ResponseWrapper<T[]>;
+export function convert<T>(clazz: { new(): T }, response: HttpResponse<T[]>): ResponseWrapper<T[]>;
 
-export function convert<T>(clazz: { new (): T }, obj: T | T[] | HttpResponse<T | T[]>): T | T[] | ResponseWrapper<T | T[]> {
+export function convert<T>(clazz: {
+    new(): T
+}, obj: T | T[] | HttpResponse<T | T[]>): T | T[] | ResponseWrapper<T | T[]> {
     if (Array.isArray(obj)) {
         return convertToList(clazz, obj);
     }
@@ -145,11 +148,11 @@ export function convert<T>(clazz: { new (): T }, obj: T | T[] | HttpResponse<T |
     return plainToClass(clazz, obj);
 }
 
-function convertToList<T>(clazz: { new (): T }, list: any[]): T[] {
+function convertToList<T>(clazz: { new(): T }, list: any[]): T[] {
     return list.map((element) => plainToClass(clazz, element));
 }
 
-function convertToResponseWrapper<T>(clazz: { new (): T }, response: HttpResponse<T | T[]>): ResponseWrapper<T | T[]> {
+function convertToResponseWrapper<T>(clazz: { new(): T }, response: HttpResponse<T | T[]>): ResponseWrapper<T | T[]> {
     const { headers, body, status } = response;
     const data = Array.isArray(body) ? convertToList(clazz, body) : plainToClass(clazz, body);
     return new ResponseWrapper(headers, data, status);

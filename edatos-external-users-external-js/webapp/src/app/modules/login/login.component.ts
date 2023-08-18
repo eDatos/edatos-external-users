@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
         this.credentials = new Credentials();
         this.route.queryParams.subscribe((queryParams) => {
             if (queryParams['origin']) {
-                this.origin = queryParams['origin'].replace(/^http:\/\//i, 'https://');
+                this.origin = queryParams['origin'];
                 this.externalUserService.urlToReturnToAfterLogin = this.origin.toString();
             } else {
                 this.origin = this.externalUserService.urlToReturnToAfterLogin;
@@ -52,10 +52,10 @@ export class LoginComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe((params) => {
-            if(params['registration-key']) {
+            if (params['registration-key']) {
                 const urlWithoutRegistrationKeyToken = new URL(document.URL);
-                urlWithoutRegistrationKeyToken.searchParams.delete("registration-key");
-                window.history.pushState({}, "", urlWithoutRegistrationKeyToken.href);
+                urlWithoutRegistrationKeyToken.searchParams.delete('registration-key');
+                window.history.pushState({}, '', urlWithoutRegistrationKeyToken.href);
 
                 this.accountUserService.confirmRegistration(params['registration-key']).subscribe(() => {
                     this.messageService.add({
@@ -87,7 +87,7 @@ export class LoginComponent implements OnInit {
     }
 
     private navigateToOrigin() {
-        const originRouteWithTokenParam = addQueryParamToRoute(this.origin.toString(), 'token', encodeURIComponent(this.authServerProvider.getToken()));
+        const originRouteWithTokenParam = addQueryParamToRoute(window.location.href.replace(/\/#.*/, '/api/authenticate'), 'origin', this.origin.toString());
         this.document.defaultView.open(originRouteWithTokenParam, '_self');
     }
 

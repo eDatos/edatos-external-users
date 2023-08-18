@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
 import es.gobcan.istac.edatos.external.users.core.config.Constants;
@@ -22,9 +21,12 @@ import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.FavoriteEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.FilterEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.vo.AuditEventVO;
+import es.gobcan.istac.edatos.external.users.core.domain.vo.ExternalUserVO;
 import es.gobcan.istac.edatos.external.users.core.errors.CustomParameterizedExceptionBuilder;
 import es.gobcan.istac.edatos.external.users.core.errors.ErrorConstants;
+import es.gobcan.istac.edatos.external.users.core.i18n.LocaleContext;
 import es.gobcan.istac.edatos.external.users.core.mapper.AuditEventMapper;
+import es.gobcan.istac.edatos.external.users.core.mapper.ExternalUserVOMapper;
 import es.gobcan.istac.edatos.external.users.core.repository.ExternalUserRepository;
 import es.gobcan.istac.edatos.external.users.core.security.SecurityUtils;
 import es.gobcan.istac.edatos.external.users.core.service.AuditEventService;
@@ -44,11 +46,11 @@ public class DocumentServiceImpl implements DocumentService {
     private final MessageSource messageSource;
     private final MetadataProperties metadataProperties;
     private final AuditEventService auditEventService;
-
     private final AuditEventMapper auditEventMapper;
+    private final ExternalUserVOMapper externalUserVOMapper;
 
     public DocumentServiceImpl(ExternalUserRepository externalUserRepository, JasperReportsAdapter jasperReportsService, MessageSource messageSource, FilterService filterService,
-            MetadataProperties metadataProperties, AuditEventService auditEventService, AuditEventMapper auditEventMapper) {
+            MetadataProperties metadataProperties, AuditEventService auditEventService, AuditEventMapper auditEventMapper, ExternalUserVOMapper externalUserVOMapper) {
         this.externalUserRepository = externalUserRepository;
         this.jasperReportsService = jasperReportsService;
         this.messageSource = messageSource;
@@ -56,12 +58,14 @@ public class DocumentServiceImpl implements DocumentService {
         this.metadataProperties = metadataProperties;
         this.auditEventService = auditEventService;
         this.auditEventMapper = auditEventMapper;
+        this.externalUserVOMapper = externalUserVOMapper;
     }
 
     @Override
     public byte[] generatePdfExternalUserInformation(Long id) {
         try {
             ExternalUserEntity externalUser = externalUserRepository.findOne(id);
+            ExternalUserVO externalUserVO = externalUserVOMapper.toDto(externalUser);
 
             List<FilterEntity> filters = filterService.findAllByUser(externalUser);
             Set<FavoriteEntity> fav = externalUser.getFavorites();
@@ -70,7 +74,7 @@ public class DocumentServiceImpl implements DocumentService {
             LOGGER.info("Request to print all information about External User");
 
             Map<String, Object> parameters = new HashMap<>();
-            parameters.put("PERSONAL_INFORMATION", externalUser);
+            parameters.put("PERSONAL_INFORMATION", externalUserVO);
             parameters.put("FAVORITES", new JRBeanCollectionDataSource(fav));
             parameters.put("PERMALINK_PATH", metadataProperties.getVisualizerPath() + Constants.PATH_PERMALINK);
             parameters.put("FILTERS", new JRBeanCollectionDataSource(filters));
@@ -78,9 +82,10 @@ public class DocumentServiceImpl implements DocumentService {
             parameters.put("PATH_LOGO", new URI(getClass().getResource(DocumentConstants.FOLDER_JASPER_REPORT + DocumentConstants.LOGO_CABECERA).toString()).getPath());
 
             // Headers
-            Locale locale = LocaleContextHolder.getLocale();
+            Locale locale = LocaleContext.getLocale();
             String language = locale.toString().split("_")[0];
             parameters.put("LOCALE", language);
+            parameters.put("DEFAULT_LOCALE", LocaleContext.getDefaultLocale().toString());
 
             parameters.put("HEADER_TITLE", messageSource.getMessage("report.header.title", null, locale));
 
