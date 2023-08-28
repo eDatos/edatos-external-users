@@ -220,7 +220,7 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     private String generateTextI18n(String text, String[] args) {
-        return messageSource.getMessage(text, args, LocaleContext.getLocale() == null ? LocaleContext.getDefaultLocale() : LocaleContext.getLocale());
+        return messageSource.getMessage(text, args, LocaleContext.getLocale());
     }
 
     private String getOrganism() {
