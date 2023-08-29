@@ -11,3 +11,5 @@ INSERT INTO tb_external_users (id, opt_lock, email, password, name, surname1, su
 VALUES (4, 1, 'arte-consultores-luis@test.com', 'password', 'Luis  Marco', 'Antón', 'Ochoa','SPANISH', 'system', '2021-04-15 08:19:33.000000', true);
 
 ALTER SEQUENCE seq_tb_external_users RESTART WITH 5;
+
+commit;
