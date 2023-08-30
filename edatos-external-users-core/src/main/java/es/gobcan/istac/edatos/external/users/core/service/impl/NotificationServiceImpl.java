@@ -220,9 +220,7 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     private String generateTextI18n(String text, String[] args) {
-        Locale locale = LocaleContext.getLocale();
-
-        return messageSource.getMessage(text, args, locale);
+        return messageSource.getMessage(text, args, LocaleContext.getLocale());
     }
 
     private String getOrganism() {
@@ -234,7 +232,7 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     private String getLocale() {
-        return LocaleContext.getLocale().toString();
+        return LocaleContext.getLocale() != null ? LocaleContext.getLocale().toString() : null;
     }
 
     private String getDefaultLocale() {

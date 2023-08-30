@@ -49,7 +49,7 @@ public abstract class AuditEventMapper{
     }
 
     private String getFavoriteValue(AuditEvent entity){
-        String locale = LocaleContext.getLocale().toString();
+        String locale = LocaleContext.getLocale() == null ? null : LocaleContext.getLocale().toString();
         String defaultLocale = LocaleContext.getDefaultLocale().toString();
 
         String code = entity.getData().values().stream().collect(Collectors.toList()).get(0).toString();

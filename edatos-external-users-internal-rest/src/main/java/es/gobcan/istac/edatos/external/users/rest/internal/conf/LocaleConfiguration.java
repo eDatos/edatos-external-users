@@ -18,10 +18,9 @@ import static org.siemac.edatos.core.common.util.AbstractInternationalizationUti
 @Configuration
 public class LocaleConfiguration extends WebMvcConfigurerAdapter {
 
-    private final MetadataProperties metadataProperties;
-
     public LocaleConfiguration(MetadataProperties metadataProperties) {
-        this.metadataProperties = metadataProperties;
+        LocaleContext.setDefaultLocale(Locale.forLanguageTag(metadataProperties.getDefaultLanguage()));
+        Locale.setDefault(Locale.forLanguageTag(metadataProperties.getDefaultLanguage()));
     }
 
     public class LocaleCheckInterceptor extends HandlerInterceptorAdapter {
@@ -32,9 +31,6 @@ public class LocaleConfiguration extends WebMvcConfigurerAdapter {
             if (request.getHeader(ACCEPT_LANGUAGE_HEADER) != null && requestLocale != null && isValidLang(requestLocale)) {
                 LocaleContext.setLocale(Locale.forLanguageTag(requestLocale));
             }
-
-            LocaleContext.setDefaultLocale(Locale.forLanguageTag(metadataProperties.getDefaultLanguage()));
-            Locale.setDefault(Locale.forLanguageTag(metadataProperties.getDefaultLanguage()));
 
             return true;
         }
