@@ -20,6 +20,7 @@ public class LocaleConfiguration extends WebMvcConfigurerAdapter {
 
     public LocaleConfiguration(MetadataProperties metadataProperties) {
         this.metadataProperties = metadataProperties;
+        LocaleContext.setDefaultLocale(Locale.forLanguageTag(metadataProperties.getDefaultLanguage()));
     }
 
     public class LocaleCheckInterceptor extends HandlerInterceptorAdapter {
@@ -30,8 +31,6 @@ public class LocaleConfiguration extends WebMvcConfigurerAdapter {
             if (langCookie != null) {
                 LocaleContext.setLocale(Locale.forLanguageTag(langCookie.getValue()));
             }
-            LocaleContext.setDefaultLocale(Locale.forLanguageTag(metadataProperties.getDefaultLanguage()));
-
             return true;
         }
     }
