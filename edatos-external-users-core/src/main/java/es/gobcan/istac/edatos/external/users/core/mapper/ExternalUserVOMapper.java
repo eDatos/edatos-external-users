@@ -57,7 +57,7 @@ public abstract class ExternalUserVOMapper {
     @Named("getNationality")
     public String getNationality(ExternalUserEntity entity) {
         if (StringUtils.isNotEmpty(entity.getNationality())) {
-            Locale locale = LocaleContext.getLocale();
+            Locale locale = LocaleContext.getLocale() == null ? LocaleContext.getDefaultLocale() : LocaleContext.getLocale();
             String language = locale.toString().split("_")[0];
 
             String urn = metadataProperties.getNationalityUrnKey();
