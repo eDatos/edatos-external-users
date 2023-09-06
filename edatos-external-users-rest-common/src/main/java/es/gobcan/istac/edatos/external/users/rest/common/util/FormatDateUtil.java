@@ -8,7 +8,7 @@ public class FormatDateUtil {
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     public static LocalDate formatBirthdayStringToLocalDate(String date) {
-        if (!date.isEmpty()) {
+        if (date != null) {
             return LocalDate.parse(date, DATE_FORMATTER);
         }
         return null;
