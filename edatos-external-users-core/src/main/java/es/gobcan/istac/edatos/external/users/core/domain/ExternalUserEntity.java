@@ -105,13 +105,13 @@ public class ExternalUserEntity extends AbstractVersionedAndAuditingEntity {
     @Column(name = "registration_token", unique = true)
     private String registrationToken;
 
-    @Column(name = "nationality", nullable = false)
+    @Column(name = "nationality")
     private String nationality;
 
-    @Column(name = "gender", nullable = false)
+    @Column(name = "gender")
     private String gender;
 
-    @Column(name = "birthday", nullable = false)
+    @Column(name = "birthday")
     private LocalDate birthday;
     @ManyToOne
     @JoinColumn(name = "data_protection_policy_fk")
