@@ -1,4 +1,4 @@
-package es.gobcan.istac.edatos.external.users.core.job;
+package es.gobcan.istac.edatos.external.users.job;
 
 import java.time.Instant;
 
