@@ -9,3 +9,5 @@ VALUES (1, 'admin', '2021-04-16 14:27:46.038000', 'admin', '2021-04-16 14:27:46.
        (8, 'admin', '2021-04-16 14:28:16.517000', 'admin', '2021-04-16 14:28:16.517000', 0, 1, null, 1);
 
 ALTER SEQUENCE seq_tb_favorites RESTART WITH 9;
+
+commit;
