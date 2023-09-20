@@ -124,6 +124,20 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        String[] UNAUTHORIZED_REQUESTS = {
+            "/api/activate",
+            "/api/authenticate",
+            "/api/profile-info",
+            "/api/account/signup/**",
+            "/api/login",
+            "/api/recover-password/**",
+            "/v2/api-docs/**",
+            "/apis/operations-internal/**",
+            "/api/data-protection-policy",
+            "/api/captcha/**",
+            "/api/filters/last-access/**"
+        };
+
         //@formatter:off
         http
              .cors() // This is needed here so spring-security can take into account the spring-mvc cors configuration, mainly to allow the OPTIONS requests done on preflight
@@ -135,7 +149,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .accessDeniedHandler(accessDeniedHandler())
             .authenticationEntryPoint(http401UnauthorizedEntryPoint())
         .and()
-            .csrf().csrfTokenRepository(getCsrfTokenRepository())
+            .csrf().csrfTokenRepository(getCsrfTokenRepository()).ignoringAntMatchers(UNAUTHORIZED_REQUESTS)
         .and()
             .headers().frameOptions().sameOrigin()
         .and()
@@ -143,17 +157,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()
             .authorizeRequests()
-                .antMatchers("/api/activate").permitAll()
-                .antMatchers("/api/authenticate").permitAll()
-                .antMatchers("/api/profile-info").permitAll()
-                .antMatchers("/api/account/signup/**").permitAll()
-                .antMatchers("/api/login").permitAll()
-                .antMatchers("/api/recover-password/**").permitAll()
-                .antMatchers("/v2/api-docs/**").permitAll()
-                .antMatchers("/apis/operations-internal/**").permitAll()
-                .antMatchers("/api/data-protection-policy").permitAll()
-                .antMatchers("/api/captcha/**").permitAll()
-                .antMatchers("/api/filters/last-access/**").permitAll()
+                .antMatchers(UNAUTHORIZED_REQUESTS).permitAll()
                 .antMatchers("/**").authenticated();
         //@formatter:on
     }
