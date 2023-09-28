@@ -58,4 +58,9 @@ public class ServiceExceptionType extends CommonServiceExceptionType {
      ********/
     public static final CommonServiceExceptionType MISSING_DEFAULT_LOCALE_TRANSLATION = create("exception.external_users.international_string.missing_default_locale_translation");
 
+    /********
+     * CAPTCHA
+     ********/
+    public static final CommonServiceExceptionType CAPTCHA_UNSUCCESSFUL = create("exception.external_users.captcha.unsuccessful");
+
 }

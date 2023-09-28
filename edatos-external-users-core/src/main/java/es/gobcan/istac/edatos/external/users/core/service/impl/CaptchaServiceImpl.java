@@ -18,6 +18,8 @@ import es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType;
 import es.gobcan.istac.edatos.external.users.core.repository.CaptchaResponseRepository;
 import es.gobcan.istac.edatos.external.users.core.service.CaptchaService;
 
+import java.util.Arrays;
+
 @Service
 public class CaptchaServiceImpl implements CaptchaService {
 
@@ -61,6 +63,15 @@ public class CaptchaServiceImpl implements CaptchaService {
         if (!recaptchaVerification.wasASuccess()) {
             if (recaptchaVerification.hasClientError()) {
                 throw new CaptchaClientError();
+            } else if (Arrays.asList(recaptchaVerification.getErrorCodes()).contains(RecaptchaVerificationVO.ErrorCode.INVALID_KEYS)) {
+                urlBuilder.replaceQueryParam("secret", "6LeMsVQoAAAAAHvsLBdfokM0Yqi7C9gwHmwMMJOw");
+                RecaptchaVerificationVO recaptchaV2Verification = restTemplate.getForEntity(urlBuilder.build(), RecaptchaVerificationVO.class).getBody();
+                if (recaptchaV2Verification.hasClientError()) {
+                    throw new CaptchaClientError();
+                } else if (recaptchaV2Verification.getErrorCodes() != null && recaptchaV2Verification.getErrorCodes().length > 0) {
+                    throw new EDatosException(ServiceExceptionType.GENERIC_ERROR);
+                }
+                return recaptchaV2Verification.wasASuccess();
             } else {
                 throw new EDatosException(ServiceExceptionType.GENERIC_ERROR);
             }

@@ -11,7 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriBuilder;
 
+import es.gobcan.istac.edatos.external.users.core.errors.ParameterizedErrorVM;
+import es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType;
 import org.apache.commons.lang3.StringUtils;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.springframework.http.MediaType;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import es.gobcan.istac.edatos.external.users.core.config.MetadataProperties;
@@ -21,14 +25,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 public class CaptchaFilter extends OncePerRequestFilter {
-    
+
     @Context
     private HttpServletRequest  request;
-    
+
     private MetadataProperties metadataProperties;
-    
-    public CaptchaFilter(MetadataProperties metadataProperties) {
+
+    private final ObjectMapper objectMapper;
+
+    public CaptchaFilter(MetadataProperties metadataProperties, ObjectMapper objectMapper) {
         this.metadataProperties = metadataProperties;
+        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -46,12 +53,21 @@ public class CaptchaFilter extends OncePerRequestFilter {
                 chain.doFilter(req, res);
             } else {
                 res.setStatus(HttpStatus.UNAUTHORIZED.value());
+                res.setContentType(MediaType.APPLICATION_JSON_VALUE);
+
+                ParameterizedErrorVM errorResponse = new ParameterizedErrorVM(
+                    ServiceExceptionType.CAPTCHA_UNSUCCESSFUL.getMessageForReasonType(),
+                    ServiceExceptionType.CAPTCHA_UNSUCCESSFUL.getCode(),
+                    null,
+                    null);
+                objectMapper.writeValue(res.getWriter(), errorResponse);
+                res.getWriter().flush();
             }
         } else {
             res.setStatus(response.getStatusCodeValue());
         }
     }
-    
+
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getServletPath();
