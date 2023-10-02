@@ -32,7 +32,16 @@ var requestWithCaptcha = function(request, url, options) {
                         sendRequestWithCaptcha(request, url, token, options.action).then(function (response) {
                             resolve(response);
                         }).catch(function (error) {
-                            if (error.status === 401 && error.error.code === 'exception.external_users.captcha.unsuccessful') {
+                            var errorCode;
+                            if (options.httpErrorBodyExtractor && options.httpErrorBodyExtractor(error).code) {
+                                errorCode = options.httpErrorBodyExtractor(error).code;
+                            } else if (error.error && error.error.code) {
+                                errorCode = error.error.code;
+                            } else if (error.responseText && JSON.parse(error.responseText).code) {
+                                errorCode = JSON.parse(error.responseText).code;
+                            }
+
+                            if (errorCode === 'exception.external_users.captcha.unsuccessful') {
                                 captchaEl.setAttribute(invisibleRecaptchaFailedAttribute, "true");
                                 grecaptcha.render(captchaEl, {
                                     'sitekey': '6LeMsVQoAAAAAGJAf0kujJ2DbJc4XfKT1Pavs9Fh' // this

@@ -72,6 +72,7 @@ public class RecaptchaVerificationVO {
             switch(error) {
                 case INVALID_RESPONSE:
                 case MISSING_RESPONSE:
+                case TIMEOUT_OR_DUPLICATE:
                     return true;
                 default:
                     break;
