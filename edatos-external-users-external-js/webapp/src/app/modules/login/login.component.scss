@@ -1,5 +1,9 @@
 div.card {
-    min-width: 320px;
+    min-width: min-content;
+
+    h5 {
+        min-width: 235px;
+    }
 }
 
 button > small {
@@ -20,4 +24,10 @@ button > small {
     fieldset.page-section {
         margin-top: 15vh;
     }
+}
+
+div#captcha-container {
+    overflow-x: clip;
+    display: flex;
+    justify-content: center;
 }

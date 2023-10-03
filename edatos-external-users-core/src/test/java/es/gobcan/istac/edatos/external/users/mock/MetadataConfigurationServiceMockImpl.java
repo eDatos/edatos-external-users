@@ -29,6 +29,16 @@ public class MetadataConfigurationServiceMockImpl extends ConfigurationServiceMo
     }
 
     @Override
+    public String retrieveRecaptchaV2SiteKey() throws EDatosException {
+        return retrieveProperty(ExternalUsersConfigurationConstants.CAPTCHA_RECAPTCHA_V2_SITE_KEY);
+    }
+
+    @Override
+    public String retrieveRecaptchaV2SecretKey() throws EDatosException {
+        return retrieveProperty(ExternalUsersConfigurationConstants.CAPTCHA_RECAPTCHA_V2_SECRET_KEY);
+    }
+
+    @Override
     public double retrieveRecaptchaThreshold() throws EDatosException {
         return Double.parseDouble(retrieveProperty(ExternalUsersConfigurationConstants.CAPTCHA_RECAPTCHA_THRESHOLD));
     }
