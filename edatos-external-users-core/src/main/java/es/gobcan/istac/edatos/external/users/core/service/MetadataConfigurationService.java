@@ -13,6 +13,10 @@ public interface MetadataConfigurationService extends ConfigurationService {
 
     String retrieveRecaptchaSecretKey() throws EDatosException;
 
+    String retrieveRecaptchaV2SiteKey() throws EDatosException;
+
+    String retrieveRecaptchaV2SecretKey() throws EDatosException;
+
     double retrieveRecaptchaThreshold() throws EDatosException;
 
     String retrieveBaseUrl() throws EDatosException;

@@ -151,8 +151,8 @@ public class CaptchaResource extends AbstractResource {
             model.addAttribute(CaptchaConstants.CAPTCHA_PICTURE_MODEL_ATTR, captchaPictureUri.path("/picture/gobcan").build().toString());
             return "authentication-gobcan";
         } else if(CaptchaConstants.CAPTCHA_PROVIDER_RECAPTCHA.equals(captchaProvider)) {
-            String recaptchaSiteKey = metadataService.getRecaptchaSiteKey();
-            model.addAttribute(CaptchaConstants.RECAPTCHA_SITE_KEY_MODEL_ATTR, recaptchaSiteKey);
+            model.addAttribute(CaptchaConstants.RECAPTCHA_SITE_KEY_MODEL_ATTR, metadataService.getRecaptchaSiteKey());
+            model.addAttribute(CaptchaConstants.RECAPTCHA_V2_SITE_KEY_MODEL_ATTR, metadataService.getRecaptchaV2SiteKey());
             model.addAttribute("locale", LocaleContext.getLocale() == null ? LocaleContext.getDefaultLocale().toString() : LocaleContext.getLocale().toString());
             return "authentication-recaptcha";
         }

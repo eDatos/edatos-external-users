@@ -44,7 +44,7 @@ var requestWithCaptcha = function(request, url, options) {
                             if (errorCode === 'exception.external_users.captcha.unsuccessful') {
                                 captchaEl.setAttribute(invisibleRecaptchaFailedAttribute, "true");
                                 grecaptcha.render(captchaEl, {
-                                    'sitekey': '6LeMsVQoAAAAAGJAf0kujJ2DbJc4XfKT1Pavs9Fh' // this
+                                    'sitekey': /*[[${recaptchaV2SiteKey}]]*/ ""
                                 });
                             }
                             reject(error);

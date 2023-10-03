@@ -60,7 +60,7 @@ public class CaptchaServiceImpl implements CaptchaService {
 
         if (!recaptchaVerification.wasASuccess()) {
             if (Arrays.asList(recaptchaVerification.getErrorCodes()).contains(RecaptchaVerificationVO.ErrorCode.INVALID_KEYS)) {
-                urlBuilder.replaceQueryParam("secret", "6LeMsVQoAAAAAHvsLBdfokM0Yqi7C9gwHmwMMJOw");
+                urlBuilder.replaceQueryParam("secret", metadataProperties.getRecaptchaV2SecretKey());
                 RecaptchaVerificationVO recaptchaV2Verification = restTemplate.getForEntity(urlBuilder.build(), RecaptchaVerificationVO.class).getBody();
                 if (!recaptchaV2Verification.hasClientError() && recaptchaV2Verification.getErrorCodes() != null && recaptchaV2Verification.getErrorCodes().length > 0) {
                     throw new InternalCaptchaException();
