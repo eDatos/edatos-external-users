@@ -10,6 +10,9 @@
             "nombre.placeholder": "Su nombre"
         },
         "messages": {
+            "default": {
+                "title": "Error"
+            },
             "error": {
                 "emailexists": "<strong>¡La dirección de correo ya existe!</strong> Por favor, escoja otra.",
                 "fail": "<strong>¡Ha ocurrido un error!</strong> Los ajustes no se han podido guardar."
@@ -395,9 +398,9 @@
             "title": "Usuario"
         },
         "email": "Email",
-        "enableEmailNotifications": "Habilitar notificaciones a través de correo electrónico para este usuario",
-        "phoneNumber": "Número télefono",
         "organism": "Organismo",
+        "phoneNumber": "Número télefono",
+        "enableEmailNotifications": "Habilitar notificaciones a través de correo electrónico para este usuario",
         "filters": {
             "labels": {
                 "categories": "Suscripciones temáticas",

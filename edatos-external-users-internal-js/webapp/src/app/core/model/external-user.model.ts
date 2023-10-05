@@ -15,7 +15,7 @@ export class ExternalUser extends BaseVersionedAndAuditingWithDeletionEntity {
     public emailNotificationsEnabled: boolean;
     public gender: string | null;
     public nationality: string | null;
-    public birthday: Date;
+    public birthday: string;
 
     public getFullName(): string {
         return `${this.name} ${this.surname1} ${this.surname2 ? this.surname2 : ''}`;

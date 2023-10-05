@@ -26,6 +26,8 @@ export class SignupFormComponent implements OnInit {
 
     public countries: ItemCode[] = [];
     public genders: ItemCode[] = [];
+    public nationality: ItemCode;
+    public gender: ItemCode;
 
     public confirmPassword: string;
 
@@ -71,6 +73,8 @@ export class SignupFormComponent implements OnInit {
             if (this.passwordDoNotMatch()) {
                 this.validUser = false;
             } else {
+                this.user.gender = this.gender ? this.gender.id : null;
+                this.user.nationality = this.nationality ? this.nationality.id : null;
                 this.accountUserService
                     .create(this.captchaContainerEl, this.user)
                     .then((response) => this.onSaveSuccess(response))

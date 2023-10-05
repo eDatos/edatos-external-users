@@ -100,6 +100,21 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public CategoryEntity updateCategory(CategoryEntity category) {
+        return this.saveCategory(category);
+    }
+
+    @Override
+    public CategoryEntity createCategory(CategoryEntity category) {
+        return this.saveCategory(category);
+    }
+
+    private CategoryEntity saveCategory(CategoryEntity category) {
+        categoryValidator.checkMandatoryLanguageIsSetInCategoryName(category);
+        return categoryRepository.saveAndFlush(category);
+    }
+
+    @Override
     public Optional<CategoryEntity> delete(Long id) {
         if (id != null) {
             CategoryEntity category = categoryRepository.getOne(id);

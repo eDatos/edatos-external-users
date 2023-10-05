@@ -44,3 +44,5 @@ VALUES (1, 'system', '2021-05-06 11:10:17.234000', 'system',
 
 
 ALTER SEQUENCE seq_tb_filters RESTART WITH 9;
+
+commit;

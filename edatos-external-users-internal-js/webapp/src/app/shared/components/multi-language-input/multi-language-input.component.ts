@@ -2,6 +2,7 @@ import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/cor
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { InternationalString, LocalisedString } from '@app/shared/model';
 import * as _ from 'lodash';
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
     selector: 'app-multi-language-input',
@@ -31,9 +32,11 @@ export class MultiLanguageInputComponent implements ControlValueAccessor {
     public isDisabled = false;
     public value = new InternationalString();
     public mappedValue: { [key: string]: string } = {};
+    defaultLocale: string = "";
 
-    constructor() {
+    constructor(translateService: TranslateService) {
         this.value.texts = [];
+        this.defaultLocale = translateService.getDefaultLang();
     }
 
     public onTouched: any = () => {};

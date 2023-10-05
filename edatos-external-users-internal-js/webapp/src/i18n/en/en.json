@@ -10,6 +10,9 @@
             "nombre.placeholder": "Your Name"
         },
         "messages": {
+            "default": {
+                "title": "Error"
+            },
             "error": {
                 "emailexists": "<strong>The email address already exists!</strong> Please choose another.",
                 "fail": "<strong>An error has occurred!</strong> The settings could not be saved."
@@ -460,7 +463,10 @@
         },
         "surname1": "Surname",
         "surname2": "Second surname",
-        "updated": "User {{ param }}has been updated"
+        "updated": "User {{ param }}has been updated",
+        "gender": "Gender",
+        "nationality": "Nationality",
+        "birthday": "Date of birth"
     },
     "family": {
         "acronym": {

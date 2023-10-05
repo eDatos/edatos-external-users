@@ -28,7 +28,7 @@ public class ExternalUserAccountBaseDto extends AbstractVersionedAndAuditingAndL
 
     private String gender;
 
-    private LocalDate birthday;
+    private String birthday;
 
     @Override
     public Long getId() {
@@ -115,10 +115,10 @@ public class ExternalUserAccountBaseDto extends AbstractVersionedAndAuditingAndL
     public void setGender(String gender) {
         this.gender = gender;
     }
-    public LocalDate getBirthday() {
+    public String getBirthday() {
         return birthday;
     }
-    public void setBirthday(LocalDate birthday) {
+    public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
     public Long getDataProtectionPolicyId() {

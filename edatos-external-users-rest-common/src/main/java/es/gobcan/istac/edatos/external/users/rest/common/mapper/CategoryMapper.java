@@ -51,14 +51,22 @@ public abstract class CategoryMapper implements EntityMapper<CategoryDto, Catego
     ExternalOperationService externalOperationService;
 
     @Override
-    @Mapping(target = "parent", ignore = true)
     @Mapping(target = "externalCategories", source = "dto.externalCategories", qualifiedByName = "getExternalCategoryEntitiesFromUrn")
+    @Mapping(target = "parent", source = "parentId", qualifiedByName = "getParentFromId")
     public abstract CategoryEntity toEntity(CategoryDto dto);
 
     public List<ExternalOperationDto> getExternalOperations(CategoryEntity category, Map<CategoryEntity, List<ExternalCategoryEntity>> categoriesExternalCategories,
             List<ExternalOperationEntity> externalOperations, Map<String, Long> subscribers) {
         List<ExternalCategoryDto> externalCategories = getExternalCategories(category, categoriesExternalCategories);
         return getOperations(externalOperations, externalCategories, subscribers);
+    }
+
+    @Named("getParentFromId")
+    public CategoryEntity getParentFromId(Long parentId) {
+        if (parentId != null && parentId > 0) {
+            return categoryRepository.findOne(parentId);
+        }
+        return null;
     }
 
     @Named("getExternalCategoryEntitiesFromUrn")

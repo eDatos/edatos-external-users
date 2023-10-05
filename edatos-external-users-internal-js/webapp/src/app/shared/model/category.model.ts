@@ -21,4 +21,6 @@ export class Category extends BaseVersionedAndAuditingEntity {
 
     @Type(() => ExternalOperation)
     public externalOperations: ExternalOperation[] = [];
+
+    public parentId: number = 0;
 }

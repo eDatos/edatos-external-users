@@ -27,17 +27,17 @@ public class RecaptchaVerificationVO {
     private Boolean success;
 
     private Double score;
-    
+
     private String action;
-    
+
     private String hostname;
-    
+
     @JsonProperty("challenge_ts")
     private String challengeTs;
-    
+
     @JsonProperty("error-codes")
     private ErrorCode[] errorCodes;
-    
+
     public boolean wasASuccess() {
         return success;
     }
@@ -45,23 +45,23 @@ public class RecaptchaVerificationVO {
     public String getChallengeTs() {
         return challengeTs;
     }
-    
+
     public String getHostname() {
         return hostname;
     }
-    
+
     public ErrorCode[] getErrorCodes() {
         return errorCodes;
     }
-    
-    public double getScore() {
+
+    public Double getScore() {
         return score;
     }
-    
+
     public String getAction() {
         return action;
     }
-    
+
     @JsonIgnore
     public boolean hasClientError() {
         ErrorCode[] errors = getErrorCodes();
@@ -72,6 +72,7 @@ public class RecaptchaVerificationVO {
             switch(error) {
                 case INVALID_RESPONSE:
                 case MISSING_RESPONSE:
+                case TIMEOUT_OR_DUPLICATE:
                     return true;
                 default:
                     break;
@@ -80,14 +81,15 @@ public class RecaptchaVerificationVO {
         return false;
     }
 
-    enum ErrorCode {
-        MISSING_SECRET, INVALID_SECRET, MISSING_RESPONSE, INVALID_RESPONSE, BAD_REQUEST, TIMEOUT_OR_DUPLICATE;
+    public enum ErrorCode {
+        MISSING_SECRET, INVALID_SECRET, INVALID_KEYS, MISSING_RESPONSE, INVALID_RESPONSE, BAD_REQUEST, TIMEOUT_OR_DUPLICATE;
 
         private static Map<String, ErrorCode> errorsMap = new HashMap<>(6);
 
         static {
-            errorsMap.put("missing-input-secret",   MISSING_SECRET);
-            errorsMap.put("invalid-input-secret",   INVALID_SECRET);
+            errorsMap.put("missing-input-secret", MISSING_SECRET);
+            errorsMap.put("invalid-input-secret", INVALID_SECRET);
+            errorsMap.put("invalid-keys", INVALID_KEYS);
             errorsMap.put("missing-input-response", MISSING_RESPONSE);
             errorsMap.put("invalid-input-response", INVALID_RESPONSE);
             errorsMap.put("bad-request", BAD_REQUEST);

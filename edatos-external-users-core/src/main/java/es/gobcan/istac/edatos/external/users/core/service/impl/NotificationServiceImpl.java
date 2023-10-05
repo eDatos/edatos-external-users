@@ -136,7 +136,7 @@ public class NotificationServiceImpl implements NotificationService {
         for (FavoriteEntity favorite : listFavorites) {
             ExternalUserEntity externalUserEntity = favorite.getExternalUser();
             ArrayList<String> argsList = new ArrayList<String>(Arrays.asList(argsByExternalUser(externalUserEntity)));
-            argsList.add(favorite.getExternalOperation().getName().getLocalisedLabel(getLocale(), getDefaultLocale()));
+            argsList.add(favorite.getExternalOperation().getName().getLocalisedLabel(null, getDefaultLocale()));
 
             if (externalUserEntity.isEmailNotificationsEnabled() && favorite.getExternalOperation().isNotificationsEnabled()) {
                 createNotificationWithReceiver(codeSubject, messageCode, externalUserEntity.getEmail(), argsList.toArray(new String[argsList.size()]), SUBSCRIPTION_JOB_NOTICE_FAILED);
@@ -220,9 +220,7 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     private String generateTextI18n(String text, String[] args) {
-        Locale locale = LocaleContext.getLocale();
-
-        return messageSource.getMessage(text, args, locale);
+        return messageSource.getMessage(text, args, null);
     }
 
     private String getOrganism() {
@@ -230,11 +228,7 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     private String getLopd() {
-        return dataProtectionPolicyService.find().getValue().getLocalisedLabel(getLocale(), getDefaultLocale());
-    }
-
-    private String getLocale() {
-        return LocaleContext.getLocale().toString();
+        return dataProtectionPolicyService.find().getValue().getLocalisedLabel(null, getDefaultLocale());
     }
 
     private String getDefaultLocale() {

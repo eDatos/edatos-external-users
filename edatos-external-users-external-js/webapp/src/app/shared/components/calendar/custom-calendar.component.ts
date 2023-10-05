@@ -102,7 +102,7 @@ export class CustomCalendarComponent extends Calendar implements ControlValueAcc
     }
 
     writeValue(value: any): void {
-        this._date = value ? new Date(value) : undefined;
+        this._date = value ? value : undefined;
     }
 
     @Input()
@@ -112,7 +112,6 @@ export class CustomCalendarComponent extends Calendar implements ControlValueAcc
 
     set date(value) {
         this._date = value;
-        this._date.setHours(1);
         this.onModelChange(this._date);
     }
 

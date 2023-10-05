@@ -596,3 +596,4 @@ VALUES ('2021-07-01 11:31:51.000000',
 
 ALTER SEQUENCE seq_tb_external_items RESTART WITH 5;
 
+commit;

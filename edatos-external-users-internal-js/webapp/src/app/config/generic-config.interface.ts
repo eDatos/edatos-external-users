@@ -10,6 +10,7 @@ export interface GenericConfig {
     };
     metadata: {
         navbarScriptUrl: string;
+        language: string;
         defaultLanguage: string;
         nationalities: string;
         gender: string;
