@@ -40,6 +40,7 @@ public class MetadataProperties {
     private String srmExternalEndpoint;
 
     private String visualizerPath;
+    private String siePath;
 
     private String nationalityUrnKey;
     private String genderUrnKey;
@@ -67,6 +68,7 @@ public class MetadataProperties {
         internalAppUrl = normalizeUrl(configurationService.retrieveExternalUsersInternalWebApplicationUrlBase());
         casService = internalAppUrl + "/login/cas";
         visualizerPath = configurationService.retrievePortalExternalWebApplicationUrlVisualizer();
+        siePath = configurationService.retrieveSieExternalWebApplicationUrl();
         defaultLanguage = availableLanguages.get(0);
         nationalityUrnKey = configurationService.retrieveNationalityUrnKey();
         genderUrnKey = configurationService.retrieveGenderUrnKey();
@@ -153,6 +155,10 @@ public class MetadataProperties {
 
     public String getVisualizerPath() {
         return visualizerPath;
+    }
+
+    public String getSiePath() {
+        return siePath;
     }
 
     public String getNationalityUrnKey() {
