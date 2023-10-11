@@ -50,7 +50,7 @@ public class CaptchaResource extends AbstractResource {
     @Autowired
     private MetadataProperties metadataService;
 
-    @GetMapping("/validate")
+    @GetMapping("/api/validate")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     public void validateCaptcha(@RequestParam(required = false) String userValue, @RequestParam(required = false) String sessionKey,
