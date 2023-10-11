@@ -13,9 +13,15 @@
 * Se añaden las propiedades `metamac.portal.rest.external.authentication.captcha.v2.private_key` y `metamac.portal.rest.external.authentication.captcha.v2.public_key`, que hacen referencia a la clave secreta y la clave de sitio web de la versión 2 del recaptcha respectivamente. Para añadir las propiedades hace falta ejecutar el siguiente script SQL:
 
 ```
-etc\changes-from-release\1.1.0\db\common-metadata\postgresql\20231003_insert_recaptcha_v2_keys_configuration.sql
+etc\changes-from-release\1.2.1\db\common-metadata\postgresql\20231003_insert_recaptcha_v2_keys_configuration.sql
 ```
 
+* Se actualiza el valor de la propiedad `metamac.portal.rest.external.authentication.captcha.url`. Para actualizarlo
+  debe ejecutarse el siguiente script con el valor por entorno de la propiedad:
+
+```
+etc\changes-from-release\1.2.1\db\common-metadata\postgresql\20231011_update_captcha_value.sql
+```
 
 ## 1.1.0 a 1.2.0
 * Se añade la propiedad `edatos.shared.allowed_origins`, que hace referencia a las URLs desde las que se puede acceder a la API externa de external-users. Si una url que no está incluida en la propiedad intentara hacer una petición aparecería un error de CORS. Para añadir la propiedad hace falta ejecutar el siguiente script SQL:
