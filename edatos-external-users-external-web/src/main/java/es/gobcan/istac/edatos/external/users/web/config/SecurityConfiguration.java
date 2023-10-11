@@ -134,7 +134,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             "/v2/api-docs/**",
             "/apis/operations-internal/**",
             "/api/data-protection-policy",
-            "/api/captcha/**",
+            "/captcha/**",
             "/api/filters/last-access/**"
         };
 
