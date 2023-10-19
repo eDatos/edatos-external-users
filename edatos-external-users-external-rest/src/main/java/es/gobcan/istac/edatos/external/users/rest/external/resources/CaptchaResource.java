@@ -40,7 +40,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @RequestMapping(CaptchaResource.BASE_URL)
 public class CaptchaResource extends AbstractResource {
 
-    public static final String BASE_URL = "/api/captcha";
+    public static final String BASE_URL = "/catpcha";
 
     private final Random random = new Random();
 
@@ -50,7 +50,7 @@ public class CaptchaResource extends AbstractResource {
     @Autowired
     private MetadataProperties metadataService;
 
-    @GetMapping("/validate")
+    @GetMapping("/api/validate")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     public void validateCaptcha(@RequestParam(required = false) String userValue, @RequestParam(required = false) String sessionKey,
@@ -136,7 +136,7 @@ public class CaptchaResource extends AbstractResource {
         }
     }
 
-    @GetMapping(value="/authentication.js")
+    @GetMapping(value="/captcha.js")
     public String authentication(HttpServletRequest request, Model model) {
 
         String captchaProvider = metadataService.getCaptchaProvider();

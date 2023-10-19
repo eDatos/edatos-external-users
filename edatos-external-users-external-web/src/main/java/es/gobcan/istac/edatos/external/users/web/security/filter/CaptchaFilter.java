@@ -34,7 +34,7 @@ public class CaptchaFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws ServletException, IOException {
         UriBuilder urlBuilder = UriBuilder.fromUri(metadataProperties.getCaptchaUrl());
-        urlBuilder.path("validate");
+        urlBuilder.path("api/validate");
         for(String paramKey : Collections.list(req.getParameterNames())) {
             urlBuilder.queryParam(paramKey, req.getParameter(paramKey));
         }
