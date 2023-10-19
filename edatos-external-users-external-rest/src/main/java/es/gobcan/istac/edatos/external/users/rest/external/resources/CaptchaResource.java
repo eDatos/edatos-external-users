@@ -40,7 +40,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @RequestMapping(CaptchaResource.BASE_URL)
 public class CaptchaResource extends AbstractResource {
 
-    public static final String BASE_URL = "/catpcha";
+    public static final String BASE_URL = "/captcha";
 
     private final Random random = new Random();
 
