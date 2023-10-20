@@ -23,6 +23,14 @@ etc\changes-from-release\1.2.1\db\common-metadata\postgresql\20231003_insert_rec
 etc\changes-from-release\1.2.1\db\common-metadata\postgresql\20231011_update_captcha_value.sql
 ```
 
+* Se añade una dependencia en la propiedad `metamac.sie.web.external.url`. Para actualizarlo
+  debe ejecutarse el siguiente script localizado en el proyecto `sie`, versión 2.6.1-SNAPSHOT, con el valor 
+  por entorno de la propiedad:
+
+```
+etc\changes-from-release\2.6.0\db\common-metadata\postgresql\20231009_add_sie_external_web_url.sql
+```
+
 ## 1.1.0 a 1.2.0
 * Se añade la propiedad `edatos.shared.allowed_origins`, que hace referencia a las URLs desde las que se puede acceder a la API externa de external-users. Si una url que no está incluida en la propiedad intentara hacer una petición aparecería un error de CORS. Para añadir la propiedad hace falta ejecutar el siguiente script SQL:
 
