@@ -20,7 +20,8 @@ public final class Constants {
 
     public static final int HEALTH_INDICATOR_REQUEST_TIMEOUT_MS = 3000;
 
-    public static final String PATH_PERMALINK = "/data.html?permalink=";
+    public static final String PORTAL_PATH_PERMALINK = "/data.html?permalink=";
+    public static final String SIE_PATH_PERMALINK = "/#/proceso-electoral/permalink/";
 
     private Constants() {
     }

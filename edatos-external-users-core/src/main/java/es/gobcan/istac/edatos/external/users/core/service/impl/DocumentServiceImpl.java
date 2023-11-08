@@ -76,7 +76,7 @@ public class DocumentServiceImpl implements DocumentService {
             Map<String, Object> parameters = new HashMap<>();
             parameters.put("PERSONAL_INFORMATION", externalUserVO);
             parameters.put("FAVORITES", new JRBeanCollectionDataSource(fav));
-            parameters.put("PERMALINK_PATH", metadataProperties.getVisualizerPath() + Constants.PATH_PERMALINK);
+            parameters.put("PERMALINK_PATH", metadataProperties.getVisualizerPath() + Constants.PORTAL_PATH_PERMALINK);
             parameters.put("FILTERS", new JRBeanCollectionDataSource(filters));
             parameters.put("AUDIT", new JRBeanCollectionDataSource(audit));
             parameters.put("PATH_LOGO", new URI(getClass().getResource(DocumentConstants.FOLDER_JASPER_REPORT + DocumentConstants.LOGO_CABECERA).toString()).getPath());
