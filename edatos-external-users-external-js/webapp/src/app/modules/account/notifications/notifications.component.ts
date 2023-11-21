@@ -1,0 +1,132 @@
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { LazyLoadEvent } from 'primeng/api';
+import { ITEMS_PER_PAGE, PAGINATION_OPTIONS } from '@app/app.constants';
+import { ResponseWrapper } from '@app/core/utils/response-utils';
+import { NoticeFilter } from '@app/modules/account/notifications/notice-search/notice-search';
+import { NoticeService } from '@app/shared/service/user/notice.service';
+import { Messages, Notice } from '@app/core/model/notice.model';
+
+@Component({
+    selector: 'ac-account-management',
+    templateUrl: './notifications.component.html',
+    styleUrls: ['./notifications.component.scss']
+})
+export class NotificationsComponent implements OnInit {
+    public notices: Notice[] = [];
+    public noticesLoaded: boolean = false;
+    public totalItems: number | null = null;
+    public paginatorOptions = [10, 15, 40];
+    public itemsPerPage?: number;
+
+    public columns: any = [
+        {
+            fieldName: 'message',
+            sortable: false,
+            header: {
+                handler: 'translate',
+                translatePath: 'notices.entity.message'
+            }
+        },
+        {
+            fieldName: 'recivedDate',
+            sortable: false,
+            header: {
+                handler: 'translate',
+                translatePath: 'notices.entity.recivedDate'
+            }
+        }
+    ];
+    private page: any;
+    private reverse?: boolean;
+    private predicate: any;
+
+    constructor(private noticeService: NoticeService, private activatedRoute: ActivatedRoute, private router: Router,
+                private noticeSearch: NoticeFilter) {
+        this.activatedRoute.data.subscribe((data) => {
+            this.page = data['pagingParams'].page;
+            this.reverse = data['pagingParams'].ascending;
+            this.predicate = data['pagingParams'].predicate;
+            this.itemsPerPage = data['pagingParams'].itemsPerPage;
+        });
+    }
+
+    ngOnInit() {
+        this.activatedRoute.queryParams.subscribe((params) => {
+            this.noticeSearch.fromQueryParams(params).subscribe(() =>
+                this.noticeService
+                    .find({
+                        page: this.page - 1,
+                        size: PAGINATION_OPTIONS.indexOf(Number(this.itemsPerPage)) > -1 ? this.itemsPerPage : ITEMS_PER_PAGE,
+                        sort: this.sort(),
+                        query: this.noticeSearch.toQuery()
+                    })
+                    .subscribe(
+                        (rw) => this.onSuccess(rw),
+                        () => {
+                        },
+                        () => {
+                            this.noticesLoaded = true;
+                        }
+                    )
+            );
+        });
+    }
+
+    public transition() {
+        const transitionParams = {
+            page: this.page,
+            size: PAGINATION_OPTIONS.indexOf(Number(this.itemsPerPage)) > -1 ? this.itemsPerPage : ITEMS_PER_PAGE,
+            sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
+        };
+        const queryParams = {
+            ...this.noticeSearch.toUrl(this.activatedRoute.snapshot.queryParams),
+            ...transitionParams
+        };
+        this.router.navigate(['/notifications'], { replaceUrl: true, queryParams });
+    }
+
+    public loadData(e: LazyLoadEvent) {
+        this.page = e.first! / e.rows! + 1;
+        this.itemsPerPage = e.rows;
+        if (e.sortField != null) {
+            this.predicate = this.noticeSearch.fromCamelCaseToSnakeCase(e.sortField);
+            this.reverse = e.sortOrder === 1;
+        }
+        this.transition();
+    }
+
+    public sort() {
+        const result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')];
+        if (this.predicate !== 'id') {
+            result.push('id');
+        }
+        return result;
+    }
+
+    public clear() {
+        this.page = 0;
+        this.router.navigate([
+            '/notifications',
+            {
+                page: this.page,
+                sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
+            }
+        ]);
+    }
+
+    public onSuccess(response: ResponseWrapper<Notice[]>) {
+        console.log(response);
+        console.log(response.totalCount());
+        this.totalItems = response.totalCount();
+        this.notices = response.body;
+    }
+
+    public joinMessagesText(messages: Messages): string {
+        let text = '<div class="message-content-notice">';
+        for (const message of messages.messages) {
+            text += message.text + '\n';
+        }
+        return text + '</div>';
+    }
+}

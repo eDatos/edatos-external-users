@@ -1,7 +1,6 @@
 package es.gobcan.istac.edatos.external.users.rest.common.mapper;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;

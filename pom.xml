@@ -145,7 +145,7 @@
         <edatos-core-common.version>1.2.0</edatos-core-common.version>
         <edatos-rest-common.version>1.0.0</edatos-rest-common.version>
 
-        <metamac-notifications-rest-internal-api.version>3.5.0</metamac-notifications-rest-internal-api.version>
+        <metamac-notifications-rest-internal-api.version>3.6.1-SNAPSHOT</metamac-notifications-rest-internal-api.version>
         <metamac-statistical-operations-rest-internal-api.version>2.2.0</metamac-statistical-operations-rest-internal-api.version>
         <metamac-statistical-operations-rest-external-api.version>3.2.0</metamac-statistical-operations-rest-external-api.version>
         <metamac-statistical-operations.version>2.6.0</metamac-statistical-operations.version>

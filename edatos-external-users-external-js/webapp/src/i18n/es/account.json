@@ -11,7 +11,7 @@
             "button": "Guardar"
         },
         "download": {
-            "myInformation" : "Descargar mi información"
+            "myInformation": "Descargar mi información"
         },
         "messages": {
             "error": {
@@ -41,6 +41,15 @@
             },
             "onSuccessSumary": "Usuario editado",
             "onSuccess": "Se han modificado los datos del usuario correctamente."
+        }
+    },
+    "notices": {
+        "entity": {
+            "message": "Mensaje",
+            "recivedDate": "Recibido"
+        },
+        "list": {
+            "noNotice": "Parece que todavía no has recibido ningún mensaje."
         }
     }
 }

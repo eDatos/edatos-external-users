@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -17,10 +16,13 @@ import es.gobcan.istac.edatos.external.users.core.service.ExternalUserService;
 import es.gobcan.istac.edatos.external.users.core.service.MetadataConfigurationService;
 import es.gobcan.istac.edatos.external.users.core.service.NotificationService;
 import es.gobcan.istac.edatos.external.users.core.i18n.LocaleContext;
+
+import org.fornax.cartridges.sculptor.framework.domain.PagedResult;
 import org.siemac.edatos.core.common.exception.CommonServiceExceptionType;
 import org.siemac.edatos.core.common.exception.EDatosException;
 import org.siemac.metamac.rest.notices.v1_0.domain.Message;
 import org.siemac.metamac.rest.notices.v1_0.domain.Notice;
+import org.siemac.metamac.rest.notices.v1_0.domain.Notices;
 import org.siemac.metamac.rest.notices.v1_0.domain.Receivers;
 import org.siemac.metamac.rest.notices.v1_0.domain.enume.MetamacApplicationsEnum;
 import org.siemac.metamac.rest.notices.v1_0.domain.utils.MessageBuilder;
@@ -30,6 +32,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.ws.rs.core.Response;
@@ -217,6 +222,17 @@ public class NotificationServiceImpl implements NotificationService {
         } catch (Exception e) {
             log.debug("Error in sending notification : {}", e);
         }
+    }
+
+    @Override
+    public Page<Notice> findNoticesByReceiver(String receiver, Pageable pageable){
+        String offset = String.valueOf(pageable.getOffset());
+        String limit = String.valueOf(pageable.getPageSize());
+        String orderBy = "desc";
+
+        Notices result =  eDatosApisLocator.getNoticesRestInternalFacadeV10().findNoticesByReceiver(receiver, orderBy, offset, limit);
+
+        return new PageImpl<Notice>(result.getNotices(), pageable, result.getTotal().intValue());
     }
 
     private String generateTextI18n(String text, String[] args) {
