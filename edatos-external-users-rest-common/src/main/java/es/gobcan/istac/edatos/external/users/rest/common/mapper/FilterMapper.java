@@ -83,7 +83,9 @@ public abstract class FilterMapper implements EntityMapper<FilterDto, FilterEnti
             return null;
         }
         if (PermalinkType.VISUALIZER.equals(entity.getPermalinkType())) {
-            return metadataProperties.getVisualizerPath() + Constants.PATH_PERMALINK + entity.getPermalink();
+            return metadataProperties.getVisualizerPath() + Constants.PORTAL_PATH_PERMALINK + entity.getPermalink();
+        } else if (PermalinkType.SIE.equals(entity.getPermalinkType())) {
+            return metadataProperties.getSiePath() + Constants.SIE_PATH_PERMALINK + entity.getPermalink();
         } else {
             return entity.getPermalink();
         }

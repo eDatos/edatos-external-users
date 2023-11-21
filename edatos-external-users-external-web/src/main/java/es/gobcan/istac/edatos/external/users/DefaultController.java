@@ -50,7 +50,7 @@ public class DefaultController {
         model.put("footerUrl", metadataService.retrieveAppStyleFooterUrl());
 
         UriBuilder urlBuilder = UriBuilder.fromUri(metadataProperties.getCaptchaUrl());
-        urlBuilder.path("authentication.js");
+        urlBuilder.path("captcha.js");
         model.put("captchaAuthenticationUrl", urlBuilder.build().toString());
 
         Map<String, Object> flashMap = (Map<String, Object>) RequestContextUtils.getInputFlashMap(request);

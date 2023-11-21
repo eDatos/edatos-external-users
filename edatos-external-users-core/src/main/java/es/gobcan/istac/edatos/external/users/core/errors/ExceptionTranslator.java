@@ -149,6 +149,20 @@ public class ExceptionTranslator {
         }
     }
 
+    @ExceptionHandler(CaptchaUnsuccessfulException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ResponseBody
+    public ParameterizedErrorVM processCaptchaClientError(CaptchaUnsuccessfulException captchaUnsuccessfulException) {
+        return new ParameterizedErrorVM(ServiceExceptionType.CAPTCHA_UNSUCCESSFUL.getMessageForReasonType(), ServiceExceptionType.CAPTCHA_UNSUCCESSFUL.getCode(), null, null);
+    }
+
+    @ExceptionHandler(InternalCaptchaException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseBody
+    public ParameterizedErrorVM processCaptchaClientError(InternalCaptchaException internalCaptchaException) {
+        return new ParameterizedErrorVM(ServiceExceptionType.GENERIC_ERROR.getMessageForReasonType(), ServiceExceptionType.GENERIC_ERROR.getCode(), null, null);
+    }
+
     @ExceptionHandler(JpaOptimisticLockingFailureException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     @ResponseBody

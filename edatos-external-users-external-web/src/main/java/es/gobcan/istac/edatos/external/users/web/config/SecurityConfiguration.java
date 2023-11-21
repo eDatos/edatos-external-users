@@ -134,7 +134,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             "/v2/api-docs/**",
             "/apis/operations-internal/**",
             "/api/data-protection-policy",
-            "/api/captcha/**",
+            "/captcha/**",
             "/api/filters/last-access/**"
         };
 
@@ -142,7 +142,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
              .cors() // This is needed here so spring-security can take into account the spring-mvc cors configuration, mainly to allow the OPTIONS requests done on preflight
          .and()
-            .addFilterBefore(new CaptchaFilter(metadataProperties), JWTAuthenticationFilter.class)
+            .addFilterBefore(new CaptchaFilter(metadataProperties, mapper()), JWTAuthenticationFilter.class)
             .addFilter(new JWTAuthenticationFilter(authenticationProvider(), tokenProvider, mapper(),jHipsterProperties, env, metadataProperties))
             .addFilter(new JWTAuthorizationFilter(authenticationManager(), tokenProvider))
             .exceptionHandling()

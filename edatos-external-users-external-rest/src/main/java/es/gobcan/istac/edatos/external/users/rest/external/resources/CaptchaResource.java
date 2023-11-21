@@ -5,7 +5,7 @@ import static es.gobcan.istac.edatos.external.users.core.config.CaptchaConstants
 
 import es.gobcan.istac.edatos.external.users.core.config.CaptchaConstants;
 import es.gobcan.istac.edatos.external.users.core.config.MetadataProperties;
-import es.gobcan.istac.edatos.external.users.core.errors.CaptchaClientError;
+import es.gobcan.istac.edatos.external.users.core.errors.CaptchaUnsuccessfulException;
 import es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType;
 import es.gobcan.istac.edatos.external.users.core.i18n.LocaleContext;
 
@@ -25,22 +25,22 @@ import javax.ws.rs.core.UriBuilder;
 import org.siemac.edatos.core.common.exception.EDatosException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+
+import nl.captcha.Captcha;
+import nl.captcha.servlet.CaptchaServletUtil;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import nl.captcha.Captcha;
-import nl.captcha.servlet.CaptchaServletUtil;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Controller
 @RequestMapping(CaptchaResource.BASE_URL)
 public class CaptchaResource extends AbstractResource {
 
-    public static final String BASE_URL = "/api/captcha";
+    public static final String BASE_URL = "/captcha";
 
     private final Random random = new Random();
 
@@ -50,37 +50,32 @@ public class CaptchaResource extends AbstractResource {
     @Autowired
     private MetadataProperties metadataService;
 
-    @GetMapping("/validate")
+    @GetMapping("/api/validate")
     @ResponseBody
-    public ResponseEntity<Boolean> validateCaptcha(@RequestParam(required = false) String userValue, @RequestParam(required = false) String sessionKey,
+    @ResponseStatus(HttpStatus.OK)
+    public void validateCaptcha(@RequestParam(required = false) String userValue, @RequestParam(required = false) String sessionKey,
             @RequestParam(required = false) String captchaAction) {
 
         boolean captchaEnabled = metadataService.isCaptchaEnable();
         String captchaProvider = metadataService.getCaptchaProvider();
-        if (BooleanUtils.equals(null, captchaEnabled)) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        } else if(!captchaEnabled) {
-            return new ResponseEntity<>(true, HttpStatus.OK);
+        if (!BooleanUtils.isTrue(captchaEnabled)) {
+            return;
         } else if(userValue == null) {
-            return new ResponseEntity<>(false, HttpStatus.OK);
+            throw new CaptchaUnsuccessfulException();
         }
 
         boolean valid = false;
         if (CaptchaConstants.CAPTCHA_PROVIDER_GOBCAN.equals(captchaProvider)) {
             valid = captchaService.validateCaptchaGobcan(userValue, sessionKey);
         } else if (CaptchaConstants.CAPTCHA_PROVIDER_RECAPTCHA.equals(captchaProvider)) {
-            try {
-                valid = captchaService.validateRecaptcha(userValue, captchaAction);
-            } catch (CaptchaClientError e) {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            } catch (EDatosException e) {
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+            valid = captchaService.validateRecaptcha(userValue, captchaAction);
         } else if (CaptchaConstants.CAPTCHA_PROVIDER_SIMPLE.equals(captchaProvider)) {
             valid = captchaService.validateSimple(userValue, sessionKey);
         }
 
-        return new ResponseEntity<>(valid, HttpStatus.OK);
+        if (!valid) {
+            throw new CaptchaUnsuccessfulException();
+        }
     }
 
     @GetMapping("/picture/simple")
@@ -141,7 +136,7 @@ public class CaptchaResource extends AbstractResource {
         }
     }
 
-    @GetMapping(value="/authentication.js")
+    @GetMapping(value="/captcha.js")
     public String authentication(HttpServletRequest request, Model model) {
 
         String captchaProvider = metadataService.getCaptchaProvider();
@@ -156,8 +151,8 @@ public class CaptchaResource extends AbstractResource {
             model.addAttribute(CaptchaConstants.CAPTCHA_PICTURE_MODEL_ATTR, captchaPictureUri.path("/picture/gobcan").build().toString());
             return "authentication-gobcan";
         } else if(CaptchaConstants.CAPTCHA_PROVIDER_RECAPTCHA.equals(captchaProvider)) {
-            String recaptchaSiteKey = metadataService.getRecaptchaSiteKey();
-            model.addAttribute(CaptchaConstants.RECAPTCHA_SITE_KEY_MODEL_ATTR, recaptchaSiteKey);
+            model.addAttribute(CaptchaConstants.RECAPTCHA_SITE_KEY_MODEL_ATTR, metadataService.getRecaptchaSiteKey());
+            model.addAttribute(CaptchaConstants.RECAPTCHA_V2_SITE_KEY_MODEL_ATTR, metadataService.getRecaptchaV2SiteKey());
             model.addAttribute("locale", LocaleContext.getLocale() == null ? LocaleContext.getDefaultLocale().toString() : LocaleContext.getLocale().toString());
             return "authentication-recaptcha";
         }
