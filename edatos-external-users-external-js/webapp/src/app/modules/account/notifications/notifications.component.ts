@@ -16,7 +16,7 @@ export class NotificationsComponent implements OnInit {
     public notices: Notice[] = [];
     public noticesLoaded: boolean = false;
     public totalItems: number | null = null;
-    public paginatorOptions = [10, 15, 40];
+    public paginatorOptions = PAGINATION_OPTIONS;
     public itemsPerPage?: number;
 
     public columns: any = [
@@ -58,11 +58,10 @@ export class NotificationsComponent implements OnInit {
                     .find({
                         page: this.page - 1,
                         size: PAGINATION_OPTIONS.indexOf(Number(this.itemsPerPage)) > -1 ? this.itemsPerPage : ITEMS_PER_PAGE,
-                        sort: this.sort(),
                         query: this.noticeSearch.toQuery()
                     })
                     .subscribe(
-                        (rw) => this.onSuccess(rw),
+                        (response) => this.onSuccess(response),
                         () => {
                         },
                         () => {
@@ -76,8 +75,7 @@ export class NotificationsComponent implements OnInit {
     public transition() {
         const transitionParams = {
             page: this.page,
-            size: PAGINATION_OPTIONS.indexOf(Number(this.itemsPerPage)) > -1 ? this.itemsPerPage : ITEMS_PER_PAGE,
-            sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
+            size: PAGINATION_OPTIONS.indexOf(Number(this.itemsPerPage)) > -1 ? this.itemsPerPage : ITEMS_PER_PAGE
         };
         const queryParams = {
             ...this.noticeSearch.toUrl(this.activatedRoute.snapshot.queryParams),
@@ -89,44 +87,30 @@ export class NotificationsComponent implements OnInit {
     public loadData(e: LazyLoadEvent) {
         this.page = e.first! / e.rows! + 1;
         this.itemsPerPage = e.rows;
-        if (e.sortField != null) {
-            this.predicate = this.noticeSearch.fromCamelCaseToSnakeCase(e.sortField);
-            this.reverse = e.sortOrder === 1;
-        }
         this.transition();
     }
 
-    public sort() {
-        const result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')];
-        if (this.predicate !== 'id') {
-            result.push('id');
-        }
-        return result;
-    }
 
     public clear() {
         this.page = 0;
         this.router.navigate([
             '/notifications',
             {
-                page: this.page,
-                sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
+                page: this.page
             }
         ]);
     }
 
     public onSuccess(response: ResponseWrapper<Notice[]>) {
-        console.log(response);
-        console.log(response.totalCount());
         this.totalItems = response.totalCount();
         this.notices = response.body;
     }
 
     public joinMessagesText(messages: Messages): string {
-        let text = '<div class="message-content-notice">';
+        let text = '';
         for (const message of messages.messages) {
-            text += message.text + '\n';
+            text += message.text;
         }
-        return text + '</div>';
+        return text;
     }
 }

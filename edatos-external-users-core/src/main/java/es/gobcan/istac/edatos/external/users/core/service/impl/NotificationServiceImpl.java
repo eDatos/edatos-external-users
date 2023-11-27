@@ -17,7 +17,6 @@ import es.gobcan.istac.edatos.external.users.core.service.MetadataConfigurationS
 import es.gobcan.istac.edatos.external.users.core.service.NotificationService;
 import es.gobcan.istac.edatos.external.users.core.i18n.LocaleContext;
 
-import org.fornax.cartridges.sculptor.framework.domain.PagedResult;
 import org.siemac.edatos.core.common.exception.CommonServiceExceptionType;
 import org.siemac.edatos.core.common.exception.EDatosException;
 import org.siemac.metamac.rest.notices.v1_0.domain.Message;
@@ -174,7 +173,7 @@ public class NotificationServiceImpl implements NotificationService {
 
         // @formatter:off
         return NoticeBuilder.notification()
-            .withMessages(message, MessageBuilder.message().withText(getLopd()).build())
+            .withMessages(initStyleClassMessageTemplate(), message, MessageBuilder.message().withText(getLopd()).build(), finalStyleClassMessageTemplate())
             .withReceivers(receiver)
             .withSendingApplication(MetamacApplicationsEnum.GESTOR_USUARIOS_EXTERNOS.getName())
             .withSubject(subject)
@@ -212,7 +211,7 @@ public class NotificationServiceImpl implements NotificationService {
         try {
             // @formatter:off
             Notice notice = NoticeBuilder.notification()
-                .withMessages(MessageBuilder.message().withText(message).build(), MessageBuilder.message().withText(getLopd()).build())
+                .withMessages(initStyleClassMessageTemplate(),MessageBuilder.message().withText(message).build(), MessageBuilder.message().withText(getLopd()).build(), finalStyleClassMessageTemplate())
                 .withReceivers(receivers)
                 .withSendingApplication(MetamacApplicationsEnum.GESTOR_USUARIOS_EXTERNOS.getName())
                 .withSubject(subject).build();
@@ -223,6 +222,7 @@ public class NotificationServiceImpl implements NotificationService {
             log.debug("Error in sending notification : {}", e);
         }
     }
+
 
     @Override
     public Page<Notice> findNoticesByReceiver(String receiver, Pageable pageable){
@@ -249,5 +249,15 @@ public class NotificationServiceImpl implements NotificationService {
 
     private String getDefaultLocale() {
         return LocaleContext.getDefaultLocale().toString();
+    }
+
+    private Message initStyleClassMessageTemplate(){
+        String message = "<div class=\"message-content-notice\">";
+        return MessageBuilder.message().withText(message).build();
+    }
+
+    private Message finalStyleClassMessageTemplate(){
+        String message = "</div>";
+        return MessageBuilder.message().withText(message).build();
     }
 }
