@@ -6,7 +6,7 @@ import { ResponseWrapper } from '@app/core/utils/response-utils';
 import { NoticeFilter } from '@app/modules/account/notifications/notice-search/notice-search';
 import { NoticeService } from '@app/shared/service/user/notice.service';
 import { Messages, Notice } from '@app/core/model/notice.model';
-import {throwError} from "rxjs";
+import {throwError} from 'rxjs';
 
 @Component({
     selector: 'ac-account-management',
@@ -22,11 +22,11 @@ export class NotificationsComponent implements OnInit {
 
     public columns: any = [
         {
-            fieldName: 'recivedDate',
+            fieldName: 'receivedDate',
             sortable: false,
             header: {
                 handler: 'translate',
-                translatePath: 'notices.entity.recivedDate'
+                translatePath: 'notices.entity.receivedDate'
             }
         },
         {

@@ -46,7 +46,7 @@
     "notices": {
         "entity": {
             "message": "Message",
-            "recivedDate": "Recived"
+            "receivedDate": "Received"
         },
         "list": {
             "noNotice": "Looks like you haven’t gotten any messages yet."

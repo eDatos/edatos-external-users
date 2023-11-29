@@ -46,7 +46,7 @@
     "notices": {
         "entity": {
             "message": "Mensaje",
-            "recivedDate": "Recibido"
+            "receivedDate": "Recibido"
         },
         "list": {
             "noNotice": "Parece que todavía no has recibido ningún mensaje."

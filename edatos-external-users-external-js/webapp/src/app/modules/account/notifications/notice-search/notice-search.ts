@@ -6,7 +6,7 @@ import { BaseEntityFilter, EntityFilter } from 'arte-ng/model';
 export class NoticeFilter extends BaseEntityFilter implements EntityFilter {
     public message: string;
     public login: string;
-    public recivedDate: Date;
+    public receivedDate: Date;
 
     constructor(public datePipe?: DatePipe) {
         super(datePipe);
@@ -24,9 +24,9 @@ export class NoticeFilter extends BaseEntityFilter implements EntityFilter {
             clearFilter: () => (this.login = null)
         });
         this.registerParam({
-            paramName: 'recivedDate',
-            updateFilterFromParam: (param) => (this.recivedDate = param),
-            clearFilter: () => (this.recivedDate = null)
+            paramName: 'receivedDate',
+            updateFilterFromParam: (param) => (this.receivedDate = param),
+            clearFilter: () => (this.receivedDate = null)
         });
     }
 
@@ -38,8 +38,8 @@ export class NoticeFilter extends BaseEntityFilter implements EntityFilter {
         if (this.login) {
             criterias.push(`LOGIN ILIKE '%${this.escapeSingleQuotes(this.login)}%'`);
         }
-        if (this.recivedDate) {
-            criterias.push(`LAST_ACCESS_DATE = '%${this.escapeSingleQuotes(this.recivedDate.toString())}%'`);
+        if (this.receivedDate) {
+            criterias.push(`LAST_ACCESS_DATE = '%${this.escapeSingleQuotes(this.receivedDate.toString())}%'`);
         }
         return criterias;
     }
