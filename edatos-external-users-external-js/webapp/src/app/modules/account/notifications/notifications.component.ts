@@ -6,6 +6,7 @@ import { ResponseWrapper } from '@app/core/utils/response-utils';
 import { NoticeFilter } from '@app/modules/account/notifications/notice-search/notice-search';
 import { NoticeService } from '@app/shared/service/user/notice.service';
 import { Messages, Notice } from '@app/core/model/notice.model';
+import {throwError} from "rxjs";
 
 @Component({
     selector: 'ac-account-management',
@@ -21,19 +22,19 @@ export class NotificationsComponent implements OnInit {
 
     public columns: any = [
         {
-            fieldName: 'message',
-            sortable: false,
-            header: {
-                handler: 'translate',
-                translatePath: 'notices.entity.message'
-            }
-        },
-        {
             fieldName: 'recivedDate',
             sortable: false,
             header: {
                 handler: 'translate',
                 translatePath: 'notices.entity.recivedDate'
+            }
+        },
+        {
+            fieldName: 'message',
+            sortable: false,
+            header: {
+                handler: 'translate',
+                translatePath: 'notices.entity.message'
             }
         }
     ];
@@ -62,7 +63,8 @@ export class NotificationsComponent implements OnInit {
                     })
                     .subscribe(
                         (response) => this.onSuccess(response),
-                        () => {
+                        (error) => {
+                            return throwError(error);
                         },
                         () => {
                             this.noticesLoaded = true;

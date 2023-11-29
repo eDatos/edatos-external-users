@@ -1,13 +1,4 @@
-.calendar {
-    flex: max-content;
-}
-
-.divider {
-    margin-bottom: 30px;
-}
-
-
-:host ::ng-deep .page .page-table-container-fluid .page-table > thead > tr > th:nth-child(2) {
+:host ::ng-deep th:nth-child(2) {
     width: 80%;
 }
 
