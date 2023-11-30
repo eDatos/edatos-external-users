@@ -2,8 +2,8 @@ package es.gobcan.istac.edatos.external.users.core.service.impl;
 
 import javax.ws.rs.core.UriBuilder;
 
+import es.gobcan.istac.edatos.external.users.core.errors.InternalCaptchaException;
 import org.apache.commons.lang.StringUtils;
-import org.siemac.edatos.core.common.exception.EDatosException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -13,10 +13,10 @@ import es.gobcan.istac.edatos.external.users.core.config.CaptchaConstants;
 import es.gobcan.istac.edatos.external.users.core.config.MetadataProperties;
 import es.gobcan.istac.edatos.external.users.core.domain.CaptchaResponseEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.vo.RecaptchaVerificationVO;
-import es.gobcan.istac.edatos.external.users.core.errors.CaptchaClientError;
-import es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType;
 import es.gobcan.istac.edatos.external.users.core.repository.CaptchaResponseRepository;
 import es.gobcan.istac.edatos.external.users.core.service.CaptchaService;
+
+import java.util.Arrays;
 
 @Service
 public class CaptchaServiceImpl implements CaptchaService {
@@ -59,16 +59,21 @@ public class CaptchaServiceImpl implements CaptchaService {
         RecaptchaVerificationVO recaptchaVerification = recaptchaVerificationResponse.getBody();
 
         if (!recaptchaVerification.wasASuccess()) {
-            if (recaptchaVerification.hasClientError()) {
-                throw new CaptchaClientError();
-            } else {
-                throw new EDatosException(ServiceExceptionType.GENERIC_ERROR);
+            if (Arrays.asList(recaptchaVerification.getErrorCodes()).contains(RecaptchaVerificationVO.ErrorCode.INVALID_KEYS)) {
+                urlBuilder.replaceQueryParam("secret", metadataProperties.getRecaptchaV2SecretKey());
+                RecaptchaVerificationVO recaptchaV2Verification = restTemplate.getForEntity(urlBuilder.build(), RecaptchaVerificationVO.class).getBody();
+                if (!recaptchaV2Verification.hasClientError() && recaptchaV2Verification.getErrorCodes() != null && recaptchaV2Verification.getErrorCodes().length > 0) {
+                    throw new InternalCaptchaException();
+                }
+                return recaptchaV2Verification.wasASuccess();
+            } else if (!recaptchaVerification.hasClientError() && recaptchaVerification.getErrorCodes() != null && recaptchaVerification.getErrorCodes().length > 0) {
+                throw new InternalCaptchaException();
             }
         } else if (!recaptchaVerification.getAction().equals(captchaAction)) {
-            throw new EDatosException(ServiceExceptionType.GENERIC_ERROR);
+            throw new InternalCaptchaException();
         }
 
-        return recaptchaVerification.getScore() >= metadataProperties.getRecaptchaThreshold();
+        return recaptchaVerification.getScore() != null && recaptchaVerification.getScore() >= metadataProperties.getRecaptchaThreshold();
     }
 
     @Override

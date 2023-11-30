@@ -14,6 +14,7 @@ public final class CaptchaConstants {
 
     // SPECIFIC CONSTANTS FOR RECAPTCHA
     public static final String RECAPTCHA_SITE_KEY_MODEL_ATTR = "recaptchaSiteKey";
+    public static final String RECAPTCHA_V2_SITE_KEY_MODEL_ATTR = "recaptchaV2SiteKey";
     public static final String RECAPTCHA_VERIFICATION_API = "https://www.google.com/recaptcha/api/siteverify";
 
     // SPECIFIC CONSTANTS FOR CAPTCHA SIMPLE
