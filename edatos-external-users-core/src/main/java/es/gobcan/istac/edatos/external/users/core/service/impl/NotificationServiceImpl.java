@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -34,6 +33,7 @@ import org.springframework.stereotype.Service;
 
 import javax.ws.rs.core.Response;
 
+import static es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType.COMPLETE_SIGNUP_NOTICE_FAILED;
 import static es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType.CONFIRM_SIGNUP_NOTICE_FAILED;
 import static es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType.EMAIL_IN_USE_NOTICE_FAILED;
 import static es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType.REGISTER_ACCOUNT_NOTICE_FAILED;
@@ -49,6 +49,7 @@ public class NotificationServiceImpl implements NotificationService {
 
     private static String RESET_PASSWORD_URL = "/#/reset-password/change-password?key=";
     private static String CONFIRM_REGISTRATION_URL = "/#/login?registration-key=";
+    private static String COMPLETE_REGISTRATION_URL = "/#/signup?registration-key=";
 
     @Autowired
     private MessageSource messageSource;
@@ -104,6 +105,17 @@ public class NotificationServiceImpl implements NotificationService {
         argsList.add(baseUrl);
 
         createNotificationWithReceiver(codeSubject, messageCode, externalUserEntity.getEmail(), argsList.toArray(new String[argsList.size()]), CONFIRM_SIGNUP_NOTICE_FAILED);
+    }
+
+    @Override
+    public void createCompleteRegistrationExternalUserAccountNotification(ExternalUserEntity externalUserEntity) {
+        String codeSubject = "notice.subject.complete_signup.title";
+        String messageCode = "notice.message.complete_signup.text";
+        String baseUrl = metadataConfigurationService.retrieveBaseUrl() + COMPLETE_REGISTRATION_URL + externalUserEntity.getRegistrationToken();
+        ArrayList<String> argsList = new ArrayList<String>(Arrays.asList(argsByExternalUser(externalUserEntity)));
+        argsList.add(baseUrl);
+
+        createNotificationWithReceiver(codeSubject, messageCode, externalUserEntity.getEmail(), argsList.toArray(new String[argsList.size()]), COMPLETE_SIGNUP_NOTICE_FAILED);
     }
 
     @Override
