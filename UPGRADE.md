@@ -24,7 +24,7 @@ etc\changes-from-release\1.2.1\db\common-metadata\postgresql\20231011_update_cap
 ```
 
 * Se añade una dependencia en la propiedad `metamac.sie.web.external.url`. Para actualizarlo
-  debe ejecutarse el siguiente script localizado en el proyecto `sie`, versión 2.6.1-SNAPSHOT, con el valor 
+  debe ejecutarse el siguiente script localizado en el proyecto `sie`, versión 2.6.1, con el valor 
   por entorno de la propiedad:
 
 ```
