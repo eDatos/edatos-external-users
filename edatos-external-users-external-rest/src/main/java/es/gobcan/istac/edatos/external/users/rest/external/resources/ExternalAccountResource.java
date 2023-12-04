@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.Timed;
@@ -76,21 +77,22 @@ public class ExternalAccountResource extends AbstractResource {
 
     @PostMapping("/account/signup")
     @Timed
-    public ResponseEntity<Void> create(@Valid @RequestBody ExternalUserAccountDto externalUserDto) {
-        ExternalUserEntity registeredUser = externalUserService.findByEmail(externalUserDto.getEmail()).orElse(null);
-        if (registeredUser != null) {
-            if (registeredUser.isEnabled()) {
-                registeredUser = externalUserService.recoverExternalUserAccountPassword(registeredUser.getEmail()).get();
-                notificationService.createExternalUserAlreadyRegisteredNotification(registeredUser);
+    public ResponseEntity<ExternalUserEntity> create(@Valid @RequestBody ExternalUserAccountDto externalUserDto, @RequestParam(required = false) String token) {
+        ExternalUserEntity user = externalUserService.findByEmail(externalUserDto.getEmail()).orElse(null);
+        if (user != null) {
+            if (externalUserService.isMigratedUser(user) && user.getRegistrationToken().equals(token)) {
+                user = externalUserService.migrate(externalUserMapper.toEntity(externalUserDto));
+            } else if (user.isEnabled()) {
+                user = externalUserService.recoverExternalUserAccountPassword(user.getEmail()).get();
+                notificationService.createExternalUserAlreadyRegisteredNotification(user);
             } else {
-                notificationService.createExternalUserRegistrationAlreadyRequested(registeredUser);
+                notificationService.createExternalUserRegistrationAlreadyRequested(user);
             }
         } else {
-            ExternalUserEntity user = externalUserService.create(externalUserMapper.toEntity(externalUserDto));
+            user = externalUserService.create(externalUserMapper.toEntity(externalUserDto));
             notificationService.createRegisterExternalUserAccountNotification(user);
         }
-
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(user);
     }
 
     @GetMapping("/account/signup/confirm")
@@ -98,6 +100,13 @@ public class ExternalAccountResource extends AbstractResource {
     public ResponseEntity<ExternalUserAccountDto> create(@QueryParam("token") String token) throws URISyntaxException {
         ExternalUserEntity externalUser = externalUserService.confirmUserRegistration(token);
         return ResponseEntity.created(new URI("/api/account/signup/" + externalUser.getEmail())).body(externalUserMapper.toDto(externalUser));
+    }
+
+    @GetMapping("/account/signup")
+    @Timed
+    public ResponseEntity<ExternalUserAccountDto> getUserInfoByRegistrationToken(@QueryParam("token") String token) {
+        ExternalUserEntity externalUser = externalUserService.getByUserRegistration(token);
+        return ResponseEntity.ok(externalUserMapper.toDto(externalUser));
     }
 
     @PostMapping("/account/logout")
