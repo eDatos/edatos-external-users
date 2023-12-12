@@ -14,7 +14,6 @@ public interface NotificationService {
     void createResetPasswordExternaluserAccountNotification(ExternalUserEntity externalUserEntity);
 
     void createRegisterExternalUserAccountNotification(ExternalUserEntity externalUserEntity);
-    void createCompleteRegistrationExternalUserAccountNotification(ExternalUserEntity externalUserEntity);
     void createExternalUserAlreadyRegisteredNotification(ExternalUserEntity externalUserEntity);
     void createExternalUserRegistrationAlreadyRequested(ExternalUserEntity externalUserEntity);
 
@@ -22,4 +21,6 @@ public interface NotificationService {
 
     void createNotificationWithReceivers(String message, String subject, Receivers receivers);
     Receivers createReceiversList(List<String> emails, List<Long> categories, List<Long> externalOperations);
+
+    void createContinueUserMigrationNotification(ExternalUserEntity user);
 }

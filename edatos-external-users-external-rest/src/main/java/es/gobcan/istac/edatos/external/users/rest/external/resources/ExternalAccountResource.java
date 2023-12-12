@@ -79,20 +79,33 @@ public class ExternalAccountResource extends AbstractResource {
     @Timed
     public ResponseEntity<ExternalUserEntity> create(@Valid @RequestBody ExternalUserAccountDto externalUserDto, @RequestParam(required = false) String token) {
         ExternalUserEntity user = externalUserService.findByEmail(externalUserDto.getEmail()).orElse(null);
-        if (user != null) {
-            if (externalUserService.isMigratedUser(user) && user.getRegistrationToken().equals(token)) {
-                user = externalUserService.migrate(externalUserMapper.toEntity(externalUserDto));
-            } else if (user.isEnabled()) {
-                user = externalUserService.recoverExternalUserAccountPassword(user.getEmail()).get();
-                notificationService.createExternalUserAlreadyRegisteredNotification(user);
-            } else {
-                notificationService.createExternalUserRegistrationAlreadyRequested(user);
-            }
-        } else {
+        if (user == null) {
             user = externalUserService.create(externalUserMapper.toEntity(externalUserDto));
             notificationService.createRegisterExternalUserAccountNotification(user);
+            return ResponseEntity.ok(user);
+        }
+
+        if (externalUserService.isMigratedUser(user)) {
+            return responseToMigratedUser(externalUserDto, token, user);
+        }
+
+        if (user.isEnabled()) {
+            user = externalUserService.recoverExternalUserAccountPassword(user.getEmail()).get();
+            notificationService.createExternalUserAlreadyRegisteredNotification(user);
+        } else {
+            notificationService.createExternalUserRegistrationAlreadyRequested(user);
         }
         return ResponseEntity.ok(user);
+    }
+
+    private ResponseEntity<ExternalUserEntity> responseToMigratedUser(ExternalUserAccountDto externalUserDto, String token, ExternalUserEntity user) {
+        if (user.getRegistrationToken().equals(token)) {
+            user = externalUserService.migrate(externalUserMapper.toEntity(externalUserDto));
+            return ResponseEntity.ok(user);
+        } else {
+            notificationService.createContinueUserMigrationNotification(user);
+            return ResponseEntity.noContent().build();
+        }
     }
 
     @GetMapping("/account/signup/confirm")

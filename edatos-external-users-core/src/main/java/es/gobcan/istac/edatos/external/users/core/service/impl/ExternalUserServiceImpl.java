@@ -210,6 +210,9 @@ public class ExternalUserServiceImpl implements ExternalUserService {
 
     @Override
     public boolean isMigratedUser(ExternalUserEntity user) {
+        if (user == null) {
+            return false;
+        }
         return !user.isEnabled() && user.getPassword().equals(MIGRATED_USER_PSWD);
     }
 
