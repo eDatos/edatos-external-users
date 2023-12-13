@@ -107,14 +107,6 @@ public class ExternalUserEntity extends AbstractVersionedAndAuditingEntity {
     @Column(name = "data_protection_policy_approval_date")
     private Instant dataProtectionPolicyApprovalDate;
 
-    @PreUpdate
-    @PrePersist
-    public void updateDataProtectionPolicyApprovalDate() {
-        if (dataProtectionPolicyApprovalDate == null && dataProtectionPolicy != null) {
-            dataProtectionPolicyApprovalDate = Instant.now();
-        }
-    }
-
     @Override
     public Long getId() {
         return id;
