@@ -61,6 +61,9 @@ public class FilterEntity extends AbstractVersionedAndAuditingEntity implements 
     @Column(columnDefinition = "permalink_type default VISUALIZER", nullable = false)
     private PermalinkType permalinkType;
 
+    @Column(nullable = false)
+    private Long visitCount;
+
     @Override
     public Long getId() {
         return id;
@@ -124,5 +127,13 @@ public class FilterEntity extends AbstractVersionedAndAuditingEntity implements 
 
     public void setPermalinkType(PermalinkType permalinkType) {
         this.permalinkType = permalinkType;
+    }
+
+    public Long getVisitCount() {
+        return visitCount;
+    }
+
+    public void setVisitCount(Long visitCount) {
+        this.visitCount = visitCount;
     }
 }
