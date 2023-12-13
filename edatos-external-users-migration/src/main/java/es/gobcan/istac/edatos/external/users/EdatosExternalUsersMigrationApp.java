@@ -1,6 +1,7 @@
 package es.gobcan.istac.edatos.external.users;
 
 import es.gobcan.istac.edatos.external.users.core.config.DefaultProfileUtil;
+import es.gobcan.istac.edatos.external.users.core.domain.ExternalOperationEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.FavoriteEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.FilterEntity;
@@ -10,6 +11,7 @@ import es.gobcan.istac.edatos.external.users.core.domain.enumeration.PermalinkTy
 import es.gobcan.istac.edatos.external.users.core.repository.ExternalUserRepository;
 import es.gobcan.istac.edatos.external.users.core.repository.FavoriteRepository;
 import es.gobcan.istac.edatos.external.users.core.repository.FilterRepository;
+import es.gobcan.istac.edatos.external.users.core.service.ExternalOperationService;
 import es.gobcan.istac.edatos.external.users.core.service.NotificationService;
 import liquibase.util.csv.CSVReader;
 import org.springframework.boot.SpringApplication;
@@ -23,13 +25,9 @@ import org.springframework.context.annotation.ComponentScan;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @ComponentScan
 @EnableAutoConfiguration(exclude = {MetricFilterAutoConfiguration.class, MetricRepositoryAutoConfiguration.class})
@@ -40,7 +38,9 @@ public class EdatosExternalUsersMigrationApp {
     private static FilterRepository filterRepository;
     private static FavoriteRepository favoriteRepository;
     private static NotificationService notificationService;
+    private static ExternalOperationService externalOperationService;
 
+    private static final Map<String, String> genders = new HashMap<>();
     private static final Map<Long, Long> oldNewIdMap = new HashMap<>();
     private static final Set<ExternalUserRole> usersRoles = Collections.singleton(ExternalUserRole.USER);
 
@@ -48,16 +48,20 @@ public class EdatosExternalUsersMigrationApp {
         SpringApplication app = new SpringApplication(EdatosExternalUsersMigrationApp.class);
         DefaultProfileUtil.addDefaultProfile(app);
 
+        genders.put("M", "1");
+        genders.put("F", "2");
+        genders.put("_U", "9");
+
         ConfigurableApplicationContext context = app.run(args);
         externalUserRepository = context.getBean(ExternalUserRepository.class);
         filterRepository = context.getBean(FilterRepository.class);
         favoriteRepository = context.getBean(FavoriteRepository.class);
         notificationService = context.getBean(NotificationService.class);
+        externalOperationService = context.getBean(ExternalOperationService.class);
 
-        String environment = args.length > 3 ? args[3] : "PRE";
         createUsers(args[0]);
         createFavorites(args[1]);
-        createFilters(args[2], environment);
+        createFilters(args[2]);
 
         context.close();
     }
@@ -73,39 +77,32 @@ public class EdatosExternalUsersMigrationApp {
                     }
                 } else {
                     ExternalUserEntity externalUser = new ExternalUserEntity();
-                    externalUser.setEmail(values[headerIndexMap.get("USU_EMAIL")]);
-                    externalUser.setLanguage(Language.findByLocaleCode(values[headerIndexMap.get("USU_LANG")]));
-                    externalUser.setOrganism(values[headerIndexMap.get("USU_ORGANISMO")]);
-                    externalUser.setPhoneNumber(values[headerIndexMap.get("USU_TELEFONO")]);
+                    externalUser.setEmail(values[headerIndexMap.get("email")]);
+                    externalUser.setLanguage(Language.findByLocaleCode(values[headerIndexMap.get("language")]));
+                    externalUser.setOrganism(values[headerIndexMap.get("organism")]);
+                    externalUser.setPhoneNumber(values[headerIndexMap.get("phoneNumber")]);
                     externalUser.setEmailNotificationsEnabled(true);
                     externalUser.setPassword("MIGRATED_USER");
                     externalUser.setEnabled(false);
                     externalUser.setRegistrationToken(UUID.randomUUID().toString());
-                    //externalUser.setGender(); // TODO fill with the values of current codelist, maybe it depends on the environment
+                    externalUser.setGender(genders.get(values[headerIndexMap.get("gender")]));
                     externalUser.setRoles(usersRoles);
-                    externalUser.setCreatedDate(parseInstant(values[headerIndexMap.get("USU_FECHACREACION")])); // TODO check if this value is overridden by spring
-
-                    String[] nameParts = values[headerIndexMap.get("USU_NOMBRECOMPLETO")].split(" +");
-                    if (nameParts.length == 2) {
-                        externalUser.setName(nameParts[0]);
-                        externalUser.setSurname1(nameParts[1]);
-                    } else if (nameParts.length > 2) {
-                        externalUser.setName(Arrays.asList(nameParts).subList(0, nameParts.length - 2).stream().collect(Collectors.joining(" ")));
-                        externalUser.setSurname1(nameParts[nameParts.length - 2]);
-                        externalUser.setSurname2(nameParts[nameParts.length - 1]);
-                    }
+                    externalUser.setName(values[headerIndexMap.get("name")]);
+                    externalUser.setSurname1(values[headerIndexMap.get("surname1")]);
+                    externalUser.setSurname2(values[headerIndexMap.get("surname2")]);
 
                     ExternalUserEntity createdExternalUser = externalUserRepository.saveAndFlush(externalUser);
-                    oldNewIdMap.put(Long.valueOf(values[headerIndexMap.get("USU_ID")]), createdExternalUser.getId());
+                    createdExternalUser.setCreatedDate(parseDate(values[headerIndexMap.get("creationDate")]));
+                    createdExternalUser = externalUserRepository.saveAndFlush(externalUser);
+                    oldNewIdMap.put(Long.valueOf(values[headerIndexMap.get("id")]), createdExternalUser.getId());
                     sendEmailToCompleteRegistration(createdExternalUser);
                 }
             }
         }
     }
 
-
     private static void createFavorites(String filename) throws IOException {
-        try (CSVReader csvReader = new CSVReader(new FileReader(filename), ';')) {
+        try (CSVReader csvReader = new CSVReader(new FileReader(filename), ',')) {
             String[] values;
             Map<String, Integer> headerIndexMap = new HashMap<>();
             while ((values = csvReader.readNext()) != null) {
@@ -114,19 +111,21 @@ public class EdatosExternalUsersMigrationApp {
                         headerIndexMap.put(values[i], i);
                     }
                 } else {
-                    FavoriteEntity favorite = new FavoriteEntity();
-                    favorite.setExternalUser(externalUserRepository.findOne(oldNewIdMap.get(Long.valueOf(values[headerIndexMap.get("USU_ID")]))));
-                    //favorite.setCategory(); // TODO
-                    //favorite.setExternalOperation(); // TODO
+                    ExternalOperationEntity externalOperation = externalOperationService.findByCode(values[headerIndexMap.get("externalOperation")]);
+                    if (externalOperation.isEnabled()) {
+                        FavoriteEntity favorite = new FavoriteEntity();
+                        favorite.setExternalUser(externalUserRepository.findOne(oldNewIdMap.get(Long.valueOf(values[headerIndexMap.get("externalUser")]))));
+                        favorite.setExternalOperation(externalOperation);
 
-                    favoriteRepository.saveAndFlush(favorite);
+                        favoriteRepository.saveAndFlush(favorite);
+                    }
                 }
             }
         }
     }
 
-    private static void createFilters(String filename, String environment) throws IOException {
-        try (CSVReader csvReader = new CSVReader(new FileReader(filename), ';')) {
+    private static void createFilters(String filename) throws IOException {
+        try (CSVReader csvReader = new CSVReader(new FileReader(filename), ',')) {
             String[] values;
             Map<String, Integer> headerIndexMap = new HashMap<>();
             while ((values = csvReader.readNext()) != null) {
@@ -136,34 +135,36 @@ public class EdatosExternalUsersMigrationApp {
                     }
                 } else {
                     FilterEntity filter = new FilterEntity();
-                    filter.setName(values[headerIndexMap.get("URL_NOMBRE")]);
-                    filter.setExternalUser(externalUserRepository.findOneByEmail(values[headerIndexMap.get("URL_USUARIO")]).orElseThrow(NullPointerException::new));
-                    filter.setPermalink(buildPermalink(environment, values[headerIndexMap.get("URL_ID")]));
+                    filter.setName(values[headerIndexMap.get("name")]);
+                    filter.setExternalUser(externalUserRepository.findOne(oldNewIdMap.get(Long.valueOf(values[headerIndexMap.get("externalUser")]))));
+                    filter.setPermalink(values[headerIndexMap.get("permalink")]);
                     filter.setPermalinkType(PermalinkType.EXTERNAL);
-                    //filter.setExternalOperation(); // TODO
-                    filter.setCreatedDate(parseInstant(values[headerIndexMap.get("URL_FECHACREACION")]));
+                    filter.setExternalOperation(externalOperationService.findByCode(values[headerIndexMap.get("externalOperation")]));
+                    filter.setVisitCount(Long.parseLong(values[headerIndexMap.get("countVisits")]));
+                    filter.setLastAccessDate(parseDateAndTime(values[headerIndexMap.get("lastAccessDate")]));
 
+                    filter = filterRepository.saveAndFlush(filter);
+                    filter.setCreatedDate(parseDateAndTime(values[headerIndexMap.get("creationDate")]));
                     filterRepository.saveAndFlush(filter);
                 }
             }
         }
     }
 
-    private static Instant parseInstant(String date) {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/uuuu");
-        LocalDateTime localDateTime = LocalDateTime.parse(date, dateTimeFormatter);
-        ZoneId zoneId = ZoneId.of("Europe/Paris"); // TODO check the hour of this instant
-        ZonedDateTime zonedDateTime = localDateTime.atZone(zoneId);
-        return zonedDateTime.toInstant();
+    private static Instant parseDate(String date) {
+        return LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/uu"))
+            .atTime(12, 0)
+            .atZone(ZoneId.of("Europe/Paris"))
+            .toInstant();
+    }
+
+    private static Instant parseDateAndTime(String date) {
+        return LocalDateTime.parse(date, DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss"))
+            .atZone(ZoneId.of("Europe/Paris"))
+            .toInstant();
     }
 
     private static void sendEmailToCompleteRegistration(ExternalUserEntity externalUser) {
         notificationService.createCompleteRegistrationExternalUserAccountNotification(externalUser);
-    }
-
-    private static String buildPermalink(String environment, String id) {
-        String preUrl = "https://proves.caib.es/ibestat-jaxi/generarUrlSocial.do?cod=";
-        String proUrl = "https://intranet.caib.es/ibestat-jaxi/generarUrlSocial.do?cod=";
-        return ("PRO".equalsIgnoreCase(environment) ? proUrl : preUrl) + id;
     }
 }
