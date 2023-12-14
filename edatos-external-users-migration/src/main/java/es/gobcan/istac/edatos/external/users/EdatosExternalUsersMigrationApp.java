@@ -14,6 +14,7 @@ import es.gobcan.istac.edatos.external.users.core.repository.FilterRepository;
 import es.gobcan.istac.edatos.external.users.core.service.ExternalOperationService;
 import es.gobcan.istac.edatos.external.users.core.service.NotificationService;
 import liquibase.util.csv.CSVReader;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.actuate.autoconfigure.MetricFilterAutoConfiguration;
 import org.springframework.boot.actuate.autoconfigure.MetricRepositoryAutoConfiguration;
@@ -40,17 +41,12 @@ public class EdatosExternalUsersMigrationApp {
     private static NotificationService notificationService;
     private static ExternalOperationService externalOperationService;
 
-    private static final Map<String, String> genders = new HashMap<>();
     private static final Map<Long, Long> oldNewIdMap = new HashMap<>();
     private static final Set<ExternalUserRole> usersRoles = Collections.singleton(ExternalUserRole.USER);
 
     public static void main(String[] args) throws IOException {
         SpringApplication app = new SpringApplication(EdatosExternalUsersMigrationApp.class);
         DefaultProfileUtil.addDefaultProfile(app);
-
-        genders.put("M", "1");
-        genders.put("F", "2");
-        genders.put("_U", "9");
 
         ConfigurableApplicationContext context = app.run(args);
         externalUserRepository = context.getBean(ExternalUserRepository.class);
@@ -63,7 +59,7 @@ public class EdatosExternalUsersMigrationApp {
         createFavorites(args[1]);
         createFilters(args[2]);
 
-        context.close();
+        SpringApplication.exit(context, () -> 0);
     }
 
     private static void createUsers(String filename) throws IOException {
@@ -85,7 +81,7 @@ public class EdatosExternalUsersMigrationApp {
                     externalUser.setPassword("MIGRATED_USER");
                     externalUser.setEnabled(false);
                     externalUser.setRegistrationToken(UUID.randomUUID().toString());
-                    externalUser.setGender(genders.get(values[headerIndexMap.get("gender")]));
+                    externalUser.setGender(StringUtils.substringAfterLast(values[headerIndexMap.get("gender")], "."));
                     externalUser.setRoles(usersRoles);
                     externalUser.setName(values[headerIndexMap.get("name")]);
                     externalUser.setSurname1(values[headerIndexMap.get("surname1")]);
