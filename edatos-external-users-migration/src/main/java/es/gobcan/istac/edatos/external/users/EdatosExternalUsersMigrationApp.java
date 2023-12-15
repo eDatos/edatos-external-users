@@ -99,7 +99,8 @@ public class EdatosExternalUsersMigrationApp {
             }
         }
 
-        SpringApplication.exit(context, () -> 0);
+        int exitCode = SpringApplication.exit(context, () -> 0);
+        System.exit(exitCode);
     }
 
     private static List<Exception> createUsers(String filename) throws IOException {
