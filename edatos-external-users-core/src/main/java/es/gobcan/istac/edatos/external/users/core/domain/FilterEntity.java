@@ -62,7 +62,7 @@ public class FilterEntity extends AbstractVersionedAndAuditingEntity implements 
     private PermalinkType permalinkType;
 
     @Column(nullable = false)
-    private Long visitCount;
+    private Long visitCount = 0L;
 
     @Override
     public Long getId() {
