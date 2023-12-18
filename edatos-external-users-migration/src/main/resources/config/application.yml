@@ -11,23 +11,6 @@
 # http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
 
-
-endpoints:
-    configprops:
-        enabled: true
-    health:
-        enabled: true
-    env:
-        enabled: true
-    actuator:
-        enabled: true
-
-
-management:
-    security:
-        enabled: false
-    context-path: /management
-
 spring:
     application:
         name: edatos_external_users
@@ -179,16 +162,3 @@ jhipster-extra:
 logging:
     level:
         org.hibernate.orm.deprecation: ERROR
-
-# ===================================================================
-# Application specific properties
-# Add your own application properties here
-# ===================================================================
-
-application:
-    jobs:
-        cron:
-            disabledTokens: 0 0 3 * * *
-            enabledTokens: 0 0 4 * * *
-            registrationTokens: 0 0 5 * * *
-            captchaResponses: 0 0/30 * * * ?

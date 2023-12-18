@@ -279,6 +279,7 @@
                 <module>edatos-external-users-internal-web</module>
                 <module>edatos-external-users-external-rest</module>
                 <module>edatos-external-users-external-web</module>
+                <module>edatos-external-users-migration</module>
             </modules>
         </profile>
 
@@ -293,11 +294,6 @@
                 <module>edatos-external-users-external-rest</module>
                 <module>edatos-external-users-external-web</module>
                 <module>edatos-external-users-external-js</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>migration</id>
-            <modules>
                 <module>edatos-external-users-migration</module>
             </modules>
         </profile>
