@@ -288,6 +288,6 @@ public class EdatosExternalUsersMigrationApp {
     }
 
     private static void sendEmailToCompleteRegistration(ExternalUserEntity externalUser) {
-        notificationService.createCompleteRegistrationExternalUserAccountNotification(externalUser);
+        notificationService.createContinueUserMigrationNotification(externalUser);
     }
 }
