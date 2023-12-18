@@ -85,10 +85,6 @@ public class ExternalAccountResource extends AbstractResource {
             return ResponseEntity.ok(user);
         }
 
-        if (externalUserService.isMigratedUser(user)) {
-            return responseToMigratedUser(externalUserDto, token, user);
-        }
-
         if (user.isEnabled()) {
             user = externalUserService.recoverExternalUserAccountPassword(user.getEmail()).get();
             notificationService.createExternalUserAlreadyRegisteredNotification(user);
@@ -115,7 +111,7 @@ public class ExternalAccountResource extends AbstractResource {
         return ResponseEntity.created(new URI("/api/account/signup/" + externalUser.getEmail())).body(externalUserMapper.toDto(externalUser));
     }
 
-    @GetMapping("/account/signup")
+    @GetMapping("/account/migrated-user-info")
     @Timed
     public ResponseEntity<ExternalUserAccountDto> getUserInfoByRegistrationToken(@QueryParam("token") String token) {
         ExternalUserEntity externalUser = externalUserService.getByUserRegistration(token);

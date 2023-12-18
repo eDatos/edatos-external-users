@@ -40,7 +40,7 @@ export class AccountUserService {
     }
 
     getByRegistrationToken(token: string): Observable<User> {
-        return this.http.get<User>(`${this.resourceUrl}/signup?token=${token}`).pipe(map((res) => convert(User, res)));
+        return this.http.get<User>(`${this.resourceUrl}/migrated-user-info?token=${token}`).pipe(map((res) => convert(User, res)));
     }
 
     update(user: User): Observable<User> {
