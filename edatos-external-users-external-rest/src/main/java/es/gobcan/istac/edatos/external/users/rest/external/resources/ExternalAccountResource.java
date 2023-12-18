@@ -85,6 +85,10 @@ public class ExternalAccountResource extends AbstractResource {
             return ResponseEntity.ok(user);
         }
 
+        if (externalUserService.isMigratedUser(user)) {
+            return responseToMigratedUser(externalUserDto, token, user);
+        }
+
         if (user.isEnabled()) {
             user = externalUserService.recoverExternalUserAccountPassword(user.getEmail()).get();
             notificationService.createExternalUserAlreadyRegisteredNotification(user);
