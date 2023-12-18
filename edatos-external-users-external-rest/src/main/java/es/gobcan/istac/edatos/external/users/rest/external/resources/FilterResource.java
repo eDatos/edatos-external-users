@@ -121,7 +121,10 @@ public class FilterResource extends AbstractResource {
         }
 
         Instant now = Instant.now();
-        filters.stream().forEach(filter -> filter.setLastAccessDate(now));
+        filters.forEach(filter -> {
+            filter.setLastAccessDate(now);
+            filter.setVisitCount(filter.getVisitCount() + 1);
+        });
         List<FilterDto> newDtos = filterMapper.toDtos(filterService.update(filters));
 
         List<String> ids = newDtos.stream().map(dto -> dto.getId().toString()).collect(Collectors.toList());
