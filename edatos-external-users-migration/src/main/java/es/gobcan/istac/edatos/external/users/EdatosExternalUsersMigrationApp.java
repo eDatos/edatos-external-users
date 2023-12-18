@@ -90,8 +90,10 @@ public class EdatosExternalUsersMigrationApp {
             return migrationExceptions;
         });
         if (exceptions.isEmpty()) {
-            for (ExternalUserEntity user : oldIdNewUserMap.values()) {
-                sendEmailToCompleteRegistration(user);
+            if (args.length > 3 && args[3].equalsIgnoreCase("--email")) {
+                for (ExternalUserEntity user : oldIdNewUserMap.values()) {
+                    sendEmailToCompleteRegistration(user);
+                }
             }
         } else {
             for (Exception exception : exceptions) {
