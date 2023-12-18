@@ -108,7 +108,7 @@
                         <div class='form-row'>
                             <label class='form-label col-md-4' translate='signup.form.email' for='email'></label>
                             <div class='col-md-8 form-input-container errors-on-hover'>
-                                <arte-input id='email' name='email' [(ngModel)]='user.email' [required]='true'
+                                <arte-input [disabled]="isMigratedUser" id='email' name='email' [(ngModel)]='user.email' [required]='true'
                                             [minlength]='3' [maxlength]='255' [email]='true'></arte-input>
                                 <div class='form-errors-messages' *hasErrors='let messages'>
                                     <li *ngFor='let m of messages'>{{m}}</li>

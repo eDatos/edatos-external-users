@@ -15,8 +15,12 @@ export class AccountUserService {
     constructor(private http: HttpClient, private captchaService: CaptchaService) {
     }
 
-    create(el: ElementRef | string, user: User): Promise<User> {
-        return this.captchaService.postRequestWithCaptcha(el, User, `${this.resourceUrl}/signup`, user, 'signup');
+    create(el: ElementRef | string, user: User, userRegistrationToken?: string): Promise<User> {
+        let url = `${this.resourceUrl}/signup`;
+        if (userRegistrationToken) {
+            url += `?token=${userRegistrationToken}`;
+        }
+        return this.captchaService.postRequestWithCaptcha(el, User, url, user, 'signup');
     }
 
     confirmRegistration(token: string): Observable<User> {
@@ -33,6 +37,10 @@ export class AccountUserService {
 
     getLogueado(): Observable<User> {
         return this.http.get<User>(`${this.resourceUrl}`).pipe(map((res) => convert(User, res)));
+    }
+
+    getByRegistrationToken(token: string): Observable<User> {
+        return this.http.get<User>(`${this.resourceUrl}/signup?token=${token}`).pipe(map((res) => convert(User, res)));
     }
 
     update(user: User): Observable<User> {

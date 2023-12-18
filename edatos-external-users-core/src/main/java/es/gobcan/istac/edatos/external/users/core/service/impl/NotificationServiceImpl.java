@@ -33,9 +33,9 @@ import org.springframework.stereotype.Service;
 
 import javax.ws.rs.core.Response;
 
-import static es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType.COMPLETE_SIGNUP_NOTICE_FAILED;
 import static es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType.CONFIRM_SIGNUP_NOTICE_FAILED;
 import static es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType.EMAIL_IN_USE_NOTICE_FAILED;
+import static es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType.MIGRATED_USER_SIGNUP_NOTICE_FAILED;
 import static es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType.REGISTER_ACCOUNT_NOTICE_FAILED;
 import static es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType.REPEATED_SIGNUP_NOTICE_FAILED;
 import static es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType.RESET_PASSWORD_NOTICE_FAILED;
@@ -49,7 +49,7 @@ public class NotificationServiceImpl implements NotificationService {
 
     private static String RESET_PASSWORD_URL = "/#/reset-password/change-password?key=";
     private static String CONFIRM_REGISTRATION_URL = "/#/login?registration-key=";
-    private static String COMPLETE_REGISTRATION_URL = "/#/signup?registration-key=";
+    private static String CONTINUE_SIGNUP_MIGRATED_USER_URL = "/#/signup?registration-token=";
 
     @Autowired
     private MessageSource messageSource;
@@ -105,17 +105,6 @@ public class NotificationServiceImpl implements NotificationService {
         argsList.add(baseUrl);
 
         createNotificationWithReceiver(codeSubject, messageCode, externalUserEntity.getEmail(), argsList.toArray(new String[argsList.size()]), CONFIRM_SIGNUP_NOTICE_FAILED);
-    }
-
-    @Override
-    public void createCompleteRegistrationExternalUserAccountNotification(ExternalUserEntity externalUserEntity) {
-        String codeSubject = "notice.subject.complete_signup.title";
-        String messageCode = "notice.message.complete_signup.text";
-        String baseUrl = metadataConfigurationService.retrieveBaseUrl() + COMPLETE_REGISTRATION_URL + externalUserEntity.getRegistrationToken();
-        ArrayList<String> argsList = new ArrayList<String>(Arrays.asList(argsByExternalUser(externalUserEntity)));
-        argsList.add(baseUrl);
-
-        createNotificationWithReceiver(codeSubject, messageCode, externalUserEntity.getEmail(), argsList.toArray(new String[argsList.size()]), COMPLETE_SIGNUP_NOTICE_FAILED);
     }
 
     @Override
@@ -212,6 +201,17 @@ public class NotificationServiceImpl implements NotificationService {
         }
         receivers.setTotal(new BigInteger(String.valueOf(receivers.getReceivers().size())));
         return receivers;
+    }
+
+    @Override
+    public void createContinueUserMigrationNotification(ExternalUserEntity user) {
+        String codeSubject = "notice.subject.continue_migration_signup.title";
+        String messageCode = "notice.subject.continue_migration_signup.text";
+        String baseUrl = metadataConfigurationService.retrieveBaseUrl() + CONTINUE_SIGNUP_MIGRATED_USER_URL + user.getRegistrationToken();
+        ArrayList<String> argsList = new ArrayList<>(Arrays.asList(argsByExternalUser(user)));
+        argsList.add(baseUrl);
+
+        createNotificationWithReceiver(codeSubject, messageCode, user.getEmail(), argsList.toArray(new String[0]), MIGRATED_USER_SIGNUP_NOTICE_FAILED);
     }
 
     @Override
