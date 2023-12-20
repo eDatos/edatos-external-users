@@ -38,6 +38,7 @@ spring:
             hibernate.cache.provider_class: ehcache
             hibernate.cache.use_query_cache: false
             hibernate.generate_statistics: false
+            hibernate.show_sql: false
     # spring.jmx.default-domain y spring.hikari.pool-name evitan que al levantar dos aplicaciones con un spring boot similar al template
     # (con beans de jmx configurado) la primera registre sus beans impidiendo a las siguientes registrar los suyos
     jmx:
@@ -162,3 +163,7 @@ jhipster-extra:
 logging:
     level:
         org.hibernate.orm.deprecation: ERROR
+        com.zaxxer: ERROR
+        org.hibernate.engine.internal.StatisticalLoggingSessionEventListener: ERROR
+        org.springframework.boot.actuate.endpoint.mvc.EndpointHandlerMapping: ERROR
+        org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: ERROR
