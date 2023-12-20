@@ -46,67 +46,48 @@ public class EdatosExternalUsersMigrationApp {
     private static FavoriteRepository favoriteRepository;
     private static NotificationService notificationService;
     private static ExternalOperationService externalOperationService;
+    private static ConfigurableApplicationContext context;
 
     private static final Map<String, ExternalUserEntity> oldIdNewUserMap = new HashMap<>();
     private static final Set<ExternalUserRole> usersRoles = Collections.singleton(ExternalUserRole.USER);
 
-    public static void main(String[] args) {
+    private static long migratedUsers = 0;
+    private static long totalUsers = 0;
+    private static long migratedFavorites = 0;
+    private static long totalFavorites = 0;
+    private static long migratedFilters = 0;
+    private static long totalFilters = 0;
+
+    public static void main(String[] args) throws IOException {
         SpringApplication app = new SpringApplication(EdatosExternalUsersMigrationApp.class);
         DefaultProfileUtil.addDefaultProfile(app);
 
-        ConfigurableApplicationContext context = app.run(args);
+        context = app.run(args);
         externalUserRepository = context.getBean(ExternalUserRepository.class);
         filterRepository = context.getBean(FilterRepository.class);
         favoriteRepository = context.getBean(FavoriteRepository.class);
         notificationService = context.getBean(NotificationService.class);
         externalOperationService = context.getBean(ExternalOperationService.class);
 
-        PlatformTransactionManager transactionManager = context.getBean(PlatformTransactionManager.class);
-        TransactionTemplate transactionTemplate = new TransactionTemplate(transactionManager);
-        List<Exception> exceptions = transactionTemplate.execute(status -> {
-            List<Exception> migrationExceptions;
-            try {
-                migrationExceptions = createUsers(args[0]);
-            } catch (IOException e) {
-                return Collections.singletonList(e);
-            }
+        log.info("\n\n--------------------------------- COMIENZO DE LA MIGRACIÓN ---------------------------------\n");
+        createUsers(args[0]);
+        createFavorites(args[1]);
+        createFilters(args[2]);
 
-            if (migrationExceptions.isEmpty()) {
-                try {
-                    migrationExceptions.addAll(createFavorites(args[1]));
-                } catch (IOException e) {
-                    return Collections.singletonList(e);
-                }
-                try {
-                    migrationExceptions.addAll(createFilters(args[2]));
-                } catch (IOException e) {
-                    return Collections.singletonList(e);
-                }
-            }
-
-            if (!migrationExceptions.isEmpty()) {
-                status.setRollbackOnly();
-            }
-            return migrationExceptions;
-        });
-        if (exceptions.isEmpty()) {
-            if (args.length > 3 && args[3].equalsIgnoreCase("--email")) {
-                for (ExternalUserEntity user : oldIdNewUserMap.values()) {
-                    sendEmailToCompleteRegistration(user);
-                }
-            }
-        } else {
-            for (Exception exception : exceptions) {
-                log.error(exception.getMessage());
-            }
+        log.info("\n\n--------------------------------- RESUMEN DE LA MIGRACIÓN ---------------------------------\n");
+        log.info("MIGRATED USERS: " + migratedUsers + "/" + totalUsers);
+        log.info("MIGRATED FAVORITES: " + migratedFavorites + "/" + totalFavorites);
+        log.info("MIGRATED FILTERS: " + migratedFilters + "/" + totalFilters);
+        if (migratedUsers != totalUsers || migratedFavorites != totalFavorites || migratedFilters != totalFilters) {
+            log.warn("No se han podido migrar todas las filas. Haz los cambios necesarios para arreglar las filas con errores y vuelve a intentarlo.");
         }
 
+        log.info("\n\n--------------------------------- FIN DE LA MIGRACIÓN ---------------------------------\n");
         int exitCode = SpringApplication.exit(context, () -> 0);
         System.exit(exitCode);
     }
 
-    private static List<Exception> createUsers(String filename) throws IOException {
-        List<Exception> exceptions = new ArrayList<>();
+    private static void createUsers(String filename) throws IOException {
         try (CSVReader csvReader = new CSVReader(new FileReader(filename), ';')) {
             String[] values;
             Map<String, Integer> headerIndexMap = new HashMap<>();
@@ -116,57 +97,78 @@ public class EdatosExternalUsersMigrationApp {
                         headerIndexMap.put(values[i], i);
                     }
                 } else if (headerIndexMap.size() == 1) {
-                    exceptions.add(new RuntimeException("Usuarios. No ha sido posible separar las diferentes columnas. Por favor, compruebe que hay más de una columna y que el csv se ha separado con el símbolo ';'."));
-                    return exceptions;
+                    log.error("Usuarios. No ha sido posible separar las diferentes columnas. Por favor, compruebe que hay más de una columna y que el csv se ha separado con el símbolo ';'.");
+                    return;
                 } else {
+                    List<Exception> exceptions = new ArrayList<>();
                     try {
-                        ExternalUserEntity externalUser = new ExternalUserEntity();
-                        externalUser.setEmail(values[headerIndexMap.get("email")]);
-                        if (StringUtils.isNotBlank(values[headerIndexMap.get("language")])) {
-                            Language language = Language.findByLocaleCode(values[headerIndexMap.get("language")]);
-                            if (language == null) {
-                                exceptions.add(new RuntimeException("Usuarios. Línea " + Arrays.toString(values) + ": No se ha podido migrar el lenguaje porque no es uno de los valores permitidos."));
+                        PlatformTransactionManager transactionManager = context.getBean(PlatformTransactionManager.class);
+                        TransactionTemplate transactionTemplate = new TransactionTemplate(transactionManager);
+                        String[] finalValues = values;
+                        transactionTemplate.execute(status -> {
+                            ExternalUserEntity externalUser = externalUserRepository.findOneByEmail(finalValues[headerIndexMap.get("email")]).orElse(new ExternalUserEntity());
+                            if (externalUser.getId() != null) {
+                                log.warn("El usuario con correo " + finalValues[headerIndexMap.get("email")] + " ya existe. Será ignorado.");
+                                oldIdNewUserMap.put(finalValues[headerIndexMap.get("id")], externalUser); // TODO what if id does not exists?
                             } else {
-                                externalUser.setLanguage(language);
-                            }
-                        }
-                        externalUser.setOrganism(values[headerIndexMap.get("organism")]);
-                        externalUser.setPhoneNumber(values[headerIndexMap.get("phoneNumber")]);
-                        externalUser.setEmailNotificationsEnabled(true);
-                        externalUser.setPassword("MIGRATED_USER");
-                        externalUser.setEnabled(false);
-                        externalUser.setRegistrationToken(UUID.randomUUID().toString());
-                        if (StringUtils.isNotBlank(values[headerIndexMap.get("gender")])) {
-                            String gender = StringUtils.substringAfterLast(values[headerIndexMap.get("gender")], ".");
-                            if (StringUtils.isBlank(gender)) {
-                                exceptions.add(new RuntimeException("Usuarios. Línea " + Arrays.toString(values) + ": No se ha podido migrar el género porque el formato de la urn no es correcto."));
-                            } else {
-                                externalUser.setGender(gender);
-                            }
-                        }
-                        externalUser.setRoles(usersRoles);
-                        externalUser.setName(values[headerIndexMap.get("name")]);
-                        externalUser.setSurname1(values[headerIndexMap.get("surname1")]);
-                        externalUser.setSurname2(values[headerIndexMap.get("surname2")]);
+                                externalUser.setEmail(finalValues[headerIndexMap.get("email")]);
+                                if (StringUtils.isNotBlank(finalValues[headerIndexMap.get("language")])) {
+                                    Language language = Language.findByLocaleCode(finalValues[headerIndexMap.get("language")]);
+                                    if (language == null) {
+                                        exceptions.add(new RuntimeException("No se ha podido migrar el lenguaje porque no es uno de los valores permitidos."));
+                                    } else {
+                                        externalUser.setLanguage(language);
+                                    }
+                                }
+                                externalUser.setOrganism(finalValues[headerIndexMap.get("organism")]);
+                                externalUser.setPhoneNumber(finalValues[headerIndexMap.get("phoneNumber")]);
+                                externalUser.setEmailNotificationsEnabled(true);
+                                externalUser.setPassword("MIGRATED_USER");
+                                externalUser.setEnabled(false);
+                                externalUser.setRegistrationToken(UUID.randomUUID().toString());
+                                if (StringUtils.isNotBlank(finalValues[headerIndexMap.get("gender")])) {
+                                    String gender = StringUtils.substringAfterLast(finalValues[headerIndexMap.get("gender")], ".");
+                                    if (StringUtils.isBlank(gender)) {
+                                        exceptions.add(new RuntimeException("No se ha podido migrar el género porque el formato de la urn no es correcto."));
+                                    } else {
+                                        externalUser.setGender(gender);
+                                    }
+                                }
+                                externalUser.setRoles(usersRoles);
+                                externalUser.setName(finalValues[headerIndexMap.get("name")]);
+                                externalUser.setSurname1(finalValues[headerIndexMap.get("surname1")]);
+                                externalUser.setSurname2(finalValues[headerIndexMap.get("surname2")]);
 
-                        ExternalUserEntity createdExternalUser = externalUserRepository.saveAndFlush(externalUser);
-                        Instant createdDate = parseDate(values[headerIndexMap.get("creationDate")]);
-                        if (createdDate != null) {
-                            createdExternalUser.setCreatedDate(createdDate);
-                        }
+                                ExternalUserEntity createdExternalUser = externalUserRepository.saveAndFlush(externalUser);
+                                Instant createdDate = parseDate(finalValues[headerIndexMap.get("creationDate")]);
+                                if (createdDate != null) {
+                                    createdExternalUser.setCreatedDate(createdDate);
+                                }
 
-                        oldIdNewUserMap.put(values[headerIndexMap.get("id")], createdExternalUser);
+                                oldIdNewUserMap.put(finalValues[headerIndexMap.get("id")], createdExternalUser);
+                                sendEmailToCompleteRegistration(createdExternalUser);
+                            }
+                            return "";
+                        });
                     } catch (Exception e) {
-                        exceptions.add(new RuntimeException("Usuarios. Línea " + Arrays.toString(values) + ": " + e.getMessage()));
+                        exceptions.add(e);
                     }
+                    if (!exceptions.isEmpty()) {
+                        StringBuilder errorLog = new StringBuilder("Usuario. Línea " + Arrays.toString(values) + ":\n");
+                        for(Exception e: exceptions) {
+                            errorLog.append("- ").append(e.getMessage()).append("\n");
+                        }
+                        log.error(errorLog.toString());
+                    } else {
+                        migratedUsers++;
+                    }
+                    totalUsers++;
                 }
             }
         }
-        return exceptions;
     }
 
-    private static List<Exception> createFavorites(String filename) throws IOException {
-        List<Exception> exceptions = new ArrayList<>();
+    private static void createFavorites(String filename) throws IOException {
         try (CSVReader csvReader = new CSVReader(new FileReader(filename), ';')) {
             String[] values;
             Map<String, Integer> headerIndexMap = new HashMap<>();
@@ -176,41 +178,64 @@ public class EdatosExternalUsersMigrationApp {
                         headerIndexMap.put(values[i], i);
                     }
                 } else if (headerIndexMap.size() == 1) {
-                    exceptions.add(new RuntimeException("Favoritos. No ha sido posible separar las diferentes columnas. Por favor, compruebe que hay más de una columna y que el csv se ha separado con el símbolo ';'."));
+                    log.error("Favoritos. No ha sido posible separar las diferentes columnas. Por favor, compruebe que hay más de una columna y que el csv se ha separado con el símbolo ';'.");
+                    return;
                 } else {
+                    List<Exception> exceptions = new ArrayList<>();
                     try {
-                        FavoriteEntity favorite = new FavoriteEntity();
+                        PlatformTransactionManager transactionManager = context.getBean(PlatformTransactionManager.class);
+                        TransactionTemplate transactionTemplate = new TransactionTemplate(transactionManager);
+                        String[] finalValues = values;
+                        transactionTemplate.execute(status -> {
+                            FavoriteEntity favorite = new FavoriteEntity();
 
-                        ExternalUserEntity favoriteOwner = oldIdNewUserMap.getOrDefault(values[headerIndexMap.get("externalUser")], null);
-                        if (favoriteOwner == null) {
-                            exceptions.add(new RuntimeException("Favoritos. Línea " + Arrays.toString(values) + ": No existe ningún usuario que se pueda atribuir al id proporcionado."));
-                        } else {
-                            favorite.setExternalUser(favoriteOwner);
-                        }
+                            ExternalUserEntity favoriteOwner = oldIdNewUserMap.getOrDefault(finalValues[headerIndexMap.get("externalUser")], null);
+                            if (favoriteOwner == null) {
+                                exceptions.add(new RuntimeException("No existe ningún usuario que se pueda atribuir al id proporcionado."));
+                            } else {
+                                favorite.setExternalUser(favoriteOwner);
+                            }
 
-                        ExternalOperationEntity externalOperation = externalOperationService.findByCode(values[headerIndexMap.get("externalOperation")]);
-                        if (externalOperation == null) {
-                            exceptions.add(new RuntimeException("Favoritos. Línea " + Arrays.toString(values) + ": No se puede tener crear un favorito sin una operación o tema asignado. Compruebe que ese campo tiene valor en el csv. Si es así, quizás la operación no se encuentra en e-Usuarios. Relance el envío por Kafka."));
-                        } else if (!externalOperation.isEnabled()) {
-                            exceptions.add(new RuntimeException("Favoritos. Línea " + Arrays.toString(values) + ": No se puede tener como favorita una operación desactivada."));
-                        } else {
-                            favorite.setExternalOperation(externalOperation);
-                        }
+                            ExternalOperationEntity externalOperation = externalOperationService.findByCode(finalValues[headerIndexMap.get("externalOperation")]);
+                            if (externalOperation == null) {
+                                exceptions.add(new RuntimeException("No se puede tener crear un favorito sin una operación o tema asignado. Compruebe que ese campo tiene valor en el csv. Si es así, quizás la operación no se encuentra en e-Usuarios. Relance el envío por Kafka."));
+                            } else if (!externalOperation.isEnabled()) {
+                                exceptions.add(new RuntimeException("No se puede tener como favorita una operación desactivada."));
+                            } else {
+                                favorite.setExternalOperation(externalOperation);
+                            }
 
-                        favoriteRepository.saveAndFlush(favorite);
+                            // CUIDADO CON GUARDAR SIN OPERACION
+                            if (externalOperation != null & favoriteOwner != null) {
+                                if (favoriteRepository.findByExternalUserAndExternalOperation(favoriteOwner, externalOperation).orElse(null) == null) {
+                                    favoriteRepository.saveAndFlush(favorite);
+                                } else {
+                                    log.warn("El favorito del usuario " + favoriteOwner.getEmail() + " y operación " + externalOperation.getCode() + " ya existe. Será ignorado.");
+                                }
+                            }
+                            return "";
+                        });
                     } catch (Exception e) {
-                        exceptions.add(new RuntimeException("Favoritos. Línea " + Arrays.toString(values) + ": " + e.getMessage()));
+                        exceptions.add(e);
                     }
+                    if (!exceptions.isEmpty()) {
+                        StringBuilder errorLog = new StringBuilder("Favorito. Línea " + Arrays.toString(values) + ":\n");
+                        for(Exception e: exceptions) {
+                            errorLog.append("- ").append(e.getMessage()).append("\n");
+                        }
+                        log.error(errorLog.toString());
+                    } else {
+                        migratedFavorites++;
+                    }
+                    totalFavorites++;
                 }
             }
         }
-        return exceptions;
     }
 
 
 
-    private static List<Exception> createFilters(String filename) throws IOException {
-        List<Exception> exceptions = new ArrayList<>();
+    private static void createFilters(String filename) throws IOException {
         try (CSVReader csvReader = new CSVReader(new FileReader(filename), ';')) {
             String[] values;
             Map<String, Integer> headerIndexMap = new HashMap<>();
@@ -220,53 +245,76 @@ public class EdatosExternalUsersMigrationApp {
                         headerIndexMap.put(values[i], i);
                     }
                 } else if (headerIndexMap.size() == 1) {
-                    exceptions.add(new RuntimeException("Filtros. No ha sido posible separar las diferentes columnas. Por favor, compruebe que hay más de una columna y que el csv se ha separado con el símbolo ';'."));
+                    log.error("Filtros. No ha sido posible separar las diferentes columnas. Por favor, compruebe que hay más de una columna y que el csv se ha separado con el símbolo ';'.");
                 } else {
+                    List<Exception> exceptions = new ArrayList<>();
+
                     try {
-                        FilterEntity filter = new FilterEntity();
-                        filter.setName(values[headerIndexMap.get("name")]);
+                        PlatformTransactionManager transactionManager = context.getBean(PlatformTransactionManager.class);
+                        TransactionTemplate transactionTemplate = new TransactionTemplate(transactionManager);
+                        String[] finalValues = values;
+                        transactionTemplate.execute(status -> {
+                            FilterEntity filter = new FilterEntity();
+                            filter.setPermalink(finalValues[headerIndexMap.get("permalink")]);
 
-                        ExternalUserEntity favoriteOwner = oldIdNewUserMap.getOrDefault(values[headerIndexMap.get("externalUser")], null);
-                        if (favoriteOwner == null) {
-                            exceptions.add(new RuntimeException("Filtros. Línea " + Arrays.toString(values) + ": No existe ningún usuario que se pueda atribuir al id proporcionado."));
-                        } else {
-                            filter.setExternalUser(favoriteOwner);
-                        }
+                            ExternalUserEntity favoriteOwner = oldIdNewUserMap.getOrDefault(finalValues[headerIndexMap.get("externalUser")], null);
+                            if (favoriteOwner == null) {
+                                exceptions.add(new RuntimeException("No existe ningún usuario que se pueda atribuir al id proporcionado."));
+                            } else {
+                                filter.setExternalUser(favoriteOwner);
+                            }
+                            if (filterRepository.findByExternalUserAndPermalink(favoriteOwner, filter.getPermalink()).orElse(null) != null) {
+                                log.warn("El filtro del usuario " + favoriteOwner.getEmail() + " y permalink " + filter.getPermalink() + " ya existe. Será ignorado.");
+                                exceptions.removeIf(x -> true);
+                            } else {
 
-                        filter.setPermalink(values[headerIndexMap.get("permalink")]);
-                        filter.setPermalinkType(PermalinkType.EXTERNAL);
-                        filter.setExternalOperation(externalOperationService.findByCode(values[headerIndexMap.get("externalOperation")]));
+                                filter.setName(finalValues[headerIndexMap.get("name")]);
+                                filter.setPermalinkType(PermalinkType.EXTERNAL);
+                                filter.setExternalOperation(externalOperationService.findByCode(finalValues[headerIndexMap.get("externalOperation")]));
 
-                        ExternalOperationEntity externalOperation = externalOperationService.findByCode(values[headerIndexMap.get("externalOperation")]);
-                        if (externalOperation == null && StringUtils.isNotBlank(values[headerIndexMap.get("externalOperation")])) {
-                            exceptions.add(new RuntimeException("Filtros. Línea " + Arrays.toString(values) + ": La operación externa referenciada en el filtro no existe en eUsuarios. Quizás la operación no se encuentra en e-Usuarios. Relance el envío por Kafka."));
-                        } else {
-                            filter.setExternalOperation(externalOperation);
-                        }
+                                ExternalOperationEntity externalOperation = externalOperationService.findByCode(finalValues[headerIndexMap.get("externalOperation")]);
+                                if (externalOperation == null && StringUtils.isNotBlank(finalValues[headerIndexMap.get("externalOperation")])) {
+                                    exceptions.add(new RuntimeException(
+                                        "La operación externa referenciada en el filtro no existe en eUsuarios. Quizás la operación no se encuentra en e-Usuarios. Relance el envío por Kafka."));
+                                } else {
+                                    filter.setExternalOperation(externalOperation);
+                                }
 
-                        String countVisitsColumn = values[headerIndexMap.get("countVisits")];
-                        if (StringUtils.isNotBlank(countVisitsColumn)) {
-                            filter.setVisitCount(Long.parseLong(countVisitsColumn));
-                        }
+                                String countVisitsColumn = finalValues[headerIndexMap.get("countVisits")];
+                                if (StringUtils.isNotBlank(countVisitsColumn)) {
+                                    filter.setVisitCount(Long.parseLong(countVisitsColumn));
+                                }
 
-                        Instant lastAccessDate = parseDateAndTime(values[headerIndexMap.get("lastAccessDate")]);
-                        if (lastAccessDate != null) {
-                            filter.setLastAccessDate(lastAccessDate);
-                        }
+                                Instant lastAccessDate = parseDateAndTime(finalValues[headerIndexMap.get("lastAccessDate")]);
+                                if (lastAccessDate != null) {
+                                    filter.setLastAccessDate(lastAccessDate);
+                                }
 
-                        filter = filterRepository.saveAndFlush(filter);
-                        Instant createdDate = parseDateAndTime(values[headerIndexMap.get("creationDate")]);
-                        if (createdDate != null) {
-                            filter.setCreatedDate(createdDate);
-                            filterRepository.saveAndFlush(filter);
-                        }
+                                filter = filterRepository.saveAndFlush(filter);
+                                Instant createdDate = parseDateAndTime(finalValues[headerIndexMap.get("creationDate")]);
+                                if (createdDate != null) {
+                                    filter.setCreatedDate(createdDate);
+                                    filterRepository.saveAndFlush(filter);
+                                }
+                            }
+                            return "";
+                        });
                     } catch (Exception e) {
-                        exceptions.add(new RuntimeException("Filtros. Línea " + Arrays.toString(values) + ": " + e.getMessage()));
+                        exceptions.add(e);
                     }
+                    if (!exceptions.isEmpty()) {
+                        StringBuilder errorLog = new StringBuilder("Filtro. Línea " + Arrays.toString(values) + ":\n");
+                        for(Exception e: exceptions) {
+                            errorLog.append("- ").append(e.getMessage()).append("\n");
+                        }
+                        log.error(errorLog.toString());
+                    } else {
+                        migratedFilters++;
+                    }
+                    totalFilters++;
                 }
             }
         }
-        return exceptions;
     }
 
     private static String[] getNextRowValues(CSVReader reader) throws IOException {

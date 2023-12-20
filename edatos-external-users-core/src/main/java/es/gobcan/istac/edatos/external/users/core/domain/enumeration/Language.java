@@ -4,10 +4,14 @@ public enum Language {
     SPANISH("es"),
     CATALAN("ca");
 
-    private String localeCode;
+    private final String localeCode;
 
     Language(String localeCode) {
         this.localeCode = localeCode;
+    }
+
+    public String getLocaleCode() {
+        return localeCode;
     }
 
     public static Language findByLocaleCode(String localeCode) {

@@ -1,6 +1,7 @@
 package es.gobcan.istac.edatos.external.users.core.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.hibernate.criterion.DetachedCriteria;
@@ -23,6 +24,8 @@ public interface FilterRepository extends JpaRepository<FilterEntity, Long> {
     List<FilterEntity> findAll(DetachedCriteria criteria);
 
     List<FilterEntity> findAllByExternalUserOrderByCreatedDate(ExternalUserEntity user);
+
+    Optional<FilterEntity> findByExternalUserAndPermalink(ExternalUserEntity user, String permalink);
 
     void deleteAllByExternalUser(ExternalUserEntity user);
 

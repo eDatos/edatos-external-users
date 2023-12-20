@@ -103,7 +103,7 @@ public class ExternalAccountResource extends AbstractResource {
             user = externalUserService.migrate(externalUserMapper.toEntity(externalUserDto));
             return ResponseEntity.ok(user);
         } else {
-            notificationService.createContinueUserMigrationNotification(user);
+            notificationService.createMigratedExternalUserPendingRegistrationNotification(user);
             return ResponseEntity.noContent().build();
         }
     }
