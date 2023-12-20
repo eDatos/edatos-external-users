@@ -109,7 +109,7 @@ public class EdatosExternalUsersMigrationApp {
                             ExternalUserEntity externalUser = externalUserRepository.findOneByEmail(finalValues[headerIndexMap.get("email")]).orElse(new ExternalUserEntity());
                             if (externalUser.getId() != null) {
                                 log.warn("El usuario con correo " + finalValues[headerIndexMap.get("email")] + " ya existe. Será ignorado.");
-                                oldIdNewUserMap.put(finalValues[headerIndexMap.get("id")], externalUser); // TODO what if id does not exists?
+                                oldIdNewUserMap.put(finalValues[headerIndexMap.get("id")], externalUser);
                             } else {
                                 externalUser.setEmail(finalValues[headerIndexMap.get("email")]);
                                 if (StringUtils.isNotBlank(finalValues[headerIndexMap.get("language")])) {
@@ -146,7 +146,12 @@ public class EdatosExternalUsersMigrationApp {
                                 }
 
                                 oldIdNewUserMap.put(finalValues[headerIndexMap.get("id")], createdExternalUser);
-                                sendEmailToCompleteRegistration(createdExternalUser);
+                                try {
+                                    sendEmailToCompleteRegistration(createdExternalUser);
+                                } catch (Exception e) {
+                                    log.error("Ha habido un error mandando el correo al usuario " + createdExternalUser.getEmail() + ". Se ha impedido su migración para que no se quede sin acceso al correo.");
+                                    status.setRollbackOnly();
+                                }
                             }
                             return "";
                         });
@@ -205,8 +210,7 @@ public class EdatosExternalUsersMigrationApp {
                                 favorite.setExternalOperation(externalOperation);
                             }
 
-                            // CUIDADO CON GUARDAR SIN OPERACION
-                            if (externalOperation != null & favoriteOwner != null) {
+                            if (externalOperation != null && favoriteOwner != null) {
                                 if (favoriteRepository.findByExternalUserAndExternalOperation(favoriteOwner, externalOperation).orElse(null) == null) {
                                     favoriteRepository.saveAndFlush(favorite);
                                 } else {
