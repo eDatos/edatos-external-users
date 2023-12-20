@@ -7,18 +7,21 @@ import org.quartz.SimpleTrigger;
 import org.quartz.Trigger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Configuration;
-import java.io.IOException;
-import java.util.Calendar;
-import java.util.Properties;
-
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.scheduling.quartz.*;
+import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
+import org.springframework.scheduling.quartz.JobDetailFactoryBean;
+import org.springframework.scheduling.quartz.SchedulerFactoryBean;
+import org.springframework.scheduling.quartz.SimpleTriggerFactoryBean;
+
+import javax.sql.DataSource;
+import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Properties;
 
 @Configuration
 public class QuartzConfiguration {
@@ -87,7 +90,22 @@ public class QuartzConfiguration {
         return factoryBean;
     }
 
-    static JobDetailFactoryBean createJobDetail(Class jobClass, String jobName, String jobDescription) {
+    public static SimpleTriggerFactoryBean createDateTrigger(JobDetail jobDetail, Date date, String triggerName) {
+        log.debug("createDateTrigger(jobDetail={}, date={}, triggerName={})", jobDetail.toString(), date, triggerName);
+
+        SimpleTriggerFactoryBean factoryBean = new SimpleTriggerFactoryBean();
+        factoryBean.setJobDetail(jobDetail);
+        factoryBean.setStartTime(date);
+        factoryBean.setStartDelay(0L);
+        factoryBean.setRepeatInterval(0L);
+        factoryBean.setRepeatCount(0);
+        factoryBean.setName(triggerName);
+        factoryBean.setMisfireInstruction(SimpleTrigger.MISFIRE_INSTRUCTION_FIRE_NOW);
+
+        return factoryBean;
+    }
+
+    public static JobDetailFactoryBean createJobDetail(Class jobClass, String jobName, String jobDescription) {
         log.debug("createJobDetail(jobClass={}, jobName={})", jobClass.getName(), jobName);
 
         JobDetailFactoryBean factoryBean = new JobDetailFactoryBean();

@@ -37,6 +37,6 @@ public interface ExternalUserService {
     List<ExternalUserEntity> findByCategoriesAndExternalOperations(List<Long> categoriesIds, List<Long> operationsIds);
 
     boolean isMigratedUser(ExternalUserEntity user);
-
     ExternalUserEntity migrate(ExternalUserEntity entity);
+    List<ExternalUserEntity> deleteUsersThatDidntCompleteMigration();
 }

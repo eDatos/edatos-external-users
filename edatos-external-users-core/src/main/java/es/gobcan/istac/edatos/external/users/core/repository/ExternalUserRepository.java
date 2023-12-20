@@ -46,4 +46,6 @@ public interface ExternalUserRepository extends JpaRepository<ExternalUserEntity
 
     @Query("select u from ExternalUserEntity as u join FavoriteEntity as f on u.id = f.externalUser.id where f.externalOperation.id in ?1 group by u.id having count(u.id) = ?2")
     List<ExternalUserEntity> findByExternalOperations(List<Long> operations, Long operationsSize);
+
+    List<ExternalUserEntity> deleteAllByPasswordAndEnabled(String password, boolean enabled);
 }
