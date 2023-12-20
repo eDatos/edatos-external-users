@@ -48,7 +48,7 @@ public class PasswordResource extends AbstractResource {
     public ResponseEntity<Void> recoverPassword(@Valid @RequestBody String email) {
         ExternalUserEntity user = externalUserService.findByEmail(email).orElse(null);
         if (user != null && externalUserService.isMigratedUser(user)) {
-            notificationService.createContinueUserMigrationNotification(user);
+            notificationService.createResetPasswordMigratedUserNotification(user);
             return ResponseEntity.ok().build();
         }
 

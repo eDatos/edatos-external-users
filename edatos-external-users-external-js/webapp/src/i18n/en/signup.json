@@ -18,7 +18,7 @@
             "gender": "Gender",
             "nationality": "Nationality",
             "birthday": "Birthday",
-            "termsAndConditions": "Agree to terms and conditions"
+            "termsAndConditions": "Agree to the Privacy Policy"
         },
         "messages": {
             "onSuccessSumary": "New user registration",

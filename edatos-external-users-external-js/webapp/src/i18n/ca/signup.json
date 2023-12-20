@@ -18,7 +18,7 @@
             "gender": "Gènere",
             "nationality": "Nacionalitat",
             "birthday": "Data naixement",
-            "termsAndConditions": "Accepto els termes i condicions"
+            "termsAndConditions": "Accepto política de privacitat"
         },
         "messages": {
             "onSuccessSumary": "Registre de nou usuari",
