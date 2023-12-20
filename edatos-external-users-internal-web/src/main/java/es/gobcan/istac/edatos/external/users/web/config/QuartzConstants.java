@@ -12,6 +12,10 @@ public final class QuartzConstants {
     public static final String DATASETS_SUBSCRIPTIONS_JOB_DESCRIPTION = "Send notifications of updated dataset subscriptions Job";
     public static final String DATASETS_SUBSCRIPTIONS_TRIGGER = "sendNoticeOfSubscriptionsTrigger";
 
+    public static final String DELETE_NOT_MIGRATED_USERS_JOB = "deleteNotMigratedUsersJob";
+    public static final String DELETE_NOT_MIGRATED_USERS_DESCRIPTION = "Delete not migrated users Job";
+    public static final String DELETE_NOT_MIGRATED_USERS_TRIGGER = "deleteNotMigratedUsersTrigger";
+
     private QuartzConstants() {
     }
 
