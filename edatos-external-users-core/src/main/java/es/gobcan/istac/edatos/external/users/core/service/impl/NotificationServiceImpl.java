@@ -138,7 +138,7 @@ public class NotificationServiceImpl implements NotificationService {
         for (FavoriteEntity favorite : listFavorites) {
             ExternalUserEntity externalUserEntity = favorite.getExternalUser();
             ArrayList<String> argsList = new ArrayList<String>(Arrays.asList(argsByExternalUser(externalUserEntity)));
-            argsList.add(favorite.getExternalOperation().getName().getLocalisedLabel(null, getDefaultLocale()));
+            argsList.add(favorite.getExternalOperation().getName().getLocalisedLabel(favorite.getExternalUser().getLanguage().getLocaleCode(), getDefaultLocale()));
 
             if (externalUserEntity.isEmailNotificationsEnabled() && favorite.getExternalOperation().isNotificationsEnabled()) {
                 createNotificationWithReceiver(codeSubject, messageCode, externalUserEntity, argsList.toArray(new String[argsList.size()]), SUBSCRIPTION_JOB_NOTICE_FAILED);
@@ -171,7 +171,7 @@ public class NotificationServiceImpl implements NotificationService {
 
         // @formatter:off
         return NoticeBuilder.notification()
-            .withMessages(message, MessageBuilder.message().withText(getLopd()).build())
+            .withMessages(message, MessageBuilder.message().withText(getLopd(locale.getLanguage())).build())
             .withReceivers(receiver)
             .withSendingApplication(MetamacApplicationsEnum.GESTOR_USUARIOS_EXTERNOS.getName())
             .withSubject(subject)
@@ -240,7 +240,7 @@ public class NotificationServiceImpl implements NotificationService {
         try {
             // @formatter:off
             Notice notice = NoticeBuilder.notification()
-                .withMessages(MessageBuilder.message().withText(message).build(), MessageBuilder.message().withText(getLopd()).build())
+                .withMessages(MessageBuilder.message().withText(message).build(), MessageBuilder.message().withText(getLopd(null)).build())
                 .withReceivers(receivers)
                 .withSendingApplication(MetamacApplicationsEnum.GESTOR_USUARIOS_EXTERNOS.getName())
                 .withSubject(subject).build();
@@ -260,8 +260,8 @@ public class NotificationServiceImpl implements NotificationService {
         return metadataConfigurationService.retrieveOrganisation();
     }
 
-    private String getLopd() {
-        return dataProtectionPolicyService.find().getValue().getLocalisedLabel(null, getDefaultLocale());
+    private String getLopd(String locale) {
+        return dataProtectionPolicyService.find().getValue().getLocalisedLabel(locale, getDefaultLocale());
     }
 
     private String getDefaultLocale() {
