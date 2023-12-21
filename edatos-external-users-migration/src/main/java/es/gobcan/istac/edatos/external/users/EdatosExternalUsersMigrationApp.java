@@ -51,6 +51,8 @@ public class EdatosExternalUsersMigrationApp {
     private static final Map<String, ExternalUserEntity> oldIdNewUserMap = new HashMap<>();
     private static final Set<ExternalUserRole> usersRoles = Collections.singleton(ExternalUserRole.USER);
 
+    private static boolean sendEmail = false;
+
     private static long migratedUsers = 0;
     private static long totalUsers = 0;
     private static long migratedFavorites = 0;
@@ -68,6 +70,8 @@ public class EdatosExternalUsersMigrationApp {
         favoriteRepository = context.getBean(FavoriteRepository.class);
         notificationService = context.getBean(NotificationService.class);
         externalOperationService = context.getBean(ExternalOperationService.class);
+
+        sendEmail = args.length > 3 && args[3].equalsIgnoreCase("--email");
 
         log.info("\n\n--------------------------------- COMIENZO DE LA MIGRACIÓN ---------------------------------\n");
         createUsers(args[0]);
@@ -148,11 +152,13 @@ public class EdatosExternalUsersMigrationApp {
                                     status.setRollbackOnly();
                                 } else {
                                     oldIdNewUserMap.put(finalValues[headerIndexMap.get("id")], createdExternalUser);
-                                    try {
-                                        sendEmailToCompleteRegistration(createdExternalUser);
-                                    } catch (Exception e) {
-                                        exceptions.add(new RuntimeException("Ha habido un error mandando el correo al usuario " + createdExternalUser.getEmail() + ". Se ha impedido su migración para que no se quede sin acceso al correo."));
-                                        status.setRollbackOnly();
+                                    if (sendEmail) {
+                                        try {
+                                            sendEmailToCompleteRegistration(createdExternalUser);
+                                        } catch (Exception e) {
+                                            exceptions.add(new RuntimeException("Ha habido un error mandando el correo al usuario " + createdExternalUser.getEmail() + ". Se ha impedido su migración para que no se quede sin acceso al correo."));
+                                            status.setRollbackOnly();
+                                        }
                                     }
                                 }
                             }
