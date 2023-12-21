@@ -144,13 +144,16 @@ public class EdatosExternalUsersMigrationApp {
                                 if (createdDate != null) {
                                     createdExternalUser.setCreatedDate(createdDate);
                                 }
-
-                                oldIdNewUserMap.put(finalValues[headerIndexMap.get("id")], createdExternalUser);
-                                try {
-                                    sendEmailToCompleteRegistration(createdExternalUser);
-                                } catch (Exception e) {
-                                    log.error("Ha habido un error mandando el correo al usuario " + createdExternalUser.getEmail() + ". Se ha impedido su migración para que no se quede sin acceso al correo.");
+                                if (!exceptions.isEmpty()) {
                                     status.setRollbackOnly();
+                                } else {
+                                    oldIdNewUserMap.put(finalValues[headerIndexMap.get("id")], createdExternalUser);
+                                    try {
+                                        sendEmailToCompleteRegistration(createdExternalUser);
+                                    } catch (Exception e) {
+                                        exceptions.add(new RuntimeException("Ha habido un error mandando el correo al usuario " + createdExternalUser.getEmail() + ". Se ha impedido su migración para que no se quede sin acceso al correo."));
+                                        status.setRollbackOnly();
+                                    }
                                 }
                             }
                             return "";
@@ -196,7 +199,7 @@ public class EdatosExternalUsersMigrationApp {
 
                             ExternalUserEntity favoriteOwner = oldIdNewUserMap.getOrDefault(finalValues[headerIndexMap.get("externalUser")], null);
                             if (favoriteOwner == null) {
-                                exceptions.add(new RuntimeException("No existe ningún usuario que se pueda atribuir al id proporcionado."));
+                                exceptions.add(new RuntimeException("No existe ningún usuario que se pueda atribuir al id proporcionado. Revise si ese usuario existe o si ha ocurrido un error durante la migración de dicho usuario."));
                             } else {
                                 favorite.setExternalUser(favoriteOwner);
                             }
@@ -213,8 +216,12 @@ public class EdatosExternalUsersMigrationApp {
                             if (externalOperation != null && favoriteOwner != null) {
                                 if (favoriteRepository.findByExternalUserAndExternalOperation(favoriteOwner, externalOperation).orElse(null) == null) {
                                     favoriteRepository.saveAndFlush(favorite);
+                                    if (!exceptions.isEmpty()) {
+                                        status.setRollbackOnly();
+                                    }
                                 } else {
                                     log.warn("El favorito del usuario " + favoriteOwner.getEmail() + " y operación " + externalOperation.getCode() + " ya existe. Será ignorado.");
+                                    exceptions.removeIf(exception -> true);
                                 }
                             }
                             return "";
@@ -263,15 +270,14 @@ public class EdatosExternalUsersMigrationApp {
 
                             ExternalUserEntity favoriteOwner = oldIdNewUserMap.getOrDefault(finalValues[headerIndexMap.get("externalUser")], null);
                             if (favoriteOwner == null) {
-                                exceptions.add(new RuntimeException("No existe ningún usuario que se pueda atribuir al id proporcionado."));
+                                exceptions.add(new RuntimeException("No existe ningún usuario que se pueda atribuir al id proporcionado. Revise si ese usuario existe o si ha ocurrido un error durante la migración de dicho usuario."));
                             } else {
                                 filter.setExternalUser(favoriteOwner);
                             }
                             if (filterRepository.findByExternalUserAndPermalink(favoriteOwner, filter.getPermalink()).orElse(null) != null) {
                                 log.warn("El filtro del usuario " + favoriteOwner.getEmail() + " y permalink " + filter.getPermalink() + " ya existe. Será ignorado.");
-                                exceptions.removeIf(x -> true);
+                                exceptions.removeIf(exception -> true);
                             } else {
-
                                 filter.setName(finalValues[headerIndexMap.get("name")]);
                                 filter.setPermalinkType(PermalinkType.EXTERNAL);
                                 filter.setExternalOperation(externalOperationService.findByCode(finalValues[headerIndexMap.get("externalOperation")]));
@@ -298,7 +304,10 @@ public class EdatosExternalUsersMigrationApp {
                                 Instant createdDate = parseDateAndTime(finalValues[headerIndexMap.get("creationDate")]);
                                 if (createdDate != null) {
                                     filter.setCreatedDate(createdDate);
-                                    filterRepository.saveAndFlush(filter);
+                                }
+
+                                if (!exceptions.isEmpty()) {
+                                    status.setRollbackOnly();
                                 }
                             }
                             return "";
