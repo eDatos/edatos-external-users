@@ -10,6 +10,7 @@ import org.siemac.edatos.core.common.exception.EDatosException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.quartz.JobDetailFactoryBean;
@@ -24,7 +25,10 @@ import java.time.Instant;
 import java.util.List;
 
 @Component
+@ConditionalOnProperty(name = DeleteNotMigratedUsersJob.APPLICATION_JOBS_MIGRATION_DATE)
 public class DeleteNotMigratedUsersJob extends AbstractConsumerQuartzJob {
+
+    public static final String APPLICATION_JOBS_MIGRATION_DATE = "application.jobs.migration.date";
 
     private final Logger log = LoggerFactory.getLogger(DeleteNotMigratedUsersJob.class);
 
@@ -35,12 +39,8 @@ public class DeleteNotMigratedUsersJob extends AbstractConsumerQuartzJob {
 
     @Bean
     public SimpleTriggerFactoryBean triggerMemberClassStats(@Qualifier("jobDeleteNotMigratedUsers") JobDetail jobDetail, Environment env) {
-        String date = env.getProperty("application.jobs.migration.date");
-        if (date != null) {
-            return QuartzConfiguration.createDateTrigger(jobDetail, Date.from(Instant.parse(date)), QuartzConstants.DELETE_NOT_MIGRATED_USERS_TRIGGER);
-        } else {
-            return null;
-        }
+        String date = env.getProperty(APPLICATION_JOBS_MIGRATION_DATE);
+        return QuartzConfiguration.createDateTrigger(jobDetail, Date.from(Instant.parse(date)), QuartzConstants.DELETE_NOT_MIGRATED_USERS_TRIGGER);
     }
 
     @Override
