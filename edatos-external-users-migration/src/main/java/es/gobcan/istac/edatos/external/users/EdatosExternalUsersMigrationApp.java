@@ -14,6 +14,7 @@ import es.gobcan.istac.edatos.external.users.core.repository.FilterRepository;
 import es.gobcan.istac.edatos.external.users.core.service.ExternalOperationService;
 import es.gobcan.istac.edatos.external.users.core.service.NotificationService;
 import liquibase.util.csv.CSVReader;
+import org.apache.commons.io.input.BOMInputStream;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +31,10 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -92,7 +97,9 @@ public class EdatosExternalUsersMigrationApp {
     }
 
     private static void createUsers(String filename) throws IOException {
-        try (CSVReader csvReader = new CSVReader(new FileReader(filename), ';')) {
+        BOMInputStream bomInputStream = new BOMInputStream(Files.newInputStream(Paths.get(filename)), false);
+        InputStreamReader reader = new InputStreamReader(bomInputStream, StandardCharsets.UTF_8);
+        try (CSVReader csvReader = new CSVReader(reader, ';')) {
             String[] values;
             Map<String, Integer> headerIndexMap = new HashMap<>();
             while ((values = getNextRowValues(csvReader)) != null) {
