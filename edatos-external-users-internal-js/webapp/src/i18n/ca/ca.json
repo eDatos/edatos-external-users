@@ -377,7 +377,15 @@
     },
     "externalOperation": {
         "disabled": "Desactivada",
-        "enabled": "Activada"
+        "enabled": "Activada",
+        "disablementConfirmationModal": {
+            "title": "Confirmar deshabilitació d'operació",
+            "body": "Segur que voleu deshabilitar l'operació estadística <strong>{{operation}}</strong>? Totes les subscripcions temàtiques a aquesta operació seran eliminades i no podran ser recuperades."
+        },
+        "enablementConfirmationModal": {
+            "title": "Confirmar habilitació d'operació",
+            "body": "Segur que voleu habilitar l'operació estadística <strong>{{operation}}</strong>? A partir d'ara els usuaris es podrien subscriure a aquesta operació."
+        }
     },
     "externalOperations": {
         "home": {
