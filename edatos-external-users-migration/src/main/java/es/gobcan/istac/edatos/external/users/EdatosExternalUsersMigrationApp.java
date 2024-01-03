@@ -356,7 +356,7 @@ public class EdatosExternalUsersMigrationApp {
     }
 
     private static Instant parseDateAndTime(String date) {
-        return StringUtils.isBlank(date) ? null : LocalDateTime.parse(date, DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss"))
+        return StringUtils.isBlank(date) ? null : LocalDateTime.parse(date, DateTimeFormatter.ofPattern("uuuu-MM-dd H:mm:ss"))
             .atZone(ZoneId.of("Europe/Paris"))
             .toInstant();
     }
