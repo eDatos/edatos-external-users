@@ -85,7 +85,7 @@ public class EdatosExternalUsersMigrationApp {
             log.info("\n\n------------------------------ RESUMEN DEL ENVÍO DE CORREOS --------------------------------\n");
             log.info("Correos enviados: " + notifiedUsers + "/" + usersToNotify);
             if (notifiedUsers != usersToNotify) {
-                log.warn("No se han enviar todos los correos. Revisa los errores mostrados e inténtalo de nuevo.");
+                log.warn("No se han podido enviar todos los correos. Revisa los errores mostrados e inténtalo de nuevo.");
             }
             log.info("\n\n--------------------------------- FIN DEL ENVÍO DE CORREOS ---------------------------------\n");
         } else if ("--migrate".equalsIgnoreCase(args[0])) {
@@ -167,8 +167,12 @@ public class EdatosExternalUsersMigrationApp {
                         transactionTemplate.execute(status -> {
                             ExternalUserEntity externalUser = externalUserRepository.findOneByEmail(finalValues[headerIndexMap.get("email")]).orElse(new ExternalUserEntity());
                             if (externalUser.getId() != null) {
-                                log.warn("El usuario con correo " + finalValues[headerIndexMap.get("email")] + " ya existe. Será ignorado.");
-                                oldIdNewUserMap.put(finalValues[headerIndexMap.get("id")], externalUser);
+                                if (externalUserService.isMigratedUser(externalUser)) {
+                                    log.warn("El usuario con correo " + finalValues[headerIndexMap.get("email")] + " ya existe. Será ignorado.");
+                                    oldIdNewUserMap.put(finalValues[headerIndexMap.get("id")], externalUser);
+                                } else {
+                                    exceptions.add(new RuntimeException("El usuario ya existe en base de datos pero no es un usuario migrado. No se añadirán ni filtros ni favoritos a ese usuario."));
+                                }
                             } else {
                                 externalUser.setEmail(finalValues[headerIndexMap.get("email")]);
                                 if (StringUtils.isNotBlank(finalValues[headerIndexMap.get("language")])) {
