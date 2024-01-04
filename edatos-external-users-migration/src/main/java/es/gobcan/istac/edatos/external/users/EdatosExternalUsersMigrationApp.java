@@ -167,8 +167,12 @@ public class EdatosExternalUsersMigrationApp {
                         transactionTemplate.execute(status -> {
                             ExternalUserEntity externalUser = externalUserRepository.findOneByEmail(finalValues[headerIndexMap.get("email")]).orElse(new ExternalUserEntity());
                             if (externalUser.getId() != null) {
-                                log.warn("El usuario con correo " + finalValues[headerIndexMap.get("email")] + " ya existe. Será ignorado.");
-                                oldIdNewUserMap.put(finalValues[headerIndexMap.get("id")], externalUser);
+                                if (externalUserService.isMigratedUser(externalUser)) {
+                                    log.warn("El usuario con correo " + finalValues[headerIndexMap.get("email")] + " ya existe. Será ignorado.");
+                                    oldIdNewUserMap.put(finalValues[headerIndexMap.get("id")], externalUser);
+                                } else {
+                                    exceptions.add(new RuntimeException("El usuario ya existe en base de datos pero no es un usuario migrado. No se añadirán ni filtros ni favoritos a ese usuario."));
+                                }
                             } else {
                                 externalUser.setEmail(finalValues[headerIndexMap.get("email")]);
                                 if (StringUtils.isNotBlank(finalValues[headerIndexMap.get("language")])) {
