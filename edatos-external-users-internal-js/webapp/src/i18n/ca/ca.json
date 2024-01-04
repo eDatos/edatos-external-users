@@ -384,7 +384,7 @@
         },
         "enablementConfirmationModal": {
             "title": "Confirmar habilitació d'operació",
-            "body": "Segur que voleu habilitar l'operació estadística <strong>{{operation}}</strong>? A partir d'ara els usuaris es podrien subscriure a aquesta operació."
+            "body": "Segur que desitja habilitar l'operació estadística <strong>{{operation}}</strong>? A partir d'ara els usuaris podrien subscriure's a aquesta operació."
         }
     },
     "externalOperations": {
