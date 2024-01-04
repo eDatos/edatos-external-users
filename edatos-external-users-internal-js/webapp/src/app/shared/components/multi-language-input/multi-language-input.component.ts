@@ -26,21 +26,33 @@ export class MultiLanguageInputComponent implements ControlValueAccessor {
     @Input()
     public isEditMode = true;
 
+    @Input()
+    public defaultLocale: string;
+
+    @Input()
+    public inputType: 'text' | 'textarea' = 'text';
+
+
     @Output()
     public onEnterKeyDown: EventEmitter<InternationalString> = new EventEmitter();
 
     public isDisabled = false;
     public value = new InternationalString();
     public mappedValue: { [key: string]: string } = {};
-    defaultLocale: string = "";
 
     constructor(translateService: TranslateService) {
         this.value.texts = [];
-        this.defaultLocale = translateService.getDefaultLang();
     }
 
     public onTouched: any = () => {};
     public onChange: any = () => {};
+
+    public isRequiredLocale(locale: string): boolean {
+        if (!this.defaultLocale) {
+            return true;
+        }
+        return locale === this.defaultLocale && this.isEditMode;
+    }
 
     public writeValue(internationalString: InternationalString | null): void {
         // We check for null because this bug with Angular ngModel:

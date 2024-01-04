@@ -1,6 +1,13 @@
+import { InternationalString } from '@app/shared/model';
+import { Type } from 'class-transformer';
+
 export class Notification {
-    public subject: string;
-    public message: string;
+    @Type(() => InternationalString)
+    public subject: InternationalString = new InternationalString();
+
+    @Type(() => InternationalString)
+    public message: InternationalString = new InternationalString();
+
     public receivers?: string[];
     public categoriesIds?: number[];
     public externalOperationsIds?: number[];

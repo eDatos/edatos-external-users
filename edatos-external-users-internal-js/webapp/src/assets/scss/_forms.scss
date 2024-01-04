@@ -76,6 +76,23 @@ fieldset:enabled, .single-language-editor, .language-input-list {
     }
 }
 
+.input-multilanguage-button {
+    align-self: flex-end;
+    flex-grow: 0;
+    flex-shrink: 1;
+    margin-bottom: 0.2em;
+}
+
+.input-multilanguage-span{
+    display: inline-flex;
+    width: 93.6%;
+    font-family: "Open Sans", "Helvetica Neue", sans-serif;
+    font-size: 14px;
+    padding: 0;
+    margin: 0;
+    color: #848484;
+}
+
 .form-errors-messages {
     position: absolute;
     top: 100%;

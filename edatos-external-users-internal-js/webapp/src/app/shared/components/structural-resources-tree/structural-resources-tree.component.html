@@ -92,6 +92,8 @@
                 [ngModel]="node.data.name"
                 [locales]="allowedLanguages"
                 (onEnterKeyDown)="saveNodeName(node, $event)"
+                [defaultLocale]="defaultLocale"
+                [inputType]="'text'"
             ></app-multi-language-input>
             <p-footer>
                 <button type="button" class="btn btn-secondary" (click)="cancelNodeEdit(node)" [disabled]="isNodeSaving">

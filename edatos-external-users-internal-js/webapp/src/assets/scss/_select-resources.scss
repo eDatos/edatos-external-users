@@ -1,0 +1,68 @@
+.label-selected-resources {
+    margin-bottom: 0.4em;
+}
+
+.thematic-subscriptions-input {
+    display: flex;
+    min-height: 2.05em;
+    justify-content: space-between;
+    .selected-resources-wrapper {
+        padding-top: 0.4em;
+        padding-bottom: 0.35em;
+        .selected-resources {
+            position: relative;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-items: flex-start;
+            gap: 0.35em;
+            margin: 0 0.5em;
+            max-height: 4.5em;
+            overflow: auto;
+        }
+    }
+    .no-selected-resource {
+        color: #848484; //#5a616d;
+        font-size: 0.875rem;
+        align-self: flex-end;
+        justify-self: flex-start;
+        padding-bottom: 0.35em;
+    }
+    .select-resources-button {
+        align-self: flex-end;
+        justify-self: flex-end;
+        flex-grow: 0;
+        flex-shrink: 1;
+        margin-bottom: 0.2em;
+    }
+
+}
+
+.language-input-list label.form-label.required:after{
+    display: contents;
+}
+
+.small-form-field {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+/* custom scrollbar */
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #d6dee1;
+    border-radius: 10px;
+    background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #a8bbbf;
+}

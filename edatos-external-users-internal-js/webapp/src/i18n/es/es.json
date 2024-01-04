@@ -440,7 +440,8 @@
         "language": "Idioma",
         "languageEnum": {
             "CATALAN": "Catalán",
-            "SPANISH": "Castellano"
+            "SPANISH": "Castellano",
+            "ENGLISH": "Inglés"
         },
         "login": "Nombre de usuario",
         "name": "Nombre",
@@ -790,8 +791,14 @@
             "title": "Notificaciones"
         },
         "form": {
-            "subject": "Asunto",
-            "message": "Mensaje",
+            "subject": {
+                "label": "Asunto",
+                "placeholder": "Introduzca el asunto multilenguaje"
+            },
+            "message": {
+                "label": "Mensaje",
+                "placeholder": "Introduzca el mensaje multilenguaje"
+            },
             "receivers": "Destinatarios",
             "send": "Enviar"
         },

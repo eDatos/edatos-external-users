@@ -86,7 +86,7 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
 
     @ViewChild(MultiLanguageInputComponent)
     public languageInputComponent: MultiLanguageInputComponent;
-
+    public defaultLocale: string = "";
 
     @ViewChild(Tree)
     public ptree: Tree;
@@ -102,6 +102,7 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
     public loading = false;
     private iterableDiffer: IterableDiffer<Favorite>;
     private nodeList: CategoryTreeNode[] = [];
+
 
     constructor(
         private categoryService: CategoryService,
@@ -123,6 +124,7 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
             .getAllowed()
             .pipe(shareReplay({ bufferSize: 1, refCount: true }))
             .subscribe((languages) => (this.allowedLanguages = languages));
+        this.defaultLocale = translateService.getDefaultLang();
     }
 
     public ngOnChanges(changes: SimpleChanges) {

@@ -1,7 +1,10 @@
 package es.gobcan.istac.edatos.external.users.rest.internal.resources;
 
+import java.util.HashMap;
+
 import javax.validation.Valid;
 
+import org.siemac.edatos.core.common.exception.EDatosException;
 import org.siemac.metamac.rest.notices.v1_0.domain.Receivers;
 
 import org.springframework.http.ResponseEntity;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.Timed;
 
+import es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType;
 import es.gobcan.istac.edatos.external.users.core.service.NotificationService;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.NotificationDto;
 
@@ -33,11 +37,12 @@ public class NotificationResource extends AbstractResource {
     @PostMapping
     @PreAuthorize("@secChecker.canSendNotification(authentication)")
     public ResponseEntity<NotificationDto> send(@Valid @RequestBody NotificationDto notificationDto) {
-
-        Receivers recivers = notificationService.createReceiversList(notificationDto.getReceivers(), notificationDto.getCategoriesIds(), notificationDto.getExternalOperationsIds());
-
-        notificationService.createNotificationWithReceivers(notificationDto.getMessage(), notificationDto.getSubject(), recivers);
-
-        return ResponseEntity.ok(notificationDto);
+        try{
+            HashMap<String, Receivers> receiversByLanguage = notificationService.createReceiversList(notificationDto.getReceivers(), notificationDto.getCategoriesIds(), notificationDto.getExternalOperationsIds());
+            notificationService.createNotificationWithReceivers(notificationDto.getMessage(), notificationDto.getSubject(), receiversByLanguage);
+            return ResponseEntity.ok(notificationDto);
+        } catch (Exception e) {
+            throw new EDatosException(ServiceExceptionType.SENDING_NOTICE_FAILED);
+        }
     }
 }
