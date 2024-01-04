@@ -9,7 +9,6 @@ import {
     DataProtectionPolicyService
 } from '@app/modules/account/data-protection-policy/data-protection-policy.service';
 import { ItemCode } from '@app/shared';
-import {forkJoin} from "rxjs";
 
 type SignUp = Omit<User, 'id' | 'roles'>;
 
@@ -154,12 +153,12 @@ export class SignupFormComponent implements OnInit {
 
     private loadUserData(userRegistrationToken: string) {
         this.accountUserService.getByRegistrationToken(userRegistrationToken).subscribe(user => {
-            this.user = user;
-
-            forkJoin([this.countries$, this.genders$]).subscribe(([countries, genders]) => {
-                this.gender = genders.find(gender => gender.id === this.user.gender);
-                this.nationality = countries.find(nationality => nationality.id === this.user.nationality);
-            })
+            if (user == null) {
+                this.router.navigate(['signup'], { replaceUrl: true });
+                this.isMigratedUser = false;
+            } else {
+                this.user = user;
+            }
         });
     }
 }
