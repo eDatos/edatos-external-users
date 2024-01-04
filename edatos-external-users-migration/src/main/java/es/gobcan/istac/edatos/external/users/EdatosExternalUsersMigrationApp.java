@@ -85,7 +85,7 @@ public class EdatosExternalUsersMigrationApp {
             log.info("\n\n------------------------------ RESUMEN DEL ENVÍO DE CORREOS --------------------------------\n");
             log.info("Correos enviados: " + notifiedUsers + "/" + usersToNotify);
             if (notifiedUsers != usersToNotify) {
-                log.warn("No se han enviar todos los correos. Revisa los errores mostrados e inténtalo de nuevo.");
+                log.warn("No se han podido enviar todos los correos. Revisa los errores mostrados e inténtalo de nuevo.");
             }
             log.info("\n\n--------------------------------- FIN DEL ENVÍO DE CORREOS ---------------------------------\n");
         } else if ("--migrate".equalsIgnoreCase(args[0])) {
