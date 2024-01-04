@@ -804,7 +804,9 @@
         },
         "message": {
             "onSuccessSumary": "Notificación enviada",
-            "onSuccess": "La notificación se ha enviado correctamente."
+            "onSuccess": "La notificación se ha enviado correctamente.",
+            "onErrorSumary": "Notificación <strong>NO</strong> enviada",
+            "onError": "La notificación se ha podido enviar correctamente. Inténtelo de nuevo."
         }
     },
     "calendar": {

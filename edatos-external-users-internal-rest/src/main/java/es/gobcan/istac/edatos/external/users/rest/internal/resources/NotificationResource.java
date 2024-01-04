@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 import javax.validation.Valid;
 
-import org.siemac.edatos.core.common.exception.EDatosException;
 import org.siemac.metamac.rest.notices.v1_0.domain.Receivers;
 
 import org.springframework.http.ResponseEntity;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.Timed;
 
-import es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType;
 import es.gobcan.istac.edatos.external.users.core.service.NotificationService;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.NotificationDto;
 
@@ -38,11 +36,12 @@ public class NotificationResource extends AbstractResource {
     @PreAuthorize("@secChecker.canSendNotification(authentication)")
     public ResponseEntity<NotificationDto> send(@Valid @RequestBody NotificationDto notificationDto) {
         try{
-            HashMap<String, Receivers> receiversByLanguage = notificationService.createReceiversList(notificationDto.getReceivers(), notificationDto.getCategoriesIds(), notificationDto.getExternalOperationsIds());
+            HashMap<String, Receivers> receiversByLanguage = notificationService.createReceiversGroupedByLanguage(notificationDto.getReceivers(), notificationDto.getCategoriesIds(), notificationDto.getExternalOperationsIds());
             notificationService.createNotificationWithReceivers(notificationDto.getMessage(), notificationDto.getSubject(), receiversByLanguage);
+
             return ResponseEntity.ok(notificationDto);
         } catch (Exception e) {
-            throw new EDatosException(ServiceExceptionType.SENDING_NOTICE_FAILED);
+            return ResponseEntity.badRequest().body(notificationDto);
         }
     }
 }

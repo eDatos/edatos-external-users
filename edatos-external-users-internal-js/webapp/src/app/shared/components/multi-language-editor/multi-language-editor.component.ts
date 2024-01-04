@@ -18,8 +18,8 @@ import { TranslateService } from "@ngx-translate/core";
 })
 export class MultiLanguageEditorComponent implements ControlValueAccessor {
 
-  onTouched: any = () => {};
-  onChange: any = () => {};
+  public onTouched: any = () => {};
+  public onChange: any = () => {};
   isDisabled: boolean = false;
   editors: any = {};
   value: InternationalString = new InternationalString();
@@ -32,7 +32,7 @@ export class MultiLanguageEditorComponent implements ControlValueAccessor {
   isEditMode: boolean = true;
 
   @ViewChildren(Editor) set setEditors(editors: QueryList<Editor>) {
-    if(editors) {
+    if (editors) {
       editors.forEach(editor => {
         this.editors[editor.el.nativeElement.id] = editor.quill;
       });

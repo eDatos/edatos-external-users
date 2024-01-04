@@ -22,8 +22,9 @@ public interface NotificationService {
     void createNoticeOfSusbcritionsJob(List<FavoriteEntity> listFavorites);
 
     void createNotificationWithReceivers(InternationalStringDto message, InternationalStringDto subject, HashMap<String, Receivers> receivers);
-    HashMap<String, Receivers>  createReceiversList(List<String> emails, List<Long> categories, List<Long> externalOperations);
+    HashMap<String, Receivers> createReceiversGroupedByLanguage(List<String> emails, List<Long> categories, List<Long> externalOperations);
     void createContinueUserMigrationNotification(ExternalUserEntity user);
     void createResetPasswordMigratedUserNotification(ExternalUserEntity user);
     void createMigratedExternalUserPendingRegistrationNotification(ExternalUserEntity user);
+
 }

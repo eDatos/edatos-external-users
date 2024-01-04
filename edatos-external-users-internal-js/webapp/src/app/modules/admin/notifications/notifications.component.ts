@@ -1,9 +1,9 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { AVAILABLE_LANGUAGES } from '@app/app.constants';
 import { ExternalUser, Notification } from '@app/core/model';
 import { ExternalUserService } from '@app/core/service';
 import { MultiLanguageInputComponent } from '@app/shared/components/multi-language-input';
-import { CategoryService, NotificationService } from '@app/shared/service';
+import { ALL_LOCALES } from '@app/shared/components/multi-language-input/multi-language-input.constants';
+import { CategoryService, LanguageService, NotificationService } from '@app/shared/service';
 import { TranslateService } from '@ngx-translate/core';
 import { ArteEventManager } from 'arte-ng/services';
 import { MessageService } from 'primeng/api';
@@ -13,6 +13,7 @@ import { FavoriteResource, InternationalString } from '@app/shared/model';
 import { StructuralResourcesTreeComponent } from '@app/shared/components/structural-resources-tree';
 import { ExternalUserFilter } from '@app/modules/external-user/external-user-search/external-user-filter';
 import * as _ from 'lodash';
+import { shareReplay } from 'rxjs/operators';
 
 @Component({
     selector: 'app-notifications',
@@ -20,8 +21,7 @@ import * as _ from 'lodash';
     styleUrls: ['./notifications.component.scss']
 })
 export class NotificationsComponent implements OnInit, OnDestroy {
-
-    protected readonly AVAILABLE_LANGUAGES = AVAILABLE_LANGUAGES;
+    protected readonly ALL_LOCALES = ALL_LOCALES;
 
     @Input()
     public filters: ExternalUserFilter = new ExternalUserFilter();
@@ -46,13 +46,17 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     public isSubjectModalVisible = false;
     public isMessageModalVisible = false;
 
+    public availableLanguages: string[] = [];
+    public disableValueLanguageInput = false;
+
     constructor(
         private eventManager: ArteEventManager,
         public notificationService: NotificationService,
         public externalUserService: ExternalUserService,
         public messageService: MessageService,
         public translateService: TranslateService,
-        private categoryService: CategoryService
+        private categoryService: CategoryService,
+        private languageService: LanguageService
     ) {
     }
 
@@ -66,6 +70,11 @@ export class NotificationsComponent implements OnInit, OnDestroy {
                 this.selectedResources.push(...category.externalOperations.filter((externalOp) => this.filters.externalOperations.includes(externalOp.id.toString())));
             }
         });
+
+        this.languageService
+            .getAllowed()
+            .pipe(shareReplay({ bufferSize: 1, refCount: true }))
+            .subscribe((languages) => (this.availableLanguages = languages));
     }
 
     public ngOnDestroy() {
@@ -95,6 +104,12 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     public saveSubjectText(notice: Notification, subject: InternationalString) {
         notice.subject = subject;
         this.isSubjectModalVisible = false;
+    }
+
+    public validatorValueLanguageInput(value: InternationalString) {
+        for (const text of value.texts) {
+            this.disableValueLanguageInput = !text.label || !text.locale;
+        }
     }
 
     public saveMessageText(notice: Notification, message: InternationalString) {
@@ -157,6 +172,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
     public closeSubjectModal() {
         this.isSubjectModalVisible = false;
+        this.disableValueLanguageInput = false;
     }
 
     public openMessageModal() {
@@ -165,6 +181,11 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
     public closeMessageModal() {
         this.isMessageModalVisible = false;
+        this.disableValueLanguageInput = false;
+    }
+
+    private disableEditButtons() {
+        this.disableValueLanguageInput = true;
     }
 
     private arrStringToArrNumber(arrString: string[]) {
@@ -182,8 +203,8 @@ export class NotificationsComponent implements OnInit, OnDestroy {
                 this.notification = new Notification();
                 this.resetCategories();
             },
-            (err: Response) => {
-                this.onSaveError(err);
+            () => {
+                this.onSaveError();
             }
         );
     }
@@ -204,8 +225,13 @@ export class NotificationsComponent implements OnInit, OnDestroy {
         });
     }
 
-    private onSaveError(error: any) {
-        console.error('An error occurred while sending the notification:', error);
+    private onSaveError() {
+        this.messageService.add({
+            key: 'customAlertKey',
+            severity: 'error',
+            summary: this.translateService.instant('notifications.message.onErrorSumary'),
+            detail: this.translateService.instant('notifications.message.onError'),
+            life: 5000
+        });
     }
-
 }

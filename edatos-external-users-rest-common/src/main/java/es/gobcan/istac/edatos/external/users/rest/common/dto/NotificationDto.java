@@ -2,19 +2,20 @@ package es.gobcan.istac.edatos.external.users.rest.common.dto;
 
 import java.io.Serializable;
 import java.util.List;
+import org.siemac.edatos.core.common.dto.InternationalStringDto;
 
 import es.gobcan.istac.edatos.external.users.rest.common.dto.interfaces.AbstractVersionedAndAuditingAndLogicalDeletionDto;
 
 public class NotificationDto extends AbstractVersionedAndAuditingAndLogicalDeletionDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private org.siemac.edatos.core.common.dto.InternationalStringDto subject;
-    private org.siemac.edatos.core.common.dto.InternationalStringDto message;
+    private InternationalStringDto subject;
+    private InternationalStringDto message;
     private List<String> receivers;
     private List<Long> categoriesIds;
     private List<Long> externalOperationsIds;
 
-    public org.siemac.edatos.core.common.dto.InternationalStringDto getSubject() {
+    public InternationalStringDto getSubject() {
         return subject;
     }
 
@@ -22,11 +23,11 @@ public class NotificationDto extends AbstractVersionedAndAuditingAndLogicalDelet
         this.subject = subject;
     }
 
-    public org.siemac.edatos.core.common.dto.InternationalStringDto getMessage() {
+    public InternationalStringDto getMessage() {
         return message;
     }
 
-    public void setMessage(org.siemac.edatos.core.common.dto.InternationalStringDto message) {
+    public void setMessage(InternationalStringDto message) {
         this.message = message;
     }
 

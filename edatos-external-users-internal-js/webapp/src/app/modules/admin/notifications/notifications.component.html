@@ -86,7 +86,7 @@
                     <div class="form-group form-group-inline col-md-6">
                         <div class="form-row">
                             <label class="form-label col-md-4" translate="notifications.form.subject.label"></label>
-                            <div class="col-md-8 form-input-container errors-on-hover">
+                            <div class="col-md-8 form-input-container form-input-container-multilanguage errors-on-hover">
                                 <span class='input-multilanguage-span' translate="notifications.form.subject.placeholder"></span>
                                 <button type="button" class="btn btn-secondary btn-sm input-multilanguage-button" (click)="openSubjectModal()">
                                     <i class="fa fa-globe mr-0" aria-hidden="true"></i>
@@ -111,17 +111,20 @@
                         (visibleChange)="closeSubjectModal()"
                     >
                         <app-multi-language-input
-                            [ngModel]="notification.subject"
-                            [locales]="AVAILABLE_LANGUAGES"
-                            [inputType]="'text'"
+                            id='subject'
                             name='subject'
+                            [ngModel]="notification.subject"
+                            [locales]="availableLanguages"
+                            [inputType]="'text'"
+                            (input)="validatorValueLanguageInput(languageInputComponent.value)"
+                            [locale]="ALL_LOCALES"
                         ></app-multi-language-input>
                         <p-footer>
                             <button type="button" class="btn btn-secondary" (click)="closeSubjectModal()" >
                                 <i class="fa fa-times" aria-hidden="true"></i>
                                 <span>{{ 'entity.action.cancel' | translate }}</span>
                             </button>
-                            <button type="button" class="btn btn-primary" (click)="saveSubjectText(notification, languageInputComponent.value)" >
+                            <button type="button" class="btn btn-primary" (click)="saveSubjectText(notification, languageInputComponent.value)" [disabled]="disableValueLanguageInput">
                                 <i class="fa fa-save" aria-hidden="true"></i>
                                 <span>{{ 'entity.action.save' | translate }}</span>
                             </button>
@@ -133,7 +136,7 @@
                     <div class="form-group form-group-inline col-md-6">
                         <div class="form-row">
                             <label class="form-label col-md-4" translate="notifications.form.message.label"></label>
-                            <div class="col-md-8 form-input-container errors-on-hover">
+                            <div class="col-md-8 form-input-container form-input-container-multilanguage errors-on-hover">
                                 <span class='input-multilanguage-span' translate="notifications.form.message.placeholder"></span>
                                 <button type="button" class="btn btn-secondary btn-sm input-multilanguage-button" (click)="openMessageModal()">
                                     <i class="fa fa-globe mr-0" aria-hidden="true"></i>
@@ -161,16 +164,19 @@
                             pInputTextarea
                             autoResize="autoResize"
                             [ngModel]="notification.message"
-                            [locales]="AVAILABLE_LANGUAGES"
+                            [locales]="availableLanguages"
                             [inputType]="'textarea'"
                             name='message'
+                            id='message'
+                            (input)="validatorValueLanguageInput(languageInputComponent.value)"
+                            [locale]="ALL_LOCALES"
                         ></app-multi-language-input>
                         <p-footer>
                             <button type="button" class="btn btn-secondary" (click)="closeMessageModal()" >
                                 <i class="fa fa-times" aria-hidden="true"></i>
                                 <span>{{ 'entity.action.cancel' | translate }}</span>
                             </button>
-                            <button type="button" class="btn btn-primary" (click)="saveMessageText(notification, languageInputComponent.value)" >
+                            <button type="button" class="btn btn-primary" (click)="saveMessageText(notification, languageInputComponent.value)" [disabled]="disableValueLanguageInput">
                                 <i class="fa fa-save" aria-hidden="true"></i>
                                 <span>{{ 'entity.action.save' | translate }}</span>
                             </button>

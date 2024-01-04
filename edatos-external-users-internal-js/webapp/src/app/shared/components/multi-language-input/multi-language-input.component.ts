@@ -1,8 +1,9 @@
 import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ALL_LOCALES, DEFAULT_LOCALE } from '@app/shared/components/multi-language-input/multi-language-input.constants';
 import { InternationalString, LocalisedString } from '@app/shared/model';
 import * as _ from 'lodash';
-import { TranslateService } from "@ngx-translate/core";
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-multi-language-input',
@@ -12,9 +13,9 @@ import { TranslateService } from "@ngx-translate/core";
         {
             provide: NG_VALUE_ACCESSOR,
             multi: true,
-            useExisting: forwardRef(() => MultiLanguageInputComponent),
-        },
-    ],
+            useExisting: forwardRef(() => MultiLanguageInputComponent)
+        }
+    ]
 })
 export class MultiLanguageInputComponent implements ControlValueAccessor {
     /**
@@ -27,11 +28,10 @@ export class MultiLanguageInputComponent implements ControlValueAccessor {
     public isEditMode = true;
 
     @Input()
-    public defaultLocale: string;
+    public locale: string;
 
     @Input()
     public inputType: 'text' | 'textarea' = 'text';
-
 
     @Output()
     public onEnterKeyDown: EventEmitter<InternationalString> = new EventEmitter();
@@ -40,18 +40,24 @@ export class MultiLanguageInputComponent implements ControlValueAccessor {
     public value = new InternationalString();
     public mappedValue: { [key: string]: string } = {};
 
+    public defaultLocale: string = '';
+
     constructor(translateService: TranslateService) {
         this.value.texts = [];
+        this.defaultLocale = translateService.getDefaultLang();
     }
 
     public onTouched: any = () => {};
     public onChange: any = () => {};
 
-    public isRequiredLocale(locale: string): boolean {
-        if (!this.defaultLocale) {
+    public isRequiredLocale(typeOfLocale: string): boolean {
+        if (this.locale === ALL_LOCALES) {
             return true;
         }
-        return locale === this.defaultLocale && this.isEditMode;
+        if (this.locale === DEFAULT_LOCALE) {
+            return typeOfLocale === this.defaultLocale && this.isEditMode;
+        }
+        return false;
     }
 
     public writeValue(internationalString: InternationalString | null): void {

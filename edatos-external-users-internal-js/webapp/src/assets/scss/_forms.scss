@@ -67,6 +67,7 @@ fieldset:enabled, .single-language-editor, .language-input-list {
 
 .form-input-container {
     position: relative;
+
     &:focus-within,
     &.errors-on-hover:hover {
         .form-errors-messages {
@@ -76,16 +77,21 @@ fieldset:enabled, .single-language-editor, .language-input-list {
     }
 }
 
+.form-input-container-multilanguage {
+    display: flex;
+}
+
 .input-multilanguage-button {
     align-self: flex-end;
+    justify-self: flex-end;
     flex-grow: 0;
     flex-shrink: 1;
     margin-bottom: 0.2em;
 }
 
-.input-multilanguage-span{
+.input-multilanguage-span {
     display: inline-flex;
-    width: 93.6%;
+    width: 95%;
     font-family: "Open Sans", "Helvetica Neue", sans-serif;
     font-size: 14px;
     padding: 0;
@@ -108,6 +114,7 @@ fieldset:enabled, .single-language-editor, .language-input-list {
     visibility: hidden;
     transition: opacity ease-in-out 0.3s;
     z-index: 1;
+
     &:after {
         content: '';
         position: absolute;
@@ -127,6 +134,7 @@ fieldset:enabled, .single-language-editor, .language-input-list {
         transform: translateX(-50%);
         margin: 0;
         margin-bottom: 5px;
+
         &:after {
             left: 50%;
             transform: translateX(-50%);
@@ -136,4 +144,5 @@ fieldset:enabled, .single-language-editor, .language-input-list {
         }
     }
 }
+
 /* END FORMULARIO */

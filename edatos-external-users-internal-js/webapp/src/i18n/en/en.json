@@ -804,7 +804,9 @@
         },
         "message": {
             "onSuccessSumary": "Notification sent",
-            "onSuccess": "The notification has been sent correctly."
+            "onSuccess": "The notification has been sent correctly.",
+            "onErrorSumary": "Notification <strong>NOT</strong> sent",
+            "onError": "The notification has not been sent correctly. Try again later."
         }
     },
     "calendar": {

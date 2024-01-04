@@ -37,8 +37,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
+import es.gobcan.istac.edatos.external.users.core.config.MetadataProperties;
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.FavoriteEntity;
+import es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType;
 import es.gobcan.istac.edatos.external.users.core.i18n.LocaleContext;
 import es.gobcan.istac.edatos.external.users.core.service.DataProtectionPolicyService;
 import es.gobcan.istac.edatos.external.users.core.service.EDatosApisLocator;
@@ -62,14 +64,16 @@ public class NotificationServiceImpl implements NotificationService {
     private MetadataConfigurationService metadataConfigurationService;
 
     @Autowired
+    private MetadataProperties metadataProperties;
+
+    @Autowired
     private EDatosApisLocator eDatosApisLocator;
 
     @Autowired
     private DataProtectionPolicyService dataProtectionPolicyService;
 
     @Autowired
-    private       ExternalUserService externalUserService;
-
+    private ExternalUserService externalUserService;
 
     @Override
     public void createNewExternalUserAccountNotification(ExternalUserEntity externalUserEntity) {
@@ -150,8 +154,8 @@ public class NotificationServiceImpl implements NotificationService {
         }
     }
     @Override
-    public HashMap<String, Receivers> createReceiversList(List<String> emails, List<Long> categories, List<Long> externalOperations) {
-        List<String> languages = metadataConfigurationService.retrieveLanguages().stream().map(language -> language.toLowerCase()).collect(Collectors.toList());;
+    public HashMap<String, Receivers> createReceiversGroupedByLanguage(List<String> emails, List<Long> categories, List<Long> externalOperations) {
+        List<String> languages = metadataProperties.getInternationalizationLanguages().stream().map(language -> language.toLowerCase()).collect(Collectors.toList());;
         HashMap<String, Receivers> receiversGroupByLanguage = new HashMap<>();
 
         List<ExternalUserEntity> usersByEmails = externalUserService.findAllByEmailIn(emails);
@@ -159,7 +163,8 @@ public class NotificationServiceImpl implements NotificationService {
 
         for (String language : languages) {
             Set<String> allReceiversEmails = new HashSet<>();
-            List<ExternalUserEntity> usersSubscribedToCategoriesAndOperationsFilterByLanguage = usersSubscribedToCategoriesAndOperationsList.stream().filter(user -> user.getLanguage().getLocaleCode().equals(language)).collect(Collectors.toList());
+            List<ExternalUserEntity> usersSubscribedToCategoriesAndOperationsFilterByLanguage = usersSubscribedToCategoriesAndOperationsList.stream()
+                    .filter(user -> user.getLanguage().getLocaleCode().equals(language)).collect(Collectors.toList());
             allReceiversEmails.addAll(usersSubscribedToCategoriesAndOperationsFilterByLanguage.stream().map(ExternalUserEntity::getEmail).collect(Collectors.toList()));
             allReceiversEmails.addAll(usersByEmails.stream().filter(user -> user.getLanguage().getLocaleCode().equals(language)).map(ExternalUserEntity::getEmail).collect(Collectors.toList()));
 
@@ -208,11 +213,10 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public void createNotificationWithReceivers(InternationalStringDto message, InternationalStringDto subject, HashMap<String, Receivers> receiversByLanguage) {
-        try {
-            for (String language : receiversByLanguage.keySet()) {
-                Receivers receivers = receiversByLanguage.get(language);
-                if(receivers.getTotal() != null && receivers.getTotal().intValue() > 0) {
-                    // @formatter:off
+        for (String language : receiversByLanguage.keySet()) {
+            Receivers receivers = receiversByLanguage.get(language);
+            if (receivers.getTotal() != null && receivers.getTotal().intValue() > 0) {
+                // @formatter:off
                     Notice notice = NoticeBuilder.notification()
                         .withMessages(MessageBuilder.message().withText(message.getLocalisedLabel(language)).build(), MessageBuilder.message().withText(getLopd(language)).build())
                         .withReceivers(receivers)
@@ -220,12 +224,11 @@ public class NotificationServiceImpl implements NotificationService {
                         .withSubject(subject.getLocalisedLabel(language)).build();
                     // @formatter:on
 
-                    eDatosApisLocator.getNoticesRestInternalFacadeV10().createNotice(notice);
+                Response createNoticeResponse = eDatosApisLocator.getNoticesRestInternalFacadeV10().createNotice(notice);
+                if (createNoticeResponse != null && createNoticeResponse.getStatusInfo().getStatusCode() >= 400) {
+                    throw new EDatosException(ServiceExceptionType.SENDING_NOTICE_FAILED);
                 }
             }
-
-        } catch (Exception e) {
-            log.debug("Error in sending notification : {}", e);
         }
     }
 
