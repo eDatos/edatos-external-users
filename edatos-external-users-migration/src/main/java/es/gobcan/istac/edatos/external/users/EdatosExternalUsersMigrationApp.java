@@ -12,6 +12,7 @@ import es.gobcan.istac.edatos.external.users.core.repository.ExternalUserReposit
 import es.gobcan.istac.edatos.external.users.core.repository.FavoriteRepository;
 import es.gobcan.istac.edatos.external.users.core.repository.FilterRepository;
 import es.gobcan.istac.edatos.external.users.core.service.ExternalOperationService;
+import es.gobcan.istac.edatos.external.users.core.service.ExternalUserService;
 import es.gobcan.istac.edatos.external.users.core.service.NotificationService;
 import liquibase.util.csv.CSVReader;
 import org.apache.commons.io.input.BOMInputStream;
@@ -46,6 +47,7 @@ public class EdatosExternalUsersMigrationApp {
 
     private static final Logger log = LoggerFactory.getLogger(EdatosExternalUsersMigrationApp.class);
 
+    private static ExternalUserService externalUserService;
     private static ExternalUserRepository externalUserRepository;
     private static FilterRepository filterRepository;
     private static FavoriteRepository favoriteRepository;
@@ -56,8 +58,8 @@ public class EdatosExternalUsersMigrationApp {
     private static final Map<String, ExternalUserEntity> oldIdNewUserMap = new HashMap<>();
     private static final Set<ExternalUserRole> usersRoles = Collections.singleton(ExternalUserRole.USER);
 
-    private static boolean sendEmail = false;
-
+    private static long notifiedUsers = 0;
+    private static long usersToNotify = 0;
     private static long migratedUsers = 0;
     private static long totalUsers = 0;
     private static long migratedFavorites = 0;
@@ -70,30 +72,76 @@ public class EdatosExternalUsersMigrationApp {
         DefaultProfileUtil.addDefaultProfile(app);
 
         context = app.run(args);
+        externalUserService = context.getBean(ExternalUserService.class);
         externalUserRepository = context.getBean(ExternalUserRepository.class);
         filterRepository = context.getBean(FilterRepository.class);
         favoriteRepository = context.getBean(FavoriteRepository.class);
         notificationService = context.getBean(NotificationService.class);
         externalOperationService = context.getBean(ExternalOperationService.class);
 
-        sendEmail = args.length > 3 && args[3].equalsIgnoreCase("--email");
+        if ("--email".equalsIgnoreCase(args[0])) {
+            log.info("\n\n------------------------------------- ENVÍO DE CORREOS -------------------------------------\n");
+            sendEmailToUsers(args[1]);
+            log.info("\n\n------------------------------ RESUMEN DEL ENVÍO DE CORREOS --------------------------------\n");
+            log.info("Correos enviados: " + notifiedUsers + "/" + usersToNotify);
+            if (notifiedUsers != usersToNotify) {
+                log.warn("No se han enviar todos los correos. Revisa los errores mostrados e inténtalo de nuevo.");
+            }
+            log.info("\n\n--------------------------------- FIN DEL ENVÍO DE CORREOS ---------------------------------\n");
+        } else if ("--migrate".equalsIgnoreCase(args[0])) {
+            log.info("\n\n--------------------------------- COMIENZO DE LA MIGRACIÓN ---------------------------------\n");
+            createUsers(args[1]);
+            createFavorites(args[2]);
+            createFilters(args[3]);
 
-        log.info("\n\n--------------------------------- COMIENZO DE LA MIGRACIÓN ---------------------------------\n");
-        createUsers(args[0]);
-        createFavorites(args[1]);
-        createFilters(args[2]);
+            log.info("\n\n--------------------------------- RESUMEN DE LA MIGRACIÓN ----------------------------------\n");
+            log.info("USUARIOS MIGRADOS: " + migratedUsers + "/" + totalUsers);
+            log.info("FAVORITOS MIGRADOS: " + migratedFavorites + "/" + totalFavorites);
+            log.info("FILTROS MIGRADOS: " + migratedFilters + "/" + totalFilters);
+            if (migratedUsers != totalUsers || migratedFavorites != totalFavorites || migratedFilters != totalFilters) {
+                log.warn("No se han podido migrar todas las filas. Haz los cambios necesarios para arreglar las filas con errores y vuelve a intentarlo.");
+            }
 
-        log.info("\n\n--------------------------------- RESUMEN DE LA MIGRACIÓN ---------------------------------\n");
-        log.info("MIGRATED USERS: " + migratedUsers + "/" + totalUsers);
-        log.info("MIGRATED FAVORITES: " + migratedFavorites + "/" + totalFavorites);
-        log.info("MIGRATED FILTERS: " + migratedFilters + "/" + totalFilters);
-        if (migratedUsers != totalUsers || migratedFavorites != totalFavorites || migratedFilters != totalFilters) {
-            log.warn("No se han podido migrar todas las filas. Haz los cambios necesarios para arreglar las filas con errores y vuelve a intentarlo.");
+            log.info("\n\n----------------------------------- FIN DE LA MIGRACIÓN ------------------------------------\n");
+        } else {
+            log.warn("El primer argumento debe ser --email para enviar los correos a los usuarios previamente migrados o --migrate para migrar a los usuarios con sus filtros y sus favoritos.");
         }
 
-        log.info("\n\n--------------------------------- FIN DE LA MIGRACIÓN ---------------------------------\n");
         int exitCode = SpringApplication.exit(context, () -> 0);
         System.exit(exitCode);
+    }
+
+    private static void sendEmailToUsers(String filename) throws IOException {
+        BOMInputStream bomInputStream = new BOMInputStream(Files.newInputStream(Paths.get(filename)), false);
+        InputStreamReader reader = new InputStreamReader(bomInputStream, StandardCharsets.UTF_8);
+        try (CSVReader csvReader = new CSVReader(reader, ';')) {
+            String[] values;
+            int emailColumn = -1;
+            while ((values = getNextRowValues(csvReader)) != null) {
+                if (emailColumn < 0) {
+                    emailColumn = Arrays.asList(values).indexOf("email");
+                    if (emailColumn < 0) {
+                        log.error("Usuarios. No ha sido posible encontrar la columna 'email'. Por favor, compruebe que dicha columna existe y que el csv se ha separado con el símbolo ';'.");
+                        return;
+                    }
+                } else {
+                    String email = values[emailColumn];
+                    try {
+                        ExternalUserEntity externalUser = externalUserRepository.findOneByEmail(email).orElse(null);
+                        if (externalUserService.isMigratedUser(externalUser)) {
+                            sendEmailToCompleteRegistration(externalUser);
+                            notifiedUsers++;
+                            log.info("Correo " + email + ": Enviado.\n");
+                        } else {
+                            log.error("Correo " + email + ":\n- El correo no existe en base de datos o no pertenece a un usuario migrado así que no se le ha enviado el correo.\n");
+                        }
+                    } catch (Exception e) {
+                        log.error("Correo " + email + ":\n" + "- " + e.getMessage() + "\n");
+                    }
+                    usersToNotify++;
+                }
+            }
+        }
     }
 
     private static void createUsers(String filename) throws IOException {
@@ -159,14 +207,6 @@ public class EdatosExternalUsersMigrationApp {
                                     status.setRollbackOnly();
                                 } else {
                                     oldIdNewUserMap.put(finalValues[headerIndexMap.get("id")], createdExternalUser);
-                                    if (sendEmail) {
-                                        try {
-                                            sendEmailToCompleteRegistration(createdExternalUser);
-                                        } catch (Exception e) {
-                                            exceptions.add(new RuntimeException("Ha habido un error mandando el correo al usuario " + createdExternalUser.getEmail() + ". Se ha impedido su migración para que no se quede sin acceso al correo."));
-                                            status.setRollbackOnly();
-                                        }
-                                    }
                                 }
                             }
                             return "";
