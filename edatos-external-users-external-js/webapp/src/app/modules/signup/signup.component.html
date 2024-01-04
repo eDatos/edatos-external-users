@@ -32,7 +32,7 @@
             [passwordMatch]="['password', 'confirmPassword']"
         >
             <fieldset class='page-section' arteAutofocus>
-                <div class='row divider'>
+                <div *ngIf="!isMigratedUser" class='row divider'>
                     <div class='form-group form-group-inline col-md-6 required'
                          [formControlStatus]='editForm.controls.name'>
                         <div class='form-row'>
@@ -102,7 +102,7 @@
                     </div>
                 </div>
 
-                <div class='row divider'>
+                <div *ngIf="!isMigratedUser" class='row divider'>
                     <div class='form-group form-group-inline col-md-6 required'
                          [formControlStatus]='editForm.controls.email'>
                         <div class='form-row'>

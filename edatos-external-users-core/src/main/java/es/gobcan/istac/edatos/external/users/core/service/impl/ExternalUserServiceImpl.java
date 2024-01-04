@@ -224,9 +224,4 @@ public class ExternalUserServiceImpl implements ExternalUserService {
         user.setRegistrationToken(null);
         return externalUserRepository.saveAndFlush(user);
     }
-
-    @Override
-    public List<ExternalUserEntity> deleteUsersThatDidntCompleteMigration() {
-        return externalUserRepository.deleteAllByPasswordAndEnabled(MIGRATED_USER_PSWD, false);
-    }
 }
