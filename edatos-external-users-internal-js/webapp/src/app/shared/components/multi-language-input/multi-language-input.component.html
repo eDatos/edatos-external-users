@@ -22,6 +22,7 @@
             [attr.disabled]='isDisabled ? true : null'
             (input)='onEditorChange($event, locale)'
             (focus)='onEditorTouched($event)'
+            (keydown.enter)="onEnterKeyDown.emit(value)"
             [rows]='5'
             [cols]='30'
             pInputTextarea
