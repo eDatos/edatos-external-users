@@ -18,8 +18,8 @@ import { TranslateService } from "@ngx-translate/core";
 })
 export class MultiLanguageEditorComponent implements ControlValueAccessor {
 
-  public onTouched: any = () => {};
-  public onChange: any = () => {};
+  onTouched: any = () => {};
+  onChange: any = () => {};
   isDisabled: boolean = false;
   editors: any = {};
   value: InternationalString = new InternationalString();

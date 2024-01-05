@@ -19,7 +19,7 @@ public class NotificationDto extends AbstractVersionedAndAuditingAndLogicalDelet
         return subject;
     }
 
-    public void setSubject(org.siemac.edatos.core.common.dto.InternationalStringDto subject) {
+    public void setSubject(InternationalStringDto subject) {
         this.subject = subject;
     }
 
