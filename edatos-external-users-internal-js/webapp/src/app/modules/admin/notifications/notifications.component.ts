@@ -108,7 +108,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
     public validatorValueLanguageInput(value: InternationalString) {
         for (const text of value.texts) {
-            this.disableValueLanguageInput = !text.label || !text.locale;
+            (!text.label || !text.locale) ? this.disableValueLanguageInput = true : this.disableValueLanguageInput = false;
         }
     }
 

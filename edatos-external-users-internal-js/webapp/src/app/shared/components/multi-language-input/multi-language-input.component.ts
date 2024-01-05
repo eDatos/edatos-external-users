@@ -52,7 +52,7 @@ export class MultiLanguageInputComponent implements ControlValueAccessor {
 
     public isRequiredLocale(typeOfLocale: string): boolean {
         if (this.locale === ALL_LOCALES) {
-            return true;
+            return this.isEditMode;
         }
         if (this.locale === DEFAULT_LOCALE) {
             return typeOfLocale === this.defaultLocale && this.isEditMode;

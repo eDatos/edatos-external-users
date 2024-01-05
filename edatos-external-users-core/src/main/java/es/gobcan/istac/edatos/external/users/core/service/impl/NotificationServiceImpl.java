@@ -155,7 +155,7 @@ public class NotificationServiceImpl implements NotificationService {
     }
     @Override
     public HashMap<String, Receivers> createReceiversGroupedByLanguage(List<String> emails, List<Long> categories, List<Long> externalOperations) {
-        List<String> languages = metadataProperties.getInternationalizationLanguages().stream().map(language -> language.toLowerCase()).collect(Collectors.toList());;
+        List<String> languages = metadataProperties.getAvailableLanguages().stream().map(language -> language.toLowerCase()).collect(Collectors.toList());;
         HashMap<String, Receivers> receiversGroupByLanguage = new HashMap<>();
 
         List<ExternalUserEntity> usersByEmails = externalUserService.findAllByEmailIn(emails);
