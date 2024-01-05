@@ -47,7 +47,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     public isMessageModalVisible = false;
 
     public availableLanguages: string[] = [];
-    public disableValueLanguageInput = false;
+    public disableValueLanguageInput = true;
 
     constructor(
         private eventManager: ArteEventManager,
@@ -107,9 +107,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     }
 
     public validatorValueLanguageInput(value: InternationalString) {
-        for (const text of value.texts) {
-            (!text.label || !text.locale) ? this.disableValueLanguageInput = true : this.disableValueLanguageInput = false;
-        }
+        this.disableValueLanguageInput = value.texts.some((text) => !text.label);
     }
 
     public saveMessageText(notice: Notification, message: InternationalString) {
