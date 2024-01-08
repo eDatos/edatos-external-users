@@ -1,28 +1,30 @@
 {
-    "login": {
-        "home": {
-            "title": "Inici de sessió"
-        },
-        "form": {
-            "email": "Correu electrònic",
-            "password": "Contrasenya"
-        },
-        "action": {
-            "forgottenPassword": "Premi aquí per a establir una nova",
-            "signup": "Registrar nueva cuenta",
-            "signin": "Iniciar sessió",
-            "goBack": "Tornar",
-            "resetPassword": "¿Has oblidat la teva contrasenya?"
-        },
-        "resetPassword": {
-            "init": {
-                "title": "Recuperar contrasenya",
-                "email": "Correu electrònic",
-                "send": "Enviar"
-            },
-            "finish": {
-                "title": "Canviar contrasenya"
-            }
-        }
+  "login": {
+    "home": {
+      "title": "Inici de sessió"
+    },
+    "form": {
+      "email": "Correu electrònic",
+      "password": "Contrasenya",
+      "email.format": "xxxx@xxxxx.xxx",
+      "password.format": "**********"
+    },
+    "action": {
+      "forgottenPassword": "Premi aquí per a establir una nova",
+      "signup": "Registrar nueva cuenta",
+      "signin": "Iniciar sessió",
+      "goBack": "Tornar",
+      "resetPassword": "¿Has oblidat la teva contrasenya?"
+    },
+    "resetPassword": {
+      "init": {
+        "title": "Recuperar contrasenya",
+        "email": "Correu electrònic",
+        "send": "Enviar"
+      },
+      "finish": {
+        "title": "Canviar contrasenya"
+      }
     }
+  }
 }

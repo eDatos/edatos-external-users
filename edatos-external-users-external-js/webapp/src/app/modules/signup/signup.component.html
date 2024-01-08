@@ -1,117 +1,38 @@
-<div class='page'>
+<div class='page col-md-9'>
     <div class='page-header'>
         <div class='page-header-top'>
-            <h2 class='page-header-title'>
-                <span class='page-header-title-text' translate='signup.home.title'></span>
-            </h2>
-            <ng-container>
-                <button type='submit' form='edit-form' [disabled]='editForm.form.invalid || isSaving'
-                        class='btn btn-primary'>
-                    <span class='fa fa-floppy-o'></span>
-                    <span translate='entity.action.save'></span>
-                </button>
-            </ng-container>
-            <ng-container>
-                <button type='submit' class='btn btn-default' (click)='navigateToLogin()'>
-                    <span class='fa fa-undo'></span>
-                    <span translate='login.action.goBack'></span>
-                </button>
-            </ng-container>
+            <span class='page-header-title-text' translate='signup.home.title'></span>
+            <div class='general-buttons row'>
+                <ng-container>
+                    <div class='row-large'>
+                        <button type='submit' form='edit-form' [disabled]='editForm.form.invalid || isSaving'
+                                class='text-icon-button'>
+                            <span class='fa fa-floppy-o'></span>
+                            <span translate='entity.action.save'></span>
+                        </button>
+                        <button type='submit' class='text-icon-button' (click)='navigateToLogin()'>
+                            <span class='fa fa-arrow-left'></span>
+                            <span translate='login.action.goBack'></span>
+                        </button>
+                    </div>
+                </ng-container>
+            </div>
         </div>
     </div>
     <div class='page-body'>
-        <form
-            class='page-form'
-            id='edit-form'
-            name='editForm'
-            role='form'
-            novalidate
-            (ngSubmit)='save()'
-            #editForm='ngForm'
-            autocomplete='off'
-            [passwordMatch]="['password', 'confirmPassword']"
-        >
+        <form class='page-form' id='edit-form' name='editForm' role='form' novalidate (ngSubmit)='save()'
+              #editForm='ngForm' autocomplete='off' [passwordMatch]="['password', 'confirmPassword']">
             <fieldset class='page-section' arteAutofocus>
                 <div class='row divider'>
                     <div class='form-group form-group-inline col-md-6 required'
                          [formControlStatus]='editForm.controls.name'>
                         <div class='form-row'>
-                            <label class='form-label col-md-4' translate='signup.form.name' for='name'></label>
-                            <div class='col-md-8 form-input-container errors-on-hover'>
+                            <label class='form-label col-md-10' translate='signup.form.name' for='name'></label>
+                            <div class='col-md-12 form-input-container errors-on-hover'>
                                 <arte-input id='name' name='name' [(ngModel)]='user.name' [maxlength]='255'
-                                            [required]='true'></arte-input>
+                                            [required]='true' [placeholder]='""'></arte-input>
                                 <div class='form-errors-messages' *hasErrors='let messages'>
                                     <span *ngFor='let m of messages'>{{m}}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class='form-group form-group-inline col-md-6 required'
-                         [formControlStatus]='editForm.controls.surname1'>
-                        <div class='form-row'>
-                            <label class='form-label col-md-4' translate='signup.form.surname1' for='surname1'></label>
-                            <div class='col-md-8 form-input-container errors-on-hover'>
-                                <arte-input id='surname1' name='surname1' [(ngModel)]='user.surname1' [maxlength]='255'
-                                            [required]='true'></arte-input>
-                                <div class='form-errors-messages' *hasErrors='let messages'>
-                                    <span *ngFor='let m of messages'>{{m}}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class='form-group form-group-inline col-md-6' [formControlStatus]='editForm.controls.surname2'>
-                        <div class='form-row'>
-                            <label class='form-label col-md-4' translate='signup.form.surname2' for='surname2'></label>
-                            <div class='col-md-8 form-input-container errors-on-hover'>
-                                <arte-input id='surname2' name='surname2' [(ngModel)]='user.surname2'
-                                            [maxlength]='255'></arte-input>
-                                <div class='form-errors-messages' *hasErrors='let messages'>
-                                    <span *ngFor='let m of messages'>{{m}}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class='form-group form-group-inline col-md-6' [formControlStatus]='editForm.controls.gender'>
-                        <div class='form-row'>
-                            <label class='form-label col-md-4' translate='signup.form.gender' for='gender'></label>
-                            <div class='col-md-8 form-input-container errors-on-hover'>
-                                <arte-autocomplete-short-list
-                                    [required]='false'
-                                    inputId='gender'
-                                    id='gender'
-                                    name='gender'
-                                    [multiple]='false'
-                                    [(ngModel)]='gender'
-                                    [suggestions]='genders'
-                                    [properties]="['name']"
-                                >
-                                </arte-autocomplete-short-list>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class='form-group form-group-inline col-md-6'>
-                        <div class='form-row'>
-                            <label class='form-label col-md-4' translate='signup.form.birthday' for='birthday'></label>
-                            <app-custom-calendar id='birthday' name='birthday' [(ngModel)]='user.birthday'
-                                                 class='calendar' [required]='false'></app-custom-calendar>
-                        </div>
-                    </div>
-                </div>
-
-                <div class='row divider'>
-                    <div class='form-group form-group-inline col-md-6 required'
-                         [formControlStatus]='editForm.controls.email'>
-                        <div class='form-row'>
-                            <label class='form-label col-md-4' translate='signup.form.email' for='email'></label>
-                            <div class='col-md-8 form-input-container errors-on-hover'>
-                                <arte-input [disabled]="isMigratedUser" id='email' name='email' [(ngModel)]='user.email' [required]='true'
-                                            [minlength]='3' [maxlength]='255' [email]='true'></arte-input>
-                                <div class='form-errors-messages' *hasErrors='let messages'>
-                                    <li *ngFor='let m of messages'>{{m}}</li>
                                 </div>
                             </div>
                         </div>
@@ -120,24 +41,39 @@
                     <div class='form-group form-group-inline col-md-6'
                          [formControlStatus]='editForm.controls.phoneNumber'>
                         <div class='form-row'>
-                            <label class='form-label col-md-4' translate='signup.form.phoneNumber'
+                            <label class='form-label col-md-10' translate='signup.form.phoneNumber'
                                    for='phoneNumber'></label>
-                            <div class='col-md-8 form-input-container errors-on-hover'>
+                            <div class='col-md-12 form-input-container errors-on-hover'>
                                 <arte-input id='phoneNumber' name='phoneNumber' [(ngModel)]='user.phoneNumber'
-                                            [maxlength]='50'></arte-input>
+                                            [maxlength]='50' [placeholder]='""'></arte-input>
                                 <div class='form-errors-messages' *hasErrors='let messages'>
                                     <span *ngFor='let m of messages'>{{m}}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
 
+                <div class='row divider'>
+                    <div class='form-group form-group-inline col-md-6 required'
+                         [formControlStatus]='editForm.controls.surname1'>
+                        <div class='form-row'>
+                            <label class='form-label col-md-10' translate='signup.form.surname1' for='surname1'></label>
+                            <div class='col-md-12 form-input-container errors-on-hover'>
+                                <arte-input id='surname1' name='surname1' [(ngModel)]='user.surname1' [maxlength]='255'
+                                            [required]='true' [placeholder]='""'></arte-input>
+                                <div class='form-errors-messages' *hasErrors='let messages'>
+                                    <span *ngFor='let m of messages'>{{m}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class='form-group form-group-inline col-md-6'
                          [formControlStatus]='editForm.controls.nationality'>
                         <div class='form-row'>
-                            <label class='form-label col-md-4' translate='signup.form.nationality'
+                            <label class='form-label col-md-10' translate='signup.form.nationality'
                                    for='nationality'></label>
-                            <div class='col-md-8 form-input-container'>
+                            <div class='col-md-12 form-input-container'>
                                 <arte-autocomplete-short-list
                                     [required]='false'
                                     inputId='nationality'
@@ -146,17 +82,31 @@
                                     [multiple]='false'
                                     [(ngModel)]='nationality'
                                     [suggestions]='countries'
-                                    [properties]="['name']"
-                                >
+                                    [properties]="['name']">
                                 </arte-autocomplete-short-list>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class='row divider'>
+                    <div class='form-group form-group-inline col-md-6' [formControlStatus]='editForm.controls.surname2'>
+                        <div class='form-row'>
+                            <label class='form-label col-md-10' translate='signup.form.surname2' for='surname2'></label>
+                            <div class='col-md-12 form-input-container errors-on-hover'>
+                                <arte-input id='surname2' name='surname2' [(ngModel)]='user.surname2'
+                                            [maxlength]='255' [placeholder]='""'></arte-input>
+                                <div class='form-errors-messages' *hasErrors='let messages'>
+                                    <span *ngFor='let m of messages'>{{m}}</span>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class='form-group form-group-inline col-md-6 required'
                          [formControlStatus]='editForm.controls.language'>
                         <div class='form-row'>
-                            <label class='form-label col-md-4' translate='signup.form.language' for='language'></label>
-                            <div class='col-md-8 form-input-container errors-on-hover'>
+                            <label class='form-label col-md-10' translate='signup.form.language' for='language'></label>
+                            <div class='col-md-12 form-input-container errors-on-hover'>
                                 <arte-autocomplete-enum
                                     id='language'
                                     name='language'
@@ -173,13 +123,34 @@
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class='form-group form-group-inline col-md-6' [formControlStatus]='editForm.controls.organism'>
+                <div class='row divider'>
+                    <div class='form-group form-group-inline col-md-6' [formControlStatus]='editForm.controls.gender'>
                         <div class='form-row'>
-                            <label class='form-label col-md-4' translate='signup.form.organism' for='organism'></label>
-                            <div class='col-md-8 form-input-container errors-on-hover'>
+                            <label class='form-label col-md-10' translate='signup.form.gender' for='gender'></label>
+                            <div class='col-md-12 form-input-container errors-on-hover'>
+                                <arte-autocomplete-short-list
+                                    [required]='false'
+                                    inputId='gender'
+                                    id='gender'
+                                    name='gender'
+                                    [multiple]='false'
+                                    [(ngModel)]='gender'
+                                    [suggestions]='genders'
+                                    [properties]="['name']">
+                                </arte-autocomplete-short-list>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='form-group form-group-inline col-md-6'
+                         [formControlStatus]='editForm.controls.organism'>
+                        <div class='form-row'>
+                            <label class='form-label col-md-10' translate='signup.form.organism'
+                                   for='organism'></label>
+                            <div class='col-md-12 form-input-container errors-on-hover'>
                                 <arte-input id='organism' name='organism' [(ngModel)]='user.organism'
-                                            [maxlength]='255'></arte-input>
+                                            [maxlength]='255' [placeholder]='""'></arte-input>
                                 <div class='form-errors-messages' *hasErrors='let messages'>
                                     <span *ngFor='let m of messages'>{{m}}</span>
                                 </div>
@@ -189,17 +160,43 @@
                 </div>
 
                 <div class='row divider'>
+                    <div class='form-group form-group-inline col-md-6'>
+                        <div class='form-row'>
+                            <label class='form-label col-md-10' translate='signup.form.birthday' for='birthday'></label>
+                            <div class='col-md-12 form-input-container errors-on-hover'>
+                                <app-custom-calendar id='birthday' name='birthday' [(ngModel)]='user.birthday'
+                                                     class='calendar' [required]='false'></app-custom-calendar>
+                            </div>
+                        </div>
+                    </div>
                     <div class='form-group form-group-inline col-md-6 required'
                          [formControlStatus]='editForm.controls.password'>
                         <div class='form-row'>
-                            <label class='form-label col-md-4' translate='signup.form.password' for='password'></label>
-                            <div class='col-md-8 form-input-container errors-on-hover'>
+                            <label class='form-label col-md-10' translate='signup.form.password' for='password'></label>
+                            <div class='col-md-12 form-input-container errors-on-hover'>
                                 <arte-input type='password' id='password' name='password' [(ngModel)]='user.password'
-                                            [required]='true' [minlength]='8'></arte-input>
+                                            [required]='true' [minlength]='8' [placeholder]='""'></arte-input>
                                 <div class='form-errors-messages' *hasErrors='let messages'>
                                     <ul>
                                         <li *ngFor='let m of messages'>{{m}}</li>
                                     </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class='row divider'>
+                    <div class='form-group form-group-inline col-md-6 required'
+                         [formControlStatus]='editForm.controls.email'>
+                        <div class='form-row'>
+                            <label class='form-label col-md-10' translate='signup.form.email' for='email'></label>
+                            <div class='col-md-12 form-input-container errors-on-hover'>
+                                <arte-input [disabled]='isMigratedUser' id='email' name='email' [(ngModel)]='user.email'
+                                            [required]='true' [placeholder]='"xxxx@xxxxxx.xx"'
+                                            [minlength]='3' [maxlength]='255' [email]='true'></arte-input>
+                                <div class='form-errors-messages' *hasErrors='let messages'>
+                                    <li *ngFor='let m of messages'>{{m}}</li>
                                 </div>
                             </div>
                         </div>
@@ -207,11 +204,12 @@
                     <div class='form-group form-group-inline col-md-6 required'
                          [formControlStatus]='editForm.controls.confirmPassword'>
                         <div class='form-row'>
-                            <label class='form-label col-md-4' translate='signup.form.confirmPassword'
+                            <label class='form-label col-md-10' translate='signup.form.confirmPassword'
                                    for='confirmPassword'></label>
-                            <div class='col-md-8 form-input-container errors-on-hover'>
+                            <div class='col-md-12 form-input-container errors-on-hover'>
                                 <arte-input type='password' id='confirmPassword' name='confirmPassword'
-                                            [(ngModel)]='confirmPassword' [required]='true'></arte-input>
+                                            [(ngModel)]='confirmPassword' [required]='true'
+                                            [placeholder]='""'></arte-input>
                                 <div class='form-errors-messages' *hasErrors='let messages'>
                                     <ul>
                                         <li *ngFor='let m of messages'>{{m}}</li>
@@ -220,13 +218,14 @@
                             </div>
                         </div>
                     </div>
-
+                </div>
+                <div class='row divider'>
                     <div class='form-group col-md-6'>
                         <input type='checkbox' name='active' ngModel required />
-                        <a target='_blank' routerLink='/data-protection-policy' routerLinkActive='active'
+                        <a class='btn btn-link' target='_blank' routerLink='/data-protection-policy'
+                           routerLinkActive='active'
                            translate='signup.form.termsAndConditions'></a>
                     </div>
-
                     <div class='col-md-12' [formControlStatus]='editForm.controls.organism'>
                         <div #captchaContainer class='form-row' style='justify-content: center'></div>
                     </div>

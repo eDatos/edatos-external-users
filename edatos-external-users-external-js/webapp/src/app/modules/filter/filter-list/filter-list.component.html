@@ -1,26 +1,22 @@
-<div class="page">
-    <div class="page-header">
-        <div class="page-header-top">
-            <h2 class="page-header-title">
-                <span class="page-header-title-text" translate="filter.home.title"></span>
-            </h2>
-        </div>
+<div class='page col-md-9'>
+    <div class='page-header'>
+        <div class='page-header-top'></div>
     </div>
-    <div class="page-body">
-        <arte-spinner *ngIf="!filters"></arte-spinner>
-        <ng-container *ngIf="filtersLoaded">
-            <ng-container *ngIf="filters.length > 0;else emptyList">
-                <div class="page-table-container-fluid">
+    <div class='page-body'>
+        <arte-spinner *ngIf='!filters'></arte-spinner>
+        <ng-container *ngIf='filtersLoaded'>
+            <ng-container *ngIf='filters.length > 0;else emptyList'>
+                <div class='page-table-container-fluid'>
                     <arte-table
-                        [columns]="columns"
-                        [value]="filters"
-                        [rows]="itemsPerPage"
-                        [totalRecords]="totalItems"
-                        [rowsPerPageOptions]="paginatorOptions"
-                        tableStyleClass="page-table table-has-pointer-rows table-layou-fixed"
-                        (onLazyLoad)="loadData($event)"
+                        [columns]='columns'
+                        [value]='filters'
+                        [rows]='itemsPerPage'
+                        [totalRecords]='totalItems'
+                        [rowsPerPageOptions]='paginatorOptions'
+                        tableStyleClass='page-table table-has-pointer-rows table-layou-fixed'
+                        (onLazyLoad)='loadData($event)'
                     >
-                        <ng-template pTemplate="body" let-filter>
+                        <ng-template pTemplate='body' let-filter>
                             <tr [routerLink]="['../filter', filter.id]">
                                 <td>{{filter.name}}</td>
                                 <td>{{filter.createdDate | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
@@ -31,11 +27,11 @@
                 </div>
             </ng-container>
             <ng-template #emptyList>
-                <div class="no-content">
-                    <img src="assets/images/no-results.png" [alt]="'arte.entity-list-empty.detail' | translate"/>
-                    <div class="no-content-text">
-                        <div class="title" translate="filter.list.noFilterCreated"></div>
-                        <div class="detail" translate="filter.list.wouldYouLikeToCreateAFilter"></div>
+                <div class='no-content'>
+                    <img src='assets/images/no-results.png' [alt]="'arte.entity-list-empty.detail' | translate" />
+                    <div class='no-content-text'>
+                        <div class='title' translate='filter.list.noFilterCreated'></div>
+                        <div class='detail' translate='filter.list.wouldYouLikeToCreateAFilter'></div>
                     </div>
                 </div>
             </ng-template>

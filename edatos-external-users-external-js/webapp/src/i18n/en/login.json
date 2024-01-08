@@ -1,28 +1,30 @@
 {
-    "login": {
-        "home": {
-            "title": "Login"
-        },
-        "form": {
-            "email": "Email",
-            "password": "Password"
-        },
-        "action": {
-            "forgottenPassword": "Forgotten password",
-            "signup": "Sign up",
-            "signin": "Sign in",
-            "goBack": "Go back",
-            "resetPassword": "Have you forgotten your password?"
-        },
-        "resetPassword": {
-            "init": {
-                "title": "Recover password",
-                "email": "Email",
-                "send": "Send"
-            },
-            "finish": {
-                "title": "Change password"
-            }
-        }
+  "login": {
+    "home": {
+      "title": "Login"
+    },
+    "form": {
+      "email": "Email",
+      "password": "Password",
+      "email.format": "xxxx@xxxxx.xxx",
+      "password.format": "**********"
+    },
+    "action": {
+      "forgottenPassword": "Forgotten password",
+      "signup": "Sign up",
+      "signin": "Sign in",
+      "goBack": "Go back",
+      "resetPassword": "Have you forgotten your password?"
+    },
+    "resetPassword": {
+      "init": {
+        "title": "Recover password",
+        "email": "Email",
+        "send": "Send"
+      },
+      "finish": {
+        "title": "Change password"
+      }
     }
+  }
 }

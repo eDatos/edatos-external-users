@@ -1,18 +1,18 @@
-<div class="page">
-    <div class="page-header">
-        <div class="page-header-top">
-            <h2 class="page-header-title">
-                <span class="page-header-title-text">
+<div class='page col-md-9'>
+    <div class='page-header'>
+        <div class='page-header-top'>
+            <h2 class='page-header-title'>
+                <span class='page-header-title-text'>
                     <ng-container> {{ ('favorite.name' | translate) + ' ' }} </ng-container>
                 </span>
             </h2>
         </div>
-        <div class="page-body">
-            <fieldset arteAutofocus class="page-section">
+        <div class='page-body'>
+            <fieldset arteAutofocus class='page-section'>
                 <app-structural-resources-tree
-                    (onResourceSelect)="saveFavorite($event)"
-                    (onResourceUnselect)="deleteFavorite($event)"
-                    [favorites]="favorites"
+                    (onResourceSelect)='saveFavorite($event)'
+                    (onResourceUnselect)='deleteFavorite($event)'
+                    [favorites]='favorites'
                 ></app-structural-resources-tree>
             </fieldset>
         </div>

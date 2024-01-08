@@ -1,20 +1,41 @@
 .captcha-container {
-    width: fit-content;
+  width: fit-content;
 }
 
 .captcha-img, .captcha-button, .captcha-label, .captcha-input {
-    width: 100%;
-    margin-top: 5px;
-    display: block;
+  width: 100%;
+  margin-top: 5px;
+  display: block;
 }
 
 .captcha-button {
-    @extend .btn;
-    @extend .btn-primary;
-    @extend .w-100;
+  @extend .btn;
+  @extend .btn-primary;
+  @extend .w-100;
 }
 
 .captcha-img {
-    margin-left: auto;
-    margin-right: auto;
+  margin-left: auto;
+  margin-right: auto;
 }
+
+div#captcha-container {
+  overflow-x: clip;
+  justify-content: center;
+
+  label {
+    font-size: $size-12;
+  }
+
+  input.captcha-input {
+    width: 98%;
+    margin-left: 3.9px;
+    border: 0.5px solid $color-negro-40;
+    border-radius: 0.3rem;
+  }
+}
+
+.captcha-input:focus-visible {
+  box-shadow: 0 0 0 0.2rem #4D7EA0B3;
+}
+

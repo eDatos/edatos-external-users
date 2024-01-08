@@ -1,0 +1,13 @@
+<div class='page col-md-9'>
+    <div class='nav-container'>
+        <div class='section-tab'>
+            <ul class='nav nav-pills'>
+                <li class='nav-item' *ngFor='let link of navLinks'>
+                    <a class='nav-link' routerLink='{{link.link}}' (click)='activeLink = link.label'
+                       routerLinkActive='active'>{{link.label}}
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

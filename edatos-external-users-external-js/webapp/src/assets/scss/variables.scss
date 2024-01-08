@@ -46,6 +46,85 @@ $nav-shadow: 0 3px 3px $grey-light;
 
 $side-menu-width: 240px;
 
+/********************************************************************************************/
+/********************************************************************************************/
+/********************************************************************************************/
+/********************************************************************************************/
+$color-azul-100: #009BD7;
+$azul-istac-100: $color-azul-100;
+$color-azul-50: #66C3E7;
+$color-azul-25: #B2E1F3;
+$color-azul-10: #D8F0F9;
+$azul-istac-25: $color-azul-25;
+$color-azul-oscuro-100: #004678;
+$color-azul-oscuro-50: #4D7EA0;
+$color-azul-oscuro-25: #99B5C9;
+$color-azul-oscuro-25-opacity-50: #99B5C980;
+$color-azul-oscuro-5: #E5ECF1;
+$color-morado-100: #AF46A8;
+$color-morado-50: #CF90CB;
+$color-morado-25: #E7C7E5;
+$color-verde-100: #009245;
+$color-verde-50: #66BE8F;
+$color-verde-25: #B2DEC7;
+$color-arena-100: #A18979;
+$color-arena-50: #C7B8AF;
+$color-arena-25: #E3DCD7;
+$color-naranja-100: #E95000;
+$color-naranja-50: #F29666;
+$color-naranja-25: #F8CAB2;
+$color-amarillo-100: #F0A82D;
+$color-amarillo-50: #F6CB81;
+$color-amarillo-25: #FBE5C0;
+$color-rojo-100: #BB1709;
+$color-rojo-50: #F9928B;
+$color-rojo-25: #FCC9C5;
+$color-negro-100: #000000;
+$color-negro-80: #333333;
+$color-negro-60: #666666;
+$color-negro-40: #999999;
+$color-negro-20: #CCCCCC;
+$color-negro-5: #F2F2F2;
+$color-negro-0: #FFFFFF;
+
+
+$font-family-sans-serif: 'Open Sans', -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+
+$font-weight-300: 300;
+$font-weight-400: 400;
+$font-weight-500: 500;
+$font-weight-600: 600;
+$font-weight-700: 700;
+
+$size-10: 10px;
+$size-12: 12px;
+$size-14: 14px;
+$size-16: 16px;
+$size-18: 18px;
+$size-28: 28px;
+
+$height-nav: 45px;
+$height-general-search: 60px;
+
+$padding-10px: 10px;
+$padding-20px: 20px;
+
+$container-max-widths: 1280px;
+$container-2columns-max-width: calc($container-max-widths / 2 - 3 * $padding-10px);
+$empty-td-container-width: calc($container-max-widths / 4 + $padding-10px);
+$container-max-width-descriptions: calc(2 * $container-max-widths / 3 - 2 * $padding-20px);
+
+$scroll-width-default: 8px;
+
+$title-bar-height: 55.1px;
+$istac-navbar-height: 72.8px;
+$istac-footer-height: 47px;
+
+
+/********************************************************************************************/
+/********************************************************************************************/
+/********************************************************************************************/
+/********************************************************************************************/
 // Bootstrap
 $gray-lightest: $grey-lightest;
 $gray-lighter: $grey-light;
@@ -56,9 +135,9 @@ $gray-dark: $grey-darkest;
 $font-weight-normal: 400;
 $font-weight-bold: 600;
 
-$btn-primary-color: $white;
-$btn-primary-bg: $main-light;
-$btn-primary-border: $main-medium;
+$btn-primary-color: $color-negro-0;
+$btn-primary-bg: $color-azul-oscuro-50;
+$btn-primary-border: $color-azul-oscuro-100;
 
 $btn-secondary-color: $grey-dark;
 $btn-secondary-bg: $white;
@@ -110,18 +189,18 @@ $grid-gutter-width-base: 30px;
 
 $grid-columns: 12;
 $grid-breakpoints: (
-    xs: 0,
-    sm: 576px,
-    md: 768px,
-    lg: 992px,
-    xl: 1200px,
+        xs: 0,
+        sm: 576px,
+        md: 768px,
+        lg: 992px,
+        xl: 1200px,
 );
 $grid-gutter-widths: (
-    xs: $grid-gutter-width-base,
-    sm: $grid-gutter-width-base,
-    md: $grid-gutter-width-base,
-    lg: $grid-gutter-width-base,
-    xl: $grid-gutter-width-base,
+        xs: $grid-gutter-width-base,
+        sm: $grid-gutter-width-base,
+        md: $grid-gutter-width-base,
+        lg: $grid-gutter-width-base,
+        xl: $grid-gutter-width-base,
 );
 
 $spacer-y: 1rem;
