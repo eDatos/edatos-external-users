@@ -9,9 +9,9 @@ export class ConfirmationModal {
     constructor(private activeModal: NgbActiveModal) {}
 
     public headerText: string;
-    public headerParams: any = {};
+    public headerParams: { [key: string]: string } = {};
     public bodyText: string;
-    public bodyParams: any = {};
+    public bodyParams: { [key: string]: string } = {};
     public isDangerous: boolean = false;
 
     public confirm() {
