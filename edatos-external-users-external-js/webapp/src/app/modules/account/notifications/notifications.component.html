@@ -1,0 +1,42 @@
+<div class='page'>
+    <div class='page-header'>
+        <div class='page-header-top'>
+            <h2 class='page-header-title'>
+                <span class='page-header-title-text' translate='global.menu.account.notifications'></span>
+            </h2>
+        </div>
+    </div>
+    <div class='page-body'>
+        <arte-spinner *ngIf='!noticesLoaded'></arte-spinner>
+        <ng-container *ngIf='noticesLoaded'>
+            <ng-container *ngIf='notices.length > 0;else emptyList'>
+                <div class='page-table-container-fluid'>
+                    <arte-table
+                        [columns]='columns'
+                        [value]='notices'
+                        [rows]='itemsPerPage'
+                        [totalRecords]='totalItems'
+                        [rowsPerPageOptions]='paginatorOptions'
+                        tableStyleClass='page-table table-has-pointer-rows'
+                        (onLazyLoad)='loadData($event)'
+                    >
+                        <ng-template pTemplate='body' let-notice>
+                            <tr>
+                                <td>{{notice.sendingDate | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
+                                <td [innerHTML]='joinMessagesText(notice.messages)'></td>
+                            </tr>
+                        </ng-template>
+                    </arte-table>
+                </div>
+            </ng-container>
+            <ng-template #emptyList>
+                <div class='no-content'>
+                    <img src='assets/images/no-results.png' [alt]="'arte.entity-list-empty.detail' | translate" />
+                    <div class='no-content-text'>
+                        <div class='title' translate='notices.list.noNotice'></div>
+                    </div>
+                </div>
+            </ng-template>
+        </ng-container>
+    </div>
+</div>

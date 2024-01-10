@@ -5,6 +5,9 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang3.StringUtils;
+import org.siemac.edatos.core.common.exception.EDatosException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +15,7 @@ import es.gobcan.istac.edatos.external.users.core.service.MetadataConfigurationS
 
 @Component("metadataProperties")
 public class MetadataProperties {
+    private static final Logger LOGGER = LoggerFactory.getLogger(MetadataProperties.class);
 
     @Autowired
     private MetadataConfigurationService configurationService;
@@ -68,7 +72,6 @@ public class MetadataProperties {
         internalAppUrl = normalizeUrl(configurationService.retrieveExternalUsersInternalWebApplicationUrlBase());
         casService = internalAppUrl + "/login/cas";
         visualizerPath = configurationService.retrievePortalExternalWebApplicationUrlVisualizer();
-        siePath = configurationService.retrieveSieExternalWebApplicationUrl();
         defaultLanguage = availableLanguages.get(0);
         nationalityUrnKey = configurationService.retrieveNationalityUrnKey();
         genderUrnKey = configurationService.retrieveGenderUrnKey();
@@ -77,6 +80,11 @@ public class MetadataProperties {
             languageCookie = configurationService.retrieveInternationalizationCookieId();
         } catch (Exception e) {
             languageCookie = null;
+        }
+        try {
+            siePath = configurationService.retrieveSieExternalWebApplicationUrl();
+        } catch (EDatosException e) {
+            LOGGER.info("Optional property SieExternalWebApplicationUrl is not filled ");
         }
         allowedOrigins = configurationService.retrieveAllowedOrigins();
     }

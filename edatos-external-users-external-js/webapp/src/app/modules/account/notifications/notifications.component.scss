@@ -1,0 +1,8 @@
+:host ::ng-deep th:nth-child(2) {
+    width: 80%;
+}
+
+:host ::ng-deep td > div.message-content-notice {
+    max-height: 300px;
+    overflow: auto;
+}

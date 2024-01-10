@@ -4,8 +4,9 @@ import { ITEMS_PER_PAGE, PAGINATION_OPTIONS } from '@app/app.constants';
 import { ResponseWrapper } from '@app/core/utils/response-utils';
 import { ExternalOperation } from '@app/shared/model';
 import { ExternalOperationService } from '@app/shared/service';
-import { ArteEventManager } from 'arte-ng/services';
+import { ArteEventManager, GenericModalService } from 'arte-ng/services';
 import { LazyLoadEvent } from 'primeng/api';
+import { ConfirmationModal } from "@app/shared/components/confirmation-modal/confirmation-modal.component";
 
 @Component({
     selector: 'app-external-operations-list',
@@ -58,7 +59,8 @@ export class ExternalOperationsListComponent implements OnInit {
         private eventManager: ArteEventManager,
         private activatedRoute: ActivatedRoute,
         private router: Router,
-        private externalOperationService: ExternalOperationService
+        private externalOperationService: ExternalOperationService,
+        private genericModalService: GenericModalService
     ) {}
 
     public ngOnInit() {
@@ -82,6 +84,32 @@ export class ExternalOperationsListComponent implements OnInit {
             this.reverse = e.sortOrder === 1;
         }
         this.loadAll();
+    }
+
+    public changeStateOfExternalOperation(externalOperation: ExternalOperation): void {
+        var modalData;
+        if (!externalOperation.enabled) {
+            modalData = {
+                headerText: "externalOperation.disablementConfirmationModal.title",
+                bodyText: "externalOperation.disablementConfirmationModal.body",
+                bodyParams: { operation: externalOperation.code },
+                isDangerous: true
+            };
+        } else {
+            modalData = {
+                headerText: "externalOperation.enablementConfirmationModal.title",
+                bodyText: "externalOperation.enablementConfirmationModal.body",
+                bodyParams: { operation: externalOperation.code }
+            };
+        }
+        const modalRef = this.genericModalService.open(ConfirmationModal as Component, modalData, { container: '.app' });
+        modalRef.result.subscribe((isConfirmed) => {
+            if (isConfirmed) {
+                this.updateExternalOperation(externalOperation);
+            } else {
+                externalOperation.enabled = !externalOperation.enabled;
+            }
+        });
     }
 
     public updateExternalOperation(externalOperation: ExternalOperation): void {
