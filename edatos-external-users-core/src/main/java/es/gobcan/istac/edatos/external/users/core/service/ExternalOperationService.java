@@ -13,8 +13,8 @@ public interface ExternalOperationService {
 
     List<ExternalOperationEntity> findAll();
     List<ExternalOperationEntity> findAllEnabled();
-
     Page<ExternalOperationEntity> find(String query, Pageable pageable);
+    ExternalOperationEntity findByCode(String code);
     ExternalOperationEntity create(ExternalOperationEntity operation);
     ExternalOperationEntity update(ExternalOperationEntity operation);
     void delete(String urn);

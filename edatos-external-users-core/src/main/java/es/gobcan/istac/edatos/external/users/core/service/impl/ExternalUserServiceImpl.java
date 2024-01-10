@@ -33,6 +33,13 @@ import es.gobcan.istac.edatos.external.users.core.util.RandomUtil;
 @Service
 public class ExternalUserServiceImpl implements ExternalUserService {
 
+    /**
+     * A migrated user from jaxi will have no real password but a string to know it
+     * have been migrated. This enables a special procedure to confirm the user in the new
+     * platform, not having to create a new account and reuse the user's data.
+     */
+    public static final String MIGRATED_USER_PSWD = "MIGRATED_USER";
+
     private final ExternalUserRepository externalUserRepository;
     private final FilterRepository filterRepository;
     private final QueryUtil queryUtil;
@@ -176,6 +183,15 @@ public class ExternalUserServiceImpl implements ExternalUserService {
     }
 
     @Override
+    public ExternalUserEntity getByUserRegistration(String token) {
+        ExternalUserEntity user = externalUserRepository.findOneByRegistrationToken(token).orElse(null);
+        if (user != null && user.getPassword().equals(MIGRATED_USER_PSWD) && !user.isEnabled()) {
+            return user;
+        }
+        return null;
+    }
+
+    @Override
     public List<ExternalUserEntity> findByCategoriesAndExternalOperations(List<Long> categoriesIds, List<Long> operationsIds) {
         if (categoriesIds.isEmpty()) {
             if (operationsIds.isEmpty()) {
@@ -190,5 +206,17 @@ public class ExternalUserServiceImpl implements ExternalUserService {
                 return externalUserRepository.findByCategoriesAndExternalOperations(categoriesIds, operationsIds, (long) (categoriesIds.size() + operationsIds.size()));
             }
         }
+    }
+
+    @Override
+    public boolean isMigratedUser(ExternalUserEntity user) {
+        return user != null && !user.isEnabled() && user.getPassword().equals(MIGRATED_USER_PSWD);
+    }
+
+    @Override
+    public ExternalUserEntity migrate(ExternalUserEntity user) {
+        user.setEnabled(true);
+        user.setRegistrationToken(null);
+        return externalUserRepository.saveAndFlush(user);
     }
 }

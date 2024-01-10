@@ -129,6 +129,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             "/api/authenticate",
             "/api/profile-info",
             "/api/account/signup/**",
+            "/api/account/migrated-user-info/**",
             "/api/login",
             "/api/recover-password/**",
             "/v2/api-docs/**",

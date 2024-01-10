@@ -1,26 +1,12 @@
 package es.gobcan.istac.edatos.external.users.core.domain;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -113,9 +99,13 @@ public class ExternalUserEntity extends AbstractVersionedAndAuditingEntity {
 
     @Column(name = "birthday")
     private LocalDate birthday;
+
     @ManyToOne
     @JoinColumn(name = "data_protection_policy_fk")
     private DataProtectionPolicyEntity dataProtectionPolicy;
+
+    @Column(name = "data_protection_policy_approval_date")
+    private Instant dataProtectionPolicyApprovalDate;
 
     @Override
     public Long getId() {
@@ -283,5 +273,13 @@ public class ExternalUserEntity extends AbstractVersionedAndAuditingEntity {
 
     public void setDataProtectionPolicy(DataProtectionPolicyEntity dataProtectionPolicy) {
         this.dataProtectionPolicy = dataProtectionPolicy;
+    }
+
+    public Instant getDataProtectionPolicyApprovalDate() {
+        return dataProtectionPolicyApprovalDate;
+    }
+
+    public void setDataProtectionPolicyApprovalDate(Instant dataProtectionPolicyApprovalDate) {
+        this.dataProtectionPolicyApprovalDate = dataProtectionPolicyApprovalDate;
     }
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -40,6 +41,7 @@ import javax.ws.rs.core.Response;
 
 import static es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType.CONFIRM_SIGNUP_NOTICE_FAILED;
 import static es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType.EMAIL_IN_USE_NOTICE_FAILED;
+import static es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType.MIGRATED_USER_SIGNUP_NOTICE_FAILED;
 import static es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType.REGISTER_ACCOUNT_NOTICE_FAILED;
 import static es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType.REPEATED_SIGNUP_NOTICE_FAILED;
 import static es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType.RESET_PASSWORD_NOTICE_FAILED;
@@ -53,6 +55,7 @@ public class NotificationServiceImpl implements NotificationService {
 
     private static String RESET_PASSWORD_URL = "/#/reset-password/change-password?key=";
     private static String CONFIRM_REGISTRATION_URL = "/#/login?registration-key=";
+    private static String CONTINUE_SIGNUP_MIGRATED_USER_URL = "/#/signup?registration-token=";
 
     @Autowired
     private MessageSource messageSource;
@@ -76,7 +79,7 @@ public class NotificationServiceImpl implements NotificationService {
 
         String[] args = argsByExternalUser(externalUserEntity);
 
-        createNotificationWithReceiver(codeSubject, messageCode, externalUserEntity.getEmail(), args, REGISTER_ACCOUNT_NOTICE_FAILED);
+        createNotificationWithReceiver(codeSubject, messageCode, externalUserEntity, args, REGISTER_ACCOUNT_NOTICE_FAILED);
     }
 
     @Override
@@ -85,7 +88,7 @@ public class NotificationServiceImpl implements NotificationService {
         String messageCode = "notice.message.unsubscribe_account.text";
         String[] args = argsByExternalUser(externalUserEntity);
 
-        createNotificationWithReceiver(codeSubject, messageCode, externalUserEntity.getEmail(), args, UNSUBSCRIBE_ACCOUNT_NOTICE_FAILED);
+        createNotificationWithReceiver(codeSubject, messageCode, externalUserEntity, args, UNSUBSCRIBE_ACCOUNT_NOTICE_FAILED);
     }
 
     @Override
@@ -96,7 +99,7 @@ public class NotificationServiceImpl implements NotificationService {
         ArrayList<String> argsList = new ArrayList<String>(Arrays.asList(argsByExternalUser(externalUserEntity)));
         argsList.add(baseUrl);
 
-        createNotificationWithReceiver(codeSubject, messageCode, externalUserEntity.getEmail(), argsList.toArray(new String[argsList.size()]), RESET_PASSWORD_NOTICE_FAILED);
+        createNotificationWithReceiver(codeSubject, messageCode, externalUserEntity, argsList.toArray(new String[argsList.size()]), RESET_PASSWORD_NOTICE_FAILED);
     }
 
     @Override
@@ -107,7 +110,7 @@ public class NotificationServiceImpl implements NotificationService {
         ArrayList<String> argsList = new ArrayList<String>(Arrays.asList(argsByExternalUser(externalUserEntity)));
         argsList.add(baseUrl);
 
-        createNotificationWithReceiver(codeSubject, messageCode, externalUserEntity.getEmail(), argsList.toArray(new String[argsList.size()]), CONFIRM_SIGNUP_NOTICE_FAILED);
+        createNotificationWithReceiver(codeSubject, messageCode, externalUserEntity, argsList.toArray(new String[argsList.size()]), CONFIRM_SIGNUP_NOTICE_FAILED);
     }
 
     @Override
@@ -118,7 +121,7 @@ public class NotificationServiceImpl implements NotificationService {
         ArrayList<String> argsList = new ArrayList<String>(Arrays.asList(argsByExternalUser(externalUserEntity)));
         argsList.add(baseUrl);
 
-        createNotificationWithReceiver(codeSubject, messageCode, externalUserEntity.getEmail(), argsList.toArray(new String[argsList.size()]), EMAIL_IN_USE_NOTICE_FAILED);
+        createNotificationWithReceiver(codeSubject, messageCode, externalUserEntity, argsList.toArray(new String[argsList.size()]), EMAIL_IN_USE_NOTICE_FAILED);
     }
 
     @Override
@@ -129,7 +132,7 @@ public class NotificationServiceImpl implements NotificationService {
         ArrayList<String> argsList = new ArrayList<String>(Arrays.asList(argsByExternalUser(externalUserEntity)));
         argsList.add(baseUrl);
 
-        createNotificationWithReceiver(codeSubject, messageCode, externalUserEntity.getEmail(), argsList.toArray(new String[argsList.size()]), REPEATED_SIGNUP_NOTICE_FAILED);
+        createNotificationWithReceiver(codeSubject, messageCode, externalUserEntity, argsList.toArray(new String[argsList.size()]), REPEATED_SIGNUP_NOTICE_FAILED);
     }
 
     @Override
@@ -140,10 +143,10 @@ public class NotificationServiceImpl implements NotificationService {
         for (FavoriteEntity favorite : listFavorites) {
             ExternalUserEntity externalUserEntity = favorite.getExternalUser();
             ArrayList<String> argsList = new ArrayList<String>(Arrays.asList(argsByExternalUser(externalUserEntity)));
-            argsList.add(favorite.getExternalOperation().getName().getLocalisedLabel(null, getDefaultLocale()));
+            argsList.add(favorite.getExternalOperation().getName().getLocalisedLabel(favorite.getExternalUser().getLanguage().getLocaleCode(), getDefaultLocale()));
 
             if (externalUserEntity.isEmailNotificationsEnabled() && favorite.getExternalOperation().isNotificationsEnabled()) {
-                createNotificationWithReceiver(codeSubject, messageCode, externalUserEntity.getEmail(), argsList.toArray(new String[argsList.size()]), SUBSCRIPTION_JOB_NOTICE_FAILED);
+                createNotificationWithReceiver(codeSubject, messageCode, externalUserEntity, argsList.toArray(new String[argsList.size()]), SUBSCRIPTION_JOB_NOTICE_FAILED);
             }
         }
     }
@@ -152,10 +155,10 @@ public class NotificationServiceImpl implements NotificationService {
         return new String[]{externalUserEntity.getName(), externalUserEntity.getSurname1(), externalUserEntity.getEmail()};
     }
 
-    private void createNotificationWithReceiver(String codeSubject, String messageCode, String receiver, String[] args, CommonServiceExceptionType serviceExceptionTypeIfError) {
+    private void createNotificationWithReceiver(String codeSubject, String messageCode, ExternalUserEntity receiver, String[] args, CommonServiceExceptionType serviceExceptionTypeIfError) {
         Response createNoticeResponse;
         try {
-            Notice notice = createNotice(codeSubject, messageCode, receiver, args);
+            Notice notice = createNotice(codeSubject, messageCode, receiver.getEmail(), args, Locale.forLanguageTag(receiver.getLanguage().getLocaleCode()));
 
             createNoticeResponse = eDatosApisLocator.getNoticesRestInternalFacadeV10().createNotice(notice);
         } catch (Exception e) {
@@ -167,13 +170,13 @@ public class NotificationServiceImpl implements NotificationService {
         }
     }
 
-    private Notice createNotice(String codeSubject, String messageCode, String receiver, String[] args) {
-        String subject = generateTextI18n(codeSubject, args);
-        Message message = createMessage(messageCode, args);
+    private Notice createNotice(String codeSubject, String messageCode, String receiver, String[] args, Locale locale) {
+        String subject = generateTextI18n(codeSubject, args, locale);
+        Message message = createMessage(messageCode, args, locale);
 
         // @formatter:off
         return NoticeBuilder.notification()
-            .withMessages(initStyleClassMessageTemplate(), message, MessageBuilder.message().withText(getLopd()).build(), finalStyleClassMessageTemplate())
+            .withMessages(message, MessageBuilder.message().withText(getLopd(locale.getLanguage())).build())
             .withReceivers(receiver)
             .withSendingApplication(MetamacApplicationsEnum.GESTOR_USUARIOS_EXTERNOS.getName())
             .withSubject(subject)
@@ -181,8 +184,8 @@ public class NotificationServiceImpl implements NotificationService {
         // @formatter:on
     }
 
-    private Message createMessage(String messageCode, String[] args) {
-        String localisedMessage = generateTextI18n(messageCode, args);
+    private Message createMessage(String messageCode, String[] args, Locale locale) {
+        String localisedMessage = generateTextI18n(messageCode, args, locale);
 
         // @formatter:off
         return  MessageBuilder.message()
@@ -207,11 +210,42 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
+    public void createContinueUserMigrationNotification(ExternalUserEntity user) {
+        String codeSubject = "notice.subject.continue_migration_signup.title";
+        String messageCode = "notice.subject.continue_migration_signup.text";
+        String baseUrl = metadataConfigurationService.retrieveBaseUrl() + CONTINUE_SIGNUP_MIGRATED_USER_URL + user.getRegistrationToken();
+
+        createNotificationWithReceiver(codeSubject, messageCode, user, new String[]{baseUrl}, MIGRATED_USER_SIGNUP_NOTICE_FAILED);
+    }
+
+    @Override
+    public void createResetPasswordMigratedUserNotification(ExternalUserEntity user) {
+        String codeSubject = "notice.subject.migrated_user_reset_password.title";
+        String messageCode = "notice.subject.migrated_user_reset_password.text";
+        String baseUrl = metadataConfigurationService.retrieveBaseUrl() + CONTINUE_SIGNUP_MIGRATED_USER_URL + user.getRegistrationToken();
+        ArrayList<String> argsList = new ArrayList<>(Arrays.asList(argsByExternalUser(user)));
+        argsList.add(baseUrl);
+
+        createNotificationWithReceiver(codeSubject, messageCode, user, argsList.toArray(new String[0]), MIGRATED_USER_SIGNUP_NOTICE_FAILED);
+    }
+
+    @Override
+    public void createMigratedExternalUserPendingRegistrationNotification(ExternalUserEntity user) {
+        String codeSubject = "notice.subject.migrated_user_repeated_signup.title";
+        String messageCode = "notice.subject.migrated_user_repeated_signup.text";
+        String baseUrl = metadataConfigurationService.retrieveBaseUrl() + CONTINUE_SIGNUP_MIGRATED_USER_URL + user.getRegistrationToken();
+        ArrayList<String> argsList = new ArrayList<>(Arrays.asList(argsByExternalUser(user)));
+        argsList.add(baseUrl);
+
+        createNotificationWithReceiver(codeSubject, messageCode, user, argsList.toArray(new String[0]), MIGRATED_USER_SIGNUP_NOTICE_FAILED);
+    }
+
+    @Override
     public void createNotificationWithReceivers(String message, String subject, Receivers receivers) {
         try {
             // @formatter:off
             Notice notice = NoticeBuilder.notification()
-                .withMessages(initStyleClassMessageTemplate(),MessageBuilder.message().withText(message).build(), MessageBuilder.message().withText(getLopd()).build(), finalStyleClassMessageTemplate())
+                .withMessages(MessageBuilder.message().withText(message).build(), MessageBuilder.message().withText(getLopd(null)).build())
                 .withReceivers(receivers)
                 .withSendingApplication(MetamacApplicationsEnum.GESTOR_USUARIOS_EXTERNOS.getName())
                 .withSubject(subject).build();
@@ -235,16 +269,16 @@ public class NotificationServiceImpl implements NotificationService {
         return new PageImpl<Notice>(result.getNotices(), pageable, result.getTotal().intValue());
     }
 
-    private String generateTextI18n(String text, String[] args) {
-        return messageSource.getMessage(text, args, null);
+    private String generateTextI18n(String text, String[] args, Locale locale) {
+        return messageSource.getMessage(text, args, locale);
     }
 
     private String getOrganism() {
         return metadataConfigurationService.retrieveOrganisation();
     }
 
-    private String getLopd() {
-        return dataProtectionPolicyService.find().getValue().getLocalisedLabel(null, getDefaultLocale());
+    private String getLopd(String locale) {
+        return dataProtectionPolicyService.find().getValue().getLocalisedLabel(locale, getDefaultLocale());
     }
 
     private String getDefaultLocale() {

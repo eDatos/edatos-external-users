@@ -8,7 +8,7 @@
 
 *Se deberá realizar primero la actualización de la versión 1.0.0 a la 2.0.0 y luego desde la 2.0.0 a la 3.0.0*
 
-## 1.2.1 a 1.2.2-SNAPSHOT
+## 1.2.1 a 2.0.0
 
 * Se añaden las propiedades `metamac.portal.rest.external.authentication.captcha.v2.private_key` y `metamac.portal.rest.external.authentication.captcha.v2.public_key`, que hacen referencia a la clave secreta y la clave de sitio web de la versión 2 del recaptcha respectivamente. Para añadir las propiedades hace falta ejecutar el siguiente script SQL:
 
@@ -24,7 +24,7 @@ etc\changes-from-release\1.2.1\db\common-metadata\postgresql\20231011_update_cap
 ```
 
 * Se añade una dependencia en la propiedad `metamac.sie.web.external.url`. Para actualizarlo
-  debe ejecutarse el siguiente script localizado en el proyecto `sie`, versión 2.6.1-SNAPSHOT, con el valor 
+  debe ejecutarse el siguiente script localizado en el proyecto `sie`, versión 2.6.1, con el valor 
   por entorno de la propiedad:
 
 ```

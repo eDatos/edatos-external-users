@@ -24,6 +24,10 @@ public interface NotificationService {
 
     void createNotificationWithReceivers(String message, String subject, Receivers receivers);
     Receivers createReceiversList(List<String> emails, List<Long> categories, List<Long> externalOperations);
-
     Page<Notice> findNoticesByReceiver(String receiver, Pageable pageable);
+
+    void createContinueUserMigrationNotification(ExternalUserEntity user);
+    void createResetPasswordMigratedUserNotification(ExternalUserEntity user);
+    void createMigratedExternalUserPendingRegistrationNotification(ExternalUserEntity user);
+
 }

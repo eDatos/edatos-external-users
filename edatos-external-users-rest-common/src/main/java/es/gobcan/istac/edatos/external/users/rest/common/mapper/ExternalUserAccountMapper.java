@@ -1,5 +1,6 @@
 package es.gobcan.istac.edatos.external.users.rest.common.mapper;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -44,11 +45,17 @@ public abstract class ExternalUserAccountMapper implements EntityMapper<External
     }
 
     @AfterMapping
-    public void setRoles(ExternalUserAccountBaseDto dto, @MappingTarget ExternalUserEntity entity) {
+    public void afterMappingSettings(ExternalUserAccountBaseDto dto, @MappingTarget ExternalUserEntity entity) {
         Set<ExternalUserRole> roles = new HashSet<>();
         roles.add(ExternalUserRole.USER);
         roles.stream().collect(Collectors.toSet());
         entity.setRoles(roles);
+
+        if (entity.getDataProtectionPolicyApprovalDate() != null) {
+            entity.setDataProtectionPolicyApprovalDate(entity.getDataProtectionPolicyApprovalDate());
+        } else if (entity.getDataProtectionPolicy() != null) {
+            entity.setDataProtectionPolicyApprovalDate(Instant.now());
+        }
     }
 
     @Override

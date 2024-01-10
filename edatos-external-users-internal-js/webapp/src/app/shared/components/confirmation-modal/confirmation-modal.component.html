@@ -1,0 +1,24 @@
+<div class="modal-header">
+    <p class="modal-title" id="myActorLabel">
+        <span class="mr-3">
+            <i class="fa"></i>
+        </span>
+        <strong> <span [innerHTML]="headerText | translate: headerParams"></span></strong>
+    </p>
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="clear()">&times;</button>
+</div>
+<div class="modal-body">
+    <div>
+        <span [innerHTML]="bodyText | translate: bodyParams"></span>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+        <span class="fa fa-ban"></span>
+        <span translate="entity.action.cancel"></span>
+    </button>
+    <button type="submit" class="btn btn-{{isDangerous ? 'danger' : 'primary'}}" (click)="confirm()">
+        <span class="fa fa-remove"></span>
+        <span translate="entity.action.confirm"></span>
+    </button>
+</div>

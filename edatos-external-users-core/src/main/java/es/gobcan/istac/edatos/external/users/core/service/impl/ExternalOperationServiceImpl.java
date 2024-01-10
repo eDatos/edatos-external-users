@@ -1,6 +1,5 @@
 package es.gobcan.istac.edatos.external.users.core.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import java.util.Optional;
@@ -46,6 +45,11 @@ public class ExternalOperationServiceImpl implements ExternalOperationService {
     public Page<ExternalOperationEntity> find(String query, Pageable pageable) {
         DetachedCriteria criteria = queryUtil.queryToExternalOperationCriteria(query, pageable);
         return externalOperationRepository.findAll(criteria, pageable);
+    }
+
+    @Override
+    public ExternalOperationEntity findByCode(String code) {
+        return externalOperationRepository.findByCode(code).orElse(null);
     }
 
     @Override
