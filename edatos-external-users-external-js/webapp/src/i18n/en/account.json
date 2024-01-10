@@ -11,7 +11,7 @@
             "button": "Save"
         },
         "download": {
-            "myInformation" : "Download my information"
+            "myInformation": "Download my information"
         },
         "messages": {
             "error": {
@@ -41,6 +41,15 @@
             },
             "onSuccessSumary": "User edit",
             "onSuccess": "User data has been modified correctly."
+        }
+    },
+    "notices": {
+        "entity": {
+            "message": "Message",
+            "receivedDate": "Received"
+        },
+        "list": {
+            "noNotice": "Looks like you haven’t gotten any messages yet."
         }
     }
 }
