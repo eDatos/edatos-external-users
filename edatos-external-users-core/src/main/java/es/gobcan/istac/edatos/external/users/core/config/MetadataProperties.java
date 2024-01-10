@@ -84,7 +84,7 @@ public class MetadataProperties {
         try {
             siePath = configurationService.retrieveSieExternalWebApplicationUrl();
         } catch (EDatosException e) {
-            LOGGER.warn("Error retrieving configuration properties", e);
+            LOGGER.info("Optional property SieExternalWebApplicationUrl is not filled ");
         }
         allowedOrigins = configurationService.retrieveAllowedOrigins();
     }
