@@ -30,6 +30,7 @@ import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
 import { AppAuditInfoComponent } from './components/audit-info/audit-info.component';
 import { MultiLanguageEditorComponent } from './components/multi-language-editor/multi-language-editor.component';
+import { ConfirmationModal } from "@app/shared/components/confirmation-modal/confirmation-modal.component";
 
 @NgModule({
     imports: [
@@ -100,9 +101,11 @@ import { MultiLanguageEditorComponent } from './components/multi-language-editor
         StructuralResourcesTreeModule,
         AppAuditInfoComponent,
         MultiLanguageEditorComponent,
-        CustomCalendarComponent
+        CustomCalendarComponent,
+        ConfirmationModal
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    declarations: [AppAuditInfoComponent, MultiLanguageEditorComponent, CustomCalendarComponent],
+    declarations: [AppAuditInfoComponent, MultiLanguageEditorComponent, CustomCalendarComponent, ConfirmationModal],
+    entryComponents: [ConfirmationModal],
 })
 export class SharedModule {}

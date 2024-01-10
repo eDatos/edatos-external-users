@@ -23,7 +23,8 @@
                 "logout": "Tencar la sessió",
                 "main": "Compte",
                 "myAccount": "El meu compte",
-                "sessions": "Sessions"
+                "sessions": "Sessions",
+                "notifications": "Notificacions"
             },
             "admin": {
                 "main": "Administració",

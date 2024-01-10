@@ -16,7 +16,8 @@
                 "sessions": "Sesiones",
                 "login": "Iniciar sesión",
                 "logout": "Cerrar la sesión",
-                "myAccount": "Mi cuenta"
+                "myAccount": "Mi cuenta",
+                "notifications": "Notificaciones"
             },
             "admin": {
                 "main": "Administración",

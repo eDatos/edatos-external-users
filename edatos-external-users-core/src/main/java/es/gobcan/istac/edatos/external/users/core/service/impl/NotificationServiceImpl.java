@@ -18,14 +18,21 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 import javax.ws.rs.core.Response;
-
 import org.siemac.edatos.core.common.dto.InternationalStringDto;
+import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
+import es.gobcan.istac.edatos.external.users.core.domain.FavoriteEntity;
+import es.gobcan.istac.edatos.external.users.core.service.DataProtectionPolicyService;
+import es.gobcan.istac.edatos.external.users.core.service.EDatosApisLocator;
+import es.gobcan.istac.edatos.external.users.core.service.ExternalUserService;
+import es.gobcan.istac.edatos.external.users.core.service.MetadataConfigurationService;
+import es.gobcan.istac.edatos.external.users.core.service.NotificationService;
+import es.gobcan.istac.edatos.external.users.core.i18n.LocaleContext;
 import org.siemac.edatos.core.common.exception.CommonServiceExceptionType;
 import org.siemac.edatos.core.common.exception.EDatosException;
 import org.siemac.metamac.rest.notices.v1_0.domain.Message;
 import org.siemac.metamac.rest.notices.v1_0.domain.Notice;
+import org.siemac.metamac.rest.notices.v1_0.domain.Notices;
 import org.siemac.metamac.rest.notices.v1_0.domain.Receivers;
 import org.siemac.metamac.rest.notices.v1_0.domain.enume.MetamacApplicationsEnum;
 import org.siemac.metamac.rest.notices.v1_0.domain.utils.MessageBuilder;
@@ -35,18 +42,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import es.gobcan.istac.edatos.external.users.core.config.MetadataProperties;
-import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
-import es.gobcan.istac.edatos.external.users.core.domain.FavoriteEntity;
 import es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType;
-import es.gobcan.istac.edatos.external.users.core.i18n.LocaleContext;
-import es.gobcan.istac.edatos.external.users.core.service.DataProtectionPolicyService;
-import es.gobcan.istac.edatos.external.users.core.service.EDatosApisLocator;
-import es.gobcan.istac.edatos.external.users.core.service.ExternalUserService;
-import es.gobcan.istac.edatos.external.users.core.service.MetadataConfigurationService;
-import es.gobcan.istac.edatos.external.users.core.service.NotificationService;
 
 @Service
 public class NotificationServiceImpl implements NotificationService {
@@ -179,37 +181,7 @@ public class NotificationServiceImpl implements NotificationService {
 
         return receiversGroupByLanguage;
     }
-
-    @Override
-    public void createContinueUserMigrationNotification(ExternalUserEntity user) {
-        String codeSubject = "notice.subject.continue_migration_signup.title";
-        String messageCode = "notice.subject.continue_migration_signup.text";
-        String baseUrl = metadataConfigurationService.retrieveBaseUrl() + CONTINUE_SIGNUP_MIGRATED_USER_URL + user.getRegistrationToken();
-
-        createNotificationWithReceiver(codeSubject, messageCode, user, new String[]{baseUrl}, MIGRATED_USER_SIGNUP_NOTICE_FAILED);
-    }
-
-    @Override
-    public void createResetPasswordMigratedUserNotification(ExternalUserEntity user) {
-        String codeSubject = "notice.subject.migrated_user_reset_password.title";
-        String messageCode = "notice.subject.migrated_user_reset_password.text";
-        String baseUrl = metadataConfigurationService.retrieveBaseUrl() + CONTINUE_SIGNUP_MIGRATED_USER_URL + user.getRegistrationToken();
-        ArrayList<String> argsList = new ArrayList<>(Arrays.asList(argsByExternalUser(user)));
-        argsList.add(baseUrl);
-
-        createNotificationWithReceiver(codeSubject, messageCode, user, argsList.toArray(new String[0]), MIGRATED_USER_SIGNUP_NOTICE_FAILED);
-    }
-
-    @Override
-    public void createMigratedExternalUserPendingRegistrationNotification(ExternalUserEntity user) {
-        String codeSubject = "notice.subject.migrated_user_repeated_signup.title";
-        String messageCode = "notice.subject.migrated_user_repeated_signup.text";
-        String baseUrl = metadataConfigurationService.retrieveBaseUrl() + CONTINUE_SIGNUP_MIGRATED_USER_URL + user.getRegistrationToken();
-        ArrayList<String> argsList = new ArrayList<>(Arrays.asList(argsByExternalUser(user)));
-        argsList.add(baseUrl);
-
-        createNotificationWithReceiver(codeSubject, messageCode, user, argsList.toArray(new String[0]), MIGRATED_USER_SIGNUP_NOTICE_FAILED);
-    }
+        
 
     @Override
     public void createNotificationWithReceivers(InternationalStringDto message, InternationalStringDto subject, HashMap<String, Receivers> receiversByLanguage) {
@@ -275,6 +247,81 @@ public class NotificationServiceImpl implements NotificationService {
         // @formatter:on
     }
 
+    @Override
+    public Receivers createReceiversList(List<String> emails, List<Long> categories, List<Long> externalOperations) {
+        List<ExternalUserEntity> usersSubscribedToCategoriesAndOperations = externalUserService.findByCategoriesAndExternalOperations(categories, externalOperations);
+
+        Set<String> allReceiversEmails = new HashSet<>(emails);
+        allReceiversEmails.addAll(usersSubscribedToCategoriesAndOperations.stream().map(ExternalUserEntity::getEmail).collect(Collectors.toList()));
+
+        Receivers receivers = new Receivers();
+        for(String email : allReceiversEmails) {
+            receivers.getReceivers().add(ReceiverBuilder.receiver().withUsername(email).build());
+        }
+        receivers.setTotal(new BigInteger(String.valueOf(receivers.getReceivers().size())));
+        return receivers;
+    }
+
+    @Override
+    public void createContinueUserMigrationNotification(ExternalUserEntity user) {
+        String codeSubject = "notice.subject.continue_migration_signup.title";
+        String messageCode = "notice.subject.continue_migration_signup.text";
+        String baseUrl = metadataConfigurationService.retrieveBaseUrl() + CONTINUE_SIGNUP_MIGRATED_USER_URL + user.getRegistrationToken();
+
+        createNotificationWithReceiver(codeSubject, messageCode, user, new String[]{baseUrl}, MIGRATED_USER_SIGNUP_NOTICE_FAILED);
+    }
+
+    @Override
+    public void createResetPasswordMigratedUserNotification(ExternalUserEntity user) {
+        String codeSubject = "notice.subject.migrated_user_reset_password.title";
+        String messageCode = "notice.subject.migrated_user_reset_password.text";
+        String baseUrl = metadataConfigurationService.retrieveBaseUrl() + CONTINUE_SIGNUP_MIGRATED_USER_URL + user.getRegistrationToken();
+        ArrayList<String> argsList = new ArrayList<>(Arrays.asList(argsByExternalUser(user)));
+        argsList.add(baseUrl);
+
+        createNotificationWithReceiver(codeSubject, messageCode, user, argsList.toArray(new String[0]), MIGRATED_USER_SIGNUP_NOTICE_FAILED);
+    }
+
+    @Override
+    public void createMigratedExternalUserPendingRegistrationNotification(ExternalUserEntity user) {
+        String codeSubject = "notice.subject.migrated_user_repeated_signup.title";
+        String messageCode = "notice.subject.migrated_user_repeated_signup.text";
+        String baseUrl = metadataConfigurationService.retrieveBaseUrl() + CONTINUE_SIGNUP_MIGRATED_USER_URL + user.getRegistrationToken();
+        ArrayList<String> argsList = new ArrayList<>(Arrays.asList(argsByExternalUser(user)));
+        argsList.add(baseUrl);
+
+        createNotificationWithReceiver(codeSubject, messageCode, user, argsList.toArray(new String[0]), MIGRATED_USER_SIGNUP_NOTICE_FAILED);
+    }
+
+    @Override
+    public void createNotificationWithReceivers(String message, String subject, Receivers receivers) {
+        try {
+            // @formatter:off
+            Notice notice = NoticeBuilder.notification()
+                .withMessages(MessageBuilder.message().withText(message).build(), MessageBuilder.message().withText(getLopd(null)).build())
+                .withReceivers(receivers)
+                .withSendingApplication(MetamacApplicationsEnum.GESTOR_USUARIOS_EXTERNOS.getName())
+                .withSubject(subject).build();
+            // @formatter:on
+
+            eDatosApisLocator.getNoticesRestInternalFacadeV10().createNotice(notice);
+        } catch (Exception e) {
+            log.debug("Error in sending notification : {}", e);
+        }
+    }
+
+
+    @Override
+    public Page<Notice> findNoticesByReceiver(String receiver, Pageable pageable){
+        String offset = String.valueOf(pageable.getOffset());
+        String limit = String.valueOf(pageable.getPageSize());
+        String orderBy = "desc";
+
+        Notices result =  eDatosApisLocator.getNoticesRestInternalFacadeV10().findNoticesByReceiver(receiver, orderBy, offset, limit);
+
+        return new PageImpl<Notice>(result.getNotices(), pageable, result.getTotal().intValue());
+    }
+
     private String generateTextI18n(String text, String[] args, Locale locale) {
         return messageSource.getMessage(text, args, locale);
     }
@@ -291,4 +338,13 @@ public class NotificationServiceImpl implements NotificationService {
         return LocaleContext.getDefaultLocale().toString();
     }
 
+    private Message initStyleClassMessageTemplate(){
+        String message = "<div class=\"message-content-notice\">";
+        return MessageBuilder.message().withText(message).build();
+    }
+
+    private Message finalStyleClassMessageTemplate(){
+        String message = "</div>";
+        return MessageBuilder.message().withText(message).build();
+    }
 }
