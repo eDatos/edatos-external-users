@@ -814,7 +814,8 @@
             "onSuccessSumary": "Notificació enviada",
             "onSuccess": "La notificació s'ha enviat correctament.",
             "onErrorSumary": "Notificació <strong>NO</strong> enviada",
-            "onError": "La notificació no s'ha pogut enviar. Intenti-ho més tard."
+            "onError": "La notificació no s'ha pogut enviar. Intenti-ho més tard.\n",
+            "onErrorMessage": "La notificació no s'ha pogut enviar als següents destinataris:\n"
         }
     },
     "calendar": {

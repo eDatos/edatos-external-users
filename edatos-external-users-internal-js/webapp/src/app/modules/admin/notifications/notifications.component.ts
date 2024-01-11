@@ -35,6 +35,8 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     public isSelectingResource = false;
     public selectedResources: FavoriteResource[] = [];
 
+    public failedReceivers = '';
+
     @ViewChild(AutocompleteShortListComponent)
     public selectedReceiversComponent: AutocompleteShortListComponent;
 
@@ -87,6 +89,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
         this.notification.categoriesIds = this.arrStringToArrNumber(this.filters.categories);
         this.notification.externalOperationsIds = this.arrStringToArrNumber(this.filters.externalOperations);
         this.notification.receivers = this.selectedReceivers;
+        this.notification.failedReceivers = [];
         this.subscribeToSendResponse(this.notificationService.send(this.notification));
     }
 
@@ -164,6 +167,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     public closeCategoryModal() {
         this.isSelectingResource = false;
     }
+
     public openSubjectModal() {
         this.isSubjectModalVisible = true;
     }
@@ -182,10 +186,6 @@ export class NotificationsComponent implements OnInit, OnDestroy {
         this.disableValueLanguageInput = false;
     }
 
-    private disableEditButtons() {
-        this.disableValueLanguageInput = true;
-    }
-
     private arrStringToArrNumber(arrString: string[]) {
         return arrString.map(str => {
             return Number(str);
@@ -194,15 +194,17 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
     private subscribeToSendResponse(result: Observable<Notification>) {
         result.subscribe(
-            (res: Notification) => {
-                this.onSaveSuccess();
-                this.selectedReceivers = [];
-                this.selectedReceiversComponent.writeValue([]);
-                this.notification = new Notification();
-                this.resetCategories();
-            },
-            () => {
-                this.onSaveError();
+            (response: Notification) => {
+                if (response.failedReceivers && response.failedReceivers.length > 0) {
+                    this.failedReceivers = response.failedReceivers?.map((receiver) => receiver).join(', ');
+                    this.onSaveError();
+                } else {
+                    this.onSaveSuccess();
+                    this.selectedReceivers = [];
+                    this.selectedReceiversComponent.writeValue([]);
+                    this.notification = new Notification();
+                    this.resetCategories();
+                }
             }
         );
     }

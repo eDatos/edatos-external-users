@@ -1,0 +1,19 @@
+div.failed-receivers-content {
+
+    > div {
+        padding-top: 10px;
+        border-radius: 8px;
+        font-size: 12px;
+        overflow-y: scroll;
+        max-height: 250px;
+    }
+
+    div.failed-receivers-message {
+        display: contents;
+    }
+
+    div.form-row.justify-content-end {
+        width: 5%;
+        float: right;
+    }
+}

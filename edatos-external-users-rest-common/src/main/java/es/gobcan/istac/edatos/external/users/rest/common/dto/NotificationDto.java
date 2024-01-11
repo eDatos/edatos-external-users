@@ -15,6 +15,8 @@ public class NotificationDto extends AbstractVersionedAndAuditingAndLogicalDelet
     private List<Long> categoriesIds;
     private List<Long> externalOperationsIds;
 
+    private List<String> failedReceivers;
+
     public InternationalStringDto getSubject() {
         return subject;
     }
@@ -54,4 +56,12 @@ public class NotificationDto extends AbstractVersionedAndAuditingAndLogicalDelet
     public void setExternalOperationsIds(List<Long> externalOperationsIds) {
         this.externalOperationsIds = externalOperationsIds;
     }
+
+    public List<String> getFailedReceivers() {
+        return failedReceivers;
+    }
+    public void setFailedReceivers(List<String> failedReceivers) {
+        this.failedReceivers = failedReceivers;
+    }
+
 }

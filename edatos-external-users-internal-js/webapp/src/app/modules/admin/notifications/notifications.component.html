@@ -1,183 +1,219 @@
 <div #dialogWrapper></div>
 
-<div class="page">
-    <div class="page-header page-header-top">
-        <h2 class="page-header-title">
-            <span class="page-header-title-text">{{ 'notifications.home.title' | translate }}</span>
+<div class='page'>
+    <div class='page-header page-header-top'>
+        <h2 class='page-header-title'>
+            <span class='page-header-title-text'>{{ 'notifications.home.title' | translate }}</span>
         </h2>
-        <button class="btn btn-primary mr-2" (click)="send()" [disabled]="notificationForm && notificationForm.form.invalid || !thereAreReceivers()">
-            <span class="fa fa-send"></span>
-            <span translate="notifications.form.send"></span>
+        <button class='btn btn-primary mr-2' (click)='send()'
+                [disabled]='notificationForm && notificationForm.form.invalid || !thereAreReceivers()'>
+            <span class='fa fa-send'></span>
+            <span translate='notifications.form.send'></span>
         </button>
     </div>
-    <div class="page-body">
-        <form class="page-form" id="notification-form" name="notificationForm" role="form" novalidate #notificationForm="ngForm" autocomplete="off">
-            <fieldset class="page-section" arteAutofocus>
-                <div class="row">
-                    <div class="form-group form-group-inline col-md-6">
-                        <div class="form-row">
-                            <label class="form-label col-md-4" translate="notifications.form.receivers" for="field_email"></label>
-                            <div class="col-md-8 form-input-container errors-on-hover">
+    <div class='page-body'>
+        <div class='row failed-receivers-content' *ngIf='notification.failedReceivers'>
+            <div class='form-group alert-danger col-md-12' role='alert'>
+                <div class='form-row failed-receivers-message col-md-6'>
+                    {{ 'notifications.message.onErrorMessage' | translate }}
+                    <div class='form-row justify-content-end'>
+                        <button type='button' class='btn btn-close'>
+                            <i class='fa fa-close' aria-hidden='true'></i>
+                        </button>
+                    </div>
+                </div>
+                <div class='form-row justify-content-between col-md-10'>
+                    <p>{{ failedReceivers }}</p>
+                </div>
+            </div>
+        </div>
+        <form class='page-form' id='notification-form' name='notificationForm' role='form' novalidate
+              #notificationForm='ngForm' autocomplete='off'>
+            <fieldset class='page-section' arteAutofocus>
+                <div class='row'>
+                    <div class='form-group form-group-inline col-md-6'>
+                        <div class='form-row'>
+                            <label class='form-label col-md-4' translate='notifications.form.receivers'
+                                   for='field_email'></label>
+                            <div class='col-md-8 form-input-container errors-on-hover'>
                                 <arte-autocomplete-short-list
-                                    inputId="field_email"
-                                    name="email"
-                                    (onUnselect)="onUnselectReceivers($event)"
-                                    (onSelect)="onSelectReceivers($event)"
-                                    [suggestions]="externalUsers"
-                                    dataKey="email"
+                                    inputId='field_email'
+                                    name='email'
+                                    (onUnselect)='onUnselectReceivers($event)'
+                                    (onSelect)='onSelectReceivers($event)'
+                                    [suggestions]='externalUsers'
+                                    dataKey='email'
                                     [properties]="['email']"
-                                    [multiple]="true"
+                                    [multiple]='true'
                                 >
                                 </arte-autocomplete-short-list>
-                                <div class="form-errors-messages" *hasErrors="let messages">
-                                    <span *ngFor="let m of messages">{{m}}</span>
+                                <div class='form-errors-messages' *hasErrors='let messages'>
+                                    <span *ngFor='let m of messages'>{{m}}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="form-group form-group-inline col-md-6 thematic-subscriptions">
-                        <div class="form-row">
-                            <label class="label-selected-resources col-md-4">{{'externalUser.filters.labels.categories' | translate}}</label>
-                            <div class="col-md-8 thematic-subscriptions-input">
-                                <div *ngIf="selectedResources?.length !== 0; else noSelectedResources" class="selected-resources-wrapper">
-                                    <div class="selected-resources">
-                                    <span *ngFor="let resource of selectedResources; trackBy: trackSelectedResource" class="badge badge-primary d-flex align-items-center">
-                                        <i class="pi pi-times" aria-hidden="true" (click)="deleteResource(resource)"></i>
+                <div class='row'>
+                    <div class='form-group form-group-inline col-md-6 thematic-subscriptions'>
+                        <div class='form-row'>
+                            <label
+                                class='label-selected-resources col-md-4'>{{'externalUser.filters.labels.categories' | translate}}</label>
+                            <div class='col-md-8 thematic-subscriptions-input'>
+                                <div *ngIf='selectedResources?.length !== 0; else noSelectedResources'
+                                     class='selected-resources-wrapper'>
+                                    <div class='selected-resources'>
+                                    <span *ngFor='let resource of selectedResources; trackBy: trackSelectedResource'
+                                          class='badge badge-primary d-flex align-items-center'>
+                                        <i class='pi pi-times' aria-hidden='true'
+                                           (click)='deleteResource(resource)'></i>
                                         {{resource.name.val}}
                                     </span>
                                     </div>
                                 </div>
                                 <ng-template #noSelectedResources>
-                                    <span class="no-selected-resource">{{'externalUser.filters.placeholders.noResourceSelected' | translate}}</span>
+                                    <span
+                                        class='no-selected-resource'>{{'externalUser.filters.placeholders.noResourceSelected' | translate}}</span>
                                 </ng-template>
-                                <button type="button" class="btn btn-secondary btn-sm select-resources-button" (click)="openCategoryModal()">
-                                    <i class="fa fa-hand-pointer-o mr-0" aria-hidden="true"></i>
+                                <button type='button' class='btn btn-secondary btn-sm select-resources-button'
+                                        (click)='openCategoryModal()'>
+                                    <i class='fa fa-hand-pointer-o mr-0' aria-hidden='true'></i>
                                 </button>
                             </div>
 
                             <p-dialog
-                                *ngIf="isSelectingResource"
-                                [visible]="true"
-                                [focusOnShow]="true"
-                                [modal]="true"
-                                [dismissableMask]="true"
+                                *ngIf='isSelectingResource'
+                                [visible]='true'
+                                [focusOnShow]='true'
+                                [modal]='true'
+                                [dismissableMask]='true'
                                 [header]="'externalUser.filters.labels.categories' | translate"
-                                [resizable]="false"
+                                [resizable]='false'
                                 [style]="{width: '80vw'}"
-                                [appendTo]="dialogWrapper"
-                                styleClass="ui-fluid"
+                                [appendTo]='dialogWrapper'
+                                styleClass='ui-fluid'
                                 [contentStyle]="{padding: '1.5em 2em', overflow: 'visible', 'max-height': '90vh', 'overflow-y': 'auto'}"
-                                (visibleChange)="closeCategoryModal()"
+                                (visibleChange)='closeCategoryModal()'
                             >
-                                <app-structural-resources-tree [disabled]="false" [preselectedResources]="selectedResources" mode="simpleSelect"></app-structural-resources-tree>
+                                <app-structural-resources-tree [disabled]='false'
+                                                               [preselectedResources]='selectedResources'
+                                                               mode='simpleSelect'></app-structural-resources-tree>
                                 <p-footer>
-                                    <button type="button" class="btn btn-primary" (click)="selectCategories()">
-                                        <i class="fa fa-hand-o-up" aria-hidden="true"></i>
-                                        <span translate="entity.action.select"></span>
+                                    <button type='button' class='btn btn-primary' (click)='selectCategories()'>
+                                        <i class='fa fa-hand-o-up' aria-hidden='true'></i>
+                                        <span translate='entity.action.select'></span>
                                     </button>
                                 </p-footer>
                             </p-dialog>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="form-group form-group-inline col-md-6">
-                        <div class="form-row">
-                            <label class="form-label col-md-4" translate="notifications.form.subject.label"></label>
-                            <div class="col-md-8 form-input-container form-input-container-multilanguage errors-on-hover">
-                                <span class='input-multilanguage-span' translate="notifications.form.subject.placeholder"></span>
-                                <button type="button" class="btn btn-secondary btn-sm input-multilanguage-button" (click)="openSubjectModal()">
-                                    <i class="fa fa-globe mr-0" aria-hidden="true"></i>
+                <div class='row'>
+                    <div class='form-group form-group-inline col-md-6'>
+                        <div class='form-row'>
+                            <label class='form-label col-md-4' translate='notifications.form.subject.label'></label>
+                            <div
+                                class='col-md-8 form-input-container form-input-container-multilanguage errors-on-hover'>
+                                <span class='input-multilanguage-span'
+                                      translate='notifications.form.subject.placeholder'></span>
+                                <button type='button' class='btn btn-secondary btn-sm input-multilanguage-button'
+                                        (click)='openSubjectModal()'>
+                                    <i class='fa fa-globe mr-0' aria-hidden='true'></i>
                                 </button>
                             </div>
                         </div>
-                        <div class="form-errors-messages" *hasErrors="let messages">
-                            <span *ngFor="let m of messages">{{m}}</span>
+                        <div class='form-errors-messages' *hasErrors='let messages'>
+                            <span *ngFor='let m of messages'>{{m}}</span>
                         </div>
                     </div>
                     <p-dialog
-                        *ngIf="isSubjectModalVisible"
-                        [visible]="true"
-                        [focusOnShow]="true"
-                        [modal]="true"
-                        [dismissableMask]="true"
+                        *ngIf='isSubjectModalVisible'
+                        [visible]='true'
+                        [focusOnShow]='true'
+                        [modal]='true'
+                        [dismissableMask]='true'
                         [header]="'notifications.form.subject.label' | translate"
-                        [resizable]="false"
+                        [resizable]='false'
                         [style]="{width: '50vw'}"
                         [contentStyle]="{padding: '1.5em 2em'}"
-                        [appendTo]="dialogWrapper"
-                        (visibleChange)="closeSubjectModal()"
+                        [appendTo]='dialogWrapper'
+                        (visibleChange)='closeSubjectModal()'
                     >
                         <app-multi-language-input
                             id='subject'
                             name='subject'
-                            [ngModel]="notification.subject"
-                            [locales]="availableLanguages"
+                            [ngModel]='notification.subject'
+                            [locales]='availableLanguages'
                             [inputType]="'text'"
-                            (input)="validatorValueLanguageInput(languageInputComponent.value)"
-                            [locale]="ALL_LOCALES"
+                            (input)='validatorValueLanguageInput(languageInputComponent.value)'
+                            [locale]='ALL_LOCALES'
                         ></app-multi-language-input>
                         <p-footer>
-                            <button type="button" class="btn btn-secondary" (click)="closeSubjectModal()">
-                                <i class="fa fa-times" aria-hidden="true"></i>
+                            <button type='button' class='btn btn-secondary' (click)='closeSubjectModal()'>
+                                <i class='fa fa-times' aria-hidden='true'></i>
                                 <span>{{ 'entity.action.cancel' | translate }}</span>
                             </button>
-                            <button type="button" class="btn btn-primary" (click)="saveSubjectText(notification, languageInputComponent.value)" [disabled]="disableValueLanguageInput">
-                                <i class="fa fa-save" aria-hidden="true"></i>
+                            <button type='button' class='btn btn-primary'
+                                    (click)='saveSubjectText(notification, languageInputComponent.value)'
+                                    [disabled]='disableValueLanguageInput'>
+                                <i class='fa fa-save' aria-hidden='true'></i>
                                 <span>{{ 'entity.action.save' | translate }}</span>
                             </button>
                         </p-footer>
                     </p-dialog>
                 </div>
 
-                <div class="row">
-                    <div class="form-group form-group-inline col-md-6">
-                        <div class="form-row">
-                            <label class="form-label col-md-4" translate="notifications.form.message.label"></label>
-                            <div class="col-md-8 form-input-container form-input-container-multilanguage errors-on-hover">
-                                <span class='input-multilanguage-span' translate="notifications.form.message.placeholder"></span>
-                                <button type="button" class="btn btn-secondary btn-sm input-multilanguage-button" (click)="openMessageModal()">
-                                    <i class="fa fa-globe mr-0" aria-hidden="true"></i>
+                <div class='row'>
+                    <div class='form-group form-group-inline col-md-6'>
+                        <div class='form-row'>
+                            <label class='form-label col-md-4' translate='notifications.form.message.label'></label>
+                            <div
+                                class='col-md-8 form-input-container form-input-container-multilanguage errors-on-hover'>
+                                <span class='input-multilanguage-span'
+                                      translate='notifications.form.message.placeholder'></span>
+                                <button type='button' class='btn btn-secondary btn-sm input-multilanguage-button'
+                                        (click)='openMessageModal()'>
+                                    <i class='fa fa-globe mr-0' aria-hidden='true'></i>
                                 </button>
                             </div>
                         </div>
-                        <div class="form-errors-messages" *hasErrors="let messages">
-                            <span *ngFor="let m of messages">{{m}}</span>
+                        <div class='form-errors-messages' *hasErrors='let messages'>
+                            <span *ngFor='let m of messages'>{{m}}</span>
                         </div>
                     </div>
                     <p-dialog
-                        *ngIf="isMessageModalVisible"
-                        [visible]="true"
-                        [focusOnShow]="true"
-                        [modal]="true"
-                        [dismissableMask]="true"
+                        *ngIf='isMessageModalVisible'
+                        [visible]='true'
+                        [focusOnShow]='true'
+                        [modal]='true'
+                        [dismissableMask]='true'
                         [header]="'notifications.form.message.label' | translate"
-                        [resizable]="true"
+                        [resizable]='true'
                         [style]="{width: '80vw'}"
                         [contentStyle]="{padding: '1.5em 2em'}"
-                        [appendTo]="dialogWrapper"
-                        (visibleChange)="closeMessageModal()"
+                        [appendTo]='dialogWrapper'
+                        (visibleChange)='closeMessageModal()'
                     >
                         <app-multi-language-input
                             pInputTextarea
-                            autoResize="autoResize"
-                            [ngModel]="notification.message"
-                            [locales]="availableLanguages"
+                            autoResize='autoResize'
+                            [ngModel]='notification.message'
+                            [locales]='availableLanguages'
                             [inputType]="'textarea'"
                             name='message'
                             id='message'
-                            (input)="validatorValueLanguageInput(languageInputComponent.value)"
-                            [locale]="ALL_LOCALES"
+                            (input)='validatorValueLanguageInput(languageInputComponent.value)'
+                            [locale]='ALL_LOCALES'
                         ></app-multi-language-input>
                         <p-footer>
-                            <button type="button" class="btn btn-secondary" (click)="closeMessageModal()">
-                                <i class="fa fa-times" aria-hidden="true"></i>
+                            <button type='button' class='btn btn-secondary' (click)='closeMessageModal()'>
+                                <i class='fa fa-times' aria-hidden='true'></i>
                                 <span>{{ 'entity.action.cancel' | translate }}</span>
                             </button>
-                            <button type="button" class="btn btn-primary" (click)="saveMessageText(notification, languageInputComponent.value)" [disabled]="disableValueLanguageInput">
-                                <i class="fa fa-save" aria-hidden="true"></i>
+                            <button type='button' class='btn btn-primary'
+                                    (click)='saveMessageText(notification, languageInputComponent.value)'
+                                    [disabled]='disableValueLanguageInput'>
+                                <i class='fa fa-save' aria-hidden='true'></i>
                                 <span>{{ 'entity.action.save' | translate }}</span>
                             </button>
                         </p-footer>
