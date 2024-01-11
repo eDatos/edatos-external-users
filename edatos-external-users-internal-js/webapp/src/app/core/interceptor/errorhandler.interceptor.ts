@@ -4,10 +4,13 @@ import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
 import { EUsuariosAlertService } from '../service/alert/eusuarios-alert.service';
 
+export let errorErrorHandlerInterceptor: any[] = [];
+
 @Injectable({
     providedIn: 'root',
 })
 export class ErrorHandlerInterceptor implements HttpInterceptor {
+    public error: any[];
     constructor(private alertService: EUsuariosAlertService) {}
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -15,6 +18,7 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
             .handle(req)
             .pipe(
                 catchError((err) => {
+                    errorErrorHandlerInterceptor = err.error;
                     if (err instanceof HttpErrorResponse && err.error instanceof Blob) {
                         const reader: FileReader = new FileReader();
 

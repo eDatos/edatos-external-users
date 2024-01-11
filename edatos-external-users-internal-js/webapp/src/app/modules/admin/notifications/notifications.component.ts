@@ -1,4 +1,6 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { errorErrorHandlerInterceptor } from '@app/core/interceptor';
 import { ExternalUser, Notification } from '@app/core/model';
 import { ExternalUserService } from '@app/core/service';
 import { MultiLanguageInputComponent } from '@app/shared/components/multi-language-input';
@@ -195,16 +197,16 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     private subscribeToSendResponse(result: Observable<Notification>) {
         result.subscribe(
             (response: Notification) => {
-                if (response.failedReceivers && response.failedReceivers.length > 0) {
-                    this.failedReceivers = response.failedReceivers?.map((receiver) => receiver).join(', ');
-                    this.onSaveError();
-                } else {
-                    this.onSaveSuccess();
-                    this.selectedReceivers = [];
-                    this.selectedReceiversComponent.writeValue([]);
-                    this.notification = new Notification();
-                    this.resetCategories();
-                }
+                this.onSaveSuccess();
+                this.selectedReceivers = [];
+                this.selectedReceiversComponent.writeValue([]);
+                this.notification = new Notification();
+                this.resetCategories();
+            },
+            () => {
+                this.notification.failedReceivers = errorErrorHandlerInterceptor['failedReceivers'];
+                this.failedReceivers = errorErrorHandlerInterceptor['failedReceivers']?.map((receiver) => receiver).join(', ');
+                this.onSaveError();
             }
         );
     }

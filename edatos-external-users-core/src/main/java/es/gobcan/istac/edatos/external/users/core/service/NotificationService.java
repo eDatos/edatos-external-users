@@ -35,4 +35,6 @@ public interface NotificationService {
     void createResetPasswordMigratedUserNotification(ExternalUserEntity user);
     void createMigratedExternalUserPendingRegistrationNotification(ExternalUserEntity user);
 
+    List<String> getFailedNoticeReceivers();
+
 }

@@ -18,21 +18,16 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.stream.Collectors;
+
 import javax.ws.rs.core.Response;
+
 import org.siemac.edatos.core.common.dto.InternationalStringDto;
-import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
-import es.gobcan.istac.edatos.external.users.core.domain.FavoriteEntity;
-import es.gobcan.istac.edatos.external.users.core.service.DataProtectionPolicyService;
-import es.gobcan.istac.edatos.external.users.core.service.EDatosApisLocator;
-import es.gobcan.istac.edatos.external.users.core.service.ExternalUserService;
-import es.gobcan.istac.edatos.external.users.core.service.MetadataConfigurationService;
-import es.gobcan.istac.edatos.external.users.core.service.NotificationService;
-import es.gobcan.istac.edatos.external.users.core.i18n.LocaleContext;
 import org.siemac.edatos.core.common.exception.CommonServiceExceptionType;
 import org.siemac.edatos.core.common.exception.EDatosException;
 import org.siemac.metamac.rest.notices.v1_0.domain.Message;
 import org.siemac.metamac.rest.notices.v1_0.domain.Notice;
 import org.siemac.metamac.rest.notices.v1_0.domain.Notices;
+import org.siemac.metamac.rest.notices.v1_0.domain.Receiver;
 import org.siemac.metamac.rest.notices.v1_0.domain.Receivers;
 import org.siemac.metamac.rest.notices.v1_0.domain.enume.MetamacApplicationsEnum;
 import org.siemac.metamac.rest.notices.v1_0.domain.utils.MessageBuilder;
@@ -48,7 +43,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import es.gobcan.istac.edatos.external.users.core.config.MetadataProperties;
-import es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType;
+import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
+import es.gobcan.istac.edatos.external.users.core.domain.FavoriteEntity;
+import es.gobcan.istac.edatos.external.users.core.i18n.LocaleContext;
+import es.gobcan.istac.edatos.external.users.core.service.DataProtectionPolicyService;
+import es.gobcan.istac.edatos.external.users.core.service.EDatosApisLocator;
+import es.gobcan.istac.edatos.external.users.core.service.ExternalUserService;
+import es.gobcan.istac.edatos.external.users.core.service.MetadataConfigurationService;
+import es.gobcan.istac.edatos.external.users.core.service.NotificationService;
 
 @Service
 public class NotificationServiceImpl implements NotificationService {
@@ -58,6 +60,8 @@ public class NotificationServiceImpl implements NotificationService {
     private static String RESET_PASSWORD_URL = "/#/reset-password/change-password?key=";
     private static String CONFIRM_REGISTRATION_URL = "/#/login?registration-key=";
     private static String CONTINUE_SIGNUP_MIGRATED_USER_URL = "/#/signup?registration-token=";
+
+    private List<String> failedNoticeReceivers = new ArrayList<>();
 
     @Autowired
     private MessageSource messageSource;
@@ -181,7 +185,6 @@ public class NotificationServiceImpl implements NotificationService {
 
         return receiversGroupByLanguage;
     }
-        
 
     @Override
     public void createNotificationWithReceivers(InternationalStringDto message, InternationalStringDto subject, HashMap<String, Receivers> receiversByLanguage) {
@@ -198,10 +201,15 @@ public class NotificationServiceImpl implements NotificationService {
 
                 Response createNoticeResponse = eDatosApisLocator.getNoticesRestInternalFacadeV10().createNotice(notice);
                 if (createNoticeResponse != null && createNoticeResponse.getStatusInfo().getStatusCode() >= 400) {
-                    throw new EDatosException(ServiceExceptionType.SENDING_NOTICE_FAILED);
+                    failedNoticeReceivers.addAll(receivers.getReceivers().stream().map(Receiver::getUsername).collect(Collectors.toList()));
+                    log.error("Error al enviar notificacion : {}", failedNoticeReceivers );
                 }
             }
         }
+    }
+
+    public List<String> getFailedNoticeReceivers() {
+        return failedNoticeReceivers;
     }
 
     private String[] argsByExternalUser(ExternalUserEntity externalUserEntity) {
@@ -255,7 +263,7 @@ public class NotificationServiceImpl implements NotificationService {
         allReceiversEmails.addAll(usersSubscribedToCategoriesAndOperations.stream().map(ExternalUserEntity::getEmail).collect(Collectors.toList()));
 
         Receivers receivers = new Receivers();
-        for(String email : allReceiversEmails) {
+        for (String email : allReceiversEmails) {
             receivers.getReceivers().add(ReceiverBuilder.receiver().withUsername(email).build());
         }
         receivers.setTotal(new BigInteger(String.valueOf(receivers.getReceivers().size())));
@@ -310,14 +318,13 @@ public class NotificationServiceImpl implements NotificationService {
         }
     }
 
-
     @Override
-    public Page<Notice> findNoticesByReceiver(String receiver, Pageable pageable){
+    public Page<Notice> findNoticesByReceiver(String receiver, Pageable pageable) {
         String offset = String.valueOf(pageable.getOffset());
         String limit = String.valueOf(pageable.getPageSize());
         String orderBy = "desc";
 
-        Notices result =  eDatosApisLocator.getNoticesRestInternalFacadeV10().findNoticesByReceiver(receiver, orderBy, offset, limit);
+        Notices result = eDatosApisLocator.getNoticesRestInternalFacadeV10().findNoticesByReceiver(receiver, orderBy, offset, limit);
 
         return new PageImpl<Notice>(result.getNotices(), pageable, result.getTotal().intValue());
     }
@@ -338,12 +345,12 @@ public class NotificationServiceImpl implements NotificationService {
         return LocaleContext.getDefaultLocale().toString();
     }
 
-    private Message initStyleClassMessageTemplate(){
+    private Message initStyleClassMessageTemplate() {
         String message = "<div class=\"message-content-notice\">";
         return MessageBuilder.message().withText(message).build();
     }
 
-    private Message finalStyleClassMessageTemplate(){
+    private Message finalStyleClassMessageTemplate() {
         String message = "</div>";
         return MessageBuilder.message().withText(message).build();
     }

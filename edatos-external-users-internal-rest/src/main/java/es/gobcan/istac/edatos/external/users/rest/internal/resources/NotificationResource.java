@@ -40,6 +40,7 @@ public class NotificationResource extends AbstractResource {
 
         if (!notificationService.getFailedNoticeReceivers().isEmpty()) {
             notificationDto.setFailedReceivers(notificationService.getFailedNoticeReceivers());
+            return ResponseEntity.badRequest().body(notificationDto);
         }
 
         return ResponseEntity.ok(notificationDto);
