@@ -12,12 +12,12 @@
         </button>
     </div>
     <div class='page-body'>
-        <div class='row failed-receivers-content' *ngIf='notification.failedReceivers'>
+        <div class='row failed-receivers-content' *ngIf='thereAreFailedReceivers'>
             <div class='form-group alert-danger col-md-12' role='alert'>
                 <div class='form-row failed-receivers-message col-md-6'>
                     {{ 'notifications.message.onErrorMessage' | translate }}
                     <div class='form-row justify-content-end'>
-                        <button type='button' class='btn btn-close'>
+                        <button type='button' class='btn btn-close' (click)='closeFailedReceivers()'>
                             <i class='fa fa-close' aria-hidden='true'></i>
                         </button>
                     </div>

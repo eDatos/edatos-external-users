@@ -38,6 +38,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     public selectedResources: FavoriteResource[] = [];
 
     public failedReceivers = '';
+    public thereAreFailedReceivers = false;
 
     @ViewChild(AutocompleteShortListComponent)
     public selectedReceiversComponent: AutocompleteShortListComponent;
@@ -188,6 +189,10 @@ export class NotificationsComponent implements OnInit, OnDestroy {
         this.disableValueLanguageInput = false;
     }
 
+    public closeFailedReceivers() {
+        this.thereAreFailedReceivers = false;
+    }
+
     private arrStringToArrNumber(arrString: string[]) {
         return arrString.map(str => {
             return Number(str);
@@ -204,6 +209,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
                 this.resetCategories();
             },
             () => {
+                this.thereAreFailedReceivers = true;
                 this.notification.failedReceivers = errorErrorHandlerInterceptor['failedReceivers'];
                 this.failedReceivers = errorErrorHandlerInterceptor['failedReceivers']?.map((receiver) => receiver).join(', ');
                 this.onSaveError();
