@@ -1,10 +1,8 @@
+import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
 import { EUsuariosAlertService } from '../service/alert/eusuarios-alert.service';
-
-export let errorErrorHandlerInterceptor: any[] = [];
 
 @Injectable({
     providedIn: 'root',
@@ -18,7 +16,6 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
             .handle(req)
             .pipe(
                 catchError((err) => {
-                    errorErrorHandlerInterceptor = err.error;
                     if (err instanceof HttpErrorResponse && err.error instanceof Blob) {
                         const reader: FileReader = new FileReader();
 

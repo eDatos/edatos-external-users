@@ -24,7 +24,7 @@ public interface NotificationService {
 
     void createNoticeOfSusbcritionsJob(List<FavoriteEntity> listFavorites);
 
-    void createNotificationWithReceivers(InternationalStringDto message, InternationalStringDto subject, HashMap<String, Receivers> receivers);
+    List<String> createNotificationWithReceivers(InternationalStringDto message, InternationalStringDto subject, HashMap<String, Receivers> receivers);
     HashMap<String, Receivers> createReceiversGroupedByLanguage(List<String> emails, List<Long> categories, List<Long> externalOperations);
 
     void createNotificationWithReceivers(String message, String subject, Receivers receivers);
@@ -34,7 +34,5 @@ public interface NotificationService {
     void createContinueUserMigrationNotification(ExternalUserEntity user);
     void createResetPasswordMigratedUserNotification(ExternalUserEntity user);
     void createMigratedExternalUserPendingRegistrationNotification(ExternalUserEntity user);
-
-    List<String> getFailedNoticeReceivers();
 
 }

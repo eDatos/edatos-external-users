@@ -1,8 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { errorErrorHandlerInterceptor } from '@app/core/interceptor';
 import { ExternalUser, Notification } from '@app/core/model';
 import { ExternalUserService } from '@app/core/service';
+import { errorErrorMessage } from '@app/core/service/alert/eusuarios-alert.service';
 import { MultiLanguageInputComponent } from '@app/shared/components/multi-language-input';
 import { ALL_LOCALES } from '@app/shared/components/multi-language-input/multi-language-input.constants';
 import { CategoryService, LanguageService, NotificationService } from '@app/shared/service';
@@ -92,7 +92,6 @@ export class NotificationsComponent implements OnInit, OnDestroy {
         this.notification.categoriesIds = this.arrStringToArrNumber(this.filters.categories);
         this.notification.externalOperationsIds = this.arrStringToArrNumber(this.filters.externalOperations);
         this.notification.receivers = this.selectedReceivers;
-        this.notification.failedReceivers = [];
         this.subscribeToSendResponse(this.notificationService.send(this.notification));
     }
 
@@ -159,6 +158,13 @@ export class NotificationsComponent implements OnInit, OnDestroy {
             (this.filters.externalOperations && this.filters.externalOperations.length);
     }
 
+    public isDisabledForSend() {
+        return !this.thereAreReceivers() || !this.thereAreContentMail();
+    }
+    public thereAreContentMail() {
+        return (this.notification.subject && this.notification.subject.texts.length) && (this.notification.message && this.notification.message.texts.length);
+    }
+
     public trackSelectedResource(index: number, item: FavoriteResource) {
         return `${item.id}${item.favoriteType}`;
     }
@@ -172,21 +178,21 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     }
 
     public openSubjectModal() {
+        this.disableValueLanguageInput = this.notification.subject.texts.length === 0;
         this.isSubjectModalVisible = true;
     }
 
     public closeSubjectModal() {
         this.isSubjectModalVisible = false;
-        this.disableValueLanguageInput = false;
     }
 
     public openMessageModal() {
+        this.disableValueLanguageInput = this.notification.message.texts.length === 0;
         this.isMessageModalVisible = true;
     }
 
     public closeMessageModal() {
         this.isMessageModalVisible = false;
-        this.disableValueLanguageInput = false;
     }
 
     public closeFailedReceivers() {
@@ -203,6 +209,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
         result.subscribe(
             (response: Notification) => {
                 this.onSaveSuccess();
+                this.thereAreFailedReceivers = false;
                 this.selectedReceivers = [];
                 this.selectedReceiversComponent.writeValue([]);
                 this.notification = new Notification();
@@ -210,8 +217,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
             },
             () => {
                 this.thereAreFailedReceivers = true;
-                this.notification.failedReceivers = errorErrorHandlerInterceptor['failedReceivers'];
-                this.failedReceivers = errorErrorHandlerInterceptor['failedReceivers']?.map((receiver) => receiver).join(', ');
+                this.failedReceivers = errorErrorMessage['failedReceivers']?.map((receiver) => receiver).join(', ');
                 this.onSaveError();
             }
         );

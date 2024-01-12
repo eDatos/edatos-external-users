@@ -1,6 +1,7 @@
 package es.gobcan.istac.edatos.external.users.rest.internal.resources;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -33,13 +34,12 @@ public class NotificationResource extends AbstractResource {
     @PostMapping
     @PreAuthorize("@secChecker.canSendNotification(authentication)")
     public ResponseEntity<NotificationDto> send(@Valid @RequestBody NotificationDto notificationDto) {
-        notificationService.getFailedNoticeReceivers().clear();
         HashMap<String, Receivers> receiversByLanguage = notificationService.createReceiversGroupedByLanguage(notificationDto.getReceivers(), notificationDto.getCategoriesIds(),
                 notificationDto.getExternalOperationsIds());
-        notificationService.createNotificationWithReceivers(notificationDto.getMessage(), notificationDto.getSubject(), receiversByLanguage);
+        List<String> failedNoticeReceivers = notificationService.createNotificationWithReceivers(notificationDto.getMessage(), notificationDto.getSubject(), receiversByLanguage);
 
-        if (!notificationService.getFailedNoticeReceivers().isEmpty()) {
-            notificationDto.setFailedReceivers(notificationService.getFailedNoticeReceivers());
+        if (!failedNoticeReceivers.isEmpty()) {
+            notificationDto.setFailedReceivers(failedNoticeReceivers);
             return ResponseEntity.badRequest().body(notificationDto);
         }
 

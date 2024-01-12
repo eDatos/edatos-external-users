@@ -61,8 +61,6 @@ public class NotificationServiceImpl implements NotificationService {
     private static String CONFIRM_REGISTRATION_URL = "/#/login?registration-key=";
     private static String CONTINUE_SIGNUP_MIGRATED_USER_URL = "/#/signup?registration-token=";
 
-    private List<String> failedNoticeReceivers = new ArrayList<>();
-
     @Autowired
     private MessageSource messageSource;
 
@@ -187,7 +185,8 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public void createNotificationWithReceivers(InternationalStringDto message, InternationalStringDto subject, HashMap<String, Receivers> receiversByLanguage) {
+    public List<String> createNotificationWithReceivers(InternationalStringDto message, InternationalStringDto subject, HashMap<String, Receivers> receiversByLanguage) {
+        List<String> failedNoticeReceivers = new ArrayList<>();
         for (String language : receiversByLanguage.keySet()) {
             Receivers receivers = receiversByLanguage.get(language);
             if (receivers.getTotal() != null && receivers.getTotal().intValue() > 0) {
@@ -206,11 +205,9 @@ public class NotificationServiceImpl implements NotificationService {
                 }
             }
         }
-    }
-
-    public List<String> getFailedNoticeReceivers() {
         return failedNoticeReceivers;
     }
+
 
     private String[] argsByExternalUser(ExternalUserEntity externalUserEntity) {
         return new String[]{externalUserEntity.getName(), externalUserEntity.getSurname1(), externalUserEntity.getEmail()};

@@ -6,7 +6,7 @@
             <span class='page-header-title-text'>{{ 'notifications.home.title' | translate }}</span>
         </h2>
         <button class='btn btn-primary mr-2' (click)='send()'
-                [disabled]='notificationForm && notificationForm.form.invalid || !thereAreReceivers()'>
+                [disabled]='notificationForm && notificationForm.form.invalid || isDisabledForSend()'>
             <span class='fa fa-send'></span>
             <span translate='notifications.form.send'></span>
         </button>
@@ -34,9 +34,10 @@
                     <div class='form-group form-group-inline col-md-6'>
                         <div class='form-row'>
                             <label class='form-label col-md-4' translate='notifications.form.receivers'
-                                   for='field_email'></label>
+                                   for='email'></label>
                             <div class='col-md-8 form-input-container errors-on-hover'>
                                 <arte-autocomplete-short-list
+                                    id='email'
                                     inputId='field_email'
                                     name='email'
                                     (onUnselect)='onUnselectReceivers($event)'
@@ -109,7 +110,7 @@
                     </div>
                 </div>
                 <div class='row'>
-                    <div class='form-group form-group-inline col-md-6'>
+                    <div class='form-group form-group-inline col-md-6 required'>
                         <div class='form-row'>
                             <label class='form-label col-md-4' translate='notifications.form.subject.label'></label>
                             <div
@@ -164,7 +165,7 @@
                 </div>
 
                 <div class='row'>
-                    <div class='form-group form-group-inline col-md-6'>
+                    <div class='form-group form-group-inline col-md-6 required'>
                         <div class='form-row'>
                             <label class='form-label col-md-4' translate='notifications.form.message.label'></label>
                             <div
