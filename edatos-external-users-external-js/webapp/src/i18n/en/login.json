@@ -20,7 +20,8 @@
       "init": {
         "title": "Recover password",
         "email": "Email",
-        "send": "Send"
+        "send": "Send",
+        "successSending": "Email sent successfully. Please check your inbox."
       },
       "finish": {
         "title": "Change password"

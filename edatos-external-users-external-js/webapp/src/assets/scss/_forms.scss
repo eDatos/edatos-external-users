@@ -79,6 +79,10 @@ fieldset:enabled {
   /* END PRIMENG */
 }
 
+body .ui-fluid .ui-autocomplete.ui-autocomplete-dd > .ui-inputtext {
+  padding-left: 10px;
+}
+
 .form-input-container {
   position: relative;
 
@@ -162,5 +166,29 @@ ul {
 label.label-h2 {
   font-size: $size-28;
 }
+
+fieldset.page-section {
+
+  div.row {
+    margin-right: 0px;
+  }
+
+  div.form-section {
+    border-radius: 0.5rem;
+  }
+
+  input.ui-inputtext, textarea.ui-inputtext {
+    box-shadow: 0 0 0.1rem rgba(0, 0, 0, 1);
+    border-radius: 0.3rem;
+    padding-left: 10px;
+    font-size: $size-14;
+    background: $color-negro-0 !important;
+  }
+
+  input.ui-inputtext {
+    height: 30px;
+  }
+}
+
 
 /* END FORMULARIO */

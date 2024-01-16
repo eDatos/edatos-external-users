@@ -5,15 +5,16 @@
 
 .subsection-tab .nav {
   background-color: $color-azul-oscuro-5;
+
+  .nav-link {
+    padding: 0.55rem 1rem;
+    cursor: pointer;
+  }
 }
 
 .subsection-tab.detail-tab .nav {
   background-color: $color-azul-10;
   margin-top: 20px;
-
-  .nav-link {
-    cursor: pointer;
-  }
 }
 
 .section-tab .nav, .subsection-tab .nav {
@@ -36,8 +37,6 @@
 .section-tab .nav-pills .nav-link, .subsection-tab .nav-tabs .nav-link {
   font-weight: $font-weight-300;
   color: $color-azul-oscuro-100;
-  /* identical to box height */
-  line-height: 20px;
 }
 
 .section-tab .nav-pills .nav-link.active {

@@ -20,7 +20,8 @@
       "init": {
         "title": "Recuperar contraseña",
         "email": "Correo electrónico",
-        "send": "Enviar"
+        "send": "Enviar",
+        "successSending": "Su solicitud ha sido enviada con exito. \n\nPor favor, revise su correo electrónico y siga los pasos."
       },
       "finish": {
         "title": "Cambiar contraseña"

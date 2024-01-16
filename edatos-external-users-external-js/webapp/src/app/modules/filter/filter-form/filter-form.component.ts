@@ -8,7 +8,7 @@ import { finalize } from 'rxjs/operators';
 
 @Component({
     selector: 'app-filter-form',
-    templateUrl: './filter-form.component.html',
+    templateUrl: './filter-form.component.html'
 })
 export class FilterFormComponent implements OnInit {
     public inEditMode = false;
@@ -16,6 +16,8 @@ export class FilterFormComponent implements OnInit {
     public isLoading = false;
     public filter: Filter;
     public account: any;
+
+    public urlPermalink: boolean = false;
 
     constructor(
         private filterService: FilterService,
@@ -35,38 +37,20 @@ export class FilterFormComponent implements OnInit {
         this.account = this.activatedRoute.snapshot.data.user;
     }
 
-    public toggleEditMode(): void {
-        this.inEditMode = !this.inEditMode;
-    }
-
-    public cancel(): void {
-        this.updateData();
-    }
 
     public edit(): void {
-        this.toggleEditMode();
+        this.router.navigate([`../${this.filter.id}/edit`], { relativeTo: this.activatedRoute });
     }
 
-    public submit(): void {
-        this.toggleIsSaving();
+    public onCopyUrlPermalinkSuccess() {
+        this.urlPermalink = true;
+        setTimeout(() => {
+            this.urlPermalink = false;
+        }, 3000);
+    }
 
-        if (this.filter.id == null) {
-            this.filter.externalUser = this.account;
-            this.filterService
-                .save(this.filter)
-                .pipe(finalize(() => this.toggleIsSaving()))
-                .subscribe((filter) => {
-                    this.router.navigate([`../${filter.id}`], { relativeTo: this.activatedRoute });
-                });
-        } else {
-            this.filterService
-                .update(this.filter)
-                .pipe(finalize(() => this.toggleIsSaving()))
-                .subscribe((filter) => {
-                    this.filter = filter;
-                    this.toggleEditMode();
-                });
-        }
+    public openSelfLink(selfLink: string) {
+        window.open(selfLink, '_blank');
     }
 
     public delete() {
@@ -81,18 +65,6 @@ export class FilterFormComponent implements OnInit {
             });
     }
 
-    private toggleIsSaving(): void {
-        this.isSaving = !this.isSaving;
-    }
-
-    private updateData(): void {
-        this.showSpinner();
-        this.filterService.get(this.filter.id).subscribe((filter) => {
-            this.filter = filter;
-            this.hideSpinner();
-            this.toggleEditMode();
-        });
-    }
 
     private showSpinner(): void {
         this.isLoading = true;

@@ -1,15 +1,26 @@
-<div class="modal-header">
-    <p class="modal-title" id="myActorLabel">
-        <span class="mr-3">
-            <i class="fa"></i>
-        </span>
-        <strong><span translate="entity.action.about"></span></strong>
-    </p>
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="clear()">&times;</button>
-</div>
-<div class="modal-body">
-    <div>
-        <p><span translate="global.version"></span> : {{version}}</p>
+<div class='page'>
+    <div class='page-header'>
+        <div class='page-header-top'>
+            <span class='page-header-title-text' translate='entity.action.about'></span>
+            <div class='general-buttons row'>
+                <ng-container>
+                    <div class='row justify-content-end ml-auto'>
+                        <button type='button' class='close' data-dismiss='modal' aria-hidden='true' (click)='clear()'>
+                            &times;
+                        </button>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+    <div class='page-body'>
+        <div class='row success-sending-message'>
+            <div class='form-group'>
+                <div class='col-md-12 justify-content-md-center text-center'>
+                    <p><span translate='global.version'></span> : {{version}}</p>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
-<div class="modal-footer"></div>

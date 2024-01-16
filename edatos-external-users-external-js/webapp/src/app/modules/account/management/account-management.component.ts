@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Language, User } from '@app/core/model';
+import { User } from '@app/core/model';
 import { AccountUserService } from '@app/core/service/user';
 import { TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 import { CodelistService } from '@app/shared/service';
-import { ItemCode } from '@app/shared';
+import { DeleteConfirmDialogComponent } from '@app/modules/account';
+import { GenericModalService } from 'arte-ng/services';
+import { LoginService } from '@app/core/service';
+import { SharedRefreshService } from '@app/shared/service/shared-refresh.service';
 
 @Component({
     selector: 'ac-account-management',
@@ -15,16 +18,12 @@ import { ItemCode } from '@app/shared';
 export class AccountManagementComponent implements OnInit {
     error: string;
     success: string;
-    public isSaving: Boolean;
     public account: User;
 
-    public nationality: ItemCode;
-    public gender: ItemCode;
-
-    public languageEnum = Language;
-
-    public countries: ItemCode[] = [];
-    public genders: ItemCode[] = [];
+    public nationality: string;
+    public gender: string;
+    public language: string;
+    public emailNotificationsEnabled: string;
 
     public downloadingPdf = false;
 
@@ -34,59 +33,16 @@ export class AccountManagementComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private messageService: MessageService,
-        private translateService: TranslateService
+        private translateService: TranslateService,
+        private genericModalService: GenericModalService,
+        private loginService: LoginService,
+        private sharedService: SharedRefreshService
     ) {
     }
 
     ngOnInit() {
-        this.isSaving = false;
         this.account = this.route.snapshot.data.user;
-        this.getNationalities(this.account.nationality);
-        this.getGenders(this.account.gender);
-    }
-
-    public save() {
-        this.isSaving = true;
-        this.account.nationality = this.nationality ? this.nationality.id : null;
-        this.account.gender = this.gender ? this.gender.id : null;
-        this.userService.update(this.account).subscribe(
-            () => {
-                this.onSuccess();
-            },
-            () => {
-                this.success = null;
-                this.error = 'ERROR';
-                this.isSaving = false;
-            }
-        );
-    }
-
-    public clear() {
-        const returnPath = ['account-management'];
-        this.router.navigate(returnPath);
-    }
-
-
-    public isEditMode(): Boolean {
-        if (this.route.snapshot.url.length == 0) {
-            return false;
-        }
-        const lastPath = this.route.snapshot.url[this.route.snapshot.url.length - 1].path;
-        return lastPath === 'edit';
-    }
-
-    private onSuccess() {
-        this.messageService.add({
-            key: 'customAlertKey',
-            severity: 'success',
-            summary: this.translateService.instant('account.messages.onSuccessSumary'),
-            detail: this.translateService.instant('account.messages.onSuccess'),
-            life: 5000
-        });
-        this.error = null;
-        this.success = 'OK';
-        this.isSaving = false;
-        this.router.navigate(['account-management']);
+        this.mapperDataAccount(this.account);
     }
 
     public download(event: Event) {
@@ -105,27 +61,49 @@ export class AccountManagementComponent implements OnInit {
         );
     }
 
-    private getNationalities(code?: any) {
-        this.codeListService.findAllCountries().subscribe((response) => {
-            this.countries = response;
-        });
+    public openDeleteDialog() {
+        this.userService
+            .getLogueado()
+            .toPromise()
+            .then((account) => {
+                const modalRef = this.genericModalService.open(DeleteConfirmDialogComponent as Component, { user: { ...account } }, { container: '.app' });
+                modalRef.result.subscribe((isDelete) => this.onDeleteSuccess(isDelete));
+            });
+    }
 
-        if (code) {
+    private onDeleteSuccess(isDelete: boolean) {
+        if (isDelete) {
+            this.loginService.logout().then(() => this.router.navigate(['login']));
+            this.sharedService.triggerRefresh();
+            this.sharedService.triggerRefreshForceValue(false);
+        }
+    }
+
+
+    private getNationalities(code?: any) {
+        if (!code) {
+            this.nationality = '';
+        } else {
             this.codeListService.findNationality(code).subscribe((response) => {
-                this.nationality = response;
+                this.nationality = response.name;
             });
         }
     }
 
     private getGenders(code?: any) {
-        this.codeListService.findAllGenders().subscribe((response) => {
-            this.genders = response;
-        });
-
-        if (code) {
+        if (!code) {
+            this.gender = '';
+        } else {
             this.codeListService.findGender(code).subscribe((response) => {
-                this.gender = response;
+                this.gender = response.name;
             });
         }
+    }
+
+    private mapperDataAccount(account: User) {
+        this.getNationalities(this.account.nationality);
+        this.getGenders(this.account.gender);
+        this.language = this.translateService.instant('language.' + this.account.language);
+        this.emailNotificationsEnabled = this.account.emailNotificationsEnabled ? this.translateService.instant('global.yes') : this.translateService.instant('global.no');
     }
 }

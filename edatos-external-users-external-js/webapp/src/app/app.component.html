@@ -1,6 +1,10 @@
 <jhi-navbar></jhi-navbar>
 <div class='app'>
-    <app-navbar></app-navbar>
+    <div class='container'>
+        <div class='col col-12'>
+            <app-navbar></app-navbar>
+        </div>
+    </div>
     <div class='h-100 ui-fluid'>
         <p-toast [key]='errorAlertKey' styleClass='toast-errors' [autoZIndex]='false'>
             <ng-template let-message pTemplate='message'>
@@ -14,8 +18,12 @@
                 <div class='ui-toast-detail' [innerHTML]='message.detail'></div>
             </ng-template>
         </p-toast>
-        <app-sub-navbar *ngIf='isAuthenticated'></app-sub-navbar>
-        <router-outlet></router-outlet>
+        <div class='container'>
+            <div class='col col-12'>
+                <app-sub-navbar *ngIf='isAuthenticated'></app-sub-navbar>
+                <router-outlet></router-outlet>
+            </div>
+        </div>
         <router-outlet name='popup'></router-outlet>
     </div>
 </div>

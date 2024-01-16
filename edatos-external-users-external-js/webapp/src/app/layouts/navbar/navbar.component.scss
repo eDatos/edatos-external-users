@@ -5,39 +5,88 @@
 Navbar
 ========================================================================== */
 .navbar-version {
-    font-size: 10px;
-    color: $grey-lightest;
-    display: inline-block;
-    vertical-align: text-bottom;
+  font-size: 10px;
+  color: $grey-lightest;
+  display: inline-block;
+  vertical-align: text-bottom;
 }
 
 .navbar {
-    min-height: $navbar-height;
-    background-color: $istac-gray;
-    padding-left: $page-padding-left;
-    padding-right: $page-padding-right;
-    .dropdown-item.active,
-    .dropdown-item.active:focus,
-    .dropdown-item.active:hover {
-        background-color: $istac-gray-dark;
+  min-height: $navbar-height;
+  background-color: $color-negro-0;
+  padding-left: $page-padding-left;
+  padding-right: 19px;
+
+  .dropdown-item.active,
+  .dropdown-item.active:focus,
+  .dropdown-item.active:hover {
+    background-color: $color-azul-25;
+    color: $color-negro-100;
+
+  }
+
+  ul.navbar-nav {
+    //  color: $color-azul-10;
+    .nav-item {
+      white-space: nowrap;
+
+      &.active {
+        background: transparent;
+      }
+
+      ul.dropdown-menu-right.show {
+        margin: 0px;
+        top: 38px;
+        background-color: $color-azul-oscuro-100;
+        border-radius: 6px;
+      }
     }
-    ul.navbar-nav {
-        .nav-item {
-            white-space: nowrap;
-            &.active {
-                background: $istac-gray-dark;
-            }
-        }
-    }
+  }
+}
+
+.nav-item.active {
+  background: transparent;
+}
+
+ul.dropdown-menu {
+  hr {
+    color: $color-azul-25;
+    border-top: 1px solid;
+  }
+}
+
+ul.dropdown-menu li {
+  padding: 0 8px;
+}
+
+.dropdown-item {
+  color: $color-negro-0;
+  padding: 5px;
+}
+
+.dropdown-item:hover {
+  color: $color-negro-100;
+  background-color: $color-azul-25;
+  border-radius: 3px;
+}
+
+
+a.nav-link {
+  color: $color-azul-oscuro-50;
+}
+
+
+li:hover a.nav-link, li.show a.nav-link {
+  color: $color-azul-oscuro-100;
 }
 
 .navbar-title {
-    display: inline-block;
-    vertical-align: middle;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .dialog-btn-pointer {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 /* ==========================================================================
@@ -45,19 +94,19 @@ Logo styles
 ========================================================================== */
 
 .navbar-brand {
-    &.logo {
-        .logo-img {
-            height: $navbar-content-height;
-            margin-right: 15px;
-        }
+  &.logo {
+    .logo-img {
+      height: $navbar-content-height;
+      margin-right: 15px;
     }
+  }
 }
 
 @include media-breakpoint-down(sm) {
-    $page-padding-left: 15px;
-    $page-padding-right: 15px;
-    .app-navbar {
-        padding-left: $page-padding-left;
-        padding-right: $page-padding-right;
-    }
+  $page-padding-left: 15px;
+  $page-padding-right: 15px;
+  .app-navbar {
+    padding-left: $page-padding-left;
+    padding-right: $page-padding-right;
+  }
 }

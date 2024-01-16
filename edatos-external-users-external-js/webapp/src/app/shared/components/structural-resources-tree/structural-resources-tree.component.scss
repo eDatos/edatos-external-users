@@ -1,30 +1,21 @@
 :host ::ng-deep .ui-tree {
-    .ui-tree-container {
-        padding-left: 1.2em;
-    }
+  .ui-tree-container {
+    padding-left: 1.2em;
+  }
 
-    .ui-tree-container .ui-treenode .ui-treenode-content .ui-treenode-label.ui-state-highlight {
-        color: inherit;
-        background-color: inherit;
-    }
+  .ui-tree-container .ui-treenode .ui-treenode-content .ui-treenode-label.ui-state-highlight {
+    color: inherit;
+    background-color: inherit;
+  }
 
-    .ui-tree-container .ui-treenode .ui-treenode-content .ui-tree-toggler {
-        margin-left: -1.125em;
-    }
+  .ui-tree-container .ui-treenode .ui-treenode-content .ui-tree-toggler {
+    margin-left: -1.125em;
+  }
 
-    .ui-tree-container .ui-treenode .ui-treenode-content {
-        display: flex;
-        align-items: baseline;
-    }
+  .ui-tree-container .ui-treenode .ui-treenode-content {
+    display: flex;
+    align-items: baseline;
+  }
 }
 
-.subscribed-users {
-    color: #a5a5a5;
-}
 
-.page-body {
-    padding-bottom: 30px;
-}
-.page-section {
-    padding-bottom: 20px;
-}

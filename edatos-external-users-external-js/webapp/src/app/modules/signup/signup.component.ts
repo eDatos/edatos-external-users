@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Language, User } from '@app/core/model';
-import {ActivatedRoute, Router} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AccountUserService } from '@app/core/service/user';
 import { CaptchaService, CodelistService } from '@app/shared/service';
 import { MessageService } from 'primeng/api';
@@ -55,7 +55,7 @@ export class SignupFormComponent implements OnInit {
         private translateService: TranslateService,
         private dataProtectionPolicyService: DataProtectionPolicyService,
         private codeListService: CodelistService,
-        private activatedRoute: ActivatedRoute,
+        private activatedRoute: ActivatedRoute
     ) {
     }
 

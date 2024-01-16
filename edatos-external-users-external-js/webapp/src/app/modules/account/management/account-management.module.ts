@@ -1,11 +1,21 @@
 import { CommonModule } from '@angular/common';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { SharedModule } from '@app/shared';
 import { NbDialogModule } from '@nebular/theme';
-import { ArteAuditInfoModule, ArteAutocompleteModule, ArteCalendarModule, ArteEntityListEmptyModule, ArteSpinnerModule, ArteTriInputSwitchModule } from 'arte-ng';
+import {
+    ArteAuditInfoModule,
+    ArteAutocompleteModule,
+    ArteCalendarModule,
+    ArteEntityListEmptyModule,
+    ArteSpinnerModule,
+    ArteTriInputSwitchModule
+} from 'arte-ng';
 import { ArteDirectivesModule } from 'arte-ng/directives';
 import { AccountManagementRoutingModule } from './account-management-routing.module';
 import { AccountManagementComponent } from './account-management.component';
+import {
+    AccountManagementEditComponent
+} from '@app/modules/account/management/account-management-edit/account-management-edit.component';
 
 @NgModule({
     imports: [
@@ -19,9 +29,10 @@ import { AccountManagementComponent } from './account-management.component';
         ArteSpinnerModule,
         ArteEntityListEmptyModule,
         CommonModule,
-        ArteCalendarModule,
+        ArteCalendarModule
     ],
-    declarations: [AccountManagementComponent],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    declarations: [AccountManagementComponent, AccountManagementEditComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class AccountManagementModule {}
+export class AccountManagementModule {
+}

@@ -10,7 +10,7 @@ import { LazyLoadEvent } from 'primeng/api';
 @Component({
     selector: 'app-filter-list',
     templateUrl: './filter-list.component.html',
-    styleUrls: ['filter-list.component.scss'],
+    styleUrls: ['filter-list.component.scss']
 })
 export class FilterListComponent implements OnInit {
     public filters: Filter[] = [];
@@ -24,31 +24,32 @@ export class FilterListComponent implements OnInit {
             sortable: true,
             header: {
                 handler: 'translate',
-                translatePath: 'filter.entity.name',
-            },
+                translatePath: 'filter.entity.name'
+            }
         },
         {
             fieldName: 'createdDate',
             sortable: true,
             header: {
                 handler: 'translate',
-                translatePath: 'filter.entity.createdDate',
-            },
+                translatePath: 'filter.entity.createdDate'
+            }
         },
         {
             fieldName: 'lastAccessDate',
             sortable: true,
             header: {
                 handler: 'translate',
-                translatePath: 'filter.entity.lastAccessDate',
-            },
-        },
+                translatePath: 'filter.entity.lastAccessDate'
+            }
+        }
     ];
     private page: any;
     private reverse?: boolean;
     private predicate: any;
 
-    constructor(private filterService: FilterService, private activatedRoute: ActivatedRoute, private router: Router, private filterSearch: FilterFilter) {
+    constructor(private filterService: FilterService, private activatedRoute: ActivatedRoute, private router: Router,
+                private filterSearch: FilterFilter) {
         this.activatedRoute.data.subscribe((data) => {
             this.page = data['pagingParams'].page;
             this.reverse = data['pagingParams'].ascending;
@@ -65,12 +66,15 @@ export class FilterListComponent implements OnInit {
                         page: this.page - 1,
                         size: PAGINATION_OPTIONS.indexOf(Number(this.itemsPerPage)) > -1 ? this.itemsPerPage : ITEMS_PER_PAGE,
                         sort: this.sort(),
-                        query: this.filterSearch.toQuery(),
+                        query: this.filterSearch.toQuery()
                     })
                     .subscribe(
                         (rw) => this.onSuccess(rw),
-                        () => {}, 
-                        () => { this.filtersLoaded = true; }
+                        () => {
+                        },
+                        () => {
+                            this.filtersLoaded = true;
+                        }
                     )
             );
         });
@@ -80,11 +84,11 @@ export class FilterListComponent implements OnInit {
         const transitionParams = {
             page: this.page,
             size: PAGINATION_OPTIONS.indexOf(Number(this.itemsPerPage)) > -1 ? this.itemsPerPage : ITEMS_PER_PAGE,
-            sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc'),
+            sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
         };
         const queryParams = {
             ...this.filterSearch.toUrl(this.activatedRoute.snapshot.queryParams),
-            ...transitionParams,
+            ...transitionParams
         };
         this.router.navigate(['/filter'], { replaceUrl: true, queryParams });
     }
@@ -113,8 +117,8 @@ export class FilterListComponent implements OnInit {
             '/filter',
             {
                 page: this.page,
-                sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc'),
-            },
+                sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
+            }
         ]);
     }
 

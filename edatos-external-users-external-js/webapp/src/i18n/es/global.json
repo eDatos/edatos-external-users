@@ -1,191 +1,192 @@
 {
-    "global": {
-        "title": "EDatos External Users",
-        "version": "Versión",
-        "yes": "Sí",
-        "no": "No",
-        "browsehappy": "Está usando un navegador <strong>no actualizado</strong>. Por favor, <a href=\"http://browsehappy.com/?locale=en\">actualice su navegador</a> para mejorar su experiencia.",
-        "menu": {
-            "home": "Inicio",
-            "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
-            "entities": {
-                "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
-            },
-            "account": {
-                "main": "Cuenta",
-                "sessions": "Sesiones",
-                "login": "Iniciar sesión",
-                "logout": "Cerrar la sesión",
-                "myAccount": "Mi cuenta",
-                "notifications": "Notificaciones"
-            },
-            "admin": {
-                "main": "Administración",
-                "userManagement": "Gestión de usuarios",
-                "configuration": "Configuración",
-                "logs": "Logs",
-                "audits": "Auditoría",
-                "apidocs": "API",
-                "jhipster-needle-menu-add-admin-element": "JHipster will add additional menu entries here (do not translate!)",
-                "filter": "Consultas personalizadas",
-                "favorite": "Suscripciones temáticas"
-            },
-            "administracion": {
-                "main": "Administración"
-            }
-        },
-        "form": {
-            "email": "Correo electrónico",
-            "email.placeholder": "Su correo electrónico"
-        },
-        "messages": {
-            "validate": {
-                "email": {
-                    "required": "Se requiere un correo electrónico.",
-                    "invalid": "Su correo electrónico no es válido.",
-                    "minlength": "Se requiere que su correo electrónico tenga al menos 5 caracteres",
-                    "maxlength": "Su correo electrónico no puede tener más de 50 caracteres"
-                }
-            },
-            "recoverPasswordEmail": "Email enviado correctamente"
-        },
-        "item-count": "{{first}} - {{second}} de {{total}}",
-        "pageSizeSelector": "Tamaño de página",
-        "loading": "Cargando",
-        "alerts": {
-            "title": {
-                "info": "Información"
-            }
+  "global": {
+    "title": "EDatos External Users",
+    "version": "Versión",
+    "yes": "Sí",
+    "no": "No",
+    "browsehappy": "Está usando un navegador <strong>no actualizado</strong>. Por favor, <a href=\"http://browsehappy.com/?locale=en\">actualice su navegador</a> para mejorar su experiencia.",
+    "menu": {
+      "home": "Inicio",
+      "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
+      "entities": {
+        "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
+      },
+      "account": {
+        "main": "Cuenta",
+        "sessions": "Sesiones",
+        "login": "Iniciar sesión",
+        "logout": "Cerrar la sesión",
+        "myAccount": "Mi cuenta",
+        "notifications": "Notificaciones"
+      },
+      "admin": {
+        "main": "Administración",
+        "userManagement": "Gestión de usuarios",
+        "configuration": "Configuración",
+        "logs": "Logs",
+        "audits": "Auditoría",
+        "apidocs": "API",
+        "jhipster-needle-menu-add-admin-element": "JHipster will add additional menu entries here (do not translate!)",
+        "filter": "Consultas personalizadas",
+        "favorite": "Suscripciones temáticas"
+      },
+      "administracion": {
+        "main": "Administración"
+      }
+    },
+    "form": {
+      "email": "Correo electrónico",
+      "email.placeholder": "Su correo electrónico"
+    },
+    "messages": {
+      "validate": {
+        "email": {
+          "required": "Se requiere un correo electrónico.",
+          "invalid": "Su correo electrónico no es válido.",
+          "minlength": "Se requiere que su correo electrónico tenga al menos 5 caracteres",
+          "maxlength": "Su correo electrónico no puede tener más de 50 caracteres"
         }
+      },
+      "recoverPasswordEmail": "Email enviado correctamente"
     },
-    "entity": {
-        "action": {
-            "back": "Volver",
-            "cancel": "Cancelar",
-            "delete": "Eliminar",
-            "edit": "Editar",
-            "restore": "Restaurar",
-            "open": "Abrir",
-            "save": "Guardar",
-            "view": "Ver",
-            "filtersReset": "Reiniciar filtros",
-            "eliminar": "Eliminar",
-            "recuperar": "Recuperar",
-            "close": "Cerrar",
-            "confirm": "Confirmar",
-            "crear": "Crear",
-            "modificar": "Modificar",
-            "publishInternally": "Publicar internamente",
-            "publishExternally": "Publicar externamente",
-            "change-password": "Cambiar contraseña",
-            "data-protection-policy": "Política de protección de datos",
-            "unsubscribe": "Darse de baja",
-            "about": "Acerca de"
-        },
-        "delete": {
-            "title": "Confirmar operación de borrado"
-        },
-        "restore": {
-            "title": "Confirmar restauración"
-        },
-        "recuperar": {
-            "title": "Confirmar recuperación"
-        },
-        "eliminar": {
-            "title": "Confirmar eliminación"
-        },
-        "crear": {
-            "title": "Confirmar creación"
-        },
-        "modificar": {
-            "title": "Confirmar modificación"
-        },
-        "validation": {
-            "required": "Este campo es obligatorio.",
-            "minlength": "Este campo requiere al menos {{requiredLength}} caracteres.",
-            "maxlength": "Este campo no puede superar más de {{max}} caracteres.",
-            "min": "Este campo debe ser mayor que {{min}}.",
-            "max": "Este campo no puede ser mayor que {{max}}.",
-            "minbytes": "Este campo debe tener como mínimo {{min}} bytes.",
-            "maxbytes": "Este campo no puede tener más de {{max}} bytes.",
-            "pattern": "Este campo debe seguir el patrón {{pattern}}.",
-            "number": "Este campo debe ser un número.",
-            "datetimelocal": "Este campo debe ser una fecha y hora.",
-            "ZonedDateTimelocal": "Este campo debe ser una fecha y hora.",
-            "not-valid": "El valor de este campo no es válido"
-        },
-        "list": {
-            "empty": {
-                "sorry": "Lo sentimos.",
-                "detail": "No se han obtenido resultados que cumplan los criterios de búsqueda.",
-                "createNewIitem": "(Añadir nuevo)",
-                "writeForSuggestions": "Empiece a escribir para sugerir resultados",
-                "selectOption": "Seleccione una de las opciones disponibles",
-                "multiInput": "Escriba el valor y pulse enter para añadirlo"
-            }
-        },
-        "audits": {
-            "title": "Auditoría",
-            "createdBy": "Creado por",
-            "createdDate": "Fecha de creación",
-            "lastModifiedBy": "Modificado por",
-            "lastModifiedDate": "Fecha de modificación",
-            "deletedBy": "Eliminado por",
-            "deletionDate": "Fecha de eliminación"
-        },
-        "input": {
-            "placeholder": "Introduzca aquí el texto deseado"
-        },
-        "currency": {
-            "errors": {
-                "notANumber": "El valor introducido debe ser numérico"
-            }
-        },
-        "calendar": {
-            "placeholder": "Seleccione en el calendario la fecha deseada"
-        }
+    "item-count": "{{first}} - {{second}} de {{total}}",
+    "pageSizeSelector": "Tamaño de página",
+    "loading": "Cargando",
+    "alerts": {
+      "title": {
+        "info": "Información"
+      }
+    }
+  },
+  "entity": {
+    "action": {
+      "back": "Volver",
+      "cancel": "Cancelar",
+      "delete": "Eliminar",
+      "edit": "Editar",
+      "restore": "Restaurar",
+      "open": "Abrir",
+      "save": "Guardar",
+      "view": "Ver",
+      "accept": "Aceptar",
+      "filtersReset": "Reiniciar filtros",
+      "eliminar": "Eliminar",
+      "recuperar": "Recuperar",
+      "close": "Cerrar",
+      "confirm": "Confirmar",
+      "crear": "Crear",
+      "modificar": "Modificar",
+      "publishInternally": "Publicar internamente",
+      "publishExternally": "Publicar externamente",
+      "change-password": "Cambiar contraseña",
+      "data-protection-policy": "Política de protección de datos",
+      "unsubscribe": "Darse de baja",
+      "about": "Acerca de"
     },
-    "enum": {
-        "procStatus": {
-            "label": "Estado del ciclo de vida",
-            "DRAFT": "Borrador",
-            "INTERNALLY_PUBLISHED": "Publicado internamente",
-            "EXTERNALLY_PUBLISHED": "Publicado externamente"
-        }
+    "delete": {
+      "title": "Confirmar operación de borrado"
     },
-    "home": {
-        "pageTitle": "Bienvenido",
-        "title": "Bienvenido, {{user}}",
-        "detail": "Acceda al apartado deseado a través del menú de navegación"
+    "restore": {
+      "title": "Confirmar restauración"
     },
-    "table": {
-        "globalSearchPlaceholder": "Introducir términos de búsqueda",
-        "pageCount": "{{pageFirst}} - {{pageLast}} de {{total}}",
-        "pageReport": "{first}–{last} de {totalRecords}"
+    "recuperar": {
+      "title": "Confirmar recuperación"
+    },
+    "eliminar": {
+      "title": "Confirmar eliminación"
+    },
+    "crear": {
+      "title": "Confirmar creación"
+    },
+    "modificar": {
+      "title": "Confirmar modificación"
+    },
+    "validation": {
+      "required": "Este campo es obligatorio.",
+      "minlength": "Este campo requiere al menos {{requiredLength}} caracteres.",
+      "maxlength": "Este campo no puede superar más de {{max}} caracteres.",
+      "min": "Este campo debe ser mayor que {{min}}.",
+      "max": "Este campo no puede ser mayor que {{max}}.",
+      "minbytes": "Este campo debe tener como mínimo {{min}} bytes.",
+      "maxbytes": "Este campo no puede tener más de {{max}} bytes.",
+      "pattern": "Este campo debe seguir el patrón {{pattern}}.",
+      "number": "Este campo debe ser un número.",
+      "datetimelocal": "Este campo debe ser una fecha y hora.",
+      "ZonedDateTimelocal": "Este campo debe ser una fecha y hora.",
+      "not-valid": "El valor de este campo no es válido"
+    },
+    "list": {
+      "empty": {
+        "sorry": "Lo sentimos.",
+        "detail": "No se han obtenido resultados que cumplan los criterios de búsqueda.",
+        "createNewIitem": "(Añadir nuevo)",
+        "writeForSuggestions": "Empiece a escribir para sugerir resultados",
+        "selectOption": "Seleccione una de las opciones disponibles",
+        "multiInput": "Escriba el valor y pulse enter para añadirlo"
+      }
+    },
+    "audits": {
+      "title": "Auditoría",
+      "createdBy": "Creado por",
+      "createdDate": "Fecha de creación",
+      "lastModifiedBy": "Modificado por",
+      "lastModifiedDate": "Fecha de modificación",
+      "deletedBy": "Eliminado por",
+      "deletionDate": "Fecha de eliminación"
+    },
+    "input": {
+      "placeholder": "Introduzca aquí el texto deseado"
+    },
+    "currency": {
+      "errors": {
+        "notANumber": "El valor introducido debe ser numérico"
+      }
     },
     "calendar": {
-        "monthNames": {
-            "january": "Enero",
-            "february": "Febrero",
-            "march": "Marzo",
-            "april": "Abril",
-            "may": "Mayo",
-            "june": "Junio",
-            "july": "Julio",
-            "august": "Agosto",
-            "september": "Septiembre",
-            "october": "Octubre",
-            "november": "Noviembre",
-            "december": "Diciembre"
-        },
-        "dayNamesMin": {
-            "monday": "Lu",
-            "tuesday": "Ma",
-            "wednesday": "Mi",
-            "thursday": "Ju",
-            "friday": "Vi",
-            "saturday": "Sa",
-            "sunday": "Do"
-        }
+      "placeholder": "Seleccione en el calendario la fecha deseada"
     }
+  },
+  "enum": {
+    "procStatus": {
+      "label": "Estado del ciclo de vida",
+      "DRAFT": "Borrador",
+      "INTERNALLY_PUBLISHED": "Publicado internamente",
+      "EXTERNALLY_PUBLISHED": "Publicado externamente"
+    }
+  },
+  "home": {
+    "pageTitle": "Bienvenido",
+    "title": "Bienvenido, {{user}}",
+    "detail": "Acceda al apartado deseado a través del menú de navegación"
+  },
+  "table": {
+    "globalSearchPlaceholder": "Introducir términos de búsqueda",
+    "pageCount": "{{pageFirst}} - {{pageLast}} de {{total}}",
+    "pageReport": "{first}–{last} de {totalRecords}"
+  },
+  "calendar": {
+    "monthNames": {
+      "january": "Enero",
+      "february": "Febrero",
+      "march": "Marzo",
+      "april": "Abril",
+      "may": "Mayo",
+      "june": "Junio",
+      "july": "Julio",
+      "august": "Agosto",
+      "september": "Septiembre",
+      "october": "Octubre",
+      "november": "Noviembre",
+      "december": "Diciembre"
+    },
+    "dayNamesMin": {
+      "monday": "Lu",
+      "tuesday": "Ma",
+      "wednesday": "Mi",
+      "thursday": "Ju",
+      "friday": "Vi",
+      "saturday": "Sa",
+      "sunday": "Do"
+    }
+  }
 }

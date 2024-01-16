@@ -1,4 +1,4 @@
-<div class='page col-md-9'>
+<div class='page content'>
     <div class='page-header'>
         <div class='page-header-top'>
             <div class='general-buttons row'>
@@ -10,28 +10,17 @@
                         </button>
                     </div>
                 </ng-container>
+            </div>
+            <div class='general-buttons row'>
                 <ng-container>
-                    <div class='row justify-content-end'>
-                        <button *ngIf='inEditMode && filter.id' class='text-icon-button'
-                                (click)='cancel()' [disabled]='isSaving || isLoading'>
-                            <arte-spinner class='spinner-btn' *ngIf='isLoading' aria-hidden='true'></arte-spinner>
-                            <span *ngIf='!isLoading' class='fa fa-times'></span>
-                            <span translate='filter.form.cancel'></span>
-                        </button>
-                        <button *ngIf='!inEditMode' class='text-icon-button' (click)='edit()'>
+                    <div class='row justify-content-end ml-auto'>
+                        <button class='text-icon-button' (click)='edit()'>
                             <span class='fa fa-pencil-square-o'></span>
                             <span translate='filter.form.edit'></span>
                         </button>
-                        <button *ngIf='!inEditMode' class='text-icon-button' (click)='delete()'>
+                        <button class='text-icon-button' (click)='delete()'>
                             <span class='fa fa-trash'></span>
                             <span translate='filter.form.delete'></span>
-                        </button>
-
-                        <button *ngIf='inEditMode' class='text-icon-button' type='button'
-                                (click)='submit()' [disabled]='isSaving || isLoading || !filterForm.form.valid'>
-                            <arte-spinner class='spinner-btn' *ngIf='isSaving' aria-hidden='true'></arte-spinner>
-                            <span *ngIf='!isSaving' class='fa fa-save'></span>
-                            <span translate='filter.form.save'></span>
                         </button>
                     </div>
                 </ng-container>
@@ -39,111 +28,37 @@
         </div>
     </div>
 
-    <div class='page-body' *ngIf='!inEditMode || isLoading'>
-        <div class='row'>
-            <div class='form-row'>
-                <label class='form-label col-md-10'
-                       for='name'>{{ "filter.entity.name" | translate }}</label>
-                <span id='id' class='info-id' style='font-size: 20px'>{{filter.name}}</span>
-            </div>
-            <div class='form-row'>
-                <label class='form-label col-md-10'
-                       for='name'>{{ "filter.entity.permalink" | translate }}</label>
-                <span id='id' class='info-id' style='font-size: 20px'>{{filter.urlPermalink}}</span>
-            </div>
-        </div>
-    </div>
+    <div class='page-body has-detail-info'>
+        <div class='detail-info'>
+            <label for='name' class='title'>{{ 'filter.entity.name' | translate }}</label>
+            <span id='name' class='info-id'>{{ filter.name }}</span>
 
-    <div class='page-body' *ngIf='inEditMode'>
-        <form class='page-form' id='filter-form' name='filterForm' role='form' novalidate #filterForm='ngForm'
-              autocomplete='off'>
-            <fieldset class='page-section' arteAutofocus>
-                <div class='row'>
-                    <div class='form-group form-group-inline col-md-6 required'
-                         [formControlStatus]='filterForm.controls.name'>
-                        <div class='form-row'>
-                            <label class='form-label col-md-10'
-                                   for='name'>{{ "filter.entity.name" | translate }}</label>
-                            <div class='col-md-12 form-input-container errors-on-hover'>
-                                <arte-input id='name' name='name' [(ngModel)]='filter.name' [maxlength]='255'
-                                            [required]='true'></arte-input>
-                                <div class='form-errors-messages' *hasErrors='let messages'>
-                                    <span *ngFor='let m of messages'>{{m}}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <label for='urlPermalink' class='title'>{{ 'filter.entity.permalink' | translate }}</label>
+            <div id='urlPermalink' class='info-link background'>
+                <div class='code'>
+                    <code>{{ filter.urlPermalink }}</code>
                 </div>
-                <div class='row'>
-                    <div class='form-group form-group-inline col-md-6'>
-                        <div class='form-row'>
-                            <label class='form-label col-md-10'
-                                   for='permalink'>{{ "filter.entity.permalink" | translate }}</label>
-                            <div class='col-md-12 form-input-container errors-on-hover'>
-                                <a href='{{filter.urlPermalink}}' target='_blan'>{{filter.urlPermalink}}</a>
-                            </div>
-                        </div>
-                    </div>
+                <div class='element-link-actions'>
+                    <button type='button' (click)='openSelfLink(filter.urlPermalink)'>
+                        <i class='fa fa-external-link'></i>
+                    </button>
+                    <button copyClipboard='{{filter.urlPermalink}}' (click)='onCopyUrlPermalinkSuccess()'>
+                        <i class='fa fa-copy'></i>
+                    </button>
                 </div>
-                <div class='row' *ngIf='!(!inEditMode || isLoading) || filter.notes'>
-                    <div class='form-group form-group-inline col-md-12' [formControlStatus]='filterForm.controls.notes'>
-                        <div class='form-row'>
-                            <label class='form-label col-md-10'
-                                   for='notes'>{{ "filter.entity.notes" | translate }}</label>
-                            <div class='col-md-12 form-input-container errors-on-hover'>
-                                <textarea
-                                    [rows]='5'
-                                    [cols]='30'
-                                    pInputTextarea
-                                    autoResize='autoResize'
-                                    id='notes'
-                                    name='notes'
-                                    [(ngModel)]='filter.notes'
-                                    [maxlength]='4000'
-                                ></textarea>
-                                <div class='form-errors-messages' *hasErrors='let messages'>
-                                    <span *ngFor='let m of messages'>{{m}}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </fieldset>
-        </form>
-        <fieldset class='page-section' disabled>
-            <legend class='pt-3'>{{ "filter.form.audit" | translate }}</legend>
-            <div class='row'>
-                <div class='form-group form-group-inline col-md-6'>
-                    <div class='form-row'>
-                        <label class='form-label col-md-4'
-                               for='permalink'>{{ "filter.entity.createdDate" | translate }}</label>
-                        <div class='col-md-8 form-input-container'>
-                            <arte-input id='permalink' name='createdDate'
-                                        [ngModel]="filter.createdDate | date: 'dd/MM/yyyy HH:mm:ss'"></arte-input>
-                        </div>
-                    </div>
-                </div>
-                <div class='form-group form-group-inline col-md-6'>
-                    <div class='form-row'>
-                        <label class='form-label col-md-4'
-                               for='name'>{{ "filter.entity.lastModifiedDate" | translate }}</label>
-                        <div class='col-md-8 form-input-container'>
-                            <arte-input name='lastModifiedDate'
-                                        [ngModel]="filter.lastModifiedDate | date: 'dd/MM/yyyy HH:mm:ss'"></arte-input>
-                        </div>
-                    </div>
-                </div>
-                <div class='form-group form-group-inline col-md-6'>
-                    <div class='form-row'>
-                        <label class='form-label col-md-4'
-                               for='lastAccessDate'>{{ "filter.entity.lastAccessDate" | translate }}</label>
-                        <div class='col-md-8 form-input-container'>
-                            <arte-input id='lastAccessDate' name='lastAccessDate'
-                                        [ngModel]="filter.lastAccessDate | date: 'dd/MM/yyyy HH:mm:ss'"></arte-input>
-                        </div>
-                    </div>
-                </div>
+                <div class='copied-message' *ngIf='urlPermalink'>{{ 'copy' | translate }}</div>
             </div>
-        </fieldset>
+
+            <label for='notes' class='title'>{{ 'filter.entity.notes' | translate }}</label>
+            <span id='notes'>{{ filter.notes }}</span>
+
+            <label class='title'>{{ 'filter.form.audit' | translate }}</label>
+            <span>{{ "filter.entity.createdDate" | translate }}
+                : {{ filter.createdDate | date: 'dd/MM/yyyy HH:mm:ss' }}</span>
+            <span>{{ "filter.entity.lastModifiedDate" | translate }}
+                : {{ filter.lastAccessDate | date: 'dd/MM/yyyy HH:mm:ss' }}</span>
+            <span>{{ "filter.entity.lastAccessDate" | translate }}
+                : {{ filter.lastAccessDate | date: 'dd/MM/yyyy HH:mm:ss' }}</span>
+        </div>
     </div>
 </div>

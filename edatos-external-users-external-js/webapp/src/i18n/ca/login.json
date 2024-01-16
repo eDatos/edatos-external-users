@@ -20,7 +20,8 @@
       "init": {
         "title": "Recuperar contrasenya",
         "email": "Correu electrònic",
-        "send": "Enviar"
+        "send": "Enviar",
+        "successSending": "La seva sol·licitud s'ha enviat correctament. Per favor, comprovi el seu correu electrònic per a continuar."
       },
       "finish": {
         "title": "Canviar contrasenya"

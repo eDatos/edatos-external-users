@@ -8,6 +8,7 @@
 .app {
   clear: both;
   background-color: $color-negro-5;
+  min-height: 380px;
 }
 
 .fa.fa-istac-home {
@@ -159,19 +160,11 @@ footer.istac-footer {
   position: fixed !important;
 }
 
-.modal-body {
-  padding: 2rem;
-}
-
-.modal-header,
-.modal-footer {
-  background: #f8f8f8;
-}
-
 /*  Section */
 @import "./vendor/fontawesome.scss";
 @import 'buttons';
 @import 'nav-subsection';
+@import 'information-details';
 @import 'captcha';
 @import 'page';
 @import 'forms';

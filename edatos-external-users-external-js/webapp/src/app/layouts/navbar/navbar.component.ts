@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AccountUserService, LoginService, PermissionService, Principal, ProfileService } from '@app/core/service';
-import { AboutDialogComponent, DeleteConfirmDialogComponent } from '@app/modules/account';
+import { AboutDialogComponent } from '@app/modules/account';
 import { GenericModalService } from 'arte-ng/services';
+import { SharedRefreshService } from '@app/shared/service/shared-refresh.service';
 
 @Component({
     selector: 'app-navbar',
     templateUrl: './navbar.component.html',
-    styleUrls: ['navbar.component.scss'],
+    styleUrls: ['navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
     inProduction: boolean;
@@ -22,7 +23,8 @@ export class NavbarComponent implements OnInit {
         private profileService: ProfileService,
         private genericModalService: GenericModalService,
         private userService: AccountUserService,
-        private router: Router
+        private router: Router,
+        private sharedService: SharedRefreshService
     ) {
         this.isNavbarCollapsed = true;
     }
@@ -43,6 +45,8 @@ export class NavbarComponent implements OnInit {
     logout() {
         this.collapseNavbar();
         this.loginService.logout().then(() => this.router.navigate(['login']));
+        this.sharedService.triggerRefresh();
+        this.sharedService.triggerRefreshForceValue(false);
     }
 
     toggleNavbar() {
@@ -51,22 +55,6 @@ export class NavbarComponent implements OnInit {
 
     public puedeNavegarAdministracion(): boolean {
         return this.permissionService.puedeNavegarAdministracion();
-    }
-
-    public openDeleteDialog() {
-        this.userService
-            .getLogueado()
-            .toPromise()
-            .then((account) => {
-                const modalRef = this.genericModalService.open(DeleteConfirmDialogComponent as Component, { user: { ...account } }, { container: '.app' });
-                modalRef.result.subscribe((isDelete) => this.onDeleteSuccess(isDelete));
-            });
-    }
-
-    private onDeleteSuccess(isDelete: boolean) {
-        if (isDelete) {
-            this.logout();
-        }
     }
 
     public openAboutDialog() {

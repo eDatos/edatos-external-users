@@ -13,13 +13,9 @@ fieldset.page-section {
     padding-top: 4rem;
   }
 
-  input.ui-inputtext {
-    background-image: none;
-    box-shadow: 0 0 0.1rem rgba(0, 0, 0, 1);
-    border-radius: 0.3rem;
-    padding-left: 10px;
-    height: 30px;
-    font-size: $size-14;
+  .form-section {
+    background-color: $color-negro-5;
+    padding: 10px;
   }
 
   input.ui-inputtext:enabled:focus:not(.ui-state-error) {
@@ -81,6 +77,20 @@ div.button-container-login {
   }
 }
 
+div.success-sending {
+
+  div.row.success-sending-message {
+    width: 400px;
+    font-size: $size-16;
+
+
+    .col-md-12.justify-content-md-center {
+      display: flex;
+      align-items: center;
+    }
+  }
+}
+
 @media (max-width: 767px) {
   fieldset.page-section {
     margin-top: unset;
@@ -90,7 +100,7 @@ div.button-container-login {
 
 @media (min-width: 768px) {
   fieldset.page-section {
-    margin-top: 10vh;
+    margin-top: 5vh;
   }
 }
 

@@ -1,12 +1,28 @@
 @import 'variables';
 @import 'mixins';
 
+body .ui-paginator .ui-paginator-pages .ui-paginator-page.ui-state-active,
+body .ui-dropdown-panel .ui-dropdown-items .ui-dropdown-item.ui-state-highlight {
+  background-color: $color-azul-oscuro-50;
+}
+
+@media screen and (max-width: 556px) {
+  .page {
+    div.col-md-4.card {
+      display: contents;
+    }
+  }
+;
+}
+
+div.page.content {
+  min-height: 640px;
+}
+
 .page {
   width: 100%;
   height: 100%;
   background-color: $color-negro-0;
-  left: 12.45%;
-
 
   &.has-header-fixed {
     .page-header {
@@ -73,10 +89,6 @@
   }
 
   .page-header {
-    //  padding-left: $page-padding-left;
-    //  padding-right: $page-padding-right;
-    //  background-color: white;
-    //box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.3);
     z-index: $page-header-zindex;
 
     &.page-header-fixed {
@@ -129,11 +141,19 @@
     }
   }
 
+  .page-no-header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 20px;
+  }
+
   .page-header-top {
     display: flex;
     align-items: center;
     justify-content: space-between;
     height: $page-header-height;
+    padding-left: 20px;
 
     & span.page-header-title-text {
       font-size: $size-16;
@@ -155,8 +175,6 @@
   }
 
   .page-section {
-    //margin-top: 1.4rem;
-
     h3 {
       font-size: 1.3rem;
     }
@@ -165,21 +183,10 @@
   .page-table-container-fluid {
     margin-left: -$page-padding-left;
     margin-right: -$page-padding-right;
+    padding-left: 18px;
+    padding-right: 18px;
     width: inherit;
     min-width: 100%;
-
-    .page-table {
-      & > thead > tr > th,
-      & > tbody > tr > td {
-        &:first-child {
-          padding-left: $page-padding-left;
-        }
-
-        &:last-child {
-          padding-right: $page-padding-right;
-        }
-      }
-    }
 
     .table-count {
       padding-left: $page-padding-left;
@@ -187,6 +194,7 @@
   }
 
   .page-table {
+
     & > thead > tr > th,
     & > tbody > tr > td {
       border-top: none;
@@ -196,9 +204,7 @@
     & > thead > tr > th {
       font-size: $size-14;
       background-color: $color-negro-5;
-      color: #444;
     }
-
   }
 
   .ui-table .ui-table-thead > tr > th {
@@ -215,6 +221,12 @@
     padding-bottom: 10px;
   }
 
+  .page-table tbody.ui-table-tbody tr:hover td {
+    background-color: $color-azul-25 !important;
+    color: $color-negro-100;
+    cursor: pointer;
+  }
+
   .page-table thead tr th:first-child {
     border-radius: 6px 0 0 6px;
     border-bottom: none;
@@ -229,6 +241,19 @@
     align-items: center;
     height: 100%;
   }
+}
+
+div.ui-table .ui-paginator {
+  border-color: unset;
+  border: none
+}
+
+.page-body.has-detail-info {
+  padding: 0 20px 20px 20px;
+}
+
+.ui-tree .ui-tree-container .ui-treenode .ui-treenode-content.ui-treenode-selectable .ui-treenode-label:not(.ui-state-highlight):hover {
+  background-color: $color-azul-25 !important;
 }
 
 @include media-breakpoint-down(sm) {

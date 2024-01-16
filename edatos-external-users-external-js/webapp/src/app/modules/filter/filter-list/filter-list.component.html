@@ -1,9 +1,11 @@
-<div class='page col-md-9'>
+<div class='page content'>
     <div class='page-header'>
         <div class='page-header-top'></div>
     </div>
     <div class='page-body'>
-        <arte-spinner *ngIf='!filters'></arte-spinner>
+        <div class='col-md-12 justify-content-md-center text-center'>
+            <div *ngIf='!filtersLoaded' class='spinner-border text-info' role='status'></div>
+        </div>
         <ng-container *ngIf='filtersLoaded'>
             <ng-container *ngIf='filters.length > 0;else emptyList'>
                 <div class='page-table-container-fluid'>

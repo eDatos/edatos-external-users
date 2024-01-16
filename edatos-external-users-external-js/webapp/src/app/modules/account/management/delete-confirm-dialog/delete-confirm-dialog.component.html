@@ -1,22 +1,36 @@
-<div class="modal-header">
-    <p class="modal-title" id="myActorLabel">
-        <span class="mr-3">
-            <i class="fa"></i>
-        </span>
-        <strong> <span translate="entity.action.unsubscribe"></span></strong>
-    </p>
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="clear()">&times;</button>
-</div>
-<div class="modal-body">
-    <div>
-        <span translate="account.messages.delete.text"></span>
+<div class='page'>
+    <div class='page-header'>
+        <div class='page-header-top'>
+            <span class='page-header-title-text' translate='entity.action.unsubscribe'></span>
+            <div class='general-buttons row'>
+                <ng-container>
+                    <div class='row justify-content-end ml-auto'>
+                        <button type='button' class='close' data-dismiss='modal' aria-hidden='true' (click)='clear()'>
+                            &times;
+                        </button>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
     </div>
-</div>
-<div class="modal-footer">
-    <div class="col-sm-6 text-right">
-        <button type="submit" class="btn btn-primary" (click)="confirm()">
-            <span class="fa"></span>
-            <span translate="entity.action.confirm"></span>
-        </button>
+    <div class='page-body'>
+        <div class='row success-sending-message'>
+            <div class='form-group'>
+                <div class='col-md-11 justify-content-md-center text-center'>
+                    <p translate='account.messages.delete.text'></p>
+                </div>
+            </div>
+        </div>
+
+        <div class='general-buttons row modal-buttons'>
+            <ng-container>
+                <div class='row justify-content-end ml-auto'>
+                    <button type='submit' class='text-icon-button' (click)='confirm()'>
+                        <span class='fa'></span>
+                        <span translate='entity.action.confirm'></span>
+                    </button>
+                </div>
+            </ng-container>
+        </div>
     </div>
 </div>
