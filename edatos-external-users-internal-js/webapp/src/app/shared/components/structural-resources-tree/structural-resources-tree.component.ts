@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, DoCheck, EventEmitter, Input, IterableDiffer, IterableDiffers, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MultiLanguageInputComponent } from '@app/shared/components/multi-language-input';
+import { DEFAULT_LOCALE } from '@app/shared/components/multi-language-input/multi-language-input.constants';
 import { Category, ExternalCategory, ExternalOperation, Favorite, FavoriteResource, InternationalString } from '@app/shared/model';
 import { CategoryService, ExternalOperationService, LanguageService } from '@app/shared/service';
 import { TranslateService } from '@ngx-translate/core';
@@ -28,6 +29,9 @@ export interface CategoryTreeNode extends TreeNode {
     styleUrls: ['./structural-resources-tree.component.scss'],
 })
 export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChanges {
+
+    protected readonly DEFAULT_LOCALE = DEFAULT_LOCALE;
+
     /**
      * The list of favorites. The selection of the tree is automatically updated when favorites
      * are added or removed. Only works in 'select' {@link mode}.
@@ -87,7 +91,6 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
     @ViewChild(MultiLanguageInputComponent)
     public languageInputComponent: MultiLanguageInputComponent;
 
-
     @ViewChild(Tree)
     public ptree: Tree;
 
@@ -102,6 +105,7 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
     public loading = false;
     private iterableDiffer: IterableDiffer<Favorite>;
     private nodeList: CategoryTreeNode[] = [];
+
 
     constructor(
         private categoryService: CategoryService,

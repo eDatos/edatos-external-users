@@ -18,6 +18,8 @@ public interface ExternalUserRepository extends JpaRepository<ExternalUserEntity
 
     Optional<ExternalUserEntity> findOneByEmail(String email);
 
+    List<ExternalUserEntity> findAllByEmailIn(List<String> emails);
+
     Optional<ExternalUserEntity> findOneByRegistrationToken(String token);
 
     Optional<ExternalUserEntity> findOneByEmailAndIdNot(String email, Long id);

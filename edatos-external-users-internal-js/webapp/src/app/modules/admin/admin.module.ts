@@ -1,6 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 
 import { SharedModule } from '@app/shared';
+import { MultiLanguageInputModule } from '@app/shared/components/multi-language-input';
 import { ArteAuditInfoModule, ArteAutocompleteModule, ArteCalendarModule, ArteSideMenuModule, ArteSpinnerModule, ArteTriInputSwitchModule } from 'arte-ng';
 import { ArteDirectivesModule } from 'arte-ng/directives';
 import { DialogModule, MultiSelectModule } from 'primeng';
@@ -43,6 +44,7 @@ import { NotificationsComponent } from './notifications/notifications.component'
         FilterModule,
         DialogModule,
         MultiSelectModule,
+        MultiLanguageInputModule
     ],
     declarations: [
         AuditsComponent,

@@ -20,6 +20,8 @@ public interface ExternalUserService {
 
     Optional<ExternalUserEntity> findByEmail(String email);
 
+    List<ExternalUserEntity> findAllByEmailIn(List<String> emails);
+
     Page<ExternalUserEntity> find(Pageable pageable, Boolean includeDeleted, String query);
 
     ExternalUserEntity getUsuarioWithAuthorities();

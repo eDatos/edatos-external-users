@@ -108,6 +108,11 @@ public class ExternalUserServiceImpl implements ExternalUserService {
     }
 
     @Override
+    public List<ExternalUserEntity> findAllByEmailIn(List<String> emails) {
+        return externalUserRepository.findAllByEmailIn(emails);
+    }
+
+    @Override
     public Page<ExternalUserEntity> find(Pageable pageable, Boolean includeDeleted, String query) {
         DetachedCriteria criteria = buildExternalUserCriteria(pageable, includeDeleted, query);
         return externalUserRepository.findAll(criteria, pageable);

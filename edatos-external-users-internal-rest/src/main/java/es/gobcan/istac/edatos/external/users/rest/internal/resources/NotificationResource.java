@@ -1,12 +1,13 @@
 package es.gobcan.istac.edatos.external.users.rest.internal.resources;
 
+import java.util.HashMap;
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.siemac.metamac.rest.notices.v1_0.domain.Receivers;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,10 +34,14 @@ public class NotificationResource extends AbstractResource {
     @PostMapping
     @PreAuthorize("@secChecker.canSendNotification(authentication)")
     public ResponseEntity<NotificationDto> send(@Valid @RequestBody NotificationDto notificationDto) {
+        HashMap<String, Receivers> receiversByLanguage = notificationService.createReceiversGroupedByLanguage(notificationDto.getReceivers(), notificationDto.getCategoriesIds(),
+                notificationDto.getExternalOperationsIds());
+        List<String> failedNoticeReceivers = notificationService.createNotificationWithReceivers(notificationDto.getMessage(), notificationDto.getSubject(), receiversByLanguage);
 
-        Receivers recivers = notificationService.createReceiversList(notificationDto.getReceivers(), notificationDto.getCategoriesIds(), notificationDto.getExternalOperationsIds());
-
-        notificationService.createNotificationWithReceivers(notificationDto.getMessage(), notificationDto.getSubject(), recivers);
+        if (!failedNoticeReceivers.isEmpty()) {
+            notificationDto.setFailedReceivers(failedNoticeReceivers);
+            return ResponseEntity.badRequest().body(notificationDto);
+        }
 
         return ResponseEntity.ok(notificationDto);
     }

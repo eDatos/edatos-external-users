@@ -26,7 +26,9 @@ public class MetadataProperties {
     private String metamacCasLogoutUrl;
     private String defaultLanguage;
     private List<String> availableLanguages;
-    private String languageCookie;
+
+    private List<String> internationalizationLanguages;
+    private String       languageCookie;
 
     private boolean captchaEnable;
     private String captchaProvider;
@@ -68,6 +70,7 @@ public class MetadataProperties {
         }
         captchaUrl = normalizeUrl(configurationService.retrieveCaptchaExternalApiUrlBase());
         availableLanguages = configurationService.retrieveLanguages();
+        internationalizationLanguages = configurationService.retrieveInternationalizationLanguages();
         externalAppUrl = normalizeUrl(configurationService.retrieveExternalUsersExternalWebApplicationUrlBase());
         internalAppUrl = normalizeUrl(configurationService.retrieveExternalUsersInternalWebApplicationUrlBase());
         casService = internalAppUrl + "/login/cas";
@@ -185,5 +188,9 @@ public class MetadataProperties {
 
     public double getRecaptchaThreshold() {
         return recaptchaThreshold;
+    }
+
+    public List<String> getInternationalizationLanguages() {
+        return internationalizationLanguages;
     }
 }
