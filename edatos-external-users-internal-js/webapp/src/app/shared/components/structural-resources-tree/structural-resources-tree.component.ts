@@ -30,7 +30,7 @@ export interface CategoryTreeNode extends TreeNode {
 })
 export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChanges {
 
-    protected readonly DEFAULT_LOCALE = DEFAULT_LOCALE;
+    protected DEFAULT_LOCALE = DEFAULT_LOCALE;
 
     /**
      * The list of favorites. The selection of the tree is automatically updated when favorites
