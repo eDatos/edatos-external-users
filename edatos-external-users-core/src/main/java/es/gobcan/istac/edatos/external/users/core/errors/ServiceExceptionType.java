@@ -65,4 +65,10 @@ public class ServiceExceptionType extends CommonServiceExceptionType {
      ********/
     public static final CommonServiceExceptionType CAPTCHA_UNSUCCESSFUL = create("exception.external_users.captcha.unsuccessful");
 
+    /********
+     * NOTIFICATION
+     ********/
+
+    public static final CommonServiceExceptionType SENDING_NOTICE_FAILED = create("exception.external_users.notice.sending_notice");
+
 }

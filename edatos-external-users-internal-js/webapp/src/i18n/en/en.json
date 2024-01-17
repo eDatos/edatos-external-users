@@ -448,7 +448,8 @@
         "language": "Language",
         "languageEnum": {
             "CATALAN": "Catalan",
-            "SPANISH": "Spanish"
+            "SPANISH": "Spanish",
+            "ENGLISH": "English"
         },
         "login": "Username",
         "name": "First Name",
@@ -798,14 +799,23 @@
             "title": "Notifications"
         },
         "form": {
-            "subject": "Subject",
-            "message": "Message",
+            "subject": {
+                "label": "Subject",
+                "placeholder": "Enter the multi-language subject"
+            },
+            "message": {
+                "label": "Message",
+                "placeholder": "Enter the multi-language message"
+            },
             "receivers": "Receivers",
             "send": "Send"
         },
         "message": {
             "onSuccessSumary": "Notification sent",
-            "onSuccess": "The notification has been sent correctly."
+            "onSuccess": "The notification has been sent correctly.",
+            "onErrorSumary": "Notification <strong>NOT</strong> sent",
+            "onError": "The notification has not been sent correctly. Try again later.\n",
+            "onErrorMessage": "The notification has not been sent correctly to the following users:\n"
         }
     },
     "calendar": {

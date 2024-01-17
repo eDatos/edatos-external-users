@@ -1,14 +1,16 @@
 package es.gobcan.istac.edatos.external.users.core.service;
 
-import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
-import es.gobcan.istac.edatos.external.users.core.domain.FavoriteEntity;
-
+import java.util.HashMap;
 import java.util.List;
 
+import org.siemac.edatos.core.common.dto.InternationalStringDto;
 import org.siemac.metamac.rest.notices.v1_0.domain.Notice;
 import org.siemac.metamac.rest.notices.v1_0.domain.Receivers;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
+import es.gobcan.istac.edatos.external.users.core.domain.FavoriteEntity;
 
 public interface NotificationService {
 
@@ -21,6 +23,9 @@ public interface NotificationService {
     void createExternalUserRegistrationAlreadyRequested(ExternalUserEntity externalUserEntity);
 
     void createNoticeOfSusbcritionsJob(List<FavoriteEntity> listFavorites);
+
+    List<String> createNotificationWithReceivers(InternationalStringDto message, InternationalStringDto subject, HashMap<String, Receivers> receivers);
+    HashMap<String, Receivers> createReceiversGroupedByLanguage(List<String> emails, List<Long> categories, List<Long> externalOperations);
 
     void createNotificationWithReceivers(String message, String subject, Receivers receivers);
     Receivers createReceiversList(List<String> emails, List<Long> categories, List<Long> externalOperations);

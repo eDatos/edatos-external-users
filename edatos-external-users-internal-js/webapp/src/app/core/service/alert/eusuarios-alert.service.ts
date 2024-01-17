@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 
+export let errorErrorMessage: any[] = [];
+
 const ERROR_ALERT_KEY = 'alert-errors';
 @Injectable()
 export class EUsuariosAlertService {
@@ -12,6 +14,7 @@ export class EUsuariosAlertService {
     }
 
     public error(error: any): void {
+        errorErrorMessage = error;
         const message = this.parseError(error);
         this.addError(message);
     }

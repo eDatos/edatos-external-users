@@ -1,23 +1,29 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ExternalUser, Notification } from '@app/core/model';
 import { ExternalUserService } from '@app/core/service';
-import { CategoryService, NotificationService } from '@app/shared/service';
+import { errorErrorMessage } from '@app/core/service/alert/eusuarios-alert.service';
+import { MultiLanguageInputComponent } from '@app/shared/components/multi-language-input';
+import { ALL_LOCALES } from '@app/shared/components/multi-language-input/multi-language-input.constants';
+import { CategoryService, LanguageService, NotificationService } from '@app/shared/service';
 import { TranslateService } from '@ngx-translate/core';
 import { ArteEventManager } from 'arte-ng/services';
 import { MessageService } from 'primeng/api';
-import { Observable, Subject, Subscription} from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { AutocompleteShortListComponent } from 'arte-ng';
-import { FavoriteResource } from '@app/shared/model';
+import { FavoriteResource, InternationalString } from '@app/shared/model';
 import { StructuralResourcesTreeComponent } from '@app/shared/components/structural-resources-tree';
 import { ExternalUserFilter } from '@app/modules/external-user/external-user-search/external-user-filter';
 import * as _ from 'lodash';
+import { shareReplay } from 'rxjs/operators';
 
 @Component({
     selector: 'app-notifications',
     templateUrl: './notifications.component.html',
-    styleUrls: ['./notifications.component.scss'],
+    styleUrls: ['./notifications.component.scss']
 })
 export class NotificationsComponent implements OnInit, OnDestroy {
+    protected readonly ALL_LOCALES = ALL_LOCALES;
 
     @Input()
     public filters: ExternalUserFilter = new ExternalUserFilter();
@@ -31,11 +37,22 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     public isSelectingResource = false;
     public selectedResources: FavoriteResource[] = [];
 
+    public failedReceivers = '';
+    public thereAreFailedReceivers = false;
+
     @ViewChild(AutocompleteShortListComponent)
     public selectedReceiversComponent: AutocompleteShortListComponent;
 
     @ViewChild(StructuralResourcesTreeComponent)
     public tree: StructuralResourcesTreeComponent;
+
+    @ViewChild(MultiLanguageInputComponent)
+    public languageInputComponent: MultiLanguageInputComponent;
+    public isSubjectModalVisible = false;
+    public isMessageModalVisible = false;
+
+    public availableLanguages: string[] = [];
+    public disableValueLanguageInput = true;
 
     constructor(
         private eventManager: ArteEventManager,
@@ -43,8 +60,10 @@ export class NotificationsComponent implements OnInit, OnDestroy {
         public externalUserService: ExternalUserService,
         public messageService: MessageService,
         public translateService: TranslateService,
-        private categoryService: CategoryService
-    ) {}
+        private categoryService: CategoryService,
+        private languageService: LanguageService
+    ) {
+    }
 
     public ngOnInit() {
         this.notification = new Notification();
@@ -56,6 +75,11 @@ export class NotificationsComponent implements OnInit, OnDestroy {
                 this.selectedResources.push(...category.externalOperations.filter((externalOp) => this.filters.externalOperations.includes(externalOp.id.toString())));
             }
         });
+
+        this.languageService
+            .getAllowed()
+            .pipe(shareReplay({ bufferSize: 1, refCount: true }))
+            .subscribe((languages) => (this.availableLanguages = languages));
     }
 
     public ngOnDestroy() {
@@ -71,12 +95,6 @@ export class NotificationsComponent implements OnInit, OnDestroy {
         this.subscribeToSendResponse(this.notificationService.send(this.notification));
     }
 
-    private arrStringToArrNumber(arrString: string[]) {
-        return arrString.map(str => {
-            return Number(str);
-          });
-    }
-
     public onSelectReceivers(receivers: ExternalUser) {
         this.selectedReceivers.push(receivers.email);
     }
@@ -88,45 +106,18 @@ export class NotificationsComponent implements OnInit, OnDestroy {
         }
     }
 
-    private subscribeToSendResponse(result: Observable<Notification>) {
-        result.subscribe(
-            (res: Notification) => {
-                this.onSaveSuccess();
-                this.selectedReceivers = [];
-                this.selectedReceiversComponent.writeValue([]);
-                this.notification = new Notification();
-                this.resetCategories();
-            },
-            (res: Response) => {
-                this.onSaveError();
-            }
-        );
+    public saveSubjectText(notice: Notification, subject: InternationalString) {
+        notice.subject = subject;
+        this.isSubjectModalVisible = false;
     }
 
-    private searchExternalUsers() {
-        this.externalUserService.find().subscribe((results) => {
-            this.externalUsers = results.body;
-        });
+    public validatorValueLanguageInput(value: InternationalString) {
+        this.disableValueLanguageInput = value.texts.some((text) => !text.label);
     }
 
-    private onSaveSuccess() {
-        this.messageService.add({
-            key: 'customAlertKey',
-            severity: 'success',
-            summary: this.translateService.instant('notifications.message.onSuccessSumary'),
-            detail: this.translateService.instant('notifications.message.onSuccess'),
-            life: 5000,
-        });
-    }
-
-    private onSaveError() {}
-
-    public openCategoryModal() {
-        this.isSelectingResource = true;
-    }
-
-    public closeCategoryModal() {
-        this.isSelectingResource = false;
+    public saveMessageText(notice: Notification, message: InternationalString) {
+        notice.message = message;
+        this.isMessageModalVisible = false;
     }
 
     public selectCategories() {
@@ -162,12 +153,99 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     }
 
     public thereAreReceivers() {
-        return (this.selectedReceivers  && this.selectedReceivers.length) ||
-            (this.filters.categories  && this.filters.categories.length) ||
-            (this.filters.externalOperations  && this.filters.externalOperations.length);
+        return (this.selectedReceivers && this.selectedReceivers.length) ||
+            (this.filters.categories && this.filters.categories.length) ||
+            (this.filters.externalOperations && this.filters.externalOperations.length);
+    }
+
+    public isDisabledForSend() {
+        return !this.thereAreReceivers() || !this.thereAreContentMail();
+    }
+    public thereAreContentMail() {
+        return (this.notification.subject && this.notification.subject.texts.length) && (this.notification.message && this.notification.message.texts.length);
     }
 
     public trackSelectedResource(index: number, item: FavoriteResource) {
         return `${item.id}${item.favoriteType}`;
+    }
+
+    public openCategoryModal() {
+        this.isSelectingResource = true;
+    }
+
+    public closeCategoryModal() {
+        this.isSelectingResource = false;
+    }
+
+    public openSubjectModal() {
+        this.disableValueLanguageInput = this.notification.subject.texts.length === 0;
+        this.isSubjectModalVisible = true;
+    }
+
+    public closeSubjectModal() {
+        this.isSubjectModalVisible = false;
+    }
+
+    public openMessageModal() {
+        this.disableValueLanguageInput = this.notification.message.texts.length === 0;
+        this.isMessageModalVisible = true;
+    }
+
+    public closeMessageModal() {
+        this.isMessageModalVisible = false;
+    }
+
+    public closeFailedReceivers() {
+        this.thereAreFailedReceivers = false;
+    }
+
+    private arrStringToArrNumber(arrString: string[]) {
+        return arrString.map(str => {
+            return Number(str);
+        });
+    }
+
+    private subscribeToSendResponse(result: Observable<Notification>) {
+        result.subscribe(
+            (response: Notification) => {
+                this.onSaveSuccess();
+                this.thereAreFailedReceivers = false;
+                this.selectedReceivers = [];
+                this.selectedReceiversComponent.writeValue([]);
+                this.notification = new Notification();
+                this.resetCategories();
+            },
+            () => {
+                this.thereAreFailedReceivers = true;
+                this.failedReceivers = errorErrorMessage['failedReceivers']?.map((receiver) => receiver).join(', ');
+                this.onSaveError();
+            }
+        );
+    }
+
+    private searchExternalUsers() {
+        this.externalUserService.find().subscribe((results) => {
+            this.externalUsers = results.body;
+        });
+    }
+
+    private onSaveSuccess() {
+        this.messageService.add({
+            key: 'customAlertKey',
+            severity: 'success',
+            summary: this.translateService.instant('notifications.message.onSuccessSumary'),
+            detail: this.translateService.instant('notifications.message.onSuccess'),
+            life: 5000
+        });
+    }
+
+    private onSaveError() {
+        this.messageService.add({
+            key: 'customAlertKey',
+            severity: 'error',
+            summary: this.translateService.instant('notifications.message.onErrorSumary'),
+            detail: this.translateService.instant('notifications.message.onError'),
+            life: 5000
+        });
     }
 }
