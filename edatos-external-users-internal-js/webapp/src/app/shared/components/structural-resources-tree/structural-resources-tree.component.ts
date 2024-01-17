@@ -70,7 +70,7 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
      * whether the selection of all children propagates up to its parents. Only works in 'select' {@link mode}.
      */
     @Input()
-    public propagateSelection: boolean;
+    public propagateSelection = false;
 
     /**
      * Emits an event when an element of the tree is selected. Only works in 'select' {@link mode}.
@@ -472,11 +472,9 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
                 break;
             case 'simpleSelect':
                 this.selectionMode = 'checkbox';
-                this.propagateSelection = false;
                 break;
             case 'select':
                 this.selectionMode = 'checkbox';
-                this.propagateSelection = true;
                 break;
             case 'edit':
                 this.selectionMode = 'single';
