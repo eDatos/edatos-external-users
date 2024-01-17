@@ -1,26 +1,29 @@
-<div class='page'>
-    <div class='page-header'>
-        <div class='page-header-top'>
-            <span class='page-header-title-text' translate='entity.action.about'></span>
-            <div class='general-buttons row'>
+<div class='page-body'>
+    <div class='row justify-content-md-center login-container'>
+        <div class='col-md-4 card shadow p-3 bg-white'>
+            <h2 class='card-title text-center mb-4 mt-1'
+                translate='entity.action.about'></h2>
+            <div class='card-body success-sending'>
+                <div class='row success-sending-message'>
+                    <div class='form-group'>
+                        <div class='col-md-12 justify-content-md-center text-center'>
+                            <p><span translate='global.version'></span> : {{version}}</p>
+                        </div>
+                    </div>
+                </div>
                 <ng-container>
-                    <div class='row justify-content-end ml-auto'>
-                        <button type='button' class='close' data-dismiss='modal' aria-hidden='true' (click)='clear()'>
-                            &times;
-                        </button>
+                    <div class='button-container-login'>
+                        <div class='row justify-content-md-center'>
+                            <div class='form-group panel-container-buttons w-100'>
+                                <button type='submit' (click)='clear()'
+                                        class='btn btn-primary w-100'>
+                                    <span>{{ 'entity.action.accept' | translate | uppercase }}</span>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </ng-container>
             </div>
         </div>
-    </div>
-    <div class='page-body'>
-        <div class='row success-sending-message'>
-            <div class='form-group'>
-                <div class='col-md-12 justify-content-md-center text-center'>
-                    <p><span translate='global.version'></span> : {{version}}</p>
-                </div>
-            </div>
-        </div>
-
     </div>
 </div>

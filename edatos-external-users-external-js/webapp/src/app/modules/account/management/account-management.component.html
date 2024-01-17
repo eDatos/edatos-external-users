@@ -5,11 +5,12 @@
             <ng-container>
                 <div class='row justify-content-end ml-auto'>
                     <button type='button' class='text-icon-button' routerLink='/account-management/edit'>
-                        <span class='fa fa-pencil'></span> <span translate='entity.action.edit'></span>
+                        <span class='fa fa-pencil'></span>
+                        <span>{{ 'entity.action.edit' | translate | uppercase }}</span>
                     </button>
                     <button type='button' class='text-icon-button' (click)='download($event)'>
-                        <span [ngClass]="downloadingPdf ? 'fa fa-spinner fa-spin' : 'fa  fa-download'"></span> <span
-                        translate='account.download.myInformation'></span>
+                        <span [ngClass]="downloadingPdf ? 'fa fa-spinner fa-spin' : 'fa  fa-download'"></span>
+                        <span>{{ 'account.download.myInformation' | translate | uppercase }}</span>
                     </button>
                 </div>
             </ng-container>
@@ -19,27 +20,107 @@
         <div class='detail-info'>
             <label for='name' class='title' translate='account.basicInformation'></label>
             <span id='name' class='info-id'>{{ account.name }} {{ account.surname1 }} {{ account.surname2 }}</span>
-            <span id='gender'>{{ "signup.form.gender" | translate }} : {{ gender }}</span>
-            <span id='birthday'>{{ "signup.form.birthday" | translate }} : {{ account.birthday }}</span>
+
+            <div class='row divider'>
+                <div class='col-md-12 form-section'>
+                    <div class='row'>
+                        <div class='form-group form-group-inline col-md-4'>
+                            <div class='form-row'>
+                                <strong class='form-label col-md-10' translate='signup.form.gender'></strong>
+                                <div class='col-md-12'>
+                                    <span id='gender'>{{ gender }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='form-group form-group-inline col-md-4'>
+                            <div class='form-row'>
+                                <strong class='form-label col-md-10' translate='signup.form.birthday'></strong>
+                                <div class='col-md-12'>
+                                    <span id='birthday'>{{ account.birthday }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <label class='title' translate='account.contactInformation'></label>
-            <span id='email'>{{ "signup.form.email" | translate }} : {{ account.email }}</span>
-            <span id='phoneNumber'>{{ "signup.form.phoneNumber" | translate }} : {{ account.phoneNumber }}</span>
-            <span id='organism'>{{ "signup.form.organism" | translate }} : {{ account.organism }}</span>
-            <span id='nationality'>{{ "signup.form.nationality" | translate }} : {{ nationality }}</span>
+            <div class='row divider'>
+                <div class='col-md-12 form-section'>
+                    <div class='row'>
+                        <div class='form-group form-group-inline col-md-4'>
+                            <div class='form-row'>
+                                <strong class='form-label col-md-10' translate='signup.form.email'></strong>
+                                <div class='col-md-12'>
+                                    <span id='email'>{{ account.email }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='form-group form-group-inline col-md-4'>
+                            <div class='form-row'>
+                                <strong class='form-label col-md-10' translate='signup.form.phoneNumber'></strong>
+                                <div class='col-md-12'>
+                                    <span id='phoneNumber'>{{ account.phoneNumber }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='form-group form-group-inline col-md-4'>
+                            <div class='form-row'>
+                                <strong class='form-label col-md-10' translate='signup.form.organism'></strong>
+                                <div class='col-md-12'>
+                                    <span id='organism'>{{ account.organism }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class='row divider'>
+                <div class='col-md-12 form-section'>
+                    <div class='row'>
+                        <div class='form-group form-group-inline col-md-4'>
+                            <div class='form-row'>
+                                <strong class='form-label col-md-10' translate='signup.form.nationality'></strong>
+                                <div class='col-md-12'>
+                                    <span id='nationality'>{{ nationality }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <label class='title' translate='account.generalPreferences'></label>
-            <span id='language'>{{ "signup.form.language" | translate }} : {{ language }}</span>
-            <span id='emailNotificationsEnabled'>{{ "account.form.emailNotificationsEnabled" | translate }}
-                : {{ emailNotificationsEnabled }}</span>
+            <div class='row divider'>
+                <div class='col-md-12 form-section'>
+                    <div class='row'>
+                        <div class='form-group form-group-inline col-md-4'>
+                            <div class='form-row'>
+                                <strong class='form-label col-md-10' translate='signup.form.language'></strong>
+                                <div class='col-md-12'>
+                                    <span id='language'>{{ language }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='form-group form-group-inline col-md-4'>
+                            <div class='form-row'>
+                                <strong class='form-label col-md-10'
+                                        translate='account.form.emailNotificationsEnabled'></strong>
+                                <div class='col-md-12'>
+                                    <span id='emailNotificationsEnabled'>{{ emailNotificationsEnabled }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div class='general-buttons row'>
         <ng-container>
             <div class='row justify-content-end ml-auto'>
                 <button type='button' class='text-icon-button button-unsubscribe' (click)='openDeleteDialog()'>
-                    <span></span> <span
-                    translate='entity.action.unsubscribe'></span>
+                    <span>{{ 'entity.action.unsubscribe' | translate | uppercase }}</span>
                 </button>
             </div>
         </ng-container>

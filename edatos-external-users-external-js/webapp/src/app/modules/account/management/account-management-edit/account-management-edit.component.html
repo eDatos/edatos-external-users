@@ -9,11 +9,11 @@
                                 [disabled]='settingsForm && settingsForm.form.invalid || isSaving'
                                 class='text-icon-button'>
                             <span class='fa fa-floppy-o'></span>
-                            <span translate='entity.action.save'></span>
+                            <span>{{ 'entity.action.save' | translate | uppercase }}</span>
                         </button>
                         <button type='button' class='text-icon-button' data-dismiss='modal' (click)='cancel()'>
                             <span class='fa fa-ban'></span>
-                            <span translate='entity.action.cancel'></span>
+                            <span>{{ 'entity.action.cancel' | translate | uppercase }}</span>
                         </button>
                     </div>
                 </ng-container>
@@ -25,7 +25,7 @@
               #settingsForm='ngForm' novalidate autocomplete='off'>
             <fieldset class='page-section' [disabled]='!isEditMode()' arteAutofocus>
                 <!-- Primer bloque -->
-                <div class='form-group'>
+                <div class='form-group form-group-block'>
                     <div class='row divider'>
                         <div class='col-md-12 form-section'>
                             <div class='row'>
@@ -165,7 +165,7 @@
 
 
                 <!-- Cuarto bloque -->
-                <div class='form-group'>
+                <div class='form-group form-group-block'>
                     <div class='row divider'>
                         <div class='col-md-12 form-section'>
                             <div class='row'>
@@ -228,13 +228,13 @@
                     <div class='row divider'>
                         <div class='col-md-12 form-section'>
                             <div class='row'>
-                                <div class='form-group form-group-inline col-md-4'
+                                <div class='form-group form-group-inline col-md-10'
                                      [formControlStatus]='settingsForm.controls.enableEmailNotifications'>
                                     <div class='form-row'>
                                         <div class='col-md-10 form-input-container errors-on-hover'>
                                             <div class='custom-control custom-switch'>
                                                 <input type='checkbox' class='custom-control-input' ngModel
-                                                       id='emailNotificationsEnabled' [disabled]='!isEditMode()'
+                                                       id='emailNotificationsEnabled'
                                                        [(ngModel)]='account.emailNotificationsEnabled'
                                                        name='emailNotificationsEnabled'>
                                                 <label class='custom-control-label col-form-label col-md-12'

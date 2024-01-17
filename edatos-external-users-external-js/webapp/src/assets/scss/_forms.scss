@@ -173,8 +173,10 @@ fieldset.page-section {
     margin-right: 0px;
   }
 
-  div.form-section {
+  div.form-group.form-group-block {
     border-radius: 0.5rem;
+    background-color: $color-negro-5;
+    padding: 10px;
   }
 
   input.ui-inputtext, textarea.ui-inputtext {
@@ -188,7 +190,28 @@ fieldset.page-section {
   input.ui-inputtext {
     height: 30px;
   }
+
+  .ui-inputtext:enabled:focus:not(.ui-state-error) {
+    box-shadow: 0 0 0 0.2em $color-azul-oscuro-50;
+  }
 }
 
+
+.app .modal-content {
+  background: transparent;
+  background-clip: unset;
+  border: none;
+
+  div.card > div.card-body {
+    margin-bottom: 0;
+    padding: 0 10px 20px 10px;
+  }
+
+  .general-buttons.row {
+    margin: 0;
+    padding: 0;
+  }
+
+}
 
 /* END FORMULARIO */

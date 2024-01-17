@@ -7,13 +7,13 @@
                         <button class='text-icon-button' (click)='cancel()' [disabled]='isSaving || isLoading'>
                             <arte-spinner class='spinner-btn' *ngIf='isLoading' aria-hidden='true'></arte-spinner>
                             <span *ngIf='!isLoading' class='fa fa-times'></span>
-                            <span translate='filter.form.cancel'></span>
+                            <span>{{ 'filter.form.cancel' | translate | uppercase }}</span>
                         </button>
                         <button class='text-icon-button' type='button'
                                 (click)='submit()' [disabled]='isSaving || isLoading || !filterForm.form.valid'>
                             <arte-spinner class='spinner-btn' *ngIf='isSaving' aria-hidden='true'></arte-spinner>
                             <span *ngIf='!isSaving' class='fa fa-save'></span>
-                            <span translate='filter.form.save'></span>
+                            <span>{{ 'filter.form.save' | translate | uppercase }}</span>
                         </button>
                     </div>
                 </ng-container>
@@ -26,7 +26,7 @@
               autocomplete='off'>
             <fieldset class='page-section' [disabled]='isLoading' arteAutofocus>
                 <!-- Primer bloque -->
-                <div class='form-group'>
+                <div class='form-group form-group-block'>
                     <div class='row divider'>
                         <div class='col-md-12 form-section'>
                             <div class='row'>

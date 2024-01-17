@@ -6,7 +6,7 @@
                     <div class='row-large'>
                         <button class='text-icon-button' routerLink='..' [disabled]='isSaving || isLoading'>
                             <span class='fa fa-arrow-left'></span>
-                            <span translate='filter.form.goBack'></span>
+                            <span>{{ 'filter.form.goBack' | translate | uppercase }}</span>
                         </button>
                     </div>
                 </ng-container>
@@ -16,11 +16,11 @@
                     <div class='row justify-content-end ml-auto'>
                         <button class='text-icon-button' (click)='edit()'>
                             <span class='fa fa-pencil-square-o'></span>
-                            <span translate='filter.form.edit'></span>
+                            <span>{{ 'filter.form.edit' | translate | uppercase }}</span>
                         </button>
                         <button class='text-icon-button' (click)='delete()'>
                             <span class='fa fa-trash'></span>
-                            <span translate='filter.form.delete'></span>
+                            <span>{{ 'filter.form.delete' | translate | uppercase }}</span>
                         </button>
                     </div>
                 </ng-container>

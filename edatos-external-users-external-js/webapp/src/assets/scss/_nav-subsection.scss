@@ -7,7 +7,7 @@
   background-color: $color-azul-oscuro-5;
 
   .nav-link {
-    padding: 0.55rem 1rem;
+    padding: 0.54rem 1rem;
     cursor: pointer;
   }
 }
@@ -36,7 +36,7 @@
 
 .section-tab .nav-pills .nav-link, .subsection-tab .nav-tabs .nav-link {
   font-weight: $font-weight-300;
-  color: $color-azul-oscuro-100;
+  color: $color-azul-oscuro-100 !important;
 }
 
 .section-tab .nav-pills .nav-link.active {
