@@ -64,13 +64,6 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
     public mode: Mode = 'select';
 
     /**
-     * Determines whether the selection of a parent node propagates down to its descendants, and
-     * whether the selection of all children propagates up to its parents. Only works in 'select' {@link mode}.
-     */
-    @Input()
-    public propagateSelection = false;
-
-    /**
      * Emits an event when an element of the tree is selected. Only works in 'select' {@link mode}.
      */
     @Output()
