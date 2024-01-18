@@ -23,7 +23,7 @@ import { shareReplay } from 'rxjs/operators';
     styleUrls: ['./notifications.component.scss']
 })
 export class NotificationsComponent implements OnInit, OnDestroy {
-    protected readonly ALL_LOCALES = ALL_LOCALES;
+    public ALL_LOCALES = ALL_LOCALES;
 
     @Input()
     public filters: ExternalUserFilter = new ExternalUserFilter();
