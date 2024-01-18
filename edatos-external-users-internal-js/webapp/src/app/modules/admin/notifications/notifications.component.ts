@@ -1,6 +1,6 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ExternalUser, Notification } from '@app/core/model';
+import { ExternalUser } from '@app/core/model';
+import { Notification } from '@app/shared/model';
 import { ExternalUserService } from '@app/core/service';
 import { errorErrorMessage } from '@app/core/service/alert/eusuarios-alert.service';
 import { MultiLanguageInputComponent } from '@app/shared/components/multi-language-input';
