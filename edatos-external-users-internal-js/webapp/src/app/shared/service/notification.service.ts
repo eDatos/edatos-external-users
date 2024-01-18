@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Notification } from '@app/core/model';
+import { Notification } from '@app/shared/model';
 import { convert } from '@app/core/utils/response-utils';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
