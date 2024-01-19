@@ -1,4 +1,4 @@
-import { InternationalString } from '@app/shared/model';
+import { InternationalString } from './international-string.model';
 import { Type } from 'class-transformer';
 
 export class Notification {
