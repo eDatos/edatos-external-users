@@ -38,9 +38,6 @@ $color-negro-20: #CCCCCC;
 $color-negro-5: #F2F2F2;
 $color-negro-0: #FFFFFF;
 
-$white: #ffffff;
-$black: #000000;
-
 $grey-lightest: #f8f8f8;
 $grey-light: #e7e7e7;
 $grey-medium: #c4c4c4;
@@ -101,6 +98,7 @@ $height-nav: 45px;
 $height-general-search: 60px;
 
 $padding-10px: 10px;
+$padding-15px: 15px;
 $padding-20px: 20px;
 
 $container-max-widths: 1280px;
@@ -115,10 +113,6 @@ $istac-navbar-height: 72.8px;
 $istac-footer-height: 47px;
 
 
-/********************************************************************************************/
-/********************************************************************************************/
-/********************************************************************************************/
-/********************************************************************************************/
 // Bootstrap
 $gray-lightest: $grey-lightest;
 $gray-lighter: $grey-light;
@@ -128,14 +122,6 @@ $gray-dark: $grey-darkest;
 
 $font-weight-normal: 400;
 $font-weight-bold: 600;
-
-$btn-primary-color: $color-negro-0;
-$btn-primary-bg: $color-azul-oscuro-50;
-$btn-primary-border: $color-azul-oscuro-100;
-
-$btn-secondary-color: $grey-dark;
-$btn-secondary-bg: $white;
-$btn-secondary-border: $grey-medium;
 
 $btn-padding-x: 1rem;
 $btn-padding-y: 0.5rem;
@@ -151,7 +137,7 @@ $table-cell-padding: 0.75rem;
 $font-family-sans-serif: 'Open Sans', -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 
 $pagination-border-width: 0;
-$pagination-color: $black;
+$pagination-color: $color-negro-100;
 $pagination-active-color: $pagination-color;
 $pagination-active-bg: transparent;
 $pagination-active-border: $pagination-active-bg;
@@ -206,16 +192,16 @@ $brand-success: $green-medium;
 $brand-danger: $accent-medium;
 
 $form-group-margin-bottom: $spacer-y;
-$border-radius: 2px;
+$border-radius-5px-0: 5px 5px 0 0;
 $btn-font-weight: $font-weight-light;
 
-$input-color: $black;
+$input-color: $color-negro-100;
 $input-border-color: $grey-medium;
 $input-border-focus: $main-light;
 $input-line-height: 1.25;
 
 $tooltip-color: $grey-darkest;
-$tooltip-bg: $white;
+$tooltip-bg: $color-negro-0;
 $tooltip-arrow-color: $grey-medium;
 // end bootstrap
 $page-padding: 36px;

@@ -5,7 +5,7 @@
     border-color: transparent;
   }
   65% {
-    border-color: black;
+    border-color: $color-negro-100;
   }
   100% {
     border-color: #c4c4c4;
@@ -107,7 +107,7 @@ body .ui-fluid .ui-autocomplete.ui-autocomplete-dd > .ui-inputtext {
   border-radius: 5px;
   font-size: $size-12;
   background-color: $color-rojo-100;
-  color: white;
+  color: $color-negro-0;
   margin-top: 5px;
   opacity: 0;
   visibility: hidden;

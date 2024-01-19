@@ -24,7 +24,7 @@
   .p-dropdown.p-component.p-dropdown-open {
     background-color: $color-azul-oscuro-100;
     border: none;
-    border-radius: 5px 5px 0px 0px;
+    border-radius: $border-radius-5px-0;
 
     .p-dropdown-label.p-placeholder, .p-dropdown-trigger-icon {
       color: $color-negro-0;
@@ -162,7 +162,7 @@
   }
 
   span {
-    padding: 0px;
+    padding: 0;
     color: $color-negro-100;
     font-size: $size-14;
     line-height: 19px;

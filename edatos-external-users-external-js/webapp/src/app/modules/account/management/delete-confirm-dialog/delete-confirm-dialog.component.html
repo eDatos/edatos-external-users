@@ -1,7 +1,7 @@
 <div class='page-body'>
     <div class='row justify-content-md-center login-container'>
         <div class='col-md-4 card shadow p-3 bg-white'>
-            <h2 class='card-title text-center mb-4 mt-1'
+            <h2 class='card-title text-center mt-1'
                 translate='entity.action.unsubscribe'></h2>
             <div class='card-body success-sending'>
                 <div class='row'>
@@ -15,13 +15,14 @@
                     <div class='button-container-login'>
                         <div class='row justify-content-md-center'>
                             <div class='form-group panel-container-buttons w-100'>
-                                <button type='submit' class='btn btn-primary w-100' (click)='confirm()'>
+                                <button type='submit' class='btn btn-focus w-100' (click)='confirm()'>
                                     <span class='fa'></span>
                                     <span>{{ 'entity.action.confirm' | translate | uppercase }}</span>
                                 </button>
                             </div>
                             <div class='row-large justify-content-md-center text-center'>
-                                <button type='submit' (click)='clear()' class='text-icon-button'>
+                                <button type='submit' (click)='clear()'
+                                        class='text-icon-button-dialog text-icon-button'>
                                     <span class='fa fa-ban'></span>
                                     <span>{{ 'entity.action.cancel' | translate | uppercase }}</span>
                                 </button>

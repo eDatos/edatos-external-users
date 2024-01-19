@@ -1,11 +1,11 @@
 .general-buttons {
   height: 60px;
   align-items: center;
-  padding: 0px 20px;
+  padding: 0 20px;
   gap: 10px;
 
   &.row {
-    margin: 0px;
+    margin: 0;
     margin-right: 15px;
 
     .row-large {
@@ -18,13 +18,13 @@
   }
 }
 
-div.row-large > button.text-icon-button {
+div.row-large > button.text-icon-button-dialog {
   width: auto;
   margin-right: 0;
 }
 
 button.text-icon-button, button.menu-text-icon-button {
-  padding: 0px $padding-10px;
+  padding: 0 $padding-10px;
   height: 30px;
   border: 1px solid $color-azul-oscuro-100;
   border-radius: 5px;
@@ -51,7 +51,7 @@ button.text-icon-button, button.menu-text-icon-button {
   }
 }
 
-button.text-icon-button:first-child {
+button.text-icon-button:first-child, button.text-icon-button-btwn {
   margin-right: 10px;
 }
 
@@ -59,7 +59,7 @@ button.text-icon-button:first-child {
 .menu-text-icon-button {
   background-color: $color-azul-oscuro-100;
   border: 2px solid $color-azul-oscuro-100;
-  border-radius: 5px 5px 0px 0px;
+  border-radius: $border-radius-5px-0;
   color: $color-negro-0;
 
   span {
@@ -73,14 +73,12 @@ button.text-icon-button:first-child {
   font-size: $size-10;
 }
 
-button.btn.btn-primary {
+button.btn.btn-focus {
+  color: $color-negro-0;
   background-color: $color-azul-oscuro-100;
 
-  &:hover {
-    background-color: $color-azul-oscuro-50;
-  }
-
-  &:not(:disabled):not(.disabled):active {
+  &:hover, &:not(:disabled):not(.disabled):active {
+    color: $color-negro-0;
     background-color: $color-azul-oscuro-50;
   }
 }
@@ -95,13 +93,13 @@ div.general-buttons.row.modal-buttons {
   padding-right: 0;
 }
 
-.btn-primary:focus, .captcha-button:focus, .btn-primary.focus, .focus.captcha-button {
+.btn-focus:focus, .captcha-button:focus, .btn-focus.focus, .focus.captcha-button {
   background-color: $color-azul-oscuro-50;
   border-color: $color-azul-oscuro-50;
   box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
 }
 
-button.btn-primary:disabled {
+button.btn-focus:disabled {
   background-color: $color-negro-40 !important;
   border-color: $color-negro-40 !important;
 }
@@ -143,7 +141,7 @@ a.btn.btn-link {
     box-shadow: 0 0 0.1rem rgba(0, 0, 0, 1);
   }
 
-  button.btn-primary:not(:disabled):not(.disabled):active {
+  button.btn-focus:not(:disabled):not(.disabled):active {
     background-color: $color-azul-oscuro-50;
   }
 }
@@ -176,7 +174,7 @@ span.pi-search, body .ui-tree .ui-tree-filter-container .ui-tree-filter-icon {
     top: 11px;
   }
 
-  .btn-primary:focus {
+  .btn-focus:focus {
     background-color: $color-azul-oscuro-100;
     border-color: $color-azul-oscuro-100;
   }

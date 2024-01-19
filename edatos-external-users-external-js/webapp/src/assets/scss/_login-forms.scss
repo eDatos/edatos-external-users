@@ -7,13 +7,6 @@ fieldset.page-section {
     width: 100%;
   }
 
-  & h5.card-title.mb-4 {
-    margin-top: 3rem;
-    margin-bottom: 1rem !important;
-    padding-top: 4rem;
-  }
-
-
   input.ui-inputtext:enabled:focus:not(.ui-state-error) {
     box-shadow: 0 0 0 0.2em $color-azul-oscuro-50;
     border-color: $color-azul-oscuro-25;
