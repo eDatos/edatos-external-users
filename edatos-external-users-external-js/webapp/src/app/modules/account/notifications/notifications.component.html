@@ -23,6 +23,7 @@
                         <ng-template pTemplate='body' let-notice>
                             <tr>
                                 <td>{{notice.sendingDate | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
+                                <td>{{notice.subject}}</td>
                                 <td [innerHTML]='joinMessagesText(notice.messages)'></td>
                             </tr>
                         </ng-template>

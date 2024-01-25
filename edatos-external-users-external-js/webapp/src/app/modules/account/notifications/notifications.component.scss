@@ -1,8 +1,24 @@
 :host ::ng-deep th:nth-child(2) {
-    width: 80%;
+  width: 35%;
+}
+
+:host ::ng-deep th:nth-child(3) {
+  width: 55%;
 }
 
 :host ::ng-deep td > div.message-content-notice {
-    max-height: 300px;
-    overflow: auto;
+  max-height: 300px;
+  overflow: auto;
+}
+
+:host ::ng-deep .table-has-pointer-rows {
+  & > tbody > tr {
+    cursor: auto !important;
+  }
+
+  & > tbody > tr > td > p > a {
+    pointer-events: none;
+    cursor: not-allowed;
+    color: $soft-black;
+  }
 }

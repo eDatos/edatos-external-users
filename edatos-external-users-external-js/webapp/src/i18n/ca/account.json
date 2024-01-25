@@ -1,55 +1,56 @@
 {
-    "account": {
-        "title": "El meu compte",
-        "form": {
-            "nombre": "Nom",
-            "nombre.placeholder": "El seu nom",
-            "apellido1": "Primer cognom",
-            "apellido2": "Segon cognom",
-            "apellido1.placeholder": "El seu primer cognom",
-            "apellido2.placeholder": "El seu segon cognom",
-            "button": "Guardar"
-        },
-        "download": {
-            "myInformation": "Descarregar la meva informació"
-        },
-        "messages": {
-            "error": {
-                "emailexists": "<strong>¡L'adreça de correu electrònic ja existeix!</strong> Si us plau, triï una altra.",
-                "fail": "<strong>¡Ha ocorregut un error!</strong> Els ajustos no s'han pogut guardar."
-            },
-            "success": "<strong>¡Ajustos guardats!</strong>",
-            "validate": {
-                "apellido1": {
-                    "maxlength": "El seu primer cognom no pot tenir més de 50 caràcters",
-                    "minlength": "Es requereix que el seu primer cognom tingui almenys 1 caràcter",
-                    "required": "Es requereix que ingressi el seu primer cognom."
-                },
-                "apellido2": {
-                    "maxlength": "El seu segon cognom no pot tenir més de 50 caràcters",
-                    "minlength": "Es requereix que el seu segon cognom tingui almenys 1 caràcter",
-                    "required": "Es requereix que ingressi el seu segon cognom."
-                },
-                "nombre": {
-                    "maxlength": "El seu nom no pot tenir més de 50 caràcters",
-                    "minlength": "Es requereix que el seu nom tingui almenys 1 caràcter",
-                    "required": "Es requereix que ingressi el seu nom."
-                }
-            },
-            "delete": {
-                "text": "Està segur que vol eliminar a l'usuari?. La informació eliminada no podrà ser recuperada"
-            },
-            "onSuccessSumary": "Usuari editat",
-            "onSuccess": "S'han modificat les dades de l'usuari correctament."
-        }
+  "account": {
+    "title": "El meu compte",
+    "form": {
+      "nombre": "Nom",
+      "nombre.placeholder": "El seu nom",
+      "apellido1": "Primer cognom",
+      "apellido2": "Segon cognom",
+      "apellido1.placeholder": "El seu primer cognom",
+      "apellido2.placeholder": "El seu segon cognom",
+      "button": "Guardar"
     },
-    "notices": {
-        "entity": {
-            "message": "Missatge",
-            "receivedDate": "Rebut"
+    "download": {
+      "myInformation": "Descarregar la meva informació"
+    },
+    "messages": {
+      "error": {
+        "emailexists": "<strong>¡L'adreça de correu electrònic ja existeix!</strong> Si us plau, triï una altra.",
+        "fail": "<strong>¡Ha ocorregut un error!</strong> Els ajustos no s'han pogut guardar."
+      },
+      "success": "<strong>¡Ajustos guardats!</strong>",
+      "validate": {
+        "apellido1": {
+          "maxlength": "El seu primer cognom no pot tenir més de 50 caràcters",
+          "minlength": "Es requereix que el seu primer cognom tingui almenys 1 caràcter",
+          "required": "Es requereix que ingressi el seu primer cognom."
         },
-        "list": {
-            "noNotice": "Sembla que encara no has rebut cap missatge."
+        "apellido2": {
+          "maxlength": "El seu segon cognom no pot tenir més de 50 caràcters",
+          "minlength": "Es requereix que el seu segon cognom tingui almenys 1 caràcter",
+          "required": "Es requereix que ingressi el seu segon cognom."
+        },
+        "nombre": {
+          "maxlength": "El seu nom no pot tenir més de 50 caràcters",
+          "minlength": "Es requereix que el seu nom tingui almenys 1 caràcter",
+          "required": "Es requereix que ingressi el seu nom."
         }
+      },
+      "delete": {
+        "text": "Està segur que vol eliminar a l'usuari?. La informació eliminada no podrà ser recuperada"
+      },
+      "onSuccessSumary": "Usuari editat",
+      "onSuccess": "S'han modificat les dades de l'usuari correctament."
     }
+  },
+  "notices": {
+    "entity": {
+      "message": "Missatge",
+      "subject": "Assumpte",
+      "receivedDate": "Rebut"
+    },
+    "list": {
+      "noNotice": "Sembla que encara no has rebut cap missatge."
+    }
+  }
 }
