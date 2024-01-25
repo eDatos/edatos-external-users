@@ -99,6 +99,16 @@ fieldset:enabled, .single-language-editor, .language-input-list {
     color: #848484;
 }
 
+span.input-multilanguage-span.completed {
+    color: $green-medium;
+}
+
+span.no-selected-resource, span.input-multilanguage-span {
+    user-select: none;
+    cursor: default;
+
+}
+
 .form-errors-messages {
     position: absolute;
     top: 100%;

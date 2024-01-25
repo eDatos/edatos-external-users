@@ -801,11 +801,13 @@
         "form": {
             "subject": {
                 "label": "Asunto",
-                "placeholder": "Introduzca el asunto multilenguaje"
+                "placeholder": "Introduzca el asunto multilenguaje",
+                "completed": "Asunto multilenguaje añadido"
             },
             "message": {
                 "label": "Mensaje",
-                "placeholder": "Introduzca el mensaje multilenguaje"
+                "placeholder": "Introduzca el mensaje multilenguaje",
+                "completed": "Mensaje multilenguaje añadido"
             },
             "receivers": "Destinatarios",
             "send": "Enviar"

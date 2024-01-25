@@ -801,11 +801,13 @@
         "form": {
             "subject": {
                 "label": "Subject",
-                "placeholder": "Enter the multi-language subject"
+                "placeholder": "Enter the multi-language subject",
+                "completed": "Subject completed"
             },
             "message": {
                 "label": "Message",
-                "placeholder": "Enter the multi-language message"
+                "placeholder": "Enter the multi-language message",
+                "completed": "Message completed"
             },
             "receivers": "Receivers",
             "send": "Send"

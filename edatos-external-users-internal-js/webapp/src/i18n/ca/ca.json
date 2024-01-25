@@ -801,11 +801,13 @@
         "form": {
             "subject": {
                 "label": "Assumpte",
-                "placeholder": "Afageix l'assumpte multidioma"
+                "placeholder": "Afageix l'assumpte multidioma",
+                "completed": "Assumpte multidioma afegit"
             },
             "message": {
                 "label": "Missatge",
-                "placeholder": "Afageix el missatge multidioma"
+                "placeholder": "Afageix el missatge multidioma",
+                "completed": "Missatge multidioma afegit"
             },
             "receivers": "Destinataris",
             "send": "Enviar"
