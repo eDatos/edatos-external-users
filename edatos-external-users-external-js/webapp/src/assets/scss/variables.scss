@@ -1,5 +1,6 @@
 $white: #ffffff;
 $black: #000000;
+$soft-black: #333333;
 
 $grey-lightest: #f8f8f8;
 $grey-light: #e7e7e7;
@@ -110,18 +111,18 @@ $grid-gutter-width-base: 30px;
 
 $grid-columns: 12;
 $grid-breakpoints: (
-    xs: 0,
-    sm: 576px,
-    md: 768px,
-    lg: 992px,
-    xl: 1200px,
+        xs: 0,
+        sm: 576px,
+        md: 768px,
+        lg: 992px,
+        xl: 1200px,
 );
 $grid-gutter-widths: (
-    xs: $grid-gutter-width-base,
-    sm: $grid-gutter-width-base,
-    md: $grid-gutter-width-base,
-    lg: $grid-gutter-width-base,
-    xl: $grid-gutter-width-base,
+        xs: $grid-gutter-width-base,
+        sm: $grid-gutter-width-base,
+        md: $grid-gutter-width-base,
+        lg: $grid-gutter-width-base,
+        xl: $grid-gutter-width-base,
 );
 
 $spacer-y: 1rem;
