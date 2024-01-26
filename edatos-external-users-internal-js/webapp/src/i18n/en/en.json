@@ -802,12 +802,12 @@
             "subject": {
                 "label": "Subject",
                 "placeholder": "Enter the multi-language subject",
-                "completed": "Subject completed"
+                "added": "Multi-language subject added"
             },
             "message": {
                 "label": "Message",
                 "placeholder": "Enter the multi-language message",
-                "completed": "Message completed"
+                "added": "Multi-language message added"
             },
             "receivers": "Receivers",
             "send": "Send"

@@ -183,22 +183,22 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     }
 
     public openSubjectModal() {
-        this.isDisabledSubjectValueLanguageInput();
+        this.disableValueLanguageInput = this.existsSubjectTexts();
         this.isSubjectModalVisible = true;
     }
 
     public closeSubjectModal() {
-        this.isDisabledSubjectValueLanguageInput();
+        this.disableValueLanguageInput = this.existsSubjectTexts();
         this.isSubjectModalVisible = false;
     }
 
     public openMessageModal() {
-        this.isDisabledMessageValueLanguageInput();
+        this.disableValueLanguageInput = this.existsMessageTexts();
         this.isMessageModalVisible = true;
     }
 
     public closeMessageModal() {
-        this.isDisabledMessageValueLanguageInput();
+        this.disableValueLanguageInput = this.existsMessageTexts();
         this.isMessageModalVisible = false;
     }
 
@@ -206,11 +206,11 @@ export class NotificationsComponent implements OnInit, OnDestroy {
         this.thereAreFailedReceivers = false;
     }
 
-    private isDisabledMessageValueLanguageInput(): void {
-       this.disableValueLanguageInput = this.notification.message.texts.length === 0;
+    private existsMessageTexts(): boolean {
+       return this.notification.message.texts.length === 0;
     }
-    private isDisabledSubjectValueLanguageInput(): void {
-        this.disableValueLanguageInput = this.notification.subject.texts.length === 0;
+    private existsSubjectTexts(): boolean {
+        return this.notification.subject.texts.length === 0;
     }
 
     private arrStringToArrNumber(arrString: string[]) {

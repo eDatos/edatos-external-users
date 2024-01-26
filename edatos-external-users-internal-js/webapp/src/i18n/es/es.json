@@ -802,12 +802,12 @@
             "subject": {
                 "label": "Asunto",
                 "placeholder": "Introduzca el asunto multilenguaje",
-                "completed": "Asunto multilenguaje añadido"
+                "added": "Asunto multilenguaje añadido"
             },
             "message": {
                 "label": "Mensaje",
                 "placeholder": "Introduzca el mensaje multilenguaje",
-                "completed": "Mensaje multilenguaje añadido"
+                "added": "Mensaje multilenguaje añadido"
             },
             "receivers": "Destinatarios",
             "send": "Enviar"

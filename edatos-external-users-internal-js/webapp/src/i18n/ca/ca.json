@@ -802,12 +802,12 @@
             "subject": {
                 "label": "Assumpte",
                 "placeholder": "Afageix l'assumpte multidioma",
-                "completed": "Assumpte multidioma afegit"
+                "added": "Assumpte multidioma afegit"
             },
             "message": {
                 "label": "Missatge",
                 "placeholder": "Afageix el missatge multidioma",
-                "completed": "Missatge multidioma afegit"
+                "added": "Missatge multidioma afegit"
             },
             "receivers": "Destinataris",
             "send": "Enviar"
