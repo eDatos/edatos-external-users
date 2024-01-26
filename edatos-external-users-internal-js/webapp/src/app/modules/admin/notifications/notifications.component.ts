@@ -53,8 +53,8 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
     public availableLanguages: string[] = [];
     public disableValueLanguageInput = true;
-    public completedMessageValueLanguageInput = false;
-    public completedSubjectValueLanguageInput = false;
+    public addedMessageValueLanguageInput = false;
+    public addedSubjectValueLanguageInput = false;
 
 
     constructor(
@@ -112,7 +112,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     public saveSubjectText(notice: Notification, subject: InternationalString) {
         notice.subject = subject;
         this.isSubjectModalVisible = false;
-        this.completedSubjectValueLanguageInput = true;
+        this.addedSubjectValueLanguageInput = true;
     }
 
     public validatorValueLanguageInput(value: InternationalString) {
@@ -122,7 +122,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     public saveMessageText(notice: Notification, message: InternationalString) {
         notice.message = message;
         this.isMessageModalVisible = false;
-        this.completedMessageValueLanguageInput = true;
+        this.addedMessageValueLanguageInput = true;
     }
 
     public selectCategories() {
@@ -228,6 +228,8 @@ export class NotificationsComponent implements OnInit, OnDestroy {
                 this.selectedReceiversComponent.writeValue([]);
                 this.notification = new Notification();
                 this.resetCategories();
+                this.addedSubjectValueLanguageInput = false;
+                this.addedMessageValueLanguageInput = false;
             },
             () => {
                 this.thereAreFailedReceivers = true;

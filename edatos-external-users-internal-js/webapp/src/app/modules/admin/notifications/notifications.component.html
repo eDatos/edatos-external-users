@@ -115,9 +115,9 @@
                             <label class='form-label col-md-4' translate='notifications.form.subject.label'></label>
                             <div
                                 class='col-md-8 form-input-container form-input-container-multilanguage errors-on-hover'>
-                                <span *ngIf='!completedSubjectValueLanguageInput' class='input-multilanguage-span'
+                                <span *ngIf='!addedSubjectValueLanguageInput' class='input-multilanguage-span'
                                       translate='notifications.form.subject.placeholder'></span>
-                                <span *ngIf='completedSubjectValueLanguageInput' class='input-multilanguage-span completed' translate='notifications.form.subject.added'></span>
+                                <span *ngIf='addedSubjectValueLanguageInput' class='input-multilanguage-span completed' translate='notifications.form.subject.added'></span>
                                 <button type='button' class='btn btn-secondary btn-sm input-multilanguage-button'
                                         (click)='openSubjectModal()'>
                                     <i class='fa fa-globe mr-0' aria-hidden='true'></i>
@@ -171,9 +171,9 @@
                             <label class='form-label col-md-4' translate='notifications.form.message.label'></label>
                             <div
                                 class='col-md-8 form-input-container form-input-container-multilanguage errors-on-hover'>
-                                <span *ngIf='!completedMessageValueLanguageInput' class='input-multilanguage-span'
+                                <span *ngIf='!addedMessageValueLanguageInput' class='input-multilanguage-span'
                                       translate='notifications.form.message.placeholder'></span>
-                                <span *ngIf='completedMessageValueLanguageInput' class='input-multilanguage-span completed' translate='notifications.form.message.completed'></span>
+                                <span *ngIf='addedMessageValueLanguageInput' class='input-multilanguage-span completed' translate='notifications.form.message.added'></span>
                                 <button type='button' class='btn btn-secondary btn-sm input-multilanguage-button'
                                         (click)='openMessageModal()'>
                                     <i class='fa fa-globe mr-0' aria-hidden='true'></i>
