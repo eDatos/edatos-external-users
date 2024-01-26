@@ -2,7 +2,6 @@ package es.gobcan.istac.edatos.external.users.rest.external.resources;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,10 +10,6 @@ import javax.validation.Valid;
 import javax.ws.rs.QueryParam;
 
 import org.siemac.edatos.core.common.exception.EDatosException;
-import org.siemac.metamac.rest.notices.v1_0.domain.Notice;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -48,7 +43,6 @@ import es.gobcan.istac.edatos.external.users.rest.common.dto.ExternalUserAccount
 import es.gobcan.istac.edatos.external.users.rest.common.dto.ExternalUserAccountDto;
 import es.gobcan.istac.edatos.external.users.rest.common.mapper.ExternalUserAccountMapper;
 import es.gobcan.istac.edatos.external.users.rest.common.util.HeaderUtil;
-import es.gobcan.istac.edatos.external.users.rest.common.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 
 @RestController
@@ -194,19 +188,6 @@ public class ExternalAccountResource extends AbstractResource {
         DocumentUtil.download(documento, DocumentConstants.DOC_EXTERNAL_USER_INFORMATION, response);
         auditPublisher.publish(AuditConstants.EXT_USUARIO_DOWNLOAD_DOCUMENT, DocumentConstants.EXTERNAL_USER_INFORMATION);
         return ResponseEntity.ok().build();
-    }
-
-
-    @GetMapping("/notices")
-    @Timed
-    @PreAuthorize("@secCheckerExternal.canUpdateUser(authentication)")
-    public ResponseEntity<List<Notice>> getNoticesByReceiver(Pageable pageable) {
-        ExternalUserEntity databaseUser = externalUserService.getUsuarioWithAuthorities();
-
-        Page<Notice> notices = notificationService.findNoticesByReceiver(databaseUser.getEmail(), pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(notices, "/api/notices");
-
-        return ResponseEntity.ok().headers(headers).body(notices.getContent());
     }
 
 }
