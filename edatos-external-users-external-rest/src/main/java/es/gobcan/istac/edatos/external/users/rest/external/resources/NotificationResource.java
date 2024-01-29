@@ -23,16 +23,14 @@ import es.gobcan.istac.edatos.external.users.rest.common.util.PaginationUtil;
 
 @RestController
 @RequestMapping("/api/")
-public class NotificationsResource extends AbstractResource {
-
-    private static final String ENTITY_NAME = "userManagement";
+public class NotificationResource extends AbstractResource {
 
     private final NotificationBaseMapper notificationBaseMapper;
     private final ExternalUserService    externalUserService;
     private final NotificationService notificationService;
 
 
-    public NotificationsResource(NotificationBaseMapper notificationBaseMapper, NotificationService notificationService, ExternalUserService externalUserService) {
+    public NotificationResource(NotificationBaseMapper notificationBaseMapper, NotificationService notificationService, ExternalUserService externalUserService) {
         this.notificationBaseMapper = notificationBaseMapper;
         this.notificationService = notificationService;
         this.externalUserService = externalUserService;
