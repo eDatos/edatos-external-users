@@ -8,6 +8,10 @@
 
 *Se deberá realizar primero la actualización de la versión 1.0.0 a la 2.0.0 y luego desde la 2.0.0 a la 3.0.0*
 
+## 2.0.0 a 2.0.1-SNAPSHOT
+
+* Este proyecto añade la cabecera Access-Control-Allow-Origin alimentándola con la propiedad whitelist (véase SecurityConfiguration.java). Es importante que, si la aplicación se sirve tras un frontal de Apache o similar, el mismo no añada cabeceras Access-Control-Allow-Origin: *, pues interactuaría con la añadida por la aplicación. 
+
 ## 1.2.1 a 2.0.0
 
 * Se añaden las propiedades `metamac.portal.rest.external.authentication.captcha.v2.private_key` y `metamac.portal.rest.external.authentication.captcha.v2.public_key`, que hacen referencia a la clave secreta y la clave de sitio web de la versión 2 del recaptcha respectivamente. Para añadir las propiedades hace falta ejecutar el siguiente script SQL:

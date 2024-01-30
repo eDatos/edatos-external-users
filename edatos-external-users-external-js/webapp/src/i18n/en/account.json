@@ -51,6 +51,7 @@
   "notices": {
     "entity": {
       "message": "Message",
+      "subject": "Subject",
       "receivedDate": "Received"
     },
     "list": {

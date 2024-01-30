@@ -40,6 +40,8 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+import static es.gobcan.istac.edatos.external.users.core.service.impl.ExternalUserServiceImpl.MIGRATED_USER_PSWD;
+
 @ComponentScan
 @EnableAutoConfiguration(exclude = {MetricFilterAutoConfiguration.class, MetricRepositoryAutoConfiguration.class})
 @EnableConfigurationProperties({LiquibaseProperties.class})
@@ -186,7 +188,7 @@ public class EdatosExternalUsersMigrationApp {
                                 externalUser.setOrganism(finalValues[headerIndexMap.get("organism")]);
                                 externalUser.setPhoneNumber(finalValues[headerIndexMap.get("phoneNumber")]);
                                 externalUser.setEmailNotificationsEnabled(true);
-                                externalUser.setPassword("MIGRATED_USER");
+                                externalUser.setPassword(MIGRATED_USER_PSWD);
                                 externalUser.setEnabled(false);
                                 externalUser.setRegistrationToken(UUID.randomUUID().toString());
                                 if (StringUtils.isNotBlank(finalValues[headerIndexMap.get("gender")])) {

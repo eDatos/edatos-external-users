@@ -51,6 +51,7 @@
   "notices": {
     "entity": {
       "message": "Missatge",
+      "subject": "Assumpte",
       "receivedDate": "Rebut"
     },
     "list": {

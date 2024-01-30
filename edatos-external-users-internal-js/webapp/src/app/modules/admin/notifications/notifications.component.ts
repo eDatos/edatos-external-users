@@ -53,6 +53,9 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
     public availableLanguages: string[] = [];
     public disableValueLanguageInput = true;
+    public addedMessageValueLanguageInput = false;
+    public addedSubjectValueLanguageInput = false;
+
 
     constructor(
         private eventManager: ArteEventManager,
@@ -109,6 +112,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     public saveSubjectText(notice: Notification, subject: InternationalString) {
         notice.subject = subject;
         this.isSubjectModalVisible = false;
+        this.addedSubjectValueLanguageInput = true;
     }
 
     public validatorValueLanguageInput(value: InternationalString) {
@@ -118,6 +122,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     public saveMessageText(notice: Notification, message: InternationalString) {
         notice.message = message;
         this.isMessageModalVisible = false;
+        this.addedMessageValueLanguageInput = true;
     }
 
     public selectCategories() {
@@ -178,25 +183,34 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     }
 
     public openSubjectModal() {
-        this.disableValueLanguageInput = this.notification.subject.texts.length === 0;
+        this.disableValueLanguageInput = this.existsSubjectTexts();
         this.isSubjectModalVisible = true;
     }
 
     public closeSubjectModal() {
+        this.disableValueLanguageInput = this.existsSubjectTexts();
         this.isSubjectModalVisible = false;
     }
 
     public openMessageModal() {
-        this.disableValueLanguageInput = this.notification.message.texts.length === 0;
+        this.disableValueLanguageInput = this.existsMessageTexts();
         this.isMessageModalVisible = true;
     }
 
     public closeMessageModal() {
+        this.disableValueLanguageInput = this.existsMessageTexts();
         this.isMessageModalVisible = false;
     }
 
     public closeFailedReceivers() {
         this.thereAreFailedReceivers = false;
+    }
+
+    private existsMessageTexts(): boolean {
+       return this.notification.message.texts.length === 0;
+    }
+    private existsSubjectTexts(): boolean {
+        return this.notification.subject.texts.length === 0;
     }
 
     private arrStringToArrNumber(arrString: string[]) {
@@ -214,6 +228,8 @@ export class NotificationsComponent implements OnInit, OnDestroy {
                 this.selectedReceiversComponent.writeValue([]);
                 this.notification = new Notification();
                 this.resetCategories();
+                this.addedSubjectValueLanguageInput = false;
+                this.addedMessageValueLanguageInput = false;
             },
             () => {
                 this.thereAreFailedReceivers = true;

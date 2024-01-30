@@ -30,7 +30,7 @@ public interface ExternalUserRepository extends JpaRepository<ExternalUserEntity
 
     Optional<ExternalUserEntity> findOneByEmailIgnoreCaseAndEnabledTrue(String email);
 
-    void deleteAllByEnabledFalseAndCreatedDateIsBefore(Instant date);
+    void deleteAllByEnabledFalseAndPasswordIsNotAndCreatedDateIsBefore(String migrationPassword,Instant date);
 
     Boolean existsByEmailIgnoreCase(String email);
 
