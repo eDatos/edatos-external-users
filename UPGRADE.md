@@ -10,7 +10,7 @@
 
 ## 2.0.0 a 2.0.1-SNAPSHOT
 
-* Se detecta en estas versiones que es necesario que el Apache no tenga configurado un valor predeterminado para la cabecera Access-Control-Allow-Origin para al menos la parte externa de external-users. La configuración de SecurityConfiguration.java se encarga de determinar el valor real que debe tener. 
+* Este proyecto añade la cabecera Access-Control-Allow-Origin alimentándola con la propiedad whitelist (véase SecurityConfiguration.java). Es importante que, si la aplicación se sirve tras un frontal de Apache o similar, el mismo no añada cabeceras Access-Control-Allow-Origin: *, pues interactuaría con la añadida por la aplicación. 
 
 ## 1.2.1 a 2.0.0
 
