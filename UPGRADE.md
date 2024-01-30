@@ -8,6 +8,10 @@
 
 *Se deberá realizar primero la actualización de la versión 1.0.0 a la 2.0.0 y luego desde la 2.0.0 a la 3.0.0*
 
+## 2.0.0 a 2.0.1-SNAPSHOT
+
+* Se detecta en estas versiones que es necesario que el Apache no tenga configurado un valor predeterminado para la cabecera Access-Control-Allow-Origin para al menos la parte externa de external-users. La configuración de SecurityConfiguration.java se encarga de determinar el valor real que debe tener. 
+
 ## 1.2.1 a 2.0.0
 
 * Se añaden las propiedades `metamac.portal.rest.external.authentication.captcha.v2.private_key` y `metamac.portal.rest.external.authentication.captcha.v2.public_key`, que hacen referencia a la clave secreta y la clave de sitio web de la versión 2 del recaptcha respectivamente. Para añadir las propiedades hace falta ejecutar el siguiente script SQL:
