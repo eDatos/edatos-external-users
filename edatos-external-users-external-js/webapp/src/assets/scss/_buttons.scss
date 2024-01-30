@@ -27,9 +27,6 @@ button.text-icon-button, button.menu-text-icon-button {
   padding: 0 $padding-10px;
   height: 30px;
   border: 1px solid $color-azul-oscuro-100;
-  border-radius: 5px;
-  background: $color-negro-0;
-  color: $color-azul-oscuro-100;
   font-size: $size-16;
   line-height: 16px;
   width: 100px;
@@ -53,18 +50,21 @@ button.text-icon-button, button.menu-text-icon-button {
 
 button.text-icon-button:first-child, button.text-icon-button-btwn {
   margin-right: 10px;
+  border-radius: 5px;
 }
 
+button.text-icon-button {
+  background: $color-negro-0;
+  color: $color-azul-oscuro-100;
+  border-radius: 5px;
+}
 
-.menu-text-icon-button {
+button.menu-text-icon-button.text-icon-button {
   background-color: $color-azul-oscuro-100;
-  border: 2px solid $color-azul-oscuro-100;
-  border-radius: $border-radius-5px-0;
+  // border: 2px solid $color-azul-oscuro-100;
+  // border-radius: $border-radius-5px-0;
   color: $color-negro-0;
-
-  span {
-    font-weight: $font-weight-600;
-  }
+  border-radius: 5px 5px 0 0;
 }
 
 .copied-message {
@@ -150,7 +150,26 @@ span.pi-search, body .ui-tree .ui-tree-filter-container .ui-tree-filter-icon {
   color: $color-azul-oscuro-50;
 }
 
+.fa-folder-open:before, .fa-folder:before, .fa-table:before, .pi.pi-caret-down:before, {
+  color: $color-azul-oscuro-100;
+  font-size: large;
+}
+
+.pi-check:before {
+  color: $color-negro-0;
+  background-color: $color-azul-oscuro-100;
+  margin: 0;
+}
+
 .app {
+
+  .ui-tree .ui-tree-container .ui-treenode .ui-treenode-content .ui-chkbox .ui-chkbox-icon {
+    margin: 0;
+  }
+
+  .ui-chkbox .ui-chkbox-box {
+    border: 1px solid $color-azul-oscuro-100;
+  }
 
   .text-info {
     font-size: 30px;

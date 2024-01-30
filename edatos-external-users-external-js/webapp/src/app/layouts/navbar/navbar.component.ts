@@ -13,7 +13,7 @@ import { SharedRefreshService } from '@app/shared/service/shared-refresh.service
 export class NavbarComponent implements OnInit {
     inProduction: boolean;
     public isCorrectlyLogged: boolean;
-    public isNavbarCollapsed: boolean;
+    public isNavbarCollapsed: boolean = true;
     public account: any;
 
     constructor(
@@ -26,7 +26,6 @@ export class NavbarComponent implements OnInit {
         private router: Router,
         private sharedService: SharedRefreshService
     ) {
-        this.isNavbarCollapsed = true;
     }
 
     ngOnInit() {
@@ -38,12 +37,13 @@ export class NavbarComponent implements OnInit {
         });
     }
 
-    collapseNavbar() {
+    public navigateTo(route: string) {
         this.isNavbarCollapsed = true;
+        this.router.navigate([route]);
     }
 
     logout() {
-        this.collapseNavbar();
+        this.isNavbarCollapsed = true;
         this.loginService.logout().then(() => this.router.navigate(['login']));
         this.sharedService.triggerRefresh();
         this.sharedService.triggerRefreshForceValue(false);
@@ -51,6 +51,7 @@ export class NavbarComponent implements OnInit {
 
     toggleNavbar() {
         this.isNavbarCollapsed = !this.isNavbarCollapsed;
+        console.log(this.isNavbarCollapsed);
     }
 
     public puedeNavegarAdministracion(): boolean {

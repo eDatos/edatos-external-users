@@ -1,6 +1,31 @@
 @import 'variables';
 @import 'mixins';
 
+@media screen and (max-width: 991px) {
+  #navbarResponsive {
+    display: flex;
+    justify-content: end;
+  }
+
+  .navbar-nav {
+    position: absolute;
+    z-index: 1;
+    top: -14px;
+    justify-content: flex-end;
+  }
+
+  .navbar {
+    .dropdown-menu {
+      margin-top: -11px !important;
+    }
+
+    .general-buttons.row {
+      justify-content: end !important;
+    }
+
+  }
+}
+
 /* ==========================================================================
 Navbar
 ========================================================================== */
@@ -25,6 +50,15 @@ Navbar
 
   }
 
+  button.text-icon-button:first-child {
+    margin-right: 0;
+  }
+
+  div.navbar-collapse {
+    height: 42px;
+    padding-bottom: 10px;
+  }
+
   ul.navbar-nav {
     //  color: $color-azul-10;
     .nav-item {
@@ -36,11 +70,27 @@ Navbar
 
       ul.dropdown-menu-right.show {
         margin: 0;
-        top: 38px;
+        top: 48px;
         background-color: $color-azul-oscuro-100;
-        border-radius: 6px;
+        border-radius: 6px 0 6px 6px;
+
+        /*
+            right: unset;
+            left: 10px;
+            background-color: #004678;
+            border-radius: 0 6px 6px 6px;
+        */
       }
     }
+  }
+
+  div.general-buttons.row {
+    margin: 0;
+    padding: 0 0 10px 0;
+  }
+
+  .dropdown-menu {
+    border: unset;
   }
 }
 
@@ -70,6 +120,11 @@ ul.dropdown-menu li {
   border-radius: 3px;
 }
 
+
+.dropdown-toggle::after {
+  display: inline-block;
+  content: unset;
+}
 
 a.nav-link {
   color: $color-azul-oscuro-50;
