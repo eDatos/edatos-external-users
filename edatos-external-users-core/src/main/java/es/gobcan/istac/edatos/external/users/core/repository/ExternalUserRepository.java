@@ -16,13 +16,11 @@ import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
 @Repository
 public interface ExternalUserRepository extends JpaRepository<ExternalUserEntity, Long> {
 
-    Optional<ExternalUserEntity> findOneByEmail(String email);
-
-    List<ExternalUserEntity> findAllByEmailIn(List<String> emails);
+    Optional<ExternalUserEntity> findOneByEmailIgnoreCase(String email);
 
     Optional<ExternalUserEntity> findOneByRegistrationToken(String token);
 
-    Optional<ExternalUserEntity> findOneByEmailAndIdNot(String email, Long id);
+    Optional<ExternalUserEntity> findOneByEmailIgnoreCaseAndIdNot(String email, Long id);
 
     Optional<ExternalUserEntity> findOneById(Long id);
 
@@ -34,11 +32,14 @@ public interface ExternalUserRepository extends JpaRepository<ExternalUserEntity
 
     Boolean existsByEmailIgnoreCase(String email);
 
-    Optional<ExternalUserEntity> findOneWithRolesByEmail(String email);
+    Optional<ExternalUserEntity> findOneWithRolesByEmailIgnoreCase(String email);
 
     Optional<ExternalUserEntity> findOneByResetKey(String key);
 
     List<ExternalUserEntity> findByFavorites_category_idIn(List<Long> categoriesIds);
+
+    @Query("select u from ExternalUserEntity as u WHERE lower(u.email) IN ?1")
+    List<ExternalUserEntity> findAllByLowerCaseEmailIn(List<String> emails);
 
     @Query("select u from ExternalUserEntity as u join FavoriteEntity as f on u.id = f.externalUser.id WHERE f.category.id in ?1 or f.externalOperation.id in ?2 group by u.id having count(u.id) = ?3")
     List<ExternalUserEntity> findByCategoriesAndExternalOperations(List<Long> categories, List<Long> operations, Long categoriesSizePlusOperationsSize);

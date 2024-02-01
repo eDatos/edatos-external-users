@@ -43,7 +43,7 @@ public class FilterServiceImpl implements FilterService {
     public FilterEntity update(FilterEntity filter) {
         return filterRepository.saveAndFlush(filter);
     }
-    
+
     @Override
     public List<FilterEntity> update(List<FilterEntity> filters) {
         return filterRepository.save(filters);
@@ -79,7 +79,7 @@ public class FilterServiceImpl implements FilterService {
     @Override
     public Page<FilterEntity> findByExternalUser(String query, Pageable pageable) {
         DetachedCriteria criteria = queryUtil.queryToFilterCriteria(query, pageable);
-        ExternalUserEntity externalUser = externalUserRepository.findOneByEmail(SecurityUtils.getCurrentUserLogin()).get();
+        ExternalUserEntity externalUser = externalUserRepository.findOneByEmailIgnoreCase(SecurityUtils.getCurrentUserLogin()).get();
         criteria.add(Restrictions.eq("externalUser", externalUser));
         return filterRepository.findAll(criteria, pageable);
     }

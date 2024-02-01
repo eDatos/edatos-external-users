@@ -64,7 +64,7 @@ public abstract class ExternalUserAccountMapper implements EntityMapper<External
     public abstract ExternalUserAccountDto toDto(ExternalUserEntity entity);
 
     public ExternalUserEntity getUserFromEmail(String email) {
-        return externalUserRepository.findOneByEmail(email).orElse(null);
+        return externalUserRepository.findOneByEmailIgnoreCase(email).orElse(null);
     }
 
     @Named("externalUserToBaseDto")
