@@ -105,7 +105,7 @@ public abstract class FilterMapper implements EntityMapper<FilterDto, FilterEnti
         if (email == null) {
             return null;
         }
-        return externalUserRepository.findOneByEmail(email).orElse(null);
+        return externalUserRepository.findOneByEmailIgnoreCase(email).orElse(null);
     }
 
     @Named("externalOperationFromCode")

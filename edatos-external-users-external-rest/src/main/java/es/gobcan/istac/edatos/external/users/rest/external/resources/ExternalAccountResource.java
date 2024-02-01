@@ -141,7 +141,7 @@ public class ExternalAccountResource extends AbstractResource {
     @Timed
     @PreAuthorize("@secCheckerExternal.canUpdateUser(authentication)")
     public ResponseEntity<ExternalUserAccountBaseDto> update(@Valid @RequestBody ExternalUserAccountBaseDto userDto) {
-        Optional<ExternalUserEntity> existingUser = externalUserRepository.findOneByEmail(userDto.getEmail().toLowerCase());
+        Optional<ExternalUserEntity> existingUser = externalUserRepository.findOneByEmailIgnoreCase(userDto.getEmail().toLowerCase());
 
         if (existingUser.isPresent() && (!existingUser.get().getId().equals(userDto.getId()))) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.USUARIO_EXISTE, ErrorMessagesConstants.USUARIO_EXISTE)).body(null);

@@ -74,7 +74,7 @@ public class ExternalUserResource extends AbstractResource {
             throw new EDatosException(CommonServiceExceptionType.PARAMETER_UNEXPECTED, "id");
         }
 
-        if (externalUserRepository.findOneByEmail(externalUser.getEmail().toLowerCase()).isPresent()) {
+        if (externalUserRepository.findOneByEmailIgnoreCase(externalUser.getEmail().toLowerCase()).isPresent()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.USUARIO_EXISTE, ErrorMessagesConstants.USUARIO_EXISTE)).body(null);
         }
 
@@ -90,7 +90,7 @@ public class ExternalUserResource extends AbstractResource {
     @PutMapping
     @PreAuthorize("@secChecker.canUpdateUser(authentication)")
     public ResponseEntity<ExternalUserDto> update(@Valid @RequestBody ExternalUserDto userDto) {
-        Optional<ExternalUserEntity> existingUser = externalUserRepository.findOneByEmail(userDto.getEmail().toLowerCase());
+        Optional<ExternalUserEntity> existingUser = externalUserRepository.findOneByEmailIgnoreCase(userDto.getEmail().toLowerCase());
 
         if (existingUser.isPresent() && (!existingUser.get().getId().equals(userDto.getId()))) {
             // login already exists, there cannot be two users with the same login
