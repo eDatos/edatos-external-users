@@ -7,7 +7,7 @@
 
 .app {
   clear: both;
-  background-color: $color-negro-5;
+  background-color: $color-black-5;
   min-height: 540px;
 }
 
@@ -24,7 +24,7 @@
 
   &:not(.btn-icon-only) {
     .btn-icon,
-    .fa {
+    .fa-thin {
       margin-right: 5px;
     }
   }
@@ -44,7 +44,7 @@
 
 .nav-link,
 .dropdown-item {
-  .fa {
+  .fa-thin {
     margin-right: 5px;
   }
 }
@@ -150,7 +150,6 @@ table.table-sticky-header {
     .title {
       font-size: 1.1rem;
       font-weight: 600;
-      margin-bottom: 5px;
     }
   }
 }

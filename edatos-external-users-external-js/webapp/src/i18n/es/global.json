@@ -17,6 +17,7 @@
         "login": "Iniciar sesión",
         "logout": "Cerrar la sesión",
         "myAccount": "Mi cuenta",
+        "myFolder": "Mi carpeta",
         "notifications": "Notificaciones"
       },
       "admin": {
@@ -39,6 +40,7 @@
       "email.placeholder": "Su correo electrónico"
     },
     "messages": {
+      "requiredFields": "Campos marcados con asterisco son obligatorios.",
       "validate": {
         "email": {
           "required": "Se requiere un correo electrónico.",

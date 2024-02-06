@@ -1,4 +1,11 @@
+@import "variables";
+
 :host ::ng-deep .ui-tree {
+  background-color: $color-black-5;
+  border: none;
+  margin-bottom: 50px;
+  border-radius: 0 0 5px 5px;
+
   .ui-tree-container {
     padding-left: 1.2em;
   }
@@ -16,6 +23,9 @@
     display: flex;
     align-items: baseline;
   }
-}
 
+  .ui-tree-filter-container {
+    padding: 0;
+  }
+}
 

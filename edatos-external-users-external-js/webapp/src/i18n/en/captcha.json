@@ -1,10 +1,10 @@
 {
-    "captcha": {
-        "button": {
-            "text": "Send"
-        },
-        "label": {
-            "text": "Write the value of the image shown above"
-        }
+  "captcha": {
+    "button": {
+      "text": "Send"
+    },
+    "label": {
+      "text": "Write the value of the image shown"
     }
+  }
 }

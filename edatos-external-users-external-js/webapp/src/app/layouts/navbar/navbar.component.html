@@ -1,60 +1,114 @@
 <div class='page'>
-    <nav class='navbar navbar-expand-lg' *ngIf='isCorrectlyLogged'>
-        <div class='collapse navbar-collapse' id='navbarResponsive' [ngbCollapse]='isNavbarCollapsed'>
-            <ul class='navbar-nav ml-auto'>
-                <li ngbDropdown class='nav-item dropdown pointer' routerLinkActive='active'
-                    [routerLinkActiveOptions]='{exact: false}'>
-                    <div class='general-buttons row'>
-                        <button class='text-icon-button' (click)='toggleNavbar()'
-                                [ngClass]="!isNavbarCollapsed ? 'menu-text-icon-button ' : ''"
-                                ngbDropdownToggle id='user-menu'>
-                            <span class='text-icon-button'>
-                                <span>{{ 'Mi cuenta' | translate | uppercase }}</span>&nbsp;
-                                <i [ngClass]="!isNavbarCollapsed ? 'fa fa-chevron-up' : 'fa fa-chevron-down'"></i>
-                            </span>
-                        </button>
-                    </div>
-                    <ul class='dropdown-menu dropdown-menu-right' ngbDropdownMenu>
-                        <li>
-                            <a class='dropdown-item' (click)="navigateTo('account-management')"
-                               routerLinkActive='active'>
-                                <i class='fa' aria-hidden='true'></i>
-                                <span translate='global.menu.account.myAccount'></span>
-                            </a>
-                        </li>
-                        <hr />
-                        <li>
-                            <a class='dropdown-item' (click)="navigateTo('notifications')" routerLinkActive='active'>
-                                <i class='fa fa-envelope-o' aria-hidden='true'></i>
-                                <span translate='global.menu.account.notifications'></span>
-                            </a>
-                        </li>
-                        <hr />
-                        <li>
-                            <a class='dropdown-item' (click)="navigateTo('data-protection-policy')"
-                               routerLinkActive='active'>
-                                <i class='fa fa-fw fa-file' aria-hidden='true'></i>
-                                <span translate='entity.action.data-protection-policy'></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class='dropdown-item dialog-btn-pointer' (click)='openAboutDialog()'
-                               routerLinkActive='active'>
-                                <i class='fa fa-fw fa-info-circle' aria-hidden='true'></i>
-                                <span translate='entity.action.about'></span>
-                            </a>
-                        </li>
-                        <hr />
-                        <li>
-                            <a class='dropdown-item btn' (click)='logout()' id='logout'
-                               [title]="'global.menu.account.logout' | translate">
-                                <i class='fa fa-fw fa-sign-out' aria-hidden='true'></i>
-                                <span translate='global.menu.account.logout'></span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
+    <div class='page-header-wrapper' *ngIf='isCorrectlyLogged'>
+        <div *ngIf='isMyFolder' class='page-header'>
+            <div class='page-header-top'>
+                <h1 class='page-header-title' translate='global.menu.account.myFolder'></h1>
+            </div>
+            <p class='page-header-content'></p>
         </div>
-    </nav>
+        <div *ngIf='isMyAccount' class='page-header'>
+            <div class='page-header-top'>
+                <h1 class='page-header-title' translate='global.menu.account.myAccount'></h1>
+            </div>
+            <p class='page-header-content'></p>
+        </div>
+        <nav *ngIf='isMyFolder' class='navbar navbar-expand-lg'>
+            <div class='collapse navbar-collapse' id='navbarResponsive' [ngbCollapse]='isNavbarCollapsed'>
+                <ul class='navbar-nav ml-auto'>
+                    <li ngbDropdown class='nav-item dropdown pointer' routerLinkActive='active'
+                        [routerLinkActiveOptions]='{exact: false}'>
+                        <div class='general-buttons row'>
+                            <button class='text-icon-button' (click)='toggleNavbar()'
+                                    [ngClass]="!isNavbarCollapsed ? 'menu-text-icon-button ' : ''"
+                                    ngbDropdownToggle id='user-menu'>
+                            <span class='text-icon-button'>
+                                <span><i class='fa-thin fa-folder-user'></i>
+                                    {{ 'global.menu.account.myFolder' | translate | uppercase }}</span>&nbsp;
+                                <i [ngClass]="!isNavbarCollapsed ? 'fa-thin fa-chevron-up' : 'fa-thin fa-chevron-down'"></i>
+                            </span>
+                            </button>
+                        </div>
+                        <ul class='dropdown-menu dropdown-menu-right' ngbDropdownMenu>
+                            <li>
+                                <a class='dropdown-item' (click)="navigateTo('account-management')"
+                                   routerLinkActive='active'>
+                                    <i class='fa-thin fa-user' aria-hidden='true'></i>
+                                    <span translate='global.menu.account.myAccount'></span>
+                                </a>
+                            </li>
+                            <hr />
+                            <li>
+                                <a class='dropdown-item' (click)="navigateTo('notifications')"
+                                   routerLinkActive='active'>
+                                    <i class='fa fa-envelope-o' aria-hidden='true'></i>
+                                    <span translate='global.menu.account.notifications'></span>
+                                </a>
+                            </li>
+                            <hr />
+                            <li>
+                                <a class='dropdown-item' (click)="navigateTo('data-protection-policy')"
+                                   routerLinkActive='active'>
+                                    <i class='fa fa-fw fa-file' aria-hidden='true'></i>
+                                    <span translate='entity.action.data-protection-policy'></span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class='dropdown-item dialog-btn-pointer' (click)='openAboutDialog()'
+                                   routerLinkActive='active'>
+                                    <i class='fa fa-fw fa-info-circle' aria-hidden='true'></i>
+                                    <span translate='entity.action.about'></span>
+                                </a>
+                            </li>
+                            <hr />
+                            <li>
+                                <a class='dropdown-item btn' (click)='logout()' id='logout'
+                                   [title]="'global.menu.account.logout' | translate">
+                                    <i class='fa fa-fw fa-sign-out' aria-hidden='true'></i>
+                                    <span translate='global.menu.account.logout'></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <nav *ngIf='isMyAccount' class='navbar navbar-expand-lg'>
+            <div class='collapse navbar-collapse' id='navbarResponsive' [ngbCollapse]='isNavbarCollapsed'>
+                <ul class='navbar-nav ml-auto'>
+                    <li ngbDropdown class='nav-item dropdown pointer' routerLinkActive='active'
+                        [routerLinkActiveOptions]='{exact: false}'>
+                        <div class='general-buttons row'>
+                            <button class='text-icon-button' (click)='toggleNavbar()'
+                                    [ngClass]="!isNavbarCollapsed ? 'menu-text-icon-button ' : ''"
+                                    ngbDropdownToggle id='user-menu'>
+                            <span class='text-icon-button'>
+                                <span><i class='fa-thin fa-user'></i>
+                                    {{ 'global.menu.account.myAccount' | translate | uppercase }}</span>&nbsp;
+                                <i [ngClass]="!isNavbarCollapsed ? 'fa-thin fa-chevron-up' : 'fa-thin fa-chevron-down'"></i>
+                            </span>
+                            </button>
+                        </div>
+                        <ul class='dropdown-menu dropdown-menu-right' ngbDropdownMenu>
+                            <li>
+                                <a class='dropdown-item' (click)="navigateTo('filter')"
+                                   routerLinkActive='active'>
+                                    <i class='fa' aria-hidden='true'></i>
+                                    <span translate='global.menu.account.myFolder'></span>
+                                </a>
+                            </li>
+                            <hr />
+                            <li>
+                                <a class='dropdown-item btn' (click)='logout()' id='logout'
+                                   [title]="'global.menu.account.logout' | translate">
+                                    <i class='fa fa-fw fa-sign-out' aria-hidden='true'></i>
+                                    <span translate='global.menu.account.logout'></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
 </div>

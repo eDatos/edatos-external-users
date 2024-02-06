@@ -13,7 +13,6 @@
       "forgottenPassword": "Pulse aquí para establecer una nueva",
       "signup": "Registrar nueva cuenta",
       "signin": "Iniciar sesión",
-      "goBack": "Volver",
       "resetPassword": "¿Has olvidado tu contraseña?"
     },
     "resetPassword": {
@@ -21,7 +20,11 @@
         "title": "Recuperar contraseña",
         "email": "Correo electrónico",
         "send": "Enviar",
-        "successSending": "Su solicitud ha sido enviada con exito. \n\nPor favor, revise su correo electrónico y siga los pasos."
+        "content": "Recibirás un correo electrónico con los pasos para recuperar tu contraseña",
+        "successSending": {
+          "title": "Su solicitud ha sido enviada con exito",
+          "text": "Por favor, revise su correo electrónico y siga los pasos"
+        }
       },
       "finish": {
         "title": "Cambiar contraseña"

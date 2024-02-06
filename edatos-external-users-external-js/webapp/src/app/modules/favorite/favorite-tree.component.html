@@ -3,8 +3,11 @@
         <div class='page-no-header-top'></div>
     </div>
 
-    <div class='page-body has-detail-info'>
+    <div class='page-body'>
         <fieldset class='page-section' arteAutofocus>
+            <div class='information-section'>
+                <label class='label-title'>{{ "favorite.title" | translate }}</label>
+            </div>
             <app-structural-resources-tree
                 (onResourceSelect)='saveFavorite($event)'
                 (onResourceUnselect)='deleteFavorite($event)'

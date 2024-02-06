@@ -17,6 +17,8 @@ export class FilterFormEditComponent implements OnInit {
     public filter: Filter;
     public account: any;
 
+    public urlPermalink: boolean = false;
+
     constructor(
         private filterService: FilterService,
         private activatedRoute: ActivatedRoute,
@@ -39,6 +41,17 @@ export class FilterFormEditComponent implements OnInit {
         this.router.navigate([`../filter/${this.filter.id}`]);
     }
 
+
+    public onCopyUrlPermalinkSuccess() {
+        this.urlPermalink = true;
+        setTimeout(() => {
+            this.urlPermalink = false;
+        }, 3000);
+    }
+
+    public openSelfLink(selfLink: string) {
+        window.open(selfLink, '_blank');
+    }
 
     public submit(): void {
         this.toggleIsSaving();

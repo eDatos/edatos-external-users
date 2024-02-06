@@ -16,6 +16,9 @@ export class NavbarComponent implements OnInit {
     public isNavbarCollapsed: boolean = true;
     public account: any;
 
+    public isMyAccount: boolean = false;
+    public isMyFolder: boolean = true;
+
     constructor(
         private loginService: LoginService,
         public permissionService: PermissionService,
@@ -39,6 +42,13 @@ export class NavbarComponent implements OnInit {
 
     public navigateTo(route: string) {
         this.isNavbarCollapsed = true;
+        if (route === 'account-management') {
+            this.isMyAccount = true;
+            this.isMyFolder = false;
+        } else if (route === 'filter') {
+            this.isMyAccount = false;
+            this.isMyFolder = true;
+        }
         this.router.navigate([route]);
     }
 

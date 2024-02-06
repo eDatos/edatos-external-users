@@ -1,33 +1,33 @@
 //primeng dropdown - OTHER VERSIONS
 .p-dropdown-custom .p-dropdown {
   height: 30px;
-  border: 1px solid $color-azul-oscuro-100;
+  border: 1px solid $color-blue-dark-100;
   border-radius: 5px;
   align-items: center;
 }
 
 .p-dropdown-custom {
   .p-dropdown-label.p-placeholder {
-    color: $color-azul-oscuro-100;
+    color: $color-blue-dark-100;
     font-weight: 300;
     padding: 5px 10px;
     font-size: $size-14;
   }
 
   .p-dropdown .p-dropdown-trigger {
-    color: $color-azul-oscuro-100;
+    color: $color-blue-dark-100;
     width: 1.25rem;
     justify-content: flex-start;
     padding-right: 25px;
   }
 
   .p-dropdown.p-component.p-dropdown-open {
-    background-color: $color-azul-oscuro-100;
+    background-color: $color-blue-dark-100;
     border: none;
     border-radius: $border-radius-5px-0;
 
     .p-dropdown-label.p-placeholder, .p-dropdown-trigger-icon {
-      color: $color-negro-0;
+      color: $color-black-0;
       font-weight: $font-weight-600;
     }
   }
@@ -35,30 +35,30 @@
   .p-dropdown.p-component {
     &.p-focus {
       box-shadow: none;
-      border-color: $color-azul-oscuro-100;
+      border-color: $color-blue-dark-100;
     }
 
     &:not(.p-disabled):hover {
-      border-color: $color-azul-oscuro-100;
+      border-color: $color-blue-dark-100;
     }
   }
 
   .p-dropdown-panel {
     border-radius: 0px 0px 5px 5px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    background-color: $color-azul-10;
+    background-color: $color-blue-10;
 
     .p-dropdown-header {
       padding: 3px;
-      background-color: $color-azul-10;
+      background-color: $color-blue-10;
       border-bottom: none;
 
       .p-dropdown-filter.p-inputtext {
         height: 30px;
-        border: 1px solid $color-negro-60;
+        border: 1px solid $color-black-60;
         border-radius: 5px;
         font-size: $size-12;
-        color: $color-negro-60;
+        color: $color-black-60;
 
         &:focus {
           box-shadow: none; //se elimina en options el sombreado alrededor de cada elementeo
@@ -75,7 +75,7 @@
       padding: 3px;
       font-weight: $font-weight-300;
       line-height: 24px;
-      color: $color-azul-oscuro-100;
+      color: $color-blue-dark-100;
     }
   }
 }
@@ -88,9 +88,9 @@
 
 
 .p-dropdown-panel .p-dropdown-items .p-dropdown-item:not(.p-highlight):not(.p-disabled):hover {
-  background: $color-azul-10;
-  color: $color-azul-oscuro-100;
-  background: $color-azul-25;
+  background: $color-blue-10;
+  color: $color-blue-dark-100;
+  background: $color-blue-25;
   border-radius: 3px;
 }
 
@@ -98,7 +98,7 @@
 //primeng menu
 .p-menu-custom {
   .p-menu.p-menu-overlay {
-    background: $color-azul-oscuro-100;
+    background: $color-blue-dark-100;
     left: unset !important;
     padding: 5px;
 
@@ -121,20 +121,20 @@
       .p-menuitem-icon {
         display: flex;
         justify-content: center;
-        color: $color-negro-0;
+        color: $color-black-0;
         font-size: $size-16;
         width: 20px;
       }
 
       .p-menuitem-text {
-        color: $color-negro-0;
+        color: $color-black-0;
         font-weight: 300;
         font-size: $size-14;
         line-height: 24px;
       }
 
       &:not(.p-disabled):hover {
-        background: $color-azul-25;
+        background: $color-blue-25;
         border-radius: 3px;
 
         .p-menuitem-text {
@@ -163,7 +163,7 @@
 
   span {
     padding: 0;
-    color: $color-negro-100;
+    color: $color-black-100;
     font-size: $size-14;
     line-height: 19px;
 
@@ -174,7 +174,7 @@
     }
 
     &.info-agency {
-      color: $color-azul-oscuro-100;
+      color: $color-blue-dark-100;
     }
   }
 
@@ -196,7 +196,7 @@
   color: #231F20;
 
   &.background {
-    background: $color-azul-10;
+    background: $color-blue-10;
     height: 40px;
     padding: $padding-10px;
     border-radius: 5px;
@@ -206,7 +206,7 @@
     flex-grow: 2;
 
     & > code {
-      color: $color-negro-100;
+      color: $color-black-100;
       font-size: $size-14;
       font-weight: 200;
     }
@@ -226,7 +226,7 @@
     width: 1.25rem;
 
     i {
-      color: $color-azul-oscuro-100;
+      color: $color-blue-dark-100;
     }
   }
 }
@@ -236,7 +236,7 @@
     font-size: $size-16;
     background: transparent;
     border: none;
-    color: $color-azul-oscuro-100;
+    color: $color-blue-dark-100;
   }
 }
 
@@ -251,7 +251,7 @@
 
 .p-dropdown-items-wrapper {
   scrollbar-width: thin;
-  scrollbar-color: $color-azul-oscuro-100 $color-negro-0;
+  scrollbar-color: $color-blue-dark-100 $color-black-0;
 
   &::-webkit-scrollbar {
     width: $scroll-width-default;
@@ -259,7 +259,7 @@
 
   &::-webkit-scrollbar-thumb {
     border-radius: 5px;
-    background-color: $color-azul-oscuro-100;
+    background-color: $color-blue-dark-100;
   }
 }
 

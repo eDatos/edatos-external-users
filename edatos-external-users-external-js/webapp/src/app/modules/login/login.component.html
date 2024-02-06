@@ -4,7 +4,7 @@
               #editForm='ngForm' autocomplete='off'>
             <fieldset class='page-section' arteAutofocus>
                 <div class='row justify-content-md-center login-container'>
-                    <div class='col-md-4 card shadow p-3 bg-white'>
+                    <div class='col-md-4 card shadow p-3 bg-white background-container'>
                         <h2 class='card-title text-center mt-1' translate='login.home.title'></h2>
                         <div class='card-body'>
                             <div class='form-group'>
@@ -46,28 +46,28 @@
 
                             <ng-container>
                                 <div class='button-container-login'>
-                                    <div class='row justify-content-end'>
+                                    <div class='row justify-content-md-center'>
+                                        <div class='form-group panel-container-buttons w-100'>
+                                            <button type='submit' [disabled]='editForm.form.invalid'
+                                                    class='btn btn-first w-100'>
+                                                <span>{{ 'login.action.signin' | translate }}</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class='row justify-content-md-center'>
+                                        <div class='form-group panel-container-buttons w-100'>
+                                            <button type='button' (click)='navigateToSignup()'
+                                                    class='btn btn-scnd w-100'
+                                                    translate='login.action.signup'>
+                                                <span translate='login.action.signup'></span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class='row justify-content-start'>
                                         <button type='button' class='btn btn-link btn-sm'
                                                 (click)='navigateToResetPassword()'
                                                 translate='login.action.resetPassword'>
                                             <span translate='login.action.resetPassword'></span>
-                                        </button>
-                                    </div>
-                                    <div class='row justify-content-md-center'>
-                                        <div class='form-group panel-container-buttons w-100 '>
-                                            <button type='submit' [disabled]='editForm.form.invalid'
-                                                    class='btn btn-focus w-100'>
-                                                <span class='fa fa-sign-in'></span>
-                                                <span>{{ 'login.action.signin' | translate | uppercase }}</span>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class='row justify-content-end'>
-                                        <button type='button' class='btn btn-link btn-sm'
-                                                (click)='navigateToSignup()'
-                                                translate='login.action.signup'>
-                                            <span class='fa fa-user-plus'></span>
-                                            <span translate='login.action.signup'></span>
                                         </button>
                                     </div>
                                 </div>

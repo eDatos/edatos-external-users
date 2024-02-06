@@ -17,6 +17,7 @@
         "login": "Login",
         "logout": "Logout",
         "myAccount": "My account",
+        "myFolder": "My folder",
         "notifications": "Notifications"
       },
       "admin": {
@@ -39,6 +40,7 @@
       "email.placeholder": "Your email"
     },
     "messages": {
+      "requiredFields": "Fields marked with an asterisk are mandatory\n",
       "validate": {
         "email": {
           "required": "An email is required.",

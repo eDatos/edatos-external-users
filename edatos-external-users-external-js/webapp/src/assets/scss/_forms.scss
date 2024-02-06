@@ -5,7 +5,7 @@
     border-color: transparent;
   }
   65% {
-    border-color: $color-negro-100;
+    border-color: $color-black-100;
   }
   100% {
     border-color: #c4c4c4;
@@ -26,7 +26,7 @@ fieldset:enabled {
       &:after {
         content: '*';
         display: inline-block;
-        color: $color-rojo-100;
+        color: $color-red-100;
         margin-left: 4px;
       }
     }
@@ -45,7 +45,7 @@ fieldset:enabled {
   }
 
   &.is-invalid:after {
-    border-bottom-color: $color-rojo-100;
+    border-bottom-color: $color-red-100;
   }
 
   dt {
@@ -72,15 +72,18 @@ fieldset:enabled {
     border-bottom: 2px solid transparent;
 
     &:enabled:hover {
-      animation: animate-border-color 0.15s forwards;
+      border: 1px solid $color-black-60;
     }
   }
 
   /* END PRIMENG */
 }
 
-body .ui-fluid .ui-autocomplete.ui-autocomplete-dd > .ui-inputtext {
-  padding-left: 10px;
+body .ui-fluid .ui-autocomplete.ui-autocomplete-dd > .ui-inputtext,
+body .ui-calendar.ui-calendar-w-btn .ui-inputtext,
+body .ui-calendar.ui-calendar-w-btn .ui-inputtext:enabled:hover:not(.ui-state-error) {
+  padding-left: 7px;
+  border: 1px solid $color-black-60;
 }
 
 .form-input-container {
@@ -106,8 +109,8 @@ body .ui-fluid .ui-autocomplete.ui-autocomplete-dd > .ui-inputtext {
   padding: 5px 10px;
   border-radius: 5px;
   font-size: $size-12;
-  background-color: $color-rojo-100;
-  color: $color-negro-0;
+  background-color: $color-red-100;
+  color: $color-black-0;
   margin-top: 5px;
   opacity: 0;
   visibility: hidden;
@@ -119,7 +122,7 @@ body .ui-fluid .ui-autocomplete.ui-autocomplete-dd > .ui-inputtext {
     position: absolute;
     display: block;
     border: 5px solid transparent;
-    border-bottom-color: $color-rojo-100;
+    border-bottom-color: $color-red-100;
     left: 50%;
     bottom: 100%;
     transform: translateX(-50%);
@@ -138,7 +141,7 @@ body .ui-fluid .ui-autocomplete.ui-autocomplete-dd > .ui-inputtext {
       transform: translateX(-50%);
       top: 100%;
       border-color: transparent;
-      border-top-color: $color-rojo-100;
+      border-top-color: $color-red-100;
     }
   }
 
@@ -156,9 +159,9 @@ ul {
   }
 
   & > li.ui-autocomplete-list-item.ui-state-highlight {
-    background-color: $color-azul-25 !important;
+    background-color: $color-blue-25 !important;
     border-radius: 8px !important;
-    color: $color-negro-100 !important;
+    color: $color-black-100 !important;
   }
 }
 
@@ -175,24 +178,41 @@ fieldset.page-section {
 
   div.form-group.form-group-block {
     border-radius: 0.5rem;
-    background-color: $color-negro-5;
+    background-color: $color-black-5;
     padding: 10px;
   }
 
   input.ui-inputtext, textarea.ui-inputtext {
-    box-shadow: 0 0 0.1rem rgba(0, 0, 0, 1);
+    //box-shadow: 0 0 0.1rem rgba(0, 0, 0, 1);
     border-radius: 0.3rem;
-    padding-left: 10px;
+    border: 1px solid $color-black-60;
+    padding: 7px;
     font-size: $size-14;
-    background: $color-negro-0 !important;
+    background: $color-black-0 !important;
   }
 
   input.ui-inputtext {
     height: 30px;
+
+    &:enabled:hover {
+      border: 1px solid $color-black-60;
+    }
   }
 
   .ui-inputtext:enabled:focus:not(.ui-state-error) {
-    box-shadow: 0 0 0 0.2em $color-azul-oscuro-50;
+    box-shadow: 0 0 0 0.2em $color-blue-dark-50;
+  }
+
+  div.page-body.has-detail-info {
+    padding: 0;
+
+    div.form-group {
+      padding-right: 0;
+    }
+
+    div.detail-info {
+      padding: 0;
+    }
   }
 }
 
@@ -212,6 +232,18 @@ fieldset.page-section {
     padding: 0;
   }
 
+}
+
+div.information-section {
+  background-color: $color-black-5;
+  border-radius: 5px 5px 0 0;
+
+  label.label-title {
+    padding: 15px 0 0 15px;
+    font-size: $size-18;
+    font-weight: 600;
+    margin: 0;
+  }
 }
 
 /* END FORMULARIO */

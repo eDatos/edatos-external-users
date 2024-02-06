@@ -1,23 +1,9 @@
 <div class='page content'>
     <div class='page-header'>
         <div class='page-header-top'>
-            <span class='page-header-title-text' translate='signup.home.title'></span>
-            <div class='general-buttons row'>
-                <ng-container>
-                    <div class='row-large'>
-                        <button type='submit' form='edit-form' [disabled]='editForm.form.invalid || isSaving'
-                                class='text-icon-button'>
-                            <span class='fa fa-floppy-o'></span>
-                            <span>{{ 'entity.action.save' | translate | uppercase }}</span>
-                        </button>
-                        <button type='submit' class='text-icon-button' (click)='navigateToLogin()'>
-                            <span class='fa fa-arrow-left'></span>
-                            <span>{{ 'login.action.goBack' | translate | uppercase }}</span>
-                        </button>
-                    </div>
-                </ng-container>
-            </div>
+            <h1 class='page-header-title' translate='signup.home.title'></h1>
         </div>
+        <p class='page-header-content'></p>
     </div>
     <div class='page-body'>
         <form class='page-form' id='edit-form' name='editForm' role='form' novalidate (ngSubmit)='save()'
@@ -261,18 +247,40 @@
                 <!-- Checkbox y Captcha Container -->
                 <div class='form-group'>
                     <div class='row divider'>
-                        <div class='form-group col-md-4'>
+                        <div class='form-group col-md-9 external-form'>
                             <input type='checkbox' name='active' ngModel required />
                             <a class='btn btn-link' target='_blank' routerLink='/data-protection-policy'
                                routerLinkActive='active'
                                translate='signup.form.termsAndConditions'></a>
                         </div>
+                        <div class='form-group col-md-3 external-form-information'>
+                            <p>{{ 'global.messages.requiredFields' | translate }}</p>
+                        </div>
                     </div>
                 </div>
-                <div class='col-md-12'>
-                    <div #captchaContainer class='form-row' style='justify-content: center'></div>
+                <div class='form-group'>
+                    <div class='row divider'>
+                        <div class='form-group col-md-4 external-form'>
+                            <div #captchaContainer class='form-row'></div>
+                        </div>
+                    </div>
                 </div>
             </fieldset>
         </form>
+        <div class='external-form general-buttons row'>
+            <ng-container>
+                <div class='row-large'>
+                    <button type='submit' form='edit-form' [disabled]='editForm.form.invalid || isSaving'
+                            class='text-icon-button btn-thin-first'>
+                        <span class='fa-thin fa-floppy-disk'></span>
+                        <span>{{ 'entity.action.save' | translate | uppercase }}</span>
+                    </button>
+                    <button type='submit' class='text-icon-button btn-thin-cancel' (click)='navigateToLogin()'>
+                        <span class='fa-thin fa-ban'></span>
+                        <span>{{ 'entity.action.cancel' | translate | uppercase }}</span>
+                    </button>
+                </div>
+            </ng-container>
+        </div>
     </div>
 </div>

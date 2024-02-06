@@ -1,41 +1,62 @@
-.captcha-container {
-  width: fit-content;
-}
-
-.captcha-img, .captcha-button, .captcha-label, .captcha-input {
-  width: 100%;
-  margin-top: 5px;
-  display: block;
-}
-
 .captcha-button {
   @extend .btn;
   @extend .btn-primary;
   @extend .w-100;
 }
 
-.captcha-img {
-  margin-left: auto;
-  margin-right: auto;
-}
-
 div#captcha-container {
-  overflow-x: clip;
+  //overflow-x: clip;
   justify-content: center;
+  position: relative;
 
-  label {
-    font-size: $size-12;
+  .captcha-img, .captcha-button, .captcha-label, .captcha-input {
+    width: 100%;
+    margin-top: 5px;
+    //display: block;
   }
+
+  .captcha-img {
+    margin-left: auto;
+    margin-right: auto;
+    height: auto;
+    padding-top: 70px;
+  }
+
+  .captcha-label,
+  .captcha-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
 
   input.captcha-input {
-    width: 98%;
-    margin-left: 3.9px;
-    border: 0.5px solid $color-negro-40;
+    max-width: 311px;
+    border: 1px solid $color-black-60;
     border-radius: 0.3rem;
+    padding: 7px;
+    margin-top: 30px;
+    height: 30px;
+
+    &:enabled:hover {
+      border: 1px solid $color-black-60;
+    }
   }
+
+  .captcha-input:focus-visible {
+    box-shadow: none;
+    border-color: transparent;
+    outline-color: $color-black-0;
+    outline: none;
+  }
+
+  input.captcha-input:enabled:focus:not(.ui-state-error) {
+    box-shadow: 0 0 0 0.2em $color-blue-dark-50;
+    border-color: $color-blue-dark-25;
+    outline-color: $color-blue-dark-50;
+  }
+
 }
 
-.captcha-input:focus-visible {
-  box-shadow: 0 0 0 0.2rem #4D7EA0B3;
-}
+
 

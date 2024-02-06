@@ -1,11 +1,12 @@
 <div class='page content'>
     <div class='page-header'>
         <div class='page-header-top'>
-            <div class='general-buttons row'>
+            <div class='general-buttons row left-buttons'>
                 <ng-container>
                     <div class='row-large'>
-                        <button class='text-icon-button' routerLink='..' [disabled]='isSaving || isLoading'>
-                            <span class='fa fa-arrow-left'></span>
+                        <button class='text-icon-button btn-thin-default' routerLink='..'
+                                [disabled]='isSaving || isLoading'>
+                            <span class='fa-thin fa-left'></span>
                             <span>{{ 'filter.form.goBack' | translate | uppercase }}</span>
                         </button>
                     </div>
@@ -14,12 +15,12 @@
             <div class='general-buttons row'>
                 <ng-container>
                     <div class='row justify-content-end ml-auto'>
-                        <button class='text-icon-button' (click)='edit()'>
-                            <span class='fa fa-pencil-square-o'></span>
+                        <button class='text-icon-button btn-thin-default' (click)='edit()'>
+                            <span class='fa-thin fa-pen-to-square'></span>
                             <span>{{ 'filter.form.edit' | translate | uppercase }}</span>
                         </button>
-                        <button class='text-icon-button' (click)='delete()'>
-                            <span class='fa fa-trash'></span>
+                        <button class='text-icon-button btn-thin-cancel' (click)='delete()'>
+                            <span class='fa-thin fa-trash-can'></span>
                             <span>{{ 'filter.form.delete' | translate | uppercase }}</span>
                         </button>
                     </div>
@@ -33,6 +34,14 @@
             <label for='name' class='title'>{{ 'filter.entity.name' | translate }}</label>
             <span id='name' class='info-id'>{{ filter.name }}</span>
 
+            <label class='title'>{{ 'filter.form.audit' | translate }}</label>
+            <span>{{ "filter.entity.createdDate" | translate }}
+                : {{ filter.createdDate | date: 'dd/MM/yyyy HH:mm:ss' }}</span>
+            <span>{{ "filter.entity.lastModifiedDate" | translate }}
+                : {{ filter.lastAccessDate | date: 'dd/MM/yyyy HH:mm:ss' }}</span>
+            <span>{{ "filter.entity.lastAccessDate" | translate }}
+                : {{ filter.lastAccessDate | date: 'dd/MM/yyyy HH:mm:ss' }}</span>
+
             <label for='urlPermalink' class='title'>{{ 'filter.entity.permalink' | translate }}</label>
             <div id='urlPermalink' class='info-link background'>
                 <div class='code'>
@@ -40,10 +49,10 @@
                 </div>
                 <div class='element-link-actions'>
                     <button type='button' (click)='openSelfLink(filter.urlPermalink)'>
-                        <i class='fa fa-external-link'></i>
+                        <i class='fa-thin fa-external-link'></i>
                     </button>
                     <button copyClipboard='{{filter.urlPermalink}}' (click)='onCopyUrlPermalinkSuccess()'>
-                        <i class='fa fa-copy'></i>
+                        <i class='fa-thin fa-copy'></i>
                     </button>
                 </div>
                 <div class='copied-message' *ngIf='urlPermalink'>{{ 'copy' | translate }}</div>
@@ -52,13 +61,6 @@
             <label for='notes' class='title'>{{ 'filter.entity.notes' | translate }}</label>
             <span id='notes'>{{ filter.notes }}</span>
 
-            <label class='title'>{{ 'filter.form.audit' | translate }}</label>
-            <span>{{ "filter.entity.createdDate" | translate }}
-                : {{ filter.createdDate | date: 'dd/MM/yyyy HH:mm:ss' }}</span>
-            <span>{{ "filter.entity.lastModifiedDate" | translate }}
-                : {{ filter.lastAccessDate | date: 'dd/MM/yyyy HH:mm:ss' }}</span>
-            <span>{{ "filter.entity.lastAccessDate" | translate }}
-                : {{ filter.lastAccessDate | date: 'dd/MM/yyyy HH:mm:ss' }}</span>
         </div>
     </div>
 </div>

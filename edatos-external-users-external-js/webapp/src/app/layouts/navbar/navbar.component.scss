@@ -38,15 +38,15 @@ Navbar
 
 .navbar {
   min-height: $navbar-height;
-  background-color: $color-negro-0;
+  background-color: $color-black-0;
   padding-left: $page-padding-left;
   padding-right: 19px;
 
   .dropdown-item.active,
   .dropdown-item.active:focus,
   .dropdown-item.active:hover {
-    background-color: $color-azul-25;
-    color: $color-negro-100;
+    background-color: $color-blue-25;
+    color: $color-black-100;
 
   }
 
@@ -60,7 +60,6 @@ Navbar
   }
 
   ul.navbar-nav {
-    //  color: $color-azul-10;
     .nav-item {
       white-space: nowrap;
 
@@ -71,7 +70,7 @@ Navbar
       ul.dropdown-menu-right.show {
         margin: 0;
         top: 48px;
-        background-color: $color-azul-oscuro-100;
+        background-color: $color-blue-dark-100;
         border-radius: 6px 0 6px 6px;
 
         /*
@@ -100,7 +99,7 @@ Navbar
 
 ul.dropdown-menu {
   hr {
-    color: $color-azul-25;
+    color: $color-blue-25;
     border-top: 1px solid;
   }
 }
@@ -110,13 +109,13 @@ ul.dropdown-menu li {
 }
 
 .dropdown-item {
-  color: $color-negro-0;
+  color: $color-black-0;
   padding: 5px;
 }
 
 .dropdown-item:hover {
-  color: $color-negro-100;
-  background-color: $color-azul-25;
+  color: $color-black-100;
+  background-color: $color-blue-25;
   border-radius: 3px;
 }
 
@@ -127,12 +126,12 @@ ul.dropdown-menu li {
 }
 
 a.nav-link {
-  color: $color-azul-oscuro-50;
+  color: $color-blue-dark-50;
 }
 
 .nav-tabs .nav-link.active
 li:hover a.nav-link, li.show a.nav-link {
-  color: $color-azul-oscuro-100;
+  color: $color-blue-dark-100;
 }
 
 .navbar-title {

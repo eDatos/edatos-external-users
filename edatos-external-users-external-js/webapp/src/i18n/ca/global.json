@@ -23,6 +23,7 @@
         "logout": "Tencar la sessió",
         "main": "Compte",
         "myAccount": "El meu compte",
+        "myFolder": "La meva carpeta",
         "sessions": "Sessions",
         "notifications": "Notificacions"
       },
@@ -42,6 +43,7 @@
       }
     },
     "messages": {
+      "requiredFields": "Camps marcats amb un asterisc són obligatoris.",
       "validate": {
         "email": {
           "invalid": "El seu correu electrònic no és vàlid.",

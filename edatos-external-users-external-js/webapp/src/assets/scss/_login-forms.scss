@@ -8,12 +8,8 @@ fieldset.page-section {
   }
 
   input.ui-inputtext:enabled:focus:not(.ui-state-error) {
-    box-shadow: 0 0 0 0.2em $color-azul-oscuro-50;
-    border-color: $color-azul-oscuro-25;
-  }
-
-  .ui-inputtext:enabled:hover:not(.ui-state-error) {
-    border-color: transparent;
+    box-shadow: 0 0 0 0.2em $color-blue-dark-50;
+    border-color: $color-blue-dark-25;
   }
 
   .form-group-inline .ui-inputtext:enabled:hover {
@@ -21,7 +17,7 @@ fieldset.page-section {
   }
 
   [class^="ng-tns-c"] input::placeholder, input.ng-pristine::placeholder {
-    color: $color-negro-40;
+    color: $color-black-40;
     font-size: $size-12;
     padding-left: 5px;
     width: 100%;
@@ -34,6 +30,12 @@ fieldset.page-section {
 div.login-container {
   margin-bottom: 10rem;
   margin-top: 5rem;
+  height: 636.586px;
+
+  & .background-container {
+    position: relative;
+    background-color: $color-blue-5 !important;
+  }
 
   & .shadow {
     box-shadow: 0 0 0.2rem rgba(0, 0, 0, 0.15) !important;
@@ -41,15 +43,46 @@ div.login-container {
   }
 
   & div.card {
-    min-width: 490px;
+    min-width: 398px;
+    position: relative;
+
+    &::after, &::before {
+      content: "";
+      background-image: url('../images/background-login-white.png');
+      background-size: cover;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      opacity: 0.3;
+      background-position: center;
+    }
+
+    &::before {
+      background-position: unset;
+      transform: rotate(181deg);
+    }
 
     & > div.card-body {
-      padding: 0 4rem 2rem 4rem;
-      margin-bottom: 2rem;
+      padding: 0 2rem 0 2rem;
+      z-index: 1;
     }
 
     h5 {
       min-width: 235px;
+    }
+
+    .card-title {
+      z-index: 1;
+      padding: 2rem 0;
+      text-align: center;
+      font-family: "Open Sans", "Helvetica Neue", sans-serif;
+      font-size: 23px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 27.678px;
+      margin: 0;
     }
   }
 
@@ -61,9 +94,38 @@ div.panel-container-buttons.form-group.w-100 {
 }
 
 div.button-container-login {
+  padding-top: 15px;
+
   & .row {
     margin: 0px;
   }
+
+  button.btn.btn-link {
+    padding: 20px 0;
+
+    &:hover, &:not(:disabled):not(.disabled):active {
+      color: $color-blue-dark-25 !important;
+    }
+  }
+
+}
+
+p.content-paragraph {
+  text-align: center;
+  width: 300px;
+  font-family: "Open Sans";
+}
+
+p.content-paragraph.p-title {
+  margin-bottom: 0;
+  font-weight: 400;
+  font-size: $size-16;
+  padding: 0 10px;
+}
+
+p.content-paragraph.p-text {
+  margin-bottom: 20px;
+  font-size: $size-14;
 }
 
 div.success-sending {
@@ -77,6 +139,39 @@ div.success-sending {
       display: flex;
       align-items: center;
     }
+  }
+}
+
+
+div.login-container.reset-password {
+  height: 423px;
+}
+
+
+div.external-form {
+  padding-left: 25px;
+
+  div.captcha.captcha-gobcan {
+    margin-left: 5px;
+  }
+}
+
+div.external-form.general-buttons.row {
+  padding: 0;
+}
+
+div.col-md-3.external-form-information {
+  padding: 0;
+
+  &::before {
+    content: "*";
+    position: absolute;
+    color: $color-red-100;
+  }
+
+  p {
+    padding-left: 10px;
+    font-size: $size-12;
   }
 }
 
