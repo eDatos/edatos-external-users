@@ -16,4 +16,8 @@ export class NotificationService {
     public send(notification: Notification): Observable<Notification> {
         return this.http.post<Notification>(this.resourceUrl, notification).pipe(map((notice) => convert(Notification, notice)));
     }
+
+    public findReceivers(req?: any): Observable<Notification> {
+        return this.http.get<Notification>(this.resourceUrl + "/receivers", { params: req }).pipe(map((res) => convert(Notification, res)));
+    }
 }

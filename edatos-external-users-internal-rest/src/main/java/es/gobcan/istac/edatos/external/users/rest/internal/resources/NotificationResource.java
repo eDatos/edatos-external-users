@@ -2,12 +2,14 @@ package es.gobcan.istac.edatos.external.users.rest.internal.resources;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 import org.siemac.metamac.rest.notices.v1_0.domain.Receivers;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.Timed;
 
+import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
+import es.gobcan.istac.edatos.external.users.core.service.ExternalUserService;
 import es.gobcan.istac.edatos.external.users.core.service.NotificationService;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.NotificationDto;
 
@@ -26,8 +30,11 @@ public class NotificationResource extends AbstractResource {
 
     private final NotificationService notificationService;
 
-    public NotificationResource(NotificationService notificationService) {
+    private final ExternalUserService externalUserService;
+
+    public NotificationResource(NotificationService notificationService, ExternalUserService externalUserService) {
         this.notificationService = notificationService;
+        this.externalUserService = externalUserService;
     }
 
     @Timed
@@ -44,5 +51,16 @@ public class NotificationResource extends AbstractResource {
         }
 
         return ResponseEntity.ok(notificationDto);
+    }
+
+    @Timed
+    @GetMapping("/receivers")
+    @PreAuthorize("@secChecker.canAccessUser(authentication)")
+    public ResponseEntity<NotificationDto> findAllReceivers() {
+        List<ExternalUserEntity> externalUsersDto = externalUserService.findAllReceivers();
+        List<String> receivers = externalUsersDto.stream().map(ExternalUserEntity::getEmail).collect(Collectors.toList());
+        NotificationDto notificationDto = new NotificationDto();
+        notificationDto.setReceivers(receivers);
+        return ResponseEntity.ok().body(notificationDto);
     }
 }
