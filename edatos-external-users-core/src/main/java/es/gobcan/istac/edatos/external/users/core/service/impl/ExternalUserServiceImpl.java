@@ -122,7 +122,7 @@ public class ExternalUserServiceImpl implements ExternalUserService {
 
     @Override
     public List<ExternalUserEntity> findAllReceivers() {
-        return externalUserRepository.findAllByEnabledTrue();
+        return externalUserRepository.findAllByEnabled(true);
     }
     private DetachedCriteria buildExternalUserCriteria(Pageable pageable, Boolean includeDeleted, String query) {
         StringBuilder queryBuilder = new StringBuilder();
