@@ -24,6 +24,8 @@ public interface ExternalUserService {
 
     Page<ExternalUserEntity> find(Pageable pageable, Boolean includeDeleted, String query);
 
+    List<ExternalUserEntity> findAllReceivers();
+
     ExternalUserEntity getUsuarioWithAuthorities();
     void updateExternalUserAccountPassword(ExternalUserEntity user, String oldPassword, String password);
 
