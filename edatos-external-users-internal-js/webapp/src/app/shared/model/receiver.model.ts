@@ -1,4 +1,4 @@
 
 export class Receiver {
-    public receiver: string = '';
+    public email: string = '';
 }
