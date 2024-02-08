@@ -45,7 +45,7 @@ public class ExternalUserEntity extends AbstractVersionedAndAuditingEntity {
 
     @NotNull
     @Email
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false, updatable = false)
     private String email;
 
     @NotNull
