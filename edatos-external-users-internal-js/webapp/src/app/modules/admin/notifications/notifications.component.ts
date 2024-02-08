@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ExternalUser } from '@app/core/model';
-import { Notification } from '@app/shared/model';
+import {Notification, Receiver} from '@app/shared/model';
 import { ExternalUserService } from '@app/core/service';
 import { errorErrorMessage } from '@app/core/service/alert/eusuarios-alert.service';
 import { MultiLanguageInputComponent } from '@app/shared/components/multi-language-input';
@@ -31,7 +31,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
     public subscription: Subscription;
 
-    public allowedReceivers: { email: string }[] | undefined = [];
+    public allowedReceivers: Receiver[] = [];
     public notification: Notification;
     public selectedReceivers: string[] = [];
 
@@ -242,9 +242,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
     private searchReceivers() {
         this.notificationService.findReceivers().subscribe((results) => {
-            this.allowedReceivers = results.receivers?.map((receiver) => {
-                return { email: receiver };
-            });
+            this.allowedReceivers = results;
         });
     }
 

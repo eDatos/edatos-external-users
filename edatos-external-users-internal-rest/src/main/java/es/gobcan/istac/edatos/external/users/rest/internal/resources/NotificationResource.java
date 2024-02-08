@@ -21,12 +21,13 @@ import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
 import es.gobcan.istac.edatos.external.users.core.service.ExternalUserService;
 import es.gobcan.istac.edatos.external.users.core.service.NotificationService;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.NotificationDto;
+import es.gobcan.istac.edatos.external.users.rest.common.dto.ReceiverDto;
 
 @RestController
 @RequestMapping(NotificationResource.BASE_URL)
 public class NotificationResource extends AbstractResource {
 
-    public static final String BASE_URL = "/api/notifications";
+    public static final String BASE_URL = "/api";
 
     private final NotificationService notificationService;
 
@@ -38,7 +39,7 @@ public class NotificationResource extends AbstractResource {
     }
 
     @Timed
-    @PostMapping
+    @PostMapping("/notifications")
     @PreAuthorize("@secChecker.canSendNotification(authentication)")
     public ResponseEntity<NotificationDto> send(@Valid @RequestBody NotificationDto notificationDto) {
         HashMap<String, Receivers> receiversByLanguage = notificationService.createReceiversGroupedByLanguage(notificationDto.getReceivers(), notificationDto.getCategoriesIds(),
@@ -56,11 +57,13 @@ public class NotificationResource extends AbstractResource {
     @Timed
     @GetMapping("/receivers")
     @PreAuthorize("@secChecker.canAccessUser(authentication)")
-    public ResponseEntity<NotificationDto> findAllReceivers() {
+    public ResponseEntity<List<ReceiverDto>> findAllReceivers() {
         List<ExternalUserEntity> externalUsersDto = externalUserService.findAllReceivers();
-        List<String> receivers = externalUsersDto.stream().map(ExternalUserEntity::getEmail).collect(Collectors.toList());
-        NotificationDto notificationDto = new NotificationDto();
-        notificationDto.setReceivers(receivers);
-        return ResponseEntity.ok().body(notificationDto);
+        List<ReceiverDto> receivers = externalUsersDto.stream().map(externalUser -> {
+            ReceiverDto receiverDto = new ReceiverDto();
+            receiverDto.setReceiver(externalUser.getEmail());
+            return receiverDto;
+        }).collect(Collectors.toList());
+        return ResponseEntity.ok().body(receivers);
     }
 }
