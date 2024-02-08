@@ -61,7 +61,7 @@ public class NotificationResource extends AbstractResource {
         List<ExternalUserEntity> externalUsersDto = externalUserService.findAllReceivers();
         List<ReceiverDto> receivers = externalUsersDto.stream().map(externalUser -> {
             ReceiverDto receiverDto = new ReceiverDto();
-            receiverDto.setReceiver(externalUser.getEmail());
+            receiverDto.setEmail(externalUser.getEmail());
             return receiverDto;
         }).collect(Collectors.toList());
         return ResponseEntity.ok().body(receivers);

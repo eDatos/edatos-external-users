@@ -5,12 +5,12 @@ import java.io.Serializable;
 public class ReceiverDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private String receiver;
+    private String            email;
 
-    public String getReceiver() {
-        return receiver;
+    public String getEmail() {
+        return email;
     }
-    public void setReceiver(String receiver) {
-        this.receiver = receiver;
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
