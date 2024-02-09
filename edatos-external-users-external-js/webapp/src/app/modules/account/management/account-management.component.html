@@ -12,10 +12,6 @@
                         <i class='fa' aria-hidden='true'></i>
                         <span>{{ 'entity.action.change-password' | translate | uppercase }}</span>
                     </button>
-                    <button type='button' class='text-icon-button' (click)='download($event)'>
-                        <span [ngClass]="downloadingPdf ? 'fa fa-spinner fa-spin' : 'fa  fa-download'"></span>
-                        <span>{{ 'account.download.myInformation' | translate | uppercase }}</span>
-                    </button>
                 </div>
             </ng-container>
         </div>
@@ -119,14 +115,5 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class='general-buttons row'>
-        <ng-container>
-            <div class='row justify-content-end ml-auto'>
-                <button type='button' class='text-icon-button button-unsubscribe' (click)='openDeleteDialog()'>
-                    <span>{{ 'entity.action.unsubscribe' | translate | uppercase }}</span>
-                </button>
-            </div>
-        </ng-container>
     </div>
 </div>

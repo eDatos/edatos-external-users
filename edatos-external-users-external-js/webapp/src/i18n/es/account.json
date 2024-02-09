@@ -1,6 +1,6 @@
 {
   "account": {
-    "title": "Mi cuenta",
+    "title": "Mis datos",
     "personalInformation": "Información personal",
     "basicInformation": "Información básica",
     "contactInformation": "Información de contacto",
@@ -13,7 +13,7 @@
       "apellido1.placeholder": "Su primer apellido",
       "apellido2.placeholder": "Su segundo apellido",
       "button": "Guardar",
-      "emailNotificationsEnabled": "Notificaciones habilitadas"
+      "emailNotificationsEnabled": "Recibir notificaciones"
     },
     "download": {
       "myInformation": "Descargar mi información"
@@ -49,6 +49,7 @@
     }
   },
   "notices": {
+    "title": "Notificaciones",
     "entity": {
       "message": "Mensaje",
       "subject": "Asunto",

@@ -223,33 +223,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- Quinto bloque -->
-                    <div class='row divider'>
-                        <div class='col-md-12 form-section'>
-                            <div class='row'>
-                                <div class='form-group form-group-inline col-md-10'
-                                     [formControlStatus]='settingsForm.controls.enableEmailNotifications'>
-                                    <div class='form-row'>
-                                        <div class='col-md-10 form-input-container errors-on-hover'>
-                                            <div class='custom-control custom-switch'>
-                                                <input type='checkbox' class='custom-control-input' ngModel
-                                                       id='emailNotificationsEnabled'
-                                                       [(ngModel)]='account.emailNotificationsEnabled'
-                                                       name='emailNotificationsEnabled'>
-                                                <label class='custom-control-label col-form-label col-md-12'
-                                                       for='emailNotificationsEnabled'
-                                                       translate='signup.form.enableEmailNotifications'></label>
-                                            </div>
-                                            <div class='form-errors-messages' *hasErrors='let messages'>
-                                                <li *ngFor='let m of messages'>{{m}}</li>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </fieldset>
         </form>

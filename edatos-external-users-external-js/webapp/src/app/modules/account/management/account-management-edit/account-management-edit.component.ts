@@ -24,7 +24,7 @@ export class AccountManagementEditComponent implements OnInit {
 
     public countries: ItemCode[] = [];
     public genders: ItemCode[] = [];
-    
+
 
     constructor(
         private userService: AccountUserService,
@@ -45,7 +45,6 @@ export class AccountManagementEditComponent implements OnInit {
 
     public save() {
         this.isSaving = true;
-        console.log('', this.account);
         this.account.nationality = this.nationality ? this.nationality.id : null;
         this.account.gender = this.gender ? this.gender.id : null;
         this.userService.update(this.account).subscribe(

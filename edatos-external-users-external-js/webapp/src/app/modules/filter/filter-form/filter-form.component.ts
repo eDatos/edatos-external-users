@@ -5,6 +5,7 @@ import { ConfigService } from '@app/config';
 import { Filter } from '@app/core/model';
 import { FilterService } from '@app/shared/service';
 import { finalize } from 'rxjs/operators';
+import { NavbarRefreshService } from '@app/shared/service/shared/navbar-refresh.service';
 
 @Component({
     selector: 'app-filter-form',
@@ -24,6 +25,7 @@ export class FilterFormComponent implements OnInit {
         private activatedRoute: ActivatedRoute,
         private titleService: Title,
         private router: Router,
+        private navbarRefreshService: NavbarRefreshService,
         private configService: ConfigService
     ) {
         this.filter = this.activatedRoute.snapshot.data['filter'] ?? new Filter();
@@ -31,6 +33,7 @@ export class FilterFormComponent implements OnInit {
             const lastUrlSegment = segments[segments.length - 1].path;
             this.inEditMode = this.inEditMode || lastUrlSegment === 'new';
         });
+        this.navbarRefreshService.triggerRefresh();
     }
 
     public ngOnInit() {

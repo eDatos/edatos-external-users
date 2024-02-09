@@ -1,23 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AccountUserService, LoginService, PermissionService, Principal, ProfileService } from '@app/core/service';
-import { AboutDialogComponent } from '@app/modules/account';
 import { GenericModalService } from 'arte-ng/services';
-import { SharedRefreshService } from '@app/shared/service/shared-refresh.service';
+import { MessageService } from 'primeng/api';
+import { TranslateService } from '@ngx-translate/core';
+import { SharedRefreshService } from '@app/shared/service';
+import { NavbarRefreshService } from '@app/shared/service/shared/navbar-refresh.service';
 
 @Component({
-    selector: 'app-navbar',
-    templateUrl: './navbar.component.html',
-    styleUrls: ['navbar.component.scss']
+    selector: 'app-my-folder-navbar',
+    templateUrl: './my-folder-navbar.component.html',
+    styleUrls: ['my-folder-navbar.component.scss']
 })
-export class NavbarComponent implements OnInit {
+export class MyFolderNavbarComponent implements OnInit {
     inProduction: boolean;
     public isCorrectlyLogged: boolean;
     public isNavbarCollapsed: boolean = true;
     public account: any;
-
-    public isMyAccount: boolean = false;
-    public isMyFolder: boolean = true;
 
     constructor(
         private loginService: LoginService,
@@ -27,7 +26,10 @@ export class NavbarComponent implements OnInit {
         private genericModalService: GenericModalService,
         private userService: AccountUserService,
         private router: Router,
-        private sharedService: SharedRefreshService
+        private sharedService: SharedRefreshService,
+        private navbarRefreshService: NavbarRefreshService,
+        private messageService: MessageService,
+        private translateService: TranslateService
     ) {
     }
 
@@ -42,13 +44,8 @@ export class NavbarComponent implements OnInit {
 
     public navigateTo(route: string) {
         this.isNavbarCollapsed = true;
-        if (route === 'account-management') {
-            this.isMyAccount = true;
-            this.isMyFolder = false;
-        } else if (route === 'filter') {
-            this.isMyAccount = false;
-            this.isMyFolder = true;
-        }
+        this.navbarRefreshService.setRefreshForceRoute(route);
+        this.navbarRefreshService.triggerRefresh();
         this.router.navigate([route]);
     }
 
@@ -61,14 +58,6 @@ export class NavbarComponent implements OnInit {
 
     toggleNavbar() {
         this.isNavbarCollapsed = !this.isNavbarCollapsed;
-        console.log(this.isNavbarCollapsed);
     }
 
-    public puedeNavegarAdministracion(): boolean {
-        return this.permissionService.puedeNavegarAdministracion();
-    }
-
-    public openAboutDialog() {
-        this.genericModalService.open(AboutDialogComponent as Component, { user: this.account }, { container: '.app' });
-    }
 }

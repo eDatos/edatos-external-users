@@ -25,9 +25,15 @@ import { MissingTranslationHandlerImpl } from './config/missing-translation-hand
 import { CoreModule } from './core/core.module';
 import { AuthExpiredInterceptor, AuthInterceptor, ErrorHandlerInterceptor } from './core/interceptor';
 import { ErrorComponent, ErrorRoutingModule } from './layouts/error';
-import { NavbarComponent, SubNavbarComponent } from './layouts/navbar';
+import {
+    MyAccountNavbarComponent,
+    MyAccountSubNavbarComponent,
+    MyFolderNavbarComponent,
+    MyFolderSubNavbarComponent
+} from './layouts/navbar';
 import { AboutDialogComponent, DeleteConfirmDialogComponent } from './modules/account';
 import { SharedModule } from './shared';
+
 
 class CustomTranslateHttpLoader extends TranslateHttpLoader {
 
@@ -58,7 +64,7 @@ export function initTranslations(translateService: TranslateService, cookieServi
 }
 
 @NgModule({
-    declarations: [AppComponent, NavbarComponent, SubNavbarComponent, ErrorComponent, DeleteConfirmDialogComponent, AboutDialogComponent],
+    declarations: [AppComponent, MyFolderNavbarComponent, MyAccountNavbarComponent, MyFolderSubNavbarComponent, MyAccountSubNavbarComponent, ErrorComponent, DeleteConfirmDialogComponent, AboutDialogComponent],
     entryComponents: [DeleteConfirmDialogComponent, AboutDialogComponent],
     imports: [
         BrowserModule,

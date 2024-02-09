@@ -246,4 +246,18 @@ div.information-section {
   }
 }
 
-/* END FORMULARIO */
+.custom-control.custom-switch {
+  padding: 0 0 15px 0;
+  margin-left: -17px;
+  font-size: $size-12;
+  font-weight: 300;
+  color: $color-blue-dark-100;
+}
+
+.custom-switch {
+  color: $color-blue-dark-100;
+}
+
+.label-inputswitch-checked {
+  font-weight: $font-weight-600;
+}

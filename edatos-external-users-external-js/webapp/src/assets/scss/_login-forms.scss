@@ -37,14 +37,10 @@ div.login-container {
     background-color: $color-blue-5 !important;
   }
 
-  & .shadow {
-    box-shadow: 0 0 0.2rem rgba(0, 0, 0, 0.15) !important;
-    border-radius: 0.5rem;
-  }
-
   & div.card {
     min-width: 398px;
     position: relative;
+    border: none;
 
     &::after, &::before {
       content: "";

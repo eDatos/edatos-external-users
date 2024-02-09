@@ -1,6 +1,6 @@
 {
   "account": {
-    "title": "My account",
+    "title": "My data",
     "personalInformation": "Personal information",
     "basicInformation": "Basic information",
     "contactInformation": "Contact information",
@@ -13,7 +13,7 @@
       "apellido1.placeholder": "Your first surname",
       "apellido2.placeholder": "Your second surname",
       "button": "Save",
-      "emailNotificationsEnabled": "Email notifications enabled"
+      "emailNotificationsEnabled": "Receive notifications"
     },
     "download": {
       "myInformation": "Download my information"
@@ -49,6 +49,7 @@
     }
   },
   "notices": {
+    "title": "Notices",
     "entity": {
       "message": "Message",
       "subject": "Subject",

@@ -14,6 +14,7 @@ import { ArteDirectivesModule } from 'arte-ng/directives';
 import { NotificationsRoutingModule } from './notifications-routing.module';
 import { NotificationsComponent } from './notifications.component';
 import { NoticeFilter } from '@app/modules/account/notifications/notice-search/notice-search';
+import { InputSwitchModule } from 'primeng';
 
 @NgModule({
     imports: [
@@ -27,7 +28,8 @@ import { NoticeFilter } from '@app/modules/account/notifications/notice-search/n
         ArteSpinnerModule,
         ArteEntityListEmptyModule,
         CommonModule,
-        ArteCalendarModule
+        ArteCalendarModule,
+        InputSwitchModule
     ],
     providers: [NoticeFilter],
     declarations: [NotificationsComponent],

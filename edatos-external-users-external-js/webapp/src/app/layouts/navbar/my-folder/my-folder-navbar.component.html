@@ -1,0 +1,47 @@
+<div class='page'>
+    <div class='page-header-wrapper' *ngIf='isCorrectlyLogged'>
+        <div class='page-header'>
+            <div class='page-header-top'>
+                <h1 class='page-header-title' translate='global.menu.account.myFolder'></h1>
+            </div>
+            <p class='page-header-content'></p>
+        </div>
+        <nav class='navbar navbar-expand-lg'>
+            <div class='collapse navbar-collapse' id='navbarResponsive' [ngbCollapse]='isNavbarCollapsed'>
+                <ul class='navbar-nav ml-auto'>
+                    <li ngbDropdown class='nav-item dropdown pointer' routerLinkActive='active'
+                        [routerLinkActiveOptions]='{exact: false}'>
+                        <div class='general-buttons row'>
+                            <button class='text-icon-button' (click)='toggleNavbar()'
+                                    [ngClass]="!isNavbarCollapsed ? 'menu-text-icon-button ' : ''"
+                                    ngbDropdownToggle id='user-menu'>
+                            <span class='text-icon-button'>
+                                <span><i class='fa-thin fa-folder-user'></i>
+                                    {{ 'global.menu.account.myFolder' | translate | uppercase }}</span>&nbsp;
+                                <i [ngClass]="!isNavbarCollapsed ? 'fa-thin fa-chevron-up' : 'fa-thin fa-chevron-down'"></i>
+                            </span>
+                            </button>
+                        </div>
+                        <ul class='dropdown-menu dropdown-menu-right' ngbDropdownMenu>
+                            <li>
+                                <a class='dropdown-item' (click)="navigateTo('account-management')"
+                                   routerLinkActive='active'>
+                                    <i class='fa-thin fa-user' aria-hidden='true'></i>
+                                    <span translate='global.menu.account.myAccount'></span>
+                                </a>
+                            </li>
+                            <hr />
+                            <li>
+                                <a class='dropdown-item btn' (click)='logout()' id='logout'
+                                   [title]="'global.menu.account.logout' | translate">
+                                    <i class='fa fa-fw fa-sign-out' aria-hidden='true'></i>
+                                    <span translate='global.menu.account.logout'></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</div>

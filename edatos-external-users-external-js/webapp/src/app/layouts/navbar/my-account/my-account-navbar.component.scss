@@ -1,5 +1,5 @@
-@import 'variables';
-@import 'mixins';
+@import '../../../../assets/scss/variables';
+@import '../../../../assets/scss/mixins';
 
 @media screen and (max-width: 991px) {
   #navbarResponsive {
@@ -91,6 +91,10 @@ Navbar
   .dropdown-menu {
     border: unset;
   }
+}
+
+div.general-buttons.row {
+  padding-left: 21px;
 }
 
 .nav-item.active {

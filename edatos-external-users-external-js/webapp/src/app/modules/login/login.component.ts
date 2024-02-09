@@ -5,10 +5,11 @@ import { AccountUserService, ExternalLoginService } from '@app/core/service/user
 import { AuthServerProvider, Principal } from '@app/core/service';
 import { DOCUMENT } from '@angular/common';
 import { addQueryParamToRoute } from '@app/shared/utils/routesUtils';
-import { CaptchaService } from '@app/shared/service';
+import { CaptchaService, SharedRefreshService } from '@app/shared/service';
 import { MessageService } from 'primeng';
 import { TranslateService } from '@ngx-translate/core';
-import { SharedRefreshService } from '@app/shared/service/shared-refresh.service';
+import { NavbarRefreshService } from '@app/shared/service/shared/navbar-refresh.service';
+
 
 @Component({
     selector: 'app-login',
@@ -39,7 +40,8 @@ export class LoginComponent implements OnInit {
         private externalUserService: ExternalLoginService,
         private messageService: MessageService,
         private translateService: TranslateService,
-        private sharedService: SharedRefreshService
+        private sharedService: SharedRefreshService,
+        private navbarRefreshService: NavbarRefreshService
     ) {
         this.credentials = new Credentials();
         this.route.queryParams.subscribe((queryParams) => {
@@ -88,6 +90,8 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['filter']);
         this.sharedService.triggerRefresh();
         this.sharedService.triggerRefreshForceValue(true);
+        this.navbarRefreshService.setRefreshForceRoute('filter');
+        this.navbarRefreshService.triggerRefresh();
     }
 
     private navigateToOrigin() {

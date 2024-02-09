@@ -2,7 +2,8 @@
 <div class='app'>
     <div class='container'>
         <div class='col col-12'>
-            <app-navbar></app-navbar>
+            <app-my-folder-navbar *ngIf='isMyFolderSection'></app-my-folder-navbar>
+            <app-my-account-navbar *ngIf='isMyAccountSection'></app-my-account-navbar>
         </div>
     </div>
     <div class='h-100 ui-fluid'>
@@ -20,7 +21,9 @@
         </p-toast>
         <div class='container'>
             <div class='col col-12'>
-                <app-sub-navbar *ngIf='isAuthenticated'></app-sub-navbar>
+                <app-my-folder-sub-navbar *ngIf='isMyFolderSection'></app-my-folder-sub-navbar>
+                <app-my-account-sub-navbar *ngIf='isMyAccountSection'></app-my-account-sub-navbar>
+
                 <router-outlet></router-outlet>
             </div>
         </div>

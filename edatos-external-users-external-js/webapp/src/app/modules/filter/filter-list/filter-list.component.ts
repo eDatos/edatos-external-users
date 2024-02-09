@@ -6,6 +6,7 @@ import { FilterFilter } from '@app/modules/filter/filter-search/filter-search';
 import { FilterService } from '@app/shared/service/filter/filter.service';
 import { ResponseWrapper } from '@app/core/utils/response-utils';
 import { LazyLoadEvent } from 'primeng/api';
+import { NavbarRefreshService } from '@app/shared/service/shared/navbar-refresh.service';
 
 @Component({
     selector: 'app-filter-list',
@@ -49,7 +50,7 @@ export class FilterListComponent implements OnInit {
     private predicate: any;
 
     constructor(private filterService: FilterService, private activatedRoute: ActivatedRoute, private router: Router,
-                private filterSearch: FilterFilter) {
+                private filterSearch: FilterFilter, private navbarRefreshService: NavbarRefreshService) {
         this.activatedRoute.data.subscribe((data) => {
             this.page = data['pagingParams'].page;
             this.reverse = data['pagingParams'].ascending;

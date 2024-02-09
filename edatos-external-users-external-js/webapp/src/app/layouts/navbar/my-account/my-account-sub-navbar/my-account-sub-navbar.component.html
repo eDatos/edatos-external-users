@@ -1,5 +1,5 @@
 <div class='page'>
-    <div class='subsection-tab'>
+    <div class='subsection-tab' *ngIf='isCorrectlyLogged'>
         <ul class='nav nav-tabs'>
             <li class='nav-item' *ngFor='let link of navLinks'>
                 <a class='nav-link' routerLink='{{link.link}}' (click)='activeLink = link.label'
