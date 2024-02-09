@@ -60,7 +60,6 @@ public class ExternalUserServiceImpl implements ExternalUserService {
 
     @Override
     public ExternalUserEntity create(ExternalUserEntity user) {
-        user.setEmail(user.getEmail().toLowerCase());
         user.setEnabled(false);
         user.setRegistrationToken(UUID.randomUUID().toString());
         return externalUserRepository.saveAndFlush(user);
