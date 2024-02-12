@@ -1,5 +1,5 @@
-@import '../../../../assets/scss/variables';
-@import '../../../../assets/scss/mixins';
+@import '../../../assets/scss/variables';
+@import '../../../assets/scss/mixins';
 
 @media screen and (max-width: 991px) {
   #navbarResponsive {
@@ -29,6 +29,12 @@
 /* ==========================================================================
 Navbar
 ========================================================================== */
+
+div.page {
+  display: block;
+  min-height: 150px;
+}
+
 .navbar-version {
   font-size: 10px;
   color: $grey-lightest;
@@ -68,17 +74,11 @@ Navbar
       }
 
       ul.dropdown-menu-right.show {
+        min-width: 274px;
         margin: 0;
         top: 48px;
         background-color: $color-blue-dark-100;
         border-radius: 6px 0 6px 6px;
-
-        /*
-            right: unset;
-            left: 10px;
-            background-color: #004678;
-            border-radius: 0 6px 6px 6px;
-        */
       }
     }
   }
@@ -94,7 +94,7 @@ Navbar
 }
 
 div.general-buttons.row {
-  padding-left: 21px;
+  padding-left: 20px;
 }
 
 .nav-item.active {

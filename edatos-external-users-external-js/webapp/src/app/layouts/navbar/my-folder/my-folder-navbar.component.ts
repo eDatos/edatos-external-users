@@ -10,7 +10,7 @@ import { NavbarRefreshService } from '@app/shared/service/shared/navbar-refresh.
 @Component({
     selector: 'app-my-folder-navbar',
     templateUrl: './my-folder-navbar.component.html',
-    styleUrls: ['my-folder-navbar.component.scss']
+    styleUrls: ['../navbar.component.scss']
 })
 export class MyFolderNavbarComponent implements OnInit {
     inProduction: boolean;

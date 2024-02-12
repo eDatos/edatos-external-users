@@ -6,7 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
     selector: 'app-my-account-sub-navbar',
     templateUrl: './my-account-sub-navbar.component.html',
-    styleUrls: ['my-account-sub-navbar.component.scss']
+    styleUrls: ['../../sub-navbar.component.scss']
 })
 export class MyAccountSubNavbarComponent implements OnInit {
 

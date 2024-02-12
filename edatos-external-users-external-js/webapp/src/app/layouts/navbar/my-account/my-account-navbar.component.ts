@@ -12,7 +12,7 @@ import { User } from '@app/core/model';
 @Component({
     selector: 'app-my-account-navbar',
     templateUrl: './my-account-navbar.component.html',
-    styleUrls: ['my-account-navbar.component.scss']
+    styleUrls: ['../navbar.component.scss']
 })
 export class MyAccountNavbarComponent implements OnInit {
     inProduction: boolean;
