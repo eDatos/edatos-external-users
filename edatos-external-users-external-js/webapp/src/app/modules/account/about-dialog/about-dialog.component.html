@@ -1,28 +1,25 @@
-<div class='page-body'>
-    <div class='row justify-content-md-center login-container'>
-        <div class='col-md-4 card p-3 bg-white'>
-            <h2 class='card-title text-center mt-1'
-                translate='entity.action.about'></h2>
-            <div class='card-body success-sending'>
-                <div class='row success-sending-message'>
+<div class='page content'>
+    <div class='page-body'>
+        <div class='row justify-content-md-center login-container reset-password'>
+            <div class='col-md-4 card p-3 bg-white background-container'>
+                <h2 class='card-title text-center mt-1'
+                    translate='entity.action.about'></h2>
+                <div class='card-body'>
                     <div class='form-group'>
-                        <div class='col-md-12 justify-content-md-center text-center'>
-                            <p><span translate='global.version'></span> : {{version}}</p>
-                        </div>
+                        <p class='content-paragraph p-text'>{{ 'global.version' | translate }} : {{version}}</p>
                     </div>
-                </div>
-                <ng-container>
-                    <div class='button-container-login'>
-                        <div class='row justify-content-md-center'>
-                            <div class='form-group panel-container-buttons w-100'>
-                                <button type='submit' (click)='clear()'
-                                        class='btn btn-scnd w-100'>
-                                    <span>{{ 'entity.action.accept' | translate | uppercase }}</span>
-                                </button>
+                    <ng-container>
+                        <div class='button-container-login'>
+                            <div class='row justify-content-md-center'>
+                                <div class='form-group panel-container-buttons w-100'>
+                                    <button type='submit' (click)='clear()' class='btn btn-first w-100'>
+                                        <span>{{ 'entity.action.accept' | translate }}</span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </ng-container>
+                    </ng-container>
+                </div>
             </div>
         </div>
     </div>

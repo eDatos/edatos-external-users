@@ -1,0 +1,36 @@
+app-delete-confirm-dialog, app-about-dialog {
+  width: fit-content;
+  display: contents;
+
+
+  .page {
+    background-color: transparent;
+
+    div.login-container.reset-password {
+      height: 200px;
+    }
+
+    i.text-error {
+      color: $color-red-100;
+    }
+
+    div.card-body {
+      .form-group p {
+        margin-left: 23px;
+      }
+
+      .button-container-login {
+        button.btn-first {
+          margin-bottom: 15px;
+        }
+      }
+    }
+  }
+}
+
+
+.app .modal-backdrop {
+  backdrop-filter: blur(20px);
+  background-blend-mode: multiply;
+  background-color: $color-black-0;
+}

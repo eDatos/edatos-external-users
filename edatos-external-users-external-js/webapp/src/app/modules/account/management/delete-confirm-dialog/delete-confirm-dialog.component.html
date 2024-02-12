@@ -1,36 +1,37 @@
-<div class='page-body'>
-    <div class='row justify-content-md-center login-container'>
-        <div class='col-md-4 card p-3 bg-white'>
-            <h2 class='card-title text-center mt-1'
-                translate='entity.action.unsubscribe'></h2>
-            <div class='card-body success-sending'>
-                <div class='row'>
-                    <div class='form-group'>
-                        <div class='col-md-12 justify-content-md-center text-center'>
-                            <p><span translate='account.messages.delete.text'></span></p>
+<div class='page content'>
+    <div class='page-body'>
+        <form class='page-form' id='edit-form' name='editForm' role='form' novalidate (ngSubmit)='confirm()'
+              #editForm='ngForm' autocomplete='off'>
+            <fieldset class='page-section' arteAutofocus>
+                <div class='row justify-content-md-center login-container reset-password'>
+                    <div class='col-md-4 card p-3 bg-white background-container'>
+                        <h2 class='card-title text-center mt-1'
+                            translate='entity.action.unsubscribe'></h2>
+                        <div class='card-body'>
+                            <div class='form-group'>
+                                <p class='content-paragraph p-icon'><i
+                                    class='fa fa-3x fa-warning text-error'></i></p>
+                                <p class='content-paragraph p-text'>{{ 'account.messages.delete.text' | translate }}</p>
+                            </div>
+                            <ng-container>
+                                <div class='button-container-login'>
+                                    <div class='row justify-content-md-center'>
+                                        <div class='form-group panel-container-buttons w-100'>
+                                            <button type='submit' class='btn btn-first w-100'>
+                                                <span>{{ 'entity.action.accept' | translate }}</span>
+                                            </button>
+                                            <button type='submit' (click)='clear()'
+                                                    class='btn btn-cancel w-100'>
+                                                <span>{{ 'entity.action.cancel' | translate }}</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
                         </div>
                     </div>
                 </div>
-                <ng-container>
-                    <div class='button-container-login'>
-                        <div class='row justify-content-md-center'>
-                            <div class='form-group panel-container-buttons w-100'>
-                                <button type='submit' class='btn btn-scnd w-100' (click)='confirm()'>
-                                    <span class='fa'></span>
-                                    <span>{{ 'entity.action.confirm' | translate | uppercase }}</span>
-                                </button>
-                            </div>
-                            <div class='row-large justify-content-md-center text-center'>
-                                <button type='submit' (click)='clear()'
-                                        class='text-icon-button-dialog text-icon-button'>
-                                    <span class='fa fa-ban'></span>
-                                    <span>{{ 'entity.action.cancel' | translate | uppercase }}</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </ng-container>
-            </div>
-        </div>
+            </fieldset>
+        </form>
     </div>
 </div>

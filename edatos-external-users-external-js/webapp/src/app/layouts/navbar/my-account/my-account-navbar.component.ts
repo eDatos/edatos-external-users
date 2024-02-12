@@ -73,6 +73,7 @@ export class MyAccountNavbarComponent implements OnInit {
 
     public openAboutDialog() {
         this.genericModalService.open(AboutDialogComponent as Component, { user: this.account }, { container: '.app' });
+        this.toggleNavbar();
     }
 
     public openDeleteDialog() {
