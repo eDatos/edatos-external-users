@@ -6,7 +6,22 @@ import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -15,7 +30,6 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.Email;
 
 import es.gobcan.istac.edatos.external.users.core.domain.enumeration.ExternalUserRole;
-import es.gobcan.istac.edatos.external.users.core.domain.enumeration.Language;
 import es.gobcan.istac.edatos.external.users.core.domain.interfaces.AbstractVersionedAndAuditingEntity;
 
 @Entity
@@ -49,9 +63,8 @@ public class ExternalUserEntity extends AbstractVersionedAndAuditingEntity {
     private String email;
 
     @NotNull
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Language language;
+    private String language;
 
     @Size(max = 255)
     private String phoneNumber;
@@ -148,11 +161,11 @@ public class ExternalUserEntity extends AbstractVersionedAndAuditingEntity {
         this.email = email;
     }
 
-    public Language getLanguage() {
+    public String getLanguage() {
         return language;
     }
 
-    public void setLanguage(Language language) {
+    public void setLanguage(String language) {
         this.language = language;
     }
 

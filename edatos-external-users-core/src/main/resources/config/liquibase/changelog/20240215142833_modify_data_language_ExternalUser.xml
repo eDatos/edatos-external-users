@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
+
+    <!-- Cambiar los valores de 'language' en 'tb_usuarios' según los codes proporcionados -->
+    <changeSet id="20240215142833-1" author="arte">
+        <sql>UPDATE tb_external_users SET language = 'es' WHERE language = 'SPANISH';</sql>
+        <sql>UPDATE tb_external_users SET language = 'ca' WHERE language = 'CATALAN';</sql>
+        <sql>UPDATE tb_external_users SET language = 'en' WHERE language = 'ENGLISH';</sql>
+    </changeSet>
+
+</databaseChangeLog>

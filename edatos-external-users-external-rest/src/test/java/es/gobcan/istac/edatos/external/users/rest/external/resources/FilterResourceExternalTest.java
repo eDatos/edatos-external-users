@@ -1,6 +1,16 @@
 package es.gobcan.istac.edatos.external.users.rest.external.resources;
 
-import es.gobcan.istac.edatos.external.users.core.domain.enumeration.PermalinkType;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,7 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 import es.gobcan.istac.edatos.external.users.EdatosExternalUsersRestTestApp;
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.FilterEntity;
-import es.gobcan.istac.edatos.external.users.core.domain.enumeration.Language;
+import es.gobcan.istac.edatos.external.users.core.domain.enumeration.PermalinkType;
 import es.gobcan.istac.edatos.external.users.core.errors.ExceptionTranslator;
 import es.gobcan.istac.edatos.external.users.core.repository.ExternalUserRepository;
 import es.gobcan.istac.edatos.external.users.core.repository.FilterRepository;
@@ -25,14 +35,6 @@ import es.gobcan.istac.edatos.external.users.rest.common.dto.FilterDto;
 import es.gobcan.istac.edatos.external.users.rest.common.mapper.ExternalUserMapper;
 import es.gobcan.istac.edatos.external.users.rest.common.mapper.FilterMapper;
 import es.gobcan.istac.edatos.external.users.rest.common.util.TestUtil;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = EdatosExternalUsersRestTestApp.class)
@@ -85,7 +87,7 @@ public class FilterResourceExternalTest {
         user1.setSurname2("Ferrer");
         user1.setPassword("password1");
         user1.setEmail("user1@gmail.com");
-        user1.setLanguage(Language.CATALAN);
+        user1.setLanguage("ca");
         externalUserRepository.saveAndFlush(user1);
         user2 = new ExternalUserEntity();
         user2.setName("Mateo");
@@ -93,7 +95,7 @@ public class FilterResourceExternalTest {
         user2.setSurname2("Hernández");
         user2.setPassword("12345678");
         user2.setEmail("user2@gmail.com");
-        user2.setLanguage(Language.CATALAN);
+        user2.setLanguage("ca");
         externalUserRepository.saveAndFlush(user2);
 
         filter1 = new FilterEntity();

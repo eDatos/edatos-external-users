@@ -28,4 +28,8 @@ export class LanguageService {
     public getAllowed(): Observable<string[]> {
         return this.http.get<string[]>(`${this.resourceUrl}/allowed`);
     }
+
+    public getInternationalLanguages(): Observable<string[]> {
+        return this.http.get<string[]>(`${this.resourceUrl}/international`);
+    }
 }

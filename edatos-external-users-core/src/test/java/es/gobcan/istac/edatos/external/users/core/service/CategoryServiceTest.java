@@ -1,5 +1,10 @@
 package es.gobcan.istac.edatos.external.users.core.service;
 
+import static es.gobcan.istac.edatos.external.users.util.CategoryEntityBuilder.categoryBuilder;
+import static es.gobcan.istac.edatos.external.users.util.CollectionUtils.toSingleton;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.ThrowableAssert.catchThrowable;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -17,14 +22,8 @@ import es.gobcan.istac.edatos.external.users.EdatosExternalUsersCoreTestApp;
 import es.gobcan.istac.edatos.external.users.core.domain.CategoryEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.FavoriteEntity;
-import es.gobcan.istac.edatos.external.users.core.domain.enumeration.Language;
 import es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType;
 import es.gobcan.istac.edatos.external.users.core.repository.CategoryRepository;
-
-import static es.gobcan.istac.edatos.external.users.util.CategoryEntityBuilder.categoryBuilder;
-import static es.gobcan.istac.edatos.external.users.util.CollectionUtils.toSingleton;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.ThrowableAssert.catchThrowable;
 
 @Transactional
 @RunWith(SpringRunner.class)
@@ -158,7 +157,7 @@ public class CategoryServiceTest {
         externalUser.setSurname2("Surname2");
         externalUser.setEmail("user@user.com");
         externalUser.setPassword("password1");
-        externalUser.setLanguage(Language.SPANISH);
+        externalUser.setLanguage("es");
         externalUserService.create(externalUser);
 
         FavoriteEntity favorite = new FavoriteEntity();
