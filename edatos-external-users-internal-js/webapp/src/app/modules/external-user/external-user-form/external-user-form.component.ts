@@ -146,7 +146,7 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
         this.isSaving = true;
         this.externalUser.nationality = this.nationality ? this.nationality.id : null;
         this.externalUser.gender = this.gender ? this.gender.id : null;
-        this.externalUser.language = this.selectedLanguageLabel.label;
+        this.externalUser.language = this.selectedLanguageLabel.locale;
         if (this.userId) {
             this.externalUserService.update(this.externalUser).subscribe(
                 (response) => this.onSaveSuccess(response),
@@ -228,7 +228,7 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
             this.internationalLanguages = response.map((lang) => {
                 return new Language(lang, this.translateService.instant('enum.localeToLanguage.' + lang.toUpperCase()));
             });
-            this.internationalLanguages.sort((a, b) => a.locale.localeCompare(b.locale));
+            this.internationalLanguages.sort((a, b) => a.label.localeCompare(b.label));
         });
     }
 }

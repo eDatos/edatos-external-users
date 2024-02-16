@@ -8,10 +8,10 @@
  */
 export class Language {
     locale: string;
-    value: string;
+    label: string;
 
-    constructor(key: string, value: string) {
-        this.locale = key;
-        this.value = value;
+    constructor(locale: string, label: string) {
+        this.locale = locale;
+        this.label = label;
     }
 }

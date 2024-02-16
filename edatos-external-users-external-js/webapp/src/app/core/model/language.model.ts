@@ -1,9 +1,9 @@
 export class Language {
-    label: string;
     locale: string;
+    label: string;
 
-    constructor(label: string, locale: string) {
-        this.label = label;
+    constructor(locale: string, label: string) {
         this.locale = locale;
+        this.label = label;
     }
 }

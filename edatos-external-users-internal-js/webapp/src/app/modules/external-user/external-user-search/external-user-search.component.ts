@@ -95,7 +95,7 @@ export class ExternalUserSearchComponent implements OnInit, OnDestroy {
     }
 
     public onUnselectLanguages(language) {
-        const index = this.selectedLanguageLabel.indexOf(language.label);
+        const index = this.selectedLanguageLabel.indexOf(language.locale);
         if (index > -1) {
             this.selectedLanguageLabel.splice(index, 1);
         }
@@ -104,7 +104,7 @@ export class ExternalUserSearchComponent implements OnInit, OnDestroy {
     }
 
     public onSelectLanguages(language) {
-        this.selectedLanguageLabel.push(language.label);
+        this.selectedLanguageLabel.push(language.locale);
         this.filters.languages = this.selectedLanguageLabel;
         this.filter();
     }
@@ -132,7 +132,7 @@ export class ExternalUserSearchComponent implements OnInit, OnDestroy {
             this.internationalLanguages = response.map((lang) => {
                 return new Language(lang, this.translateService.instant('enum.localeToLanguage.' + lang.toUpperCase()));
             });
-            this.internationalLanguages.sort((a, b) => a.locale.localeCompare(b.locale));
+            this.internationalLanguages.sort((a, b) => a.label.localeCompare(b.label));
         });
     }
 }

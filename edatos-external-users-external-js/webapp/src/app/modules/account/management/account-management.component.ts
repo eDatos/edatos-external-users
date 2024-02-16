@@ -52,7 +52,7 @@ export class AccountManagementComponent implements OnInit {
         this.isSaving = true;
         this.account.nationality = this.nationality ? this.nationality.id : null;
         this.account.gender = this.gender ? this.gender.id : null;
-        this.account.language = this.selectedLanguageLabel.label;
+        this.account.language = this.selectedLanguageLabel.locale;
         this.userService.update(this.account).subscribe(
             () => {
                 this.onSuccess();
@@ -142,7 +142,7 @@ export class AccountManagementComponent implements OnInit {
             this.internationalLanguages = response.map((lang) => {
                 return new Language(lang, this.translateService.instant('localeToLanguage.' + lang));
             });
-            this.internationalLanguages.sort((a, b) => a.locale.localeCompare(b.locale));
+            this.internationalLanguages.sort((a, b) => a.label.localeCompare(b.label));
         });
     }
 }
