@@ -186,16 +186,18 @@
                         <div class="form-row">
                             <label class="col-form-label col-md-4" translate="externalUser.language"></label>
                             <div class="col-md-8">
-                                <arte-autocomplete-enum
-                                    name="language"
-                                    [multiple]="false"
-                                    [(ngModel)]="externalUser.language"
-                                    [suggestionsEnum]="languageEnum"
-                                    [translationPath]="'externalUser.languageEnum.'"
-                                    [disabled]="editMode !== 'user'"
-                                    required
+                                <arte-autocomplete-short-list
+                                id='language'
+                                name='language'
+                                inputId='language'
+                                [multiple]='false'
+                                [(ngModel)]='selectedLanguage'
+                                [suggestions]='internationalLanguages'
+                                [properties]="['label']"
+                                [required]='true'
+                                [disabled]="editMode !== 'user'"
                                 >
-                                </arte-autocomplete-enum>
+                                </arte-autocomplete-short-list>
                             </div>
                         </div>
                     </div>

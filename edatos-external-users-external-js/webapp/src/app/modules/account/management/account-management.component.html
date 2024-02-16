@@ -161,16 +161,18 @@
                             <label class='col-form-label col-md-4' translate='signup.form.language'
                                    for='language'></label>
                             <div class='col-md-8 form-input-container errors-on-hover'>
-                                <arte-autocomplete-enum
+                                <arte-autocomplete-short-list
                                     id='language'
                                     name='language'
+                                    inputId='language'
                                     [multiple]='false'
-                                    [(ngModel)]='account.language'
-                                    [suggestionsEnum]='languageEnum'
-                                    [translationPath]="'language.'"
+                                    [(ngModel)]='selectedLanguage'
+                                    [suggestions]='internationalLanguages'
+                                    [properties]="['label']"
                                     [required]='true'
+                                    [disabled]='!isEditMode()'
                                 >
-                                </arte-autocomplete-enum>
+                                </arte-autocomplete-short-list>
                                 <div class='form-errors-messages' *hasErrors='let messages'>
                                     <span *ngFor='let m of messages'>{{m}}</span>
                                 </div>

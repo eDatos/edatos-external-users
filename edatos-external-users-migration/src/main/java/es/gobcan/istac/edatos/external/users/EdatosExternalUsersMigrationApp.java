@@ -1,20 +1,28 @@
 package es.gobcan.istac.edatos.external.users;
 
-import es.gobcan.istac.edatos.external.users.core.config.DefaultProfileUtil;
-import es.gobcan.istac.edatos.external.users.core.domain.ExternalOperationEntity;
-import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
-import es.gobcan.istac.edatos.external.users.core.domain.FavoriteEntity;
-import es.gobcan.istac.edatos.external.users.core.domain.FilterEntity;
-import es.gobcan.istac.edatos.external.users.core.domain.enumeration.ExternalUserRole;
-import es.gobcan.istac.edatos.external.users.core.domain.enumeration.Language;
-import es.gobcan.istac.edatos.external.users.core.domain.enumeration.PermalinkType;
-import es.gobcan.istac.edatos.external.users.core.repository.ExternalUserRepository;
-import es.gobcan.istac.edatos.external.users.core.repository.FavoriteRepository;
-import es.gobcan.istac.edatos.external.users.core.repository.FilterRepository;
-import es.gobcan.istac.edatos.external.users.core.service.ExternalOperationService;
-import es.gobcan.istac.edatos.external.users.core.service.ExternalUserService;
-import es.gobcan.istac.edatos.external.users.core.service.NotificationService;
-import liquibase.util.csv.CSVReader;
+import static es.gobcan.istac.edatos.external.users.core.service.impl.ExternalUserServiceImpl.MIGRATED_USER_PSWD;
+
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
 import org.apache.commons.io.input.BOMInputStream;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -30,17 +38,21 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.time.*;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
-
-import static es.gobcan.istac.edatos.external.users.core.service.impl.ExternalUserServiceImpl.MIGRATED_USER_PSWD;
+import es.gobcan.istac.edatos.external.users.core.config.DefaultProfileUtil;
+import es.gobcan.istac.edatos.external.users.core.config.MetadataProperties;
+import es.gobcan.istac.edatos.external.users.core.domain.ExternalOperationEntity;
+import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
+import es.gobcan.istac.edatos.external.users.core.domain.FavoriteEntity;
+import es.gobcan.istac.edatos.external.users.core.domain.FilterEntity;
+import es.gobcan.istac.edatos.external.users.core.domain.enumeration.ExternalUserRole;
+import es.gobcan.istac.edatos.external.users.core.domain.enumeration.PermalinkType;
+import es.gobcan.istac.edatos.external.users.core.repository.ExternalUserRepository;
+import es.gobcan.istac.edatos.external.users.core.repository.FavoriteRepository;
+import es.gobcan.istac.edatos.external.users.core.repository.FilterRepository;
+import es.gobcan.istac.edatos.external.users.core.service.ExternalOperationService;
+import es.gobcan.istac.edatos.external.users.core.service.ExternalUserService;
+import es.gobcan.istac.edatos.external.users.core.service.NotificationService;
+import liquibase.util.csv.CSVReader;
 
 @ComponentScan
 @EnableAutoConfiguration(exclude = {MetricFilterAutoConfiguration.class, MetricRepositoryAutoConfiguration.class})
@@ -55,6 +67,7 @@ public class EdatosExternalUsersMigrationApp {
     private static FavoriteRepository favoriteRepository;
     private static NotificationService notificationService;
     private static ExternalOperationService externalOperationService;
+    private static MetadataProperties metadataProperties;
     private static ConfigurableApplicationContext context;
 
     private static final Map<String, ExternalUserEntity> oldIdNewUserMap = new HashMap<>();
@@ -80,6 +93,7 @@ public class EdatosExternalUsersMigrationApp {
         favoriteRepository = context.getBean(FavoriteRepository.class);
         notificationService = context.getBean(NotificationService.class);
         externalOperationService = context.getBean(ExternalOperationService.class);
+        metadataProperties = context.getBean(MetadataProperties.class);
 
         if ("--email".equalsIgnoreCase(args[0])) {
             log.info("\n\n------------------------------------- ENVÍO DE CORREOS -------------------------------------\n");
@@ -178,7 +192,10 @@ public class EdatosExternalUsersMigrationApp {
                             } else {
                                 externalUser.setEmail(finalValues[headerIndexMap.get("email")] == null ? null : finalValues[headerIndexMap.get("email")].toLowerCase());
                                 if (StringUtils.isNotBlank(finalValues[headerIndexMap.get("language")])) {
-                                    Language language = Language.findByLocaleCode(finalValues[headerIndexMap.get("language")]);
+
+                                    List<String> internationalLanguagesAllowed = metadataProperties.getInternationalizationLanguages().stream().map(String::toLowerCase).collect(Collectors.toList());
+                                    String language = internationalLanguagesAllowed.stream().filter(finalValues[headerIndexMap.get("language")].toLowerCase()::equals).findFirst().orElse(null);
+
                                     if (language == null) {
                                         exceptions.add(new RuntimeException("No se ha podido migrar el lenguaje porque no es uno de los valores permitidos."));
                                     } else {

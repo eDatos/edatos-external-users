@@ -1,4 +1,3 @@
-import { Language } from '@app/core/model/language.model';
 import { BaseAuditingEntity } from 'arte-ng/model';
 import * as jwtDecode from 'jwt-decode';
 import { Role } from './rol.model';
@@ -11,7 +10,7 @@ export class User extends BaseAuditingEntity {
         public apellido1?: string,
         public apellido2?: string,
         public email?: string,
-        public language?: Language,
+        public language?: string,
         public organization?: string,
         public phoneNumber?: string,
         public deletionDate?: Date,
