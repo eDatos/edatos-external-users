@@ -67,6 +67,7 @@ export class ExternalUserSearchComponent implements OnInit, OnDestroy {
         this.filters.reset();
         this.filter();
         this.resetCategories();
+        this.resetLanguages();
     }
 
     public openCategoryModal() {
@@ -99,6 +100,12 @@ export class ExternalUserSearchComponent implements OnInit, OnDestroy {
         if (index > -1) {
             this.selectedLanguage.splice(index, 1);
         }
+        this.filters.languages = this.selectedLanguage;
+        this.filter();
+    }
+
+    private resetLanguages() {
+        this.selectedLanguage = [];
         this.filters.languages = this.selectedLanguage;
         this.filter();
     }
