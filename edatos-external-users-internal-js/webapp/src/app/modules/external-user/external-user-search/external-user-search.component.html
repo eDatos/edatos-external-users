@@ -17,11 +17,10 @@
                 (onSelect)="onSelectLanguages($event)"
                 (onUnselect)="onUnselectLanguages($event)"
                 id='language'
-                name='language'
-                inputId='language'
                 dataKey='locale'
                 [multiple]='true'
                 [suggestions]='internationalLanguages'
+                [selectedSuggestions]="selectedLanguage"
                 [properties]="['label']"
             >
             </arte-autocomplete-short-list>
