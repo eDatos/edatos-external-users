@@ -30,6 +30,6 @@ export class LanguageService {
     }
 
     public getInternationalLanguages(): Observable<string[]> {
-        return this.http.get<string[]>(`${this.resourceUrl}/international`);
+        return this.http.get<string[]>(`${this.resourceUrl}/internationalization`);
     }
 }

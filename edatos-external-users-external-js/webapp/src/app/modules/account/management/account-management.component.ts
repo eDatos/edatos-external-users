@@ -22,7 +22,7 @@ export class AccountManagementComponent implements OnInit {
     public gender: ItemCode;
 
     public internationalLanguages: Language[] = [];
-    public selectedLanguageKey: Language;
+    public selectedLanguageLocale: Language;
 
     public countries: ItemCode[] = [];
     public genders: ItemCode[] = [];
@@ -52,7 +52,7 @@ export class AccountManagementComponent implements OnInit {
         this.isSaving = true;
         this.account.nationality = this.nationality ? this.nationality.id : null;
         this.account.gender = this.gender ? this.gender.id : null;
-        this.account.language = this.selectedLanguageKey.key;
+        this.account.language = this.selectedLanguageLocale.locale;
         this.userService.update(this.account).subscribe(
             () => {
                 this.onSuccess();
@@ -135,7 +135,7 @@ export class AccountManagementComponent implements OnInit {
 
     private getInternationalLanguages(language?: string) {
         if (language) {
-            this.selectedLanguageKey = new Language(language, this.translateService.instant('localeToLanguage.' + language));
+            this.selectedLanguageLocale = new Language(language, this.translateService.instant('localeToLanguage.' + language));
         }
 
         this.languageService.getInternationalLanguages().subscribe((response) => {

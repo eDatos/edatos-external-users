@@ -7,11 +7,11 @@
  * the user it should show "Castellano".
  */
 export class Language {
-    key: string;
+    locale: string;
     value: string;
 
     constructor(key: string, value: string) {
-        this.key = key;
+        this.locale = key;
         this.value = value;
     }
 }

@@ -15,7 +15,6 @@ import com.arte.libs.grammar.orm.jpa.criteria.RestrictionProcessorBuilder;
 import com.arte.libs.grammar.orm.jpa.criteria.converter.CriterionConverter;
 
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
-import es.gobcan.istac.edatos.external.users.core.domain.enumeration.Language;
 import es.gobcan.istac.edatos.external.users.core.errors.CustomParameterizedExceptionBuilder;
 import es.gobcan.istac.edatos.external.users.core.errors.ErrorConstants;
 import es.gobcan.istac.edatos.external.users.core.service.criteria.util.CriteriaUtil;
@@ -92,7 +91,7 @@ public class ExternalUserCriteriaProcessor extends AbstractCriteriaProcessor {
                 .withQueryProperty(QueryProperty.EMAIL).sortable()
                 .withEntityProperty(ENTITY_FIELD_EMAIL)
                 .build());
-        registerRestrictionProcessor(RestrictionProcessorBuilder.enumRestrictionProcessor(Language.class)
+        registerRestrictionProcessor(RestrictionProcessorBuilder.stringRestrictionProcessor()
                 .withQueryProperty(QueryProperty.LANGUAGE)
                 .withEntityProperty(ENTITY_FIELD_LANGUAGE)
                 .build());

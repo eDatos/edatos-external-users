@@ -25,7 +25,7 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
     public eventSubscriber: Subscription;
 
     public internationalLanguages: Language[] = [];
-    public selectedLanguageKey: Language;
+    public selectedLanguageLocale: Language;
 
     public countries: ItemCode[] = [];
     public genders: ItemCode[] = [];
@@ -146,7 +146,7 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
         this.isSaving = true;
         this.externalUser.nationality = this.nationality ? this.nationality.id : null;
         this.externalUser.gender = this.gender ? this.gender.id : null;
-        this.externalUser.language = this.selectedLanguageKey.key;
+        this.externalUser.language = this.selectedLanguageLocale.locale;
         if (this.userId) {
             this.externalUserService.update(this.externalUser).subscribe(
                 (response) => this.onSaveSuccess(response),
@@ -221,7 +221,7 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
 
     private getInternationalLanguages(language?: string) {
         if (language) {
-            this.selectedLanguageKey = new Language(language, this.translateService.instant('enum.localeToLanguage.' + language.toUpperCase()));
+            this.selectedLanguageLocale = new Language(language, this.translateService.instant('enum.localeToLanguage.' + language.toUpperCase()));
         }
 
         this.languageService.getInternationalLanguages().subscribe((response) => {
