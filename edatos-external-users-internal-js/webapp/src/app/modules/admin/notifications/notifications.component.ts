@@ -1,7 +1,6 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ExternalUser } from '@app/core/model';
 import {Notification, Receiver} from '@app/shared/model';
-import { ExternalUserService } from '@app/core/service';
 import { errorErrorMessage } from '@app/core/service/alert/eusuarios-alert.service';
 import { MultiLanguageInputComponent } from '@app/shared/components/multi-language-input';
 import { ALL_LOCALES } from '@app/shared/components/multi-language-input/multi-language-input.constants';
@@ -61,7 +60,6 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     constructor(
         private eventManager: ArteEventManager,
         public notificationService: NotificationService,
-        public externalUserService: ExternalUserService,
         public messageService: MessageService,
         public translateService: TranslateService,
         private categoryService: CategoryService,
@@ -81,7 +79,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
         });
 
         this.languageService
-            .getAllowed()
+            .getInternationalLanguages()
             .pipe(shareReplay({ bufferSize: 1, refCount: true }))
             .subscribe((languages) => (this.availableLanguages = languages));
     }

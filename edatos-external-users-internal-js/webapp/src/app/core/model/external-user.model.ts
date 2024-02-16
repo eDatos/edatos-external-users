@@ -10,7 +10,7 @@ export class ExternalUser extends BaseVersionedAndAuditingWithDeletionEntity {
     public email: string;
     public organism: string;
 
-    public language: Language;
+    public language: string;
     public phoneNumber: string;
     public emailNotificationsEnabled: boolean;
     public gender: string | null;

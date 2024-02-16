@@ -10,7 +10,7 @@ export class User extends BaseVersionedAndAuditingWithDeletionEntity {
     public password?: string;
     public email?: string;
     public organism?: string;
-    public language?: any[];
+    public language?: string;
     public phoneNumber?: string;
     public emailNotificationsEnabled?: boolean;
     public roles?: any[];
@@ -27,7 +27,7 @@ export class User extends BaseVersionedAndAuditingWithDeletionEntity {
         email?: string,
         organism?: string,
         password?: string,
-        language?: any[],
+        language?: string,
         phoneNumber?: string,
         emailNotificationsEnabled?: boolean,
         roles?: any[],
@@ -69,7 +69,8 @@ export interface RoleUserAccount {
 }
 
 export class UserAccount {
-    constructor(public login: string, public roles: RoleUserAccount[]) {}
+    constructor(public login: string, public roles: RoleUserAccount[]) {
+    }
 
     public static fromJwt(token: string) {
         const payload: { sub: string; auth: string; exp: string } = jwtDecode(token);
@@ -86,5 +87,6 @@ export class UserAccount {
 }
 
 export class UserAccountChangePassword {
-    constructor(public currentPassword: string, public newPassword: string) {}
+    constructor(public currentPassword: string, public newPassword: string) {
+    }
 }

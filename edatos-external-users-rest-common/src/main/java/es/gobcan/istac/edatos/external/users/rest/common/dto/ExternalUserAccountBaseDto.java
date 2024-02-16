@@ -1,9 +1,7 @@
 package es.gobcan.istac.edatos.external.users.rest.common.dto;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 
-import es.gobcan.istac.edatos.external.users.core.domain.enumeration.Language;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.interfaces.AbstractVersionedAndAuditingAndLogicalDeletionDto;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.interfaces.Identifiable;
 
@@ -17,7 +15,7 @@ public class ExternalUserAccountBaseDto extends AbstractVersionedAndAuditingAndL
     private String surname1;
     private String surname2;
 
-    private Language language;
+    private String language;
     private String phoneNumber;
 
     private String organism;
@@ -72,11 +70,11 @@ public class ExternalUserAccountBaseDto extends AbstractVersionedAndAuditingAndL
         this.email = email;
     }
 
-    public Language getLanguage() {
+    public String getLanguage() {
         return language;
     }
 
-    public void setLanguage(Language language) {
+    public void setLanguage(String language) {
         this.language = language;
     }
 

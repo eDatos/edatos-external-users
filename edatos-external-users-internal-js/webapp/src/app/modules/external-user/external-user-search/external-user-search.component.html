@@ -13,16 +13,18 @@
         </div>
         <div class="form-group col-md-4">
             <label translate="externalUser.filters.labels.language"></label>
-            <arte-autocomplete-enum
-                (onSelect)="filter()"
-                (onUnselect)="filter()"
-                [(ngModel)]="filters.languages"
-                [attr.aria-label]="'externalUser.filters.placeholders.language' | translate"
-                [multiple]="true"
-                [suggestionsEnum]="languageEnum"
-                [translationPath]="'externalUser.languageEnum.'"
-                name="language"
-            ></arte-autocomplete-enum>
+            <arte-autocomplete-short-list
+                (onSelect)="onSelectLanguages($event)"
+                (onUnselect)="onUnselectLanguages($event)"
+                id='language'
+                name='language'
+                inputId='language'
+                dataKey='locale'
+                [multiple]='true'
+                [suggestions]='internationalLanguages'
+                [properties]="['label']"
+            >
+            </arte-autocomplete-short-list>
         </div>
         <div class="form-group col-md-4">
             <label translate="externalUser.filters.labels.service"></label>
