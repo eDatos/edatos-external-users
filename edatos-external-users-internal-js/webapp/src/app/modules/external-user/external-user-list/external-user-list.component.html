@@ -32,7 +32,7 @@
                                 <td>{{user.surname1}}</td>
                                 <td>{{user.surname2}}</td>
                                 <td>{{user.email}}</td>
-                                <td>{{ 'externalUser.languageEnum.' + user.language | translate }}</td>
+                                <td>{{ 'enum.localeToLanguage.' + user.language.toUpperCase() | translate }}</td>
                             </tr>
                         </ng-template>
                     </arte-table>

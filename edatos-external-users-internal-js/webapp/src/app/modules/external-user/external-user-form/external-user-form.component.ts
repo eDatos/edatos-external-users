@@ -25,7 +25,7 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
     public eventSubscriber: Subscription;
 
     public internationalLanguages: Language[] = [];
-    public selectedLanguageLocale: Language;
+    public selectedLanguageLabel: Language;
 
     public countries: ItemCode[] = [];
     public genders: ItemCode[] = [];
@@ -146,7 +146,7 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
         this.isSaving = true;
         this.externalUser.nationality = this.nationality ? this.nationality.id : null;
         this.externalUser.gender = this.gender ? this.gender.id : null;
-        this.externalUser.language = this.selectedLanguageLocale.locale;
+        this.externalUser.language = this.selectedLanguageLabel.label;
         if (this.userId) {
             this.externalUserService.update(this.externalUser).subscribe(
                 (response) => this.onSaveSuccess(response),
@@ -221,14 +221,14 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
 
     private getInternationalLanguages(language?: string) {
         if (language) {
-            this.selectedLanguageLocale = new Language(language, this.translateService.instant('enum.localeToLanguage.' + language.toUpperCase()));
+            this.selectedLanguageLabel = new Language(language, this.translateService.instant('enum.localeToLanguage.' + language.toUpperCase()));
         }
 
         this.languageService.getInternationalLanguages().subscribe((response) => {
             this.internationalLanguages = response.map((lang) => {
                 return new Language(lang, this.translateService.instant('enum.localeToLanguage.' + lang.toUpperCase()));
             });
-            this.internationalLanguages.sort((a, b) => a.value.localeCompare(b.value));
+            this.internationalLanguages.sort((a, b) => a.locale.localeCompare(b.locale));
         });
     }
 }

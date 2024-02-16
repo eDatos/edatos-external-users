@@ -163,9 +163,9 @@
                                     name='language'
                                     inputId='language'
                                     [multiple]='false'
-                                    [(ngModel)]='selectedLanguageLocale'
+                                    [(ngModel)]='selectedLanguageLabel'
                                     [suggestions]='internationalLanguages'
-                                    [properties]="['value']"
+                                    [properties]="['locale']"
                                     [required]='true'
                                 >
                                 </arte-autocomplete-short-list>

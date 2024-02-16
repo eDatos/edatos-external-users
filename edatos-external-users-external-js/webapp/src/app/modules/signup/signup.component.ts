@@ -21,7 +21,7 @@ const REGISTRATION_TOKEN_QUERY_PARAM_ID = 'registration-token';
 })
 export class SignupFormComponent implements OnInit {
     public internationalLanguages: Language[] = [];
-    public selectedLanguageLocale: Language;
+    public selectedLanguageLabel: Language;
 
     public user: User = new User();
     public isSaving: Boolean = false;
@@ -94,7 +94,7 @@ export class SignupFormComponent implements OnInit {
             } else {
                 this.user.gender = this.gender ? this.gender.id : null;
                 this.user.nationality = this.nationality ? this.nationality.id : null;
-                this.user.language = this.selectedLanguageLocale.locale;
+                this.user.language = this.selectedLanguageLabel.label;
                 this.accountUserService
                     .create(this.captchaContainerEl, this.user, this.userRegistrationToken)
                     .then((response) => this.onSaveSuccess(response))
@@ -140,7 +140,7 @@ export class SignupFormComponent implements OnInit {
             this.internationalLanguages = response.map(language => {
                 return new Language(language, this.translateService.instant('localeToLanguage.' + language));
             });
-            this.internationalLanguages.sort((a, b) => a.value.localeCompare(b.value));
+            this.internationalLanguages.sort((a, b) => a.locale.localeCompare(b.locale));
         });
     }
 
