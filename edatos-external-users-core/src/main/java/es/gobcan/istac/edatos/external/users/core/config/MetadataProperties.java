@@ -53,6 +53,8 @@ public class MetadataProperties {
 
     private List<String> allowedOrigins;
 
+    private String externalOperationsWebUrl;
+
     @PostConstruct
     public void setValues() {
         metamacNavbar = normalizeUrl(configurationService.retrieveNavbarUrl());
@@ -79,6 +81,7 @@ public class MetadataProperties {
         nationalityUrnKey = configurationService.retrieveNationalityUrnKey();
         genderUrnKey = configurationService.retrieveGenderUrnKey();
         srmExternalEndpoint = configurationService.retrieveSrmExternalApiUrlBase();
+        externalOperationsWebUrl = configurationService.retrieveStatisticalOperationsExternalWebApplicationUrlBase();
         try {
             languageCookie = configurationService.retrieveInternationalizationCookieId();
         } catch (Exception e) {
@@ -192,5 +195,9 @@ public class MetadataProperties {
 
     public List<String> getInternationalizationLanguages() {
         return internationalizationLanguages;
+    }
+
+    public String getExternalOperationsWebUrl() {
+        return externalOperationsWebUrl;
     }
 }
