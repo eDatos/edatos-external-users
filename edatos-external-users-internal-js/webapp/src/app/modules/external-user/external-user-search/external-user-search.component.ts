@@ -21,7 +21,7 @@ export class ExternalUserSearchComponent implements OnInit, OnDestroy {
 
     public subscription: Subscription;
     public internationalLanguages: Language[] = [];
-    public selectedLanguageLabel: string[] = [];
+    public selectedLanguage: string[] = [];
     public selectedResources: FavoriteResource[] = [];
     public isSelectingResource = false;
     public serviceEnum = Service;
@@ -95,17 +95,17 @@ export class ExternalUserSearchComponent implements OnInit, OnDestroy {
     }
 
     public onUnselectLanguages(language) {
-        const index = this.selectedLanguageLabel.indexOf(language.locale);
+        const index = this.selectedLanguage.indexOf(language.locale);
         if (index > -1) {
-            this.selectedLanguageLabel.splice(index, 1);
+            this.selectedLanguage.splice(index, 1);
         }
-        this.filters.languages = this.selectedLanguageLabel;
+        this.filters.languages = this.selectedLanguage;
         this.filter();
     }
 
     public onSelectLanguages(language) {
-        this.selectedLanguageLabel.push(language.locale);
-        this.filters.languages = this.selectedLanguageLabel;
+        this.selectedLanguage.push(language.locale);
+        this.filters.languages = this.selectedLanguage;
         this.filter();
     }
 
