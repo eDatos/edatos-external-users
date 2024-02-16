@@ -51,6 +51,7 @@ import es.gobcan.istac.edatos.external.users.core.service.EDatosApisLocator;
 import es.gobcan.istac.edatos.external.users.core.service.ExternalUserService;
 import es.gobcan.istac.edatos.external.users.core.service.MetadataConfigurationService;
 import es.gobcan.istac.edatos.external.users.core.service.NotificationService;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @Service
 public class NotificationServiceImpl implements NotificationService {
@@ -83,10 +84,10 @@ public class NotificationServiceImpl implements NotificationService {
     public void createNewExternalUserAccountNotification(ExternalUserEntity externalUserEntity) {
         String codeSubject = "notice.subject.register_account.title";
         String messageCode = "notice.message.register_account.text";
+        ArrayList<String> argsList = new ArrayList<>(Arrays.asList(argsByExternalUser(externalUserEntity)));
+        argsList.add(metadataProperties.getExternalAppUrl());
 
-        String[] args = argsByExternalUser(externalUserEntity);
-
-        createNotificationWithReceiver(codeSubject, messageCode, externalUserEntity, args, REGISTER_ACCOUNT_NOTICE_FAILED);
+        createNotificationWithReceiver(codeSubject, messageCode, externalUserEntity, argsList.toArray(new String[0]), REGISTER_ACCOUNT_NOTICE_FAILED);
     }
 
     @Override
@@ -150,6 +151,13 @@ public class NotificationServiceImpl implements NotificationService {
         for (FavoriteEntity favorite : listFavorites) {
             ExternalUserEntity externalUserEntity = favorite.getExternalUser();
             ArrayList<String> argsList = new ArrayList<String>(Arrays.asList(argsByExternalUser(externalUserEntity)));
+            argsList.add(UriComponentsBuilder
+                .fromHttpUrl(metadataProperties.getExternalOperationsWebUrl())
+                .pathSegment("operations")
+                .pathSegment(favorite.getExternalOperation().getCode())
+                .build()
+                .toUriString()
+            );
             argsList.add(favorite.getExternalOperation().getName().getLocalisedLabel(favorite.getExternalUser().getLanguage().getLocaleCode(), getDefaultLocale()));
 
             if (externalUserEntity.isEmailNotificationsEnabled() && favorite.getExternalOperation().isNotificationsEnabled()) {
