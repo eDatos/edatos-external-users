@@ -14,7 +14,7 @@
 * Se añade la propiedade `metamac.statistical_operations.web.external` que hacen referencia al visualizador externo de operaciones. Para añadir la propiedad hace falta ejecutar el siguiente script SQL:
 
 ```
-etc\changes-from-release\2.0.1\db\common-metadata\postgresql\20231003_insert_recaptcha_v2_keys_configuration.sql
+etc\changes-from-release\2.0.1\db\common-metadata\postgresql\20240216_insert_statistical_operations_external_web_configuration.sql
 ```
 
 ## 1.2.1 a 2.0.0
