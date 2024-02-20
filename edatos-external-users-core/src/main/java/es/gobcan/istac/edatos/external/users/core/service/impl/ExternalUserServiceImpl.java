@@ -92,10 +92,11 @@ public class ExternalUserServiceImpl implements ExternalUserService {
     }
 
     @Override
-    public void delete(Long id) {
+    public ExternalUserEntity delete(Long id) {
         ExternalUserEntity usuario = externalUserRepository.findOne(id);
         filterRepository.deleteAllByExternalUser(usuario);
         externalUserRepository.delete(id);
+        return usuario;
     }
 
     @Override
