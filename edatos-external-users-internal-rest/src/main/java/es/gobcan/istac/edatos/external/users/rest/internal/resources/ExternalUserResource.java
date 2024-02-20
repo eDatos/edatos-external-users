@@ -125,7 +125,7 @@ public class ExternalUserResource extends AbstractResource {
     @PreAuthorize("@secChecker.canModifyUserStatus(authentication)")
     public ResponseEntity<Void> deleteExternalUser(@PathVariable Long id) {
         try {
-            externalUserService.delete(id);
+            notificationService.createDeleteExternalUserAccountNotification(externalUserService.delete(id));
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             throw new EDatosException(ServiceExceptionType.EXTERNAL_USER_DELETE_FAILED);
