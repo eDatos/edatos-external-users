@@ -68,7 +68,7 @@ public abstract class FavoriteMapper implements EntityMapper<FavoriteDto, Favori
         if (email == null) {
             return null;
         }
-        return externalUserRepository.findOneByEmail(email).orElse(null);
+        return externalUserRepository.findOneByEmailIgnoreCase(email).orElse(null);
     }
 
     @Named("categoryFromId")

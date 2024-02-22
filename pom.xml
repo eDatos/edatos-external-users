@@ -142,11 +142,12 @@
         <commons-lang.version>3.5</commons-lang.version>
         <commons-collections4.version>4.4</commons-collections4.version>
 
-        <edatos-core-common.version>1.4.0</edatos-core-common.version>
+        <edatos-core-common.version>1.4.1-SNAPSHOT</edatos-core-common.version>
         <edatos-rest-common.version>1.0.0</edatos-rest-common.version>
 
-        <metamac-notifications-rest-internal-api.version>3.6.0</metamac-notifications-rest-internal-api.version>
-        <metamac-statistical-operations-rest-internal-api.version>2.5.0</metamac-statistical-operations-rest-internal-api.version>
+        <metamac-notifications-rest-internal-api.version>3.6.1-SNAPSHOT</metamac-notifications-rest-internal-api.version>
+        <metamac-statistical-operations-rest-internal-api.version>2.5.1-SNAPSHOT</metamac-statistical-operations-rest-internal-api.version>
+
         <metamac-statistical-operations-rest-external-api.version>3.2.0</metamac-statistical-operations-rest-external-api.version>
         <metamac-statistical-operations.version>2.6.0</metamac-statistical-operations.version>
         <metamac-statistical-resources.version>7.0.0</metamac-statistical-resources.version>
@@ -279,6 +280,7 @@
                 <module>edatos-external-users-internal-web</module>
                 <module>edatos-external-users-external-rest</module>
                 <module>edatos-external-users-external-web</module>
+                <module>edatos-external-users-migration</module>
             </modules>
         </profile>
 
@@ -293,6 +295,7 @@
                 <module>edatos-external-users-external-rest</module>
                 <module>edatos-external-users-external-web</module>
                 <module>edatos-external-users-external-js</module>
+                <module>edatos-external-users-migration</module>
             </modules>
         </profile>
     </profiles>

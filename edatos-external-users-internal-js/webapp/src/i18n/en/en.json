@@ -377,7 +377,15 @@
     },
     "externalOperation": {
         "disabled": "Disabled",
-        "enabled": "Activated"
+        "enabled": "Activated",
+        "disablementConfirmationModal": {
+            "title": "Confirm operation disablement",
+            "body": "Are you sure you want to disable the statistical operation <strong>{{operation}}</strong>? All thematic subscriptions to that operation will be deleted and can not be recovered."
+        },
+        "enableConfirmationModal": {
+            "title": "Confirm operation enablement",
+            "body": "Are you sure you want to enable the statistical operation <strong>{{operation}}</strong>? From now on users could subscribe to this operation."
+        }
     },
     "externalOperations": {
         "home": {
@@ -440,7 +448,8 @@
         "language": "Language",
         "languageEnum": {
             "CATALAN": "Catalan",
-            "SPANISH": "Spanish"
+            "SPANISH": "Spanish",
+            "ENGLISH": "English"
         },
         "login": "Username",
         "name": "First Name",
@@ -790,14 +799,25 @@
             "title": "Notifications"
         },
         "form": {
-            "subject": "Subject",
-            "message": "Message",
+            "subject": {
+                "label": "Subject",
+                "placeholder": "Enter the multi-language subject",
+                "added": "Multi-language subject added"
+            },
+            "message": {
+                "label": "Message",
+                "placeholder": "Enter the multi-language message",
+                "added": "Multi-language message added"
+            },
             "receivers": "Receivers",
             "send": "Send"
         },
         "message": {
             "onSuccessSumary": "Notification sent",
-            "onSuccess": "The notification has been sent correctly."
+            "onSuccess": "The notification has been sent correctly.",
+            "onErrorSumary": "Notification <strong>NOT</strong> sent",
+            "onError": "The notification has not been sent correctly. Try again later.\n",
+            "onErrorMessage": "The notification has not been sent correctly to the following users:\n"
         }
     },
     "calendar": {

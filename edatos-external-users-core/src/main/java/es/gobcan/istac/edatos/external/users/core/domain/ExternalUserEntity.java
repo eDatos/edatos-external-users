@@ -1,5 +1,6 @@
 package es.gobcan.istac.edatos.external.users.core.domain;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.HashSet;
@@ -29,7 +30,6 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.Email;
 
 import es.gobcan.istac.edatos.external.users.core.domain.enumeration.ExternalUserRole;
-import es.gobcan.istac.edatos.external.users.core.domain.enumeration.Language;
 import es.gobcan.istac.edatos.external.users.core.domain.interfaces.AbstractVersionedAndAuditingEntity;
 
 @Entity
@@ -63,9 +63,8 @@ public class ExternalUserEntity extends AbstractVersionedAndAuditingEntity {
     private String email;
 
     @NotNull
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Language language;
+    private String language;
 
     @Size(max = 255)
     private String phoneNumber;
@@ -113,9 +112,13 @@ public class ExternalUserEntity extends AbstractVersionedAndAuditingEntity {
 
     @Column(name = "birthday")
     private LocalDate birthday;
+
     @ManyToOne
     @JoinColumn(name = "data_protection_policy_fk")
     private DataProtectionPolicyEntity dataProtectionPolicy;
+
+    @Column(name = "data_protection_policy_approval_date")
+    private Instant dataProtectionPolicyApprovalDate;
 
     @Override
     public Long getId() {
@@ -158,11 +161,11 @@ public class ExternalUserEntity extends AbstractVersionedAndAuditingEntity {
         this.email = email;
     }
 
-    public Language getLanguage() {
+    public String getLanguage() {
         return language;
     }
 
-    public void setLanguage(Language language) {
+    public void setLanguage(String language) {
         this.language = language;
     }
 
@@ -283,5 +286,13 @@ public class ExternalUserEntity extends AbstractVersionedAndAuditingEntity {
 
     public void setDataProtectionPolicy(DataProtectionPolicyEntity dataProtectionPolicy) {
         this.dataProtectionPolicy = dataProtectionPolicy;
+    }
+
+    public Instant getDataProtectionPolicyApprovalDate() {
+        return dataProtectionPolicyApprovalDate;
+    }
+
+    public void setDataProtectionPolicyApprovalDate(Instant dataProtectionPolicyApprovalDate) {
+        this.dataProtectionPolicyApprovalDate = dataProtectionPolicyApprovalDate;
     }
 }

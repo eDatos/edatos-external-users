@@ -6,7 +6,12 @@
  * "Spanish" by convention and for internationalization reasons, but when displayed to
  * the user it should show "Castellano".
  */
-export enum Language {
-    SPANISH = 'SPANISH',
-    CATALAN = 'CATALAN',
+export class Language {
+    locale: string;
+    label: string;
+
+    constructor(locale: string, label: string) {
+        this.locale = locale;
+        this.label = label;
+    }
 }

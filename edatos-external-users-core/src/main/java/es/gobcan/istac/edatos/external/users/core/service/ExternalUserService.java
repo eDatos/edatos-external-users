@@ -14,13 +14,17 @@ public interface ExternalUserService {
 
     ExternalUserEntity update(ExternalUserEntity user);
 
-    void delete(Long id);
+    ExternalUserEntity delete(Long id);
 
     ExternalUserEntity find(Long id);
 
     Optional<ExternalUserEntity> findByEmail(String email);
 
+    List<ExternalUserEntity> findAllByEmailIn(List<String> emails);
+
     Page<ExternalUserEntity> find(Pageable pageable, Boolean includeDeleted, String query);
+
+    List<ExternalUserEntity> findAllReceivers();
 
     ExternalUserEntity getUsuarioWithAuthorities();
     void updateExternalUserAccountPassword(ExternalUserEntity user, String oldPassword, String password);
@@ -32,6 +36,11 @@ public interface ExternalUserService {
     Optional<ExternalUserEntity> findOneByResetKey(String key);
 
     ExternalUserEntity confirmUserRegistration(String token);
+    ExternalUserEntity getByUserRegistration(String token);
 
     List<ExternalUserEntity> findByCategoriesAndExternalOperations(List<Long> categoriesIds, List<Long> operationsIds);
+
+    boolean isMigratedUser(ExternalUserEntity user);
+
+    ExternalUserEntity migrate(ExternalUserEntity entity);
 }

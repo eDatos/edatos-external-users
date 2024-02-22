@@ -16,7 +16,8 @@
                 "sessions": "Sessions",
                 "login": "Login",
                 "logout": "Logout",
-                "myAccount": "My account"
+                "myAccount": "My account",
+                "notifications": "Notifications"
             },
             "admin": {
                 "main": "Administration",

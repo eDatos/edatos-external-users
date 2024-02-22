@@ -43,5 +43,10 @@
              relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20230703131200_delete_duplicate_index.xml"
              relativeToChangelogFile="false"/>
-             
+    <include file="config/liquibase/changelog/20231211143500_modify_entity_ExternalUser.xml"
+             relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20231212101500_modify_entity_Filter.xml"
+             relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240215142833_modify_data_language_ExternalUser.xml"
+             relativeToChangelogFile="false"/>
 </databaseChangeLog>

@@ -2,16 +2,19 @@ import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 
+export let errorErrorMessage: any[] = [];
+
 const ERROR_ALERT_KEY = 'alert-errors';
 @Injectable()
 export class EUsuariosAlertService {
-    DEFAULT_MESSAGE = "";
+    public DEFAULT_MESSAGE = '';
 
     constructor(private translateService: TranslateService, private messageService: MessageService) {
-        this.DEFAULT_MESSAGE = this.translateService.instant('error.default.message')
+        this.DEFAULT_MESSAGE = this.translateService.instant('error.default.message');
     }
 
     public error(error: any): void {
+        errorErrorMessage = error;
         const message = this.parseError(error);
         this.addError(message);
     }

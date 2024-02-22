@@ -377,7 +377,15 @@
     },
     "externalOperation": {
         "disabled": "Desactivada",
-        "enabled": "Activada"
+        "enabled": "Activada",
+        "disablementConfirmationModal": {
+            "title": "Confirmar deshabilitación de operación",
+            "body": "¿Seguro que desea deshabilitar la operación estadística <strong>{{operation}}</strong>? Todas las suscripciones temáticas a dicha operación serán eliminadas y no podrán ser recuperadas."
+        },
+        "enablementConfirmationModal": {
+            "title": "Confirmar habilitación de operación",
+            "body": "¿Seguro que desea habilitar la operación estadística <strong>{{operation}}</strong>? A partir de ahora los usuarios podrían suscribirse a dicha operación."
+        }
     },
     "externalOperations": {
         "home": {
@@ -440,7 +448,8 @@
         "language": "Idioma",
         "languageEnum": {
             "CATALAN": "Catalán",
-            "SPANISH": "Castellano"
+            "SPANISH": "Castellano",
+            "ENGLISH": "Inglés"
         },
         "login": "Nombre de usuario",
         "name": "Nombre",
@@ -790,14 +799,25 @@
             "title": "Notificaciones"
         },
         "form": {
-            "subject": "Asunto",
-            "message": "Mensaje",
+            "subject": {
+                "label": "Asunto",
+                "placeholder": "Introduzca el asunto multilenguaje",
+                "added": "Asunto multilenguaje añadido"
+            },
+            "message": {
+                "label": "Mensaje",
+                "placeholder": "Introduzca el mensaje multilenguaje",
+                "added": "Mensaje multilenguaje añadido"
+            },
             "receivers": "Destinatarios",
             "send": "Enviar"
         },
         "message": {
             "onSuccessSumary": "Notificación enviada",
-            "onSuccess": "La notificación se ha enviado correctamente."
+            "onSuccess": "La notificación se ha enviado correctamente.",
+            "onErrorSumary": "Notificación <strong>NO</strong> enviada",
+            "onError": "La notificación no se ha podido enviar correctamente. Inténtelo de nuevo.\n",
+            "onErrorMessage": "La notificación no se ha podido enviar a los siguientes destinatarios:\n"
         }
     },
     "calendar": {

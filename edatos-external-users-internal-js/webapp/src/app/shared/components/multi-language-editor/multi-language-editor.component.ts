@@ -32,7 +32,7 @@ export class MultiLanguageEditorComponent implements ControlValueAccessor {
   isEditMode: boolean = true;
 
   @ViewChildren(Editor) set setEditors(editors: QueryList<Editor>) {
-    if(editors) {
+    if (editors) {
       editors.forEach(editor => {
         this.editors[editor.el.nativeElement.id] = editor.quill;
       });

@@ -5,6 +5,9 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang3.StringUtils;
+import org.siemac.edatos.core.common.exception.EDatosException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +15,7 @@ import es.gobcan.istac.edatos.external.users.core.service.MetadataConfigurationS
 
 @Component("metadataProperties")
 public class MetadataProperties {
+    private static final Logger LOGGER = LoggerFactory.getLogger(MetadataProperties.class);
 
     @Autowired
     private MetadataConfigurationService configurationService;
@@ -22,7 +26,9 @@ public class MetadataProperties {
     private String metamacCasLogoutUrl;
     private String defaultLanguage;
     private List<String> availableLanguages;
-    private String languageCookie;
+
+    private List<String> internationalizationLanguages;
+    private String       languageCookie;
 
     private boolean captchaEnable;
     private String captchaProvider;
@@ -47,6 +53,8 @@ public class MetadataProperties {
 
     private List<String> allowedOrigins;
 
+    private String externalOperationsWebUrl;
+
     @PostConstruct
     public void setValues() {
         metamacNavbar = normalizeUrl(configurationService.retrieveNavbarUrl());
@@ -64,19 +72,25 @@ public class MetadataProperties {
         }
         captchaUrl = normalizeUrl(configurationService.retrieveCaptchaExternalApiUrlBase());
         availableLanguages = configurationService.retrieveLanguages();
+        internationalizationLanguages = configurationService.retrieveInternationalizationLanguages();
         externalAppUrl = normalizeUrl(configurationService.retrieveExternalUsersExternalWebApplicationUrlBase());
         internalAppUrl = normalizeUrl(configurationService.retrieveExternalUsersInternalWebApplicationUrlBase());
         casService = internalAppUrl + "/login/cas";
         visualizerPath = configurationService.retrievePortalExternalWebApplicationUrlVisualizer();
-        siePath = configurationService.retrieveSieExternalWebApplicationUrl();
         defaultLanguage = availableLanguages.get(0);
         nationalityUrnKey = configurationService.retrieveNationalityUrnKey();
         genderUrnKey = configurationService.retrieveGenderUrnKey();
         srmExternalEndpoint = configurationService.retrieveSrmExternalApiUrlBase();
+        externalOperationsWebUrl = configurationService.retrieveStatisticalOperationsExternalWebApplicationUrlBase();
         try {
             languageCookie = configurationService.retrieveInternationalizationCookieId();
         } catch (Exception e) {
             languageCookie = null;
+        }
+        try {
+            siePath = configurationService.retrieveSieExternalWebApplicationUrl();
+        } catch (EDatosException e) {
+            LOGGER.info("Optional property SieExternalWebApplicationUrl is not filled ");
         }
         allowedOrigins = configurationService.retrieveAllowedOrigins();
     }
@@ -177,5 +191,13 @@ public class MetadataProperties {
 
     public double getRecaptchaThreshold() {
         return recaptchaThreshold;
+    }
+
+    public List<String> getInternationalizationLanguages() {
+        return internationalizationLanguages;
+    }
+
+    public String getExternalOperationsWebUrl() {
+        return externalOperationsWebUrl;
     }
 }

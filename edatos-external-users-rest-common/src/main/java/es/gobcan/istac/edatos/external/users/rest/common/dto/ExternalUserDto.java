@@ -1,9 +1,7 @@
 package es.gobcan.istac.edatos.external.users.rest.common.dto;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 
-import es.gobcan.istac.edatos.external.users.core.domain.enumeration.Language;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.interfaces.AbstractVersionedAndAuditingAndLogicalDeletionDto;
 
 public class ExternalUserDto extends AbstractVersionedAndAuditingAndLogicalDeletionDto implements Serializable {
@@ -15,7 +13,7 @@ public class ExternalUserDto extends AbstractVersionedAndAuditingAndLogicalDelet
     private String surname1;
     private String surname2;
 
-    private Language language;
+    private String language;
     private String phoneNumber;
     private String password;
     private String organism;
@@ -66,11 +64,11 @@ public class ExternalUserDto extends AbstractVersionedAndAuditingAndLogicalDelet
         this.password = password;
     }
 
-    public Language getLanguage() {
+    public String getLanguage() {
         return language;
     }
 
-    public void setLanguage(Language language) {
+    public void setLanguage(String language) {
         this.language = language;
     }
 

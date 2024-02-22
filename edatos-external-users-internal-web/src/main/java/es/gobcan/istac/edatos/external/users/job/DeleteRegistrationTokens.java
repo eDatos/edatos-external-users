@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 import javax.transaction.Transactional;
 import java.time.Instant;
 
+import static es.gobcan.istac.edatos.external.users.core.service.impl.ExternalUserServiceImpl.MIGRATED_USER_PSWD;
+
 @Component
 public class DeleteRegistrationTokens {
 
@@ -23,7 +25,7 @@ public class DeleteRegistrationTokens {
     @Scheduled(cron = "${application.jobs.cron.registrationTokens}")
     public void execute() {
         LOG.info("Starting to clean user accounts that have not been confirmed for too long...");
-        externalUserRepository.deleteAllByEnabledFalseAndCreatedDateIsBefore(Instant.now().minusSeconds(86400));
+        externalUserRepository.deleteAllByEnabledFalseAndPasswordIsNotAndCreatedDateIsBefore(MIGRATED_USER_PSWD, Instant.now().minusSeconds(86400));
         LOG.info("All user accounts that have not been confirmed for too long were deleted");
     }
 }

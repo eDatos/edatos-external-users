@@ -11,7 +11,6 @@ import com.codahale.metrics.annotation.Timed;
 
 import es.gobcan.istac.edatos.external.users.core.domain.DataProtectionPolicyEntity;
 import es.gobcan.istac.edatos.external.users.core.repository.DataProtectionPolicyRepository;
-import es.gobcan.istac.edatos.external.users.core.service.DataProtectionPolicyService;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.DataProtectionPolicyDto;
 import es.gobcan.istac.edatos.external.users.rest.common.mapper.DataProtectionPolicyMapper;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -21,14 +20,11 @@ import io.github.jhipster.web.util.ResponseUtil;
 public class DataProtectionPolicyResource extends AbstractResource {
 
     public static final String BASE_URL = "/api/data-protection-policy";
-
-    private final DataProtectionPolicyService dataProtectionPolicyService;
     private final DataProtectionPolicyMapper dataProtectionPolicyMapper;
     private DataProtectionPolicyRepository dataProtectionPolicyRepository;
 
-    public DataProtectionPolicyResource(DataProtectionPolicyService dataProtectionPolicyService, DataProtectionPolicyMapper dataProtectionPolicyMapper,
+    public DataProtectionPolicyResource(DataProtectionPolicyMapper dataProtectionPolicyMapper,
                                         DataProtectionPolicyRepository dataProtectionPolicyRepository) {
-        this.dataProtectionPolicyService = dataProtectionPolicyService;
         this.dataProtectionPolicyMapper = dataProtectionPolicyMapper;
         this.dataProtectionPolicyRepository = dataProtectionPolicyRepository;
     }
