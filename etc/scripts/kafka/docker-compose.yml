@@ -1,0 +1,110 @@
+############################################################################################################
+# EDATOS-3324 - Montar entorno local con nueva versión para desarrollo de nuevos productores y consumidores
+############################################################################################################
+#
+# Docker-file para la versión 6.1.1 de Kafka basado en el aportado por Confluent en el siguiente enlace:
+# - https://github.com/confluentinc/cp-all-in-one/blob/6.1.1-post/cp-all-in-one-community/docker-compose.yml
+#
+# A la configuración original se han aplicado las siguientes modificaciones:
+# - Se han eliminado los elementos relacionados con kafka-connect y ksql ya que no son necesarios.
+# - Se ha añadido la configuración necesaria para schema-registry-ui y kafka-topics-ui
+#
+# Más información sobre schema-registry-ui y kafka-topics-ui en los siguientes enlaces:
+# - schema-registry-ui: https://hub.docker.com/r/landoop/schema-registry-ui/
+# - kafka-topics-ui: https://hub.docker.com/r/landoop/kafka-topics-ui/
+#
+############################################################################################################
+
+version: '2'
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:6.1.1
+    hostname: zookeeper
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
+  broker:
+    image: confluentinc/cp-kafka:6.1.1
+    hostname: broker
+    container_name: broker
+    depends_on:
+      - zookeeper
+    ports:
+      - "29092:29092"
+      - "9092:9092"
+      - "9101:9101"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_JMX_PORT: 9101
+      KAFKA_JMX_HOSTNAME: localhost
+
+  schema-registry:
+    image: confluentinc/cp-schema-registry:6.1.1
+    hostname: schema-registry
+    container_name: schema-registry
+    depends_on:
+      - broker
+    ports:
+      - "8081:8081"
+    environment:
+      SCHEMA_REGISTRY_HOST_NAME: schema-registry
+      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: 'broker:29092'
+      SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
+      
+  schema-registry-ui:
+    image: landoop/schema-registry-ui:0.9.5
+    hostname: schema-registry-ui
+    container_name: schema-registry-ui
+    ports:
+      - "8001:8000"
+    depends_on:
+      - schema-registry
+    environment:
+      SCHEMAREGISTRY_URL: http://schema-registry:8081/
+      PROXY: "true"
+      ALLOW_GLOBAL: "true"
+      ALLOW_TRANSITIVE: "true"
+      ALLOW_DELETION: "true"
+      READONLY_MODE: "true"
+
+  rest-proxy:
+    image: confluentinc/cp-kafka-rest:6.1.1
+    depends_on:
+      - broker
+      - schema-registry
+    ports:
+      - 8082:8082
+    hostname: rest-proxy
+    container_name: rest-proxy
+    environment:
+      KAFKA_REST_HOST_NAME: rest-proxy
+      KAFKA_REST_BOOTSTRAP_SERVERS: 'broker:29092'
+      KAFKA_REST_LISTENERS: "http://0.0.0.0:8082"
+      KAFKA_REST_SCHEMA_REGISTRY_URL: 'http://schema-registry:8081'
+
+  kafka-topics-ui:
+    image: landoop/kafka-topics-ui:0.9.4
+    hostname: kafka-topics-ui
+    container_name: kafka-topics-ui
+    ports:
+      - "8002:8000"
+    environment:
+      KAFKA_REST_PROXY_URL: "http://rest-proxy:8082/"
+      PROXY: "true"
+    depends_on:
+      - zookeeper
+      - broker
+      - schema-registry
+      - rest-proxy
+

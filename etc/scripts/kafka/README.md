@@ -48,6 +48,9 @@ pip install -r requirements.txt
 
 ## Levantar Kafka con Docker
 
+El fichero docker-compose está ubicado actualmente en https://git.arte-consultores.com/istac/metamac-parent/-/blob/develop/etc/docker/kafka/docker-compose.yml?ref_type=heads.
+Se encuentra una copia en local en este repositorio.
+
 Solo hay que levantarlo con docker-compose:
 
 ```shell
