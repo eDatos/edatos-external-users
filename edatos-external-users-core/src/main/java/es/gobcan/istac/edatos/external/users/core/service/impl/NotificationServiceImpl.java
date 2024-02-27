@@ -43,8 +43,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import es.gobcan.istac.edatos.external.users.core.config.MetadataProperties;
+import es.gobcan.istac.edatos.external.users.core.domain.ExternalOperationEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
-import es.gobcan.istac.edatos.external.users.core.domain.FavoriteEntity;
 import es.gobcan.istac.edatos.external.users.core.i18n.LocaleContext;
 import es.gobcan.istac.edatos.external.users.core.service.DataProtectionPolicyService;
 import es.gobcan.istac.edatos.external.users.core.service.EDatosApisLocator;
@@ -144,24 +144,23 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public void createNoticeOfSusbcritionsJob(List<FavoriteEntity> listFavorites) {
+    public void createNoticeOfSubscriptionsJob(Set<ExternalUserEntity> users, ExternalOperationEntity operation) {
         String codeSubject = "notice.subject.subscrition_job.title";
         String messageCode = "notice.message.subscrition_job.text";
 
-        for (FavoriteEntity favorite : listFavorites) {
-            ExternalUserEntity externalUserEntity = favorite.getExternalUser();
-            ArrayList<String> argsList = new ArrayList<String>(Arrays.asList(argsByExternalUser(externalUserEntity)));
+        for (ExternalUserEntity user : users) {
+            ArrayList<String> argsList = new ArrayList<String>(Arrays.asList(argsByExternalUser(user)));
             argsList.add(UriComponentsBuilder
                 .fromHttpUrl(metadataProperties.getExternalOperationsWebUrl())
                 .pathSegment("operations")
-                .pathSegment(favorite.getExternalOperation().getCode())
+                .pathSegment(operation.getCode())
                 .build()
                 .toUriString()
             );
-            argsList.add(favorite.getExternalOperation().getName().getLocalisedLabel(favorite.getExternalUser().getLanguage(), getDefaultLocale()));
+            argsList.add(operation.getName().getLocalisedLabel(user.getLanguage(), getDefaultLocale()));
 
-            if (externalUserEntity.isEmailNotificationsEnabled() && favorite.getExternalOperation().isNotificationsEnabled()) {
-                createNotificationWithReceiver(codeSubject, messageCode, externalUserEntity, argsList.toArray(new String[argsList.size()]), SUBSCRIPTION_JOB_NOTICE_FAILED);
+            if (user.isEmailNotificationsEnabled() && operation.isNotificationsEnabled()) {
+                createNotificationWithReceiver(codeSubject, messageCode, user, argsList.toArray(new String[argsList.size()]), SUBSCRIPTION_JOB_NOTICE_FAILED);
             }
         }
     }

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import es.gobcan.istac.edatos.external.users.core.domain.CategoryEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalCategoryEntity;
+import es.gobcan.istac.edatos.external.users.core.domain.ExternalOperationEntity;
 import es.gobcan.istac.edatos.external.users.core.repository.CategoryRepository;
 import es.gobcan.istac.edatos.external.users.core.service.CategoryService;
 import es.gobcan.istac.edatos.external.users.core.service.validator.CategoryValidator;
@@ -128,5 +129,10 @@ public class CategoryServiceImpl implements CategoryService {
             }
         }
         return Optional.empty();
+    }
+
+    @Override
+    public CategoryEntity findCategoryByExternalOperation(ExternalOperationEntity externalOperation) {
+        return this.categoryRepository.findByExternalCategoriesUrn(externalOperation.getExternalCategoryUrn());
     }
 }

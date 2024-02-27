@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 
 import es.gobcan.istac.edatos.external.users.core.domain.CategoryEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalCategoryEntity;
+import es.gobcan.istac.edatos.external.users.core.domain.ExternalOperationEntity;
 
 public interface CategoryService {
 
@@ -23,4 +24,5 @@ public interface CategoryService {
     CategoryEntity updateCategory(CategoryEntity category);
     CategoryEntity createCategory(CategoryEntity category);
     Optional<CategoryEntity> delete(Long id);
+    CategoryEntity findCategoryByExternalOperation(ExternalOperationEntity externalOperation);
 }

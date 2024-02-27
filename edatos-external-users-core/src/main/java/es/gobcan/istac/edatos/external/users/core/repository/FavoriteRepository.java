@@ -23,8 +23,8 @@ public interface FavoriteRepository extends JpaRepository<FavoriteEntity, Long> 
     List<FavoriteEntity> findAll(DetachedCriteria criteria);
     List<FavoriteEntity> findByExternalUser(ExternalUserEntity user);
     List<FavoriteEntity> findByCategory(CategoryEntity category);
-    List<FavoriteEntity> findByExternalOperationIn(List<ExternalOperationEntity> operation);
-    Optional<FavoriteEntity> findByExternalUserAndCategory(ExternalUserEntity externalUser, CategoryEntity category);
+    List<FavoriteEntity> findByExternalOperationInOrCategoryIn(List<ExternalOperationEntity> operation, List<CategoryEntity> category);
+    List<FavoriteEntity> findByExternalUserAndCategoryInOrExternalOperationIn(ExternalUserEntity externalUser, List<CategoryEntity> categories, List<ExternalOperationEntity> operations);
     Optional<FavoriteEntity> findByExternalUserAndExternalOperation(ExternalUserEntity externalUser, ExternalOperationEntity operation);
     void deleteByExternalUser(ExternalUserEntity externalUser);
     void deleteByExternalUserAndCategory(ExternalUserEntity externalUser, CategoryEntity category);
@@ -36,6 +36,5 @@ public interface FavoriteRepository extends JpaRepository<FavoriteEntity, Long> 
     @Query("select new org.apache.commons.lang3.tuple.ImmutablePair(e.externalOperation.urn, count(e)) from FavoriteEntity e where e.externalOperation is not null group by e.externalOperation.urn")
     List<ImmutablePair<String, Long>> getOperationsSubscribers();
 
-    void deleteByCategory(CategoryEntity category);
     void deleteByExternalOperationUrn(String urn);
 }
