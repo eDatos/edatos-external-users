@@ -95,7 +95,7 @@ public class FavoriteServiceImpl implements FavoriteService {
                 InternationalStringVO internationalFavoriteName = favorite.getCategory() != null ? favorite.getCategory().getName() : favorite.getExternalOperation().getName();
                 String favoriteName = internationalFavoriteName.getLocalisedLabel("en", LocaleContext.getDefaultLocale().toString());
                 String favoriteType = favorite.getCategory() != null ? "category" : "operation";
-                log.info("The user " + externalUser.getEmail() + " can not create a favorite with the " + favoriteType + " " + favoriteName + " because there is already an ancestor marked as favorite.");
+                log.debug("The user " + externalUser.getEmail() + " can not create a favorite with the " + favoriteType + " " + favoriteName + " because there is already an ancestor marked as favorite.");
             }
         }
         return dbFavorites;
