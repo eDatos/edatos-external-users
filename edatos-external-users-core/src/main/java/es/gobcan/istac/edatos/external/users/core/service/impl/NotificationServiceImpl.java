@@ -10,6 +10,7 @@ import static es.gobcan.istac.edatos.external.users.core.errors.ServiceException
 import static es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType.UNSUBSCRIBE_ACCOUNT_NOTICE_FAILED;
 
 import java.math.BigInteger;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -168,13 +169,10 @@ public class NotificationServiceImpl implements NotificationService {
 
         List<String> datasetLabels = new ArrayList<>();
         for (ExternalDatasetEntity dataset : datasetsByOperation) {
-            String line = "<li><a href=\"" + buildDatasetVisualizerUrl(dataset);
-            line += "\">";
-            line += dataset.getCode();
-            line += " - ";
-            line += dataset.getName().getLocalisedLabel(favorite.getExternalUser().getLanguage(), getDefaultLocale());
-            line += "</a></li>";
-
+            String url = buildDatasetVisualizerUrl(dataset);
+            String code = dataset.getCode();
+            String label = dataset.getName().getLocalisedLabel(favorite.getExternalUser().getLanguage(), getDefaultLocale());
+            String line = MessageFormat.format("<li><a href=\"{0}\">{1} - {2}</a></li>", url, code, label);
             datasetLabels.add(line);
         }
 
