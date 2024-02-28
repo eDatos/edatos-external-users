@@ -75,7 +75,8 @@
         <span *ngIf="node.data.externalCategories?.length > 0" class="node-info">, {{'structuralResourcesTree.externalOperations' | translate }}: {{node.data.externalCategories?.length || 0}}</span>
         <span class="node-info mr-2">)</span>
         <p-dialog
-            [visible]="node.editMode === 'name'"
+            *ngIf="node.editMode === 'name'"
+            [visible]="true"
             [focusOnShow]="true"
             [modal]="true"
             [dismissableMask]="true"
@@ -106,7 +107,8 @@
             </p-footer>
         </p-dialog>
         <p-dialog
-            [visible]="node.editMode === 'remap'"
+            *ngIf="node.editMode === 'remap'"
+            [visible]="true"
             [focusOnShow]="true"
             [modal]="true"
             [dismissableMask]="true"
