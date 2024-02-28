@@ -169,7 +169,7 @@ public class NotificationServiceImpl implements NotificationService {
 
         List<String> datasetLabels = new ArrayList<>();
         for (ExternalDatasetEntity dataset : datasetsByOperation) {
-            String url = buildDatasetVisualizerUrl(dataset);
+            String url = dataset.getVisualizerHtmlLink();
             String code = dataset.getCode();
             String label = dataset.getName().getLocalisedLabel(favorite.getExternalUser().getLanguage(), getDefaultLocale());
             String line = MessageFormat.format("<li><a href=\"{0}\">{1} - {2}</a></li>", url, code, label);
@@ -177,14 +177,6 @@ public class NotificationServiceImpl implements NotificationService {
         }
 
         return String.join("\n", datasetLabels);
-    }
-
-    private String buildDatasetVisualizerUrl(ExternalDatasetEntity dataset) {
-        String[] urn = UrnUtils.splitUrnItem(dataset.getUrn());
-        String agencyId = urn[0];
-        String resourceId = urn[1];
-        String version = urn[2];
-        return metadataProperties.getVisualizerPath() + "/data.html" + "?agencyId=" + agencyId + "&resourceId=" + resourceId + "&version=" + version + "&resourceType=dataset";
     }
 
     @Override
