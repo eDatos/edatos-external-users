@@ -130,10 +130,10 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
         this.tree?.forEach(node => this.updateSelectableOfNodeAndChildren(node));
     }
 
-    private updateSelectableOfNodeAndChildren(node: CategoryTreeNode, parentIsSelected: boolean = false) {
-        node.selectable = !this.disabled && !parentIsSelected;
+    private updateSelectableOfNodeAndChildren(node: CategoryTreeNode, ancestorIsSelected: boolean = false) {
+        node.selectable = !this.disabled && !ancestorIsSelected;
         node.children?.forEach(childNode => {
-            this.updateSelectableOfNodeAndChildren(childNode, parentIsSelected || this.selectedResources.includes(node));
+            this.updateSelectableOfNodeAndChildren(childNode, ancestorIsSelected || this.selectedResources.includes(node));
         });
     }
 
@@ -147,6 +147,8 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
         var nodeOrAncestorIsFavorite = ancestorIsFavorite || this.isFavorite(node.data);
         if (nodeOrAncestorIsFavorite) {
             this.selectedResources.push(node);
+        } else {
+            this.selectedResources = this.selectedResources.filter(selectedResource => selectedResource.data.id !== node.data.id || selectedResource.data.favoriteType !== node.data.favoriteType);
         }
         node.children?.forEach(childNode => {
             this.updateSelectionOfNodeAndChildren(childNode, nodeOrAncestorIsFavorite);
@@ -157,12 +159,14 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
         if (this.onResourceSelect.observers.length > 0) {
             this.onResourceSelect.emit(treeNode);
         }
+        this.updateSelectableOfNodeAndChildren(treeNode);
     }
 
     public onUnselect(treeNode: CategoryTreeNode) {
         if (this.onResourceUnselect.observers.length) {
             this.onResourceUnselect.emit(treeNode);
         }
+        this.updateSelectableOfNodeAndChildren(treeNode);
     }
 
     private categoryListToCategoryTree(categories: Category[]): Observable<CategoryTreeNode[]> {
