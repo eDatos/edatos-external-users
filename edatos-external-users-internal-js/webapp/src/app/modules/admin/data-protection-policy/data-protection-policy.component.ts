@@ -30,13 +30,12 @@ export class DataProtectionPolicyComponent {
         });
 
         languageService
-            .getAllowed()
+            .getInternationalLanguages()
             .pipe(shareReplay({ bufferSize: 1, refCount: true }))
             .subscribe((languages) => (this.locales = languages));
     }
 
     public clear() {
-        // const with arrays: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/const
         const returnPath = ['/admin/data-protection-policy'];
         this.router.navigate(returnPath);
     }

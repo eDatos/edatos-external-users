@@ -14,7 +14,7 @@ public interface ExternalUserService {
 
     ExternalUserEntity update(ExternalUserEntity user);
 
-    void delete(Long id);
+    ExternalUserEntity delete(Long id);
 
     ExternalUserEntity find(Long id);
 
@@ -23,6 +23,8 @@ public interface ExternalUserService {
     List<ExternalUserEntity> findAllByEmailIn(List<String> emails);
 
     Page<ExternalUserEntity> find(Pageable pageable, Boolean includeDeleted, String query);
+
+    List<ExternalUserEntity> findAllReceivers();
 
     ExternalUserEntity getUsuarioWithAuthorities();
     void updateExternalUserAccountPassword(ExternalUserEntity user, String oldPassword, String password);

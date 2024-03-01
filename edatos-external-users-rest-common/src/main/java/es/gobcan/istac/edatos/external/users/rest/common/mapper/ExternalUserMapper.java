@@ -24,8 +24,13 @@ public abstract class ExternalUserMapper implements EntityMapper<ExternalUserDto
     @Override
     @Mapping(target = "password", ignore = true)
     @Mapping(target = "birthday", source = "birthday", qualifiedByName = "formatBirthdayStringToLocalDate")
+    @Mapping(target = "email", source = "email", qualifiedByName = "formatEmail")
     public abstract ExternalUserEntity toEntity(ExternalUserDto dto);
 
+    @Named("formatEmail")
+    public String formatEmail(String email){
+        return (email == null) ? null : email.toLowerCase();
+    }
 
     @Named("formatBirthdayStringToLocalDate")
     public LocalDate formatBirthdayStringToLocalDate(String date){

@@ -37,6 +37,7 @@ public abstract class ExternalUserAccountMapper implements EntityMapper<External
     @Mapping(target = "password", source = "password", qualifiedByName = "encodePassword")
     @Mapping(target = "dataProtectionPolicy", source = "dataProtectionPolicyId", qualifiedByName = "protectionPolicyFromId")
     @Mapping(target = "birthday", source = "birthday", qualifiedByName = "formatBirthdayStringToLocalDate")
+    @Mapping(target = "email", source = "email", qualifiedByName = "formatEmail")
     public abstract ExternalUserEntity toEntity(ExternalUserAccountDto dto);
 
     @Named("encodePassword")
@@ -64,7 +65,7 @@ public abstract class ExternalUserAccountMapper implements EntityMapper<External
     public abstract ExternalUserAccountDto toDto(ExternalUserEntity entity);
 
     public ExternalUserEntity getUserFromEmail(String email) {
-        return externalUserRepository.findOneByEmail(email).orElse(null);
+        return externalUserRepository.findOneByEmailIgnoreCase(email).orElse(null);
     }
 
     @Named("externalUserToBaseDto")
@@ -73,6 +74,7 @@ public abstract class ExternalUserAccountMapper implements EntityMapper<External
 
 
     @Mapping(target = "birthday", source = "birthday", qualifiedByName = "formatBirthdayStringToLocalDate")
+    @Mapping(target = "email", source = "email", qualifiedByName = "formatEmail")
     public abstract ExternalUserEntity baseDtoToEntity(ExternalUserAccountBaseDto dto);
 
     @Named("protectionPolicyFromId")
@@ -81,6 +83,11 @@ public abstract class ExternalUserAccountMapper implements EntityMapper<External
             return null;
         }
         return dataProtectionPolicyRepository.findOne(id);
+    }
+
+    @Named("formatEmail")
+    public String formatEmail(String email){
+        return (email == null) ? null : email.toLowerCase();
     }
 
     @Named("formatBirthdayStringToLocalDate")

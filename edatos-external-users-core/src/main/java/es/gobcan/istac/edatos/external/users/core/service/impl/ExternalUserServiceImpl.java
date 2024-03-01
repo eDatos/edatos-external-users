@@ -7,6 +7,7 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -91,10 +92,11 @@ public class ExternalUserServiceImpl implements ExternalUserService {
     }
 
     @Override
-    public void delete(Long id) {
+    public ExternalUserEntity delete(Long id) {
         ExternalUserEntity usuario = externalUserRepository.findOne(id);
         filterRepository.deleteAllByExternalUser(usuario);
         externalUserRepository.delete(id);
+        return usuario;
     }
 
     @Override
@@ -104,12 +106,12 @@ public class ExternalUserServiceImpl implements ExternalUserService {
 
     @Override
     public Optional<ExternalUserEntity> findByEmail(String email) {
-        return externalUserRepository.findOneByEmail(email);
+        return externalUserRepository.findOneByEmailIgnoreCase(email);
     }
 
     @Override
     public List<ExternalUserEntity> findAllByEmailIn(List<String> emails) {
-        return externalUserRepository.findAllByEmailIn(emails);
+        return externalUserRepository.findAllByLowerCaseEmailIn(emails.stream().map(String::toLowerCase).collect(Collectors.toList()));
     }
 
     @Override
@@ -118,6 +120,10 @@ public class ExternalUserServiceImpl implements ExternalUserService {
         return externalUserRepository.findAll(criteria, pageable);
     }
 
+    @Override
+    public List<ExternalUserEntity> findAllReceivers() {
+        return externalUserRepository.findAllByEnabled(true);
+    }
     private DetachedCriteria buildExternalUserCriteria(Pageable pageable, Boolean includeDeleted, String query) {
         StringBuilder queryBuilder = new StringBuilder();
         if (StringUtils.isNotBlank(query)) {
@@ -137,7 +143,7 @@ public class ExternalUserServiceImpl implements ExternalUserService {
 
     @Override
     public ExternalUserEntity getUsuarioWithAuthorities() {
-        ExternalUserEntity returnValue = externalUserRepository.findOneWithRolesByEmail(SecurityUtils.getCurrentUserLogin()).orElse(new ExternalUserEntity());
+        ExternalUserEntity returnValue = externalUserRepository.findOneWithRolesByEmailIgnoreCase(SecurityUtils.getCurrentUserLogin()).orElse(new ExternalUserEntity());
         return returnValue;
     }
 

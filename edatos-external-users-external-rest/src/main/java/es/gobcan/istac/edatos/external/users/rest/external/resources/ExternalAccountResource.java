@@ -141,7 +141,7 @@ public class ExternalAccountResource extends AbstractResource {
     @Timed
     @PreAuthorize("@secCheckerExternal.canUpdateUser(authentication)")
     public ResponseEntity<ExternalUserAccountBaseDto> update(@Valid @RequestBody ExternalUserAccountBaseDto userDto) {
-        Optional<ExternalUserEntity> existingUser = externalUserRepository.findOneByEmail(userDto.getEmail().toLowerCase());
+        Optional<ExternalUserEntity> existingUser = externalUserRepository.findOneByEmailIgnoreCase(userDto.getEmail().toLowerCase());
 
         if (existingUser.isPresent() && (!existingUser.get().getId().equals(userDto.getId()))) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.USUARIO_EXISTE, ErrorMessagesConstants.USUARIO_EXISTE)).body(null);
@@ -159,7 +159,7 @@ public class ExternalAccountResource extends AbstractResource {
     @PreAuthorize("@secCheckerExternal.canDeleteUser(authentication)")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         try {
-            externalUserService.delete(id);
+            notificationService.createDeleteExternalUserAccountNotification(externalUserService.delete(id));
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             throw new EDatosException(ServiceExceptionType.EXTERNAL_USER_DELETE_FAILED);

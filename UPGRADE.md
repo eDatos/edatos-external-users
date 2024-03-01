@@ -8,9 +8,14 @@
 
 *Se deberá realizar primero la actualización de la versión 1.0.0 a la 2.0.0 y luego desde la 2.0.0 a la 3.0.0*
 
-## 2.0.0 a 2.0.1-SNAPSHOT
+## 2.0.0 a 2.1.0
 
-* Este proyecto añade la cabecera Access-Control-Allow-Origin alimentándola con la propiedad whitelist (véase SecurityConfiguration.java). Es importante que, si la aplicación se sirve tras un frontal de Apache o similar, el mismo no añada cabeceras Access-Control-Allow-Origin: *, pues interactuaría con la añadida por la aplicación. 
+* Este proyecto añade la cabecera Access-Control-Allow-Origin alimentándola con la propiedad whitelist (véase SecurityConfiguration.java). Es importante que, si la aplicación se sirve tras un frontal de Apache o similar, el mismo no añada cabeceras Access-Control-Allow-Origin: *, pues interactuaría con la añadida por la aplicación.
+* Se añade la propiedade `metamac.statistical_operations.web.external` que hacen referencia al visualizador externo de operaciones. Para añadir la propiedad hace falta ejecutar el siguiente script SQL:
+
+```
+etc\changes-from-release\2.0.1\db\common-metadata\postgresql\20240216_insert_statistical_operations_external_web_configuration.sql
+```
 
 ## 1.2.1 a 2.0.0
 

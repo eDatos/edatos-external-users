@@ -31,4 +31,10 @@ public class LanguageResource extends AbstractResource {
     public ResponseEntity<List<String>> getAllowedLanguages() {
         return ResponseEntity.ok(metadataProperties.getAvailableLanguages().stream().map(String::toLowerCase).collect(Collectors.toList()));
     }
+
+    @GetMapping("/internationalization")
+    @Timed
+    public ResponseEntity<List<String>> getInternationalizationLanguages() {
+        return ResponseEntity.ok(metadataProperties.getInternationalizationLanguages().stream().map(String::toLowerCase).collect(Collectors.toList()));
+    }
 }

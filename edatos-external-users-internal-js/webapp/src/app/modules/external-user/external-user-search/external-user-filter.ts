@@ -5,7 +5,7 @@ import { BaseEntityFilter, EntityFilter } from 'arte-ng/model';
 
 export class ExternalUserFilter extends BaseEntityFilter implements EntityFilter {
     public fullname: string | null;
-    public languages: Language[] = [];
+    public languages: string[] = [];
     public includeUnregistered: boolean;
     public categories: string[] = [];
     public externalOperations: string[] = [];

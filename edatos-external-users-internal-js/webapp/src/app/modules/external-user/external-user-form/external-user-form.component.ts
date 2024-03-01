@@ -6,7 +6,8 @@ import { CodelistService, ExternalUserService } from '@app/core/service/user';
 import { StructuralResourcesTreeComponent } from '@app/shared/components/structural-resources-tree';
 import { Favorite, FavoriteResource } from '@app/shared/model';
 import { ItemCode } from '@app/shared/model/external-item-code-response.model';
-import { FavoriteService } from '@app/shared/service';
+import { FavoriteService, LanguageService } from '@app/shared/service';
+import { TranslateService } from '@ngx-translate/core';
 import { ArteEventManager, GenericModalService } from 'arte-ng/services';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
@@ -23,7 +24,8 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
     public userId: number;
     public eventSubscriber: Subscription;
 
-    public languageEnum = Language;
+    public internationalLanguages: Language[] = [];
+    public selectedLanguage: Language;
 
     public countries: ItemCode[] = [];
     public genders: ItemCode[] = [];
@@ -45,7 +47,9 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
         private eventManager: ArteEventManager,
         private route: ActivatedRoute,
         private router: Router,
-        private codeListService: CodelistService
+        private codeListService: CodelistService,
+        private translateService: TranslateService,
+        private languageService: LanguageService
     ) {}
 
     public ngOnInit() {
@@ -119,11 +123,13 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
                 this.externalUser = user;
                 this.getNationalities(this.externalUser.nationality);
                 this.getGenders(this.externalUser.gender);
+                this.getInternationalLanguages(this.externalUser.language);
             });
         } else {
             this.externalUser = new ExternalUser();
             this.getNationalities();
             this.getGenders();
+            this.getInternationalLanguages();
         }
     }
 
@@ -140,6 +146,7 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
         this.isSaving = true;
         this.externalUser.nationality = this.nationality ? this.nationality.id : null;
         this.externalUser.gender = this.gender ? this.gender.id : null;
+        this.externalUser.language = this.selectedLanguage.locale;
         if (this.userId) {
             this.externalUserService.update(this.externalUser).subscribe(
                 (response) => this.onSaveSuccess(response),
@@ -210,5 +217,18 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
                 this.gender = response;
             });
         }
+    }
+
+    private getInternationalLanguages(language?: string) {
+        if (language) {
+            this.selectedLanguage = new Language(language, this.translateService.instant('enum.localeToLanguage.' + language.toUpperCase()));
+        }
+
+        this.languageService.getInternationalLanguages().subscribe((response) => {
+            this.internationalLanguages = response.map((lang) => {
+                return new Language(lang, this.translateService.instant('enum.localeToLanguage.' + lang.toUpperCase()));
+            });
+            this.internationalLanguages.sort((a, b) => a.label.localeCompare(b.label));
+        });
     }
 }

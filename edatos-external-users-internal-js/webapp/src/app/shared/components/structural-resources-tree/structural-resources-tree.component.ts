@@ -377,6 +377,9 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
     private updateCategoryTreeNode(node: CategoryTreeNode, category: Category) {
         node.data = category;
         node.label = node.data.name.val;
+        if (node.parent?.data instanceof Category) {
+            node.parent.data.children = node.parent.data.children.map(child => child.id ? child : category);
+        }
     }
 
     private categoryListToCategoryTree(categories: Category[], parent?: Category): Observable<CategoryTreeNode[]> {
@@ -487,12 +490,14 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
         }
     }
 
-    private reconstructTree(tree: CategoryTreeNode[]) {
+    private reconstructTree(tree: CategoryTreeNode[], parent?: CategoryTreeNode) {
         for (const [index, node] of tree.entries()) {
             if (node.data instanceof Category) {
                 node.data.index = index;
                 node.data.children = node.children!.filter((child) => child.data instanceof Category).map((child) => child.data as Category);
-                this.reconstructTree(node.children!);
+                node.data.parentId = parent?.data.id;
+                node.parent = parent;
+                this.reconstructTree(node.children!, node);
             }
         }
     }

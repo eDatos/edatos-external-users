@@ -1,7 +1,6 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ExternalUser } from '@app/core/model';
-import { Notification } from '@app/shared/model';
-import { ExternalUserService } from '@app/core/service';
+import {Notification, Receiver} from '@app/shared/model';
 import { errorErrorMessage } from '@app/core/service/alert/eusuarios-alert.service';
 import { MultiLanguageInputComponent } from '@app/shared/components/multi-language-input';
 import { ALL_LOCALES } from '@app/shared/components/multi-language-input/multi-language-input.constants';
@@ -23,6 +22,7 @@ import { shareReplay } from 'rxjs/operators';
     styleUrls: ['./notifications.component.scss']
 })
 export class NotificationsComponent implements OnInit, OnDestroy {
+
     public ALL_LOCALES = ALL_LOCALES;
 
     @Input()
@@ -30,7 +30,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
     public subscription: Subscription;
 
-    public externalUsers: ExternalUser[] = [];
+    public allowedReceivers: Receiver[] = [];
     public notification: Notification;
     public selectedReceivers: string[] = [];
 
@@ -60,7 +60,6 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     constructor(
         private eventManager: ArteEventManager,
         public notificationService: NotificationService,
-        public externalUserService: ExternalUserService,
         public messageService: MessageService,
         public translateService: TranslateService,
         private categoryService: CategoryService,
@@ -70,7 +69,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
     public ngOnInit() {
         this.notification = new Notification();
-        this.searchExternalUsers();
+        this.searchReceivers();
 
         this.categoryService.findAll({ size: 100000000 }).subscribe((response) => {
             this.selectedResources = response.body.filter((category) => this.filters.categories.includes(category.id.toString()));
@@ -80,7 +79,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
         });
 
         this.languageService
-            .getAllowed()
+            .getInternationalLanguages()
             .pipe(shareReplay({ bufferSize: 1, refCount: true }))
             .subscribe((languages) => (this.availableLanguages = languages));
     }
@@ -239,9 +238,9 @@ export class NotificationsComponent implements OnInit, OnDestroy {
         );
     }
 
-    private searchExternalUsers() {
-        this.externalUserService.find().subscribe((results) => {
-            this.externalUsers = results.body;
+    private searchReceivers() {
+        this.notificationService.findReceivers().subscribe((results) => {
+            this.allowedReceivers = results;
         });
     }
 

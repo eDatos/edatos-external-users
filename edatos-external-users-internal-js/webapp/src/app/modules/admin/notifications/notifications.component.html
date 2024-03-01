@@ -42,7 +42,7 @@
                                     name='email'
                                     (onUnselect)='onUnselectReceivers($event)'
                                     (onSelect)='onSelectReceivers($event)'
-                                    [suggestions]='externalUsers'
+                                    [suggestions]='allowedReceivers'
                                     dataKey='email'
                                     [properties]="['email']"
                                     [multiple]='true'
