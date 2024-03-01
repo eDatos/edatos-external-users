@@ -74,9 +74,7 @@ public abstract class CategoryMapper implements EntityMapper<CategoryDto, Catego
         List<String> urns = resources.stream().map(ExternalCategoryDto::getUrn).filter(Objects::nonNull).collect(Collectors.toList());
         List<ExternalCategoryEntity> inDbExternalCategories = externalCategoryService.findAll();
         // @formatter:off
-        return externalCategoryService.requestAllExternalCategories().stream()
-                // pick only the selected external categories
-                .filter(externalCategory -> urns.contains(externalCategory.getUrn()))
+        return externalCategoryService.requestAllExternalCategoriesByUrn(urns).stream()
                 // if the external category was already in db, pick that one; otherwise create a new one (this avoids problems with unique constraints and duplication)
                 .map(newExternalCategory -> inDbExternalCategories.stream()
                                                                   .filter(inDbExternalCategory -> Objects.equals(inDbExternalCategory.getUrn(), newExternalCategory.getUrn()))

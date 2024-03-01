@@ -37,6 +37,14 @@ public class ExternalCategoryServiceImpl implements ExternalCategoryService {
     }
 
     @Override
+    public List<ExternalCategoryEntity> requestAllExternalCategoriesByUrn(List<String> urns) {
+        LOG.info("Making request to Structural Resources Manager to GET all the categories by URN");
+        String query = (urns != null && urns.size() > 0) ? String.format("URN IN (\"%s\")", String.join("\",\"", urns)) : null;
+        Categories categories = eDatosApisLocator.srmExternal().findCategories("~all", "~all", "~all", query, null, LIMIT, null, null);
+        return itemResourceMapper.toExternalCategoryEntities(categories);
+    }
+
+    @Override
     @Cacheable(cacheManager = "requestScopedCacheManager", cacheNames = "externalCategories")
     public List<ExternalCategoryEntity> requestAllExternalCategories() {
         LOG.info("Making request to Structural Resources Manager to GET all the categories");
