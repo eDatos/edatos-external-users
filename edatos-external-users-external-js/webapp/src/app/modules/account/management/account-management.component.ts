@@ -1,14 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Language, User } from '@app/core/model';
+import { User } from '@app/core/model';
 import { AccountUserService } from '@app/core/service/user';
 import { TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
-import { GenericModalService } from 'arte-ng/services';
-import { LoginService } from '@app/core/service';
-
-import { CodelistService, LanguageService } from '@app/shared/service';
-import { ItemCode } from '@app/shared';
+import { CodelistService } from '@app/shared/service';
 
 @Component({
     selector: 'ac-account-management',
@@ -24,24 +20,13 @@ export class AccountManagementComponent implements OnInit {
     public gender: string;
     public language: string;
 
-    public internationalLanguages: Language[] = [];
-    public selectedLanguage: Language;
-
-    public countries: ItemCode[] = [];
-    public genders: ItemCode[] = [];
-
-    public downloadingPdf = false;
-
     constructor(
         private userService: AccountUserService,
         private codeListService: CodelistService,
         private route: ActivatedRoute,
         private router: Router,
         private messageService: MessageService,
-        private translateService: TranslateService,
-        private genericModalService: GenericModalService,
-        private loginService: LoginService,
-        private languageService: LanguageService
+        private translateService: TranslateService
     ) {
     }
 
@@ -51,6 +36,12 @@ export class AccountManagementComponent implements OnInit {
         this.getNationalities(this.account.nationality);
         this.getGenders(this.account.gender);
         this.getInternationalLanguages(this.account.language);
+    }
+
+    private mapperDataAccount(account: User) {
+        this.getNationalities(account.nationality);
+        this.getGenders(account.gender);
+        this.getInternationalLanguages(account.language);
     }
 
     private getNationalities(code?: any) {
@@ -73,22 +64,11 @@ export class AccountManagementComponent implements OnInit {
         }
     }
 
-    private mapperDataAccount(account: User) {
-        this.getNationalities(this.account.nationality);
-        this.getGenders(this.account.gender);
-        this.language = this.translateService.instant('language.' + this.account.language);
-    }
-
     private getInternationalLanguages(language?: string) {
-        if (language) {
-            this.selectedLanguage = new Language(language, this.translateService.instant('localeToLanguage.' + language));
+        if (!language) {
+            this.language = '';
+        } else {
+            this.language = this.translateService.instant('localeToLanguage.' + language);
         }
-
-        this.languageService.getInternationalLanguages().subscribe((response) => {
-            this.internationalLanguages = response.map((lang) => {
-                return new Language(lang, this.translateService.instant('localeToLanguage.' + lang));
-            });
-            this.internationalLanguages.sort((a, b) => a.label.localeCompare(b.label));
-        });
     }
 }

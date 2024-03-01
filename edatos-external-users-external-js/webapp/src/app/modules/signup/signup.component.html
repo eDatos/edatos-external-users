@@ -119,7 +119,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- Tercer bloque -->
                     <div class='row divider'>
                         <div class='col-md-12 form-section'>
@@ -184,16 +184,17 @@
                                         <label class='form-label col-md-10' translate='signup.form.language'
                                                for='language'></label>
                                         <div class='col-md-12 form-input-container errors-on-hover'>
-                                            <arte-autocomplete-enum
+                                            <arte-autocomplete-short-list
                                                 id='language'
                                                 name='language'
+                                                inputId='language'
                                                 [multiple]='false'
-                                                [(ngModel)]='user.language'
-                                                [suggestionsEnum]='languageEnum'
-                                                [translationPath]="'language.'"
+                                                [(ngModel)]='selectedLanguage'
+                                                [suggestions]='internationalLanguages'
+                                                [properties]="['label']"
                                                 [required]='true'
                                             >
-                                            </arte-autocomplete-enum>
+                                            </arte-autocomplete-short-list>
                                             <div class='form-errors-messages' *hasErrors='let messages'>
                                                 <span *ngFor='let m of messages'>{{m}}</span>
                                             </div>

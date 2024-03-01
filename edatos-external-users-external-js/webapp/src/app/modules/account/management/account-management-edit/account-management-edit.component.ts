@@ -4,7 +4,7 @@ import { Language, User } from '@app/core/model';
 import { AccountUserService } from '@app/core/service/user';
 import { TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
-import { CodelistService } from '@app/shared/service';
+import { CodelistService, LanguageService } from '@app/shared/service';
 import { ItemCode } from '@app/shared';
 
 @Component({
@@ -20,7 +20,8 @@ export class AccountManagementEditComponent implements OnInit {
     public nationality: ItemCode;
     public gender: ItemCode;
 
-    public languageEnum = Language;
+    public internationalLanguages: Language[] = [];
+    public selectedLanguage: Language;
 
     public countries: ItemCode[] = [];
     public genders: ItemCode[] = [];
@@ -32,7 +33,8 @@ export class AccountManagementEditComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private messageService: MessageService,
-        private translateService: TranslateService
+        private translateService: TranslateService,
+        private languageService: LanguageService
     ) {
     }
 
@@ -41,6 +43,7 @@ export class AccountManagementEditComponent implements OnInit {
         this.account = this.route.snapshot.data.user;
         this.getNationalities(this.account.nationality);
         this.getGenders(this.account.gender);
+        this.getInternationalLanguages(this.account.language);
     }
 
     public save() {
@@ -109,5 +112,18 @@ export class AccountManagementEditComponent implements OnInit {
                 this.gender = response;
             });
         }
+    }
+
+    private getInternationalLanguages(language?: string) {
+        if (language) {
+            this.selectedLanguage = new Language(language, this.translateService.instant('localeToLanguage.' + language));
+        }
+
+        this.languageService.getInternationalLanguages().subscribe((response) => {
+            this.internationalLanguages = response.map((lang) => {
+                return new Language(lang, this.translateService.instant('localeToLanguage.' + lang));
+            });
+            this.internationalLanguages.sort((a, b) => a.label.localeCompare(b.label));
+        });
     }
 }
