@@ -1,17 +1,17 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { ExternalCategory } from '@app/shared/model';
-import { CategoryService } from '@app/shared/service';
-import { LazyLoadEvent } from 'primeng/api';
-import { Table } from 'primeng/table';
-import { Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, finalize } from 'rxjs/operators';
+import {Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {ExternalCategory} from '@app/shared/model';
+import {CategoryService} from '@app/shared/service';
+import {LazyLoadEvent} from 'primeng/api';
+import {Table} from 'primeng/table';
+import {Subject} from 'rxjs';
+import {debounceTime, distinctUntilChanged, finalize} from 'rxjs/operators';
 
 @Component({
     selector: 'app-external-categories-table',
     templateUrl: './external-categories-table.component.html',
     styleUrls: ['./external-categories-table.component.scss'],
 })
-export class ExternalCategoriesTableComponent implements OnInit {
+export class ExternalCategoriesTableComponent implements OnInit, OnChanges {
     /**
      * The selected external categories.
      */
@@ -34,6 +34,7 @@ export class ExternalCategoriesTableComponent implements OnInit {
     @ViewChild(Table)
     public table: Table;
 
+    public currentPageSelectedExternalCategories: ExternalCategory[];
     public totalItems: number;
     public loading = false;
     public globalSearch = new Subject<InputEvent>();
@@ -50,16 +51,53 @@ export class ExternalCategoriesTableComponent implements OnInit {
         }
     }
 
+    public ngOnChanges(changes: SimpleChanges): void {
+        if (changes.selectedExternalCategories) {
+            this.currentPageSelectedExternalCategories = this.getSelectedResourcesOfTheCurrentPage();
+        }
+    }
+
     public getSelectedResources(): ExternalCategory[] {
         return this.selectedExternalCategories;
+    }
+
+    private getSelectedResourcesOfTheCurrentPage(): ExternalCategory[] {
+        return this.selectedExternalCategories.filter(selectedCategory => {
+            return this.externalCategories.some(category => selectedCategory.urn === category.urn);
+        });
     }
 
     public isDisabled(resource: ExternalCategory): boolean {
         return this.disabledExternalCategories.some((category) => category.urn === resource.urn);
     }
 
-    public onSelectAll() {
-        this.selectedExternalCategories = this.selectedExternalCategories.filter((externalCat) => !this.isDisabled(externalCat));
+    public onToggleAll() {
+        if (this.currentPageSelectedExternalCategories.length > 0) {
+            this.onSelectAll();
+        } else {
+            this.onUnselectAll();
+        }
+    }
+
+    private onSelectAll() {
+        this.currentPageSelectedExternalCategories = this.currentPageSelectedExternalCategories.filter((externalCat) => !this.isDisabled(externalCat));
+        this.selectedExternalCategories = this.selectedExternalCategories.concat(this.currentPageSelectedExternalCategories.filter(currentPageSelectedCategory => {
+            return !this.selectedExternalCategories.some(selectedCategory => currentPageSelectedCategory.urn === selectedCategory.urn);
+        }));
+    }
+
+    private onUnselectAll() {
+        this.selectedExternalCategories = this.selectedExternalCategories.filter(selectedCategory => {
+            return !this.externalCategories.some(category => selectedCategory.urn === category.urn);
+        });
+    }
+
+    public onRowSelect(event) {
+        this.selectedExternalCategories = this.selectedExternalCategories.concat(event.data);
+    }
+
+    public onRowUnselect(event) {
+        this.selectedExternalCategories = this.selectedExternalCategories.filter(selectedCategory => selectedCategory.urn !== event.data.urn);
     }
 
     public lazyLoad(e: LazyLoadEvent): void {
@@ -84,6 +122,7 @@ export class ExternalCategoriesTableComponent implements OnInit {
             .subscribe((categories) => {
                 this.totalItems = categories.totalCount()!;
                 this.externalCategories = categories.body;
+                this.currentPageSelectedExternalCategories = this.getSelectedResourcesOfTheCurrentPage();
             });
     }
 }
