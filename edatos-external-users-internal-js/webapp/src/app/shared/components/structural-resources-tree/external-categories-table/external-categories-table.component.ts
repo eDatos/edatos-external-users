@@ -25,10 +25,8 @@ export class ExternalCategoriesTableComponent implements OnInit, OnChanges {
     public disabledExternalCategories: ExternalCategory[];
 
     /**
-     * List of external categories to be displayed in the table. If null,
-     * they will be automatically loaded by the component.
+     * List of external categories to be displayed in the table.
      */
-    @Input()
     public externalCategories: ExternalCategory[] = [];
 
     @ViewChild(Table)
@@ -36,7 +34,7 @@ export class ExternalCategoriesTableComponent implements OnInit, OnChanges {
 
     public currentPageSelectedExternalCategories: ExternalCategory[];
     public totalItems: number;
-    public loading = false;
+    public loading = true;
     public globalSearch = new Subject<InputEvent>();
 
     constructor(public categoryService: CategoryService) {}
@@ -45,10 +43,6 @@ export class ExternalCategoriesTableComponent implements OnInit, OnChanges {
         this.globalSearch.pipe(debounceTime(750), distinctUntilChanged()).subscribe((event: InputEvent) => {
             this.table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
         });
-
-        if (!this.externalCategories) {
-            this.update();
-        }
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
