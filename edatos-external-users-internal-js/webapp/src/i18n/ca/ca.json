@@ -361,7 +361,8 @@
         "usuario-existe": "El nom d'usuari introduït ja està fent servir",
         "quartz": {
             "jobExecutionError": "Error durant l'execució d'un job Quartz"
-        }
+        },
+        "concurrencyFailure": "Sembla que una altra persona també està intentant fer canvis. Per evitar pèrdues de dades, torneu-ho a provar més tard."
     },
     "externalCategoriesTable": {
         "alreadySelectedCategory": "No es pot seleccionar aquesta categoria perquè ja existeix un node que la referència.",
