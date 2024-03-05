@@ -50,7 +50,7 @@
     [emptyMessage]="'structuralResourcesTree.noRecordsFound' | translate"
     [value]="tree"
     [propagateSelectionUp]="false"
-    [propagateSelectionDown]="true"
+    [propagateSelectionDown]="'select' === mode"
     [filter]="true"
     filterMode="strict"
     arteAutofocus

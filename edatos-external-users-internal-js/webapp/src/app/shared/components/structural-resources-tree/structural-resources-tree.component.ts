@@ -159,7 +159,7 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
     }
 
     private updateSelectableOfNodeAndChildren(node: CategoryTreeNode, ancestorIsSelected: boolean = false) {
-        node.selectable = !this.disabled && !ancestorIsSelected;
+        node.selectable = !this.disabled && (!ancestorIsSelected || 'simpleSelect' === this.mode);
         node.children?.forEach(childNode => {
             this.updateSelectableOfNodeAndChildren(childNode, ancestorIsSelected || this.selectedResources.includes(node));
         });
@@ -171,7 +171,6 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
     }
 
     private updateSelectionOfNodeAndChildren(node: CategoryTreeNode, ancestorIsFavorite: boolean = false, checkIfPreselected: boolean = false) {
-        this.unsetLoadingNode(node);
         var nodeOrAncestorIsFavorite = ancestorIsFavorite || this.isFavorite(node.data) || (checkIfPreselected && this.isPreselected(node.data));
         if (nodeOrAncestorIsFavorite) {
             this.selectedResources.push(node);
@@ -200,7 +199,6 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
             expanded: true,
             data: category,
             children: [],
-            selectable: !this.disabled,
             editMode: null,
             parent: parent
         };
@@ -415,7 +413,6 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
             expanded: true,
             children: children.sort(this.sortChildren),
             data: category,
-            selectable: !this.disabled,
             editMode: null,
             makingRequest: false,
             // We need to add key in the model to provide selection when filter
@@ -433,31 +430,6 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
 
     private isPreselected(resource: FavoriteResource): boolean {
         return this.preselectedResources?.some((r) => r.id === resource.id && r.favoriteType === resource.favoriteType) ?? false;
-    }
-
-    private setLoadingNode(node: CategoryTreeNode, setLoadingChildren = true) {
-        node.icon = 'fa fa-spinner fa-spin';
-        node.selectable = false;
-        if (node.children && setLoadingChildren) {
-            for (const child of node.children) {
-                this.setLoadingNode(child);
-            }
-        }
-    }
-
-    private unsetLoadingNode(node: CategoryTreeNode, setLoadingChildren = true) {
-        if (node.data.favoriteType === 'externalOperation') {
-            node.icon = 'fa fa-table';
-        } else {
-            // @ts-ignore
-            node.icon = null;
-        }
-        node.selectable = !this.disabled;
-        if (node.children && setLoadingChildren) {
-            for (const child of node.children) {
-                this.unsetLoadingNode(child);
-            }
-        }
     }
 
     private setMode() {
@@ -494,7 +466,6 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
             label: externalOperation.name.val,
             icon: 'fa fa-table',
             data: externalOperation,
-            selectable: !this.disabled,
             draggable: false,
             droppable: false,
             editMode: null,
