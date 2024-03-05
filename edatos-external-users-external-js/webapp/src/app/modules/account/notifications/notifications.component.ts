@@ -3,9 +3,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { LazyLoadEvent, MessageService } from 'primeng/api';
 import { ITEMS_PER_PAGE, PAGINATION_OPTIONS } from '@app/app.constants';
 import { ResponseWrapper } from '@app/core/utils/response-utils';
-import { NoticeFilter } from '@app/modules/account/notifications/notice-search/notice-search';
+import { NoticeFilter } from '@app/modules/account/notifications/notifications-search/notice-search';
 import { NoticeService } from '@app/shared/service/user/notice.service';
-import { Messages, Notice } from '@app/core/model/notice.model';
+import { Notice } from '@app/core/model/notice.model';
 import { throwError } from 'rxjs';
 import { AccountUserService } from '@app/core/service';
 import { User } from '@app/core/model';
@@ -41,14 +41,6 @@ export class NotificationsComponent implements OnInit {
             header: {
                 handler: 'translate',
                 translatePath: 'notices.entity.subject'
-            }
-        },
-        {
-            fieldName: 'message',
-            sortable: false,
-            header: {
-                handler: 'translate',
-                translatePath: 'notices.entity.message'
             }
         }
     ];
@@ -123,14 +115,6 @@ export class NotificationsComponent implements OnInit {
     public onSuccess(response: ResponseWrapper<Notice[]>) {
         this.totalItems = response.totalCount();
         this.notices = response.body;
-    }
-
-    public joinMessagesText(messages: Messages): string {
-        let text = '';
-        for (const message of messages.messages) {
-            text += message.text;
-        }
-        return text;
     }
 
     public toggleVisibility() {

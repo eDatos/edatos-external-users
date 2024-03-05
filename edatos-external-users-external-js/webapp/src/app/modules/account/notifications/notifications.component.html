@@ -28,10 +28,9 @@
                         (onLazyLoad)='loadData($event)'
                     >
                         <ng-template pTemplate='body' let-notice>
-                            <tr>
+                            <tr [routerLink]="['../notifications', notice.urn]">
                                 <td>{{notice.sendingDate | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
                                 <td>{{notice.subject}}</td>
-                                <td [innerHTML]='joinMessagesText(notice.messages)'></td>
                             </tr>
                         </ng-template>
                     </arte-table>

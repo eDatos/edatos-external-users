@@ -8,10 +8,19 @@ import org.siemac.metamac.rest.notices.v1_0.domain.Messages;
 public class NotificationBaseVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    private String urn;
     private String subject;
     private Messages messages;
     private Date sendingDate;
 
+
+    public String getUrn() {
+        return urn;
+    }
+    public void setUrn(String urn) {
+        this.urn = urn;
+    }
     public String getSubject() {
         return subject;
     }

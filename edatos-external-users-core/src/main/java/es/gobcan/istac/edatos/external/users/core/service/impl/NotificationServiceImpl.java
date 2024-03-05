@@ -41,6 +41,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import es.gobcan.istac.edatos.external.users.core.config.MetadataProperties;
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
@@ -51,7 +52,6 @@ import es.gobcan.istac.edatos.external.users.core.service.EDatosApisLocator;
 import es.gobcan.istac.edatos.external.users.core.service.ExternalUserService;
 import es.gobcan.istac.edatos.external.users.core.service.MetadataConfigurationService;
 import es.gobcan.istac.edatos.external.users.core.service.NotificationService;
-import org.springframework.web.util.UriComponentsBuilder;
 
 @Service
 public class NotificationServiceImpl implements NotificationService {
@@ -333,6 +333,12 @@ public class NotificationServiceImpl implements NotificationService {
 
         return new PageImpl<Notice>(result.getNotices(), pageable, result.getTotal().intValue());
     }
+
+
+    public Notice findNoticeByUrn(String urn) {
+        return eDatosApisLocator.getNoticesRestInternalFacadeV10().retrieveNoticeByUrn(urn);
+    }
+
 
     private String generateTextI18n(String text, String[] args, Locale locale) {
         return messageSource.getMessage(text, args, locale);

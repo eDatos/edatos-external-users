@@ -13,21 +13,19 @@
                                     class='fa fa-3x fa-warning text-error'></i></p>
                                 <p class='content-paragraph p-text'>{{ 'account.messages.delete.text' | translate }}</p>
                             </div>
-                            <ng-container>
-                                <div class='button-container-login'>
-                                    <div class='row justify-content-md-center'>
-                                        <div class='form-group panel-container-buttons w-100'>
-                                            <button type='submit' class='btn btn-first w-100'>
-                                                <span>{{ 'entity.action.accept' | translate }}</span>
-                                            </button>
-                                            <button type='submit' (click)='clear()'
-                                                    class='btn btn-cancel w-100'>
-                                                <span>{{ 'entity.action.cancel' | translate }}</span>
-                                            </button>
-                                        </div>
+                            <div class='button-container-login'>
+                                <div class='row justify-content-md-center'>
+                                    <div class='form-group panel-container-buttons w-100'>
+                                        <button type='submit' class='btn btn-first w-100'>
+                                            <span>{{ 'entity.action.accept' | translate }}</span>
+                                        </button>
+                                        <button type='submit' (click)='clear()'
+                                                class='btn btn-cancel w-100'>
+                                            <span>{{ 'entity.action.cancel' | translate }}</span>
+                                        </button>
                                     </div>
                                 </div>
-                            </ng-container>
+                            </div>
                         </div>
                     </div>
                 </div>

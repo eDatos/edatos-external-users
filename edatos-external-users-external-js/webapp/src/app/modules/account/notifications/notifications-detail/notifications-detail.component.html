@@ -1,0 +1,27 @@
+<div class='page content'>
+    <div class='page-header'>
+        <div class='page-no-header-top'>
+            <div class='general-buttons row left-buttons'>
+                <div class='row-large'>
+                    <button class='text-icon-button btn-thin-default' routerLink='..'>
+                        <span class='fa-thin fa-left'></span>
+                        <span>{{ 'filter.form.goBack' | translate | uppercase }}</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class='page-body has-detail-info'>
+        <div class='detail-info'>
+            <label for='subject' class='title'>{{ 'notices.entity.subject' | translate }}</label>
+            <span id='subject' class='info-id'>{{ notice.subject }}</span>
+
+            <label class='sendingDate'>{{ 'notices.entity.receivedDate' | translate }}</label>
+            <span>{{ notice.sendingDate | date: 'dd/MM/yyyy HH:mm:ss' }}</span>
+
+            <label for='message' class='title'>{{ 'notices.entity.message' | translate }}</label>
+            <span id='message' [innerHTML]='joinMessagesText(notice.messages)'></span>
+
+        </div>
+    </div>
+</div>
