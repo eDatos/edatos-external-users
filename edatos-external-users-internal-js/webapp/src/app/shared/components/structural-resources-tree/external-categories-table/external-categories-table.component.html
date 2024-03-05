@@ -1,7 +1,7 @@
 <p-table
     selectionMode="multiple"
     [value]="externalCategories"
-    [(selection)]="selectedExternalCategories"
+    [(selection)]="currentPageSelectedExternalCategories"
     [loading]="loading"
     [rows]="10"
     [rowsPerPageOptions]="[10,25,50]"
@@ -18,6 +18,8 @@
     dataKey="urn"
     styleClass="external-categories-table"
     (onLazyLoad)="lazyLoad($event)"
+    (onRowSelect)="onRowSelect($event)"
+    (onRowUnselect)="onRowUnselect($event)"
 >
     <ng-template pTemplate="caption">
         <div class="search-wrapper">
@@ -27,7 +29,7 @@
     <ng-template pTemplate="header">
         <tr>
             <th scope="col">
-                <p-tableHeaderCheckbox (click)="onSelectAll()"></p-tableHeaderCheckbox>
+                <p-tableHeaderCheckbox (click)="onToggleAll()"></p-tableHeaderCheckbox>
             </th>
             <th scope="col">{{'externalCategoriesTable.columns.schemaCode' | translate}}</th>
             <th scope="col">{{'externalCategoriesTable.columns.schemaVersion' | translate}}</th>

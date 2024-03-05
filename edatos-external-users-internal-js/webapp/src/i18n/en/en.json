@@ -361,7 +361,8 @@
         "usuario-existe": "The username entered is already in use",
         "quartz": {
             "jobExecutionError": "Error while running a job Quartz"
-        }
+        },
+        "concurrencyFailure": "There are more people trying to make changes. Try it again later."
     },
     "externalCategoriesTable": {
         "alreadySelectedCategory": "You cannot select this category because a node already exists that references it.",

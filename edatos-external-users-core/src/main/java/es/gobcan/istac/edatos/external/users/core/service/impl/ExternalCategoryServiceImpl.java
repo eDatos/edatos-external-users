@@ -1,5 +1,6 @@
 package es.gobcan.istac.edatos.external.users.core.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.siemac.metamac.rest.structural_resources.v1_0.domain.Categories;
@@ -34,6 +35,18 @@ public class ExternalCategoryServiceImpl implements ExternalCategoryService {
         this.eDatosApisLocator = eDatosApisLocator;
         this.itemResourceMapper = itemResourceMapper;
         this.externalCategoryRepository = externalCategoryRepository;
+    }
+
+    @Override
+    public List<ExternalCategoryEntity> requestAllExternalCategoriesByUrn(List<String> urns) {
+        LOG.info("Making request to Structural Resources Manager to GET all the categories by URN");
+        if (urns == null || urns.size() == 0) {
+            return new ArrayList<>();
+        }
+
+        String query = String.format("URN IN (\"%s\")", String.join("\",\"", urns));
+        Categories categories = eDatosApisLocator.srmExternal().findCategories("~all", "~all", "~all", query, null, LIMIT, null, null);
+        return itemResourceMapper.toExternalCategoryEntities(categories);
     }
 
     @Override
