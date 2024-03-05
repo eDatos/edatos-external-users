@@ -6,7 +6,6 @@ import { Favorite } from '@app/shared/model';
 import { FavoriteService } from '@app/shared/service/favorite/favorite.service';
 import { TranslateService } from '@ngx-translate/core';
 import { finalize } from 'rxjs/operators';
-import { NavbarRefreshService } from '@app/shared/service/shared/navbar-refresh.service';
 
 @Component({
     selector: 'app-favorite-tree',
@@ -23,9 +22,8 @@ export class FavoriteTreeComponent implements OnInit {
     public favorites: Favorite[];
 
     constructor(private favoriteService: FavoriteService, private translateService: TranslateService,
-                private navbarRefreshService: NavbarRefreshService, private route: ActivatedRoute) {
+                private route: ActivatedRoute) {
         this.mainLanguageCode = this.translateService.getDefaultLang();
-        //this.navbarRefreshService.triggerRefresh();
     }
 
     public ngOnInit() {

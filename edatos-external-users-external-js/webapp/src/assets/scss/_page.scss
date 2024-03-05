@@ -210,11 +210,28 @@ div.page.content {
     & > thead > tr > th {
       font-size: $size-14;
       background-color: $color-black-5;
+
+      .ng-star-inserted {
+        float: inline-start;
+        padding: 2px 10px 0 0;
+
+        .pi-sort-amount-up-alt:before {
+          color: $color-blue-dark-100;
+        }
+      }
+
     }
   }
 
-  .ui-table .ui-table-thead > tr > th {
-    border: none;
+  .ui-table {
+    .ui-table-thead > tr > th {
+      border: none;
+    }
+
+    .ui-sortable-column.ui-state-highlight {
+      background-color: $color-blue-25;
+      color: $color-black-100;
+    }
   }
 
   .page-table thead tr th {

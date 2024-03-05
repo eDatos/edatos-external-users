@@ -28,11 +28,8 @@ export class NotificationsDetailComponent implements OnInit, OnDestroy {
 
     private subscribeToNotice() {
         const urn: string = this.activatedRoute.snapshot.params.id;
-        console.log('Notice: ', this.activatedRoute.snapshot.params);
-        console.log('Notice: ', this.activatedRoute.snapshot.params.id);
         this.noticeSubscription = this.noticeService.getNotice(urn).subscribe((notice) => {
             this.notice = notice;
-            console.log('Notice: ', this.notice);
         });
     }
 

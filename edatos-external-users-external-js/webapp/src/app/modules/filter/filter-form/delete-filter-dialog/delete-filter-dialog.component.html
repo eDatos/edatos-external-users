@@ -1,0 +1,36 @@
+<div class='page content'>
+    <div class='page-body'>
+        <form class='page-form' id='edit-form' name='editForm' role='form' novalidate (ngSubmit)='confirm()'
+              #editForm='ngForm' autocomplete='off'>
+            <fieldset class='page-section' arteAutofocus>
+                <div class='row justify-content-md-center login-container reset-password'>
+                    <div class='col-md-4 card p-3 bg-white background-container'>
+                        <h2 class='card-title text-center mt-1'
+                            translate='filter.messages.delete.title'></h2>
+                        <div class='card-body'>
+                            <div class='form-group'>
+                                <p class='content-paragraph p-icon'><i
+                                    class='fa fa-3x fa-warning text-error'></i></p>
+                                <p class='content-label-paragraph p-text'>{{ 'filter.messages.delete.label' | translate }}</p>
+                                <p class='content-paragraph p-text'>{{ 'filter.messages.delete.content' | translate }}</p>
+                            </div>
+                            <div class='button-container-login'>
+                                <div class='row justify-content-md-center'>
+                                    <div class='form-group panel-container-buttons w-100'>
+                                        <button type='submit' class='btn btn-first w-100'>
+                                            <span>{{ 'entity.action.accept' | translate }}</span>
+                                        </button>
+                                        <button type='submit' (click)='clear()'
+                                                class='btn btn-cancel w-100'>
+                                            <span>{{ 'entity.action.cancel' | translate }}</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>

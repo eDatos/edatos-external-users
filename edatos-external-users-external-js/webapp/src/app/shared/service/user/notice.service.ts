@@ -22,4 +22,8 @@ export class NoticeService {
             .pipe(map((res) => convert(Notice, res)));
     }
 
+    public getNotice(urn: string): Observable<Notice> {
+        return this.http.get<Notice>(`${this.resourceUrl}/${urn}`, { params: { urn: urn } }).pipe(map((notice) => convert(Notice, notice)));
+    }
+
 }

@@ -4,8 +4,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ConfigService } from '@app/config';
 import { Filter } from '@app/core/model';
 import { FilterService } from '@app/shared/service';
-import { finalize } from 'rxjs/operators';
 import { NavbarRefreshService } from '@app/shared/service/shared/navbar-refresh.service';
+import {
+    DeleteFilterDialogComponent
+} from '@app/modules/filter/filter-form/delete-filter-dialog/delete-filter-dialog.component';
+import { GenericModalService } from 'arte-ng/services';
 
 @Component({
     selector: 'app-filter-form',
@@ -26,7 +29,8 @@ export class FilterFormComponent implements OnInit {
         private titleService: Title,
         private router: Router,
         private navbarRefreshService: NavbarRefreshService,
-        private configService: ConfigService
+        private configService: ConfigService,
+        private genericModalService: GenericModalService
     ) {
         this.filter = this.activatedRoute.snapshot.data['filter'] ?? new Filter();
         this.activatedRoute.url.subscribe((segments) => {
@@ -56,16 +60,9 @@ export class FilterFormComponent implements OnInit {
         window.open(selfLink, '_blank');
     }
 
-    public delete() {
+    public openDeleteDialog() {
         this.showSpinner();
-        this.filterService
-            .delete(this.filter.id)
-            .pipe(finalize(() => this.hideSpinner()))
-            .subscribe((response) => {
-                if (response.status >= 200 && response.status < 300) {
-                    this.router.navigate([`..`], { relativeTo: this.activatedRoute });
-                }
-            });
+        this.genericModalService.open(DeleteFilterDialogComponent as Component, { filter: this.filter }, { container: '.app' });
     }
 
 
@@ -73,7 +70,4 @@ export class FilterFormComponent implements OnInit {
         this.isLoading = true;
     }
 
-    private hideSpinner(): void {
-        this.isLoading = false;
-    }
 }

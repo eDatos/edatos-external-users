@@ -119,9 +119,18 @@ p.content-paragraph.p-title {
   padding: 0 10px;
 }
 
-p.content-paragraph.p-text {
+p.content-paragraph.p-text, p.content-label-paragraph.p-text {
   margin-bottom: 20px;
   font-size: $size-14;
+  text-align: center;
+}
+
+p.content-paragraph.p-text {
+  font-weight: lighter;
+}
+
+p.content-label-paragraph.p-text {
+  margin-left: 0 !important;
 }
 
 div.success-sending {
