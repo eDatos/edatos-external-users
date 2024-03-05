@@ -362,7 +362,7 @@
         "quartz": {
             "jobExecutionError": "Error while running a job Quartz"
         },
-        "concurrencyFailure": "It seems like someone else is also trying to make changes. To avoid data loss, please try again later."
+        "concurrencyFailure": "There are more people trying to make changes. Try it again later."
     },
     "externalCategoriesTable": {
         "alreadySelectedCategory": "You cannot select this category because a node already exists that references it.",
