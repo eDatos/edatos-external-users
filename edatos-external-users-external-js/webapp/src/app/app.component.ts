@@ -38,29 +38,23 @@ export class AppComponent implements OnInit {
     }
 
     private async checkNavbar() {
-        const isSectionFolder = this.isSectionFolder();
-        const isSectionAccount = this.isSectionAccount();
-
-
-        this.isMyFolderSection = (this.navbarRefreshService.getRefreshForceValue() != null) ? this.navbarRefreshService.getRefreshForceValue() : isSectionFolder;
-        this.isMyAccountSection = (this.navbarRefreshService.getRefreshForceValue() != null) ? this.navbarRefreshService.getRefreshForceValue() : isSectionAccount;
+        this.isMyFolderSection = this.isSectionFolder();
+        this.isMyAccountSection = this.isSectionAccount();
         this.navbarRefreshService.setRefreshForceRoute(null);
     }
 
     private isSectionAccount(): boolean {
-        const fromValueRoute = this.navbarRefreshService.getRoute() === 'account-management'
-            || this.navbarRefreshService.getRoute() === 'notifications';
-        return (this.navbarRefreshService.getRoute() != null) ? fromValueRoute : document.location.href.includes('account-management')
-            || document.location.href.includes('notifications')
-            || document.location.href.includes('data-protection-policy')
-            || document.location.href.includes('change-password');
+        const fromValueRoute = this.navbarRefreshService.getRoute().valueOf().includes('account-management')
+            || this.navbarRefreshService.getRoute().valueOf().includes('notifications')
+            || this.navbarRefreshService.getRoute() === 'data-protection-policy'
+            || this.navbarRefreshService.getRoute() === 'change-password';
+        return fromValueRoute;
     }
 
     private isSectionFolder(): boolean {
-        const fromValueRoute = this.navbarRefreshService.getRoute() === 'filter'
+        const fromValueRoute = this.navbarRefreshService.getRoute().valueOf().includes('filter')
             || this.navbarRefreshService.getRoute() === 'favorite';
-        return (this.navbarRefreshService.getRoute() != null) ? fromValueRoute : document.location.href.includes('filter')
-            || document.location.href.includes('favorite');
+        return fromValueRoute;
     }
 
 }

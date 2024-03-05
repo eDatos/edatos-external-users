@@ -1,61 +1,16 @@
 @import '../../../assets/scss/variables';
 @import '../../../assets/scss/mixins';
 
-@media screen and (max-width: 991px) {
-  #navbarResponsive {
-    display: flex;
-    justify-content: end;
-  }
-
-  .navbar-nav {
-    position: absolute;
-    z-index: 1;
-    top: -14px;
-    justify-content: flex-end;
-  }
-
-  .navbar {
-    .dropdown-menu {
-      margin-top: -11px !important;
-    }
-
-    .general-buttons.row {
-      justify-content: end !important;
-    }
-
-  }
-}
-
 /* ==========================================================================
 Navbar
 ========================================================================== */
-
 div.page {
   display: block;
-  min-height: 150px;
-}
-
-.navbar-version {
-  font-size: 10px;
-  color: $grey-lightest;
-  display: inline-block;
-  vertical-align: text-bottom;
+  min-height: 175px;
+  position: relative;
 }
 
 .navbar {
-  min-height: $navbar-height;
-  background-color: $color-black-0;
-  padding-left: $page-padding-left;
-  padding-right: 19px;
-
-  .dropdown-item.active,
-  .dropdown-item.active:focus,
-  .dropdown-item.active:hover {
-    background-color: $color-blue-25;
-    color: $color-black-100;
-
-  }
-
   button.text-icon-button:first-child {
     margin-right: 0;
   }

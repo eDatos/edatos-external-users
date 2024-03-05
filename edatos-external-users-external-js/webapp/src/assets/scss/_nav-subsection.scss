@@ -1,3 +1,29 @@
+@media screen and (max-width: 991px) {
+  #navbarResponsive {
+    display: flex;
+    justify-content: end;
+  }
+
+  .navbar-nav {
+    position: absolute;
+    z-index: 1;
+    top: -14px;
+    justify-content: flex-end;
+    left: 0 !important;
+  }
+
+  .navbar {
+    .dropdown-menu {
+      margin-top: -11px !important;
+    }
+
+    .general-buttons.row {
+      justify-content: end !important;
+    }
+
+  }
+}
+
 .page-header-wrapper {
   display: flex;
   justify-content: space-between;
@@ -5,11 +31,24 @@
 
 nav.navbar {
   align-items: baseline !important;
+  min-height: $navbar-height;
+  background-color: $color-black-0;
+  padding-left: $page-padding-left;
+  padding-right: 19px;
   padding-top: 15px !important;
+
+  .dropdown-item.active,
+  .dropdown-item.active:focus,
+  .dropdown-item.active:hover {
+    background-color: $color-blue-25;
+    color: $color-black-100;
+  }
+
 }
 
 div.subsection-tab {
-  padding-bottom: 15px
+  padding-bottom: 15px;
+  height: 45px;
 }
 
 .section-tab .nav {
