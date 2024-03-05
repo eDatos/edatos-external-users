@@ -15,6 +15,9 @@ export class UserRouteAccessGuard implements CanActivate, CanLoad {
 
     canActivate(route: ActivatedRouteSnapshot): boolean | Promise<boolean> {
         const roles = this.rolesFromRouteSnapshot(route);
+        const url = route['_routerState'].url.replace('/', '');
+        this.navbarRefreshService.setRefreshForceRoute(url);
+        this.navbarRefreshService.triggerRefresh();
         return this.checkRoles(roles, route.data);
     }
 

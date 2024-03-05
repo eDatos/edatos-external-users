@@ -48,14 +48,19 @@ export class AppComponent implements OnInit {
     }
 
     private isSectionAccount(): boolean {
-        const fromValueRoute = this.navbarRefreshService.getRoute() === 'account-management' || this.navbarRefreshService.getRoute() === 'my-section-account';
-        return (this.navbarRefreshService.getRoute() != null) ? fromValueRoute : document.location.href.includes('account-management') || document.location.href.includes('notifications')
-            || document.location.href.includes('data-protection-policy') || document.location.href.includes('change-password');
+        const fromValueRoute = this.navbarRefreshService.getRoute() === 'account-management'
+            || this.navbarRefreshService.getRoute() === 'notifications';
+        return (this.navbarRefreshService.getRoute() != null) ? fromValueRoute : document.location.href.includes('account-management')
+            || document.location.href.includes('notifications')
+            || document.location.href.includes('data-protection-policy')
+            || document.location.href.includes('change-password');
     }
 
     private isSectionFolder(): boolean {
-        const fromValueRoute = this.navbarRefreshService.getRoute() === 'filter' || this.navbarRefreshService.getRoute() === 'my-section-folder';
-        return (this.navbarRefreshService.getRoute() != null) ? fromValueRoute : document.location.href.includes('filter') || document.location.href.includes('favorite');
+        const fromValueRoute = this.navbarRefreshService.getRoute() === 'filter'
+            || this.navbarRefreshService.getRoute() === 'favorite';
+        return (this.navbarRefreshService.getRoute() != null) ? fromValueRoute : document.location.href.includes('filter')
+            || document.location.href.includes('favorite');
     }
 
 }

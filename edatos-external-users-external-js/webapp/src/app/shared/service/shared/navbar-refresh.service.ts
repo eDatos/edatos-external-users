@@ -12,12 +12,6 @@ export class NavbarRefreshService {
         this.refreshNavbarComponent.emit();
     }
 
-    public triggerRefreshForceValue(refreshForceValue: boolean) {
-        this.refreshForceValue = refreshForceValue;
-        this.refreshNavbarComponent.emit();
-    }
-
-
     public getRefreshForceValue(): boolean {
         return this.refreshForceValue;
     }
