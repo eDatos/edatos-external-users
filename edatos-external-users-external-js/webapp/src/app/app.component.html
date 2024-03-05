@@ -1,6 +1,6 @@
 <jhi-navbar></jhi-navbar>
 <div class='app'>
-    <div class='container'>
+    <div class='container' *ngIf='isAuthenticated'>
         <div class='col col-12'>
             <app-my-folder-navbar *ngIf='isMyFolderSection'></app-my-folder-navbar>
             <app-my-account-navbar *ngIf='isMyAccountSection'></app-my-account-navbar>

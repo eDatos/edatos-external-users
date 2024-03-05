@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ConfigService } from '@app/config';
 import { Filter } from '@app/core/model';
 import { FilterService } from '@app/shared/service';
-import { NavbarRefreshService } from '@app/shared/service/shared/navbar-refresh.service';
 import {
     DeleteFilterDialogComponent
 } from '@app/modules/filter/filter-form/delete-filter-dialog/delete-filter-dialog.component';
@@ -28,7 +27,6 @@ export class FilterFormComponent implements OnInit {
         private activatedRoute: ActivatedRoute,
         private titleService: Title,
         private router: Router,
-        private navbarRefreshService: NavbarRefreshService,
         private configService: ConfigService,
         private genericModalService: GenericModalService
     ) {
@@ -37,7 +35,7 @@ export class FilterFormComponent implements OnInit {
             const lastUrlSegment = segments[segments.length - 1].path;
             this.inEditMode = this.inEditMode || lastUrlSegment === 'new';
         });
-        this.navbarRefreshService.triggerRefresh();
+
     }
 
     public ngOnInit() {

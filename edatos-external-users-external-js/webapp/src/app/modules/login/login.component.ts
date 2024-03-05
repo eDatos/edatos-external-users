@@ -8,7 +8,6 @@ import { addQueryParamToRoute } from '@app/shared/utils/routesUtils';
 import { CaptchaService, SharedRefreshService } from '@app/shared/service';
 import { MessageService } from 'primeng';
 import { TranslateService } from '@ngx-translate/core';
-import { NavbarRefreshService } from '@app/shared/service/shared/navbar-refresh.service';
 
 
 @Component({
@@ -40,8 +39,7 @@ export class LoginComponent implements OnInit {
         private externalUserService: ExternalLoginService,
         private messageService: MessageService,
         private translateService: TranslateService,
-        private sharedService: SharedRefreshService,
-        private navbarRefreshService: NavbarRefreshService
+        private sharedService: SharedRefreshService
     ) {
         this.credentials = new Credentials();
         this.route.queryParams.subscribe((queryParams) => {
@@ -90,8 +88,6 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['filter']);
         this.sharedService.triggerRefresh();
         this.sharedService.triggerRefreshForceValue(true);
-        this.navbarRefreshService.setRefreshForceRoute('filter');
-        this.navbarRefreshService.triggerRefresh();
     }
 
     private navigateToOrigin() {

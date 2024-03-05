@@ -5,7 +5,6 @@ import { GenericModalService } from 'arte-ng/services';
 import { MessageService } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
 import { SharedRefreshService } from '@app/shared/service';
-import { NavbarRefreshService } from '@app/shared/service/shared/navbar-refresh.service';
 
 @Component({
     selector: 'app-my-folder-navbar',
@@ -27,7 +26,6 @@ export class MyFolderNavbarComponent implements OnInit {
         private userService: AccountUserService,
         private router: Router,
         private sharedService: SharedRefreshService,
-        private navbarRefreshService: NavbarRefreshService,
         private messageService: MessageService,
         private translateService: TranslateService
     ) {
@@ -44,8 +42,6 @@ export class MyFolderNavbarComponent implements OnInit {
 
     public navigateTo(route: string) {
         this.isNavbarCollapsed = true;
-        this.navbarRefreshService.setRefreshForceRoute(route);
-        this.navbarRefreshService.triggerRefresh();
         this.router.navigate([route]);
     }
 

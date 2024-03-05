@@ -1,15 +1,17 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, Data, CanLoad, Route } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, CanLoad, Data, Route, Router } from '@angular/router';
 import { Principal } from '../service/auth/principal.service';
 import { Role } from '../model/rol.model';
 import { LoginService } from '../service/auth/login.service';
+import { NavbarRefreshService } from '@app/shared/service/shared/navbar-refresh.service';
 
 @Injectable()
 export class UserRouteAccessGuard implements CanActivate, CanLoad {
     public static AUTH_REDIRECT = 'authRedirect';
     private static ROLES = 'roles';
 
-    constructor(private router: Router, private principal: Principal, private loginService: LoginService) {}
+    constructor(private router: Router, private principal: Principal, private loginService: LoginService, private navbarRefreshService: NavbarRefreshService) {
+    }
 
     canActivate(route: ActivatedRouteSnapshot): boolean | Promise<boolean> {
         const roles = this.rolesFromRouteSnapshot(route);
@@ -18,6 +20,8 @@ export class UserRouteAccessGuard implements CanActivate, CanLoad {
 
     canLoad(route: Route): true | Promise<boolean> {
         const roles = route.data ? route.data.roles : [];
+        this.navbarRefreshService.setRefreshForceRoute(route.path);
+        this.navbarRefreshService.triggerRefresh();
         return this.checkRoles(roles, route.data);
     }
 

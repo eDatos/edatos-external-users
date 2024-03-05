@@ -53,10 +53,6 @@ export class MyAccountNavbarComponent implements OnInit {
 
     public navigateTo(route: string) {
         this.isNavbarCollapsed = true;
-        if (route === 'filter') {
-            this.navbarRefreshService.setRefreshForceRoute(route);
-            this.navbarRefreshService.triggerRefresh();
-        }
         this.router.navigate([route]);
     }
 
