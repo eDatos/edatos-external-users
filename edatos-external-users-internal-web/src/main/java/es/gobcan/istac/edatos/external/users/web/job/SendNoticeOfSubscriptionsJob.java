@@ -46,7 +46,7 @@ public class SendNoticeOfSubscriptionsJob extends AbstractConsumerQuartzJob {
                         List<FavoriteEntity> listFavorites = getFavoriteService(context).findByExternalOperation(listOperations);
 
                         if (CollectionUtils.isNotEmpty(listFavorites)) {
-                            getNotificationService(context).createNoticeOfSusbcritionsJob(listFavorites);
+                            getNotificationService(context).createNoticeOfSusbcritionsJob(listFavorites, listDataset);
                             deleteDatasets(listDataset, context);
                         }
                     }
