@@ -1,0 +1,283 @@
+{
+  "code": "C00010A",
+  "urn": "urn:siemac:org.siemac.metamac.infomodel.statisticaloperations.Operation=C00010A",
+  "indicatorSystem": false,
+  "internalInventoryDate": {
+    "org.siemac.metamac.statistical.operations.core.stream.messages.DatetimeAvro": {
+      "instant": 1439899843694,
+      "timezone": {
+        "string": "Europe/Paris"
+      }
+    }
+  },
+  "currentlyActive": true,
+  "releaseCalendar": false,
+  "releaseCalendarAccess": null,
+  "inventoryDate": {
+    "org.siemac.metamac.statistical.operations.core.stream.messages.DatetimeAvro": {
+      "instant": 1439899850416,
+      "timezone": {
+        "string": "Europe/Paris"
+      }
+    }
+  },
+  "updateDate": {
+    "org.siemac.metamac.statistical.operations.core.stream.messages.DatetimeAvro": {
+      "instant": 1477315626944,
+      "timezone": {
+        "string": "Europe/Paris"
+      }
+    }
+  },
+  "uuid": "412823f6-0c9e-4b00-adce-30439098ae30",
+  "createdDate": {
+    "org.siemac.metamac.statistical.operations.core.stream.messages.DatetimeAvro": {
+      "instant": 1439899663883,
+      "timezone": {
+        "string": "Europe/Paris"
+      }
+    }
+  },
+  "createdBy": {
+    "string": "admin"
+  },
+  "lastUpdated": {
+    "org.siemac.metamac.statistical.operations.core.stream.messages.DatetimeAvro": {
+      "instant": 1477315626953,
+      "timezone": {
+        "string": "Europe/Paris"
+      }
+    }
+  },
+  "lastUpdatedBy": {
+    "string": "admin"
+  },
+  "version": 6,
+  "commonMetadata": {
+    "org.siemac.metamac.statistical.operations.core.stream.messages.ExternalItemAvro": {
+      "code": {
+        "string": "ISTAC"
+      },
+      "codeNested": null,
+      "urn": {
+        "string": "urn:siemac:org.siemac.metamac.infomodel.commonmetadata.CommonMetadata=ISTAC"
+      },
+      "urnProvider": null,
+      "managementAppUrl": {
+        "string": "/#configurations/configuration;id=ISTAC"
+      },
+      "type": {
+        "org.siemac.metamac.statistical.operations.core.stream.messages.TypeExternalArtefactsEnumAvro": "CONFIGURATION"
+      },
+      "title": null
+    }
+  },
+  "title": {
+    "localisedStrings": {
+      "array": [
+        {
+          "locale": {
+            "string": "es"
+          },
+          "label": {
+            "string": "Sistema de InformaciÃ³n Electoral de Canarias"
+          }
+        }
+      ]
+    }
+  },
+  "acronym": null,
+  "subjectArea": {
+    "org.siemac.metamac.statistical.operations.core.stream.messages.ExternalItemAvro": {
+      "code": {
+        "string": "10"
+      },
+      "codeNested": {
+        "string": "1.10"
+      },
+      "urn": {
+        "string": "urn:sdmx:org.sdmx.infomodel.categoryscheme.Category=ISTAC:SDMXStatSubMatDomainsWD1(01.000).1.10"
+      },
+      "urnProvider": null,
+      "managementAppUrl": {
+        "string": "/#structuralResources/categorySchemes/categoryScheme;id=ISTAC:SDMXStatSubMatDomainsWD1(01.000)/category;id=1.10"
+      },
+      "type": {
+        "org.siemac.metamac.statistical.operations.core.stream.messages.TypeExternalArtefactsEnumAvro": "CATEGORY"
+      },
+      "title": {
+        "org.siemac.metamac.statistical.operations.core.stream.messages.InternationalStringAvro": {
+          "localisedStrings": {
+            "array": [
+              {
+                "locale": {
+                  "string": "es"
+                },
+                "label": {
+                  "string": "PolÃ­tica y otras actividades de la comunidad"
+                }
+              },
+              {
+                "locale": {
+                  "string": "en"
+                },
+                "label": {
+                  "string": "Political and other community activities"
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "objective": {
+    "org.siemac.metamac.statistical.operations.core.stream.messages.InternationalStringAvro": {
+      "localisedStrings": {
+        "array": [
+          {
+            "locale": {
+              "string": "es"
+            },
+            "label": {
+              "string": "El Sistema de InformaciÃ³n Electoral en Canarias aporta informaciÃ³n exhaustiva sobre todos los procesos electorales habidos en Canarias desde 1976, ademÃ¡s permite comparar los resultados de las distintas convocatorias y simular resultados."
+            }
+          }
+        ]
+      }
+    }
+  },
+  "description": null,
+  "surveyType": {
+    "org.siemac.metamac.statistical.operations.core.stream.messages.SurveyTypeAvro": {
+      "identifier": {
+        "string": "OTRAS"
+      },
+      "description": null
+    }
+  },
+  "officialityType": {
+    "org.siemac.metamac.statistical.operations.core.stream.messages.OfficialityTypeAvro": {
+      "identifier": {
+        "string": "OFICIAL"
+      },
+      "description": null
+    }
+  },
+  "procStatus": "PUBLISH_EXTERNALLY",
+  "status": "PRODUCTION",
+  "relPolUsAc": null,
+  "revPolicy": null,
+  "revPractice": null,
+  "specificLegalActs": null,
+  "specificDataSharing": null,
+  "comment": null,
+  "notes": null,
+  "families": [],
+  "secondarySubjectAreas": [],
+  "producer": [
+    {
+      "code": {
+        "string": "ISTAC"
+      },
+      "codeNested": null,
+      "urn": {
+        "string": "urn:sdmx:org.sdmx.infomodel.base.OrganisationUnit=ISTAC:UNIDADES_GOBCAN(02.001).ISTAC"
+      },
+      "urnProvider": null,
+      "managementAppUrl": {
+        "string": "/#structuralResources/organisationSchemes/organisationScheme;type=ORGANISATION_UNIT_SCHEME;id=ISTAC:UNIDADES_GOBCAN(02.001)/organisation;id=ISTAC"
+      },
+      "type": {
+        "org.siemac.metamac.statistical.operations.core.stream.messages.TypeExternalArtefactsEnumAvro": "ORGANISATION_UNIT"
+      },
+      "title": {
+        "org.siemac.metamac.statistical.operations.core.stream.messages.InternationalStringAvro": {
+          "localisedStrings": {
+            "array": [
+              {
+                "locale": {
+                  "string": "es"
+                },
+                "label": {
+                  "string": "Instituto Canario de EstadÃ­stica"
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "regionalResponsible": [
+    {
+      "code": {
+        "string": "ISTAC"
+      },
+      "codeNested": null,
+      "urn": {
+        "string": "urn:sdmx:org.sdmx.infomodel.base.OrganisationUnit=ISTAC:UNIDADES_GOBCAN(02.001).ISTAC"
+      },
+      "urnProvider": null,
+      "managementAppUrl": {
+        "string": "/#structuralResources/organisationSchemes/organisationScheme;type=ORGANISATION_UNIT_SCHEME;id=ISTAC:UNIDADES_GOBCAN(02.001)/organisation;id=ISTAC"
+      },
+      "type": {
+        "org.siemac.metamac.statistical.operations.core.stream.messages.TypeExternalArtefactsEnumAvro": "ORGANISATION_UNIT"
+      },
+      "title": {
+        "org.siemac.metamac.statistical.operations.core.stream.messages.InternationalStringAvro": {
+          "localisedStrings": {
+            "array": [
+              {
+                "locale": {
+                  "string": "es"
+                },
+                "label": {
+                  "string": "Instituto Canario de EstadÃ­stica"
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "regionalContributor": [],
+  "publisher": [
+    {
+      "code": {
+        "string": "ISTAC"
+      },
+      "codeNested": null,
+      "urn": {
+        "string": "urn:sdmx:org.sdmx.infomodel.base.OrganisationUnit=ISTAC:UNIDADES_GOBCAN(02.001).ISTAC"
+      },
+      "urnProvider": null,
+      "managementAppUrl": {
+        "string": "/#structuralResources/organisationSchemes/organisationScheme;type=ORGANISATION_UNIT_SCHEME;id=ISTAC:UNIDADES_GOBCAN(02.001)/organisation;id=ISTAC"
+      },
+      "type": {
+        "org.siemac.metamac.statistical.operations.core.stream.messages.TypeExternalArtefactsEnumAvro": "ORGANISATION_UNIT"
+      },
+      "title": {
+        "org.siemac.metamac.statistical.operations.core.stream.messages.InternationalStringAvro": {
+          "localisedStrings": {
+            "array": [
+              {
+                "locale": {
+                  "string": "es"
+                },
+                "label": {
+                  "string": "Instituto Canario de EstadÃ­stica"
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "updateFrequency": [],
+  "$$$SchemaName$$$": "org.siemac.metamac.statistical.operations.core.stream.messages.OperationAvro"
+}

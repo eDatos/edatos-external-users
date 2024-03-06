@@ -57,7 +57,7 @@ public class SendNoticeOfSubscriptionsJob extends AbstractConsumerQuartzJob {
                                 if (CollectionUtils.isNotEmpty(favoritesOfOperationOrAncestors)) {
                                     Set<ExternalUserEntity> usersSubscribedToOperation = favoritesOfOperationOrAncestors
                                         .stream().map(FavoriteEntity::getExternalUser).collect(Collectors.toSet());
-                                    getNotificationService(context).createNoticeOfSubscriptionsJob(usersSubscribedToOperation, operation);
+                                    getNotificationService(context).createNoticeOfSubscriptionsJob(usersSubscribedToOperation, operation, updatedDatasets);
                                     deleteDatasetsByOperation(updatedDatasets, operation, context);
                                 }
                             }

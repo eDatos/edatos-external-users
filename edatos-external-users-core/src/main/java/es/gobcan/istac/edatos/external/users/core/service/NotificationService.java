@@ -4,14 +4,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import es.gobcan.istac.edatos.external.users.core.domain.ExternalDatasetEntity;
+import es.gobcan.istac.edatos.external.users.core.domain.ExternalOperationEntity;
+import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
 import org.siemac.edatos.core.common.dto.InternationalStringDto;
 import org.siemac.metamac.rest.notices.v1_0.domain.Notice;
 import org.siemac.metamac.rest.notices.v1_0.domain.Receivers;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
-import es.gobcan.istac.edatos.external.users.core.domain.ExternalOperationEntity;
-import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
 
 public interface NotificationService {
 
@@ -22,7 +22,7 @@ public interface NotificationService {
     void createRegisterExternalUserAccountNotification(ExternalUserEntity externalUserEntity);
     void createExternalUserAlreadyRegisteredNotification(ExternalUserEntity externalUserEntity);
     void createExternalUserRegistrationAlreadyRequested(ExternalUserEntity externalUserEntity);
-    void createNoticeOfSubscriptionsJob(Set<ExternalUserEntity> users, ExternalOperationEntity operation);
+    void createNoticeOfSubscriptionsJob(Set<ExternalUserEntity> users, ExternalOperationEntity operation, List<ExternalDatasetEntity> datasets);
     List<String> createNotificationWithReceivers(InternationalStringDto message, InternationalStringDto subject, HashMap<String, Receivers> receivers);
     HashMap<String, Receivers> createReceiversGroupedByLanguage(List<String> emails, List<Long> categories, List<Long> externalOperations);
 

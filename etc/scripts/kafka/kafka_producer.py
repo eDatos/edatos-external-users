@@ -63,7 +63,7 @@ def json_filepath_or_string(string):
     with console.status("Processing record value..."):
         if os.path.isfile(string):
             console.log(f"Record loaded: '{string}'")
-            with open(string) as file:
+            with open(string, encoding="utf-8") as file:
                 value = json.load(file)
         else:
             value = json.loads(string)

@@ -1,0 +1,578 @@
+{
+  "code": "E30308A",
+  "urn": "urn:siemac:org.siemac.metamac.infomodel.statisticaloperations.Operation=E30308A",
+  "indicatorSystem": true,
+  "internalInventoryDate": {
+    "org.siemac.metamac.statistical.operations.core.stream.messages.DatetimeAvro": {
+      "instant": 1371463585238,
+      "timezone": {
+        "string": "Europe/Paris"
+      }
+    }
+  },
+  "currentlyActive": false,
+  "releaseCalendar": false,
+  "releaseCalendarAccess": null,
+  "inventoryDate": {
+    "org.siemac.metamac.statistical.operations.core.stream.messages.DatetimeAvro": {
+      "instant": 1371463593257,
+      "timezone": {
+        "string": "Europe/Paris"
+      }
+    }
+  },
+  "updateDate": {
+    "org.siemac.metamac.statistical.operations.core.stream.messages.DatetimeAvro": {
+      "instant": 1506331895218,
+      "timezone": {
+        "string": "Europe/Paris"
+      }
+    }
+  },
+  "uuid": "38ff32ae-09dd-43f0-b209-0be1b7127cb2",
+  "createdDate": {
+    "org.siemac.metamac.statistical.operations.core.stream.messages.DatetimeAvro": {
+      "instant": 1371412182959,
+      "timezone": {
+        "string": "Europe/Paris"
+      }
+    }
+  },
+  "createdBy": {
+    "string": "admin"
+  },
+  "lastUpdated": {
+    "org.siemac.metamac.statistical.operations.core.stream.messages.DatetimeAvro": {
+      "instant": 1627637037740,
+      "timezone": {
+        "string": "Atlantic/Canary"
+      }
+    }
+  },
+  "lastUpdatedBy": {
+    "string": "kafka-async-producer"
+  },
+  "version": 17,
+  "commonMetadata": {
+    "org.siemac.metamac.statistical.operations.core.stream.messages.ExternalItemAvro": {
+      "code": {
+        "string": "ISTAC"
+      },
+      "codeNested": null,
+      "urn": {
+        "string": "urn:siemac:org.siemac.metamac.infomodel.commonmetadata.CommonMetadata=ISTAC"
+      },
+      "urnProvider": null,
+      "managementAppUrl": {
+        "string": "/#configurations/configuration;id=ISTAC"
+      },
+      "type": {
+        "org.siemac.metamac.statistical.operations.core.stream.messages.TypeExternalArtefactsEnumAvro": "CONFIGURATION"
+      },
+      "title": null
+    }
+  },
+  "title": {
+    "localisedStrings": {
+      "array": [
+        {
+          "locale": {
+            "string": "es"
+          },
+          "label": {
+            "string": "Encuesta de PoblaciÃ³n Activa"
+          }
+        }
+      ]
+    }
+  },
+  "acronym": {
+    "org.siemac.metamac.statistical.operations.core.stream.messages.InternationalStringAvro": {
+      "localisedStrings": {
+        "array": [
+          {
+            "locale": {
+              "string": "es"
+            },
+            "label": {
+              "string": "EPA"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "subjectArea": {
+    "org.siemac.metamac.statistical.operations.core.stream.messages.ExternalItemAvro": {
+      "code": {
+        "string": "2"
+      },
+      "codeNested": null,
+      "urn": {
+        "string": "urn:sdmx:org.sdmx.infomodel.categoryscheme.Category=SDMX:SDMXStatSubMatDomainsWD1(1.0).1.2"
+      },
+      "urnProvider": {
+        "string": "urn:sdmx:org.sdmx.infomodel.categoryscheme.Category=SDMX:SDMXStatSubMatDomainsWD1(1.0).1.2"
+      },
+      "managementAppUrl": {
+        "string": "/#structuralResources/categorySchemes/categoryScheme;id=SDMX:SDMXStatSubMatDomainsWD1(1.0)/category;id=1.2"
+      },
+      "type": {
+        "org.siemac.metamac.statistical.operations.core.stream.messages.TypeExternalArtefactsEnumAvro": "CATEGORY"
+      },
+      "title": {
+        "org.siemac.metamac.statistical.operations.core.stream.messages.InternationalStringAvro": {
+          "localisedStrings": {
+            "array": [
+              {
+                "locale": {
+                  "string": "en"
+                },
+                "label": {
+                  "string": "Labour"
+                }
+              },
+              {
+                "locale": {
+                  "string": "es"
+                },
+                "label": {
+                  "string": "Trabajo"
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "objective": {
+    "org.siemac.metamac.statistical.operations.core.stream.messages.InternationalStringAvro": {
+      "localisedStrings": {
+        "array": [
+          {
+            "locale": {
+              "string": "es"
+            },
+            "label": {
+              "string": "ObtenciÃ³n de resultados sobre los ocupados, los parados y los inactivos. La Encuesta de PoblaciÃ³n Activa (EPA) da cumplimiento a lo establecido en el Reglamento (CE) nÂ° 577/98 del Consejo de 9 de marzo de 1998 relativo a la organizaciÃ³n de una encuesta muestral sobre la poblaciÃ³n activa en la Comunidad, puesto que la EPA contiene a la Encuesta Comunitaria de Fuerza de Trabajo (ECFT) de la UniÃ³n Europea."
+            }
+          }
+        ]
+      }
+    }
+  },
+  "description": null,
+  "surveyType": {
+    "org.siemac.metamac.statistical.operations.core.stream.messages.SurveyTypeAvro": {
+      "identifier": {
+        "string": "COYUNTURAL"
+      },
+      "description": null
+    }
+  },
+  "officialityType": {
+    "org.siemac.metamac.statistical.operations.core.stream.messages.OfficialityTypeAvro": {
+      "identifier": {
+        "string": "OFICIAL"
+      },
+      "description": null
+    }
+  },
+  "procStatus": "PUBLISH_EXTERNALLY",
+  "status": "PLANNING",
+  "relPolUsAc": null,
+  "revPolicy": null,
+  "revPractice": null,
+  "specificLegalActs": null,
+  "specificDataSharing": null,
+  "comment": {
+    "org.siemac.metamac.statistical.operations.core.stream.messages.InternationalStringAvro": {
+      "localisedStrings": {
+        "array": [
+          {
+            "locale": {
+              "string": "es"
+            },
+            "label": {
+              "string": "POPO"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "notes": null,
+  "families": [
+    {
+      "code": "EMPLEO",
+      "urn": "urn:siemac:org.siemac.metamac.infomodel.statisticaloperations.Family=EMPLEO",
+      "internalInventoryDate": {
+        "org.siemac.metamac.statistical.operations.core.stream.messages.DatetimeAvro": {
+          "instant": 1371465775687,
+          "timezone": {
+            "string": "Europe/Paris"
+          }
+        }
+      },
+      "inventoryDate": {
+        "org.siemac.metamac.statistical.operations.core.stream.messages.DatetimeAvro": {
+          "instant": 1371465776862,
+          "timezone": {
+            "string": "Europe/Paris"
+          }
+        }
+      },
+      "updateDate": {
+        "org.siemac.metamac.statistical.operations.core.stream.messages.DatetimeAvro": {
+          "instant": 1371465768848,
+          "timezone": {
+            "string": "Europe/Paris"
+          }
+        }
+      },
+      "uuid": "3bb92e29-4ef4-42db-a615-f22c2cc2d78c",
+      "createdDate": {
+        "org.siemac.metamac.statistical.operations.core.stream.messages.DatetimeAvro": {
+          "instant": 1371465752087,
+          "timezone": {
+            "string": "Europe/Paris"
+          }
+        }
+      },
+      "createdBy": {
+        "string": "admin"
+      },
+      "lastUpdated": {
+        "org.siemac.metamac.statistical.operations.core.stream.messages.DatetimeAvro": {
+          "instant": 1371549491569,
+          "timezone": {
+            "string": "Europe/Paris"
+          }
+        }
+      },
+      "lastUpdatedBy": {
+        "string": "admin"
+      },
+      "version": 5,
+      "title": {
+        "localisedStrings": {
+          "array": [
+            {
+              "locale": {
+                "string": "es"
+              },
+              "label": {
+                "string": "Empleos y relaciÃ³n con la actividad econÃ³mica"
+              }
+            }
+          ]
+        }
+      },
+      "acronym": null,
+      "description": null,
+      "procStatus": "PUBLISH_EXTERNALLY"
+    }
+  ],
+  "secondarySubjectAreas": [
+    {
+      "code": {
+        "string": "8"
+      },
+      "codeNested": null,
+      "urn": {
+        "string": "urn:sdmx:org.sdmx.infomodel.categoryscheme.Category=SDMX:SDMXStatSubMatDomainsWD1(1.0).2.8"
+      },
+      "urnProvider": {
+        "string": "urn:sdmx:org.sdmx.infomodel.categoryscheme.Category=SDMX:SDMXStatSubMatDomainsWD1(1.0).2.8"
+      },
+      "managementAppUrl": {
+        "string": "/#structuralResources/categorySchemes/categoryScheme;id=SDMX:SDMXStatSubMatDomainsWD1(1.0)/category;id=2.8"
+      },
+      "type": {
+        "org.siemac.metamac.statistical.operations.core.stream.messages.TypeExternalArtefactsEnumAvro": "CATEGORY"
+      },
+      "title": {
+        "org.siemac.metamac.statistical.operations.core.stream.messages.InternationalStringAvro": {
+          "localisedStrings": {
+            "array": [
+              {
+                "locale": {
+                  "string": "en"
+                },
+                "label": {
+                  "string": "Labor cost"
+                }
+              },
+              {
+                "locale": {
+                  "string": "es"
+                },
+                "label": {
+                  "string": "Coste laboral"
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "producer": [
+    {
+      "code": {
+        "string": "ISTAC"
+      },
+      "codeNested": null,
+      "urn": {
+        "string": "urn:sdmx:org.sdmx.infomodel.base.OrganisationUnit=ISTAC:UNIDADES_GOBCAN(02.000).ISTAC"
+      },
+      "urnProvider": {
+        "string": "urn:sdmx:org.sdmx.infomodel.base.OrganisationUnit=ISTAC:UNIDADES_GOBCAN(02.000).ISTAC"
+      },
+      "managementAppUrl": {
+        "string": "/#structuralResources/organisationSchemes/organisationScheme;type=ORGANISATION_UNIT_SCHEME;id=ISTAC:UNIDADES_GOBCAN(02.000)/organisation;id=ISTAC"
+      },
+      "type": {
+        "org.siemac.metamac.statistical.operations.core.stream.messages.TypeExternalArtefactsEnumAvro": "ORGANISATION_UNIT"
+      },
+      "title": {
+        "org.siemac.metamac.statistical.operations.core.stream.messages.InternationalStringAvro": {
+          "localisedStrings": {
+            "array": [
+              {
+                "locale": {
+                  "string": "es"
+                },
+                "label": {
+                  "string": "Instituto Canario de EstadÃ­stica"
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "regionalResponsible": [
+    {
+      "code": {
+        "string": "ISTAC"
+      },
+      "codeNested": null,
+      "urn": {
+        "string": "urn:sdmx:org.sdmx.infomodel.base.OrganisationUnit=ISTAC:UNIDADES_GOBCAN(02.000).ISTAC"
+      },
+      "urnProvider": {
+        "string": "urn:sdmx:org.sdmx.infomodel.base.OrganisationUnit=ISTAC:UNIDADES_GOBCAN(02.000).ISTAC"
+      },
+      "managementAppUrl": {
+        "string": "/#structuralResources/organisationSchemes/organisationScheme;type=ORGANISATION_UNIT_SCHEME;id=ISTAC:UNIDADES_GOBCAN(02.000)/organisation;id=ISTAC"
+      },
+      "type": {
+        "org.siemac.metamac.statistical.operations.core.stream.messages.TypeExternalArtefactsEnumAvro": "ORGANISATION_UNIT"
+      },
+      "title": {
+        "org.siemac.metamac.statistical.operations.core.stream.messages.InternationalStringAvro": {
+          "localisedStrings": {
+            "array": [
+              {
+                "locale": {
+                  "string": "es"
+                },
+                "label": {
+                  "string": "Instituto Canario de EstadÃ­stica"
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "regionalContributor": [
+    {
+      "code": {
+        "string": "INE"
+      },
+      "codeNested": null,
+      "urn": {
+        "string": "urn:sdmx:org.sdmx.infomodel.base.DataProvider=ISTAC:DATA_PROVIDERS(01.000).INE"
+      },
+      "urnProvider": {
+        "string": "urn:sdmx:org.sdmx.infomodel.base.DataProvider=ISTAC:DATA_PROVIDERS(01.000).INE"
+      },
+      "managementAppUrl": {
+        "string": "/#structuralResources/organisationSchemes/organisationScheme;type=DATA_PROVIDER_SCHEME;id=ISTAC:DATA_PROVIDERS(01.000)/organisation;id=INE"
+      },
+      "type": {
+        "org.siemac.metamac.statistical.operations.core.stream.messages.TypeExternalArtefactsEnumAvro": "DATA_PROVIDER"
+      },
+      "title": {
+        "org.siemac.metamac.statistical.operations.core.stream.messages.InternationalStringAvro": {
+          "localisedStrings": {
+            "array": [
+              {
+                "locale": {
+                  "string": "es"
+                },
+                "label": {
+                  "string": "Instituto Nacional de EstadÃ­stica"
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "code": {
+        "string": "SCE"
+      },
+      "codeNested": null,
+      "urn": {
+        "string": "urn:sdmx:org.sdmx.infomodel.base.DataProvider=ISTAC:DATA_PROVIDERS(01.000).SCE"
+      },
+      "urnProvider": {
+        "string": "urn:sdmx:org.sdmx.infomodel.base.DataProvider=ISTAC:DATA_PROVIDERS(01.000).SCE"
+      },
+      "managementAppUrl": {
+        "string": "/#structuralResources/organisationSchemes/organisationScheme;type=DATA_PROVIDER_SCHEME;id=ISTAC:DATA_PROVIDERS(01.000)/organisation;id=SCE"
+      },
+      "type": {
+        "org.siemac.metamac.statistical.operations.core.stream.messages.TypeExternalArtefactsEnumAvro": "DATA_PROVIDER"
+      },
+      "title": {
+        "org.siemac.metamac.statistical.operations.core.stream.messages.InternationalStringAvro": {
+          "localisedStrings": {
+            "array": [
+              {
+                "locale": {
+                  "string": "es"
+                },
+                "label": {
+                  "string": "Servicio Canario de Emepleo"
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "publisher": [
+    {
+      "code": {
+        "string": "ISTAC"
+      },
+      "codeNested": null,
+      "urn": {
+        "string": "urn:sdmx:org.sdmx.infomodel.base.OrganisationUnit=ISTAC:UNIDADES_GOBCAN(02.000).ISTAC"
+      },
+      "urnProvider": {
+        "string": "urn:sdmx:org.sdmx.infomodel.base.OrganisationUnit=ISTAC:UNIDADES_GOBCAN(02.000).ISTAC"
+      },
+      "managementAppUrl": {
+        "string": "/#structuralResources/organisationSchemes/organisationScheme;type=ORGANISATION_UNIT_SCHEME;id=ISTAC:UNIDADES_GOBCAN(02.000)/organisation;id=ISTAC"
+      },
+      "type": {
+        "org.siemac.metamac.statistical.operations.core.stream.messages.TypeExternalArtefactsEnumAvro": "ORGANISATION_UNIT"
+      },
+      "title": {
+        "org.siemac.metamac.statistical.operations.core.stream.messages.InternationalStringAvro": {
+          "localisedStrings": {
+            "array": [
+              {
+                "locale": {
+                  "string": "es"
+                },
+                "label": {
+                  "string": "Instituto Canario de EstadÃ­stica"
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "updateFrequency": [
+    {
+      "code": {
+        "string": "T"
+      },
+      "codeNested": null,
+      "urn": {
+        "string": "urn:sdmx:org.sdmx.infomodel.codelist.Code=ISTAC:CL_FRECUENCIAS(01.000).T"
+      },
+      "urnProvider": {
+        "string": "urn:sdmx:org.sdmx.infomodel.codelist.Code=ISTAC:CL_FRECUENCIAS(01.000).T"
+      },
+      "managementAppUrl": {
+        "string": "/#structuralResources/codelists/codelist;id=ISTAC:CL_FRECUENCIAS(01.000)/code;id=T"
+      },
+      "type": {
+        "org.siemac.metamac.statistical.operations.core.stream.messages.TypeExternalArtefactsEnumAvro": "CODE"
+      },
+      "title": {
+        "org.siemac.metamac.statistical.operations.core.stream.messages.InternationalStringAvro": {
+          "localisedStrings": {
+            "array": [
+              {
+                "locale": {
+                  "string": "es"
+                },
+                "label": {
+                  "string": "Trimestral"
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "code": {
+        "string": "A"
+      },
+      "codeNested": null,
+      "urn": {
+        "string": "urn:sdmx:org.sdmx.infomodel.codelist.Code=SDMX:CL_FREQ(1.0).A"
+      },
+      "urnProvider": {
+        "string": "urn:sdmx:org.sdmx.infomodel.codelist.Code=SDMX:CL_FREQ(1.0).A"
+      },
+      "managementAppUrl": {
+        "string": "/#structuralResources/codelists/codelist;id=SDMX:CL_FREQ(1.0)/code;id=A"
+      },
+      "type": {
+        "org.siemac.metamac.statistical.operations.core.stream.messages.TypeExternalArtefactsEnumAvro": "CODE"
+      },
+      "title": {
+        "org.siemac.metamac.statistical.operations.core.stream.messages.InternationalStringAvro": {
+          "localisedStrings": {
+            "array": [
+              {
+                "locale": {
+                  "string": "en"
+                },
+                "label": {
+                  "string": "Annual"
+                }
+              },
+              {
+                "locale": {
+                  "string": "es"
+                },
+                "label": {
+                  "string": "Anual"
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "$$$SchemaName$$$": "org.siemac.metamac.statistical.operations.core.stream.messages.OperationAvro"
+}

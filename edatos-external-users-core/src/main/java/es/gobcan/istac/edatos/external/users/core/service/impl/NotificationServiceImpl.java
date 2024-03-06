@@ -10,20 +10,24 @@ import static es.gobcan.istac.edatos.external.users.core.errors.ServiceException
 import static es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType.UNSUBSCRIBE_ACCOUNT_NOTICE_FAILED;
 
 import java.math.BigInteger;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.ws.rs.core.Response;
 
+import es.gobcan.istac.edatos.external.users.core.domain.ExternalDatasetEntity;
 import org.siemac.edatos.core.common.dto.InternationalStringDto;
 import org.siemac.edatos.core.common.exception.CommonServiceExceptionType;
 import org.siemac.edatos.core.common.exception.EDatosException;
+import org.siemac.edatos.core.common.util.shared.UrnUtils;
 import org.siemac.metamac.rest.notices.v1_0.domain.Message;
 import org.siemac.metamac.rest.notices.v1_0.domain.Notice;
 import org.siemac.metamac.rest.notices.v1_0.domain.Notices;
@@ -144,26 +148,37 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public void createNoticeOfSubscriptionsJob(Set<ExternalUserEntity> users, ExternalOperationEntity operation) {
+    public void createNoticeOfSubscriptionsJob(Set<ExternalUserEntity> users, ExternalOperationEntity operation, List<ExternalDatasetEntity> datasets) {
         String codeSubject = "notice.subject.subscrition_job.title";
         String messageCode = "notice.message.subscrition_job.text";
 
         for (ExternalUserEntity user : users) {
-            ArrayList<String> argsList = new ArrayList<String>(Arrays.asList(argsByExternalUser(user)));
-            argsList.add(UriComponentsBuilder
-                .fromHttpUrl(metadataProperties.getExternalOperationsWebUrl())
-                .pathSegment("operations")
-                .pathSegment(operation.getCode())
-                .build()
-                .toUriString()
-            );
+            ArrayList<String> argsList = new ArrayList<>(Arrays.asList(argsByExternalUser(user)));
             argsList.add(operation.getName().getLocalisedLabel(user.getLanguage(), getDefaultLocale()));
-
+            argsList.add(createListOfDatasetsForNotification(user, operation, datasets));
             if (user.isEmailNotificationsEnabled() && operation.isNotificationsEnabled()) {
-                createNotificationWithReceiver(codeSubject, messageCode, user, argsList.toArray(new String[argsList.size()]), SUBSCRIPTION_JOB_NOTICE_FAILED);
+                createNotificationWithReceiver(codeSubject, messageCode, user, argsList.toArray(new String[0]), SUBSCRIPTION_JOB_NOTICE_FAILED);
             }
         }
     }
+
+    private String createListOfDatasetsForNotification(ExternalUserEntity user, ExternalOperationEntity operation, List<ExternalDatasetEntity> datasets) {
+        List<ExternalDatasetEntity> datasetsByOperation = datasets.stream()
+            .filter(dataset -> Objects.equals(dataset.getExternalOperationUrn(), operation.getUrn()))
+            .collect(Collectors.toList());
+
+        List<String> datasetLabels = new ArrayList<>();
+        for (ExternalDatasetEntity dataset : datasetsByOperation) {
+            String url = dataset.getVisualizerHtmlLink();
+            String code = dataset.getCode();
+            String label = dataset.getName().getLocalisedLabel(user.getLanguage(), getDefaultLocale());
+            String line = MessageFormat.format("<li><a href=\"{0}\">{1} - {2}</a></li>", url, code, label);
+            datasetLabels.add(line);
+        }
+
+        return String.join("\n", datasetLabels);
+    }
+
     @Override
     public HashMap<String, Receivers> createReceiversGroupedByLanguage(List<String> emails, List<Long> categories, List<Long> externalOperations) {
         List<String> languages = metadataProperties.getInternationalizationLanguages().stream().map(language -> language.toLowerCase()).collect(Collectors.toList());
