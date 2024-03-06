@@ -23,7 +23,7 @@ public class SendNoticeOfSubscriptionsJob extends AbstractConsumerQuartzJob {
     private final Logger log = LoggerFactory.getLogger(SendNoticeOfSubscriptionsJob.class);
 
     @Override
-    protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
+    protected void executeInternal(JobExecutionContext context) {
         log.info("--- INIT --- Job SendNoticeOfSubscriptionsJob running");
         createNotice(context);
     }
