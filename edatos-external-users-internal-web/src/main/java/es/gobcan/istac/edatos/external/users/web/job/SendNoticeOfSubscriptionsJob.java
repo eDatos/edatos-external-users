@@ -12,14 +12,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -34,44 +29,34 @@ public class SendNoticeOfSubscriptionsJob extends AbstractConsumerQuartzJob {
     }
 
     private void createNotice(JobExecutionContext context) {
+        log.info("Job SendNoticeOfSubscriptionsJob running into transaction");
+        try {
+            List<ExternalDatasetEntity> updatedDatasets = getExternalDatasetService(context).getLastDayDatasets();
+            Map<String, List<ExternalDatasetEntity>> updatedDatasetsGroupedByOperation = updatedDatasets.stream()
+                .collect(Collectors.groupingBy(ExternalDatasetEntity::getExternalOperationUrn));
 
-        PlatformTransactionManager platformTransactionManager = getPlatformTransactionManager(context);
-        TransactionTemplate transactionTemplate = new TransactionTemplate(platformTransactionManager);
+            if (CollectionUtils.isNotEmpty(updatedDatasets)) {
+                List<ExternalOperationEntity> operationsOfUpdatedDatasets = getExternalOperationService(context).findByExternalOperationDatasetUrnIn(updatedDatasets);
+                for (ExternalOperationEntity operation : operationsOfUpdatedDatasets) {
+                    if (operation.isEnabled() && operation.isNotificationsEnabled()) {
+                        List<CategoryEntity> operationAncestors = getOperationAncestors(operation, context);
+                        List<FavoriteEntity> favoritesOfOperationOrAncestors = getFavoriteService(context).findByExternalOperationOrCategory(Collections.singletonList(operation), operationAncestors);
 
-        transactionTemplate.execute(new TransactionCallback<Boolean>() {
+                        if (CollectionUtils.isNotEmpty(favoritesOfOperationOrAncestors)) {
+                            Set<ExternalUserEntity> usersSubscribedToOperation = favoritesOfOperationOrAncestors.stream().map(FavoriteEntity::getExternalUser).collect(Collectors.toSet());
+                            List<ExternalDatasetEntity> operationDatasets = updatedDatasetsGroupedByOperation.get(operation.getUrn());
 
-            @Override
-            public Boolean doInTransaction(TransactionStatus status) {
-                log.info("Job SendNoticeOfSubscriptionsJob running into transaction");
-                try {
-                    List<ExternalDatasetEntity> updatedDatasets = getExternalDatasetService(context).getLastDayDatasets();
-
-                    if (CollectionUtils.isNotEmpty(updatedDatasets)) {
-                        List<ExternalOperationEntity> operationsOfUpdatedDatasets = getExternalOperationService(context).findByExternalOperationDatasetUrnIn(updatedDatasets);
-                        for (ExternalOperationEntity operation : operationsOfUpdatedDatasets) {
-                            if (operation.isEnabled() && operation.isNotificationsEnabled()) {
-                                List<CategoryEntity> operationAncestors = getOperationAncestors(operation, context);
-                                List<FavoriteEntity> favoritesOfOperationOrAncestors = getFavoriteService(context)
-                                    .findByExternalOperationOrCategory(Collections.singletonList(operation), operationAncestors);
-
-                                if (CollectionUtils.isNotEmpty(favoritesOfOperationOrAncestors)) {
-                                    Set<ExternalUserEntity> usersSubscribedToOperation = favoritesOfOperationOrAncestors
-                                        .stream().map(FavoriteEntity::getExternalUser).collect(Collectors.toSet());
-                                    getNotificationService(context).createNoticeOfSubscriptionsJob(usersSubscribedToOperation, operation, updatedDatasets);
-                                    deleteDatasetsByOperation(updatedDatasets, operation, context);
-                                }
-                            }
+                            getNotificationService(context).createNoticeOfSubscriptionsJob(usersSubscribedToOperation, operation, operationDatasets);
+                            deleteDatasets(operationDatasets, context);
                         }
                     }
-
-                    return true;
-                } catch (Exception e) {
-                    log.error("SendNoticeOfSubscriptionsJob error: ", e);
-                    throw new EDatosException();
                 }
             }
+        } catch (Exception e) {
+            log.error("SendNoticeOfSubscriptionsJob error: ", e);
+            throw new EDatosException();
+        }
 
-        });
         log.info("--- FINISHED --- Job SendNoticeOfSubscriptionsJob finished.");
     }
 
@@ -86,11 +71,13 @@ public class SendNoticeOfSubscriptionsJob extends AbstractConsumerQuartzJob {
         return operationAncestors;
     }
 
-    private void deleteDatasetsByOperation(List<ExternalDatasetEntity> listDataset, ExternalOperationEntity operation, JobExecutionContext context) {
-        for (ExternalDatasetEntity dataset : listDataset) {
-            if (dataset.getExternalOperationUrn().equals(operation.getUrn())) {
-                getExternalDatasetService(context).delete(dataset);
-            }
-        }
+    private void deleteDatasets(List<ExternalDatasetEntity> listDataset, JobExecutionContext context) {
+        PlatformTransactionManager platformTransactionManager = getPlatformTransactionManager(context);
+        TransactionTemplate transactionTemplate = new TransactionTemplate(platformTransactionManager);
+
+        transactionTemplate.execute(status -> {
+            listDataset.forEach(dataset -> getExternalDatasetService(context).delete(dataset));
+            return true;
+        });
     }
 }

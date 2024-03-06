@@ -17,7 +17,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -27,7 +26,6 @@ import es.gobcan.istac.edatos.external.users.core.domain.ExternalDatasetEntity;
 import org.siemac.edatos.core.common.dto.InternationalStringDto;
 import org.siemac.edatos.core.common.exception.CommonServiceExceptionType;
 import org.siemac.edatos.core.common.exception.EDatosException;
-import org.siemac.edatos.core.common.util.shared.UrnUtils;
 import org.siemac.metamac.rest.notices.v1_0.domain.Message;
 import org.siemac.metamac.rest.notices.v1_0.domain.Notice;
 import org.siemac.metamac.rest.notices.v1_0.domain.Notices;
@@ -55,7 +53,6 @@ import es.gobcan.istac.edatos.external.users.core.service.EDatosApisLocator;
 import es.gobcan.istac.edatos.external.users.core.service.ExternalUserService;
 import es.gobcan.istac.edatos.external.users.core.service.MetadataConfigurationService;
 import es.gobcan.istac.edatos.external.users.core.service.NotificationService;
-import org.springframework.web.util.UriComponentsBuilder;
 
 @Service
 public class NotificationServiceImpl implements NotificationService {
@@ -155,20 +152,16 @@ public class NotificationServiceImpl implements NotificationService {
         for (ExternalUserEntity user : users) {
             ArrayList<String> argsList = new ArrayList<>(Arrays.asList(argsByExternalUser(user)));
             argsList.add(operation.getName().getLocalisedLabel(user.getLanguage(), getDefaultLocale()));
-            argsList.add(createListOfDatasetsForNotification(user, operation, datasets));
+            argsList.add(createListOfDatasetsForNotification(user, datasets));
             if (user.isEmailNotificationsEnabled() && operation.isNotificationsEnabled()) {
                 createNotificationWithReceiver(codeSubject, messageCode, user, argsList.toArray(new String[0]), SUBSCRIPTION_JOB_NOTICE_FAILED);
             }
         }
     }
 
-    private String createListOfDatasetsForNotification(ExternalUserEntity user, ExternalOperationEntity operation, List<ExternalDatasetEntity> datasets) {
-        List<ExternalDatasetEntity> datasetsByOperation = datasets.stream()
-            .filter(dataset -> Objects.equals(dataset.getExternalOperationUrn(), operation.getUrn()))
-            .collect(Collectors.toList());
-
+    private String createListOfDatasetsForNotification(ExternalUserEntity user, List<ExternalDatasetEntity> datasets) {
         List<String> datasetLabels = new ArrayList<>();
-        for (ExternalDatasetEntity dataset : datasetsByOperation) {
+        for (ExternalDatasetEntity dataset : datasets) {
             String url = dataset.getVisualizerHtmlLink();
             String code = dataset.getCode();
             String label = dataset.getName().getLocalisedLabel(user.getLanguage(), getDefaultLocale());
