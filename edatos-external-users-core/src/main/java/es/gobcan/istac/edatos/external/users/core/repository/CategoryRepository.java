@@ -1,7 +1,6 @@
 package es.gobcan.istac.edatos.external.users.core.repository;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.hibernate.criterion.DetachedCriteria;
@@ -17,9 +16,11 @@ import es.gobcan.istac.edatos.external.users.core.domain.ExternalCategoryEntity;
 @Repository
 public interface CategoryRepository extends JpaRepository<CategoryEntity, Long> {
 
-    Optional<CategoryEntity> deleteById(Long id);
     Page<CategoryEntity> findAll(DetachedCriteria criteria, Pageable pageable);
     List<CategoryEntity> getByParentIsNull();
+
+    @Query(value = "select cat from CategoryEntity cat join cat.externalCategories extCat where extCat.urn = ?1")
+    CategoryEntity findByExternalCategoriesUrn(String urn);
 
     @Query(value = "select new org.apache.commons.lang3.tuple.ImmutablePair(cat, extCat) from CategoryEntity cat join cat.externalCategories extCat")
     List<ImmutablePair<CategoryEntity, ExternalCategoryEntity>> getCategoryExternalCategories();

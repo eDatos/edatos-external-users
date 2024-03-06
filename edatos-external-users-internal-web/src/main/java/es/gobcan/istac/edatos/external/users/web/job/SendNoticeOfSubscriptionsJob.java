@@ -1,7 +1,9 @@
 package es.gobcan.istac.edatos.external.users.web.job;
 
+import es.gobcan.istac.edatos.external.users.core.domain.CategoryEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalDatasetEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalOperationEntity;
+import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.FavoriteEntity;
 import org.apache.commons.collections.CollectionUtils;
 import org.quartz.*;
@@ -10,11 +12,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
 
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
 public class SendNoticeOfSubscriptionsJob extends AbstractConsumerQuartzJob {
@@ -22,47 +23,60 @@ public class SendNoticeOfSubscriptionsJob extends AbstractConsumerQuartzJob {
     private final Logger log = LoggerFactory.getLogger(SendNoticeOfSubscriptionsJob.class);
 
     @Override
-    protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
+    protected void executeInternal(JobExecutionContext context) {
         log.info("--- INIT --- Job SendNoticeOfSubscriptionsJob running");
         createNotice(context);
     }
 
     private void createNotice(JobExecutionContext context) {
+        log.info("Job SendNoticeOfSubscriptionsJob running into transaction");
+        try {
+            List<ExternalDatasetEntity> updatedDatasets = getExternalDatasetService(context).getLastDayDatasets();
+            Map<String, List<ExternalDatasetEntity>> updatedDatasetsGroupedByOperation = updatedDatasets.stream()
+                .collect(Collectors.groupingBy(ExternalDatasetEntity::getExternalOperationUrn));
 
-        PlatformTransactionManager platformTransactionManager = getPlatformTransactionManager(context);
-        TransactionTemplate transactionTemplate = new TransactionTemplate(platformTransactionManager);
+            if (CollectionUtils.isNotEmpty(updatedDatasets)) {
+                List<ExternalOperationEntity> operationsOfUpdatedDatasets = getExternalOperationService(context).findByExternalOperationDatasetUrnIn(updatedDatasets);
+                for (ExternalOperationEntity operation : operationsOfUpdatedDatasets) {
+                    if (operation.isEnabled() && operation.isNotificationsEnabled()) {
+                        List<CategoryEntity> operationAncestors = getOperationAncestors(operation, context);
+                        List<FavoriteEntity> favoritesOfOperationOrAncestors = getFavoriteService(context).findByExternalOperationOrCategory(Collections.singletonList(operation), operationAncestors);
 
-        transactionTemplate.execute(new TransactionCallback<Boolean>() {
-
-            @Override
-            public Boolean doInTransaction(TransactionStatus status) {
-                log.info("Job SendNoticeOfSubscriptionsJob running into transaction");
-                try {
-                    List<ExternalDatasetEntity> listDataset = getExternalDatasetService(context).getLastDayDatasets();
-
-                    if (CollectionUtils.isNotEmpty(listDataset)) {
-                        List<ExternalOperationEntity> listOperations = getExternalOperationService(context).findByExternalOperationDatasetUrnIn(listDataset);
-
-                        List<FavoriteEntity> listFavorites = getFavoriteService(context).findByExternalOperation(listOperations);
-
-                        if (CollectionUtils.isNotEmpty(listFavorites)) {
-                            getNotificationService(context).createNoticeOfSusbcritionsJob(listFavorites, listDataset);
-                            deleteDatasets(listDataset, context);
+                        List<ExternalDatasetEntity> operationDatasets = updatedDatasetsGroupedByOperation.get(operation.getUrn());
+                        if (CollectionUtils.isNotEmpty(favoritesOfOperationOrAncestors)) {
+                            Set<ExternalUserEntity> usersSubscribedToOperation = favoritesOfOperationOrAncestors.stream().map(FavoriteEntity::getExternalUser).collect(Collectors.toSet());
+                            getNotificationService(context).createNoticeOfSubscriptionsJob(usersSubscribedToOperation, operation, operationDatasets);
                         }
+                        deleteDatasets(operationDatasets, context);
                     }
-
-                    return true;
-                } catch (Exception e) {
-                    log.error("SendNoticeOfSubscriptionsJob error: ", e);
-                    throw new EDatosException();
                 }
             }
+        } catch (Exception e) {
+            log.error("SendNoticeOfSubscriptionsJob error: ", e);
+            throw new EDatosException();
+        }
 
-        });
         log.info("--- FINISHED --- Job SendNoticeOfSubscriptionsJob finished.");
     }
 
+    private List<CategoryEntity> getOperationAncestors(ExternalOperationEntity operation, JobExecutionContext context) {
+        List<CategoryEntity> operationAncestors = new ArrayList<>();
+        CategoryEntity operationAncestorCategory = getCategoryService(context).findCategoryByExternalOperation(operation);
+        operationAncestors.add(operationAncestorCategory);
+        while (operationAncestorCategory.getParent() != null) {
+            operationAncestors.add(operationAncestorCategory.getParent());
+            operationAncestorCategory = operationAncestorCategory.getParent();
+        }
+        return operationAncestors;
+    }
+
     private void deleteDatasets(List<ExternalDatasetEntity> listDataset, JobExecutionContext context) {
-        listDataset.stream().forEach(dataset -> getExternalDatasetService(context).delete(dataset));
+        PlatformTransactionManager platformTransactionManager = getPlatformTransactionManager(context);
+        TransactionTemplate transactionTemplate = new TransactionTemplate(platformTransactionManager);
+
+        transactionTemplate.execute(status -> {
+            listDataset.forEach(dataset -> getExternalDatasetService(context).delete(dataset));
+            return true;
+        });
     }
 }

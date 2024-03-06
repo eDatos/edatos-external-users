@@ -43,6 +43,10 @@ public abstract class AbstractConsumerQuartzJob extends QuartzJobBean {
         return getApplicationContext(context).getBean(ExternalOperationService.class);
     }
 
+    protected CategoryService getCategoryService(JobExecutionContext context) {
+        return getApplicationContext(context).getBean(CategoryService.class);
+    }
+
     protected FavoriteService getFavoriteService(JobExecutionContext context) {
         return getApplicationContext(context).getBean(FavoriteService.class);
     }
