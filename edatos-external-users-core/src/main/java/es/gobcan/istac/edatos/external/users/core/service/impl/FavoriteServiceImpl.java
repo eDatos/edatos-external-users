@@ -66,7 +66,8 @@ public class FavoriteServiceImpl implements FavoriteService {
 
     private boolean existsAnEqualFavoriteOrWithAnAncestorCategory(ExternalUserEntity externalUser, FavoriteEntity favorite) {
         List<ExternalOperationEntity> favoriteOperation = favorite.getExternalOperation() != null ? Collections.singletonList(favorite.getExternalOperation()) : new ArrayList<>();
-        return !favoriteRepository.findByExternalUserAndCategoryInOrExternalOperationIn(externalUser, getCategoryAncestorsFromFavorite(favorite), favoriteOperation).isEmpty();
+        return !favoriteRepository.findByExternalUserAndExternalOperationIn(externalUser, favoriteOperation).isEmpty() ||
+            !favoriteRepository.findByExternalUserAndCategoryIn(externalUser, getCategoryAncestorsFromFavorite(favorite)).isEmpty();
     }
 
     private List<CategoryEntity> getCategoryAncestorsFromFavorite(FavoriteEntity favorite) {
