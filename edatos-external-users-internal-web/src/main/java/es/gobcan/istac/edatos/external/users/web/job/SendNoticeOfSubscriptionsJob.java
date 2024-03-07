@@ -38,17 +38,18 @@ public class SendNoticeOfSubscriptionsJob extends AbstractConsumerQuartzJob {
             if (CollectionUtils.isNotEmpty(updatedDatasets)) {
                 List<ExternalOperationEntity> operationsOfUpdatedDatasets = getExternalOperationService(context).findByExternalOperationDatasetUrnIn(updatedDatasets);
                 for (ExternalOperationEntity operation : operationsOfUpdatedDatasets) {
-                    if (operation.isEnabled() && operation.isNotificationsEnabled()) {
-                        List<CategoryEntity> operationAncestors = getOperationAncestors(operation, context);
+                    List<ExternalDatasetEntity> operationDatasets = updatedDatasetsGroupedByOperation.get(operation.getUrn());
+                    List<CategoryEntity> operationAncestors = getOperationAncestors(operation, context);
+                    boolean operationIsInTheCategoryTree = !operationAncestors.isEmpty();
+                    if (operation.isEnabled() && operation.isNotificationsEnabled() && operationIsInTheCategoryTree) {
                         List<FavoriteEntity> favoritesOfOperationOrAncestors = getFavoriteService(context).findByExternalOperationOrCategory(Collections.singletonList(operation), operationAncestors);
 
-                        List<ExternalDatasetEntity> operationDatasets = updatedDatasetsGroupedByOperation.get(operation.getUrn());
                         if (CollectionUtils.isNotEmpty(favoritesOfOperationOrAncestors)) {
                             Set<ExternalUserEntity> usersSubscribedToOperation = favoritesOfOperationOrAncestors.stream().map(FavoriteEntity::getExternalUser).collect(Collectors.toSet());
                             getNotificationService(context).createNoticeOfSubscriptionsJob(usersSubscribedToOperation, operation, operationDatasets);
                         }
-                        deleteDatasets(operationDatasets, context);
                     }
+                    deleteDatasets(operationDatasets, context);
                 }
             }
         } catch (Exception e) {
@@ -62,10 +63,12 @@ public class SendNoticeOfSubscriptionsJob extends AbstractConsumerQuartzJob {
     private List<CategoryEntity> getOperationAncestors(ExternalOperationEntity operation, JobExecutionContext context) {
         List<CategoryEntity> operationAncestors = new ArrayList<>();
         CategoryEntity operationAncestorCategory = getCategoryService(context).findCategoryByExternalOperation(operation);
-        operationAncestors.add(operationAncestorCategory);
-        while (operationAncestorCategory.getParent() != null) {
-            operationAncestors.add(operationAncestorCategory.getParent());
-            operationAncestorCategory = operationAncestorCategory.getParent();
+        if (operationAncestorCategory != null) {
+            operationAncestors.add(operationAncestorCategory);
+            while (operationAncestorCategory.getParent() != null) {
+                operationAncestors.add(operationAncestorCategory.getParent());
+                operationAncestorCategory = operationAncestorCategory.getParent();
+            }
         }
         return operationAncestors;
     }
