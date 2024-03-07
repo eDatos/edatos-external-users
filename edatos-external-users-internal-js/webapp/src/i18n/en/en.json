@@ -377,7 +377,7 @@
         "title": "Selected topics"
     },
     "externalOperation": {
-        "disabled": "Disabled",
+        "disabled": "Deleted",
         "enabled": "Activated",
         "disablementConfirmationModal": {
             "title": "Confirm operation disablement",
