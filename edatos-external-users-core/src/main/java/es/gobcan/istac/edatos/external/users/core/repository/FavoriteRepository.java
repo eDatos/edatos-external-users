@@ -23,8 +23,9 @@ public interface FavoriteRepository extends JpaRepository<FavoriteEntity, Long> 
     List<FavoriteEntity> findAll(DetachedCriteria criteria);
     List<FavoriteEntity> findByExternalUser(ExternalUserEntity user);
     List<FavoriteEntity> findByCategory(CategoryEntity category);
+    List<FavoriteEntity> findByExternalUserAndExternalOperationIn(ExternalUserEntity externalUser, List<ExternalOperationEntity> operations);
+    List<FavoriteEntity> findByExternalUserAndCategoryIn(ExternalUserEntity externalUser, List<CategoryEntity> categories);
     List<FavoriteEntity> findByExternalOperationInOrCategoryIn(List<ExternalOperationEntity> operation, List<CategoryEntity> category);
-    List<FavoriteEntity> findByExternalUserAndCategoryInOrExternalOperationIn(ExternalUserEntity externalUser, List<CategoryEntity> categories, List<ExternalOperationEntity> operations);
     Optional<FavoriteEntity> findByExternalUserAndExternalOperation(ExternalUserEntity externalUser, ExternalOperationEntity operation);
     void deleteByExternalUser(ExternalUserEntity externalUser);
     void deleteByExternalUserAndCategory(ExternalUserEntity externalUser, CategoryEntity category);

@@ -377,7 +377,7 @@
         "title": "Temas seleccionados"
     },
     "externalOperation": {
-        "disabled": "Desactivada",
+        "disabled": "Eliminada",
         "enabled": "Activada",
         "disablementConfirmationModal": {
             "title": "Confirmar deshabilitación de operación",
