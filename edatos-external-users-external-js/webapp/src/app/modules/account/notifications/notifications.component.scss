@@ -1,12 +1,9 @@
 @import 'variables';
 
-:host ::ng-deep th:nth-child(2) {
-  width: 35%;
+:host ::ng-deep th:nth-child(1) {
+  width: 20%;
 }
 
-:host ::ng-deep th:nth-child(3) {
-  width: 55%;
-}
 
 :host ::ng-deep td > div.message-content-notice {
   max-height: 300px;
@@ -21,6 +18,6 @@
   & a {
     pointer-events: none;
     cursor: not-allowed;
-    color: $soft-black;
+    color: $color-black-80;
   }
 }

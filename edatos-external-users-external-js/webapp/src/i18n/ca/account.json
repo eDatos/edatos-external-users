@@ -1,6 +1,10 @@
 {
   "account": {
-    "title": "El meu compte",
+    "title": "Les meves dades",
+    "personalInformation": "Informació personal",
+    "basicInformation": "Informació bàsica",
+    "contactInformation": "Informació de contacte",
+    "generalPreferences": "Preferències generals",
     "form": {
       "nombre": "Nom",
       "nombre.placeholder": "El seu nom",
@@ -8,7 +12,8 @@
       "apellido2": "Segon cognom",
       "apellido1.placeholder": "El seu primer cognom",
       "apellido2.placeholder": "El seu segon cognom",
-      "button": "Guardar"
+      "button": "Guardar",
+      "emailNotificationsEnabled": "Rebre notificacions"
     },
     "download": {
       "myInformation": "Descarregar la meva informació"
@@ -44,6 +49,7 @@
     }
   },
   "notices": {
+    "title": "Notificacions",
     "entity": {
       "message": "Missatge",
       "subject": "Assumpte",

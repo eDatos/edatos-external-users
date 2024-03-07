@@ -1,0 +1,112 @@
+<div class='page content'>
+    <div class='page-header'>
+        <div class='page-header-top'>
+            <div class='general-buttons row left-buttons'>
+                <ng-container>
+                    <div class='row-large'>
+                        <button class='text-icon-button btn-thin-default' routerLink='/filter'
+                                [disabled]='isSaving || isLoading'>
+                            <span class='fa-thin fa-left'></span>
+                            <span>{{ 'filter.form.goBack' | translate | uppercase }}</span>
+                        </button>
+                    </div>
+                </ng-container>
+            </div>
+            <div class='general-buttons row'>
+                <ng-container>
+                    <div class='row justify-content-end ml-auto'>
+                        <button class='text-icon-button btn-thin-first' type='button'
+                                (click)='submit()' [disabled]='isSaving || isLoading || !filterForm.form.valid'>
+                            <arte-spinner class='spinner-btn' *ngIf='isSaving' aria-hidden='true'></arte-spinner>
+                            <span *ngIf='!isSaving' class='fa-thin fa-save'></span>
+                            <span>{{ 'filter.form.save' | translate | uppercase }}</span>
+                        </button>
+                        <button class='text-icon-button btn-thin-cancel' (click)='cancel()'
+                                [disabled]='isSaving || isLoading'>
+                            <arte-spinner class='spinner-btn' *ngIf='isLoading' aria-hidden='true'></arte-spinner>
+                            <span *ngIf='!isLoading' class='fa-thin fa-ban'></span>
+                            <span>{{ 'entity.action.cancel' | translate | uppercase }}</span>
+                        </button>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+
+    <div class='page-body'>
+        <form class='page-form' id='filter-form' name='filterForm' role='form' novalidate #filterForm='ngForm'
+              autocomplete='off'>
+            <fieldset class='page-section' [disabled]='isLoading' arteAutofocus>
+                <div class='page-body has-detail-info'>
+                    <div class='detail-info'>
+                        <div class='row'>
+                            <div class='form-group form-group-inline col-md-12 required'
+                                 [formControlStatus]='filterForm.controls.name'>
+                                <div class='form-row'>
+                                    <label class='title col-md-10'
+                                           for='name'>{{ "filter.entity.name" | translate }}</label>
+                                    <div class='col-md-12 form-input-container errors-on-hover'>
+                                        <arte-input id='name' name='name' [(ngModel)]='filter.name'
+                                                    [maxlength]='255'
+                                                    [required]='true'></arte-input>
+                                        <div class='form-errors-messages' *hasErrors='let messages'>
+                                            <span *ngFor='let m of messages'>{{m}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <label for='urlPermalink' class='title'>{{ 'filter.entity.permalink' | translate }}</label>
+                        <div id='urlPermalink' class='info-link background'>
+                            <div class='code'>
+                                <code>{{ filter.urlPermalink }}</code>
+                            </div>
+                            <div class='element-link-actions'>
+                                <button type='button' (click)='openSelfLink(filter.urlPermalink)'>
+                                    <i class='fa-thin fa-external-link'></i>
+                                </button>
+                                <button copyClipboard='{{filter.urlPermalink}}' (click)='onCopyUrlPermalinkSuccess()'>
+                                    <i class='fa-thin fa-copy'></i>
+                                </button>
+                            </div>
+                            <div class='copied-message' *ngIf='urlPermalink'>{{ 'copy' | translate }}</div>
+                        </div>
+
+                        <div class='row'>
+                            <div class='form-group form-group-inline col-md-12'
+                                 [formControlStatus]='filterForm.controls.notes'>
+                                <div class='form-row'>
+                                    <label class='title col-md-10'
+                                           for='notes'>{{ "filter.entity.notes" | translate }}</label>
+                                    <div class='col-md-12 form-input-container errors-on-hover'>
+                                            <textarea
+                                                [rows]='5'
+                                                [cols]='30'
+                                                pInputTextarea
+                                                autoResize='autoResize'
+                                                id='notes'
+                                                name='notes'
+                                                [(ngModel)]='filter.notes'
+                                                [maxlength]='4000'
+                                            ></textarea>
+                                        <div class='form-errors-messages' *hasErrors='let messages'>
+                                            <span *ngFor='let m of messages'>{{m}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <label class='title'>{{ 'filter.form.audit' | translate }}</label>
+                        <span>{{ "filter.entity.createdDate" | translate }}
+                            : {{ filter.createdDate | date: 'dd/MM/yyyy HH:mm:ss' }}</span>
+                        <span>{{ "filter.entity.lastModifiedDate" | translate }}
+                            : {{ filter.lastAccessDate | date: 'dd/MM/yyyy HH:mm:ss' }}</span>
+                        <span>{{ "filter.entity.lastAccessDate" | translate }}
+                            : {{ filter.lastAccessDate | date: 'dd/MM/yyyy HH:mm:ss' }}</span>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>

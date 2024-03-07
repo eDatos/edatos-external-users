@@ -7,10 +7,12 @@ import { SharedModule } from '@app/shared';
 import { ArteEntityListEmptyModule, ArteSpinnerModule, ArteTableModule } from 'arte-ng';
 import { ArteDirectivesModule } from 'arte-ng/directives';
 import { FilterFormComponent } from './filter-form/filter-form.component';
+import { FilterFormEditComponent } from '@app/modules/filter/filter-form/filter-form-edit/filter-form-edit.component';
 
 @NgModule({
-    declarations: [FilterListComponent, FilterFormComponent],
+    declarations: [FilterListComponent, FilterFormComponent, FilterFormEditComponent],
     imports: [CommonModule, FilterRoutingModule, ArteSpinnerModule, ArteEntityListEmptyModule, ArteTableModule, SharedModule, ArteDirectivesModule],
-    providers: [FilterFilter],
+    providers: [FilterFilter]
 })
-export class FilterModule {}
+export class FilterModule {
+}

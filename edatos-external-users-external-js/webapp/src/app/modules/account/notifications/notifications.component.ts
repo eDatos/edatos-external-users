@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LazyLoadEvent } from 'primeng/api';
+import { LazyLoadEvent, MessageService } from 'primeng/api';
 import { ITEMS_PER_PAGE, PAGINATION_OPTIONS } from '@app/app.constants';
 import { ResponseWrapper } from '@app/core/utils/response-utils';
-import { NoticeFilter } from '@app/modules/account/notifications/notice-search/notice-search';
+import { NoticeFilter } from '@app/modules/account/notifications/notifications-search/notice-search';
 import { NoticeService } from '@app/shared/service/user/notice.service';
-import { Messages, Notice } from '@app/core/model/notice.model';
+import { Notice } from '@app/core/model/notice.model';
 import { throwError } from 'rxjs';
+import { AccountUserService } from '@app/core/service';
+import { User } from '@app/core/model';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'ac-account-management',
@@ -19,6 +22,9 @@ export class NotificationsComponent implements OnInit {
     public totalItems: number | null = null;
     public paginatorOptions = PAGINATION_OPTIONS;
     public itemsPerPage?: number;
+
+    public markedEmailNotificationsEnabled = false;
+    public account: User;
 
     public columns: any = [
         {
@@ -36,14 +42,6 @@ export class NotificationsComponent implements OnInit {
                 handler: 'translate',
                 translatePath: 'notices.entity.subject'
             }
-        },
-        {
-            fieldName: 'message',
-            sortable: false,
-            header: {
-                handler: 'translate',
-                translatePath: 'notices.entity.message'
-            }
         }
     ];
     private page: any;
@@ -51,7 +49,8 @@ export class NotificationsComponent implements OnInit {
     private predicate: any;
 
     constructor(private noticeService: NoticeService, private activatedRoute: ActivatedRoute, private router: Router,
-                private noticeSearch: NoticeFilter) {
+                private noticeSearch: NoticeFilter, private userService: AccountUserService, private messageService: MessageService,
+                private translateService: TranslateService) {
         this.activatedRoute.data.subscribe((data) => {
             this.page = data['pagingParams'].page;
             this.reverse = data['pagingParams'].ascending;
@@ -80,6 +79,8 @@ export class NotificationsComponent implements OnInit {
                     )
             );
         });
+        this.account = this.activatedRoute.snapshot.data.user;
+        this.markedEmailNotificationsEnabled = this.account.emailNotificationsEnabled;
     }
 
     public transition() {
@@ -116,11 +117,23 @@ export class NotificationsComponent implements OnInit {
         this.notices = response.body;
     }
 
-    public joinMessagesText(messages: Messages): string {
-        let text = '';
-        for (const message of messages.messages) {
-            text += message.text;
-        }
-        return text;
+    public toggleVisibility() {
+        this.userService.update(this.account).subscribe((response) => {
+                this.account = response;
+                this.markedEmailNotificationsEnabled = this.account.emailNotificationsEnabled;
+                this.onUpdateSuccess();
+            }
+        );
     }
+
+    private onUpdateSuccess() {
+        this.messageService.add({
+            key: 'customAlertKey',
+            severity: 'success',
+            summary: this.translateService.instant('account.messages.onSuccessSumary'),
+            detail: this.translateService.instant('account.messages.onSuccess'),
+            life: 5000
+        });
+    }
+
 }

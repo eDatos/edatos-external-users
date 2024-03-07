@@ -8,19 +8,24 @@ import { MessageService } from 'primeng/api';
 @Component({
     selector: 'app-reset-password-init',
     templateUrl: './reset-password-init.component.html',
-    styleUrls: ['../reset-password.component.scss'],
+    styleUrls: ['../reset-password.component.scss']
 })
 export class ResetPasswordInitComponent implements OnInit {
     public email: string;
+
+    public successSending: boolean = false;
 
     constructor(private resetPasswordService: ResetPasswordService, private router: Router, private messageService: MessageService, private translateService: TranslateService) {
         this.email = '';
     }
 
-    ngOnInit() {}
+    ngOnInit() {
+    }
 
     public requestReset() {
-        this.resetPasswordService.resetPassword(this.email).subscribe((result) => this.onSaveSuccess(result));
+        this.resetPasswordService.resetPassword(this.email).subscribe((result) => {
+            this.onSaveSuccess(result);
+        });
     }
 
     private onSaveSuccess(result) {
@@ -28,9 +33,9 @@ export class ResetPasswordInitComponent implements OnInit {
             key: ERROR_ALERT_KEY,
             severity: 'success',
             detail: this.translateService.instant('global.messages.recoverPasswordEmail'),
-            life: 5000,
+            life: 5000
         });
-        this.navigateToLogin();
+        this.successSending = true;
     }
 
     private navigateToLogin() {

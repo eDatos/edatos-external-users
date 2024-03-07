@@ -1,10 +1,13 @@
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
 import { AccountManagementComponent } from './account-management.component';
 import { UserRouteAccessGuard } from '@app/core/guard/user-route-access.guard';
 import { NgModule } from '@angular/core';
 import { Role } from '@app/core/model';
 import { UserResolver } from '@app/core/resolver';
+import {
+    AccountManagementEditComponent
+} from '@app/modules/account/management/account-management-edit/account-management-edit.component';
 
 export const accountManagementRoutes: Routes = [
     {
@@ -12,29 +15,30 @@ export const accountManagementRoutes: Routes = [
         component: AccountManagementComponent,
         data: {
             pageTitle: 'account.title',
-            roles: [Role.USER],
+            roles: [Role.USER]
         },
         resolve: {
-            user: UserResolver,
+            user: UserResolver
         },
-        canActivate: [UserRouteAccessGuard],
+        canActivate: [UserRouteAccessGuard]
     },
     {
         path: 'edit',
-        component: AccountManagementComponent,
+        component: AccountManagementEditComponent,
         data: {
             pageTitle: 'account.title',
-            roles: [Role.USER],
+            roles: [Role.USER]
         },
         resolve: {
-            user: UserResolver,
+            user: UserResolver
         },
-        canActivate: [UserRouteAccessGuard],
-    },
+        canActivate: [UserRouteAccessGuard]
+    }
 ];
 
 @NgModule({
     imports: [RouterModule.forChild(accountManagementRoutes)],
-    exports: [RouterModule],
+    exports: [RouterModule]
 })
-export class AccountManagementRoutingModule {}
+export class AccountManagementRoutingModule {
+}

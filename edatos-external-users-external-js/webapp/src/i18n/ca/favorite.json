@@ -1,23 +1,21 @@
 {
-    "favorite": {
-        "entity": {
-            "email": "Email"
-        },
-        "form": {
-            "cancel": "Cancel·lar",
-            "edit": "Editar favorit",
-            "goBack": "Tornar al llistat",
-            "legend": "Detalls del favorit",
-            "new": "Crear un nou favorit",
-            "save": "Guardar favorit"
-        },
-        "home": {
-            "createLabel": "Crear favorit",
-            "title": "Subscripcions temàtiques"
-        },
-        "name": "Subscripcions temàtiques"
+  "favorite": {
+    "title": "Selecciona els temes o activitats estadístiques de les quals vulguis rebre alertes d'actualització",
+    "form": {
+      "cancel": "Cancel·lar",
+      "edit": "Editar favorit",
+      "goBack": "Tornar al llistat",
+      "legend": "Detalls del favorit",
+      "new": "Crear un nou favorit",
+      "save": "Guardar favorit"
     },
-    "structuralResourcesTree": {
-        "noRecordsFound": "No s'ha trobat cap tema ni operació"
-    }
+    "home": {
+      "createLabel": "Crear favorit",
+      "title": "Subscripcions temàtiques"
+    },
+    "name": "Subscripcions temàtiques"
+  },
+  "structuralResourcesTree": {
+    "noRecordsFound": "No s'ha trobat cap tema ni operació"
+  }
 }

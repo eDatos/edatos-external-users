@@ -1,33 +1,40 @@
 {
-    "filter": {
-        "entity": {
-            "email": "Email",
-            "lastAccessDate": "Fecha de último acceso",
-            "createdDate": "Fecha de creación",
-            "name": "Nombre",
-            "notes": "Notas",
-            "permalink": "URL",
-            "owner": "Propietario",
-            "lastModifiedDate": "Fecha de modificación"
-        },
-        "form": {
-            "cancel": "Cancelar",
-            "edit": "Editar",
-            "goBack": "Volver al listado",
-            "audit": "Auditoría",
-            "legend": "Detalles de la consulta personalizada",
-            "new": "Crear una nueva consulta personalizada",
-            "save": "Guardar",
-            "delete": "Eliminar"
-        },
-        "home": {
-            "createLabel": "Consulta personalizada",
-            "title": "Consultas personalizadas"
-        },
-        "list": {
-            "noFilterCreated": "Parece que todavía no has creado ninguna consulta",
-            "wouldYouLikeToCreateAFilter": "Puedes crearla desde cualquier visualización en el portal de datos"
-        },
-        "name": "Consulta personalizada"
-    }
+  "filter": {
+    "entity": {
+      "email": "Email",
+      "lastAccessDate": "Fecha de último acceso",
+      "createdDate": "Fecha de creación",
+      "name": "Nombre",
+      "notes": "Notas",
+      "permalink": "URL",
+      "owner": "Propietario",
+      "lastModifiedDate": "Fecha de modificación"
+    },
+    "form": {
+      "cancel": "Cancelar",
+      "edit": "Editar",
+      "goBack": "Volver al listado",
+      "audit": "Auditoría",
+      "legend": "Detalles de la consulta personalizada",
+      "new": "Crear una nueva consulta personalizada",
+      "save": "Guardar",
+      "delete": "Eliminar"
+    },
+    "home": {
+      "createLabel": "Consulta personalizada",
+      "title": "Consultas personalizadas"
+    },
+    "list": {
+      "noFilterCreated": "Parece que todavía no has creado ninguna consulta",
+      "wouldYouLikeToCreateAFilter": "Puedes crearla desde cualquier visualización en el portal de datos"
+    },
+    "messages": {
+      "delete": {
+        "title": "Eliminar consulta personalizada",
+        "label": "¿Seguro que quieres eliminar esta tabla?",
+        "content": "La información eliminada nno podrá ser recuperada"
+      }
+    },
+    "name": "Consulta personalizada"
+  }
 }

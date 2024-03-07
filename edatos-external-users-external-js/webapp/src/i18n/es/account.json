@@ -1,6 +1,10 @@
 {
   "account": {
-    "title": "Mi cuenta",
+    "title": "Mis datos",
+    "personalInformation": "Información personal",
+    "basicInformation": "Información básica",
+    "contactInformation": "Información de contacto",
+    "generalPreferences": "Preferencias generales",
     "form": {
       "nombre": "Nombre",
       "nombre.placeholder": "Su nombre",
@@ -8,7 +12,8 @@
       "apellido2": "Segundo apellido",
       "apellido1.placeholder": "Su primer apellido",
       "apellido2.placeholder": "Su segundo apellido",
-      "button": "Guardar"
+      "button": "Guardar",
+      "emailNotificationsEnabled": "Recibir notificaciones"
     },
     "download": {
       "myInformation": "Descargar mi información"
@@ -44,6 +49,7 @@
     }
   },
   "notices": {
+    "title": "Notificaciones",
     "entity": {
       "message": "Mensaje",
       "subject": "Asunto",

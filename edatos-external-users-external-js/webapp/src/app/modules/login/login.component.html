@@ -1,68 +1,77 @@
-<div class="page">
-    <div class="page-header"></div>
-    <div class="page-body">
-        <form class="page-form" id="edit-form" name="editForm" role="form" novalidate (ngSubmit)="login()" #editForm="ngForm" autocomplete="off">
-            <fieldset class="page-section" arteAutofocus>
-                <div class="row justify-content-md-center">
-                    <div class="col-md-3 card shadow p-3 mb-5 bg-white rounded">
-                        <div class="card-body">
-                            <h5 class="card-title text-center mb-4 mt-1" translate="login.home.title"></h5>
-                            <hr />
-
-                            <div class="form-group">
-                                <div class="form-row">
-                                    <div class="col-md-12 form-input-container errors-on-hover">
+<div class='page content'>
+    <div class='page-body'>
+        <form class='page-form' id='edit-form' name='editForm' role='form' novalidate (ngSubmit)='login()'
+              #editForm='ngForm' autocomplete='off'>
+            <fieldset class='page-section' arteAutofocus>
+                <div class='row justify-content-md-center login-container'>
+                    <div class='col-md-4 card p-3 bg-white background-container'>
+                        <h2 class='card-title text-center mt-1' translate='login.home.title'></h2>
+                        <div class='card-body'>
+                            <div class='form-group'>
+                                <div class='form-row'>
+                                    <label class='form-label col-md-10' translate='login.form.email'
+                                           for='email'></label>
+                                    <div class='col-md-12 form-input-container errors-on-hover'>
                                         <arte-input
-                                            id="email"
-                                            name="email"
-                                            [(ngModel)]="credentials.login"
-                                            [minlength]="3"
-                                            [maxlength]="255"
-                                            [email]="true"
-                                            [placeholder]="'login.form.email'"
+                                            id='email'
+                                            name='email'
+                                            [(ngModel)]='credentials.login'
+                                            [minlength]='3'
+                                            [maxlength]='255'
+                                            [email]='true'
+                                            [placeholder]="'login.form.email.format'"
                                         >
                                         </arte-input>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <div class="form-row">
-                                    <div class="col-md-12 form-input-container errors-on-hover">
+                            <div class='form-group'>
+                                <div class='form-row'>
+                                    <label class='form-label col-md-10'
+                                           translate='login.form.password'></label>
+                                    <div class='col-md-12 form-input-container errors-on-hover'>
                                         <arte-input
-                                            type="password"
-                                            id="password"
-                                            name="password"
-                                            [(ngModel)]="credentials.password"
-                                            [maxlength]="255"
-                                            [placeholder]="'login.form.password'"
+                                            type='password'
+                                            id='password'
+                                            name='password'
+                                            [(ngModel)]='credentials.password'
+                                            [maxlength]='255'
+                                            [placeholder]="'login.form.password.format'"
                                         ></arte-input>
                                     </div>
                                 </div>
                             </div>
-                            <div id="captcha-container" #captchaContainer></div>
+                            <div id='captcha-container' #captchaContainer></div>
 
-                            <div class="row justify-content-md-center">
-                                <div class="form-group panel-container-buttons w-100">
-                                    <ng-container>
-                                        <button type="submit" [disabled]="editForm.form.invalid" class="btn btn-primary w-100">
-                                            <span class="fa fa-sign-in"></span>
-                                            <span translate="login.action.signin"></span>
+                            <ng-container>
+                                <div class='button-container-login'>
+                                    <div class='row justify-content-md-center'>
+                                        <div class='form-group panel-container-buttons w-100'>
+                                            <button type='submit' [disabled]='editForm.form.invalid'
+                                                    class='btn btn-first w-100'>
+                                                <span>{{ 'login.action.signin' | translate }}</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class='row justify-content-md-center'>
+                                        <div class='form-group panel-container-buttons w-100'>
+                                            <button type='button' (click)='navigateToSignup()'
+                                                    class='btn btn-scnd w-100'
+                                                    translate='login.action.signup'>
+                                                <span translate='login.action.signup'></span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class='row justify-content-start'>
+                                        <button type='button' class='btn btn-link btn-sm'
+                                                (click)='navigateToResetPassword()'
+                                                translate='login.action.resetPassword'>
+                                            <span translate='login.action.resetPassword'></span>
                                         </button>
-                                    </ng-container>
-                                    <ng-container>
-                                        <button type="button" class="btn btn-default w-100" (click)="navigateToSignup()" translate="login.action.signup">
-                                            <span class="fa fa-user-plus"></span>
-                                            <span translate="login.action.signup"></span>
-                                        </button>
-                                    </ng-container>
-                                    <ng-container>
-                                        <button type="button" class="btn btn-default w-100" (click)="navigateToResetPassword()" translate="login.action.resetPassword">
-                                            <small><span translate="login.action.resetPassword"></span></small>
-                                        </button>
-                                    </ng-container>
+                                    </div>
                                 </div>
-                            </div>
+                            </ng-container>
                         </div>
                     </div>
                 </div>

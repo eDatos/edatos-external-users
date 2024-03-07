@@ -1,4 +1,16 @@
-import { ChangeDetectorRef, Component, DoCheck, EventEmitter, Input, IterableDiffer, IterableDiffers, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    DoCheck,
+    EventEmitter,
+    Input,
+    IterableDiffer,
+    IterableDiffers,
+    OnChanges,
+    OnInit,
+    Output,
+    SimpleChanges
+} from '@angular/core';
 import { Category, ExternalOperation, Favorite } from '@app/shared/model';
 import { CategoryService } from '@app/shared/service';
 import { TranslateService } from '@ngx-translate/core';
@@ -26,7 +38,7 @@ export interface CategoryTreeNode extends TreeNode {
 @Component({
     selector: 'app-structural-resources-tree',
     templateUrl: './structural-resources-tree.component.html',
-    styleUrls: ['./structural-resources-tree.component.scss'],
+    styleUrls: ['./structural-resources-tree.component.scss']
 })
 export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChanges {
     /**
@@ -200,8 +212,8 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
     private categoryToCategoryTreeNode(category: Category, children: CategoryTreeNode[]): CategoryTreeNode {
         const node: CategoryTreeNode = {
             label: category.name.val,
-            collapsedIcon: 'fa fa-folder',
-            expandedIcon: 'fa fa-folder-open',
+            collapsedIcon: 'fa-thin fa-folder-plus',
+            expandedIcon: 'fa-solid fa-folder-minus',
             expanded: true,
             children: children.sort(this.sortChildren),
             data: category,
@@ -223,7 +235,7 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
     }
 
     private setLoadingNode(node: CategoryTreeNode, setLoadingChildren = true) {
-        node.icon = 'fa fa-spinner fa-spin';
+        node.icon = 'fa-thin fa-spinner fa-spin';
         node.selectable = false;
         if (node.children && setLoadingChildren) {
             for (const child of node.children) {
@@ -234,7 +246,7 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
 
     private unsetLoadingNode(node: CategoryTreeNode, setLoadingChildren = true) {
         if (node.data.favoriteType === 'externalOperation') {
-            node.icon = 'fa fa-table';
+            node.icon = 'fa-thin fa-cubes';
         } else {
             node.icon = null;
         }
@@ -260,7 +272,7 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
     private externalOperationToTreeNode(externalOperation: ExternalOperation): CategoryTreeNode {
         const node: CategoryTreeNode = {
             label: externalOperation.name.val,
-            icon: 'fa fa-table',
+            icon: 'fa-thin fa-cubes',
             data: externalOperation,
             selectable: !this.disabled,
             editMode: null,

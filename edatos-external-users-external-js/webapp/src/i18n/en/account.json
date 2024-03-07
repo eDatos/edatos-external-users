@@ -1,6 +1,10 @@
 {
   "account": {
-    "title": "My account",
+    "title": "My data",
+    "personalInformation": "Personal information",
+    "basicInformation": "Basic information",
+    "contactInformation": "Contact information",
+    "generalPreferences": "General preferences",
     "form": {
       "nombre": "Name",
       "nombre.placeholder": "Your name",
@@ -8,7 +12,8 @@
       "apellido2": "Second surname",
       "apellido1.placeholder": "Your first surname",
       "apellido2.placeholder": "Your second surname",
-      "button": "Save"
+      "button": "Save",
+      "emailNotificationsEnabled": "Receive notifications"
     },
     "download": {
       "myInformation": "Download my information"
@@ -44,6 +49,7 @@
     }
   },
   "notices": {
+    "title": "Notices",
     "entity": {
       "message": "Message",
       "subject": "Subject",

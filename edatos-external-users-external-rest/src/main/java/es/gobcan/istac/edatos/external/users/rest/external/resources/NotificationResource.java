@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.Timed;
@@ -22,7 +23,7 @@ import es.gobcan.istac.edatos.external.users.rest.common.mapper.NotificationBase
 import es.gobcan.istac.edatos.external.users.rest.common.util.PaginationUtil;
 
 @RestController
-@RequestMapping("/api/")
+@RequestMapping("/api/notices")
 public class NotificationResource extends AbstractResource {
 
     private final NotificationBaseMapper notificationBaseMapper;
@@ -37,7 +38,7 @@ public class NotificationResource extends AbstractResource {
     }
 
 
-    @GetMapping("/notices")
+    @GetMapping()
     @Timed
     @PreAuthorize("@secCheckerExternal.canUpdateUser(authentication)")
     public ResponseEntity<List<NotificationBaseVO>> getNoticesByReceiver(Pageable pageable) {
@@ -51,4 +52,13 @@ public class NotificationResource extends AbstractResource {
         return ResponseEntity.ok().headers(headers).body(noticesDto);
     }
 
+    @GetMapping("/{urn}")
+    @Timed
+    @PreAuthorize("@secCheckerExternal.canUpdateUser(authentication)")
+    public ResponseEntity<NotificationBaseVO> getNoticesByReceiver(@RequestParam String urn) {
+        Notice notice = notificationService.findNoticeByUrn(urn);
+        NotificationBaseVO noticesDto = notificationBaseMapper.toDto(notice);
+
+        return ResponseEntity.ok().body(noticesDto);
+    }
 }
