@@ -49,8 +49,8 @@
     [selectionMode]="selectionMode"
     [emptyMessage]="'structuralResourcesTree.noRecordsFound' | translate"
     [value]="tree"
-    [propagateSelectionUp]="propagateSelection"
-    [propagateSelectionDown]="propagateSelection"
+    [propagateSelectionUp]="false"
+    [propagateSelectionDown]="'select' === mode"
     [filter]="true"
     filterMode="strict"
     arteAutofocus

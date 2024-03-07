@@ -60,7 +60,7 @@ public class ExternalOperationServiceImpl implements ExternalOperationService {
     @Override
     public ExternalOperationEntity update(ExternalOperationEntity operation) {
         if (!operation.isEnabled()) {
-            deleteSuscriptions(operation);
+            deleteSubscriptions(operation);
         }
 
         return externalOperationRepository.saveAndFlush(operation);
@@ -92,7 +92,7 @@ public class ExternalOperationServiceImpl implements ExternalOperationService {
         return externalOperationRepository.findByUrn(urn);
     }
 
-    private void deleteSuscriptions(ExternalOperationEntity operation) {
-        favoriteService.deleteBySuscription(operation);
+    private void deleteSubscriptions(ExternalOperationEntity operation) {
+        favoriteService.deleteBySubscription(operation);
     }
 }

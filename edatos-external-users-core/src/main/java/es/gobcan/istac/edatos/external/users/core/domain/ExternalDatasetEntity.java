@@ -12,6 +12,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.URL;
 import org.siemac.edatos.core.common.enume.TypeExternalArtefactsEnum;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -34,6 +35,11 @@ public class ExternalDatasetEntity extends ExternalItemEntity {
     @Column(name = "recivedDate", nullable = false, updatable = false)
     private Instant createdDate;
 
+    @NotNull
+    @Column(nullable = false)
+    @URL
+    private String visualizerHtmlLink;
+
     public ExternalDatasetEntity() {
         type = TypeExternalArtefactsEnum.DATASET;
     }
@@ -52,5 +58,13 @@ public class ExternalDatasetEntity extends ExternalItemEntity {
 
     public void setCreatedDate(Instant createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public String getVisualizerHtmlLink() {
+        return visualizerHtmlLink;
+    }
+
+    public void setVisualizerHtmlLink(String visualizerHtmlLink) {
+        this.visualizerHtmlLink = visualizerHtmlLink;
     }
 }

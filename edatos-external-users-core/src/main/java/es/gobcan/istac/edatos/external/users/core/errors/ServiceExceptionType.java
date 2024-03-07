@@ -71,4 +71,9 @@ public class ServiceExceptionType extends CommonServiceExceptionType {
 
     public static final CommonServiceExceptionType SENDING_NOTICE_FAILED = create("exception.external_users.notice.sending_notice");
 
+    /********
+     * FAVORITE
+     ********/
+    public static final CommonServiceExceptionType FAVORITE_CREATE_ANCESTOR_ALREADY_FAVORITE = create("exception.external_users.favorite.ancestor_already_favorite");
+
 }

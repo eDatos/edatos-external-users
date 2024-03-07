@@ -93,7 +93,6 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
     public loading = false;
 
     private iterableDiffer: IterableDiffer<Favorite>;
-    private nodeList: CategoryTreeNode[] = [];
 
     constructor(
         private categoryService: CategoryService,
@@ -108,10 +107,8 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
     }
 
     public ngOnChanges(changes: SimpleChanges) {
-        if (changes.disabled) {
-            for (const node of this.nodeList) {
-                node.selectable = !this.disabled;
-            }
+        if (this.tree) {
+            this.updateSelectable();
         }
     }
 
@@ -134,32 +131,54 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
     }
 
     public createTree(tree: Category[]) {
-        this.nodeList = [];
         this.categoryListToCategoryTree(tree).subscribe((treeNodes) => {
             this.tree = treeNodes;
+            this.updateSelection();
+            this.updateSelectable();
+        });
+    }
+
+    private updateSelectable() {
+        this.tree?.forEach(node => this.updateSelectableOfNodeAndChildren(node));
+    }
+
+    private updateSelectableOfNodeAndChildren(node: CategoryTreeNode, ancestorIsSelected: boolean = false) {
+        node.selectable = !this.disabled && !ancestorIsSelected;
+        node.children?.forEach(childNode => {
+            this.updateSelectableOfNodeAndChildren(childNode, ancestorIsSelected || this.selectedResources.includes(node));
         });
     }
 
     public updateSelection() {
         this.selectedResources = [];
-        for (const node of this.nodeList) {
-            this.unsetLoadingNode(node);
-            if (this.isFavorite(node.data)) {
-                this.selectedResources.push(node);
-            }
+        this.tree?.forEach(node => this.updateSelectionOfNodeAndChildren(node));
+    }
+
+    private updateSelectionOfNodeAndChildren(node: CategoryTreeNode, ancestorIsFavorite: boolean = false) {
+        this.unsetLoadingNode(node);
+        var nodeOrAncestorIsFavorite = ancestorIsFavorite || this.isFavorite(node.data);
+        if (nodeOrAncestorIsFavorite) {
+            this.selectedResources.push(node);
+        } else {
+            this.selectedResources = this.selectedResources.filter(selectedResource => selectedResource.data.id !== node.data.id || selectedResource.data.favoriteType !== node.data.favoriteType);
         }
+        node.children?.forEach(childNode => {
+            this.updateSelectionOfNodeAndChildren(childNode, nodeOrAncestorIsFavorite);
+        });
     }
 
     public onSelect(treeNode: CategoryTreeNode) {
         if (this.onResourceSelect.observers.length > 0) {
             this.onResourceSelect.emit(treeNode);
         }
+        this.updateSelectableOfNodeAndChildren(treeNode);
     }
 
     public onUnselect(treeNode: CategoryTreeNode) {
         if (this.onResourceUnselect.observers.length) {
             this.onResourceUnselect.emit(treeNode);
         }
+        this.updateSelectableOfNodeAndChildren(treeNode);
     }
 
     private categoryListToCategoryTree(categories: Category[]): Observable<CategoryTreeNode[]> {
@@ -208,11 +227,6 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
             key: category.id
         };
 
-        if (this.isFavorite(category)) {
-            this.selectedResources.push(node);
-        }
-        this.nodeList.push(node);
-
         return node;
     }
 
@@ -236,7 +250,6 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
         } else {
             node.icon = null;
         }
-        node.selectable = !this.disabled;
         if (node.children && setLoadingChildren) {
             for (const child of node.children) {
                 this.unsetLoadingNode(child);
@@ -268,11 +281,6 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
             unsetLoading: (setLoadingChildren?: boolean) => this.unsetLoadingNode(node, setLoadingChildren),
             key: externalOperation.code
         };
-
-        if (this.isFavorite(externalOperation)) {
-            this.selectedResources.push(node);
-        }
-        this.nodeList.push(node);
 
         return node;
     }

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, DoCheck, EventEmitter, Input, IterableDiffer, IterableDiffers, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, DoCheck, Input, IterableDiffer, IterableDiffers, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { MultiLanguageInputComponent } from '@app/shared/components/multi-language-input';
 import { DEFAULT_LOCALE } from '@app/shared/components/multi-language-input/multi-language-input.constants';
 import { Category, ExternalCategory, ExternalOperation, Favorite, FavoriteResource, InternationalString } from '@app/shared/model';
@@ -69,25 +69,6 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
     @Input()
     public mode: Mode = 'select';
 
-    /**
-     * Determines whether the selection of a parent node propagates down to its descendants, and
-     * whether the selection of all children propagates up to its parents. Only works in 'select' {@link mode}.
-     */
-    @Input()
-    public propagateSelection = false;
-
-    /**
-     * Emits an event when an element of the tree is selected. Only works in 'select' {@link mode}.
-     */
-    @Output()
-    public onResourceSelect = new EventEmitter<CategoryTreeNode>();
-
-    /**
-     * Emits an event when an element of the tree is unselected. Only works in 'select' {@link mode}.
-     */
-    @Output()
-    public onResourceUnselect = new EventEmitter<CategoryTreeNode>();
-
     @ViewChild(MultiLanguageInputComponent)
     public languageInputComponent: MultiLanguageInputComponent;
 
@@ -130,10 +111,8 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
     }
 
     public ngOnChanges(changes: SimpleChanges) {
-        if (changes.disabled) {
-            for (const node of this.nodeList) {
-                node.selectable = !this.disabled;
-            }
+        if (this.tree) {
+            this.updateSelectable();
         }
     }
 
@@ -170,29 +149,45 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
         this.nodeList = [];
         this.categoryListToCategoryTree(tree).subscribe((treeNodes) => {
             this.tree = treeNodes;
+            this.updateSelection(true);
+            this.updateSelectable();
         });
     }
 
-    public updateSelection() {
+    private updateSelectable() {
+        this.tree?.forEach(node => this.updateSelectableOfNodeAndChildren(node));
+    }
+
+    private updateSelectableOfNodeAndChildren(node: CategoryTreeNode, ancestorIsSelected: boolean = false) {
+        node.selectable = !this.disabled && (!ancestorIsSelected || 'simpleSelect' === this.mode);
+        node.children?.forEach(childNode => {
+            this.updateSelectableOfNodeAndChildren(childNode, ancestorIsSelected || this.selectedResources.includes(node));
+        });
+    }
+
+    public updateSelection(checkIfPreselected: boolean = false) {
         this.selectedResources = [];
-        for (const node of this.nodeList) {
-            this.unsetLoadingNode(node);
-            if (this.isFavorite(node.data)) {
-                this.selectedResources.push(node);
-            }
+        this.tree?.forEach(node => this.updateSelectionOfNodeAndChildren(node, false, checkIfPreselected));
+    }
+
+    private updateSelectionOfNodeAndChildren(node: CategoryTreeNode, ancestorIsFavorite: boolean = false, checkIfPreselected: boolean = false) {
+        var nodeOrAncestorIsFavorite = ancestorIsFavorite || this.isFavorite(node.data) || (checkIfPreselected && this.isPreselected(node.data));
+        if (nodeOrAncestorIsFavorite) {
+            this.selectedResources.push(node);
+        } else {
+            this.selectedResources = this.selectedResources.filter(selectedResource => selectedResource.data.id !== node.data.id || selectedResource.data.favoriteType !== node.data.favoriteType);
         }
+        node.children?.forEach(childNode => {
+            this.updateSelectionOfNodeAndChildren(childNode, nodeOrAncestorIsFavorite, checkIfPreselected);
+        });
     }
 
     public onSelect(treeNode: CategoryTreeNode) {
-        if (this.onResourceSelect.observers.length > 0) {
-            this.onResourceSelect.emit(treeNode);
-        }
+        this.updateSelectableOfNodeAndChildren(treeNode);
     }
 
     public onUnselect(treeNode: CategoryTreeNode) {
-        if (this.onResourceUnselect.observers.length) {
-            this.onResourceUnselect.emit(treeNode);
-        }
+        this.updateSelectableOfNodeAndChildren(treeNode);
     }
 
     public addNode(parent?: CategoryTreeNode) {
@@ -204,7 +199,6 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
             expanded: true,
             data: category,
             children: [],
-            selectable: !this.disabled,
             editMode: null,
             parent: parent
         };
@@ -422,17 +416,12 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
             expanded: true,
             children: children.sort(this.sortChildren),
             data: category,
-            selectable: !this.disabled,
             editMode: null,
             makingRequest: false,
             // We need to add key in the model to provide selection when filter
             // https://github.com/primefaces/primeng/issues/8429#issuecomment-573529483
             key: category.id
         };
-
-        if (this.isFavorite(category) || this.isPreselected(category)) {
-            this.selectedResources.push(node);
-        }
         this.nodeList.push(node);
 
         return node;
@@ -444,31 +433,6 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
 
     private isPreselected(resource: FavoriteResource): boolean {
         return this.preselectedResources?.some((r) => r.id === resource.id && r.favoriteType === resource.favoriteType) ?? false;
-    }
-
-    private setLoadingNode(node: CategoryTreeNode, setLoadingChildren = true) {
-        node.icon = 'fa fa-spinner fa-spin';
-        node.selectable = false;
-        if (node.children && setLoadingChildren) {
-            for (const child of node.children) {
-                this.setLoadingNode(child);
-            }
-        }
-    }
-
-    private unsetLoadingNode(node: CategoryTreeNode, setLoadingChildren = true) {
-        if (node.data.favoriteType === 'externalOperation') {
-            node.icon = 'fa fa-table';
-        } else {
-            // @ts-ignore
-            node.icon = null;
-        }
-        node.selectable = !this.disabled;
-        if (node.children && setLoadingChildren) {
-            for (const child of node.children) {
-                this.unsetLoadingNode(child);
-            }
-        }
     }
 
     private setMode() {
@@ -507,17 +471,12 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
             label: externalOperation.name.val,
             icon: 'fa fa-table',
             data: externalOperation,
-            selectable: !this.disabled,
             draggable: false,
             droppable: false,
             editMode: null,
             makingRequest: false,
             key: externalOperation.code
         };
-
-        if (this.isFavorite(externalOperation) || this.isPreselected(externalOperation)) {
-            this.selectedResources.push(node);
-        }
         this.nodeList.push(node);
 
         return node;
