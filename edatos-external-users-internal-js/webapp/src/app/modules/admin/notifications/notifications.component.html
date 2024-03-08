@@ -96,9 +96,7 @@
                                 [contentStyle]="{padding: '1.5em 2em', overflow: 'visible', 'max-height': '90vh', 'overflow-y': 'auto'}"
                                 (visibleChange)='closeCategoryModal()'
                             >
-                                <app-structural-resources-tree [disabled]='false'
-                                                               [preselectedResources]='selectedResources'
-                                                               mode='simpleSelect'></app-structural-resources-tree>
+                                <app-structural-resources-tree-simple-select [preselectedResources]='selectedResources'></app-structural-resources-tree-simple-select>
                                 <p-footer>
                                     <button type='button' class='btn btn-primary' (click)='selectCategories()'>
                                         <i class='fa fa-hand-o-up' aria-hidden='true'></i>

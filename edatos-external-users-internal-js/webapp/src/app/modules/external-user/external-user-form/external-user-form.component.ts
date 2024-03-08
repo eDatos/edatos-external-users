@@ -1,9 +1,8 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ExternalUser, Language, Role } from '@app/core/model';
+import { ExternalUser, Language } from '@app/core/model';
 import { PermissionService } from '@app/core/service/auth';
 import { CodelistService, ExternalUserService } from '@app/core/service/user';
-import { StructuralResourcesTreeComponent } from '@app/shared/components/structural-resources-tree';
 import { Favorite, FavoriteResource } from '@app/shared/model';
 import { ItemCode } from '@app/shared/model/external-item-code-response.model';
 import { FavoriteService, LanguageService } from '@app/shared/service';
@@ -12,6 +11,7 @@ import { ArteEventManager, GenericModalService } from 'arte-ng/services';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { ExternalUserDeleteDialogComponent } from '../external-user-delete-dialog.component';
+import { StructuralResourcesTreeSelectComponent } from "@app/shared/components/structural-resources-tree/structural-resources-tree-select/structural-resources-tree-select.component";
 
 @Component({
     selector: 'app-external-user-form',
@@ -34,8 +34,8 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
     public favorites: Favorite[];
     public editMode: 'user' | 'favorites' | null = null;
 
-    @ViewChild(StructuralResourcesTreeComponent)
-    public favoriteTree: StructuralResourcesTreeComponent;
+    @ViewChild(StructuralResourcesTreeSelectComponent)
+    public favoriteTree: StructuralResourcesTreeSelectComponent;
 
     private subscription: Subscription;
 

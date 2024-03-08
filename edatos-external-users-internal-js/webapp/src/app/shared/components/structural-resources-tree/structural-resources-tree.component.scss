@@ -17,44 +17,6 @@
             margin-top: auto;
             line-height: 1.1;
         }
-
-        .ui-treenode .ui-treenode-content .buttons {
-            display: inline-flex;
-            gap: 0.8em;
-            align-items: center;
-        }
-
-        .ui-treenode .ui-treenode-content:hover .node-btn-sm {
-            display: inline-block;
-        }
-    }
-    
-    .node-btn-sm {
-        display: none;
-        padding: 0.1rem 0.6rem;
-        font-size: 0.8rem;
-        line-height: 1.2;
-        border-radius: 0.2rem;
-        max-height: 1.55em;
-
-        .fa {
-            margin-right: 0;
-        }
-    }
-
-    .notifications-switch {
-        transform: scale(0.6);
-        padding: 0;
-        display: inline-flex;
-        margin-bottom: -0.1em;
-        align-items: center;
-        gap: 0.5em;
-        font-size: 1.5em;
-        line-height: 0;
-    }
-
-    .notifications-icon {
-        max-width: 1em;
     }
 
     .ui-treenode-content {

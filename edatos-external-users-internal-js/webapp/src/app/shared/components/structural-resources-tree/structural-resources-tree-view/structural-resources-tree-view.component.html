@@ -1,0 +1,24 @@
+<p-tree
+    [loading]="!tree"
+    [emptyMessage]="'structuralResourcesTree.noRecordsFound' | translate"
+    [value]="tree"
+    [filter]="true"
+    filterMode="strict"
+    arteAutofocus
+>
+    <ng-template let-node pTemplate="default">
+        <span class="label">{{node.label}}</span>&nbsp;
+        <span *ngIf="node.data.favoriteType === 'externalOperation'; else onlySubscribedUsers" class="node-info">
+            ({{'structuralResourcesTree.subscribedUsers' | translate}}: {{node.data.subscribers || 0}}, {{'structuralResourcesTree.numberOfFilters' | translate:{ amount:
+                node.data.numberOfFilters || 0 } }})
+        </span>
+        <ng-template #onlySubscribedUsers>
+            <span class="node-info"> ({{'structuralResourcesTree.subscribedUsers' | translate}}: {{node.data.subscribers || 0}}) </span>
+        </ng-template>
+        <span *ngIf="node.data.favoriteType === 'externalOperation'" class="notifications-switch">
+            <i *ngIf="node.data.notificationsEnabled" aria-hidden="true" class="fa fa-bell notifications-icon"></i>
+            <i *ngIf="!node.data.notificationsEnabled" aria-hidden="true" class="fa fa-bell-slash notifications-icon"></i>
+            <p-inputSwitch (onChange)="updateExternalOperationNotifications(node)" [(ngModel)]="node.data.notificationsEnabled" styleClass="switch"></p-inputSwitch>
+        </span>
+    </ng-template>
+</p-tree>
