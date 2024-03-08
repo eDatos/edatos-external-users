@@ -111,6 +111,9 @@ public class ExternalUserServiceImpl implements ExternalUserService {
 
     @Override
     public List<ExternalUserEntity> findAllByEmailIn(List<String> emails) {
+        if (emails.isEmpty()) {
+            return new ArrayList<>();
+        }
         return externalUserRepository.findAllByLowerCaseEmailIn(emails.stream().map(String::toLowerCase).collect(Collectors.toList()));
     }
 
