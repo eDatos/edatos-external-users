@@ -8,7 +8,6 @@ import { finalize, shareReplay } from "rxjs/operators";
 import { MultiLanguageInputComponent } from "@app/shared/components/multi-language-input";
 import * as _ from "lodash";
 
-// TODO check last changes on the tree
 @Component({
   selector: 'app-structural-resources-tree-edit',
   templateUrl: './structural-resources-tree-edit.component.html',
