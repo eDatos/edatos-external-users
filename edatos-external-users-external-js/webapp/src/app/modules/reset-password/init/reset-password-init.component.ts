@@ -38,7 +38,7 @@ export class ResetPasswordInitComponent implements OnInit {
         this.successSending = true;
     }
 
-    private navigateToLogin() {
+    public navigateToLogin() {
         this.router.navigate(['login']);
     }
 }
