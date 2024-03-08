@@ -103,9 +103,9 @@ $padding-15px: 15px;
 $padding-20px: 20px;
 
 $container-max-widths: 1280px;
-$container-2columns-max-width: calc($container-max-widths / 2 - 3 * $padding-10px);
-$empty-td-container-width: calc($container-max-widths / 4 + $padding-10px);
-$container-max-width-descriptions: calc(2 * $container-max-widths / 3 - 2 * $padding-20px);
+$container-2columns-max-width: calc($container-max-widths / 2 - 3 * #{$padding-10px});
+$empty-td-container-width: calc($container-max-widths / 4 + #{$padding-10px});
+$container-max-width-descriptions: calc(2 * #{$container-max-widths} / 3 - 2 * #{$padding-20px});
 
 $scroll-width-default: 8px;
 
