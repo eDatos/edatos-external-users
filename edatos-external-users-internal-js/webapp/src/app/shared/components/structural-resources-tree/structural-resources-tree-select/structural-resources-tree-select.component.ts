@@ -68,7 +68,7 @@ export class StructuralResourcesTreeSelectComponent extends StructuralResourcesT
         });
     }
 
-    private updateSelection() {
+    updateSelection() {
         this.selectedResources = [];
         this.tree?.forEach(node => this.updateSelectionOfNodeAndChildren(node, false));
     }
