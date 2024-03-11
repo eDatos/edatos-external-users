@@ -11,9 +11,9 @@
     },
     "action": {
       "forgottenPassword": "Premi aquí per a establir una nova",
-      "signup": "Registrar nueva cuenta",
+      "signup": "Registrar nou compte",
       "signin": "Iniciar sessió",
-      "resetPassword": "¿Has oblidat la teva contrasenya?"
+      "resetPassword": "Has oblidat la teva contrasenya?"
     },
     "resetPassword": {
       "init": {
