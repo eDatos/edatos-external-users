@@ -16,6 +16,21 @@ body .ui-dropdown-panel .ui-dropdown-items .ui-dropdown-item.ui-state-highlight 
 ;
 }
 
+@media (max-width: 767.98px) {
+  .page .page-header, .page .page-body {
+    height: 45px;
+  }
+
+  .custom-control.custom-switch {
+    margin-left: 0 !important;
+    padding: 0 0 5px 0;
+  }
+
+  p.content-paragraph {
+    margin-left: 68px !important;
+  }
+}
+
 @media screen and (max-width: 960px) {
   div.page.content {
     min-height: $min-height-page-min-with-900;
