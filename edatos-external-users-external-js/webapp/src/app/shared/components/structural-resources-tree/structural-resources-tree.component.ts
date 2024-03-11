@@ -193,7 +193,7 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
                         children.push(this.externalOperationToTreeNode(externalOperation));
                     }
                     return this.categoryToCategoryTreeNode(category, children);
-                })
+                }).sort(this.sortChildren)
         );
     }
 
@@ -215,7 +215,7 @@ export class StructuralResourcesTreeComponent implements OnInit, DoCheck, OnChan
             collapsedIcon: 'fa-thin fa-folder-plus',
             expandedIcon: 'fa-solid fa-folder-minus',
             expanded: true,
-            children: children.sort(this.sortChildren),
+            children: children,
             data: category,
             selectable: !this.disabled,
             editMode: null,
