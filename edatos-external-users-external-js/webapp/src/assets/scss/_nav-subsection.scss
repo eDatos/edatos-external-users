@@ -39,6 +39,7 @@ nav.navbar {
   padding-left: $page-padding-left;
   padding-right: 19px;
   padding-top: 15px !important;
+  z-index: 99;
 
   .dropdown-item.active,
   .dropdown-item.active:focus,

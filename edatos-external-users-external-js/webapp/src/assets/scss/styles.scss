@@ -1,6 +1,13 @@
 @import './vendor/index';
 @import 'variables';
 
+
+@media screen and (max-width: 900px) {
+  .router-outlet-content {
+    min-height: $min-height-page-min-with-900;
+  }
+}
+
 .divider {
   box-sizing: content-box;
 }
@@ -8,8 +15,14 @@
 .app {
   clear: both;
   background-color: $color-black-5;
-  min-height: 540px;
 }
+
+.router-outlet-content {
+  min-height: $min-height-page;
+  width: 100%;
+  position: relative;
+}
+
 
 .fa.fa-istac-home {
   margin-bottom: 5px;

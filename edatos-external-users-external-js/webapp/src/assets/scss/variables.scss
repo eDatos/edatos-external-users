@@ -62,10 +62,10 @@ $primary-navbar-zindex: 20;
 $secondary-navbar-height: 58px;
 $secondary-navbar-zindex: 15;
 
-
+$min-height-page: 980px;
+$min-height-page-min-with-900: 640px;
 $navbar-content-height: 30px;
 $navbar-padding-y: 5px;
-// $navbar-height: $navbar-content-height + ($navbar-padding-y) * 2;
 $navbar-height: 42px; // TODO: sincronizar con el navbar de bootstrap
 $nav-link-padding: $navbar-padding-y 1em;
 

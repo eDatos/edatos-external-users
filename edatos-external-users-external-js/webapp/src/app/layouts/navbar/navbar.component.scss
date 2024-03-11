@@ -52,6 +52,11 @@ div.general-buttons.row {
   padding-left: 20px;
 }
 
+div.account-section-buttons {
+  z-index: 1;
+  position: absolute;
+}
+
 .nav-item.active {
   background: transparent;
 }

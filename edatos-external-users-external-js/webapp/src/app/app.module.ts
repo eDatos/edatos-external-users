@@ -25,17 +25,13 @@ import { MissingTranslationHandlerImpl } from './config/missing-translation-hand
 import { CoreModule } from './core/core.module';
 import { AuthExpiredInterceptor, AuthInterceptor, ErrorHandlerInterceptor } from './core/interceptor';
 import { ErrorComponent, ErrorRoutingModule } from './layouts/error';
-import {
-    MyAccountNavbarComponent,
-    MyAccountSubNavbarComponent,
-    MyFolderNavbarComponent,
-    MyFolderSubNavbarComponent
-} from './layouts/navbar';
 import { AboutDialogComponent, DeleteConfirmDialogComponent } from './modules/account';
 import { SharedModule } from './shared';
 import {
     DeleteFilterDialogComponent
 } from '@app/modules/filter/filter-form/delete-filter-dialog/delete-filter-dialog.component';
+import { SubNavbarComponent } from '@app/layouts/navbar/sub-navbar.component';
+import { SubSectionNavbarComponent } from '@app/layouts/navbar/sub-section-navbar.component';
 
 
 class CustomTranslateHttpLoader extends TranslateHttpLoader {
@@ -67,7 +63,7 @@ export function initTranslations(translateService: TranslateService, cookieServi
 }
 
 @NgModule({
-    declarations: [AppComponent, MyFolderNavbarComponent, MyAccountNavbarComponent, MyFolderSubNavbarComponent, MyAccountSubNavbarComponent, ErrorComponent, DeleteConfirmDialogComponent, DeleteFilterDialogComponent, AboutDialogComponent],
+    declarations: [AppComponent, SubSectionNavbarComponent, SubNavbarComponent, ErrorComponent, DeleteConfirmDialogComponent, DeleteFilterDialogComponent, AboutDialogComponent],
     entryComponents: [DeleteConfirmDialogComponent, AboutDialogComponent, DeleteFilterDialogComponent],
     imports: [
         BrowserModule,
