@@ -44,17 +44,22 @@ export class AppComponent implements OnInit {
     }
 
     private isSectionAccount(): boolean {
-        const fromValueRoute = this.navbarRefreshService.getRoute().valueOf().includes('account-management')
-            || this.navbarRefreshService.getRoute().valueOf().includes('notifications')
+        const fromValueRouteAccountManagement = this.navbarRefreshService.getRoute()?.includes('account-management');
+        const fromValueRouteNotifications = this.navbarRefreshService.getRoute()?.includes('notifications');
+        const fromValueRoute = fromValueRouteAccountManagement
+            || fromValueRouteNotifications
+            || this.navbarRefreshService.getRoute() === ('notifications')
+            || this.navbarRefreshService.getRoute() === ('notifications')
             || this.navbarRefreshService.getRoute() === 'data-protection-policy'
             || this.navbarRefreshService.getRoute() === 'change-password';
         return fromValueRoute;
     }
 
     private isSectionFolder(): boolean {
-        const fromValueRoute = this.navbarRefreshService.getRoute().valueOf().includes('filter')
+        const fromValueRouteFilter = this.navbarRefreshService.getRoute()?.includes('filter');
+        return fromValueRouteFilter
+            || this.navbarRefreshService.getRoute() === 'filter'
             || this.navbarRefreshService.getRoute() === 'favorite';
-        return fromValueRoute;
     }
 
 }

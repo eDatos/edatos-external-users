@@ -29,5 +29,6 @@ export class DeleteFilterDialogComponent {
 
     public clear() {
         this.activeModal.dismiss(false);
+        this.router.navigate([`../filter/${this.filter.id}`]);
     }
 }

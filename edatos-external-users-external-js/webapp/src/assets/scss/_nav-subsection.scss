@@ -5,11 +5,14 @@
   }
 
   .navbar-nav {
+    right: 18px;
+    padding-top: 18px;
     position: absolute;
     z-index: 1;
     top: -14px;
     justify-content: flex-end;
     left: 0 !important;
+    flex-direction: row !important;
   }
 
   .navbar {

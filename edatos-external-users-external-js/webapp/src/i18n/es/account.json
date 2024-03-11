@@ -50,7 +50,7 @@
   },
   "notices": {
     "title": "Notificaciones",
-    "entity": {
+    "label": {
       "message": "Mensaje",
       "subject": "Asunto",
       "receivedDate": "Recibido"
