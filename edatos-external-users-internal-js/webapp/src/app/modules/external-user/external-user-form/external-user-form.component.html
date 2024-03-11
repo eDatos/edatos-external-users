@@ -274,7 +274,7 @@
                 </ng-container>
             </div>
             <h3 class="button-tree" translate="externalUser.home.favorites"></h3>
-            <app-structural-resources-tree [disabled]="editMode !== 'favorites'" [favorites]="favorites"></app-structural-resources-tree>
+            <app-structural-resources-tree-select [disabled]="editMode !== 'favorites'" [favorites]="favorites"></app-structural-resources-tree-select>
         </fieldset>
 
         <div *ngIf="userId" class="page-section">

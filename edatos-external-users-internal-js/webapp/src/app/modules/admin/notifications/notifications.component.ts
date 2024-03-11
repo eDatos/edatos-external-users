@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ExternalUser } from '@app/core/model';
-import {Notification, Receiver} from '@app/shared/model';
+import { Notification, Receiver } from '@app/shared/model';
 import { errorErrorMessage } from '@app/core/service/alert/eusuarios-alert.service';
 import { MultiLanguageInputComponent } from '@app/shared/components/multi-language-input';
 import { ALL_LOCALES } from '@app/shared/components/multi-language-input/multi-language-input.constants';
@@ -11,10 +11,10 @@ import { MessageService } from 'primeng/api';
 import { Observable, Subscription } from 'rxjs';
 import { AutocompleteShortListComponent } from 'arte-ng';
 import { FavoriteResource, InternationalString } from '@app/shared/model';
-import { StructuralResourcesTreeComponent } from '@app/shared/components/structural-resources-tree';
 import { ExternalUserFilter } from '@app/modules/external-user/external-user-search/external-user-filter';
 import * as _ from 'lodash';
 import { shareReplay } from 'rxjs/operators';
+import { StructuralResourcesTreeSimpleSelectComponent } from "@app/shared/components/structural-resources-tree/structural-resources-tree-simple-select/structural-resources-tree-simple-select.component";
 
 @Component({
     selector: 'app-notifications',
@@ -43,8 +43,8 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     @ViewChild(AutocompleteShortListComponent)
     public selectedReceiversComponent: AutocompleteShortListComponent;
 
-    @ViewChild(StructuralResourcesTreeComponent)
-    public tree: StructuralResourcesTreeComponent;
+    @ViewChild(StructuralResourcesTreeSimpleSelectComponent)
+    public tree: StructuralResourcesTreeSimpleSelectComponent;
 
     @ViewChild(MultiLanguageInputComponent)
     public languageInputComponent: MultiLanguageInputComponent;

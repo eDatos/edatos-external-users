@@ -1,0 +1,29 @@
+@import "../structural-resources-tree.component.scss";
+
+:host ::ng-deep .ui-tree {
+
+    .node-btn-sm {
+        display: none;
+        padding: 0.1rem 0.6rem;
+        font-size: 0.8rem;
+        line-height: 1.2;
+        border-radius: 0.2rem;
+        max-height: 1.55em;
+
+        .fa {
+            margin-right: 0;
+        }
+    }
+
+    .ui-tree-container .ui-treenode {
+        .ui-treenode-content:hover .node-btn-sm {
+            display: inline-block;
+        }
+
+        .ui-treenode-content .buttons {
+            display: inline-flex;
+            gap: 0.8em;
+            align-items: center;
+        }
+    }
+}
