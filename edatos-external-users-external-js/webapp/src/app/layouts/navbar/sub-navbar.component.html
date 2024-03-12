@@ -2,11 +2,11 @@
     <div class='page-header-wrapper' *ngIf='isCorrectlyLogged'>
         <div class='page-header'>
             <div class='page-header-top'>
-                <h1 class='page-header-title' translate='global.menu.account.myAccount'></h1>
+                <h1 class='page-header-title'>{{titleTranslate()}}</h1>
             </div>
             <p class='page-header-content'></p>
-            <div class='general-buttons row'>
-                <ng-container>
+            <div class='general-buttons row account-section-buttons'>
+                <ng-container *ngIf='accountSection'>
                     <div class='row justify-content-start ml-auto'>
                         <button type='button' class='text-icon-button btn-thin-default' (click)='download($event)'>
                             <span
@@ -31,35 +31,37 @@
                                     [ngClass]="!isNavbarCollapsed ? 'menu-text-icon-button ' : ''"
                                     ngbDropdownToggle id='user-menu'>
                             <span class='text-icon-button'>
-                                <span><i class='fa-thin fa-user'></i>
-                                    {{ 'global.menu.account.myAccount' | translate | uppercase }}</span>&nbsp;
+                                <span><i class='fa-thin fa-folder-user'></i>
+                                    {{ titleTranslate() | uppercase }}</span>&nbsp;
                                 <i [ngClass]="!isNavbarCollapsed ? 'fa-thin fa-chevron-up' : 'fa-thin fa-chevron-down'"></i>
                             </span>
                             </button>
                         </div>
                         <ul class='dropdown-menu dropdown-menu-right' ngbDropdownMenu>
                             <li>
-                                <a class='dropdown-item' (click)="navigateTo('filter')"
+                                <a class='dropdown-item' (click)='navigateToSection()'
                                    routerLinkActive='active'>
-                                    <i class='fa' aria-hidden='true'></i>
-                                    <span translate='global.menu.account.myFolder'></span>
+                                    <i class='fa-thin fa-user' aria-hidden='true'></i>
+                                    <span>{{ dropdownReverseTitleSection() }}</span>
                                 </a>
                             </li>
-                            <hr />
-                            <li>
-                                <a class='dropdown-item' (click)="navigateTo('data-protection-policy')"
-                                   routerLinkActive='active'>
-                                    <i class='fa fa-fw fa-file' aria-hidden='true'></i>
-                                    <span translate='entity.action.data-protection-policy'></span>
-                                </a>
-                            </li>
-                            <li>
-                                <a class='dropdown-item dialog-btn-pointer' (click)='openAboutDialog()'
-                                   routerLinkActive='active'>
-                                    <i class='fa fa-fw fa-info-circle' aria-hidden='true'></i>
-                                    <span translate='entity.action.about'></span>
-                                </a>
-                            </li>
+                            <ng-container *ngIf='accountSection'>
+                                <hr />
+                                <li>
+                                    <a class='dropdown-item' (click)="navigateTo('data-protection-policy')"
+                                       routerLinkActive='active'>
+                                        <i class='fa fa-fw fa-file' aria-hidden='true'></i>
+                                        <span translate='entity.action.data-protection-policy'></span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class='dropdown-item dialog-btn-pointer' (click)='openAboutDialog()'
+                                       routerLinkActive='active'>
+                                        <i class='fa fa-fw fa-info-circle' aria-hidden='true'></i>
+                                        <span translate='entity.action.about'></span>
+                                    </a>
+                                </li>
+                            </ng-container>
                             <hr />
                             <li>
                                 <a class='dropdown-item btn' (click)='logout()' id='logout'

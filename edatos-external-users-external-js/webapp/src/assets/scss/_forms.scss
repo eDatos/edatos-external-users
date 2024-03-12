@@ -67,6 +67,7 @@ fieldset:enabled {
 
   /* BEGIN PRIMENG */
   .ui-inputtext {
+    width: 100%;
     min-height: 30px;
     background: none !important;
     border-bottom: 2px solid transparent;
@@ -84,6 +85,10 @@ body .ui-calendar.ui-calendar-w-btn .ui-inputtext,
 body .ui-calendar.ui-calendar-w-btn .ui-inputtext:enabled:hover:not(.ui-state-error) {
   padding-left: 7px;
   border: 1px solid $color-black-60;
+}
+
+.ui-autocomplete, .ui-calendar {
+  width: 100%;
 }
 
 .form-input-container {
@@ -188,6 +193,7 @@ fieldset.page-section {
     padding: 7px;
     font-size: $size-14;
     background: $color-black-0 !important;
+    width: 100%;
   }
 
   input.ui-inputtext {

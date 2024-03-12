@@ -32,7 +32,7 @@ export class NotificationsComponent implements OnInit {
             sortable: false,
             header: {
                 handler: 'translate',
-                translatePath: 'notices.entity.receivedDate'
+                translatePath: 'notices.label.receivedDate'
             }
         },
         {
@@ -40,7 +40,7 @@ export class NotificationsComponent implements OnInit {
             sortable: false,
             header: {
                 handler: 'translate',
-                translatePath: 'notices.entity.subject'
+                translatePath: 'notices.label.subject'
             }
         }
     ];

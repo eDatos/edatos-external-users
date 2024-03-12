@@ -1,6 +1,7 @@
 @import "variables";
 
 :host ::ng-deep .ui-tree {
+  width: 100%;
   background-color: $color-black-5;
   border: none;
   margin-bottom: 50px;
