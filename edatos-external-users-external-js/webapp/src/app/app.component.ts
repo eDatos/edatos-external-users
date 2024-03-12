@@ -48,7 +48,7 @@ export class AppComponent implements OnInit {
         const fromValueRouteNotifications = this.navbarRefreshService.getRoute()?.includes('notifications');
         const fromValueRoute = fromValueRouteAccountManagement
             || fromValueRouteNotifications
-            || this.navbarRefreshService.getRoute() === ('notifications')
+            || this.navbarRefreshService.getRoute() === ('account-management')
             || this.navbarRefreshService.getRoute() === ('notifications')
             || this.navbarRefreshService.getRoute() === 'data-protection-policy'
             || this.navbarRefreshService.getRoute() === 'change-password';
