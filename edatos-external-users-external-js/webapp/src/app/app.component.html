@@ -1,10 +1,13 @@
 <jhi-navbar></jhi-navbar>
 <div class='app'>
-    <div class='container' *ngIf='isAuthenticated'>
-        <div class='col col-12'>
-            <app-navbar [folderSection]='isMyFolderSection' [accountSection]='isMyAccountSection'></app-navbar>
+    <div class='container'>
+        <div class='col col-12' *ngIf='isAuthenticated'>
+            <app-navbar [folderSection]='isMyFolderSection'
+                        [accountSection]='isMyAccountSection'></app-navbar>
             <app-sub-section-navbar [folderSection]='isMyFolderSection'
                                     [accountSection]='isMyAccountSection'></app-sub-section-navbar>
+        </div>
+        <div class='col col-12'>
             <div class='router-outlet-content'>
                 <router-outlet></router-outlet>
             </div>
