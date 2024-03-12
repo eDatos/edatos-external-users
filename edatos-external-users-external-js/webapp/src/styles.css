@@ -111,13 +111,3 @@ body {
 .mb-30 {
     margin-bottom: 30px;
 }
-
-.search-results {
-    height: 100px;
-    width: 98%;
-    padding: 10px;
-    min-height: 300px;
-    overflow-y: auto;
-}
-
-

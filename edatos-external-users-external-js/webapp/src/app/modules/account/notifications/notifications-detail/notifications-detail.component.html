@@ -13,13 +13,13 @@
     </div>
     <div class='page-body has-detail-info'>
         <div class='detail-info'>
-            <label for='subject' class='title'>{{ 'notices.entity.subject' | translate }}</label>
-            <span id='subject' class='info-id'>{{ notice.subject }}</span>
+            <label class='title'>{{ 'notices.label.subject' | translate }}</label>
+            <span class='info-id'>{{ notice.subject }}</span>
 
-            <label class='sendingDate'>{{ 'notices.entity.receivedDate' | translate }}</label>
+            <label class='sendingDate'>{{ 'notices.label.receivedDate' | translate }}</label>
             <span>{{ notice.sendingDate | date: 'dd/MM/yyyy HH:mm:ss' }}</span>
 
-            <label for='message' class='title'>{{ 'notices.entity.message' | translate }}</label>
+            <label class='title'>{{ 'notices.label.message' | translate }}</label>
             <span id='message' [innerHTML]='joinMessagesText(notice.messages)'></span>
 
         </div>

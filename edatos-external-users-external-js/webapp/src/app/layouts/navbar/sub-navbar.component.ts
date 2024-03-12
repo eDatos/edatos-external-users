@@ -1,20 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AccountUserService, LoginService, PermissionService, Principal, ProfileService } from '@app/core/service';
-import { AboutDialogComponent, DeleteConfirmDialogComponent } from '@app/modules/account';
+import { AccountUserService, LoginService, Principal, ProfileService } from '@app/core/service';
 import { GenericModalService } from 'arte-ng/services';
 import { MessageService } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
 import { SharedRefreshService } from '@app/shared/service';
-import { NavbarRefreshService } from '@app/shared/service/shared/navbar-refresh.service';
+import { AboutDialogComponent, DeleteConfirmDialogComponent } from '@app/modules/account';
 import { User } from '@app/core/model';
 
 @Component({
-    selector: 'app-my-account-navbar',
-    templateUrl: './my-account-navbar.component.html',
-    styleUrls: ['../navbar.component.scss']
+    selector: 'app-navbar',
+    templateUrl: './sub-navbar.component.html',
+    styleUrls: ['./navbar.component.scss']
 })
-export class MyAccountNavbarComponent implements OnInit {
+export class SubNavbarComponent implements OnInit {
     inProduction: boolean;
     public isCorrectlyLogged: boolean;
     public isNavbarCollapsed: boolean = true;
@@ -22,17 +21,18 @@ export class MyAccountNavbarComponent implements OnInit {
 
     public downloadingPdf = false;
 
+    @Input() public folderSection: boolean;
+    @Input() public accountSection: boolean;
+
     constructor(
         private loginService: LoginService,
-        public permissionService: PermissionService,
         private principal: Principal,
         private profileService: ProfileService,
         private genericModalService: GenericModalService,
         private userService: AccountUserService,
         private router: Router,
-        private route: ActivatedRoute,
         private sharedService: SharedRefreshService,
-        private navbarRefreshService: NavbarRefreshService,
+        private route: ActivatedRoute,
         private messageService: MessageService,
         private translateService: TranslateService
     ) {
@@ -54,6 +54,26 @@ export class MyAccountNavbarComponent implements OnInit {
     public navigateTo(route: string) {
         this.isNavbarCollapsed = true;
         this.router.navigate([route]);
+    }
+
+    public navigateToSection() {
+        const route = this.folderSection ? 'account-management' : 'filter';
+        this.isNavbarCollapsed = true;
+        this.router.navigate([route]);
+    }
+
+    public titleTranslate(): string {
+        if (this.folderSection) {
+            return this.translateService.instant('global.menu.account.myFolder');
+        }
+        return this.translateService.instant('global.menu.account.myAccount');
+    }
+
+    public dropdownReverseTitleSection(): string {
+        if (this.folderSection) {
+            return this.translateService.instant('global.menu.account.myAccount');
+        }
+        return this.translateService.instant('global.menu.account.myFolder');
     }
 
     logout() {
