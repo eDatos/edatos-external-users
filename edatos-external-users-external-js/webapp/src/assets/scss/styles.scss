@@ -13,9 +13,13 @@
 }
 
 .app {
+  min-height: calc(100vh - $footer-height);
   clear: both;
   background-color: $color-black-5;
+  position: relative;
+  padding-bottom: $footer-height;
 }
+
 
 .router-outlet-content {
   min-height: $min-height-page;
@@ -26,6 +30,10 @@
 
 .fa.fa-istac-home {
   margin-bottom: 5px;
+}
+
+.fa-3x {
+  font-size: 3em !important;
 }
 
 /* BEGIN BOOTSTRAP */

@@ -29,8 +29,11 @@ fieldset.page-section {
 
 div.login-container {
   margin-bottom: 10rem;
-  margin-top: 5rem;
   height: 636.586px;
+
+  &.row {
+    margin-left: 0;
+  }
 
   & .background-container {
     position: relative;

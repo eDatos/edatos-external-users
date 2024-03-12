@@ -6,8 +6,11 @@ Navbar
 ========================================================================== */
 div.page {
   display: block;
-  min-height: 175px;
   position: relative;
+}
+
+.page.sub-navbar {
+  min-height: 175px;
 }
 
 .navbar {
