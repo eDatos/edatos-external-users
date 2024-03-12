@@ -18,20 +18,14 @@ public interface NotificationService {
     void createNewExternalUserAccountNotification(ExternalUserEntity externalUserEntity);
     void createDeleteExternalUserAccountNotification(ExternalUserEntity externalUserEntity);
     void createResetPasswordExternaluserAccountNotification(ExternalUserEntity externalUserEntity);
-
     void createRegisterExternalUserAccountNotification(ExternalUserEntity externalUserEntity);
     void createExternalUserAlreadyRegisteredNotification(ExternalUserEntity externalUserEntity);
     void createExternalUserRegistrationAlreadyRequested(ExternalUserEntity externalUserEntity);
     void createNoticeOfSubscriptionsJob(Set<ExternalUserEntity> users, ExternalOperationEntity operation, List<ExternalDatasetEntity> datasets);
     List<String> createNotificationWithReceivers(InternationalStringDto message, InternationalStringDto subject, HashMap<String, Receivers> receivers);
     HashMap<String, Receivers> createReceiversGroupedByLanguage(List<String> emails, List<Long> categories, List<Long> externalOperations);
-
-    void createNotificationWithReceivers(String message, String subject, Receivers receivers);
-    Receivers createReceiversList(List<String> emails, List<Long> categories, List<Long> externalOperations);
     Page<Notice> findNoticesByReceiver(String receiver, Pageable pageable);
-
     Notice findNoticeByUrn(String urn);
-
     void createContinueUserMigrationNotification(ExternalUserEntity user);
     void createResetPasswordMigratedUserNotification(ExternalUserEntity user);
     void createMigratedExternalUserPendingRegistrationNotification(ExternalUserEntity user);

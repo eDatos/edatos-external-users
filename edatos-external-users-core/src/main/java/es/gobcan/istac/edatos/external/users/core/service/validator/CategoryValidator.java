@@ -8,23 +8,23 @@ import org.springframework.stereotype.Component;
 
 import es.gobcan.istac.edatos.external.users.core.domain.CategoryEntity;
 import es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType;
-import es.gobcan.istac.edatos.external.users.core.service.FavoriteService;
+import es.gobcan.istac.edatos.external.users.core.repository.FavoriteRepository;
 
 @Component
 public class CategoryValidator extends AbstractValidator<CategoryEntity> {
 
-    private final FavoriteService favoriteService;
+    private final FavoriteRepository favoriteRepository;
     private final InternationalStringValidator internationalStringValidator;
 
-    public CategoryValidator(FavoriteService favoriteService, InternationalStringValidator internationalStringValidator) {
-        this.favoriteService = favoriteService;
+    public CategoryValidator(FavoriteRepository favoriteRepository, InternationalStringValidator internationalStringValidator) {
+        this.favoriteRepository = favoriteRepository;
         this.internationalStringValidator = internationalStringValidator;
     }
 
     public void checkCategoriesWithSubscribers(CategoryEntity category) {
         Set<CategoryEntity> deletedCategories = category.flattened().collect(Collectors.toSet());
         for (CategoryEntity deletedCategory : deletedCategories) {
-            if (!favoriteService.findByCategory(deletedCategory).isEmpty()) {
+            if (!favoriteRepository.findByCategory(deletedCategory).isEmpty()) {
                 throw new EDatosException(ServiceExceptionType.CANNOT_DELETE_CATEGORY_IF_IT_HAS_SUBSCRIBERS);
             }
         }
@@ -38,7 +38,7 @@ public class CategoryValidator extends AbstractValidator<CategoryEntity> {
         deletedCategories.removeIf(c1 -> updatedCategories.stream().anyMatch(c2 -> Objects.equals(c1.getId(), c2.getId())));
 
         for (CategoryEntity category : deletedCategories) {
-            if (!favoriteService.findByCategory(category).isEmpty()) {
+            if (!favoriteRepository.findByCategory(category).isEmpty()) {
                 throw new EDatosException(ServiceExceptionType.CANNOT_DELETE_CATEGORY_IF_IT_HAS_SUBSCRIBERS);
             }
         }

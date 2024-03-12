@@ -77,14 +77,15 @@ public class ExternalOperationServiceImpl implements ExternalOperationService {
     }
 
     @Override
-    public List<ExternalOperationEntity> findByExternalCategoryUrnIn(List<String> urns) {
-        return externalOperationRepository.findByExternalCategoryUrnIn(urns);
-    }
-    @Override
     public List<ExternalOperationEntity> findByExternalOperationDatasetUrnIn(List<ExternalDatasetEntity> listDataset) {
         List<String> listUrn = listDataset.stream().map(dt -> dt.getExternalOperationUrn()).collect(Collectors.toList());
 
         return externalOperationRepository.findByUrnIn(listUrn);
+    }
+
+    @Override
+    public ExternalOperationEntity findOperationById(Long id) {
+        return externalOperationRepository.findOne(id);
     }
 
     @Override

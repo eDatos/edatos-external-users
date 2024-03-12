@@ -24,5 +24,6 @@ public interface CategoryService {
     CategoryEntity updateCategory(CategoryEntity category);
     CategoryEntity createCategory(CategoryEntity category);
     Optional<CategoryEntity> delete(Long id);
-    CategoryEntity findCategoryByExternalOperation(ExternalOperationEntity externalOperation);
+    List<CategoryEntity> findOperationAncestors(ExternalOperationEntity operation);
+    List<CategoryEntity> findCategoryAncestors(CategoryEntity category);
 }

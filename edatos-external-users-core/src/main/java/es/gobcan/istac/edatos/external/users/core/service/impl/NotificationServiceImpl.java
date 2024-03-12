@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 
 import javax.ws.rs.core.Response;
 
-import es.gobcan.istac.edatos.external.users.core.domain.ExternalDatasetEntity;
 import org.siemac.edatos.core.common.dto.InternationalStringDto;
 import org.siemac.edatos.core.common.exception.CommonServiceExceptionType;
 import org.siemac.edatos.core.common.exception.EDatosException;
@@ -43,15 +42,20 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import es.gobcan.istac.edatos.external.users.core.config.MetadataProperties;
+import es.gobcan.istac.edatos.external.users.core.domain.CategoryEntity;
+import es.gobcan.istac.edatos.external.users.core.domain.ExternalDatasetEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalOperationEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
+import es.gobcan.istac.edatos.external.users.core.domain.FavoriteEntity;
 import es.gobcan.istac.edatos.external.users.core.i18n.LocaleContext;
+import es.gobcan.istac.edatos.external.users.core.service.CategoryService;
 import es.gobcan.istac.edatos.external.users.core.service.DataProtectionPolicyService;
 import es.gobcan.istac.edatos.external.users.core.service.EDatosApisLocator;
+import es.gobcan.istac.edatos.external.users.core.service.ExternalOperationService;
 import es.gobcan.istac.edatos.external.users.core.service.ExternalUserService;
+import es.gobcan.istac.edatos.external.users.core.service.FavoriteService;
 import es.gobcan.istac.edatos.external.users.core.service.MetadataConfigurationService;
 import es.gobcan.istac.edatos.external.users.core.service.NotificationService;
 
@@ -81,6 +85,15 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Autowired
     private ExternalUserService externalUserService;
+
+    @Autowired
+    private CategoryService categoryService;
+
+    @Autowired
+    private ExternalOperationService externalOperationService;
+
+    @Autowired
+    private FavoriteService favoriteService;
 
     @Override
     public void createNewExternalUserAccountNotification(ExternalUserEntity externalUserEntity) {
@@ -179,11 +192,15 @@ public class NotificationServiceImpl implements NotificationService {
         HashMap<String, Receivers> receiversGroupByLanguage = new HashMap<>();
 
         List<ExternalUserEntity> usersByEmails = externalUserService.findAllByEmailIn(emails);
-        List<ExternalUserEntity> usersSubscribedToCategoriesAndOperationsList = externalUserService.findByCategoriesAndExternalOperations(categories, externalOperations);
+
+        List<ExternalOperationEntity> externalOperationEntities = externalOperations.stream().map(externalOperationService::findOperationById).collect(Collectors.toList());
+        List<CategoryEntity> categoryEntities = categories.stream().map(categoryService::findCategoryById).collect(Collectors.toList());
+        Set<ExternalUserEntity> usersSubscribedToAnyCategoryOrOperationOfList = favoriteService.findByExternalOperationOrCategoryAndAncestors(externalOperationEntities, categoryEntities).stream()
+            .map(FavoriteEntity::getExternalUser).collect(Collectors.toSet());
 
         for (String language : languages) {
             Set<String> allReceiversEmails = new HashSet<>();
-            List<ExternalUserEntity> usersSubscribedToCategoriesAndOperationsFilterByLanguage = usersSubscribedToCategoriesAndOperationsList.stream()
+            List<ExternalUserEntity> usersSubscribedToCategoriesAndOperationsFilterByLanguage = usersSubscribedToAnyCategoryOrOperationOfList.stream()
                     .filter(user -> user.getLanguage().equals(language)).collect(Collectors.toList());
             allReceiversEmails.addAll(usersSubscribedToCategoriesAndOperationsFilterByLanguage.stream().map(ExternalUserEntity::getEmail).collect(Collectors.toList()));
             allReceiversEmails.addAll(usersByEmails.stream().filter(user -> user.getLanguage().equals(language)).map(ExternalUserEntity::getEmail).collect(Collectors.toList()));
@@ -269,21 +286,6 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public Receivers createReceiversList(List<String> emails, List<Long> categories, List<Long> externalOperations) {
-        List<ExternalUserEntity> usersSubscribedToCategoriesAndOperations = externalUserService.findByCategoriesAndExternalOperations(categories, externalOperations);
-
-        Set<String> allReceiversEmails = new HashSet<>(emails);
-        allReceiversEmails.addAll(usersSubscribedToCategoriesAndOperations.stream().map(ExternalUserEntity::getEmail).collect(Collectors.toList()));
-
-        Receivers receivers = new Receivers();
-        for (String email : allReceiversEmails) {
-            receivers.getReceivers().add(ReceiverBuilder.receiver().withUsername(email).build());
-        }
-        receivers.setTotal(new BigInteger(String.valueOf(receivers.getReceivers().size())));
-        return receivers;
-    }
-
-    @Override
     public void createContinueUserMigrationNotification(ExternalUserEntity user) {
         String codeSubject = "notice.subject.continue_migration_signup.title";
         String messageCode = "notice.subject.continue_migration_signup.text";
@@ -312,23 +314,6 @@ public class NotificationServiceImpl implements NotificationService {
         argsList.add(baseUrl);
 
         createNotificationWithReceiver(codeSubject, messageCode, user, argsList.toArray(new String[0]), MIGRATED_USER_SIGNUP_NOTICE_FAILED);
-    }
-
-    @Override
-    public void createNotificationWithReceivers(String message, String subject, Receivers receivers) {
-        try {
-            // @formatter:off
-            Notice notice = NoticeBuilder.notification()
-                .withMessages(MessageBuilder.message().withText(message).build(), MessageBuilder.message().withText(getLopd(null)).build())
-                .withReceivers(receivers)
-                .withSendingApplication(MetamacApplicationsEnum.GESTOR_USUARIOS_EXTERNOS.getName())
-                .withSubject(subject).build();
-            // @formatter:on
-
-            eDatosApisLocator.getNoticesRestInternalFacadeV10().createNotice(notice);
-        } catch (Exception e) {
-            log.debug("Error in sending notification : {}", e);
-        }
     }
 
     @Override

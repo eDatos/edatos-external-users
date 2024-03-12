@@ -132,7 +132,21 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryEntity findCategoryByExternalOperation(ExternalOperationEntity externalOperation) {
-        return this.categoryRepository.findByExternalCategoriesUrn(externalOperation.getExternalCategoryUrn());
+    public List<CategoryEntity> findOperationAncestors(ExternalOperationEntity operation) {
+        return findCategoryAncestors(categoryRepository.findByExternalCategoriesUrn(operation.getExternalCategoryUrn()));
+    }
+
+    @Override
+    public List<CategoryEntity> findCategoryAncestors(CategoryEntity category) {
+        List<CategoryEntity> operationAncestors = new ArrayList<>();
+        CategoryEntity operationAncestorCategory = categoryRepository.findOne(category.getId());
+        if (operationAncestorCategory != null) {
+            operationAncestors.add(operationAncestorCategory);
+            while (operationAncestorCategory.getParent() != null) {
+                operationAncestors.add(operationAncestorCategory.getParent());
+                operationAncestorCategory = operationAncestorCategory.getParent();
+            }
+        }
+        return operationAncestors;
     }
 }
