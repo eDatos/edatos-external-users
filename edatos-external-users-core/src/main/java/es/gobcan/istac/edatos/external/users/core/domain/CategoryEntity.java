@@ -169,16 +169,4 @@ public class CategoryEntity extends AbstractVersionedAndAuditingEntity {
     public Stream<CategoryEntity> flattened() {
         return Stream.concat(Stream.of(this), children.stream().flatMap(CategoryEntity::flattened));
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof CategoryEntity)) {
-            return false;
-        }
-        CategoryEntity that = (CategoryEntity) o;
-        return Objects.equals(id, that.id);
-    }
 }

@@ -51,9 +51,9 @@ public class ExternalUserEntityTest {
     public void testCategorySetIsNotAddingDuplications() {
         Set<ExternalUserEntity> externalUserEntities = new HashSet<>();
         externalUserEntities.add(user1);
-        externalUserEntities.add(user1);
+        externalUserEntities.add(externalUserRepository.findOneByEmailIgnoreCase("user1@gmail.com").orElse(null));
         externalUserEntities.add(user2);
-        externalUserEntities.add(user2);
+        externalUserEntities.add(externalUserRepository.findOneByEmailIgnoreCase("user2@gmail.com").orElse(null));
 
         assertThat(externalUserEntities).hasSize(2);
     }

@@ -44,10 +44,13 @@ public class CategoryEntityTest {
     public void testCategorySetIsNotAddingDuplications() {
         Set<CategoryEntity> categoryEntities = new HashSet<>();
         categoryEntities.add(node1_1_1);
+        categoryEntities.add(categoryRepository.findOne(node1_1_1.getId()));
         categoryEntities.add(node1_1_1.getParent());
         categoryEntities.add(node1_1);
+        categoryEntities.add(categoryRepository.findOne(node1_1.getId()));
         categoryEntities.add(node1_1.getParent());
         categoryEntities.add(node1);
+        categoryEntities.add(categoryRepository.findOne(node1.getId()));
 
         assertThat(categoryEntities).hasSize(3);
     }
