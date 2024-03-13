@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -294,5 +295,17 @@ public class ExternalUserEntity extends AbstractVersionedAndAuditingEntity {
 
     public void setDataProtectionPolicyApprovalDate(Instant dataProtectionPolicyApprovalDate) {
         this.dataProtectionPolicyApprovalDate = dataProtectionPolicyApprovalDate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof ExternalUserEntity)) {
+            return false;
+        }
+        ExternalUserEntity that = (ExternalUserEntity) o;
+        return Objects.equals(id, that.id);
     }
 }

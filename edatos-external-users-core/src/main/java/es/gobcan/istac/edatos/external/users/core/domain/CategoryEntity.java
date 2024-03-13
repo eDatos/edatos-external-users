@@ -2,6 +2,7 @@ package es.gobcan.istac.edatos.external.users.core.domain;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -169,4 +170,15 @@ public class CategoryEntity extends AbstractVersionedAndAuditingEntity {
         return Stream.concat(Stream.of(this), children.stream().flatMap(CategoryEntity::flattened));
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof CategoryEntity)) {
+            return false;
+        }
+        CategoryEntity that = (CategoryEntity) o;
+        return Objects.equals(id, that.id);
+    }
 }
