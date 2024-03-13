@@ -139,7 +139,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<CategoryEntity> findCategoryAncestors(CategoryEntity category) {
         List<CategoryEntity> operationAncestors = new ArrayList<>();
-        CategoryEntity operationAncestorCategory = categoryRepository.findOne(category.getId());
+        CategoryEntity operationAncestorCategory = category;
         if (operationAncestorCategory != null) {
             operationAncestors.add(operationAncestorCategory);
             while (operationAncestorCategory.getParent() != null) {
