@@ -1,32 +1,3 @@
-@media screen and (max-width: 991px) {
-  #navbarResponsive {
-    display: flex;
-    justify-content: end;
-  }
-
-  .navbar-nav {
-    right: 18px;
-    padding-top: 18px;
-    position: absolute;
-    z-index: 1;
-    top: -14px;
-    justify-content: flex-end;
-    left: 0 !important;
-    flex-direction: row !important;
-  }
-
-  .navbar {
-    .dropdown-menu {
-      margin-top: -11px !important;
-    }
-
-    .general-buttons.row {
-      justify-content: end !important;
-    }
-
-  }
-}
-
 .page-header-wrapper {
   display: flex;
   justify-content: space-between;
@@ -36,9 +7,7 @@ nav.navbar {
   align-items: baseline !important;
   min-height: $navbar-height;
   background-color: $color-black-0;
-  padding-left: $page-padding-left;
-  padding-right: 19px;
-  padding-top: 15px !important;
+  padding: 15px $page-padding-left 15px 19px;
   z-index: 99;
 
   .dropdown-item.active,
@@ -47,12 +16,12 @@ nav.navbar {
     background-color: $color-blue-25;
     color: $color-black-100;
   }
-
 }
 
 div.subsection-tab {
   padding-bottom: 15px;
   height: 45px;
+  font-size: $size-14;
 }
 
 .section-tab .nav {
@@ -64,6 +33,7 @@ div.subsection-tab {
   background-color: $color-blue-dark-5;
 
   .nav-link {
+    height: 37px;
     padding: 0.54rem 1rem;
     cursor: pointer;
   }
@@ -98,11 +68,11 @@ div.subsection-tab {
 
 .section-tab .nav-pills .nav-link.active {
   font-weight: $font-weight-600;
-  box-shadow: 0px 5px $istac-blue-100;
+  box-shadow: 0px 5px $color-blue-100;
 }
 
 .section-tab .nav-pills .nav-link:hover {
-  box-shadow: 0px 5px $istac-blue-25;
+  box-shadow: 0px 5px $color-blue-25;
 }
 
 .subsection-tab .nav-tabs .nav-link:hover {
@@ -115,7 +85,7 @@ div.subsection-tab {
 }
 
 .subsection-tab .nav-tabs .nav-link:hover {
-  background-color: $istac-blue-25;
+  background-color: $color-blue-25;
   border-radius: $border-radius-5px-0;
 }
 
@@ -127,9 +97,39 @@ div.subsection-tab {
   /* remove default focus style */
   outline: none;
   /* custom focus styles */
-  box-shadow: inset 0 0 0 2px $istac-blue-100;
+  box-shadow: inset 0 0 0 2px $color-blue-100;
 }
 
 .section-tab {
   z-index: 1;
+}
+
+/*  @media  */
+@media screen and (max-width: 991px) {
+  #navbarResponsive {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .navbar-nav {
+    right: 18px;
+    padding-top: 18px;
+    position: absolute;
+    z-index: 1;
+    top: -14px;
+    justify-content: flex-end;
+    left: 0 !important;
+    flex-direction: row !important;
+  }
+
+  .navbar {
+    .dropdown-menu {
+      margin-top: -11px !important;
+    }
+
+    .general-buttons.row {
+      justify-content: end !important;
+    }
+
+  }
 }

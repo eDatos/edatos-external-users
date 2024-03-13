@@ -31,7 +31,6 @@ import {
     DeleteFilterDialogComponent
 } from '@app/modules/filter/filter-form/delete-filter-dialog/delete-filter-dialog.component';
 import { SubNavbarComponent } from '@app/layouts/navbar/sub-navbar.component';
-import { SubSectionNavbarComponent } from '@app/layouts/navbar/sub-section-navbar.component';
 
 
 class CustomTranslateHttpLoader extends TranslateHttpLoader {
@@ -63,7 +62,7 @@ export function initTranslations(translateService: TranslateService, cookieServi
 }
 
 @NgModule({
-    declarations: [AppComponent, SubSectionNavbarComponent, SubNavbarComponent, ErrorComponent, DeleteConfirmDialogComponent, DeleteFilterDialogComponent, AboutDialogComponent],
+    declarations: [AppComponent, SubNavbarComponent, ErrorComponent, DeleteConfirmDialogComponent, DeleteFilterDialogComponent, AboutDialogComponent],
     entryComponents: [DeleteConfirmDialogComponent, AboutDialogComponent, DeleteFilterDialogComponent],
     imports: [
         BrowserModule,

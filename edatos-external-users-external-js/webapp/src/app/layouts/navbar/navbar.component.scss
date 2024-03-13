@@ -6,8 +6,11 @@ Navbar
 ========================================================================== */
 div.page {
   display: block;
-  min-height: 175px;
   position: relative;
+}
+
+.page.sub-navbar {
+  min-height: 175px;
 }
 
 .navbar {
@@ -29,11 +32,16 @@ div.page {
       }
 
       ul.dropdown-menu-right.show {
+        font-size: $size-14;
         min-width: 274px;
         margin: 0;
         top: 48px;
         background-color: $color-blue-dark-100;
         border-radius: 6px 0 6px 6px;
+      }
+
+      .btn {
+        font-size: $size-14;
       }
     }
   }
@@ -66,23 +74,22 @@ ul.dropdown-menu {
     color: $color-blue-25;
     border-top: 1px solid;
   }
-}
 
-ul.dropdown-menu li {
-  padding: 0 8px;
-}
+  li {
+    padding: 0 8px;
+  }
 
-.dropdown-item {
-  color: $color-black-0;
-  padding: 5px;
-}
+  .dropdown-item {
+    color: $color-black-0;
+    padding: 5px;
 
-.dropdown-item:hover {
-  color: $color-black-100;
-  background-color: $color-blue-25;
-  border-radius: 3px;
+    &:hover {
+      color: $color-black-100;
+      background-color: $color-blue-25;
+      border-radius: 3px;
+    }
+  }
 }
-
 
 .dropdown-toggle::after {
   display: inline-block;
@@ -91,11 +98,10 @@ ul.dropdown-menu li {
 
 a.nav-link {
   color: $color-blue-dark-50;
-}
 
-.nav-tabs .nav-link.active
-li:hover a.nav-link, li.show a.nav-link {
-  color: $color-blue-dark-100;
+  &.active, &:hover {
+    color: $color-blue-dark-100;
+  }
 }
 
 .navbar-title {

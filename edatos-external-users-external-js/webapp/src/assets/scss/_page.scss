@@ -1,40 +1,14 @@
 @import 'variables';
 @import 'mixins';
 
+.container, .col, .col-12 {
+  padding: 0;
+}
 
+/* Common styles */
 body .ui-paginator .ui-paginator-pages .ui-paginator-page.ui-state-active,
 body .ui-dropdown-panel .ui-dropdown-items .ui-dropdown-item.ui-state-highlight {
   background-color: $color-blue-dark-50;
-}
-
-@media screen and (max-width: 556px) {
-  .page {
-    div.col-md-4.card {
-      display: contents;
-    }
-  }
-;
-}
-
-@media (max-width: 767.98px) {
-  .page .page-header, .page .page-body {
-    height: 45px;
-  }
-
-  .custom-control.custom-switch {
-    margin-left: 0 !important;
-    padding: 0 0 5px 0;
-  }
-
-  p.content-paragraph {
-    margin-left: 68px !important;
-  }
-}
-
-@media screen and (max-width: 960px) {
-  div.page.content {
-    min-height: $min-height-page-min-with-900;
-  }
 }
 
 div.page.content {
@@ -43,11 +17,11 @@ div.page.content {
   display: block;
 }
 
+/* Page styles */
 .page {
   width: 100%;
   height: 100%;
   background-color: $color-black-0;
-
 
   &.has-header-fixed {
     .page-header {
@@ -143,7 +117,7 @@ div.page.content {
         margin-right: 5px;
 
         &:last-child {
-          margin-right: 0px;
+          margin-right: 0;
         }
       }
     }
@@ -224,7 +198,6 @@ div.page.content {
   }
 
   .page-table {
-
     & > thead > tr > th,
     & > tbody > tr > td {
       border-top: none;
@@ -243,7 +216,6 @@ div.page.content {
           color: $color-blue-dark-100;
         }
       }
-
     }
   }
 
@@ -299,10 +271,14 @@ div.ui-table .ui-paginator {
   padding: 0 20px 20px 20px;
 }
 
-.ui-tree .ui-tree-container .ui-treenode .ui-treenode-content.ui-treenode-selectable .ui-treenode-label:not(.ui-state-highlight):hover {
-  background-color: $color-blue-25 !important;
+/* FOOTER */
+jhi-footer {
+  z-index: 2;
+  position: relative;
+  display: flex;
 }
 
+/* includes */
 @include media-breakpoint-down(sm) {
   $page-padding-left: $padding-15px;
   $page-padding-right: $padding-15px;
@@ -341,5 +317,36 @@ div.ui-table .ui-paginator {
         padding-left: $page-padding-left;
       }
     }
+  }
+}
+
+/* @media */
+@media screen and (max-width: 556px) {
+  .page {
+    div.col-md-4.card {
+      display: contents;
+    }
+  }
+;
+}
+
+@media (max-width: 767.98px) {
+  .page .page-header, .page .page-body {
+    height: 4px;
+  }
+
+  .custom-control.custom-switch {
+    margin-left: 0 !important;
+    padding: 0 0 5px 0;
+  }
+
+  p.content-paragraph {
+    margin-left: 68px !important;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  div.page.content {
+    min-height: $min-height-page-min-with-900;
   }
 }

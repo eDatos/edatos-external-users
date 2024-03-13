@@ -1,4 +1,4 @@
-<div class='page'>
+<div class='page sub-navbar'>
     <div class='page-header-wrapper' *ngIf='isCorrectlyLogged'>
         <div class='page-header'>
             <div class='page-header-top'>
@@ -77,3 +77,30 @@
         </nav>
     </div>
 </div>
+<!-- SUB-SECTION-NAVBAR -->
+<div class='page' *ngIf='isCorrectlyLogged'>
+    <ng-container *ngIf='folderSection'>
+        <div class='subsection-tab'>
+            <ul class='nav nav-tabs'>
+                <li class='nav-item' *ngFor='let link of folderNavLinks'>
+                    <a class='nav-link' routerLink='{{link.link}}' (click)='activeFolderLink = link.label'
+                       routerLinkActive='active'>{{link.label}}
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </ng-container>
+    <ng-container *ngIf='accountSection'>
+        <div class='subsection-tab'>
+            <ul class='nav nav-tabs'>
+                <li class='nav-item' *ngFor='let link of accountNavLinks'>
+                    <a class='nav-link' routerLink='{{link.link}}' (click)='activeAccountLink = link.label'
+                       routerLinkActive='active'>{{link.label}}
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </ng-container>
+</div>
+
+
