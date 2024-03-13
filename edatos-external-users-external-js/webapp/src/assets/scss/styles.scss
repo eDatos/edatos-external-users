@@ -13,7 +13,7 @@
 }
 
 .app {
-  min-height: calc(100vh - $footer-height);
+  min-height: calc(100vh - 100px); //$footer-height
   clear: both;
   background-color: $color-black-5;
   position: relative;
