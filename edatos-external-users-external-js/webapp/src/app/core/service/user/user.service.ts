@@ -24,7 +24,6 @@ export class AccountUserService {
     }
 
     changePassword(el: ElementRef | string, accountChangePassword: UserAccountChangePassword): Promise<User> {
-        console.log('changePassword', accountChangePassword);
         return this.captchaService.postRequestWithCaptcha(el, User, `${this.resourceUrl}/change-password`, accountChangePassword, 'change-password');
     }
 
