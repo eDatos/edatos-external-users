@@ -39,7 +39,7 @@ public class SendNoticeOfSubscriptionsJob extends AbstractConsumerQuartzJob {
                 List<ExternalOperationEntity> operationsOfUpdatedDatasets = getExternalOperationService(context).findByExternalOperationDatasetUrnIn(updatedDatasets);
                 for (ExternalOperationEntity operation : operationsOfUpdatedDatasets) {
                     List<ExternalDatasetEntity> operationDatasets = updatedDatasetsGroupedByOperation.get(operation.getUrn());
-                    List<CategoryEntity> operationAncestors = getOperationAncestors(operation, context);
+                    List<CategoryEntity> operationAncestors = getCategoryService(context).findOperationAncestors(operation);
                     boolean operationIsInTheCategoryTree = !operationAncestors.isEmpty();
                     if (operation.isEnabled() && operation.isNotificationsEnabled() && operationIsInTheCategoryTree) {
                         List<FavoriteEntity> favoritesOfOperationOrAncestors = getFavoriteService(context).findByExternalOperationOrCategory(Collections.singletonList(operation), operationAncestors);
@@ -58,19 +58,6 @@ public class SendNoticeOfSubscriptionsJob extends AbstractConsumerQuartzJob {
         }
 
         log.info("--- FINISHED --- Job SendNoticeOfSubscriptionsJob finished.");
-    }
-
-    private List<CategoryEntity> getOperationAncestors(ExternalOperationEntity operation, JobExecutionContext context) {
-        List<CategoryEntity> operationAncestors = new ArrayList<>();
-        CategoryEntity operationAncestorCategory = getCategoryService(context).findCategoryByExternalOperation(operation);
-        if (operationAncestorCategory != null) {
-            operationAncestors.add(operationAncestorCategory);
-            while (operationAncestorCategory.getParent() != null) {
-                operationAncestors.add(operationAncestorCategory.getParent());
-                operationAncestorCategory = operationAncestorCategory.getParent();
-            }
-        }
-        return operationAncestors;
     }
 
     private void deleteDatasets(List<ExternalDatasetEntity> listDataset, JobExecutionContext context) {

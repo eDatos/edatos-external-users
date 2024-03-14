@@ -2,8 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { convert } from '@app/core/utils/response-utils';
 
-import { Category, StructuralResourcesTree } from '@app/shared/model';
-import { ExternalCategory } from '@app/shared/model/external-item.model';
+import { Category } from '@app/shared/model';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -31,8 +30,5 @@ export class CategoryService {
 
     public updateTree(tree: Category[]): Observable<Category[]> {
         return this.http.put<Category[]>(`${this.resourceUrl}/tree`, tree).pipe(map((categories) => convert(Category, categories)));
-    }
-    public getExternal(): Observable<ExternalCategory[]> {
-        return this.http.get<ExternalCategory[]>(`${this.resourceUrl}/external`).pipe(map((externalCategories) => convert(ExternalCategory, externalCategories)));
     }
 }

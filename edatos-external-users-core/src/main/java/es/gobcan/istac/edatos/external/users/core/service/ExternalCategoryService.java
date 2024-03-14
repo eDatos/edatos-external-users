@@ -10,7 +10,6 @@ import es.gobcan.istac.edatos.external.users.core.domain.ExternalCategoryEntity;
 public interface ExternalCategoryService {
 
     List<ExternalCategoryEntity> requestAllExternalCategoriesByUrn(List<String> urns);
-    List<ExternalCategoryEntity> requestAllExternalCategories();
     Page<ExternalCategoryEntity> requestExternalCategories(Pageable pageable, String search);
     List<ExternalCategoryEntity> findAll();
 }

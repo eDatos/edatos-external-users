@@ -95,12 +95,4 @@ public class CategoryResource extends AbstractResource {
         List<CategoryDto> response = categoryMapper.toDtos(categoryService.updateTree(categories));
         return ResponseEntity.ok(response);
     }
-
-    @GetMapping("/external")
-    @Timed
-    @PreAuthorize("@secCheckerExternal.canUpdateCategoryTree(authentication)")
-    public ResponseEntity<List<ExternalCategoryDto>> getExternalCategories() {
-        List<ExternalCategoryEntity> result = externalCategoryService.requestAllExternalCategories();
-        return ResponseEntity.ok(externalCategoryMapper.toDtos(result));
-    }
 }

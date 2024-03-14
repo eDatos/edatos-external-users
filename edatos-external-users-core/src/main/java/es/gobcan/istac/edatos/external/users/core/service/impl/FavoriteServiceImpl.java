@@ -2,14 +2,17 @@ package es.gobcan.istac.edatos.external.users.core.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import es.gobcan.istac.edatos.external.users.core.domain.vo.InternationalStringVO;
 import es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType;
 import es.gobcan.istac.edatos.external.users.core.i18n.LocaleContext;
 import es.gobcan.istac.edatos.external.users.core.repository.CategoryRepository;
+import es.gobcan.istac.edatos.external.users.core.service.CategoryService;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.hibernate.criterion.DetachedCriteria;
 import org.siemac.edatos.core.common.exception.EDatosException;
@@ -39,17 +42,19 @@ public class FavoriteServiceImpl implements FavoriteService {
     private final ExternalOperationRepository externalOperationRepository;
     private final ExternalUserRepository externalUserRepository;
     private final CategoryRepository categoryRepository;
+    private final CategoryService categoryService;
     private final QueryUtil queryUtil;
 
     private final Logger log = LoggerFactory.getLogger(FavoriteServiceImpl.class);
 
     public FavoriteServiceImpl(FavoriteRepository favoriteRepository, ExternalOperationRepository externalOperationRepository,
-            ExternalUserRepository externalUserRepository, QueryUtil queryUtil, CategoryRepository categoryRepository) {
+            ExternalUserRepository externalUserRepository, QueryUtil queryUtil, CategoryRepository categoryRepository, CategoryService categoryService) {
         this.favoriteRepository = favoriteRepository;
         this.externalOperationRepository = externalOperationRepository;
         this.externalUserRepository = externalUserRepository;
         this.queryUtil = queryUtil;
         this.categoryRepository = categoryRepository;
+        this.categoryService = categoryService;
     }
 
     @Override
@@ -160,5 +165,17 @@ public class FavoriteServiceImpl implements FavoriteService {
     @Override
     public List<FavoriteEntity> findByExternalOperationOrCategory(List<ExternalOperationEntity> listOperations, List<CategoryEntity> listCategories) {
         return favoriteRepository.findByExternalOperationInOrCategoryIn(listOperations, listCategories);
+    }
+
+    @Override
+    public List<FavoriteEntity> findByExternalOperationOrCategoryAndAncestors(List<ExternalOperationEntity> listOperations, List<CategoryEntity> listCategories) {
+        Set<CategoryEntity> categoryEntities = new HashSet<>();
+        for (ExternalOperationEntity operation : listOperations) {
+            categoryEntities.addAll(categoryService.findOperationAncestors(operation));
+        }
+        for (CategoryEntity category : listCategories) {
+            categoryEntities.addAll(categoryService.findCategoryAncestors(category));
+        }
+        return findByExternalOperationOrCategory(listOperations, new ArrayList<>(categoryEntities));
     }
 }

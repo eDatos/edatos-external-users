@@ -6,7 +6,6 @@ import java.util.List;
 import org.siemac.metamac.rest.structural_resources.v1_0.domain.Categories;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -22,7 +21,7 @@ import es.gobcan.istac.edatos.external.users.core.service.ExternalCategoryServic
 public class ExternalCategoryServiceImpl implements ExternalCategoryService {
 
     /**
-     * Amount of resources that can be obtained in a request.
+     * Amount of resources that can be obtained in a request. WARNING: SRM can only return up to 1000 resources per request.
      */
     private static final String LIMIT = String.valueOf(Integer.MAX_VALUE);
     private static final Logger LOG = LoggerFactory.getLogger(ExternalCategoryServiceImpl.class);
@@ -46,14 +45,6 @@ public class ExternalCategoryServiceImpl implements ExternalCategoryService {
 
         String query = String.format("URN IN (\"%s\")", String.join("\",\"", urns));
         Categories categories = eDatosApisLocator.srmExternal().findCategories("~all", "~all", "~all", query, null, LIMIT, null, null);
-        return itemResourceMapper.toExternalCategoryEntities(categories);
-    }
-
-    @Override
-    @Cacheable(cacheManager = "requestScopedCacheManager", cacheNames = "externalCategories")
-    public List<ExternalCategoryEntity> requestAllExternalCategories() {
-        LOG.info("Making request to Structural Resources Manager to GET all the categories");
-        Categories categories = eDatosApisLocator.srmExternal().findCategories("~all", "~all", "~all", null, null, LIMIT, null, null);
         return itemResourceMapper.toExternalCategoryEntities(categories);
     }
 

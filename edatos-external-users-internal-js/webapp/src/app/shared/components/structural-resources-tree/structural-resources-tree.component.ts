@@ -49,7 +49,7 @@ export abstract class StructuralResourcesTreeComponent implements OnInit {
                     }
                 }
                 return this.categoryToCategoryTreeNode(category, children);
-            })
+            }).sort(this.sortChildren)
         );
     }
 
@@ -72,7 +72,7 @@ export abstract class StructuralResourcesTreeComponent implements OnInit {
             collapsedIcon: 'fa fa-folder',
             expandedIcon: 'fa fa-folder-open',
             expanded: true,
-            children: children.sort(this.sortChildren),
+            children: children,
             data: category,
             editMode: null,
             makingRequest: false,
