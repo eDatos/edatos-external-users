@@ -1,11 +1,8 @@
 package es.gobcan.istac.edatos.external.users.web.security.filter;
 
-import es.gobcan.istac.edatos.external.users.core.config.MetadataProperties;
-import org.apache.commons.lang3.StringUtils;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.filter.OncePerRequestFilter;
+import java.io.IOException;
+import java.net.URI;
+import java.util.Collections;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -13,9 +10,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriBuilder;
-import java.io.IOException;
-import java.net.URI;
-import java.util.Collections;
+
+import org.apache.commons.lang3.StringUtils;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.filter.OncePerRequestFilter;
+
+import es.gobcan.istac.edatos.external.users.core.config.MetadataProperties;
 
 public class CaptchaFilter extends OncePerRequestFilter {
 
@@ -53,7 +55,7 @@ public class CaptchaFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getServletPath();
-        return !StringUtils.equalsAny(path, "/api/login", "/api/account/signup");
+        return !StringUtils.equalsAny(path, "/api/login", "/api/account/signup", "/api/account/change-password");
     }
 }
 

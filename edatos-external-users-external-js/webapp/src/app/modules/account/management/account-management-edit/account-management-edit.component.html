@@ -1,7 +1,7 @@
 <div class='page content'>
     <div class='page-header'>
         <div class='page-header-top'>
-            <span class='page-header-title-text' translate='account.personalInformation'></span>
+            <span class='page-header-title-text'></span>
             <div class='general-buttons row'>
                 <ng-container>
                     <div class='row-large'>
@@ -30,7 +30,7 @@
                     <div class='row divider'>
                         <div class='col-md-12 form-section'>
                             <div class='row'>
-                                <div class='form-group form-group-inline col-md-4'
+                                <div class='form-group form-group-inline col-md-4 required'
                                      [formControlStatus]='settingsForm.controls.name'>
                                     <div class='form-row'>
                                         <label class='form-label col-md-10' translate='signup.form.name'
@@ -45,7 +45,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class='form-group form-group-inline col-md-4'
+                                <div class='form-group form-group-inline col-md-4 required'
                                      [formControlStatus]='settingsForm.controls.surname1'>
                                     <div class='form-row'>
                                         <label class='form-label col-md-10' translate='signup.form.surname1'
@@ -76,9 +76,10 @@
                             </div>
                         </div>
                     </div>
+                </div>
 
-
-                    <!-- Segundo bloque -->
+                <!-- Segundo bloque -->
+                <div class='form-group form-group-block'>
                     <div class='row divider'>
                         <div class='col-md-12 form-section'>
                             <div class='row'>
@@ -158,48 +159,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <!-- Cuarto bloque -->
-                <div class='form-group form-group-block'>
-                    <div class='row divider'>
-                        <div class='col-md-12 form-section'>
-                            <div class='row'>
-                                <div class='form-group form-group-inline col-md-4'
-                                     [formControlStatus]='settingsForm.controls.email'>
-                                    <div class='form-row'>
-                                        <label class='form-label col-md-10' translate='signup.form.email'
-                                               for='email'></label>
-                                        <div class='col-md-12 form-input-container errors-on-hover'>
-                                            <arte-input id='email' name='email' [(ngModel)]='account.email'
-                                                        [required]='true'
-                                                        [minlength]='3' [maxlength]='255' [email]='true'></arte-input>
-                                            <div class='form-errors-messages' *hasErrors='let messages'>
-                                                <li *ngFor='let m of messages'>{{m}}</li>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class='form-group form-group-inline col-md-4'
-                                     [formControlStatus]='settingsForm.controls.phoneNumber'>
-                                    <div class='form-row'>
-                                        <label class='form-label col-md-10' translate='signup.form.phoneNumber'
-                                               for='phoneNumber'></label>
-                                        <div class='col-md-12 form-input-container errors-on-hover'>
-                                            <arte-input id='phoneNumber' name='phoneNumber'
-                                                        [(ngModel)]='account.phoneNumber'
-                                                        [maxlength]='50'></arte-input>
-                                            <div class='form-errors-messages' *hasErrors='let messages'>
-                                                <span *ngFor='let m of messages'>{{m}}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class='form-group form-group-inline col-md-4'
                                      [formControlStatus]='settingsForm.controls.language'>
                                     <div class='form-row'>
@@ -217,6 +176,47 @@
                                                 [required]='true'
                                             >
                                             </arte-autocomplete-short-list>
+                                            <div class='form-errors-messages' *hasErrors='let messages'>
+                                                <span *ngFor='let m of messages'>{{m}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Cuarto bloque -->
+                <div class='form-group form-group-block'>
+                    <div class='row divider'>
+                        <div class='col-md-12 form-section'>
+                            <div class='row'>
+                                <div class='form-group form-group-inline col-md-6 required'
+                                     [formControlStatus]='settingsForm.controls.email'>
+                                    <div class='form-row'>
+                                        <label class='form-label col-md-10' translate='signup.form.email'
+                                               for='email'></label>
+                                        <div class='col-md-12 form-input-container errors-on-hover'>
+                                            <arte-input id='email' name='email' [(ngModel)]='account.email'
+                                                        [required]='true'
+                                                        [minlength]='3' [maxlength]='255' [email]='true'></arte-input>
+                                            <div class='form-errors-messages' *hasErrors='let messages'>
+                                                <li *ngFor='let m of messages'>{{m}}</li>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class='form-group form-group-inline col-md-6'
+                                     [formControlStatus]='settingsForm.controls.phoneNumber'>
+                                    <div class='form-row'>
+                                        <label class='form-label col-md-10' translate='signup.form.phoneNumber'
+                                               for='phoneNumber'></label>
+                                        <div class='col-md-12 form-input-container errors-on-hover'>
+                                            <arte-input id='phoneNumber' name='phoneNumber'
+                                                        [(ngModel)]='account.phoneNumber'
+                                                        [maxlength]='50'></arte-input>
                                             <div class='form-errors-messages' *hasErrors='let messages'>
                                                 <span *ngFor='let m of messages'>{{m}}</span>
                                             </div>
