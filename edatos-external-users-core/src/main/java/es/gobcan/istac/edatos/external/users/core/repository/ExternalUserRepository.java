@@ -36,6 +36,8 @@ public interface ExternalUserRepository extends JpaRepository<ExternalUserEntity
 
     Optional<ExternalUserEntity> findOneByResetKey(String key);
 
+    Optional<ExternalUserEntity> findOneByEmailModificationRequest_Key(String key);
+
     List<ExternalUserEntity> findByFavorites_category_idIn(List<Long> categoriesIds);
 
     @Query("select u from ExternalUserEntity as u WHERE lower(u.email) IN ?1")

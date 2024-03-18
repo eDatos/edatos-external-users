@@ -19,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import es.gobcan.istac.edatos.external.users.core.domain.DisabledTokenEntity;
+import es.gobcan.istac.edatos.external.users.core.domain.EmailModificationRequest;
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
 import es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType;
 import es.gobcan.istac.edatos.external.users.core.repository.DisabledTokenRepository;
@@ -148,6 +149,28 @@ public class ExternalUserServiceImpl implements ExternalUserService {
     public ExternalUserEntity getUsuarioWithAuthorities() {
         ExternalUserEntity returnValue = externalUserRepository.findOneWithRolesByEmailIgnoreCase(SecurityUtils.getCurrentUserLogin()).orElse(new ExternalUserEntity());
         return returnValue;
+    }
+
+    @Override
+    public Optional<ExternalUserEntity> createEmailModificationRequest(ExternalUserEntity user, String newEmail) {
+        if (user == null) {
+            return Optional.empty();
+        }
+        return externalUserRepository.findOneByEmailIgnoreCaseAndEnabledTrue(user.getEmail()).map(databaseUser -> {
+            databaseUser.setEmailModificationRequest(new EmailModificationRequest());
+            databaseUser.getEmailModificationRequest().setKey(UUID.randomUUID().toString());
+            databaseUser.getEmailModificationRequest().setNewEmail(newEmail);
+            return externalUserRepository.save(databaseUser);
+        });
+    }
+
+    @Override
+    public Optional<ExternalUserEntity> confirmEmailModification(String key) {
+        return externalUserRepository.findOneByEmailModificationRequest_Key(key).map(user -> {
+            user.setEmail(user.getEmailModificationRequest().getNewEmail());
+            user.setEmailModificationRequest(null);
+            return externalUserRepository.save(user);
+        });
     }
 
     @Override

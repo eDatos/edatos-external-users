@@ -1,11 +1,13 @@
 package es.gobcan.istac.edatos.external.users.rest.common.mapper;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
+import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
 import es.gobcan.istac.edatos.external.users.core.repository.ExternalUserRepository;
@@ -16,6 +18,10 @@ import es.gobcan.istac.edatos.external.users.rest.common.util.FormatDateUtil;
 
 @Mapper(componentModel = "spring", config = AuditingMapperConfig.class, uses= {GenericMapperResolver.class, ExternalUserRepository.class})
 public abstract class ExternalUserMapper implements EntityMapper<ExternalUserDto, ExternalUserEntity> {
+
+    @Autowired
+    private ExternalUserRepository externalUserRepository;
+
     @Override
     @Mapping(target = "password", ignore = true)
     @Mapping(target = "birthday", source = "birthday", qualifiedByName = "formatBirthdayLocalDateToString")
@@ -40,5 +46,15 @@ public abstract class ExternalUserMapper implements EntityMapper<ExternalUserDto
     @Named("formatBirthdayLocalDateToString")
     public String formatBirthdayLocalDateToString(LocalDate date){
         return FormatDateUtil.formatBirthdayLocalDateToString(date);
+    }
+
+    @AfterMapping
+    public void afterMappingSettings(@MappingTarget ExternalUserEntity entity) {
+        if (entity.getId() != null) {
+            externalUserRepository.findOneById(entity.getId()).ifPresent(databaseUser -> {
+                entity.setEmailModificationRequest(databaseUser.getEmailModificationRequest());
+                entity.setEmail(databaseUser.getEmail());
+            });
+        }
     }
 }

@@ -27,6 +27,11 @@ public interface ExternalUserService {
     List<ExternalUserEntity> findAllReceivers();
 
     ExternalUserEntity getUsuarioWithAuthorities();
+
+    Optional<ExternalUserEntity> createEmailModificationRequest(ExternalUserEntity user, String email);
+
+    Optional<ExternalUserEntity> confirmEmailModification(String key);
+
     void updateExternalUserAccountPassword(ExternalUserEntity user, String oldPassword, String password);
 
     void logout(String token);

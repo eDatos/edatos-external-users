@@ -44,6 +44,7 @@ public class ServiceExceptionType extends CommonServiceExceptionType {
     public static final CommonServiceExceptionType EXTERNAL_USER_DEACTIVATE = create("exception.external_users.deactivate");
     public static final CommonServiceExceptionType EXTERNAL_USER_DEAUTHENTICATED = create("exception.external_users.deauthenticated");
     public static final CommonServiceExceptionType EXTERNAL_USER_REGISTRATION_CONFIRMATION = create("exception.external_users.registration_confirmation");
+    public static final CommonServiceExceptionType EXTERNAL_USER_EMAIL_IS_THE_SAME = create("exception.external_users.email_is_the_same");
 
     /********
      * PASSWORD
@@ -70,6 +71,7 @@ public class ServiceExceptionType extends CommonServiceExceptionType {
      ********/
 
     public static final CommonServiceExceptionType SENDING_NOTICE_FAILED = create("exception.external_users.notice.sending_notice");
+    public static final CommonServiceExceptionType EMAIL_MODIFICATION_NOTICE_FAILED = create("exception.external_users.email_modification.create_notice");
 
     /********
      * FAVORITE

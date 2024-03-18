@@ -51,4 +51,6 @@
              relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20240228100225_add_column_visualizerHtmlLink_ExternalUser.xml"
              relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240215091400_added_entity_EmailModificationRequest.xml"
+             relativeToChangelogFile="false"/>
 </databaseChangeLog>

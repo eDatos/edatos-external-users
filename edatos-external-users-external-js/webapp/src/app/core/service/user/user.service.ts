@@ -43,6 +43,14 @@ export class AccountUserService {
         return this.http.get<User>(`${this.resourceUrl}/migrated-user-info?token=${token}`).pipe(map((res) => convert(User, res)));
     }
 
+    updateEmail(user: User): Observable<User> {
+        return this.http.put<User>(`${this.resourceUrl}/email`, user.email).pipe(map((res) => convert(User, res)));
+    }
+
+    confirmEmailUpdate(key: String): Observable<any> {
+        return this.http.get<any>(`${this.resourceUrl}/email/confirm?key=` + key);
+    }
+
     update(user: User): Observable<User> {
         return this.http.put<User>(this.resourceUrl, user).pipe(map((res) => convert(User, res)));
     }

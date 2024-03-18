@@ -42,6 +42,15 @@
                 "onSuccess": "S'han modificat la contrasenya de l'usuari correctament."
             }
         },
+        "email-modification": {
+            "question": "Esteu segur que voleu canviar el correu del vostre usuari? Si és així, s'enviarà un correu al nou valor que heu proporcionat per confirmar que el correu és vostre.",
+            "messages": {
+                "onRequestSuccessSummary": "Modificació de l'email",
+                "onRequestSuccess": "S'ha enviat un correu per confirmar el canvi.",
+                "onConfirmationSuccessSummary": "Modificació de correu confirmada",
+                "onConfirmationSuccess": "A partir d'ara podreu iniciar sessió amb el nou correu."
+            }
+        },
         "activated": "Activat",
         "deactivated": "Desactivat",
         "profiles": "Rols",

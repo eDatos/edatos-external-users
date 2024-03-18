@@ -137,6 +137,38 @@ public class ExternalAccountResource extends AbstractResource {
         return new ResponseEntity<>(databaseUser != null ? externalUserMapper.toDto(databaseUser) : null, HttpStatus.OK);
     }
 
+    @PutMapping("/account/email")
+    @Timed
+    @PreAuthorize("@secCheckerExternal.canUpdateUser(authentication)")
+    public ResponseEntity<ExternalUserAccountBaseDto> updateEmail(@RequestBody String email) {
+        ExternalUserEntity authenticatedUser = externalUserRepository.findOneByEmailIgnoreCase(SecurityUtils.getCurrentUserLogin()).orElse(null);
+
+        if (SecurityUtils.getCurrentUserLogin().equals(email)) {
+            throw new EDatosException(ServiceExceptionType.EXTERNAL_USER_EMAIL_IS_THE_SAME);
+        }
+
+        Optional<ExternalUserEntity> userFoundByEmail = externalUserRepository.findOneByEmailIgnoreCase(email);
+        if (userFoundByEmail.isPresent()) {
+            notificationService.createEmailAlreadyInUseOnModificationNotice(userFoundByEmail.get());
+            return new ResponseEntity<>(externalUserMapper.toBaseDto(authenticatedUser), HttpStatus.OK);
+        }
+
+        ExternalUserEntity userWithEmailKey = externalUserService.createEmailModificationRequest(authenticatedUser, email).orElse(null);
+        if (userWithEmailKey == null) {
+            throw new EDatosException(ServiceExceptionType.LOGIN_USER_DISABLED);
+        }
+
+        notificationService.createEmailModificationNotice(userWithEmailKey);
+        return new ResponseEntity<>(externalUserMapper.toBaseDto(userWithEmailKey), HttpStatus.OK);
+    }
+
+    @GetMapping("/account/email/confirm")
+    @Timed
+    public ResponseEntity<Void> confirmEmailUpdate(@QueryParam("key") String key) {
+        Optional<ExternalUserEntity> user = externalUserService.confirmEmailModification(key);
+        return user.isPresent() ? ResponseEntity.ok().build() : ResponseEntity.badRequest().build();
+    }
+
     @PutMapping("/account")
     @Timed
     @PreAuthorize("@secCheckerExternal.canUpdateUser(authentication)")
