@@ -8,7 +8,6 @@ import { CodelistService, LanguageService } from '@app/shared/service';
 import { ItemCode } from '@app/shared';
 import { EmailModificationConfirmDialogComponent } from "@app/modules/account/management/email-modification-confirm-dialog/email-modification-confirm-dialog.component";
 import { GenericModalService } from "arte-ng/services";
-import { Observable } from "rxjs";
 
 @Component({
     selector: 'ac-account-management',
@@ -57,14 +56,14 @@ export class AccountManagementEditComponent implements OnInit {
         this.account.nationality = this.nationality ? this.nationality.id : null;
         this.account.gender = this.gender ? this.gender.id : null;
         let newEmail: string;
-        /*if (this.email !== this.account.email) {
+        if (this.email !== this.account.email) {
             newEmail = this.account.email;
             this.account.email = this.email;
-        }*/
+        }
         this.userService.update(this.account).subscribe(
             () => {
                 this.onSuccess();
-                /*if (!newEmail) {
+                if (!newEmail) {
                     this.router.navigate(['account-management']);
                 } else {
                     const modalRef = this.genericModalService.open(EmailModificationConfirmDialogComponent as Component, {
@@ -74,7 +73,7 @@ export class AccountManagementEditComponent implements OnInit {
                         container: '.app'
                     });
                     modalRef.result.subscribe(() => this.router.navigate(['account-management']));
-                }*/
+                }
             },
             () => {
                 this.success = null;
