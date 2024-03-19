@@ -156,6 +156,7 @@ public class ExternalAccountResource extends AbstractResource {
         }
 
         notificationService.createEmailModificationNotice(userWithEmailKey);
+        auditPublisher.publish(AuditConstants.EXT_USUARIO_EDICION, userWithEmailKey.getEmail());
         return new ResponseEntity<>(externalUserMapper.toBaseDto(userWithEmailKey), HttpStatus.OK);
     }
 
@@ -167,6 +168,7 @@ public class ExternalAccountResource extends AbstractResource {
             throw new EDatosException(ServiceExceptionType.EXTERNAL_USER_EMAIL_MODIFICATION_ERROR);
         }
         externalUserService.confirmEmailModification(key);
+        auditPublisher.publish(AuditConstants.EXT_USUARIO_EDICION, user.get().getEmail());
         return ResponseEntity.ok().build();
     }
 
