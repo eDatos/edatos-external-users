@@ -6,6 +6,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 import { CodelistService, LanguageService } from '@app/shared/service';
 import { ItemCode } from '@app/shared';
+import { EmailModificationConfirmDialogComponent } from "@app/modules/account/management/email-modification-confirm-dialog/email-modification-confirm-dialog.component";
+import { GenericModalService } from "arte-ng/services";
 
 @Component({
     selector: 'ac-account-management',
@@ -26,6 +28,7 @@ export class AccountManagementEditComponent implements OnInit {
     public countries: ItemCode[] = [];
     public genders: ItemCode[] = [];
 
+    private email: string;
 
     constructor(
         private userService: AccountUserService,
@@ -34,13 +37,15 @@ export class AccountManagementEditComponent implements OnInit {
         private router: Router,
         private messageService: MessageService,
         private translateService: TranslateService,
-        private languageService: LanguageService
+        private languageService: LanguageService,
+        private genericModalService: GenericModalService
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
         this.account = this.route.snapshot.data.user;
+        this.email = this.account.email;
         this.getNationalities(this.account.nationality);
         this.getGenders(this.account.gender);
         this.getInternationalLanguages(this.account.language);
@@ -50,14 +55,31 @@ export class AccountManagementEditComponent implements OnInit {
         this.isSaving = true;
         this.account.nationality = this.nationality ? this.nationality.id : null;
         this.account.gender = this.gender ? this.gender.id : null;
+        let newEmail: string;
+        if (this.email !== this.account.email) {
+            newEmail = this.account.email;
+            this.account.email = this.email;
+        }
         this.userService.update(this.account).subscribe(
             () => {
                 this.onSuccess();
+                if (!newEmail) {
+                    this.router.navigate(['account-management']);
+                } else {
+                    const modalRef = this.genericModalService.open(EmailModificationConfirmDialogComponent as Component, {
+                        account: this.account,
+                        newEmail: newEmail
+                    }, {
+                        container: '.app'
+                    });
+                    modalRef.result.subscribe(() => this.router.navigate(['account-management']));
+                }
             },
             () => {
                 this.success = null;
                 this.error = 'ERROR';
                 this.isSaving = false;
+                this.account.email = newEmail;
             }
         );
     }
@@ -87,7 +109,6 @@ export class AccountManagementEditComponent implements OnInit {
         this.error = null;
         this.success = 'OK';
         this.isSaving = false;
-        this.router.navigate(['account-management']);
     }
 
     private getNationalities(code?: any) {

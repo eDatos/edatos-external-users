@@ -13,6 +13,7 @@ import {
 import { ArteDirectivesModule } from 'arte-ng/directives';
 import { AccountManagementRoutingModule } from './account-management-routing.module';
 import { AccountManagementComponent } from './account-management.component';
+import { CompleteEmailModificationComponent } from "@app/modules/account/management/complete-email-modification/complete-email-modification.component";
 import {
     AccountManagementEditComponent
 } from '@app/modules/account/management/account-management-edit/account-management-edit.component';
@@ -31,7 +32,7 @@ import {
         CommonModule,
         ArteCalendarModule
     ],
-    declarations: [AccountManagementComponent, AccountManagementEditComponent],
+    declarations: [AccountManagementComponent, CompleteEmailModificationComponent, AccountManagementEditComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AccountManagementModule {

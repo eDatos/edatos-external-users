@@ -58,6 +58,13 @@ public abstract class ExternalUserAccountMapper implements EntityMapper<External
             entity.setDataProtectionPolicyApprovalDate(Instant.now());
         }
 
+        if (entity.getId() != null) {
+            externalUserRepository.findOneById(entity.getId()).ifPresent(databaseUser -> {
+                entity.setEmailModificationRequest(databaseUser.getEmailModificationRequest());
+                entity.setEmail(databaseUser.getEmail());
+            });
+        }
+
         if (entity.getId() == null) {
             entity.setEmailNotificationsEnabled(true);
         }

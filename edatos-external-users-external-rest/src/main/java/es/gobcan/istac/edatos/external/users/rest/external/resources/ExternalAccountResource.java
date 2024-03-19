@@ -30,8 +30,6 @@ import es.gobcan.istac.edatos.external.users.core.config.DocumentConstants;
 import es.gobcan.istac.edatos.external.users.core.config.DocumentUtil;
 import es.gobcan.istac.edatos.external.users.core.config.audit.AuditEventPublisher;
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
-import es.gobcan.istac.edatos.external.users.core.errors.ErrorConstants;
-import es.gobcan.istac.edatos.external.users.core.errors.ErrorMessagesConstants;
 import es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType;
 import es.gobcan.istac.edatos.external.users.core.repository.ExternalUserRepository;
 import es.gobcan.istac.edatos.external.users.core.security.SecurityUtils;
@@ -42,7 +40,6 @@ import es.gobcan.istac.edatos.external.users.rest.common.dto.ChangePasswordDto;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.ExternalUserAccountBaseDto;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.ExternalUserAccountDto;
 import es.gobcan.istac.edatos.external.users.rest.common.mapper.ExternalUserAccountMapper;
-import es.gobcan.istac.edatos.external.users.rest.common.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 
 @RestController
@@ -137,16 +134,48 @@ public class ExternalAccountResource extends AbstractResource {
         return new ResponseEntity<>(databaseUser != null ? externalUserMapper.toDto(databaseUser) : null, HttpStatus.OK);
     }
 
+    @PutMapping("/account/email")
+    @Timed
+    @PreAuthorize("@secCheckerExternal.canUpdateUser(authentication)")
+    public ResponseEntity<ExternalUserAccountBaseDto> updateEmail(@RequestBody String email) {
+        ExternalUserEntity authenticatedUser = externalUserRepository.findOneByEmailIgnoreCase(SecurityUtils.getCurrentUserLogin()).orElse(null);
+
+        if (SecurityUtils.getCurrentUserLogin().equals(email)) {
+            throw new EDatosException(ServiceExceptionType.EXTERNAL_USER_EMAIL_IS_THE_SAME);
+        }
+
+        Optional<ExternalUserEntity> userFoundByEmail = externalUserRepository.findOneByEmailIgnoreCase(email);
+        if (userFoundByEmail.isPresent()) {
+            notificationService.createEmailAlreadyInUseOnModificationNotice(userFoundByEmail.get(), authenticatedUser);
+            return new ResponseEntity<>(externalUserMapper.toBaseDto(authenticatedUser), HttpStatus.OK);
+        }
+
+        ExternalUserEntity userWithEmailKey = externalUserService.createEmailModificationRequest(authenticatedUser, email).orElse(null);
+        if (userWithEmailKey == null) {
+            throw new EDatosException(ServiceExceptionType.LOGIN_USER_DISABLED);
+        }
+
+        notificationService.createEmailModificationNotice(userWithEmailKey);
+        auditPublisher.publish(AuditConstants.EXT_USUARIO_EDICION, userWithEmailKey.getEmail());
+        return new ResponseEntity<>(externalUserMapper.toBaseDto(userWithEmailKey), HttpStatus.OK);
+    }
+
+    @GetMapping("/account/email/confirm")
+    @Timed
+    public ResponseEntity<Void> confirmEmailUpdate(@QueryParam("key") String key) {
+        Optional<ExternalUserEntity> user = externalUserService.findByEmailModificationRequestKey(key);
+        if (!user.isPresent() || externalUserService.findByEmail(user.get().getEmailModificationRequest().getNewEmail()).isPresent()) {
+            throw new EDatosException(ServiceExceptionType.EXTERNAL_USER_EMAIL_MODIFICATION_ERROR);
+        }
+        externalUserService.confirmEmailModification(key);
+        auditPublisher.publish(AuditConstants.EXT_USUARIO_EDICION, user.get().getEmail());
+        return ResponseEntity.ok().build();
+    }
+
     @PutMapping("/account")
     @Timed
     @PreAuthorize("@secCheckerExternal.canUpdateUser(authentication)")
     public ResponseEntity<ExternalUserAccountBaseDto> update(@Valid @RequestBody ExternalUserAccountBaseDto userDto) {
-        Optional<ExternalUserEntity> existingUser = externalUserRepository.findOneByEmailIgnoreCase(userDto.getEmail().toLowerCase());
-
-        if (existingUser.isPresent() && (!existingUser.get().getId().equals(userDto.getId()))) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.USUARIO_EXISTE, ErrorMessagesConstants.USUARIO_EXISTE)).body(null);
-        }
-
         ExternalUserEntity user = externalUserService.update(externalUserMapper.baseDtoToEntity(userDto));
         Optional<ExternalUserAccountBaseDto> updatedUser = Optional.ofNullable(externalUserMapper.toDto(user));
 

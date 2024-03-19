@@ -2,6 +2,7 @@ package es.gobcan.istac.edatos.external.users.core.service.impl;
 
 import static es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType.CONFIRM_SIGNUP_NOTICE_FAILED;
 import static es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType.EMAIL_IN_USE_NOTICE_FAILED;
+import static es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType.EMAIL_MODIFICATION_NOTICE_FAILED;
 import static es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType.MIGRATED_USER_SIGNUP_NOTICE_FAILED;
 import static es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType.REGISTER_ACCOUNT_NOTICE_FAILED;
 import static es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType.REPEATED_SIGNUP_NOTICE_FAILED;
@@ -65,6 +66,7 @@ public class NotificationServiceImpl implements NotificationService {
     private final Logger log = LoggerFactory.getLogger(NotificationServiceImpl.class);
 
     private static String RESET_PASSWORD_URL = "/#/reset-password/change-password?key=";
+    private static String RESET_EMAIL_URL = "/#/account-management/complete-email-modification?email-update-key=";
     private static String CONFIRM_REGISTRATION_URL = "/#/login?registration-key=";
     private static String CONTINUE_SIGNUP_MIGRATED_USER_URL = "/#/signup?registration-token=";
 
@@ -123,6 +125,30 @@ public class NotificationServiceImpl implements NotificationService {
         argsList.add(baseUrl);
 
         createNotificationWithReceiver(codeSubject, messageCode, externalUserEntity, argsList.toArray(new String[argsList.size()]), RESET_PASSWORD_NOTICE_FAILED, true, false);
+    }
+
+    @Override
+    public void createEmailAlreadyInUseOnModificationNotice(ExternalUserEntity externalUserEntity, ExternalUserEntity externalUserMakingTheRequest) {
+        String codeSubject = "notice.subject.email_in_use_on_modification.title";
+        String messageCode = "notice.subject.email_in_use_on_modification.text";
+
+        if (externalUserMakingTheRequest.isEnabled()) {
+            createNotificationWithReceiver(codeSubject, messageCode, externalUserEntity, argsByExternalUser(externalUserEntity), EMAIL_MODIFICATION_NOTICE_FAILED, false, false);
+        }
+    }
+
+    @Override
+    public void createEmailModificationNotice(ExternalUserEntity externalUserEntity) {
+        String codeSubject = "notice.subject.email_modification.title";
+        String messageCode = "notice.subject.email_modification.text";
+        String baseUrl = metadataConfigurationService.retrieveBaseUrl() + RESET_EMAIL_URL + externalUserEntity.getEmailModificationRequest().getKey();
+        ArrayList<String> argsList = new ArrayList<String>(Arrays.asList(argsByExternalUser(externalUserEntity)));
+        argsList.add(baseUrl);
+
+        String email = externalUserEntity.getEmailModificationRequest().getNewEmail();
+        if (externalUserEntity.isEnabled()) {
+            createNotificationWithEmailAndLanguage(codeSubject, messageCode, email, externalUserEntity.getLanguage(), argsList.toArray(new String[0]), EMAIL_MODIFICATION_NOTICE_FAILED);
+        }
     }
 
     @Override
@@ -252,19 +278,24 @@ public class NotificationServiceImpl implements NotificationService {
 
     private void createNotificationWithReceiver(String codeSubject, String messageCode, ExternalUserEntity receiver, String[] args, CommonServiceExceptionType serviceExceptionTypeIfError,
         boolean userMustBeEnabled, boolean userNotificationsMustBeEnabled) {
-        if ((!userMustBeEnabled || receiver.isEnabled()) && (!userNotificationsMustBeEnabled || receiver.isEmailNotificationsEnabled())) {
-            Response createNoticeResponse;
-            try {
-                Notice notice = createNotice(codeSubject, messageCode, receiver.getEmail(), args, Locale.forLanguageTag(receiver.getLanguage()));
 
-                createNoticeResponse = eDatosApisLocator.getNoticesRestInternalFacadeV10().createNotice(notice);
-            } catch (Exception e) {
-                log.debug("Error al enviar notificacion : {}", e);
-                throw new EDatosException(e, serviceExceptionTypeIfError);
-            }
-            if (createNoticeResponse != null && createNoticeResponse.getStatusInfo().getStatusCode() >= 400) {
-                throw new EDatosException(serviceExceptionTypeIfError);
-            }
+        if ((!userMustBeEnabled || receiver.isEnabled()) && (!userNotificationsMustBeEnabled || receiver.isEmailNotificationsEnabled())) {
+            this.createNotificationWithEmailAndLanguage(codeSubject, messageCode, receiver.getEmail(), receiver.getLanguage(), args, serviceExceptionTypeIfError);
+        }
+    }
+
+    private void createNotificationWithEmailAndLanguage(String codeSubject, String messageCode, String email, String language, String[] args, CommonServiceExceptionType serviceExceptionTypeIfError) {
+        Response createNoticeResponse;
+        try {
+            Notice notice = createNotice(codeSubject, messageCode, email, args, Locale.forLanguageTag(language));
+
+            createNoticeResponse = eDatosApisLocator.getNoticesRestInternalFacadeV10().createNotice(notice);
+        } catch (Exception e) {
+            log.debug("Error al enviar notificacion : {}", e);
+            throw new EDatosException(e, serviceExceptionTypeIfError);
+        }
+        if (createNoticeResponse != null && createNoticeResponse.getStatusInfo().getStatusCode() >= 400) {
+            throw new EDatosException(serviceExceptionTypeIfError);
         }
     }
 
