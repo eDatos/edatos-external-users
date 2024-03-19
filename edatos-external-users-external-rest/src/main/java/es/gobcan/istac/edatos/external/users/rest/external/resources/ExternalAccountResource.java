@@ -30,8 +30,6 @@ import es.gobcan.istac.edatos.external.users.core.config.DocumentConstants;
 import es.gobcan.istac.edatos.external.users.core.config.DocumentUtil;
 import es.gobcan.istac.edatos.external.users.core.config.audit.AuditEventPublisher;
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
-import es.gobcan.istac.edatos.external.users.core.errors.ErrorConstants;
-import es.gobcan.istac.edatos.external.users.core.errors.ErrorMessagesConstants;
 import es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType;
 import es.gobcan.istac.edatos.external.users.core.repository.ExternalUserRepository;
 import es.gobcan.istac.edatos.external.users.core.security.SecurityUtils;
@@ -42,7 +40,6 @@ import es.gobcan.istac.edatos.external.users.rest.common.dto.ChangePasswordDto;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.ExternalUserAccountBaseDto;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.ExternalUserAccountDto;
 import es.gobcan.istac.edatos.external.users.rest.common.mapper.ExternalUserAccountMapper;
-import es.gobcan.istac.edatos.external.users.rest.common.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 
 @RestController

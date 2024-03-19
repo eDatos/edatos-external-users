@@ -14,6 +14,9 @@
             <column name="new_email" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
+            <column name="request_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
     <changeSet author="arte" id="1707988488714-3">

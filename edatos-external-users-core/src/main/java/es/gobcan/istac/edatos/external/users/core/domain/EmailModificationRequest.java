@@ -14,6 +14,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.time.ZonedDateTime;
 
 @Entity
 @Table(name = "tb_email_modification_request")
@@ -35,6 +36,10 @@ public class EmailModificationRequest implements Serializable {
     @NotNull
     @Column(nullable = false, name = "new_email")
     private String newEmail;
+
+    @NotNull
+    @Column(name = "request_date", nullable = false)
+    private ZonedDateTime requestDate;
 
     @OneToOne(mappedBy = "emailModificationRequest")
     private ExternalUserEntity user;
@@ -61,6 +66,14 @@ public class EmailModificationRequest implements Serializable {
 
     public void setNewEmail(String newEmail) {
         this.newEmail = newEmail;
+    }
+
+    public ZonedDateTime getRequestDate() {
+        return requestDate;
+    }
+
+    public void setRequestDate(ZonedDateTime requestDate) {
+        this.requestDate = requestDate;
     }
 
     public ExternalUserEntity getUser() {

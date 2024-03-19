@@ -160,18 +160,22 @@ public class ExternalUserServiceImpl implements ExternalUserService {
             databaseUser.setEmailModificationRequest(new EmailModificationRequest());
             databaseUser.getEmailModificationRequest().setKey(UUID.randomUUID().toString());
             databaseUser.getEmailModificationRequest().setNewEmail(newEmail);
+            databaseUser.getEmailModificationRequest().setRequestDate(ZonedDateTime.now());
             return externalUserRepository.save(databaseUser);
         });
     }
 
     @Override
     public Optional<ExternalUserEntity> findByEmailModificationRequestKey(String key) {
-        return externalUserRepository.findOneByEmailModificationRequest_Key(key);
+        return externalUserRepository.findOneByEmailModificationRequest_Key(key).filter(user -> {
+            ZonedDateTime thirtyMinutesAgo = ZonedDateTime.now().minusMinutes(30);
+            return user.getEmailModificationRequest().getRequestDate().isAfter(thirtyMinutesAgo);
+        });
     }
 
     @Override
     public Optional<ExternalUserEntity> confirmEmailModification(String key) {
-        return externalUserRepository.findOneByEmailModificationRequest_Key(key).map(user -> {
+        return findByEmailModificationRequestKey(key).map(user -> {
             user.setEmail(user.getEmailModificationRequest().getNewEmail());
             user.setEmailModificationRequest(null);
             return externalUserRepository.save(user);
