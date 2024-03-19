@@ -13,9 +13,13 @@
 }
 
 .app {
+  min-height: calc(100vh - 100px); //$footer-height
   clear: both;
   background-color: $color-black-5;
+  position: relative;
+  padding-bottom: $footer-height;
 }
+
 
 .router-outlet-content {
   min-height: $min-height-page;
@@ -26,6 +30,10 @@
 
 .fa.fa-istac-home {
   margin-bottom: 5px;
+}
+
+.fa-3x {
+  font-size: 3em !important;
 }
 
 /* BEGIN BOOTSTRAP */
@@ -174,7 +182,6 @@ footer.istac-footer {
 }
 
 /*  Section */
-@import "./vendor/fontawesome.scss";
 @import 'buttons';
 @import 'nav-subsection';
 @import 'information-details';

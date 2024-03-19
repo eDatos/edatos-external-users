@@ -229,23 +229,6 @@ public class ExternalUserServiceImpl implements ExternalUserService {
     }
 
     @Override
-    public List<ExternalUserEntity> findByCategoriesAndExternalOperations(List<Long> categoriesIds, List<Long> operationsIds) {
-        if (categoriesIds.isEmpty()) {
-            if (operationsIds.isEmpty()) {
-                return new ArrayList<>();
-            } else {
-                return externalUserRepository.findByExternalOperations(operationsIds, (long) operationsIds.size());
-            }
-        } else {
-            if (operationsIds.isEmpty()) {
-                return externalUserRepository.findByCategories(categoriesIds, (long) categoriesIds.size());
-            } else {
-                return externalUserRepository.findByCategoriesAndExternalOperations(categoriesIds, operationsIds, (long) (categoriesIds.size() + operationsIds.size()));
-            }
-        }
-    }
-
-    @Override
     public boolean isMigratedUser(ExternalUserEntity user) {
         return user != null && !user.isEnabled() && user.getPassword().equals(MIGRATED_USER_PSWD);
     }

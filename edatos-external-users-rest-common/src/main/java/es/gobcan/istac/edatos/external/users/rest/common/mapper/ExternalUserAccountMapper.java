@@ -64,6 +64,10 @@ public abstract class ExternalUserAccountMapper implements EntityMapper<External
                 entity.setEmail(databaseUser.getEmail());
             });
         }
+
+        if (entity.getId() == null) {
+            entity.setEmailNotificationsEnabled(true);
+        }
     }
 
     @Override

@@ -201,7 +201,7 @@ public class ExternalAccountResource extends AbstractResource {
     @PostMapping("/account/change-password")
     @Timed
     @PreAuthorize("@secCheckerExternal.canUpdateUser(authentication)")
-    public ResponseEntity<Void> changePassword(@Valid @RequestBody ChangePasswordDto passwordDto) {
+    public ResponseEntity<Void> changePassword(@Valid @RequestBody ChangePasswordDto passwordDto, @RequestParam(required = false) String token) {
         ExternalUserEntity user = externalUserService.getUsuarioWithAuthorities();
         externalUserService.updateExternalUserAccountPassword(user, passwordDto.getCurrentPassword(), passwordDto.getNewPassword());
 

@@ -24,6 +24,11 @@ export class SubNavbarComponent implements OnInit {
     @Input() public folderSection: boolean;
     @Input() public accountSection: boolean;
 
+    public folderNavLinks: any[];
+    public activeFolderLink: string;
+    public accountNavLinks: any[];
+    public activeAccountLink: string;
+
     constructor(
         private loginService: LoginService,
         private principal: Principal,
@@ -49,6 +54,31 @@ export class SubNavbarComponent implements OnInit {
         this.userService.getLogueado().subscribe((user) => {
             this.account = user;
         });
+
+        this.folderNavLinks = [
+            {
+                label: this.translateService.instant('filter.home.title'),
+                link: 'filter'
+            }, {
+                label: this.translateService.instant('favorite.home.title'),
+                link: 'favorite'
+            }
+        ];
+        const matchingFolderLink = this.folderNavLinks.find((element) => this.router.url.includes('/' + element.link));
+        this.activeFolderLink = matchingFolderLink ? matchingFolderLink.label : '';
+
+
+        this.accountNavLinks = [
+            {
+                label: this.translateService.instant('account.title'),
+                link: 'account-management'
+            }, {
+                label: this.translateService.instant('notices.title'),
+                link: 'notifications'
+            }
+        ];
+        const matchingAccountLink = this.accountNavLinks.find((element) => this.router.url.includes('/' + element.link));
+        this.activeAccountLink = matchingAccountLink ? matchingAccountLink.label : '';
     }
 
     public navigateTo(route: string) {

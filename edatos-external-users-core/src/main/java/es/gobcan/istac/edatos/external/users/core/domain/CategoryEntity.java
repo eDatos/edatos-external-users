@@ -168,5 +168,4 @@ public class CategoryEntity extends AbstractVersionedAndAuditingEntity {
     public Stream<CategoryEntity> flattened() {
         return Stream.concat(Stream.of(this), children.stream().flatMap(CategoryEntity::flattened));
     }
-
 }

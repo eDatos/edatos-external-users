@@ -43,8 +43,6 @@ public interface ExternalUserService {
     ExternalUserEntity confirmUserRegistration(String token);
     ExternalUserEntity getByUserRegistration(String token);
 
-    List<ExternalUserEntity> findByCategoriesAndExternalOperations(List<Long> categoriesIds, List<Long> operationsIds);
-
     boolean isMigratedUser(ExternalUserEntity user);
 
     ExternalUserEntity migrate(ExternalUserEntity entity);

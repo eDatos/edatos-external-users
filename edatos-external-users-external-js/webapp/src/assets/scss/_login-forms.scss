@@ -29,8 +29,11 @@ fieldset.page-section {
 
 div.login-container {
   margin-bottom: 10rem;
-  margin-top: 5rem;
   height: 636.586px;
+
+  &.row {
+    margin-left: 0;
+  }
 
   & .background-container {
     position: relative;
@@ -73,7 +76,7 @@ div.login-container {
       z-index: 1;
       padding: 2rem 0;
       text-align: center;
-      font-family: "Open Sans", "Helvetica Neue", sans-serif;
+      font-family: $font-family-sans-serif;
       font-size: 23px;
       font-style: normal;
       font-weight: 600;
@@ -109,7 +112,7 @@ div.button-container-login {
 p.content-paragraph {
   text-align: center;
   width: 300px;
-  font-family: "Open Sans";
+  font-family: $font-family-sans-serif;
 }
 
 p.content-paragraph.p-title {
@@ -189,7 +192,7 @@ div.col-md-3.external-form-information {
 
 @media (min-width: 768px) {
   fieldset.page-section {
-    margin-top: 18px;
+    margin-top: 25px;
   }
 }
 

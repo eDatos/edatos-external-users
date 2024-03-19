@@ -19,10 +19,7 @@ public interface ExternalOperationService {
     ExternalOperationEntity update(ExternalOperationEntity operation);
     void delete(String urn);
     void delete(ExternalOperationEntity operation);
-    List<ExternalOperationEntity> findByExternalCategoryUrnIn(List<String> urns);
-
     Optional<ExternalOperationEntity> findByUrn(String urn);
-
     List<ExternalOperationEntity> findByExternalOperationDatasetUrnIn(List<ExternalDatasetEntity> listDataset);
-
+    ExternalOperationEntity findOperationById(Long id);
 }

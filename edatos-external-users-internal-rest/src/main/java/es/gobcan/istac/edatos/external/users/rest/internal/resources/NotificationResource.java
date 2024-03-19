@@ -42,9 +42,8 @@ public class NotificationResource extends AbstractResource {
     @PostMapping("/notifications")
     @PreAuthorize("@secChecker.canSendNotification(authentication)")
     public ResponseEntity<NotificationDto> send(@Valid @RequestBody NotificationDto notificationDto) {
-        HashMap<String, Receivers> receiversByLanguage = notificationService.createReceiversGroupedByLanguage(notificationDto.getReceivers(), notificationDto.getCategoriesIds(),
-                notificationDto.getExternalOperationsIds());
-        List<String> failedNoticeReceivers = notificationService.createNotificationWithReceivers(notificationDto.getMessage(), notificationDto.getSubject(), receiversByLanguage);
+        List<String> failedNoticeReceivers = notificationService.createNotificationWithReceivers(notificationDto.getMessage(), notificationDto.getSubject(), notificationDto.getReceivers(),
+            notificationDto.getCategoriesIds(), notificationDto.getExternalOperationsIds());
 
         if (!failedNoticeReceivers.isEmpty()) {
             notificationDto.setFailedReceivers(failedNoticeReceivers);

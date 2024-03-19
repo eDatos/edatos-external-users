@@ -20,10 +20,6 @@ public interface ExternalUserRepository extends JpaRepository<ExternalUserEntity
 
     Optional<ExternalUserEntity> findOneByRegistrationToken(String token);
 
-    Optional<ExternalUserEntity> findOneByEmailIgnoreCaseAndIdNot(String email, Long id);
-
-    Optional<ExternalUserEntity> findOneById(Long id);
-
     Page<ExternalUserEntity> findAll(DetachedCriteria criteria, Pageable pageable);
 
     Optional<ExternalUserEntity> findOneByEmailIgnoreCaseAndEnabledTrue(String email);
@@ -38,21 +34,9 @@ public interface ExternalUserRepository extends JpaRepository<ExternalUserEntity
 
     Optional<ExternalUserEntity> findOneByEmailModificationRequest_Key(String key);
 
-    List<ExternalUserEntity> findByFavorites_category_idIn(List<Long> categoriesIds);
-
     @Query("select u from ExternalUserEntity as u WHERE lower(u.email) IN ?1")
     List<ExternalUserEntity> findAllByLowerCaseEmailIn(List<String> emails);
 
-    @Query("select u from ExternalUserEntity as u join FavoriteEntity as f on u.id = f.externalUser.id WHERE f.category.id in ?1 or f.externalOperation.id in ?2 group by u.id having count(u.id) = ?3")
-    List<ExternalUserEntity> findByCategoriesAndExternalOperations(List<Long> categories, List<Long> operations, Long categoriesSizePlusOperationsSize);
-
-    @Query("select u from ExternalUserEntity as u join FavoriteEntity as f on u.id = f.externalUser.id where f.category.id in ?1 group by u.id having count(u.id) = ?2")
-    List<ExternalUserEntity> findByCategories(List<Long> categories, Long categoriesSize);
-
-    @Query("select u from ExternalUserEntity as u join FavoriteEntity as f on u.id = f.externalUser.id where f.externalOperation.id in ?1 group by u.id having count(u.id) = ?2")
-    List<ExternalUserEntity> findByExternalOperations(List<Long> operations, Long operationsSize);
-
     @Query("select u from ExternalUserEntity as u WHERE u.enabled = ?1")
     List<ExternalUserEntity> findAllByEnabled(Boolean enabled);
-
 }
