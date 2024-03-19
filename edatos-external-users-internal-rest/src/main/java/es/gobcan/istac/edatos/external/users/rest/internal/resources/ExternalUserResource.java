@@ -97,8 +97,9 @@ public class ExternalUserResource extends AbstractResource {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.USUARIO_EXISTE, ErrorMessagesConstants.USUARIO_EXISTE)).body(null);
         }
 
-        ExternalUserEntity user = externalUserService.update(externalUserMapper.toEntity(userDto));
-        Optional<ExternalUserDto> updatedUser = Optional.ofNullable(externalUserMapper.toDto(user));
+        ExternalUserEntity userEntity = externalUserMapper.toEntity(userDto);
+        userEntity.setEmail(userDto.getEmail());
+        Optional<ExternalUserDto> updatedUser = Optional.ofNullable(externalUserMapper.toDto(externalUserService.update(userEntity)));
 
         auditPublisher.publish(AuditConstants.EXT_USUARIO_EDICION, userDto.getEmail());
         return ResponseUtil.wrapOrNotFound(updatedUser);
