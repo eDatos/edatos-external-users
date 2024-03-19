@@ -79,7 +79,7 @@ export class AccountManagementEditComponent implements OnInit {
                 this.success = null;
                 this.error = 'ERROR';
                 this.isSaving = false;
-                //this.account.email = newEmail;
+                this.account.email = newEmail;
             }
         );
     }
