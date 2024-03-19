@@ -149,7 +149,7 @@ public class ExternalAccountResource extends AbstractResource {
 
         Optional<ExternalUserEntity> userFoundByEmail = externalUserRepository.findOneByEmailIgnoreCase(email);
         if (userFoundByEmail.isPresent()) {
-            notificationService.createEmailAlreadyInUseOnModificationNotice(userFoundByEmail.get());
+            notificationService.createEmailAlreadyInUseOnModificationNotice(userFoundByEmail.get(), authenticatedUser);
             return new ResponseEntity<>(externalUserMapper.toBaseDto(authenticatedUser), HttpStatus.OK);
         }
 

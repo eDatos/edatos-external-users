@@ -16,6 +16,8 @@ import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
 @Repository
 public interface ExternalUserRepository extends JpaRepository<ExternalUserEntity, Long> {
 
+    Optional<ExternalUserEntity> findOneById(Long id);
+
     Optional<ExternalUserEntity> findOneByEmailIgnoreCase(String email);
 
     Optional<ExternalUserEntity> findOneByRegistrationToken(String token);
