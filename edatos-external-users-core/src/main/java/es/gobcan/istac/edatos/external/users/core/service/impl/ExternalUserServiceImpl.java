@@ -165,6 +165,11 @@ public class ExternalUserServiceImpl implements ExternalUserService {
     }
 
     @Override
+    public Optional<ExternalUserEntity> findByEmailModificationRequestKey(String key) {
+        return externalUserRepository.findOneByEmailModificationRequest_Key(key);
+    }
+
+    @Override
     public Optional<ExternalUserEntity> confirmEmailModification(String key) {
         return externalUserRepository.findOneByEmailModificationRequest_Key(key).map(user -> {
             user.setEmail(user.getEmailModificationRequest().getNewEmail());

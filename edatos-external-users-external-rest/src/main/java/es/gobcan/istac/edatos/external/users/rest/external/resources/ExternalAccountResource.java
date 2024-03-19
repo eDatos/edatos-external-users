@@ -165,20 +165,18 @@ public class ExternalAccountResource extends AbstractResource {
     @GetMapping("/account/email/confirm")
     @Timed
     public ResponseEntity<Void> confirmEmailUpdate(@QueryParam("key") String key) {
-        Optional<ExternalUserEntity> user = externalUserService.confirmEmailModification(key);
-        return user.isPresent() ? ResponseEntity.ok().build() : ResponseEntity.badRequest().build();
+        Optional<ExternalUserEntity> user = externalUserService.findByEmailModificationRequestKey(key);
+        if (!user.isPresent() || externalUserService.findByEmail(user.get().getEmailModificationRequest().getNewEmail()).isPresent()) {
+            throw new EDatosException(ServiceExceptionType.EXTERNAL_USER_EMAIL_MODIFICATION_ERROR);
+        }
+        externalUserService.confirmEmailModification(key);
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("/account")
     @Timed
     @PreAuthorize("@secCheckerExternal.canUpdateUser(authentication)")
     public ResponseEntity<ExternalUserAccountBaseDto> update(@Valid @RequestBody ExternalUserAccountBaseDto userDto) {
-        Optional<ExternalUserEntity> existingUser = externalUserRepository.findOneByEmailIgnoreCase(userDto.getEmail().toLowerCase());
-
-        if (existingUser.isPresent() && (!existingUser.get().getId().equals(userDto.getId()))) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.USUARIO_EXISTE, ErrorMessagesConstants.USUARIO_EXISTE)).body(null);
-        }
-
         ExternalUserEntity user = externalUserService.update(externalUserMapper.baseDtoToEntity(userDto));
         Optional<ExternalUserAccountBaseDto> updatedUser = Optional.ofNullable(externalUserMapper.toDto(user));
 

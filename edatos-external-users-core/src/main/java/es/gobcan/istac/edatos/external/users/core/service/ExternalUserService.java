@@ -30,6 +30,8 @@ public interface ExternalUserService {
 
     Optional<ExternalUserEntity> createEmailModificationRequest(ExternalUserEntity user, String email);
 
+    Optional<ExternalUserEntity> findByEmailModificationRequestKey(String key);
+
     Optional<ExternalUserEntity> confirmEmailModification(String key);
 
     void updateExternalUserAccountPassword(ExternalUserEntity user, String oldPassword, String password);
