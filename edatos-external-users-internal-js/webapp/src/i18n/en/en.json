@@ -380,11 +380,11 @@
         "disabled": "Deleted",
         "enabled": "Activated",
         "disablementConfirmationModal": {
-            "title": "Confirm operation disablement",
+            "title": "Confirm operation deletion",
             "body": "Are you sure you want to delete the statistical operation <strong>{{operation}}</strong>? All thematic subscriptions to that operation will be deleted and can not be recovered."
         },
         "enableConfirmationModal": {
-            "title": "Confirm operation enablement",
+            "title": "Confirm operation activation",
             "body": "Are you sure you want to activate the statistical operation <strong>{{operation}}</strong>? From now on users could subscribe to this operation."
         }
     },
