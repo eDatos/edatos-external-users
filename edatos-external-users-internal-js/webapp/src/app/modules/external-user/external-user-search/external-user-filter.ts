@@ -35,11 +35,15 @@ export class ExternalUserFilter extends BaseEntityFilter implements EntityFilter
         if (!this.includeUnregistered) {
             criterias.push(`ENABLED EQ TRUE`);
         }
-        if (this.categories?.length > 0) {
-            criterias.push(`FAVORITE_CATEGORIES IN (${this.categories.join(',')})`);
-        }
-        if (this.externalOperations?.length > 0) {
-            criterias.push(`FAVORITE_EXTERNAL_OPERATIONS IN (${this.externalOperations.join(',')})`);
+        if (this.externalOperations?.length > 0 || this.categories?.length > 0) {
+            let operationsAndCategories: string[] = [];
+            this.externalOperations?.forEach(operation => {
+                operationsAndCategories.push(`FAVORITE_EXTERNAL_OPERATIONS EQ '${operation}'`);
+            });
+            this.categories?.forEach(category => {
+                operationsAndCategories.push(`FAVORITE_CATEGORIES EQ '${category}'`);
+            });
+            criterias.push(`(${operationsAndCategories.join(" OR ")})`);
         }
         if (this.services?.length > 0) {
             criterias.push(`SERVICES IN (${this.services.join(',')})`);

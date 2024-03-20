@@ -380,12 +380,12 @@
         "disabled": "Eliminada",
         "enabled": "Activada",
         "disablementConfirmationModal": {
-            "title": "Confirmar deshabilitación de operación",
-            "body": "¿Seguro que desea deshabilitar la operación estadística <strong>{{operation}}</strong>? Todas las suscripciones temáticas a dicha operación serán eliminadas y no podrán ser recuperadas."
+            "title": "Confirmar eliminación de operación",
+            "body": "¿Seguro que desea eliminar la operación estadística <strong>{{operation}}</strong>? Todas las suscripciones temáticas a dicha operación serán eliminadas y no podrán ser recuperadas."
         },
         "enablementConfirmationModal": {
-            "title": "Confirmar habilitación de operación",
-            "body": "¿Seguro que desea habilitar la operación estadística <strong>{{operation}}</strong>? A partir de ahora los usuarios podrían suscribirse a dicha operación."
+            "title": "Confirmar activación de operación",
+            "body": "¿Seguro que desea activar la operación estadística <strong>{{operation}}</strong>? A partir de ahora los usuarios podrían suscribirse a dicha operación."
         }
     },
     "externalOperations": {
