@@ -1,62 +1,63 @@
 {
-  "account": {
-    "title": "Les meves dades",
-    "personalInformation": "Informació personal",
-    "basicInformation": "Informació bàsica",
-    "contactInformation": "Informació de contacte",
-    "generalPreferences": "Preferències generals",
-    "form": {
-      "nombre": "Nom",
-      "nombre.placeholder": "El seu nom",
-      "apellido1": "Primer cognom",
-      "apellido2": "Segon cognom",
-      "apellido1.placeholder": "El seu primer cognom",
-      "apellido2.placeholder": "El seu segon cognom",
-      "button": "Guardar",
-      "emailNotificationsEnabled": "Rebre notificacions"
-    },
-    "download": {
-      "myInformation": "Descarregar la meva informació"
-    },
-    "messages": {
-      "error": {
-        "emailexists": "<strong>¡L'adreça de correu electrònic ja existeix!</strong> Si us plau, triï una altra.",
-        "fail": "<strong>¡Ha ocorregut un error!</strong> Els ajustos no s'han pogut guardar."
-      },
-      "success": "<strong>¡Ajustos guardats!</strong>",
-      "validate": {
-        "apellido1": {
-          "maxlength": "El seu primer cognom no pot tenir més de 50 caràcters",
-          "minlength": "Es requereix que el seu primer cognom tingui almenys 1 caràcter",
-          "required": "Es requereix que ingressi el seu primer cognom."
+    "account": {
+        "title": "Les meves dades",
+        "personalInformation": "Informació personal",
+        "basicInformation": "Informació bàsica",
+        "contactInformation": "Informació de contacte",
+        "generalPreferences": "Preferències generals",
+        "form": {
+            "nombre": "Nom",
+            "nombre.placeholder": "El seu nom",
+            "apellido1": "Primer cognom",
+            "apellido2": "Segon cognom",
+            "apellido1.placeholder": "El seu primer cognom",
+            "apellido2.placeholder": "El seu segon cognom",
+            "button": "Guardar",
+            "emailNotificationsEnabled": "Rebre notificacions"
         },
-        "apellido2": {
-          "maxlength": "El seu segon cognom no pot tenir més de 50 caràcters",
-          "minlength": "Es requereix que el seu segon cognom tingui almenys 1 caràcter",
-          "required": "Es requereix que ingressi el seu segon cognom."
+        "download": {
+            "myInformation": "Descarregar la meva informació"
         },
-        "nombre": {
-          "maxlength": "El seu nom no pot tenir més de 50 caràcters",
-          "minlength": "Es requereix que el seu nom tingui almenys 1 caràcter",
-          "required": "Es requereix que ingressi el seu nom."
+        "messages": {
+            "error": {
+                "emailexists": "<strong>¡L'adreça de correu electrònic ja existeix!</strong> Si us plau, triï una altra.",
+                "fail": "<strong>¡Ha ocorregut un error!</strong> Els ajustos no s'han pogut guardar."
+            },
+            "success": "<strong>¡Ajustos guardats!</strong>",
+            "validate": {
+                "apellido1": {
+                    "maxlength": "El seu primer cognom no pot tenir més de 50 caràcters",
+                    "minlength": "Es requereix que el seu primer cognom tingui almenys 1 caràcter",
+                    "required": "Es requereix que ingressi el seu primer cognom."
+                },
+                "apellido2": {
+                    "maxlength": "El seu segon cognom no pot tenir més de 50 caràcters",
+                    "minlength": "Es requereix que el seu segon cognom tingui almenys 1 caràcter",
+                    "required": "Es requereix que ingressi el seu segon cognom."
+                },
+                "nombre": {
+                    "maxlength": "El seu nom no pot tenir més de 50 caràcters",
+                    "minlength": "Es requereix que el seu nom tingui almenys 1 caràcter",
+                    "required": "Es requereix que ingressi el seu nom."
+                }
+            },
+            "delete": {
+                "label": "Està segur que vol eliminar a l'usuari?",
+                "text": "La informació eliminada no podrà ser recuperada"
+            },
+            "onSuccessSumary": "Usuari editat",
+            "onSuccess": "S'han modificat les dades de l'usuari correctament."
         }
-      },
-      "delete": {
-        "text": "Està segur que vol eliminar a l'usuari?. La informació eliminada no podrà ser recuperada"
-      },
-      "onSuccessSumary": "Usuari editat",
-      "onSuccess": "S'han modificat les dades de l'usuari correctament."
-    }
-  },
-  "notices": {
-    "title": "Notificacions",
-    "label": {
-      "message": "Missatge",
-      "subject": "Assumpte",
-      "receivedDate": "Rebut"
     },
-    "list": {
-      "noNotice": "Sembla que encara no has rebut cap missatge."
+    "notices": {
+        "title": "Notificacions",
+        "label": {
+            "message": "Missatge",
+            "subject": "Assumpte",
+            "receivedDate": "Rebut"
+        },
+        "list": {
+            "noNotice": "Sembla que encara no has rebut cap missatge."
+        }
     }
-  }
 }

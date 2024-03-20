@@ -1,62 +1,63 @@
 {
-  "account": {
-    "title": "My data",
-    "personalInformation": "Personal information",
-    "basicInformation": "Basic information",
-    "contactInformation": "Contact information",
-    "generalPreferences": "General preferences",
-    "form": {
-      "nombre": "Name",
-      "nombre.placeholder": "Your name",
-      "apellido1": "First surname",
-      "apellido2": "Second surname",
-      "apellido1.placeholder": "Your first surname",
-      "apellido2.placeholder": "Your second surname",
-      "button": "Save",
-      "emailNotificationsEnabled": "Receive notifications"
-    },
-    "download": {
-      "myInformation": "Download my information"
-    },
-    "messages": {
-      "error": {
-        "fail": "<strong>¡An error has ocurred!</strong> Settings could not be saved.",
-        "emailexists": "<strong>¡The email address already exists!</strong> Please, choose other."
-      },
-      "success": "<strong>¡Saved settings!</strong>",
-      "validate": {
-        "nombre": {
-          "required": "You are required to enter your name.",
-          "minlength": "Your name is required to be at least 1 character",
-          "maxlength": "Your name cannot have more than 50 characters"
+    "account": {
+        "title": "My data",
+        "personalInformation": "Personal information",
+        "basicInformation": "Basic information",
+        "contactInformation": "Contact information",
+        "generalPreferences": "General preferences",
+        "form": {
+            "nombre": "Name",
+            "nombre.placeholder": "Your name",
+            "apellido1": "First surname",
+            "apellido2": "Second surname",
+            "apellido1.placeholder": "Your first surname",
+            "apellido2.placeholder": "Your second surname",
+            "button": "Save",
+            "emailNotificationsEnabled": "Receive notifications"
         },
-        "apellido1": {
-          "required": "You are required to enter your first last name.",
-          "minlength": "Your first surname is required to be at least 1 character",
-          "maxlength": "Your first surname cannot have more than 50 characters"
+        "download": {
+            "myInformation": "Download my information"
         },
-        "apellido2": {
-          "required": "You are required to enter your second last name.",
-          "minlength": "Your second last name is required to be at least 1 character",
-          "maxlength": "Your second last name cannot have more than 50 characters"
+        "messages": {
+            "error": {
+                "fail": "<strong>¡An error has ocurred!</strong> Settings could not be saved.",
+                "emailexists": "<strong>¡The email address already exists!</strong> Please, choose other."
+            },
+            "success": "<strong>¡Saved settings!</strong>",
+            "validate": {
+                "nombre": {
+                    "required": "You are required to enter your name.",
+                    "minlength": "Your name is required to be at least 1 character",
+                    "maxlength": "Your name cannot have more than 50 characters"
+                },
+                "apellido1": {
+                    "required": "You are required to enter your first last name.",
+                    "minlength": "Your first surname is required to be at least 1 character",
+                    "maxlength": "Your first surname cannot have more than 50 characters"
+                },
+                "apellido2": {
+                    "required": "You are required to enter your second last name.",
+                    "minlength": "Your second last name is required to be at least 1 character",
+                    "maxlength": "Your second last name cannot have more than 50 characters"
+                }
+            },
+            "delete": {
+                "label": "Are you sure you want to delete user?",
+                "text": "Deleted information cannot be recovered"
+            },
+            "onSuccessSumary": "User edit",
+            "onSuccess": "User data has been modified correctly."
         }
-      },
-      "delete": {
-        "text": "Are you sure you want to delete user?. Deleted information cannot be recovered"
-      },
-      "onSuccessSumary": "User edit",
-      "onSuccess": "User data has been modified correctly."
-    }
-  },
-  "notices": {
-    "title": "Notices",
-    "label": {
-      "message": "Message",
-      "subject": "Subject",
-      "receivedDate": "Received"
     },
-    "list": {
-      "noNotice": "Looks like you haven’t gotten any messages yet."
+    "notices": {
+        "title": "Notices",
+        "label": {
+            "message": "Message",
+            "subject": "Subject",
+            "receivedDate": "Received"
+        },
+        "list": {
+            "noNotice": "Looks like you haven’t gotten any messages yet."
+        }
     }
-  }
 }

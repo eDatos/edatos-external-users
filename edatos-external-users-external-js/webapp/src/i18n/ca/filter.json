@@ -1,40 +1,42 @@
 {
-  "filter": {
-    "entity": {
-      "email": "Email",
-      "lastAccessDate": "Data d'últim accés",
-      "createdDate": "Data de creació",
-      "name": "Nom",
-      "notes": "Notes",
-      "owner": "Propietari",
-      "permalink": "URL",
-      "lastModifiedDate": "Data de modificació"
-    },
-    "form": {
-      "audit": "Audit",
-      "cancel": "Cancel·lar",
-      "delete": "Eliminar taula",
-      "edit": "Editar consulta",
-      "goBack": "Tornar al llistat",
-      "legend": "Detalls de la consulta personalitzada",
-      "new": "Crear una nova consulta personalitzada",
-      "save": "Guardar consulta"
-    },
-    "home": {
-      "createLabel": "Consulta personalizada",
-      "title": "Consulta personalitzada"
-    },
-    "name": "Consulta personalitzada",
-    "list": {
-      "noFilterCreated": "Sembla que encara no has creat cap consulta",
-      "wouldYouLikeToCreateAFilter": "Pots crear-la des de qualsevol visualització en el portal de dades"
-    },
-    "messages": {
-      "delete": {
-        "title": "Eliminar consulta personalitzada",
-        "label": "¿Segur que vols eliminar aquesta consulta personalitzada?",
-        "content": "La informació no es podrà recuperar"
-      }
+    "filter": {
+        "entity": {
+            "email": "Email",
+            "lastAccessDate": "Data d'últim accés",
+            "createdDate": "Data de creació",
+            "name": "Nom",
+            "notes": "Notes",
+            "owner": "Propietari",
+            "permalink": "URL",
+            "lastModifiedDate": "Data de modificació"
+        },
+        "form": {
+            "audit": "Audit",
+            "cancel": "Cancel·lar",
+            "delete": "Eliminar taula",
+            "edit": "Editar consulta",
+            "goBack": "Tornar al llistat",
+            "legend": "Detalls de la consulta personalitzada",
+            "new": "Crear una nova consulta personalitzada",
+            "save": "Guardar consulta"
+        },
+        "home": {
+            "createLabel": "Consulta personalizada",
+            "title": "Consulta personalitzada"
+        },
+        "name": "Consulta personalitzada",
+        "list": {
+            "noFilterCreated": "Sembla que encara no has creat cap consulta",
+            "wouldYouLikeToCreateAFilter": "Pots crear-la des de qualsevol visualització en el portal de dades"
+        },
+        "messages": {
+            "onSuccessSumary": "Consulta personalitzada modificada",
+            "onSuccess": "Consulta personalitzada modificada correctament",
+            "delete": {
+                "title": "Eliminar consulta personalitzada",
+                "label": "¿Segur que vols eliminar aquesta consulta personalitzada?",
+                "content": "La informació no es podrà recuperar"
+            }
+        }
     }
-  }
 }

@@ -5,6 +5,8 @@ import { ConfigService } from '@app/config';
 import { Filter } from '@app/core/model';
 import { FilterService } from '@app/shared/service';
 import { finalize } from 'rxjs/operators';
+import {MessageService} from "primeng/api";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
     selector: 'app-filter-form',
@@ -24,7 +26,9 @@ export class FilterFormEditComponent implements OnInit {
         private activatedRoute: ActivatedRoute,
         private titleService: Title,
         private router: Router,
-        private configService: ConfigService
+        private configService: ConfigService,
+        private messageService: MessageService,
+        private translateService: TranslateService
     ) {
         this.filter = this.activatedRoute.snapshot.data['filter'] ?? new Filter();
         this.activatedRoute.url.subscribe((segments) => {
@@ -62,7 +66,8 @@ export class FilterFormEditComponent implements OnInit {
                 .save(this.filter)
                 .pipe(finalize(() => this.toggleIsSaving()))
                 .subscribe((filter) => {
-                    this.router.navigate([`../${filter.id}`], { relativeTo: this.activatedRoute });
+                    this.onSuccess();
+                    this.router.navigate(['filter']);
                 });
         } else {
             this.filterService
@@ -70,6 +75,8 @@ export class FilterFormEditComponent implements OnInit {
                 .pipe(finalize(() => this.toggleIsSaving()))
                 .subscribe((filter) => {
                     this.filter = filter;
+                    this.onSuccess();
+                    this.router.navigate(['filter']);
                 });
         }
     }
@@ -78,4 +85,13 @@ export class FilterFormEditComponent implements OnInit {
         this.isSaving = !this.isSaving;
     }
 
+    private onSuccess() {
+        this.messageService.add({
+            key: 'customAlertKey',
+            severity: 'success',
+            summary: this.translateService.instant('filter.messages.onSuccessSumary'),
+            detail: this.translateService.instant('filter.messages.onSuccess'),
+            life: 5000
+        });
+    }
 }

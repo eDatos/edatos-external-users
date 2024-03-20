@@ -62,15 +62,6 @@
                             <div class='code'>
                                 <code>{{ filter.urlPermalink }}</code>
                             </div>
-                            <div class='element-link-actions'>
-                                <button type='button' (click)='openSelfLink(filter.urlPermalink)'>
-                                    <i class='fa-thin fa-external-link'></i>
-                                </button>
-                                <button copyClipboard='{{filter.urlPermalink}}' (click)='onCopyUrlPermalinkSuccess()'>
-                                    <i class='fa-thin fa-copy'></i>
-                                </button>
-                            </div>
-                            <div class='copied-message' *ngIf='urlPermalink'>{{ 'copy' | translate }}</div>
                         </div>
 
                         <div class='row'>

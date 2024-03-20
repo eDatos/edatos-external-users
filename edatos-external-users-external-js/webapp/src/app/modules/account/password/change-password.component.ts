@@ -51,6 +51,7 @@ export class ChangePasswordComponent implements OnInit {
     }
 
     save() {
+
         if (this.newPassword !== this.confirmNewPassword) {
             return;
         }
