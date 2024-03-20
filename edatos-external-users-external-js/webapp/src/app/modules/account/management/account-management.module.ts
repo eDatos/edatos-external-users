@@ -13,10 +13,10 @@ import {
 import { ArteDirectivesModule } from 'arte-ng/directives';
 import { AccountManagementRoutingModule } from './account-management-routing.module';
 import { AccountManagementComponent } from './account-management.component';
-import { CompleteEmailModificationComponent } from "@app/modules/account/management/complete-email-modification/complete-email-modification.component";
 import {
     AccountManagementEditComponent
 } from '@app/modules/account/management/account-management-edit/account-management-edit.component';
+import { EmailModificationModule } from "@app/modules/email-modification/email-modification.module";
 
 @NgModule({
     imports: [
@@ -30,9 +30,10 @@ import {
         ArteSpinnerModule,
         ArteEntityListEmptyModule,
         CommonModule,
-        ArteCalendarModule
+        ArteCalendarModule,
+        EmailModificationModule
     ],
-    declarations: [AccountManagementComponent, CompleteEmailModificationComponent, AccountManagementEditComponent],
+    declarations: [AccountManagementComponent, AccountManagementEditComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AccountManagementModule {

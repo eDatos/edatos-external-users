@@ -66,7 +66,7 @@ public class NotificationServiceImpl implements NotificationService {
     private final Logger log = LoggerFactory.getLogger(NotificationServiceImpl.class);
 
     private static String RESET_PASSWORD_URL = "/#/reset-password/change-password?key=";
-    private static String RESET_EMAIL_URL = "/#/account-management/complete-email-modification?email-update-key=";
+    private static String RESET_EMAIL_URL = "/#/email-modification/confirm?email-update-key=";
     private static String CONFIRM_REGISTRATION_URL = "/#/login?registration-key=";
     private static String CONTINUE_SIGNUP_MIGRATED_USER_URL = "/#/signup?registration-token=";
 

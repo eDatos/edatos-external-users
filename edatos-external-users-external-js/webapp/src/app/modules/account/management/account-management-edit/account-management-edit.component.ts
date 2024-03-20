@@ -6,7 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 import { CodelistService, LanguageService } from '@app/shared/service';
 import { ItemCode } from '@app/shared';
-import { EmailModificationConfirmDialogComponent } from "@app/modules/account/management/email-modification-confirm-dialog/email-modification-confirm-dialog.component";
+import { EmailModificationConfirmDialogComponent } from "@app/modules/email-modification/email-modification-confirm-dialog/email-modification-confirm-dialog.component";
 import { GenericModalService } from "arte-ng/services";
 
 @Component({
