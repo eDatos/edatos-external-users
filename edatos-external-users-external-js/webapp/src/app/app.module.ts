@@ -31,7 +31,6 @@ import {
     DeleteFilterDialogComponent
 } from '@app/modules/filter/filter-form/delete-filter-dialog/delete-filter-dialog.component';
 import { SubNavbarComponent } from '@app/layouts/navbar/sub-navbar.component';
-import { EmailModificationConfirmDialogComponent } from "@app/modules/account/management/email-modification-confirm-dialog/email-modification-confirm-dialog.component";
 
 class CustomTranslateHttpLoader extends TranslateHttpLoader {
 
@@ -68,10 +67,9 @@ export function initTranslations(translateService: TranslateService, cookieServi
         ErrorComponent,
         DeleteConfirmDialogComponent,
         DeleteFilterDialogComponent,
-        AboutDialogComponent,
-        EmailModificationConfirmDialogComponent
+        AboutDialogComponent
     ],
-    entryComponents: [DeleteConfirmDialogComponent, AboutDialogComponent, DeleteFilterDialogComponent, EmailModificationConfirmDialogComponent],
+    entryComponents: [DeleteConfirmDialogComponent, AboutDialogComponent, DeleteFilterDialogComponent],
     imports: [
         BrowserModule,
         ErrorRoutingModule,

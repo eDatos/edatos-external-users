@@ -8,7 +8,6 @@ import { UserResolver } from '@app/core/resolver';
 import {
     AccountManagementEditComponent
 } from '@app/modules/account/management/account-management-edit/account-management-edit.component';
-import { CompleteEmailModificationComponent } from "@app/modules/account/management/complete-email-modification/complete-email-modification.component";
 
 export const accountManagementRoutes: Routes = [
     {
@@ -34,10 +33,6 @@ export const accountManagementRoutes: Routes = [
             user: UserResolver
         },
         canActivate: [UserRouteAccessGuard]
-    },
-    {
-        path: 'complete-email-modification',
-        component: CompleteEmailModificationComponent
     }
 ];
 

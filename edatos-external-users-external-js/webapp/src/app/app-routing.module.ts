@@ -82,6 +82,13 @@ const APP_ROUTES: Routes = [
         }
     },
     {
+        path: 'email-modification',
+        loadChildren: () => import('./modules/email-modification/email-modification.module').then((m) => m.EmailModificationModule),
+        data: {
+            roles: ALL_ALLOWED
+        }
+    },
+    {
         path: '**',
         redirectTo: 'notfound'
     }
