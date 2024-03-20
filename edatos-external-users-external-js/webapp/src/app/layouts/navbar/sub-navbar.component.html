@@ -39,7 +39,7 @@
                         </div>
                         <ul class='dropdown-menu dropdown-menu-right' ngbDropdownMenu>
                             <li>
-                                <a class='dropdown-item' (click)='navigateToSection()'
+                                <a class='dropdown-item dialog-btn-pointer' (click)='navigateToSection()'
                                    routerLinkActive='active'>
                                     <i class='fa-thin fa-user' aria-hidden='true'></i>
                                     <span>{{ dropdownReverseTitleSection() }}</span>
@@ -48,7 +48,7 @@
                             <ng-container *ngIf='accountSection'>
                                 <hr />
                                 <li>
-                                    <a class='dropdown-item' (click)="navigateTo('data-protection-policy')"
+                                    <a class='dropdown-item dialog-btn-pointer' (click)="navigateTo('data-protection-policy')"
                                        routerLinkActive='active'>
                                         <i class='fa fa-fw fa-file' aria-hidden='true'></i>
                                         <span translate='entity.action.data-protection-policy'></span>
@@ -64,7 +64,7 @@
                             </ng-container>
                             <hr />
                             <li>
-                                <a class='dropdown-item btn' (click)='logout()' id='logout'
+                                <a class='dropdown-item btn dialog-btn-pointer' (click)='logout()' id='logout'
                                    [title]="'global.menu.account.logout' | translate">
                                     <i class='fa fa-fw fa-sign-out' aria-hidden='true'></i>
                                     <span translate='global.menu.account.logout'></span>

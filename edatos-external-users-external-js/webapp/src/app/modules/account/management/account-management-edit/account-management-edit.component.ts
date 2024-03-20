@@ -55,6 +55,7 @@ export class AccountManagementEditComponent implements OnInit {
         this.isSaving = true;
         this.account.nationality = this.nationality ? this.nationality.id : null;
         this.account.gender = this.gender ? this.gender.id : null;
+        this.account.language = this.selectedLanguage ? this.selectedLanguage.locale : null;
         let newEmail: string;
         if (this.email !== this.account.email) {
             newEmail = this.account.email;

@@ -1,40 +1,42 @@
 {
-  "filter": {
-    "entity": {
-      "email": "E-mail",
-      "lastAccessDate": "Last Access Date",
-      "createdDate": "Creation Date",
-      "name": "First Name",
-      "notes": "Notes",
-      "owner": "Owner",
-      "permalink": "URL",
-      "lastModifiedDate": "Modification date"
-    },
-    "form": {
-      "audit": "Auditoria",
-      "cancel": "Cancel",
-      "delete": "Delete Custom Query",
-      "edit": "Edit Custom Query",
-      "goBack": "Back to List",
-      "legend": "Custom Query Details",
-      "new": "Create a new custom query",
-      "save": "Save Custom Query"
-    },
-    "home": {
-      "createLabel": "Create Custom Query",
-      "title": "Custom queries"
-    },
-    "list": {
-      "noFilterCreated": "It looks like you haven’t created a query yet",
-      "wouldYouLikeToCreateAFilter": "You can create it from any view in the data portal"
-    },
-    "messages": {
-      "delete": {
-        "title": "Delete Custom Query",
-        "label": "¿Are you sure you want to delete this custom query?",
-        "content": "The custom query will be permanently deleted"
-      }
-    },
-    "name": "Custom query"
-  }
+    "filter": {
+        "entity": {
+            "email": "E-mail",
+            "lastAccessDate": "Last Access Date",
+            "createdDate": "Creation Date",
+            "name": "First Name",
+            "notes": "Notes",
+            "owner": "Owner",
+            "permalink": "URL",
+            "lastModifiedDate": "Modification date"
+        },
+        "form": {
+            "audit": "Auditoria",
+            "cancel": "Cancel",
+            "delete": "Delete Custom Query",
+            "edit": "Edit Custom Query",
+            "goBack": "Back to List",
+            "legend": "Custom Query Details",
+            "new": "Create a new custom query",
+            "save": "Save Custom Query"
+        },
+        "home": {
+            "createLabel": "Create Custom Query",
+            "title": "Custom queries"
+        },
+        "list": {
+            "noFilterCreated": "It looks like you haven’t created a query yet",
+            "wouldYouLikeToCreateAFilter": "You can create it from any view in the data portal"
+        },
+        "messages": {
+            "onSuccessSumary": "Custom query modify",
+            "onSuccess": "Custom query modify successfully",
+            "delete": {
+                "title": "Delete Custom Query",
+                "label": "¿Are you sure you want to delete this custom query?",
+                "content": "The custom query will be permanently deleted"
+            }
+        },
+        "name": "Custom query"
+    }
 }

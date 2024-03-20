@@ -200,6 +200,12 @@ public class ExternalAccountResource extends AbstractResource {
     @PreAuthorize("@secCheckerExternal.canUpdateUser(authentication)")
     public ResponseEntity<Void> changePassword(@Valid @RequestBody ChangePasswordDto passwordDto, @RequestParam(required = false) String token) {
         ExternalUserEntity user = externalUserService.getUsuarioWithAuthorities();
+
+
+        if(!SecurityUtils.passwordEncoderMatches(passwordDto.getCurrentPassword(), user.getPassword())){
+            throw new EDatosException(ServiceExceptionType.EXTERNAL_USER_PASSWORD_CHANGE_FAILED);
+        }
+
         externalUserService.updateExternalUserAccountPassword(user, passwordDto.getCurrentPassword(), passwordDto.getNewPassword());
 
         ExternalUserAccountBaseDto updatedUserDto = externalUserMapper.toBaseDto(user);

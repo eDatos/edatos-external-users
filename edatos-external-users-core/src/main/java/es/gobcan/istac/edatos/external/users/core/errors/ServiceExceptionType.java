@@ -41,6 +41,8 @@ public class ServiceExceptionType extends CommonServiceExceptionType {
      * EXTERNAL_USER
      ********/
     public static final CommonServiceExceptionType EXTERNAL_USER_DELETE_FAILED = create("exception.external_users.delete.failed");
+
+    public static final CommonServiceExceptionType EXTERNAL_USER_PASSWORD_CHANGE_FAILED = create("exception.external_users.password_change.failed");
     public static final CommonServiceExceptionType EXTERNAL_USER_DEACTIVATE = create("exception.external_users.deactivate");
     public static final CommonServiceExceptionType EXTERNAL_USER_DEAUTHENTICATED = create("exception.external_users.deauthenticated");
     public static final CommonServiceExceptionType EXTERNAL_USER_REGISTRATION_CONFIRMATION = create("exception.external_users.registration_confirmation");
