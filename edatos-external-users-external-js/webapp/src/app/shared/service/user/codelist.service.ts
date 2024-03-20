@@ -18,7 +18,7 @@ export class CodelistService {
     }
 
     public findAllCountries(): Observable<ItemCode[]> {
-        const restriction = '&restriction=PAISES';
+        const restriction = '&restriction=' + this.configService.getConfig().metadata.nationalitiesRestriction;
         const extended = '&extended=false';
         const url = getCodesUrlJSONType(this.configService, TYPE_EXTERNAL_CODELISTS, this.configService.getConfig().metadata.nationalities, '', restriction, extended);
         return this.getAllItemCodes(url);
@@ -31,7 +31,7 @@ export class CodelistService {
     }
 
     public findAllGenders(): Observable<ItemCode[]> {
-        const restriction = '&restriction=SEXO';
+        const restriction = '&restriction=' + this.configService.getConfig().metadata.genderRestriction;
         const extended = '&extended=false';
         const url = getCodesUrlJSONType(this.configService, TYPE_EXTERNAL_CODELISTS, this.configService.getConfig().metadata.gender, '', restriction, extended);
         return this.getAllItemCodes(url);
