@@ -381,11 +381,11 @@
         "enabled": "Activada",
         "disablementConfirmationModal": {
             "title": "Confirmar deshabilitació d'operació",
-            "body": "Segur que voleu deshabilitar l'operació estadística <strong>{{operation}}</strong>? Totes les subscripcions temàtiques a aquesta operació seran eliminades i no podran ser recuperades."
+            "body": "Segur que desitja eliminar l'operació estadística <strong>{{operation}}</strong>? Totes les subscripcions temàtiques a aquesta operació seran eliminades i no podran ser recuperades."
         },
         "enablementConfirmationModal": {
             "title": "Confirmar habilitació d'operació",
-            "body": "Segur que desitja habilitar l'operació estadística <strong>{{operation}}</strong>? A partir d'ara els usuaris podrien subscriure's a aquesta operació."
+            "body": "Segur que desitja activar l'operació estadística <strong>{{operation}}</strong>? A partir d'ara els usuaris podrien subscriure's a aquesta operació."
         }
     },
     "externalOperations": {
