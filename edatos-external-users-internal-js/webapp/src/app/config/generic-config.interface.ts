@@ -14,5 +14,7 @@ export interface GenericConfig {
         defaultLanguage: string;
         nationalities: string;
         gender: string;
+        nationalitiesRestriction: string;
+        genderRestriction: string;
     };
 }

@@ -52,11 +52,24 @@ public class MetadataConfigurationServiceMockImpl extends ConfigurationServiceMo
     public String retrieveCronExpressionSendNoticeJob() throws EDatosException {
         return retrieveProperty(ExternalUsersConfigurationConstants.CRON_EXPRESSION_SEND_NOTICE_JOB);
     }
-    @Override public String retrieveNationalityUrnKey() throws EDatosException {
+
+    @Override
+    public String retrieveNationalityUrnKey() throws EDatosException {
         return retrieveProperty(ExternalUsersConfigurationConstants.NATIONALITY_URN_KEY);
     }
-    @Override public String retrieveGenderUrnKey() throws EDatosException {
+
+    @Override
+    public String retrieveGenderUrnKey() throws EDatosException {
         return retrieveProperty(ExternalUsersConfigurationConstants.GENDER_URN_KEY);
     }
 
+    @Override
+    public String retrieveNationalityRestriction() throws EDatosException {
+        return retrieveProperty(ExternalUsersConfigurationConstants.NATIONALITY_RESTRICTION);
+    }
+
+    @Override
+    public String retrieveGenderRestriction() throws EDatosException {
+        return retrieveProperty(ExternalUsersConfigurationConstants.GENDER_RESTRICTION);
+    }
 }

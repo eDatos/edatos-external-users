@@ -11,6 +11,8 @@ export interface GenericConfig {
         languageCookie: string;
         nationalities: string;
         gender: string;
+        nationalitiesRestriction: string;
+        genderRestriction: string;
     };
     template: {
         headerUrl: string;
