@@ -43,7 +43,9 @@
             }
         },
         "email-modification": {
-            "question": "¿Seguro que desea cambiar el correo de su usuario? Si es así se mandará un correo al nuevo valor que ha proporcionado para confirmar que el correo es suyo.",
+            "title": "Modificar correo electrónico",
+            "label": "¿Seguro que desea cambiar el correo de su usuario?",
+            "content": "Si es así, se enviará un correo electrónico a la nueva cuenta que ha proporcionado para confirmar que el correo es suyo.",
             "messages": {
                 "onRequestSuccessSummary": "Email modificado",
                 "onRequestSuccess": "Se ha enviado un correo para confirmar el cambio.",
