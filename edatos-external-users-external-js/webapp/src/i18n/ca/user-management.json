@@ -43,7 +43,9 @@
             }
         },
         "email-modification": {
-            "question": "Estàs segur que vols canviar el correu del teu usuari? Si és així, s'enviarà un curreu al nou valor que ha proporcionat per confirmar que el correu és vostre.",
+            "title": "Modificar correu electrònic",
+            "label": "Estàs segur que vols canviar el correu del teu usuari?",
+            "content": "Si és així, s'enviarà un correu electrònic al nou compte que ha proporcionat per confirmar que el correu és vostre.",
             "messages": {
                 "onRequestSuccessSummary": "Modificació de l'email",
                 "onRequestSuccess": "S'ha enviat un correu per confirmar el canvi.",

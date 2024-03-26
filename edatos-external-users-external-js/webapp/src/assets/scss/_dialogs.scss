@@ -14,6 +14,10 @@ app-delete-confirm-dialog, app-about-dialog, app-email-modification-confirm-dial
       color: $color-red-100;
     }
 
+    i.text-warn {
+      color: $color-yellow-100;
+    }
+
     div.card-body {
       .form-group p {
         margin-left: 23px;
