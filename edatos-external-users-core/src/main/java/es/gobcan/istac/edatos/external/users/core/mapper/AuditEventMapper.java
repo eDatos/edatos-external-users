@@ -42,11 +42,15 @@ public abstract class AuditEventMapper{
         return (String) entity.getData().getOrDefault(AuditConstants.MESSAGE, entity.getData().get(AuditConstants.CODE));
     }
 
-    private String getFavoriteValue(AuditEvent entity) throws JsonProcessingException {
+    private String getFavoriteValue(AuditEvent entity) {
         String locale = LocaleContext.getLocale() == null ? null : LocaleContext.getLocale().toString();
         String defaultLocale = LocaleContext.getDefaultLocale().toString();
 
-        InternationalStringVO name = objectMapper.readValue((String) entity.getData().get(AuditConstants.MESSAGE), InternationalStringVO.class); // TODO cuidado con valores previos
-        return name.getLocalisedLabel(locale, defaultLocale);
+        try {
+            InternationalStringVO name = objectMapper.readValue((String) entity.getData().get(AuditConstants.MESSAGE), InternationalStringVO.class);
+            return name.getLocalisedLabel(locale, defaultLocale);
+        } catch (JsonProcessingException e) {
+            return entity.getData().get(AuditConstants.MESSAGE).toString();
+        }
     }
 }
