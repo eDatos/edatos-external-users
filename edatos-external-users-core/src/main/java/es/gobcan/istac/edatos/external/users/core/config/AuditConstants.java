@@ -4,6 +4,7 @@ public final class AuditConstants {
 
     public static final String CODE = "code";
     public static final String MESSAGE = "message";
+    public static final String PRINCIPAL_TYPE = "principalType";
 
     public static final String USUARIO_CREACION = "USUARIO_CREACION";
     public static final String USUARIO_EDICION = "USUARIO_EDICION";

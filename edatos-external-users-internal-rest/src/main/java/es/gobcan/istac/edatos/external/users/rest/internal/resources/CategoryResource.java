@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import es.gobcan.istac.edatos.external.users.core.domain.enumeration.AuditPrincipalType;
 import org.siemac.edatos.core.common.exception.CommonServiceExceptionType;
 import org.siemac.edatos.core.common.exception.EDatosException;
 import org.springframework.data.domain.Page;
@@ -139,7 +140,7 @@ public class CategoryResource extends AbstractResource {
     @PreAuthorize("@secChecker.canDeleteCategory(authentication)")
     public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
         categoryService.delete(id);
-        auditPublisher.publish(AuditConstants.CATEGORY_DELETE, id.toString());
+        auditPublisher.publish(AuditConstants.CATEGORY_DELETE, AuditPrincipalType.ADMIN, id.toString());// TODO: should audit the rest of the requests?
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 

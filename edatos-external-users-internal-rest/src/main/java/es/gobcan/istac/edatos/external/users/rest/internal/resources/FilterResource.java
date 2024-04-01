@@ -26,6 +26,7 @@ import com.codahale.metrics.annotation.Timed;
 
 import es.gobcan.istac.edatos.external.users.core.config.AuditConstants;
 import es.gobcan.istac.edatos.external.users.core.config.audit.AuditEventPublisher;
+import es.gobcan.istac.edatos.external.users.core.domain.enumeration.AuditPrincipalType;
 import es.gobcan.istac.edatos.external.users.core.domain.FilterEntity;
 import es.gobcan.istac.edatos.external.users.core.service.FilterService;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.FilterDto;
@@ -82,7 +83,7 @@ public class FilterResource extends AbstractResource {
         entity = filterService.create(entity);
         FilterDto newDto = filterMapper.toDto(entity);
 
-        auditPublisher.publish(AuditConstants.FILTER_CREATION, newDto.getExternalUser().getId().toString());
+        auditPublisher.publish(AuditConstants.FILTER_CREATION, AuditPrincipalType.ADMIN, newDto.getExternalUser().getId().toString());// TODO: this is going to disappear, should be changed anyway?
         return ResponseEntity.created(new URI(BASE_URL + SLASH + newDto.getId()))
                              .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, newDto.getId().toString()))
                              .body(newDto);
@@ -100,7 +101,7 @@ public class FilterResource extends AbstractResource {
         entity = filterService.update(entity);
         FilterDto newDto = filterMapper.toDto(entity);
 
-        auditPublisher.publish(AuditConstants.FILTER_EDITION, newDto.getExternalUser().getId().toString());
+        auditPublisher.publish(AuditConstants.FILTER_EDITION, AuditPrincipalType.ADMIN, newDto.getExternalUser().getId().toString());// TODO: this is going to disappear, should be changed anyway?
         return ResponseEntity.ok()
                              .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, newDto.getId().toString()))
                              .body(newDto);
@@ -112,7 +113,7 @@ public class FilterResource extends AbstractResource {
     public ResponseEntity<Void> deleteFilter(@PathVariable Long id) {
         filterService.delete(filterService.find(id));
 
-        auditPublisher.publish(AuditConstants.FILTER_DELETION, id.toString());
+        auditPublisher.publish(AuditConstants.FILTER_DELETION, AuditPrincipalType.ADMIN, id.toString());// TODO: this is going to disappear, should be changed anyway?
         return ResponseEntity.noContent()
                              .headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString()))
                              .build();

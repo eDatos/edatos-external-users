@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.codahale.metrics.annotation.Timed;
 
 import es.gobcan.istac.edatos.external.users.core.config.AuditConstants;
+import es.gobcan.istac.edatos.external.users.core.domain.enumeration.AuditPrincipalType;
 import es.gobcan.istac.edatos.external.users.core.config.audit.AuditEventPublisher;
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalOperationEntity;
 import es.gobcan.istac.edatos.external.users.core.service.ExternalOperationService;
@@ -56,7 +57,7 @@ public class ExternalOperationResource extends AbstractResource {
     public ResponseEntity<ExternalOperationDto> updateExternalOperation(@RequestBody ExternalOperationDto dto) {
         ExternalOperationEntity externalOperation = externalOperationMapper.toEntity(dto.getId(), dto.isEnabled(), dto.isNotificationsEnabled());
         externalOperation = externalOperationService.update(externalOperation);
-        auditPublisher.publish(AuditConstants.EXTERNAL_OPERATION_EDITION, externalOperation.getUrn());
+        auditPublisher.publish(AuditConstants.EXTERNAL_OPERATION_EDITION, AuditPrincipalType.ADMIN, externalOperation.getUrn());
         return ResponseEntity.ok(externalOperationMapper.toDto(externalOperation));
     }
 }

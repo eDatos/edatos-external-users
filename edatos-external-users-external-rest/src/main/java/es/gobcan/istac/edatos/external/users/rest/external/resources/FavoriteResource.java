@@ -18,10 +18,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.Timed;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import es.gobcan.istac.edatos.external.users.core.config.AuditConstants;
 import es.gobcan.istac.edatos.external.users.core.config.audit.AuditEventPublisher;
+import es.gobcan.istac.edatos.external.users.core.domain.enumeration.AuditPrincipalType;
 import es.gobcan.istac.edatos.external.users.core.domain.FavoriteEntity;
+import es.gobcan.istac.edatos.external.users.core.domain.vo.InternationalStringVO;
 import es.gobcan.istac.edatos.external.users.core.service.FavoriteService;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.FavoriteDto;
 import es.gobcan.istac.edatos.external.users.rest.common.mapper.FavoriteMapper;
@@ -40,10 +44,13 @@ public class FavoriteResource extends AbstractResource {
 
     private final AuditEventPublisher auditPublisher;
 
-    public FavoriteResource(FavoriteService favoriteService, FavoriteMapper favoriteMapper, AuditEventPublisher auditPublisher) {
+    private final ObjectMapper objectMapper;
+
+    public FavoriteResource(FavoriteService favoriteService, FavoriteMapper favoriteMapper, AuditEventPublisher auditPublisher, ObjectMapper objectMapper) {
         this.favoriteService = favoriteService;
         this.favoriteMapper = favoriteMapper;
         this.auditPublisher = auditPublisher;
+        this.objectMapper = objectMapper;
     }
 
     @GetMapping("/{id}")
@@ -64,7 +71,7 @@ public class FavoriteResource extends AbstractResource {
     @PostMapping
     @Timed
     @PreAuthorize("@secCheckerExternal.canCreateFavorites(authentication)")
-    public ResponseEntity<FavoriteDto> createFavorite(@RequestBody FavoriteDto dto) throws URISyntaxException {
+    public ResponseEntity<FavoriteDto> createFavorite(@RequestBody FavoriteDto dto) throws URISyntaxException, JsonProcessingException {
         if (dto != null && dto.getId() != null) {
             throw new EDatosException(CommonServiceExceptionType.PARAMETER_UNEXPECTED, "id");
         }
@@ -73,17 +80,27 @@ public class FavoriteResource extends AbstractResource {
         entity = favoriteService.create(entity);
         FavoriteDto newDto = favoriteMapper.toDto(entity);
 
-        auditPublisher.publish(AuditConstants.FAVORITE_CREATION, newDto.getExternalUser().getId().toString());
+        auditPublisher.publish(AuditConstants.FAVORITE_CREATION, AuditPrincipalType.EXTERNAL_USER, newDto.getId().toString(), objectMapper.writeValueAsString(getResourceName(entity))); // TODO the message for an international string fails cause it is too long
         return ResponseEntity.created(new URI(BASE_URL + SLASH + newDto.getId())).headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, newDto.getId().toString())).body(newDto);
     }
 
     @DeleteMapping("/{id}")
     @Timed
     @PreAuthorize("@secCheckerExternal.canDeleteFavorites(authentication)")
-    public ResponseEntity<Void> deleteFavorite(@PathVariable Long id) {
-        favoriteService.delete(favoriteService.find(id));
+    public ResponseEntity<Void> deleteFavorite(@PathVariable Long id) throws JsonProcessingException {
+        FavoriteEntity favorite = favoriteService.find(id);
+        favoriteService.delete(favorite);
 
-        auditPublisher.publish(AuditConstants.FAVORITE_DELETION, id.toString());
+        auditPublisher.publish(AuditConstants.FAVORITE_DELETION, AuditPrincipalType.EXTERNAL_USER, id.toString(), objectMapper.writeValueAsString(getResourceName(favorite))); // TODO the message for an international string fails cause it is too long
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+
+    private InternationalStringVO getResourceName(FavoriteEntity favorite) {
+        if (favorite.getCategory() != null) {
+            return favorite.getCategory().getName();
+        } else if (favorite.getExternalOperation() != null) {
+            return favorite.getExternalOperation().getName();
+        }
+        return new InternationalStringVO();
     }
 }

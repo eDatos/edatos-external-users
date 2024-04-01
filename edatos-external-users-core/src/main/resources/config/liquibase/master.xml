@@ -53,4 +53,6 @@
              relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20240215091400_added_entity_EmailModificationRequest.xml"
              relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240326113400_modify_entity_AdminAuditEvent.xml"
+             relativeToChangelogFile="false"/>
 </databaseChangeLog>

@@ -29,6 +29,7 @@ import es.gobcan.istac.edatos.external.users.core.config.AuditConstants;
 import es.gobcan.istac.edatos.external.users.core.config.DocumentConstants;
 import es.gobcan.istac.edatos.external.users.core.config.DocumentUtil;
 import es.gobcan.istac.edatos.external.users.core.config.audit.AuditEventPublisher;
+import es.gobcan.istac.edatos.external.users.core.domain.enumeration.AuditPrincipalType;
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
 import es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType;
 import es.gobcan.istac.edatos.external.users.core.repository.ExternalUserRepository;
@@ -156,7 +157,7 @@ public class ExternalAccountResource extends AbstractResource {
         }
 
         notificationService.createEmailModificationNotice(userWithEmailKey);
-        auditPublisher.publish(AuditConstants.EXT_USUARIO_EDICION, userWithEmailKey.getEmail());
+        auditPublisher.publish(AuditConstants.EXT_USUARIO_EDICION, AuditPrincipalType.EXTERNAL_USER);
         return new ResponseEntity<>(externalUserMapper.toBaseDto(userWithEmailKey), HttpStatus.OK);
     }
 
@@ -168,7 +169,7 @@ public class ExternalAccountResource extends AbstractResource {
             throw new EDatosException(ServiceExceptionType.EXTERNAL_USER_EMAIL_MODIFICATION_ERROR);
         }
         externalUserService.confirmEmailModification(key);
-        auditPublisher.publish(AuditConstants.EXT_USUARIO_EDICION, user.get().getEmail());
+        auditPublisher.publish(AuditConstants.EXT_USUARIO_EDICION, AuditPrincipalType.EXTERNAL_USER);
         return ResponseEntity.ok().build();
     }
 
@@ -179,7 +180,7 @@ public class ExternalAccountResource extends AbstractResource {
         ExternalUserEntity user = externalUserService.update(externalUserMapper.baseDtoToEntity(userDto));
         Optional<ExternalUserAccountBaseDto> updatedUser = Optional.ofNullable(externalUserMapper.toDto(user));
 
-        auditPublisher.publish(AuditConstants.EXT_USUARIO_EDICION, userDto.getEmail());
+        auditPublisher.publish(AuditConstants.EXT_USUARIO_EDICION, AuditPrincipalType.EXTERNAL_USER);
         return ResponseUtil.wrapOrNotFound(updatedUser);
     }
 
@@ -201,16 +202,13 @@ public class ExternalAccountResource extends AbstractResource {
     public ResponseEntity<Void> changePassword(@Valid @RequestBody ChangePasswordDto passwordDto, @RequestParam(required = false) String token) {
         ExternalUserEntity user = externalUserService.getUsuarioWithAuthorities();
 
-
         if(!SecurityUtils.passwordEncoderMatches(passwordDto.getCurrentPassword(), user.getPassword())){
             throw new EDatosException(ServiceExceptionType.EXTERNAL_USER_PASSWORD_CHANGE_FAILED);
         }
 
         externalUserService.updateExternalUserAccountPassword(user, passwordDto.getCurrentPassword(), passwordDto.getNewPassword());
 
-        ExternalUserAccountBaseDto updatedUserDto = externalUserMapper.toBaseDto(user);
-
-        auditPublisher.publish(AuditConstants.EXT_USUARIO_EDICION, updatedUserDto.getEmail());
+        auditPublisher.publish(AuditConstants.EXT_USUARIO_EDICION, AuditPrincipalType.EXTERNAL_USER); // TODO: here (and probably in other places) the user is not authenticated and it fails
         return ResponseEntity.ok().build();
     }
 
@@ -221,7 +219,7 @@ public class ExternalAccountResource extends AbstractResource {
         byte[] documento = documentService.generatePdfExternalUserInformation(id);
 
         DocumentUtil.download(documento, DocumentConstants.DOC_EXTERNAL_USER_INFORMATION, response);
-        auditPublisher.publish(AuditConstants.EXT_USUARIO_DOWNLOAD_DOCUMENT, DocumentConstants.EXTERNAL_USER_INFORMATION);
+        auditPublisher.publish(AuditConstants.EXT_USUARIO_DOWNLOAD_DOCUMENT, AuditPrincipalType.EXTERNAL_USER, DocumentConstants.EXTERNAL_USER_INFORMATION);
         return ResponseEntity.ok().build();
     }
 

@@ -28,6 +28,7 @@ import com.codahale.metrics.annotation.Timed;
 
 import es.gobcan.istac.edatos.external.users.core.config.AuditConstants;
 import es.gobcan.istac.edatos.external.users.core.config.audit.AuditEventPublisher;
+import es.gobcan.istac.edatos.external.users.core.domain.enumeration.AuditPrincipalType;
 import es.gobcan.istac.edatos.external.users.core.domain.FilterEntity;
 import es.gobcan.istac.edatos.external.users.core.service.FilterService;
 import es.gobcan.istac.edatos.external.users.core.service.validator.LoginValidator;
@@ -92,7 +93,7 @@ public class FilterResource extends AbstractResource {
         entity = filterService.create(entity);
         FilterDto newDto = filterMapper.toDto(entity);
 
-        auditPublisher.publish(AuditConstants.FILTER_CREATION, newDto.getExternalUser().getId().toString());
+        auditPublisher.publish(AuditConstants.FILTER_CREATION, AuditPrincipalType.EXTERNAL_USER, newDto.getId().toString(), newDto.getName());
         return ResponseEntity.created(new URI(BASE_URL + SLASH + newDto.getId())).headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, newDto.getId().toString())).body(newDto);
     }
 
@@ -108,7 +109,7 @@ public class FilterResource extends AbstractResource {
         entity = filterService.update(entity);
         FilterDto newDto = filterMapper.toDto(entity);
 
-        auditPublisher.publish(AuditConstants.FILTER_EDITION, newDto.getExternalUser().getId().toString());
+        auditPublisher.publish(AuditConstants.FILTER_EDITION, AuditPrincipalType.EXTERNAL_USER, newDto.getId().toString(), newDto.getName());
         return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, newDto.getId().toString())).body(newDto);
     }
 
@@ -135,9 +136,10 @@ public class FilterResource extends AbstractResource {
     @Timed
     @PreAuthorize("@secCheckerExternal.canDeleteFilters(authentication)")
     public ResponseEntity<Void> deleteFilter(@PathVariable Long id) {
-        filterService.delete(filterService.find(id));
+        FilterEntity filter = filterService.find(id);
+        filterService.delete(filter);
 
-        auditPublisher.publish(AuditConstants.FILTER_DELETION, id.toString());
+        auditPublisher.publish(AuditConstants.FILTER_DELETION, AuditPrincipalType.EXTERNAL_USER, filter.getId().toString(), filter.getName());
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 

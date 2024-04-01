@@ -3,6 +3,7 @@ package es.gobcan.istac.edatos.external.users.rest.external.resources;
 import javax.validation.Valid;
 
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
+import es.gobcan.istac.edatos.external.users.core.domain.enumeration.AuditPrincipalType;
 import es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType;
 import es.gobcan.istac.edatos.external.users.core.service.NotificationService;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.ExternalUserAccountBaseDto;
@@ -56,7 +57,7 @@ public class PasswordResource extends AbstractResource {
         if (user != null) {
             notificationService.createResetPasswordExternaluserAccountNotification(user);
 
-            auditPublisher.publish(AuditConstants.EXT_USUARIO_EDICION, email);
+            auditPublisher.publish(AuditConstants.EXT_USUARIO_EDICION, AuditPrincipalType.EXTERNAL_USER);
         }
         return ResponseEntity.ok().build();
     }
@@ -65,10 +66,9 @@ public class PasswordResource extends AbstractResource {
     @Timed
     public ResponseEntity<Void> finishPasswordReset(@RequestBody KeyAndPasswordDto keyAndPassword) {
         try {
-            Optional<ExternalUserEntity> user = externalUserService.completePasswordReset(keyAndPassword.getNewPassword(), keyAndPassword.getKey());
-            ExternalUserAccountBaseDto updatedUserDto = externalUserMapper.toBaseDto(user.get());
+            externalUserService.completePasswordReset(keyAndPassword.getNewPassword(), keyAndPassword.getKey());
 
-            auditPublisher.publish(AuditConstants.EXT_USUARIO_EDICION, updatedUserDto.getEmail());
+            auditPublisher.publish(AuditConstants.EXT_USUARIO_EDICION, AuditPrincipalType.EXTERNAL_USER);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             throw new EDatosException(ServiceExceptionType.GENERIC_ERROR);

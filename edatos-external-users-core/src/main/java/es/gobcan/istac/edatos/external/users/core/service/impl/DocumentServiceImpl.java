@@ -11,12 +11,14 @@ import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.actuate.audit.AuditEvent;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 import es.gobcan.istac.edatos.external.users.core.config.Constants;
 import es.gobcan.istac.edatos.external.users.core.config.DocumentConstants;
 import es.gobcan.istac.edatos.external.users.core.config.MetadataProperties;
+import es.gobcan.istac.edatos.external.users.core.domain.enumeration.AuditPrincipalType;
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.FavoriteEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.FilterEntity;
@@ -28,7 +30,6 @@ import es.gobcan.istac.edatos.external.users.core.i18n.LocaleContext;
 import es.gobcan.istac.edatos.external.users.core.mapper.AuditEventMapper;
 import es.gobcan.istac.edatos.external.users.core.mapper.ExternalUserVOMapper;
 import es.gobcan.istac.edatos.external.users.core.repository.ExternalUserRepository;
-import es.gobcan.istac.edatos.external.users.core.security.SecurityUtils;
 import es.gobcan.istac.edatos.external.users.core.service.AuditEventService;
 import es.gobcan.istac.edatos.external.users.core.service.DocumentService;
 import es.gobcan.istac.edatos.external.users.core.service.FilterService;
@@ -69,7 +70,8 @@ public class DocumentServiceImpl implements DocumentService {
 
             List<FilterEntity> filters = filterService.findAllByUser(externalUser);
             Set<FavoriteEntity> fav = externalUser.getFavorites();
-            List<AuditEventVO> audit = auditEventService.findByPrincipal(SecurityUtils.getCurrentUserLogin()).stream().map(auditEventMapper::toDto).collect(Collectors.toList());
+            List<AuditEvent> auditEvents = auditEventService.findByPrincipalAndPrincipalType(id.toString(), AuditPrincipalType.EXTERNAL_USER);
+            List<AuditEventVO> auditEventsDtos = auditEvents.stream().map(auditEventMapper::toDto).collect(Collectors.toList());
 
             LOGGER.info("Request to print all information about External User");
 
@@ -78,7 +80,7 @@ public class DocumentServiceImpl implements DocumentService {
             parameters.put("FAVORITES", new JRBeanCollectionDataSource(fav));
             parameters.put("PERMALINK_PATH", metadataProperties.getVisualizerPath() + Constants.PORTAL_PATH_PERMALINK);
             parameters.put("FILTERS", new JRBeanCollectionDataSource(filters));
-            parameters.put("AUDIT", new JRBeanCollectionDataSource(audit));
+            parameters.put("AUDIT", new JRBeanCollectionDataSource(auditEventsDtos));
             parameters.put("PATH_LOGO", new URI(getClass().getResource(DocumentConstants.FOLDER_JASPER_REPORT + DocumentConstants.LOGO_CABECERA).toString()).getPath());
 
             // Headers
