@@ -50,7 +50,7 @@ public abstract class AuditEventMapper{
             InternationalStringVO name = objectMapper.readValue((String) entity.getData().get(AuditConstants.MESSAGE), InternationalStringVO.class);
             return name.getLocalisedLabel(locale, defaultLocale);
         } catch (JsonProcessingException e) {
-            return entity.getData().get(AuditConstants.MESSAGE).toString();
+            return (String) entity.getData().getOrDefault(AuditConstants.MESSAGE, entity.getData().get(AuditConstants.CODE));
         }
     }
 }
