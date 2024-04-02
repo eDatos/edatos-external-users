@@ -1,26 +1,19 @@
 package es.gobcan.istac.edatos.external.users.rest.external.resources;
 
-import javax.validation.Valid;
-
+import com.codahale.metrics.annotation.Timed;
+import es.gobcan.istac.edatos.external.users.core.config.AuditConstants;
+import es.gobcan.istac.edatos.external.users.core.config.audit.AuditEventPublisher;
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.enumeration.AuditPrincipalType;
 import es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType;
+import es.gobcan.istac.edatos.external.users.core.service.ExternalUserService;
 import es.gobcan.istac.edatos.external.users.core.service.NotificationService;
-import es.gobcan.istac.edatos.external.users.rest.common.dto.ExternalUserAccountBaseDto;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.KeyAndPasswordDto;
 import org.siemac.edatos.core.common.exception.EDatosException;
-import org.springframework.context.MessageSource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.codahale.metrics.annotation.Timed;
-
-import es.gobcan.istac.edatos.external.users.core.config.AuditConstants;
-import es.gobcan.istac.edatos.external.users.core.config.audit.AuditEventPublisher;
-import es.gobcan.istac.edatos.external.users.core.service.ExternalUserService;
-import es.gobcan.istac.edatos.external.users.rest.common.mapper.ExternalUserAccountMapper;
-
-import java.util.Optional;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping(PasswordResource.BASE_URL)
@@ -31,16 +24,11 @@ public class PasswordResource extends AbstractResource {
     private final ExternalUserService externalUserService;
     private final NotificationService notificationService;
 
-    private final ExternalUserAccountMapper externalUserMapper;
     private final AuditEventPublisher auditPublisher;
-    private final MessageSource messageSource;
 
-    public PasswordResource(ExternalUserService externalUserService, ExternalUserAccountMapper externalUserMapper, AuditEventPublisher auditPublisher, MessageSource messageSource,
-            NotificationService notificationService) {
+    public PasswordResource(ExternalUserService externalUserService, AuditEventPublisher auditPublisher, NotificationService notificationService) {
         this.externalUserService = externalUserService;
-        this.externalUserMapper = externalUserMapper;
         this.auditPublisher = auditPublisher;
-        this.messageSource = messageSource;
         this.notificationService = notificationService;
     }
 
