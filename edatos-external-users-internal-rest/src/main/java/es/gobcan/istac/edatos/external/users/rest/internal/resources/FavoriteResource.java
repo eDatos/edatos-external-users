@@ -78,7 +78,7 @@ public class FavoriteResource extends AbstractResource {
         entity = favoriteService.create(entity);
         FavoriteDto newDto = favoriteMapper.toDto(entity);
 
-        auditPublisher.publish(AuditConstants.FAVORITE_CREATION, AuditPrincipalType.ADMIN, newDto.getExternalUser().getId().toString());// TODO: this is going to disappear, should be changed anyway?
+        auditPublisher.publish(AuditConstants.FAVORITE_CREATION, AuditPrincipalType.ADMIN, newDto.getExternalUser().getId().toString());
         return ResponseEntity.created(new URI(BASE_URL + SLASH + newDto.getId())).headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, newDto.getId().toString())).body(newDto);
     }
 
@@ -94,7 +94,7 @@ public class FavoriteResource extends AbstractResource {
         entities = favoriteService.updateFavorites(entities, this.externalUserService.find(externalUserId));
         List<FavoriteDto> dtos = favoriteMapper.toDtos(entities);
         for (FavoriteDto favorite : dtos) {
-            auditPublisher.publish(AuditConstants.FAVORITE_EDITION, AuditPrincipalType.ADMIN, favorite.getId().toString());// TODO: this is going to disappear, should be changed anyway?
+            auditPublisher.publish(AuditConstants.FAVORITE_EDITION, AuditPrincipalType.ADMIN, favorite.getId().toString());
         }
         return ResponseEntity.ok(dtos);
     }
@@ -105,7 +105,7 @@ public class FavoriteResource extends AbstractResource {
     public ResponseEntity<Void> deleteFavorite(@PathVariable Long id) {
         favoriteService.delete(favoriteService.find(id));
 
-        auditPublisher.publish(AuditConstants.FAVORITE_DELETION, AuditPrincipalType.ADMIN, id.toString());// TODO: this is going to disappear, should be changed anyway?
+        auditPublisher.publish(AuditConstants.FAVORITE_DELETION, AuditPrincipalType.ADMIN, id.toString());
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 }

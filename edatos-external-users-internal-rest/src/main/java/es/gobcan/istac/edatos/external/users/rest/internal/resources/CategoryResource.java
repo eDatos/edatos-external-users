@@ -140,7 +140,7 @@ public class CategoryResource extends AbstractResource {
     @PreAuthorize("@secChecker.canDeleteCategory(authentication)")
     public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
         categoryService.delete(id);
-        auditPublisher.publish(AuditConstants.CATEGORY_DELETE, AuditPrincipalType.ADMIN, id.toString());// TODO: should audit the rest of the requests?
+        auditPublisher.publish(AuditConstants.CATEGORY_DELETE, AuditPrincipalType.ADMIN, id.toString());
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 

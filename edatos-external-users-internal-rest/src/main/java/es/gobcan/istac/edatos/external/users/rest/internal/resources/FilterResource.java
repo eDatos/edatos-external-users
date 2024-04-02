@@ -83,7 +83,7 @@ public class FilterResource extends AbstractResource {
         entity = filterService.create(entity);
         FilterDto newDto = filterMapper.toDto(entity);
 
-        auditPublisher.publish(AuditConstants.FILTER_CREATION, AuditPrincipalType.ADMIN, newDto.getExternalUser().getId().toString());// TODO: this is going to disappear, should be changed anyway?
+        auditPublisher.publish(AuditConstants.FILTER_CREATION, AuditPrincipalType.ADMIN, newDto.getExternalUser().getId().toString());
         return ResponseEntity.created(new URI(BASE_URL + SLASH + newDto.getId()))
                              .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, newDto.getId().toString()))
                              .body(newDto);
@@ -101,7 +101,7 @@ public class FilterResource extends AbstractResource {
         entity = filterService.update(entity);
         FilterDto newDto = filterMapper.toDto(entity);
 
-        auditPublisher.publish(AuditConstants.FILTER_EDITION, AuditPrincipalType.ADMIN, newDto.getExternalUser().getId().toString());// TODO: this is going to disappear, should be changed anyway?
+        auditPublisher.publish(AuditConstants.FILTER_EDITION, AuditPrincipalType.ADMIN, newDto.getExternalUser().getId().toString());
         return ResponseEntity.ok()
                              .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, newDto.getId().toString()))
                              .body(newDto);
@@ -113,7 +113,7 @@ public class FilterResource extends AbstractResource {
     public ResponseEntity<Void> deleteFilter(@PathVariable Long id) {
         filterService.delete(filterService.find(id));
 
-        auditPublisher.publish(AuditConstants.FILTER_DELETION, AuditPrincipalType.ADMIN, id.toString());// TODO: this is going to disappear, should be changed anyway?
+        auditPublisher.publish(AuditConstants.FILTER_DELETION, AuditPrincipalType.ADMIN, id.toString());
         return ResponseEntity.noContent()
                              .headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString()))
                              .build();
