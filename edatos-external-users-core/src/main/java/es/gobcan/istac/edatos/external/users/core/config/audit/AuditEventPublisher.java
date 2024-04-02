@@ -20,6 +20,8 @@ import es.gobcan.istac.edatos.external.users.core.service.ExternalUserService;
 @Component
 public class AuditEventPublisher implements ApplicationEventPublisherAware {
 
+    public static final String ANONYMOUS_EXTERNAL_USER_PRINCIPAL = "anonymousExternalUser";
+
     @Autowired
     private ExternalUserService externalUserService;
 
@@ -68,6 +70,8 @@ public class AuditEventPublisher implements ApplicationEventPublisherAware {
         } else if (AuditPrincipalType.EXTERNAL_USER.equals(principalType)) {
             ExternalUserEntity externalUser = externalUserService.findByEmail(userName).get();
             return new AuditEvent(externalUser.getId().toString(), type, map);
+        } else if (AuditPrincipalType.ANONYMOUS_EXTERNAL_USER.equals(principalType)) {
+            return new AuditEvent(ANONYMOUS_EXTERNAL_USER_PRINCIPAL, type, map);
         } else {
             return new AuditEvent(userName, type, map);
         }

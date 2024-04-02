@@ -169,7 +169,7 @@ public class ExternalAccountResource extends AbstractResource {
             throw new EDatosException(ServiceExceptionType.EXTERNAL_USER_EMAIL_MODIFICATION_ERROR);
         }
         externalUserService.confirmEmailModification(key);
-        auditPublisher.publish(AuditConstants.EXT_USUARIO_EDICION, AuditPrincipalType.EXTERNAL_USER);
+        auditPublisher.publish(AuditConstants.EXT_USUARIO_EDICION, AuditPrincipalType.ANONYMOUS_EXTERNAL_USER);
         return ResponseEntity.ok().build();
     }
 
@@ -208,7 +208,7 @@ public class ExternalAccountResource extends AbstractResource {
 
         externalUserService.updateExternalUserAccountPassword(user, passwordDto.getCurrentPassword(), passwordDto.getNewPassword());
 
-        auditPublisher.publish(AuditConstants.EXT_USUARIO_EDICION, AuditPrincipalType.EXTERNAL_USER); // TODO: here (and probably in other places) the user is not authenticated and it fails
+        auditPublisher.publish(AuditConstants.EXT_USUARIO_EDICION, AuditPrincipalType.ANONYMOUS_EXTERNAL_USER);
         return ResponseEntity.ok().build();
     }
 

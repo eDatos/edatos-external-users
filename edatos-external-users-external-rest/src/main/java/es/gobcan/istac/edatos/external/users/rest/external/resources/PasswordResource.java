@@ -45,7 +45,7 @@ public class PasswordResource extends AbstractResource {
         if (user != null) {
             notificationService.createResetPasswordExternaluserAccountNotification(user);
 
-            auditPublisher.publish(AuditConstants.EXT_USUARIO_EDICION, AuditPrincipalType.EXTERNAL_USER);
+            auditPublisher.publish(AuditConstants.EXT_USUARIO_EDICION, AuditPrincipalType.ANONYMOUS_EXTERNAL_USER);
         }
         return ResponseEntity.ok().build();
     }
@@ -56,7 +56,7 @@ public class PasswordResource extends AbstractResource {
         try {
             externalUserService.completePasswordReset(keyAndPassword.getNewPassword(), keyAndPassword.getKey());
 
-            auditPublisher.publish(AuditConstants.EXT_USUARIO_EDICION, AuditPrincipalType.EXTERNAL_USER);
+            auditPublisher.publish(AuditConstants.EXT_USUARIO_EDICION, AuditPrincipalType.ANONYMOUS_EXTERNAL_USER);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             throw new EDatosException(ServiceExceptionType.GENERIC_ERROR);
