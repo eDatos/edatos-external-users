@@ -46,6 +46,10 @@ public class CategoryEntity extends AbstractVersionedAndAuditingEntity {
     private Long id;
 
     @NotNull
+    @Column(updatable = false, unique = true)
+    private String code;
+
+    @NotNull
     @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb", nullable = false)
     private InternationalStringVO name;
@@ -81,6 +85,14 @@ public class CategoryEntity extends AbstractVersionedAndAuditingEntity {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public InternationalStringVO getName() {

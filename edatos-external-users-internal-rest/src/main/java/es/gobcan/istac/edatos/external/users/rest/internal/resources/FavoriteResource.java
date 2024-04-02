@@ -4,6 +4,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
+import es.gobcan.istac.edatos.external.users.core.domain.enumeration.AuditPrincipalType;
 import org.siemac.edatos.core.common.exception.CommonServiceExceptionType;
 import org.siemac.edatos.core.common.exception.EDatosException;
 import org.springframework.data.domain.Page;
@@ -77,7 +78,7 @@ public class FavoriteResource extends AbstractResource {
         entity = favoriteService.create(entity);
         FavoriteDto newDto = favoriteMapper.toDto(entity);
 
-        auditPublisher.publish(AuditConstants.FAVORITE_CREATION, newDto.getExternalUser().getId().toString());
+        auditPublisher.publish(AuditConstants.FAVORITE_CREATION, AuditPrincipalType.ADMIN, newDto.getExternalUser().getId().toString());
         return ResponseEntity.created(new URI(BASE_URL + SLASH + newDto.getId())).headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, newDto.getId().toString())).body(newDto);
     }
 
@@ -93,7 +94,7 @@ public class FavoriteResource extends AbstractResource {
         entities = favoriteService.updateFavorites(entities, this.externalUserService.find(externalUserId));
         List<FavoriteDto> dtos = favoriteMapper.toDtos(entities);
         for (FavoriteDto favorite : dtos) {
-            auditPublisher.publish(AuditConstants.FAVORITE_EDITION, favorite.getId().toString());
+            auditPublisher.publish(AuditConstants.FAVORITE_EDITION, AuditPrincipalType.ADMIN, favorite.getId().toString());
         }
         return ResponseEntity.ok(dtos);
     }
@@ -104,7 +105,7 @@ public class FavoriteResource extends AbstractResource {
     public ResponseEntity<Void> deleteFavorite(@PathVariable Long id) {
         favoriteService.delete(favoriteService.find(id));
 
-        auditPublisher.publish(AuditConstants.FAVORITE_DELETION, id.toString());
+        auditPublisher.publish(AuditConstants.FAVORITE_DELETION, AuditPrincipalType.ADMIN, id.toString());
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 }

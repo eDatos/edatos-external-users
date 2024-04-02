@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import es.gobcan.istac.edatos.external.users.core.domain.AuditEventEntity;
+import es.gobcan.istac.edatos.external.users.core.domain.enumeration.AuditPrincipalType;
 import es.gobcan.istac.edatos.external.users.core.service.AuditEventService;
 import es.gobcan.istac.edatos.external.users.core.config.audit.AuditEventConverter;
 import es.gobcan.istac.edatos.external.users.core.repository.PersistenceAuditEventRepository;
@@ -33,8 +34,10 @@ public class AuditEventServiceImpl implements AuditEventService {
         return persistenceAuditEventRepository.findAll(pageable).map(auditEventConverter::convertToAuditEvent);
     }
 
-    public List<AuditEvent> findByPrincipal(String principal) {
-        return persistenceAuditEventRepository.findAllByPrincipal(principal).stream().map(auditEventConverter::convertToAuditEvent).collect(Collectors.toList());
+    @Override
+    public List<AuditEvent> findByPrincipalAndPrincipalType(String principal, AuditPrincipalType principalType) {
+        List<AuditEventEntity> auditEventEntities = persistenceAuditEventRepository.findAllByPrincipalAndPrincipalType(principal, principalType);
+        return auditEventEntities.stream().map(auditEventConverter::convertToAuditEvent).collect(Collectors.toList());
     }
 
     @Override

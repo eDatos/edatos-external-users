@@ -2,7 +2,9 @@ package es.gobcan.istac.edatos.external.users.rest.external.resources;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.siemac.edatos.core.common.exception.CommonServiceExceptionType;
@@ -21,6 +23,7 @@ import com.codahale.metrics.annotation.Timed;
 
 import es.gobcan.istac.edatos.external.users.core.config.AuditConstants;
 import es.gobcan.istac.edatos.external.users.core.config.audit.AuditEventPublisher;
+import es.gobcan.istac.edatos.external.users.core.domain.enumeration.AuditPrincipalType;
 import es.gobcan.istac.edatos.external.users.core.domain.FavoriteEntity;
 import es.gobcan.istac.edatos.external.users.core.service.FavoriteService;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.FavoriteDto;
@@ -73,7 +76,7 @@ public class FavoriteResource extends AbstractResource {
         entity = favoriteService.create(entity);
         FavoriteDto newDto = favoriteMapper.toDto(entity);
 
-        auditPublisher.publish(AuditConstants.FAVORITE_CREATION, newDto.getExternalUser().getId().toString());
+        auditPublisher.publish(AuditConstants.FAVORITE_CREATION, getAuditData(entity), AuditPrincipalType.EXTERNAL_USER);
         return ResponseEntity.created(new URI(BASE_URL + SLASH + newDto.getId())).headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, newDto.getId().toString())).body(newDto);
     }
 
@@ -81,9 +84,23 @@ public class FavoriteResource extends AbstractResource {
     @Timed
     @PreAuthorize("@secCheckerExternal.canDeleteFavorites(authentication)")
     public ResponseEntity<Void> deleteFavorite(@PathVariable Long id) {
-        favoriteService.delete(favoriteService.find(id));
+        FavoriteEntity favorite = favoriteService.find(id);
+        favoriteService.delete(favorite);
 
-        auditPublisher.publish(AuditConstants.FAVORITE_DELETION, id.toString());
+        auditPublisher.publish(AuditConstants.FAVORITE_DELETION, getAuditData(favorite), AuditPrincipalType.EXTERNAL_USER);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+
+    private Map<String, Object> getAuditData(FavoriteEntity favorite) {
+        Map<String, Object> data = new HashMap<>();
+        data.put(AuditConstants.CODE, favorite.getId().toString());
+        if (favorite.getCategory() != null) {
+            data.put(AuditConstants.MESSAGE, favorite.getCategory().getCode());
+            data.put(AuditConstants.EVENT_SUBTYPE, AuditConstants.FAVORITE_CATEGORY_SUBTYPE);
+        } else if (favorite.getExternalOperation() != null) {
+            data.put(AuditConstants.MESSAGE, favorite.getExternalOperation().getCode());
+            data.put(AuditConstants.EVENT_SUBTYPE, AuditConstants.FAVORITE_OPERATION_SUBTYPE);
+        }
+        return data;
     }
 }

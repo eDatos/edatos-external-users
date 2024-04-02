@@ -9,6 +9,7 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import es.gobcan.istac.edatos.external.users.core.domain.enumeration.AuditPrincipalType;
 import org.siemac.edatos.core.common.exception.CommonServiceExceptionType;
 import org.siemac.edatos.core.common.exception.EDatosException;
 import org.springframework.data.domain.Page;
@@ -82,7 +83,7 @@ public class ExternalUserResource extends AbstractResource {
         notificationService.createNewExternalUserAccountNotification(userEntity);
         ExternalUserDto userDto = externalUserMapper.toDto(userEntity);
 
-        auditPublisher.publish(AuditConstants.EXT_USUARIO_CREACION, userDto.getEmail());
+        auditPublisher.publish(AuditConstants.EXT_USUARIO_CREACION, AuditPrincipalType.ADMIN);
         return ResponseEntity.created(new URI(BASE_URL + SLASH + userDto.getId())).body(userDto);
     }
 
@@ -101,7 +102,7 @@ public class ExternalUserResource extends AbstractResource {
         userEntity.setEmail(userDto.getEmail());
         Optional<ExternalUserDto> updatedUser = Optional.ofNullable(externalUserMapper.toDto(externalUserService.update(userEntity)));
 
-        auditPublisher.publish(AuditConstants.EXT_USUARIO_EDICION, userDto.getEmail());
+        auditPublisher.publish(AuditConstants.EXT_USUARIO_EDICION, AuditPrincipalType.ADMIN);
         return ResponseUtil.wrapOrNotFound(updatedUser);
     }
 
