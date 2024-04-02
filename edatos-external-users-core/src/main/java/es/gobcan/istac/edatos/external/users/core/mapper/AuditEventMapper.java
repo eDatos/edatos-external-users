@@ -15,8 +15,8 @@ import org.mapstruct.Named;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.audit.AuditEvent;
 
+import java.util.ArrayList;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public abstract class AuditEventMapper{
@@ -42,7 +42,7 @@ public abstract class AuditEventMapper{
         if (entity.getType().contains(FAVORITE)) {
             return getFavoriteValue(entity);
         }
-        return entity.getData().values().stream().collect(Collectors.toList()).get(0).toString();
+        return entity.getData().isEmpty() ? "" : new ArrayList<>(entity.getData().values()).get(0).toString();
     }
 
     private String getFilterValue(AuditEvent entity) {
