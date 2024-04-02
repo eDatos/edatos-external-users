@@ -55,4 +55,6 @@
              relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20240326113400_modify_entity_AdminAuditEvent.xml"
              relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240402072300_modify_entity_CategoryEntity.xml"
+             relativeToChangelogFile="false"/>
 </databaseChangeLog>

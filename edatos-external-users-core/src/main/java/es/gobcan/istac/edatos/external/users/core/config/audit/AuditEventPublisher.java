@@ -36,24 +36,21 @@ public class AuditEventPublisher implements ApplicationEventPublisherAware {
         HashMap<String, Object> map = new HashMap<>();
         map.put(AuditConstants.CODE, identifier);
         map.put(AuditConstants.MESSAGE, message);
-        map.put(AuditConstants.PRINCIPAL_TYPE, principalType);
         publish(type, map, principalType);
     }
 
     public void publish(String type, AuditPrincipalType principalType, String identifier) {
         HashMap<String, Object> map = new HashMap<>();
         map.put(AuditConstants.CODE, identifier);
-        map.put(AuditConstants.PRINCIPAL_TYPE, principalType);
         publish(type, map, principalType);
     }
 
     public void publish(String type, AuditPrincipalType principalType) {
-        HashMap<String, Object> map = new HashMap<>();
-        map.put(AuditConstants.PRINCIPAL_TYPE, principalType);
-        publish(type, map, principalType);
+        publish(type, new HashMap<>(), principalType);
     }
 
-    private void publish(String type, Map<String, Object> map, AuditPrincipalType principalType) {
+    public void publish(String type, Map<String, Object> map, AuditPrincipalType principalType) {
+        map.put(AuditConstants.PRINCIPAL_TYPE, principalType);
         publish(createAuditEvent(type, map, principalType));
     }
 

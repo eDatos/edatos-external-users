@@ -1,17 +1,21 @@
 package es.gobcan.istac.edatos.external.users.core.mapper;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import es.gobcan.istac.edatos.external.users.core.config.AuditConstants;
+import es.gobcan.istac.edatos.external.users.core.domain.CategoryEntity;
+import es.gobcan.istac.edatos.external.users.core.domain.ExternalOperationEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.vo.AuditEventVO;
-import es.gobcan.istac.edatos.external.users.core.domain.vo.InternationalStringVO;
 import es.gobcan.istac.edatos.external.users.core.i18n.LocaleContext;
+import es.gobcan.istac.edatos.external.users.core.repository.CategoryRepository;
+import es.gobcan.istac.edatos.external.users.core.repository.ExternalOperationRepository;
+import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.audit.AuditEvent;
 
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
@@ -21,7 +25,10 @@ public abstract class AuditEventMapper{
     private final static String FAVORITE = "FAVORITE";
 
     @Autowired
-    private ObjectMapper objectMapper;
+    private ExternalOperationRepository externalOperationRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @Mapping(target = "data", source = "entity", qualifiedByName = "getValue")
     public abstract AuditEventVO toDto(AuditEvent entity);
@@ -46,11 +53,18 @@ public abstract class AuditEventMapper{
         String locale = LocaleContext.getLocale() == null ? null : LocaleContext.getLocale().toString();
         String defaultLocale = LocaleContext.getDefaultLocale().toString();
 
-        try {
-            InternationalStringVO name = objectMapper.readValue((String) entity.getData().get(AuditConstants.MESSAGE), InternationalStringVO.class);
-            return name.getLocalisedLabel(locale, defaultLocale);
-        } catch (JsonProcessingException e) {
-            return (String) entity.getData().getOrDefault(AuditConstants.MESSAGE, entity.getData().get(AuditConstants.CODE));
+        String code = entity.getData().getOrDefault(AuditConstants.CODE, "").toString();
+        String subtype = (String) entity.getData().get(AuditConstants.EVENT_SUBTYPE);
+        String resourceCode = (String) entity.getData().get(AuditConstants.MESSAGE);
+        if (StringUtils.isNotBlank(resourceCode)) {
+            if (AuditConstants.FAVORITE_OPERATION_SUBTYPE.equals(subtype)) {
+                Optional<ExternalOperationEntity> operationOptional = externalOperationRepository.findByCode(resourceCode);
+                return operationOptional.map(operation -> operation.getName().getLocalisedLabel(locale, defaultLocale)).orElse(code);
+            } else if (AuditConstants.FAVORITE_CATEGORY_SUBTYPE.equals(subtype)) {
+                Optional<CategoryEntity> categoryOptional = categoryRepository.findByCode(resourceCode);
+                return categoryOptional.map(category -> category.getName().getLocalisedLabel(locale, defaultLocale)).orElse(code);
+            }
         }
+        return code;
     }
 }
