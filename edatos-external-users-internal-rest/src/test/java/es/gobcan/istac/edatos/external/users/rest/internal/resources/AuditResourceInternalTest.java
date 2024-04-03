@@ -2,6 +2,7 @@ package es.gobcan.istac.edatos.external.users.rest.internal.resources;
 
 import java.time.Instant;
 
+import es.gobcan.istac.edatos.external.users.core.domain.enumeration.AuditPrincipalType;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,6 +42,7 @@ public class AuditResourceInternalTest {
     private static final String ENDPOINT_URL = "/management/audits";
 
     private static final String SAMPLE_PRINCIPAL = "SAMPLE_PRINCIPAL";
+    private static final AuditPrincipalType SAMPLE_PRINCIPAL_TYPE = AuditPrincipalType.ADMIN;
     private static final String SAMPLE_TYPE = "SAMPLE_TYPE";
     private static final Instant SAMPLE_TIMESTAMP = Instant.parse("2015-08-04T10:11:30Z");
     private static final long SECONDS_PER_DAY = 60 * 60 * 24;
@@ -79,6 +81,7 @@ public class AuditResourceInternalTest {
         auditEvent = new AuditEventEntity();
         auditEvent.setAuditEventType(SAMPLE_TYPE);
         auditEvent.setPrincipal(SAMPLE_PRINCIPAL);
+        auditEvent.setPrincipalType(SAMPLE_PRINCIPAL_TYPE);
         auditEvent.setAuditEventDate(SAMPLE_TIMESTAMP);
     }
 
