@@ -2,7 +2,6 @@ package es.gobcan.istac.edatos.external.users.rest.internal.resources;
 
 import java.time.Instant;
 
-import es.gobcan.istac.edatos.external.users.core.domain.enumeration.AuditPrincipalType;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import es.gobcan.istac.edatos.external.users.EdatosExternalUsersRestTestApp;
 import es.gobcan.istac.edatos.external.users.core.config.audit.AuditEventConverter;
 import es.gobcan.istac.edatos.external.users.core.domain.AuditEventEntity;
+import es.gobcan.istac.edatos.external.users.core.domain.enumeration.AuditPrincipalType;
 import es.gobcan.istac.edatos.external.users.core.repository.PersistenceAuditEventRepository;
 import es.gobcan.istac.edatos.external.users.core.service.AuditEventService;
 import es.gobcan.istac.edatos.external.users.core.service.impl.AuditEventServiceImpl;
