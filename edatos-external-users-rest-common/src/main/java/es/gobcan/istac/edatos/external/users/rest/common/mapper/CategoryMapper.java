@@ -9,7 +9,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -55,7 +54,7 @@ public abstract class CategoryMapper implements EntityMapper<CategoryDto, Catego
     @Override
     @Mapping(target = "externalCategories", source = "dto.externalCategories", qualifiedByName = "getExternalCategoryEntitiesFromUrn")
     @Mapping(target = "parent", source = "parentId", qualifiedByName = "getParentFromId")
-    @Mapping(target = "code", source = "code", qualifiedByName = "getCode")
+    @Mapping(target = "code", source = "id", qualifiedByName = "getCode")
     public abstract CategoryEntity toEntity(CategoryDto dto);
 
     public List<ExternalOperationDto> getExternalOperations(CategoryEntity category, Map<CategoryEntity, List<ExternalCategoryEntity>> categoriesExternalCategories,
@@ -73,8 +72,12 @@ public abstract class CategoryMapper implements EntityMapper<CategoryDto, Catego
     }
 
     @Named("getCode")
-    public String getCode(String code) {
-        return StringUtils.isBlank(code) ? UUID.randomUUID().toString() : code;
+    public String getCode(Long id) {
+        CategoryEntity category = null;
+        if (id != null) {
+            category = categoryRepository.findOne(id);
+        }
+        return category != null ? category.getCode() : UUID.randomUUID().toString();
     }
 
     @Named("getExternalCategoryEntitiesFromUrn")
