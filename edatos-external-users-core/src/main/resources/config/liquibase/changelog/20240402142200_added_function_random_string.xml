@@ -6,6 +6,6 @@
 
     <!-- Added the function random_string. -->
     <changeSet id="20240402142200-1" author="arte">
-        <createProcedure procedureName="random_string" path="../postgresql/function_random_string.sql" relativeToChangelogFile="true" dbms="postgresql"></createProcedure>
+        <sqlFile path="../postgresql/function_random_string.sql" relativeToChangelogFile="true" dbms="postgresql"></sqlFile>
     </changeSet>
 </databaseChangeLog>
