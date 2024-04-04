@@ -1,80 +1,44 @@
 <div class="page">
     <div class="page-header">
         <div class="page-header-top">
-            <button *ngIf="!inEditMode" type="button" (click)="goBack()" class="btn btn-secondary btn-frameless back-arrow" [attr.aria-label]="'entity.action.back' | translate">
+            <button type="button" (click)="goBack()" class="btn btn-secondary btn-frameless back-arrow" [attr.aria-label]="'entity.action.back' | translate">
                 <i class="material-icons">arrow_back</i>
             </button>
             <h2 class="page-header-title">
-                <span class="page-header-title-text" [ngSwitch]="true">
-                    <ng-container *ngSwitchCase="!inEditMode">{{ ('filter.name' | translate) + ': ' + filter.name }}</ng-container>
-                    <ng-container *ngSwitchCase="inEditMode && !filter.id">{{ 'filter.form.new' | translate }}</ng-container>
-                    <ng-container *ngSwitchDefault>{{ ('filter.form.edit' | translate) + ': ' + filter.name }}</ng-container>
+                <span class="page-header-title-text">
+                    {{ ('filter.name' | translate) + ': ' + filter.name }}
                 </span>
             </h2>
-
-            <button *ngIf="inEditMode && filter.id" class="btn btn-warning mr-2 d-flex align-items-center" (click)="cancel()" [disabled]="isSaving || isLoading">
-                <arte-spinner class="spinner-btn" *ngIf="isLoading" aria-hidden="true"></arte-spinner>
-                <span *ngIf="!isLoading" class="fa fa-times"></span>
-                <span translate="filter.form.cancel"></span>
-            </button>
-
-            <button *ngIf="!inEditMode" class="btn btn-primary mr-2" (click)="edit()">
-                <span class="fa fa-pencil-square-o"></span>
-                <span translate="filter.form.edit"></span>
-            </button>
-
-            <button *ngIf="!inEditMode" class="btn btn-danger mr-2" (click)="delete()">
-                <span class="fa fa-trash"></span>
-                <span translate="filter.form.delete"></span>
-            </button>
-
-            <button
-                *ngIf="inEditMode"
-                class="btn btn-primary d-flex align-items-center"
-                type="button"
-                (click)="submit()"
-                [disabled]="isSaving || isLoading || !filterForm.form.valid"
-            >
-                <arte-spinner class="spinner-btn" *ngIf="isSaving" aria-hidden="true"></arte-spinner>
-                <span *ngIf="!isSaving" class="fa fa-save"></span>
-                <span translate="filter.form.save"></span>
-            </button>
         </div>
     </div>
     <div class="page-body">
-        <form class="page-form" id="filter-form" name="filterForm" role="form" novalidate #filterForm="ngForm" autocomplete="off">
-            <fieldset class="d-flex flex-column" [disabled]="!inEditMode || isLoading" arteAutofocus>
+        <form class="page-form" id="filter-form" name="filterForm" role="form" novalidate autocomplete="off">
+            <fieldset class="d-flex flex-column" [disabled]="true" arteAutofocus>
                 <legend class="pt-3">{{ "filter.form.legend" | translate }}</legend>
                 <div class="row">
-                    <div class="form-group form-group-inline col-md-6 required" [formControlStatus]="filterForm.controls.name">
+                    <div class="form-group form-group-inline col-md-6">
                         <div class="form-row">
-                            <label class="form-label col-md-4" for="name">{{ "filter.entity.name" | translate }}</label>
-                            <div class="col-md-8 form-input-container errors-on-hover">
-                                <arte-input id="name" name="name" [(ngModel)]="filter.name" [maxlength]="255" [required]="true"></arte-input>
-                                <div class="form-errors-messages" *hasErrors="let messages">
-                                    <span *ngFor="let m of messages">{{m}}</span>
-                                </div>
+                            <label class="form-label col-md-4">{{ "filter.entity.name" | translate }}</label>
+                            <div class="col-md-8 form-input-container">
+                                <label class="form-label">{{filter.name}}</label>
                             </div>
                         </div>
                     </div>
-                    <div *ngIf="!inEditMode" class="form-group form-group-inline col-md-6">
+                    <div class="form-group form-group-inline col-md-6">
                         <div class="form-row">
                             <label class="form-label col-md-4">{{ "filter.entity.permalink" | translate }}</label>
-                            <div class="col-md-8 form-input-container errors-on-hover">
+                            <div class="col-md-8 form-input-container">
                                 <a href="{{filter.urlPermalink}}" target="_blank">{{filter.urlPermalink}}</a>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group form-group-inline col-md-6" [formControlStatus]="filterForm.controls.notes">
+                    <div class="form-group form-group-inline col-md-6">
                         <div class="form-row">
-                            <label class="form-label col-md-4" for="notes">{{ "filter.entity.notes" | translate }}</label>
-                            <div class="col-md-8 form-input-container errors-on-hover">
-                                <arte-input id="notes" name="notes" [(ngModel)]="filter.notes" [maxlength]="255"></arte-input>
-                                <div class="form-errors-messages" *hasErrors="let messages">
-                                    <span *ngFor="let m of messages">{{m}}</span>
-                                </div>
+                            <label class="form-label col-md-4">{{ "filter.entity.notes" | translate }}</label>
+                            <div class="col-md-8 form-input-container">
+                                <label class="form-label">{{filter.notes}}</label>
                             </div>
                         </div>
                     </div>

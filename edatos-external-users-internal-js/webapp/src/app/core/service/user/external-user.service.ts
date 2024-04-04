@@ -12,14 +12,6 @@ export class ExternalUserService {
 
     constructor(private http: HttpClient) {}
 
-    public create(user: ExternalUser): Observable<ExternalUser> {
-        return this.http.post<ExternalUser>(this.resourceUrl, user).pipe(map((res) => convert(ExternalUser, res)));
-    }
-
-    public update(user: ExternalUser): Observable<ExternalUser> {
-        return this.http.put<ExternalUser>(this.resourceUrl, user).pipe(map((res) => convert(ExternalUser, res)));
-    }
-
     public get(id: number, includeDeleted = true): Observable<ExternalUser> {
         const options = createRequestOption({ includeDeleted });
         return this.http.get<ExternalUser>(`${this.resourceUrl}/${id}`, options).pipe(map((res) => convert(ExternalUser, res)));
@@ -34,9 +26,5 @@ export class ExternalUserService {
 
     public delete(id: string): Observable<ExternalUser> {
         return this.http.delete<ExternalUser>(`${this.resourceUrl}/${id}`).pipe(map((res) => convert(ExternalUser, res)));
-    }
-
-    public restore(id: string): Observable<ExternalUser> {
-        return this.http.put<ExternalUser>(`${this.resourceUrl}/${id}/restore`, null).pipe(map((res) => convert(ExternalUser, res)));
     }
 }

@@ -24,18 +24,4 @@ export class FilterService {
             .get<Filter[]>(this.resourceUrl, { ...options, observe: 'response' })
             .pipe(map((res) => convert(Filter, res)));
     }
-
-    public save(filter: Filter): Observable<Filter> {
-        return this.http.post<Filter>(this.resourceUrl, filter).pipe(map((res) => convert(Filter, res)));
-    }
-
-    public update(filter: Filter): Observable<Filter> {
-        return this.http.put<Filter>(this.resourceUrl, filter).pipe(map((res) => convert(Filter, res)));
-    }
-
-    public delete(id: number): Observable<ResponseWrapper<Filter>> {
-        return this.http
-            .delete<Filter>(`${this.resourceUrl}/${id}`, { observe: 'response' })
-            .pipe(map((res) => convert(Filter, res)));
-    }
 }
