@@ -20,7 +20,6 @@ import com.codahale.metrics.annotation.Timed;
 
 import es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType;
 import es.gobcan.istac.edatos.external.users.core.service.ExternalUserService;
-import es.gobcan.istac.edatos.external.users.core.service.NotificationService;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.ExternalUserDto;
 import es.gobcan.istac.edatos.external.users.rest.common.mapper.ExternalUserMapper;
 import es.gobcan.istac.edatos.external.users.rest.common.util.PaginationUtil;
@@ -35,12 +34,10 @@ public class ExternalUserResource extends AbstractResource {
 
     private final ExternalUserService externalUserService;
     private final ExternalUserMapper externalUserMapper;
-    private final NotificationService notificationService;
 
-    public ExternalUserResource(ExternalUserService externalUserService, ExternalUserMapper externalUserMapper, NotificationService notificationService) {
+    public ExternalUserResource(ExternalUserService externalUserService, ExternalUserMapper externalUserMapper) {
         this.externalUserService = externalUserService;
         this.externalUserMapper = externalUserMapper;
-        this.notificationService = notificationService;
     }
 
     @Timed
@@ -64,7 +61,7 @@ public class ExternalUserResource extends AbstractResource {
     @PreAuthorize("@secChecker.canModifyUserStatus(authentication)")
     public ResponseEntity<Void> deleteExternalUser(@PathVariable Long id) {
         try {
-            notificationService.createDeleteExternalUserAccountNotification(externalUserService.delete(id));
+            externalUserService.delete(id);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             throw new EDatosException(ServiceExceptionType.EXTERNAL_USER_DELETE_FAILED);
