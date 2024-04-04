@@ -56,6 +56,7 @@ public class FilterResourceInternalTest {
     private ExternalUserEntity user1;
     private ExternalUserEntity user2;
     private FilterEntity filter1;
+    private FilterEntity filter2;
 
     @Before
     public void setup() {
@@ -86,11 +87,17 @@ public class FilterResourceInternalTest {
         externalUserRepository.saveAndFlush(user2);
 
         filter1 = new FilterEntity();
-        filter1.setName("My filter 2");
-        filter1.setPermalink(PERMALINK_2);
+        filter1.setName("My filter 1");
+        filter1.setPermalink(PERMALINK_1);
         filter1.setExternalUser(user1);
         filter1.setPermalinkType(PermalinkType.VISUALIZER);
         filterRepository.saveAndFlush(filter1);
+        filter2 = new FilterEntity();
+        filter2.setName("My filter 2");
+        filter2.setPermalink(PERMALINK_2);
+        filter2.setExternalUser(user1);
+        filter2.setPermalinkType(PermalinkType.VISUALIZER);
+        filterRepository.saveAndFlush(filter2);
     }
 
     @Test
@@ -137,8 +144,8 @@ public class FilterResourceInternalTest {
 
     @Test
     public void testSortFiltersByUserEmail() throws Exception {
-        filter1.setExternalUser(user2);
-        filterRepository.saveAndFlush(filter1);
+        filter2.setExternalUser(user2);
+        filterRepository.saveAndFlush(filter2);
 
         this.mockMvc.perform(get(ENDPOINT_URL + "?sort=email,desc"))
                     .andDo(print())
