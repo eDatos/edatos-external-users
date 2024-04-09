@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 
 import es.gobcan.istac.edatos.external.users.core.domain.AuditEventEntity;
 
+import static es.gobcan.istac.edatos.external.users.core.config.AuditConstants.PRINCIPAL_TYPE;
+
 @Component
 public class AuditEventConverter {
 
@@ -45,7 +47,9 @@ public class AuditEventConverter {
         if (auditEvent == null) {
             return null;
         }
-        return new AuditEvent(Date.from(auditEvent.getAuditEventDate()), auditEvent.getPrincipal(), auditEvent.getAuditEventType(), convertDataToObjects(auditEvent.getData()));
+        Map<String, Object> data = convertDataToObjects(auditEvent.getData());
+        data.put(PRINCIPAL_TYPE, auditEvent.getPrincipalType());
+        return new AuditEvent(Date.from(auditEvent.getAuditEventDate()), auditEvent.getPrincipal(), auditEvent.getAuditEventType(), data);
     }
 
     /**

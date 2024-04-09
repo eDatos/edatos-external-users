@@ -10,6 +10,7 @@ import { PAGINATION_OPTIONS } from '@app/app.constants';
 @Component({
     selector: 'app-audit',
     templateUrl: './audits.component.html',
+    styleUrls: ['./audits.component.scss'],
     providers: [Table, TableService],
 })
 export class AuditsComponent implements OnInit {
@@ -45,6 +46,14 @@ export class AuditsComponent implements OnInit {
             header: {
                 handler: 'translate',
                 translatePath: 'audits.table.header.principal',
+            },
+        },
+        {
+            fieldName: 'principal_type',
+            sortable: true,
+            header: {
+                handler: 'translate',
+                translatePath: 'audits.table.header.principal_type',
             },
         },
         {

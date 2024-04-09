@@ -137,12 +137,14 @@
         "table": {
             "data": {
                 "code": "Código:",
-                "remoteAddress": "Dirección remota:"
+                "remoteAddress": "Dirección remota:",
+                "eventSubtype": "Subestado:"
             },
             "header": {
                 "data": "Datos extra",
                 "date": "Fecha",
                 "principal": "Usuario",
+                "principal_type": "Tipo de usuario",
                 "status": "Estado"
             }
         },
