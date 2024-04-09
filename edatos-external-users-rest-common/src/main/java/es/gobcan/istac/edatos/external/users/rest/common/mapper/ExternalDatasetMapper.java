@@ -62,6 +62,8 @@ public abstract class ExternalDatasetMapper implements EntityMapper<ExternalData
             source = "code")
    @Mapping(target = "externalOperationUrn",
             source = "statisticalOperation.urn")
+   @Mapping(target = "visualizerHtmlLink",
+            source = "htmlLink")
    @Mapping(target = "id", ignore = true)
    @Mapping(target = "type", ignore = true)
    @Mapping(target = "optLock", ignore = true)
