@@ -62,12 +62,12 @@ public class AuditEventConverter {
      */
     public Map<String, Object> convertDataToObjects(Map<String, String> data, AuditPrincipalType principalType) {
         Map<String, Object> results = new HashMap<>();
-        results.put(PRINCIPAL_TYPE, principalType);
         if (data != null) {
             for (Map.Entry<String, String> entry : data.entrySet()) {
                 results.put(entry.getKey(), entry.getValue());
             }
         }
+        results.put(PRINCIPAL_TYPE, principalType);
         return results;
     }
 
