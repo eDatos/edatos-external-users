@@ -1,3 +1,7 @@
 .extra-data-cell > span {
     display: block;
 }
+
+td > span {
+    overflow-wrap: break-word;
+}
