@@ -38,9 +38,9 @@
                 <ng-template pTemplate="body" let-audit>
                     <tr>
                         <td><span>{{audit.timestamp | date: 'dd/MM/yyyy HH:mm'}}</span></td>
-                        <td>{{audit.principal}}</td>
-                        <td>{{audit.data?.principalType}}</td>
-                        <td>{{audit.type}}</td>
+                        <td><span>{{audit.principal}}</span></td>
+                        <td><span>{{audit.data?.principalType}}</span></td>
+                        <td><span>{{audit.type}}</span></td>
                         <td class="extra-data-cell">
                             <span *ngIf="audit.data?.message" ng-show="audit.data.message">{{audit.data.message}}</span>
                             <span *ngIf="audit.data?.eventSubtype" ng-show="audit.data.eventSubtype">
