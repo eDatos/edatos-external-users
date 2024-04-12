@@ -25,9 +25,12 @@ import { MissingTranslationHandlerImpl } from './config/missing-translation-hand
 import { CoreModule } from './core/core.module';
 import { AuthExpiredInterceptor, AuthInterceptor, ErrorHandlerInterceptor } from './core/interceptor';
 import { ErrorComponent, ErrorRoutingModule } from './layouts/error';
-import { NavbarComponent } from './layouts/navbar';
 import { AboutDialogComponent, DeleteConfirmDialogComponent } from './modules/account';
 import { SharedModule } from './shared';
+import {
+    DeleteFilterDialogComponent
+} from '@app/modules/filter/filter-form/delete-filter-dialog/delete-filter-dialog.component';
+import { SubNavbarComponent } from '@app/layouts/navbar/sub-navbar.component';
 
 class CustomTranslateHttpLoader extends TranslateHttpLoader {
 
@@ -58,8 +61,15 @@ export function initTranslations(translateService: TranslateService, cookieServi
 }
 
 @NgModule({
-    declarations: [AppComponent, NavbarComponent, ErrorComponent, DeleteConfirmDialogComponent, AboutDialogComponent],
-    entryComponents: [DeleteConfirmDialogComponent, AboutDialogComponent],
+    declarations: [
+        AppComponent,
+        SubNavbarComponent,
+        ErrorComponent,
+        DeleteConfirmDialogComponent,
+        DeleteFilterDialogComponent,
+        AboutDialogComponent
+    ],
+    entryComponents: [DeleteConfirmDialogComponent, AboutDialogComponent, DeleteFilterDialogComponent],
     imports: [
         BrowserModule,
         ErrorRoutingModule,
@@ -73,47 +83,48 @@ export function initTranslations(translateService: TranslateService, cookieServi
             loader: {
                 provide: TranslateLoader,
                 useFactory: createTranslateLoader,
-                deps: [HttpClient, ConfigService],
-            },
+                deps: [HttpClient, ConfigService]
+            }
         }),
         ToastModule,
         ServiceWorkerModule.register('./ngsw-worker.js', { enabled: environment.production }),
-        ScriptLoaderModule,
+        ScriptLoaderModule
     ],
     providers: [
         {
             provide: APP_INITIALIZER,
             useFactory: initTranslations,
             deps: [TranslateService, CookieService, ConfigService],
-            multi: true,
+            multi: true
         },
         {
             provide: HTTP_INTERCEPTORS,
             useClass: AuthInterceptor,
-            multi: true,
+            multi: true
         },
         {
             provide: HTTP_INTERCEPTORS,
             useClass: AuthExpiredInterceptor,
-            multi: true,
+            multi: true
         },
         {
             provide: APP_INITIALIZER,
             useFactory: (languageService: LanguageService) => () => languageService.init(),
             deps: [LanguageService],
-            multi: true,
+            multi: true
         },
         {
             provide: HTTP_INTERCEPTORS,
             useClass: ErrorHandlerInterceptor,
-            multi: true,
+            multi: true
         },
         MessageService,
         ArteTableService,
         ArteEventManager,
         PagingParamsResolver,
-        ScrollService,
+        ScrollService
     ],
-    bootstrap: [AppComponent],
+    bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+}

@@ -42,6 +42,17 @@
                 "onSuccess": "Se ha modificado la contraseña de usuario correctamente."
             }
         },
+        "email-modification": {
+            "title": "Modificar correo electrónico",
+            "label": "¿Seguro que desea cambiar el correo de su usuario?",
+            "content": "Si es así, se enviará un correo electrónico a la nueva cuenta que ha proporcionado para confirmar que el correo es suyo.",
+            "messages": {
+                "onRequestSuccessSummary": "Email modificado",
+                "onRequestSuccess": "Se ha enviado un correo para confirmar el cambio.",
+                "onConfirmationSuccessSummary": "Modificación de correo confirmada",
+                "onConfirmationSuccess": "A partir de ahora podrás iniciar sesión con el nuevo correo."
+            }
+        },
         "activated": "Activado",
         "deactivated": "Desactivado",
         "profiles": "Roles",

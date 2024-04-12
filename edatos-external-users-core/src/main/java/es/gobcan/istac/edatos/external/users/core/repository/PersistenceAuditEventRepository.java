@@ -8,12 +8,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import es.gobcan.istac.edatos.external.users.core.domain.AuditEventEntity;
+import es.gobcan.istac.edatos.external.users.core.domain.enumeration.AuditPrincipalType;
 
 public interface PersistenceAuditEventRepository extends JpaRepository<AuditEventEntity, Long> {
 
     List<AuditEventEntity> findByPrincipal(String principal);
 
-    List<AuditEventEntity> findAllByPrincipal(String principal);
+    List<AuditEventEntity> findAllByPrincipalAndPrincipalType(String principal, AuditPrincipalType principalType);
 
     List<AuditEventEntity> findByAuditEventDateAfter(Instant after);
 

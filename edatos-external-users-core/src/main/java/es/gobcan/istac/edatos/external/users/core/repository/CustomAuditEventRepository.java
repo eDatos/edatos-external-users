@@ -1,6 +1,7 @@
 package es.gobcan.istac.edatos.external.users.core.repository;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.boot.actuate.audit.AuditEvent;
@@ -9,8 +10,10 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import es.gobcan.istac.edatos.external.users.core.config.audit.AuditEventConverter;
+import es.gobcan.istac.edatos.external.users.core.config.AuditConstants;
 import es.gobcan.istac.edatos.external.users.core.domain.AuditEventEntity;
+import es.gobcan.istac.edatos.external.users.core.config.audit.AuditEventConverter;
+import es.gobcan.istac.edatos.external.users.core.domain.enumeration.AuditPrincipalType;
 
 @Repository
 public class CustomAuditEventRepository implements AuditEventRepository {
@@ -56,12 +59,15 @@ public class CustomAuditEventRepository implements AuditEventRepository {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void add(AuditEvent event) {
         if (!AUTHORIZATION_FAILURE.equals(event.getType())) {
+            HashMap<String, Object> data = new HashMap<>(event.getData());
+            AuditPrincipalType principalType = (AuditPrincipalType) data.remove(AuditConstants.PRINCIPAL_TYPE);
 
             AuditEventEntity persistentAuditEvent = new AuditEventEntity();
             persistentAuditEvent.setPrincipal(event.getPrincipal());
+            persistentAuditEvent.setPrincipalType(principalType == null ? AuditPrincipalType.ADMIN : principalType);
             persistentAuditEvent.setAuditEventType(event.getType());
             persistentAuditEvent.setAuditEventDate(event.getTimestamp().toInstant());
-            persistentAuditEvent.setData(auditEventConverter.convertDataToStrings(event.getData()));
+            persistentAuditEvent.setData(auditEventConverter.convertDataToStrings(data));
             persistenceAuditEventRepository.saveAndFlush(persistentAuditEvent);
         }
     }

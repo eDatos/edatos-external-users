@@ -8,6 +8,7 @@ import { FilterFormComponent } from '@app/modules/filter/filter-form/filter-form
 import { FilterListComponent } from '@app/modules/filter/filter-list/filter-list.component';
 import { FilterResolver } from '@app/modules/filter/filter.resolver';
 import { PagingParamsResolver } from 'arte-ng/services';
+import { FilterFormEditComponent } from '@app/modules/filter/filter-form/filter-form-edit/filter-form-edit.component';
 
 export const FILTER_ROUTES: Routes = [
     {
@@ -15,7 +16,7 @@ export const FILTER_ROUTES: Routes = [
         component: FilterListComponent,
         resolve: {
             pagingParams: PagingParamsResolver,
-            user: UserResolver,
+            user: UserResolver
         },
         data: {
             roles: USER,
@@ -23,39 +24,53 @@ export const FILTER_ROUTES: Routes = [
             defaultPagingParams: {
                 page: '1',
                 sort: 'created_date,desc',
-                size: ITEMS_PER_PAGE,
-            },
+                size: ITEMS_PER_PAGE
+            }
         },
-        canActivate: [UserRouteAccessGuard],
+        canActivate: [UserRouteAccessGuard]
     },
     {
         path: 'new',
         component: FilterFormComponent,
         data: {
             roles: USER,
-            pageTitle: 'filter.form.new',
+            pageTitle: 'filter.form.new'
         },
         resolve: {
-            user: UserResolver,
+            user: UserResolver
         },
-        canActivate: [UserRouteAccessGuard],
+        canActivate: [UserRouteAccessGuard]
     },
     {
         path: ':id',
         component: FilterFormComponent,
         resolve: {
-            filter: FilterResolver,
+            filter: FilterResolver
         },
         data: {
             roles: USER,
-            pageTitle: 'filter.name',
+            pageTitle: 'filter.name'
         },
-        canActivate: [UserRouteAccessGuard],
+        canActivate: [UserRouteAccessGuard]
     },
+    {
+        path: ':id/edit',
+        component: FilterFormEditComponent,
+        resolve: {
+            filter: FilterResolver
+        },
+        data: {
+            roles: USER,
+            pageTitle: 'filter.name'
+        },
+        canActivate: [UserRouteAccessGuard]
+    }
+
 ];
 
 @NgModule({
     imports: [RouterModule.forChild(FILTER_ROUTES)],
-    exports: [RouterModule],
+    exports: [RouterModule]
 })
-export class FilterRoutingModule {}
+export class FilterRoutingModule {
+}

@@ -7,11 +7,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import es.gobcan.istac.edatos.external.users.core.domain.enumeration.AuditPrincipalType;
 import org.springframework.boot.actuate.audit.AuditEvent;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Component;
 
 import es.gobcan.istac.edatos.external.users.core.domain.AuditEventEntity;
+
+import static es.gobcan.istac.edatos.external.users.core.config.AuditConstants.PRINCIPAL_TYPE;
 
 @Component
 public class AuditEventConverter {
@@ -45,7 +48,8 @@ public class AuditEventConverter {
         if (auditEvent == null) {
             return null;
         }
-        return new AuditEvent(Date.from(auditEvent.getAuditEventDate()), auditEvent.getPrincipal(), auditEvent.getAuditEventType(), convertDataToObjects(auditEvent.getData()));
+        Map<String, Object> data = convertDataToObjects(auditEvent.getData(), auditEvent.getPrincipalType());
+        return new AuditEvent(Date.from(auditEvent.getAuditEventDate()), auditEvent.getPrincipal(), auditEvent.getAuditEventType(), data);
     }
 
     /**
@@ -56,14 +60,14 @@ public class AuditEventConverter {
      *            the data to convert
      * @return a map of String, Object
      */
-    public Map<String, Object> convertDataToObjects(Map<String, String> data) {
+    public Map<String, Object> convertDataToObjects(Map<String, String> data, AuditPrincipalType principalType) {
         Map<String, Object> results = new HashMap<>();
-
         if (data != null) {
             for (Map.Entry<String, String> entry : data.entrySet()) {
                 results.put(entry.getKey(), entry.getValue());
             }
         }
+        results.put(PRINCIPAL_TYPE, principalType);
         return results;
     }
 

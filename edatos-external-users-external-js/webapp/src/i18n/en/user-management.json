@@ -42,6 +42,17 @@
                 "onSuccess": "User password has been modified correctly."
             }
         },
+        "email-modification": {
+            "title": "Modify email",
+            "label": "Are you sure you want to change your user's email?",
+            "content": "If so, an email will be sent to the new account you provided to confirm that the email is yours.",
+            "messages": {
+                "onRequestSuccessSummary": "Email modification",
+                "onRequestSuccess": "An email has been sent to confirm the modification.",
+                "onConfirmationSuccessSummary": "Email modification confirmed",
+                "onConfirmationSuccess": "From now on you can log in with the new email."
+            }
+        },
         "activated": "Activated",
         "deactivated": "Deactivated",
         "profiles": "Roles",

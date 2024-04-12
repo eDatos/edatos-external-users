@@ -1,15 +1,16 @@
-import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { LazyLoadEvent } from 'primeng/api';
-import { Table, TableService } from 'primeng/table';
-import { Audit } from './audit.model';
-import { AuditsService } from './audits.service';
-import { PAGINATION_OPTIONS } from '@app/app.constants';
+import {DatePipe} from '@angular/common';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {LazyLoadEvent} from 'primeng/api';
+import {Table, TableService} from 'primeng/table';
+import {Audit} from './audit.model';
+import {AuditsService} from './audits.service';
+import {PAGINATION_OPTIONS} from '@app/app.constants';
 
 @Component({
     selector: 'app-audit',
     templateUrl: './audits.component.html',
+    styleUrls: ['./audits.component.scss'],
     providers: [Table, TableService],
 })
 export class AuditsComponent implements OnInit {
@@ -48,6 +49,14 @@ export class AuditsComponent implements OnInit {
             },
         },
         {
+            fieldName: 'principalType',
+            sortable: true,
+            header: {
+                handler: 'translate',
+                translatePath: 'audits.table.header.principal_type',
+            },
+        },
+        {
             fieldName: 'auditEventType',
             sortable: true,
             header: {
@@ -57,7 +66,7 @@ export class AuditsComponent implements OnInit {
         },
         {
             fieldName: 'data',
-            sortable: true,
+            sortable: false,
             header: {
                 handler: 'translate',
                 translatePath: 'audits.table.header.data',
@@ -136,6 +145,7 @@ export class AuditsComponent implements OnInit {
                 sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc'),
             },
         });
+        this.loadAll();
     }
 
     onDatesChange() {
@@ -144,8 +154,7 @@ export class AuditsComponent implements OnInit {
     }
 
     sort() {
-        const sort = this.predicate + ',' + (this.reverse ? 'asc' : 'desc');
-        return sort;
+        return this.predicate + ',' + (this.reverse ? 'asc' : 'desc');
     }
 
     private dateToString(date: Date): string | null {

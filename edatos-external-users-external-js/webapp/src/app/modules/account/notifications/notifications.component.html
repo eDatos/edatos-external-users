@@ -1,13 +1,20 @@
-<div class='page'>
+<div class='page content'>
     <div class='page-header'>
-        <div class='page-header-top'>
-            <h2 class='page-header-title'>
-                <span class='page-header-title-text' translate='global.menu.account.notifications'></span>
-            </h2>
-        </div>
+        <div class='page-no-header-top'></div>
     </div>
     <div class='page-body'>
-        <arte-spinner *ngIf='!noticesLoaded'></arte-spinner>
+        <div class='custom-control custom-switch'>
+            <input type='checkbox' class='custom-control-input' ngModel
+                   id='emailNotificationsEnabled'
+                   [(ngModel)]='account.emailNotificationsEnabled'
+                   (change)='toggleVisibility()'
+                   name='emailNotificationsEnabled'>
+            <label class='custom-control-label' for='emailNotificationsEnabled'
+                   [ngClass]="markedEmailNotificationsEnabled?'label-inputswitch-checked':''">{{ 'account.form.emailNotificationsEnabled' | translate }}</label>
+        </div>
+        <div class='col-md-12 justify-content-md-center text-center'>
+            <div *ngIf='!noticesLoaded' class='spinner-border text-info' role='status'></div>
+        </div>
         <ng-container *ngIf='noticesLoaded'>
             <ng-container *ngIf='notices.length > 0;else emptyList'>
                 <div class='page-table-container-fluid'>
@@ -21,10 +28,9 @@
                         (onLazyLoad)='loadData($event)'
                     >
                         <ng-template pTemplate='body' let-notice>
-                            <tr>
+                            <tr [routerLink]="['../notifications', notice.urn]">
                                 <td>{{notice.sendingDate | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
                                 <td>{{notice.subject}}</td>
-                                <td [innerHTML]='joinMessagesText(notice.messages)'></td>
                             </tr>
                         </ng-template>
                     </arte-table>

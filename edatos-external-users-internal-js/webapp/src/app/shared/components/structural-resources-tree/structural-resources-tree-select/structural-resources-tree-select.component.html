@@ -1,0 +1,14 @@
+<p-tree
+    (onNodeSelect)="updateSelectableOfNodeAndChildren($event.node)"
+    (onNodeUnselect)="updateSelectableOfNodeAndChildren($event.node)"
+    [(selection)]="selectedResources"
+    [loading]="!tree"
+    selectionMode="checkbox"
+    [emptyMessage]="'structuralResourcesTree.noRecordsFound' | translate"
+    [value]="tree"
+    [propagateSelectionUp]="false"
+    [propagateSelectionDown]="true"
+    [filter]="true"
+    filterMode="strict"
+    arteAutofocus
+></p-tree>

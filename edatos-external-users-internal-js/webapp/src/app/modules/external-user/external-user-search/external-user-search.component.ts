@@ -1,14 +1,14 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import {ExternalUser, Language, Service} from '@app/core/model';
-import { StructuralResourcesTreeComponent } from '@app/shared/components/structural-resources-tree';
+import { Language, Service} from '@app/core/model';
 import { FavoriteResource } from '@app/shared/model';
-import {CategoryService, LanguageService} from '@app/shared/service';
+import { CategoryService, LanguageService } from '@app/shared/service';
 import { ArteEventManager } from 'arte-ng/services';
 import * as _ from 'lodash';
 import { of, Subject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { ExternalUserFilter } from './external-user-filter';
-import {TranslateService} from "@ngx-translate/core";
+import { TranslateService } from "@ngx-translate/core";
+import { StructuralResourcesTreeSimpleSelectComponent } from "@app/shared/components/structural-resources-tree/structural-resources-tree-simple-select/structural-resources-tree-simple-select.component";
 
 @Component({
     selector: 'app-external-user-search',
@@ -26,8 +26,8 @@ export class ExternalUserSearchComponent implements OnInit, OnDestroy {
     public isSelectingResource = false;
     public serviceEnum = Service;
 
-    @ViewChild(StructuralResourcesTreeComponent)
-    public tree: StructuralResourcesTreeComponent;
+    @ViewChild(StructuralResourcesTreeSimpleSelectComponent)
+    public tree: StructuralResourcesTreeSimpleSelectComponent;
 
     private filterChangesSubject: Subject<any> = new Subject<any>();
 

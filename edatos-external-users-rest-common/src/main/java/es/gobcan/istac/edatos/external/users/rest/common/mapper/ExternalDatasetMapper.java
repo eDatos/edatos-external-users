@@ -53,7 +53,7 @@ public abstract class ExternalDatasetMapper implements EntityMapper<ExternalData
         }
         return externalDatasetRepository.findByUrn(urn).orElseGet(ExternalDatasetEntity::new);
     }
-    
+
     @Mapping(target = "name",
             source = "title")
    @Mapping(target = "urn",
@@ -62,15 +62,17 @@ public abstract class ExternalDatasetMapper implements EntityMapper<ExternalData
             source = "code")
    @Mapping(target = "externalOperationUrn",
             source = "statisticalOperation.urn")
+   @Mapping(target = "visualizerHtmlLink",
+            source = "htmlLink")
    @Mapping(target = "id", ignore = true)
    @Mapping(target = "type", ignore = true)
    @Mapping(target = "optLock", ignore = true)
    @Mapping(target = "createdDate", ignore = true)
    public abstract ExternalDatasetEntity toEntity(DatasetAvro value);
-    
+
     @Mapping(target = "texts", source = "localisedStrings")
     public abstract InternationalStringVO toVO(InternationalStringAvro source);
-    
+
     @ObjectFactory
     public ExternalDatasetEntity resolver(DatasetAvro dataset, @TargetType Class<ExternalDatasetEntity> type) {
         if (dataset == null) {

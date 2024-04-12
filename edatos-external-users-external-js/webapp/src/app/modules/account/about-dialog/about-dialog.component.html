@@ -1,15 +1,26 @@
-<div class="modal-header">
-    <p class="modal-title" id="myActorLabel">
-        <span class="mr-3">
-            <i class="fa"></i>
-        </span>
-        <strong><span translate="entity.action.about"></span></strong>
-    </p>
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="clear()">&times;</button>
-</div>
-<div class="modal-body">
-    <div>
-        <p><span translate="global.version"></span> : {{version}}</p>
+<div class='page content'>
+    <div class='page-body'>
+        <div class='row justify-content-md-center login-container reset-password'>
+            <div class='col-md-4 card p-3 bg-white background-container'>
+                <h2 class='card-title text-center mt-1'
+                    translate='entity.action.about'></h2>
+                <div class='card-body'>
+                    <div class='form-group'>
+                        <p class='content-paragraph p-text'>{{ 'global.version' | translate }} : {{version}}</p>
+                    </div>
+
+                    <div class='button-container-login'>
+                        <div class='row justify-content-md-center'>
+                            <div class='form-group panel-container-buttons w-100'>
+                                <button type='submit' (click)='clear()' class='btn btn-first w-100'>
+                                    <span>{{ 'entity.action.accept' | translate }}</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-<div class="modal-footer"></div>

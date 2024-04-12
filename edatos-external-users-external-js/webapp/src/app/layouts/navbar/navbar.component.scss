@@ -1,43 +1,116 @@
-@import 'variables';
-@import 'mixins';
+@import '../../../assets/scss/variables';
+@import '../../../assets/scss/mixins';
 
 /* ==========================================================================
 Navbar
 ========================================================================== */
-.navbar-version {
-    font-size: 10px;
-    color: $grey-lightest;
-    display: inline-block;
-    vertical-align: text-bottom;
+div.page {
+  display: block;
+  position: relative;
+}
+
+.page.sub-navbar {
+  min-height: 175px;
 }
 
 .navbar {
-    min-height: $navbar-height;
-    background-color: $istac-gray;
-    padding-left: $page-padding-left;
-    padding-right: $page-padding-right;
-    .dropdown-item.active,
-    .dropdown-item.active:focus,
-    .dropdown-item.active:hover {
-        background-color: $istac-gray-dark;
+  button.text-icon-button:first-child {
+    margin-right: 0;
+  }
+
+  div.navbar-collapse {
+    height: 42px;
+    padding-bottom: 10px;
+  }
+
+  ul.navbar-nav {
+    .nav-item {
+      white-space: nowrap;
+
+      &.active {
+        background: transparent;
+      }
+
+      ul.dropdown-menu-right.show {
+        font-size: $size-14;
+        min-width: 274px;
+        margin: 0;
+        top: 48px;
+        background-color: $color-blue-dark-100;
+        border-radius: 6px 0 6px 6px;
+      }
+
+      .btn {
+        font-size: $size-14;
+      }
     }
-    ul.navbar-nav {
-        .nav-item {
-            white-space: nowrap;
-            &.active {
-                background: $istac-gray-dark;
-            }
-        }
+  }
+
+  div.general-buttons.row {
+    margin: 0;
+    padding: 0 0 10px 0;
+  }
+
+  .dropdown-menu {
+    border: unset;
+  }
+}
+
+div.general-buttons.row {
+  padding-left: 20px;
+}
+
+div.account-section-buttons {
+  z-index: 1;
+  position: absolute;
+}
+
+.nav-item.active {
+  background: transparent;
+}
+
+ul.dropdown-menu {
+  hr {
+    color: $color-blue-25;
+    border-top: 1px solid;
+  }
+
+  li {
+    padding: 0 8px;
+  }
+
+  .dropdown-item {
+    color: $color-black-0;
+    padding: 5px;
+
+    &:hover {
+      color: $color-black-100;
+      background-color: $color-blue-25;
+      border-radius: 3px;
     }
+  }
+}
+
+.dropdown-toggle::after {
+  display: inline-block;
+  content: unset;
+}
+
+a.nav-link {
+  color: $color-blue-dark-50;
+
+  &.active, &:hover {
+    color: $color-blue-dark-100;
+  }
 }
 
 .navbar-title {
-    display: inline-block;
-    vertical-align: middle;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .dialog-btn-pointer {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 /* ==========================================================================
@@ -45,19 +118,16 @@ Logo styles
 ========================================================================== */
 
 .navbar-brand {
-    &.logo {
-        .logo-img {
-            height: $navbar-content-height;
-            margin-right: 15px;
-        }
+  &.logo {
+    .logo-img {
+      height: $navbar-content-height;
+      margin-right: 15px;
     }
+  }
 }
 
 @include media-breakpoint-down(sm) {
-    $page-padding-left: 15px;
-    $page-padding-right: 15px;
-    .app-navbar {
-        padding-left: $page-padding-left;
-        padding-right: $page-padding-right;
-    }
+  .app-navbar {
+    padding: 0 $padding-15px;
+  }
 }

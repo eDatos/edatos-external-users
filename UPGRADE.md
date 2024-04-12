@@ -8,10 +8,18 @@
 
 *Se deberá realizar primero la actualización de la versión 1.0.0 a la 2.0.0 y luego desde la 2.0.0 a la 3.0.0*
 
+## 2.1.1 a 2.1.2-SNAPSHOT
+
+* Se añaden las propiedades `metamac.default.codelist.gender.restriction` y `metamac.default.codelist.nationality.restriction` que hacen referencia a las **restricciones** utilizadas en las peticiones a la API de SRM para conseguir los códigos de los géneros y los paises respectivamente. Para añadir las propiedades hace falta ejecutar el siguiente script SQL:
+
+```
+etc\changes-from-release\2.1.1\db\common-metadata\postgresql\20240216_insert_paises_and_sexo_restriction_configuration.sql
+```
+
 ## 2.0.0 a 2.1.0
 
 * Este proyecto añade la cabecera Access-Control-Allow-Origin alimentándola con la propiedad whitelist (véase SecurityConfiguration.java). Es importante que, si la aplicación se sirve tras un frontal de Apache o similar, el mismo no añada cabeceras Access-Control-Allow-Origin: *, pues interactuaría con la añadida por la aplicación.
-* Se añade la propiedade `metamac.statistical_operations.web.external` que hacen referencia al visualizador externo de operaciones. Para añadir la propiedad hace falta ejecutar el siguiente script SQL:
+* Se añade la propiedad `metamac.statistical_operations.web.external` que hacen referencia al visualizador externo de operaciones. Para añadir la propiedad hace falta ejecutar el siguiente script SQL:
 
 ```
 etc\changes-from-release\2.0.1\db\common-metadata\postgresql\20240216_insert_statistical_operations_external_web_configuration.sql

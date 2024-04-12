@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import es.gobcan.istac.edatos.external.users.EdatosExternalUsersCoreTestApp;
 import es.gobcan.istac.edatos.external.users.core.config.audit.AuditEventConverter;
 import es.gobcan.istac.edatos.external.users.core.domain.AuditEventEntity;
+import es.gobcan.istac.edatos.external.users.core.domain.enumeration.AuditPrincipalType;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -58,6 +59,7 @@ public class CustomAuditEventRepositoryTest {
 
         testUserEvent = new AuditEventEntity();
         testUserEvent.setPrincipal("test-user");
+        testUserEvent.setPrincipalType(AuditPrincipalType.EXTERNAL_USER);
         testUserEvent.setAuditEventType("test-type");
         testUserEvent.setAuditEventDate(oneHourAgo);
         Map<String, String> data = new HashMap<>();
@@ -66,11 +68,13 @@ public class CustomAuditEventRepositoryTest {
 
         testOldUserEvent = new AuditEventEntity();
         testOldUserEvent.setPrincipal("test-user");
+        testOldUserEvent.setPrincipalType(AuditPrincipalType.EXTERNAL_USER);
         testOldUserEvent.setAuditEventType("test-type");
         testOldUserEvent.setAuditEventDate(oneHourAgo.minusSeconds(10000));
 
         testOtherUserEvent = new AuditEventEntity();
         testOtherUserEvent.setPrincipal("other-test-user");
+        testOtherUserEvent.setPrincipalType(AuditPrincipalType.EXTERNAL_USER);
         testOtherUserEvent.setAuditEventType("test-type");
         testOtherUserEvent.setAuditEventDate(oneHourAgo);
     }
@@ -136,6 +140,7 @@ public class CustomAuditEventRepositoryTest {
 
         AuditEventEntity testUserOtherTypeEvent = new AuditEventEntity();
         testUserOtherTypeEvent.setPrincipal(testUserEvent.getPrincipal());
+        testUserOtherTypeEvent.setPrincipalType(testUserEvent.getPrincipalType());
         testUserOtherTypeEvent.setAuditEventType("test-other-type");
         testUserOtherTypeEvent.setAuditEventDate(testUserEvent.getAuditEventDate());
         persistenceAuditEventRepository.save(testUserOtherTypeEvent);

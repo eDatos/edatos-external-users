@@ -28,6 +28,15 @@
             "noFilterCreated": "Parece que todavía no has creado ninguna consulta",
             "wouldYouLikeToCreateAFilter": "Puedes crearla desde cualquier visualización en el portal de datos"
         },
+        "messages": {
+            "onSuccessSumary": "Consulta personalizada modificada.",
+            "onSuccess": "Consulta personalizada guardada correctamente",
+            "delete": {
+                "title": "Eliminar consulta personalizada",
+                "label": "¿Seguro que quiere eliminar esta tabla?",
+                "content": "La información eliminada no podrá ser recuperada"
+            }
+        },
         "name": "Consulta personalizada"
     }
 }

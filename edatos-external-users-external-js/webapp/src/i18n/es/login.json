@@ -1,28 +1,34 @@
 {
-    "login": {
-        "home": {
-            "title": "Inicio de sesión"
-        },
-        "form": {
-            "email": "Correo electrónico",
-            "password": "Contraseña"
-        },
-        "action": {
-            "forgottenPassword": "Pulse aquí para establecer una nueva",
-            "signup": "Registrar nueva cuenta",
-            "signin": "Iniciar sesión",
-            "goBack": "Volver",
-            "resetPassword": "¿Has olvidado tu contraseña?"
-        },
-        "resetPassword": {
-            "init": {
-                "title": "Recuperar contraseña",
-                "email": "Correo electrónico",
-                "send": "Enviar"
-            },
-            "finish": {
-                "title": "Cambiar contraseña"
-            }
+  "login": {
+    "home": {
+      "title": "Inicio de sesión"
+    },
+    "form": {
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "email.format": "xxxx@xxxxx.xxx",
+      "password.format": "**********"
+    },
+    "action": {
+      "forgottenPassword": "Pulse aquí para establecer una nueva",
+      "signup": "Registrar nueva cuenta",
+      "signin": "Iniciar sesión",
+      "resetPassword": "¿Has olvidado tu contraseña?"
+    },
+    "resetPassword": {
+      "init": {
+        "title": "Recuperar contraseña",
+        "email": "Correo electrónico",
+        "send": "Enviar",
+        "content": "Recibirás un correo electrónico con los pasos para recuperar tu contraseña",
+        "successSending": {
+          "title": "Su solicitud ha sido enviada con exito",
+          "text": "Por favor, revise su correo electrónico y siga los pasos"
         }
+      },
+      "finish": {
+        "title": "Cambiar contraseña"
+      }
     }
+  }
 }

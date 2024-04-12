@@ -10,7 +10,7 @@ import { finalize } from 'rxjs/operators';
 @Component({
     selector: 'app-favorite-tree',
     templateUrl: './favorite-tree.component.html',
-    styleUrls: ['./favorite-tree.component.scss'],
+    styleUrls: ['./favorite-tree.component.scss']
 })
 export class FavoriteTreeComponent implements OnInit {
     public inEditMode = false;
@@ -21,7 +21,8 @@ export class FavoriteTreeComponent implements OnInit {
     public user: User;
     public favorites: Favorite[];
 
-    constructor(private favoriteService: FavoriteService, private translateService: TranslateService, private route: ActivatedRoute) {
+    constructor(private favoriteService: FavoriteService, private translateService: TranslateService,
+                private route: ActivatedRoute) {
         this.mainLanguageCode = this.translateService.getDefaultLang();
     }
 
@@ -41,7 +42,7 @@ export class FavoriteTreeComponent implements OnInit {
             .pipe(finalize(() => node.unsetLoading()))
             .subscribe({
                 next: () => this.updateFavorites(),
-                error: () => this.updateFavorites(),
+                error: () => this.updateFavorites()
             });
     }
 
@@ -53,7 +54,7 @@ export class FavoriteTreeComponent implements OnInit {
             .pipe(finalize(() => node.unsetLoading()))
             .subscribe({
                 next: () => this.updateFavorites(),
-                error: () => this.updateFavorites(),
+                error: () => this.updateFavorites()
             });
     }
 

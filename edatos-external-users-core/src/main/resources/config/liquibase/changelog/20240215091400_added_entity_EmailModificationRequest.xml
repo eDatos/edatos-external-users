@@ -1,0 +1,28 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.9.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
+    <changeSet author="arte" id="1707988488714-1">
+        <createSequence incrementBy="50" sequenceName="seq_tb_email_modification_request" startValue="1"/>
+    </changeSet>
+    <changeSet author="arte" id="1707988488714-2">
+        <createTable tableName="tb_email_modification_request">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="tb_email_modification_requestPK"/>
+            </column>
+            <column name="key" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="new_email" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="request_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="arte" id="1707988488714-3">
+        <addColumn tableName="tb_external_users">
+            <column name="email_modification_request_fk" type="BIGINT"/>
+        </addColumn>
+        <addForeignKeyConstraint baseColumnNames="email_modification_request_fk" baseTableName="tb_external_users" constraintName="FKacm0c7apqbushne9wqdec0nq0" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="tb_email_modification_request" validate="true"/>
+    </changeSet>
+</databaseChangeLog>

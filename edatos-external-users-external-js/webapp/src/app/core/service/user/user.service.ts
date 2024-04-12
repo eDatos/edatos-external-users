@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { Credentials, User, UserAccountChangePassword } from '@app/core/model';
 import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { createRequestOption, ResponseUtils } from 'arte-ng/utils';
+import { createRequestOption } from 'arte-ng/utils';
 import { convert, ResponseWrapper } from '@app/core/utils/response-utils';
 import { CaptchaService } from '@app/shared/service/captcha/captcha.service';
 import * as FileSaver from 'file-saver';
@@ -23,16 +23,16 @@ export class AccountUserService {
         return this.captchaService.postRequestWithCaptcha(el, User, url, user, 'signup');
     }
 
+    changePassword(el: ElementRef | string, accountChangePassword: UserAccountChangePassword): Promise<User> {
+        return this.captchaService.postRequestWithCaptcha(el, User, `${this.resourceUrl}/change-password`, accountChangePassword, 'change-password');
+    }
+
     confirmRegistration(token: string): Observable<User> {
         return this.http.get<User>(`${this.resourceUrl}/signup/confirm?token=` + token).pipe(map((res) => convert(User, res)));
     }
 
     login(el: ElementRef | string, credentials: Credentials): Promise<Credentials> {
         return this.captchaService.postRequestWithCaptcha(el, User, `api/login`, credentials, 'login');
-    }
-
-    buscarUsuarioPorEmail(email: string): Observable<User> {
-        return this.http.get<User>(`${this.resourceUrl}/${email}/findByEmail`).pipe(map((res) => convert(User, res)));
     }
 
     getLogueado(): Observable<User> {
@@ -43,12 +43,16 @@ export class AccountUserService {
         return this.http.get<User>(`${this.resourceUrl}/migrated-user-info?token=${token}`).pipe(map((res) => convert(User, res)));
     }
 
-    update(user: User): Observable<User> {
-        return this.http.put<User>(this.resourceUrl, user).pipe(map((res) => convert(User, res)));
+    updateEmail(user: User): Observable<User> {
+        return this.http.put<User>(`${this.resourceUrl}/email`, user.email).pipe(map((res) => convert(User, res)));
     }
 
-    changeCurrentUserPassword(accountChangePassword: UserAccountChangePassword): Observable<User> {
-        return this.http.post(`${this.resourceUrl}/change-password`, accountChangePassword).pipe(map((res) => ResponseUtils.convert(res, User)));
+    confirmEmailUpdate(key: String): Observable<any> {
+        return this.http.get<any>(`${this.resourceUrl}/email/confirm?key=` + key);
+    }
+
+    update(user: User): Observable<User> {
+        return this.http.put<User>(this.resourceUrl, user).pipe(map((res) => convert(User, res)));
     }
 
     delete(id: number): Observable<User> {

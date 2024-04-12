@@ -49,4 +49,14 @@
              relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20240215142833_modify_data_language_ExternalUser.xml"
              relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240228100225_add_column_visualizerHtmlLink_ExternalUser.xml"
+             relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240215091400_added_entity_EmailModificationRequest.xml"
+             relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240326113400_modify_entity_AdminAuditEvent.xml"
+             relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240402142200_added_function_random_string.xml"
+             relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240402072300_modify_entity_CategoryEntity.xml"
+             relativeToChangelogFile="false"/>
 </databaseChangeLog>

@@ -1,64 +1,18 @@
 <div #modalWrapper></div>
 
-<p *ngIf="isEditMode()" class="text-secondary">
+<p class="text-secondary">
     <i class="fa fa-info-circle" aria-hidden="true"></i>
     {{'structuralResourcesTree.helpMessage' | translate}}.
 </p>
 
-<button (click)="addNode()" *ngIf="isEditModeOrFiltered()" class="btn btn-link">
+<button (click)="addNode()" *ngIf="!ptree || !ptree.filteredNodes" class="btn btn-link">
     <span class="fa fa-plus"></span>
     <span translate="structuralResourcesTree.addNewNode"></span>
 </button>
 
 <p-tree
-    *ngIf="mode === 'view'"
-    (onNodeSelect)="onSelect($event.node)"
-    (onNodeUnselect)="onUnselect($event.node)"
-    [(selection)]="selectedResources"
-    [loading]="!tree || loading"
-    [selectionMode]="selectionMode"
-    [emptyMessage]="'structuralResourcesTree.noRecordsFound' | translate"
-    [value]="tree"
-    [filter]="true"
-    filterMode="strict"
-    arteAutofocus
->
-    <ng-template let-node pTemplate="default">
-        <span class="label">{{node.label}}</span>&nbsp;
-        <span *ngIf="node.data.favoriteType === 'externalOperation'; else onlySubscribedUsers" class="node-info">
-            ({{'structuralResourcesTree.subscribedUsers' | translate}}: {{node.data.subscribers || 0}}, {{'structuralResourcesTree.numberOfFilters' | translate:{ amount:
-            node.data.numberOfFilters || 0 } }})
-        </span>
-        <ng-template #onlySubscribedUsers>
-            <span class="node-info"> ({{'structuralResourcesTree.subscribedUsers' | translate}}: {{node.data.subscribers || 0}}) </span>
-        </ng-template>
-        <span *ngIf="node.data.favoriteType === 'externalOperation'" class="notifications-switch">
-            <i *ngIf="node.data.notificationsEnabled" aria-hidden="true" class="fa fa-bell notifications-icon"></i>
-            <i *ngIf="!node.data.notificationsEnabled" aria-hidden="true" class="fa fa-bell-slash notifications-icon"></i>
-            <p-inputSwitch (onChange)="updateExternalOperationNotifications(node)" [(ngModel)]="node.data.notificationsEnabled" styleClass="switch"></p-inputSwitch>
-        </span>
-    </ng-template>
-</p-tree>
-
-<p-tree
-    *ngIf="['select', 'simpleSelect'].includes(mode)"
-    (onNodeSelect)="onSelect($event.node)"
-    (onNodeUnselect)="onUnselect($event.node)"
-    [(selection)]="selectedResources"
-    [loading]="!tree || loading"
-    [selectionMode]="selectionMode"
-    [emptyMessage]="'structuralResourcesTree.noRecordsFound' | translate"
-    [value]="tree"
-    [propagateSelectionUp]="propagateSelection"
-    [propagateSelectionDown]="propagateSelection"
-    [filter]="true"
-    filterMode="strict"
-    arteAutofocus
-></p-tree>
-
-<p-tree
+    #ptree
     (onNodeDrop)="onNodeDrop($event)"
-    *ngIf="isEditMode()"
     [draggableNodes]="true"
     [droppableNodes]="true"
     [emptyMessage]="'structuralResourcesTree.noRecordsFound' | translate"
@@ -85,7 +39,7 @@
             [style]="{width: '50vw'}"
             [contentStyle]="{padding: '1.5em 2em'}"
             [appendTo]="modalWrapper"
-            (visibleChange)="cancelNodeEdit(node)"
+            (visibleChange)="cancelNodeNameEdit(node)"
         >
             <app-multi-language-input
                 *ngIf="allowedLanguages"
@@ -96,7 +50,7 @@
                 [inputType]="'text'"
             ></app-multi-language-input>
             <p-footer>
-                <button type="button" class="btn btn-secondary" (click)="cancelNodeEdit(node)" [disabled]="isNodeSaving">
+                <button type="button" class="btn btn-secondary" (click)="cancelNodeNameEdit(node)" [disabled]="isNodeSaving">
                     <i class="fa fa-times" aria-hidden="true"></i>
                     <span>{{ 'entity.action.cancel' | translate }}</span>
                 </button>
@@ -117,7 +71,7 @@
             [style]="{width: '80vw'}"
             [contentStyle]="{padding: '0', 'overflow-y': 'auto'}"
             [appendTo]="modalWrapper"
-            (visibleChange)="cancelNodeEdit(node)"
+            (visibleChange)="closeEditDialog(node)"
         >
             <app-external-categories-table
                 #table
@@ -125,7 +79,7 @@
                 [disabledExternalCategories]="getDisabledExternalCategories(node.data)"
             ></app-external-categories-table>
             <p-footer>
-                <button (click)="cancelNodeEdit(node)" class="btn btn-secondary" type="button">
+                <button (click)="closeEditDialog(node)" class="btn btn-secondary" type="button">
                     <i class="fa fa-times" aria-hidden="true"></i>
                     <span>{{ 'entity.action.cancel' | translate }}</span>
                 </button>

@@ -1,7 +1,5 @@
-$fa-font-path: '~font-awesome/fonts';
-@import 'node_modules/font-awesome/scss/font-awesome';
+$fa-font-path: "~@fortawesome/fontawesome-pro/webfonts";
 
-// Fix wrong icon
-.fa.fa-pencil-square-o {
-    margin-top: 1px !important;
-}
+@import "@fortawesome/fontawesome-pro/scss/fontawesome";
+@import "@fortawesome/fontawesome-pro/scss/thin";
+@import "@fortawesome/fontawesome-pro/scss/solid";

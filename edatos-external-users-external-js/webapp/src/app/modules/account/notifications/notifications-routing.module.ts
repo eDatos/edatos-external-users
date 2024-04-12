@@ -7,6 +7,9 @@ import { Role } from '@app/core/model';
 import { UserResolver } from '@app/core/resolver';
 import { ITEMS_PER_PAGE } from '@app/app.constants';
 import { PagingParamsResolver } from 'arte-ng/services';
+import {
+    NotificationsDetailComponent
+} from '@app/modules/account/notifications/notifications-detail/notifications-detail.component';
 
 export const accountManagementRoutes: Routes = [
     {
@@ -23,6 +26,14 @@ export const accountManagementRoutes: Routes = [
         },
         resolve: {
             pagingParams: PagingParamsResolver,
+            user: UserResolver
+        },
+        canActivate: [UserRouteAccessGuard]
+    },
+    {
+        path: ':id',
+        component: NotificationsDetailComponent,
+        resolve: {
             user: UserResolver
         },
         canActivate: [UserRouteAccessGuard]

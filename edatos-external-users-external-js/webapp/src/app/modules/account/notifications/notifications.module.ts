@@ -13,7 +13,11 @@ import {
 import { ArteDirectivesModule } from 'arte-ng/directives';
 import { NotificationsRoutingModule } from './notifications-routing.module';
 import { NotificationsComponent } from './notifications.component';
-import { NoticeFilter } from '@app/modules/account/notifications/notice-search/notice-search';
+import { NoticeFilter } from '@app/modules/account/notifications/notifications-search/notice-search';
+import { InputSwitchModule } from 'primeng';
+import {
+    NotificationsDetailComponent
+} from '@app/modules/account/notifications/notifications-detail/notifications-detail.component';
 
 @NgModule({
     imports: [
@@ -27,10 +31,11 @@ import { NoticeFilter } from '@app/modules/account/notifications/notice-search/n
         ArteSpinnerModule,
         ArteEntityListEmptyModule,
         CommonModule,
-        ArteCalendarModule
+        ArteCalendarModule,
+        InputSwitchModule
     ],
     providers: [NoticeFilter],
-    declarations: [NotificationsComponent],
+    declarations: [NotificationsComponent, NotificationsDetailComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class NotificationsModule {

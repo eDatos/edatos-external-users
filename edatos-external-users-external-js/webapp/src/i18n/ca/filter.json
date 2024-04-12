@@ -13,7 +13,7 @@
         "form": {
             "audit": "Audit",
             "cancel": "Cancel·lar",
-            "delete": "Eliminar consulta",
+            "delete": "Eliminar taula",
             "edit": "Editar consulta",
             "goBack": "Tornar al llistat",
             "legend": "Detalls de la consulta personalitzada",
@@ -28,6 +28,15 @@
         "list": {
             "noFilterCreated": "Sembla que encara no has creat cap consulta",
             "wouldYouLikeToCreateAFilter": "Pots crear-la des de qualsevol visualització en el portal de dades"
+        },
+        "messages": {
+            "onSuccessSumary": "Consulta personalitzada modificada",
+            "onSuccess": "Consulta personalitzada modificada correctament",
+            "delete": {
+                "title": "Eliminar consulta personalitzada",
+                "label": "¿Segur que vols eliminar aquesta consulta personalitzada?",
+                "content": "La informació no es podrà recuperar"
+            }
         }
     }
 }

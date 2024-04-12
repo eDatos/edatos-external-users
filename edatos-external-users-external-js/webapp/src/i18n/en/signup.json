@@ -1,35 +1,35 @@
 {
-    "signup": {
-        "home": {
-            "title": "Sign up user"
-        },
-        "form": {
-            "name": "Name",
-            "surname1": "First surname",
-            "surname2": "Second surname",
-            "password": "Password",
-            "confirmPassword": "Confirm password",
-            "email": "Email",
-            "language": "Language",
-            "phoneNumber": "Phone number",
-            "organism": "Organism",
-            "enableEmailNotifications": "Enable email notifications",
-            "captchaModal": "Solve the captcha to finish the registration",
-            "gender": "Gender",
-            "nationality": "Nationality",
-            "birthday": "Birthday",
-            "termsAndConditions": "Agree to the Privacy Policy"
-        },
-        "messages": {
-            "onSuccessSumary": "New user registration",
-            "onSuccess": "The user has successfully registered",
-            "onRequest": "An email has been sent to confirm the registration"
-        },
-        "document": {
-            "onErrorDownload": {
-                "label" : "Error on download PDF",
-                "detail" :  "Sorry, the PDF document could not be generated."
-            }
-        }
+  "signup": {
+    "home": {
+      "title": "Create your account"
+    },
+    "form": {
+      "name": "Name",
+      "surname1": "First surname",
+      "surname2": "Second surname",
+      "password": "Password",
+      "confirmPassword": "Confirm password",
+      "email": "Email",
+      "language": "Language",
+      "phoneNumber": "Phone number",
+      "organism": "Organism",
+      "enableEmailNotifications": "Enable email notifications",
+      "captchaModal": "Solve the captcha to finish the registration",
+      "gender": "Gender",
+      "nationality": "Nationality",
+      "birthday": "Birthday",
+      "termsAndConditions": "Agree to the Privacy Policy"
+    },
+    "messages": {
+      "onSuccessSumary": "New user registration",
+      "onSuccess": "The user has successfully registered",
+      "onRequest": "An email has been sent to confirm the registration"
+    },
+    "document": {
+      "onErrorDownload": {
+        "label": "Error on download PDF",
+        "detail": "Sorry, the PDF document could not be generated."
+      }
     }
+  }
 }

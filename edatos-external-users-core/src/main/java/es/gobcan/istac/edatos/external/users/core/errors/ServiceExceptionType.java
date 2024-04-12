@@ -41,9 +41,13 @@ public class ServiceExceptionType extends CommonServiceExceptionType {
      * EXTERNAL_USER
      ********/
     public static final CommonServiceExceptionType EXTERNAL_USER_DELETE_FAILED = create("exception.external_users.delete.failed");
+
+    public static final CommonServiceExceptionType EXTERNAL_USER_PASSWORD_CHANGE_FAILED = create("exception.external_users.password_change.failed");
     public static final CommonServiceExceptionType EXTERNAL_USER_DEACTIVATE = create("exception.external_users.deactivate");
     public static final CommonServiceExceptionType EXTERNAL_USER_DEAUTHENTICATED = create("exception.external_users.deauthenticated");
     public static final CommonServiceExceptionType EXTERNAL_USER_REGISTRATION_CONFIRMATION = create("exception.external_users.registration_confirmation");
+    public static final CommonServiceExceptionType EXTERNAL_USER_EMAIL_IS_THE_SAME = create("exception.external_users.email_is_the_same");
+    public static final CommonServiceExceptionType EXTERNAL_USER_EMAIL_MODIFICATION_ERROR = create("exception.external_users.email_modification_error");
 
     /********
      * PASSWORD
@@ -70,5 +74,11 @@ public class ServiceExceptionType extends CommonServiceExceptionType {
      ********/
 
     public static final CommonServiceExceptionType SENDING_NOTICE_FAILED = create("exception.external_users.notice.sending_notice");
+    public static final CommonServiceExceptionType EMAIL_MODIFICATION_NOTICE_FAILED = create("exception.external_users.email_modification.create_notice");
+
+    /********
+     * FAVORITE
+     ********/
+    public static final CommonServiceExceptionType FAVORITE_CREATE_ANCESTOR_ALREADY_FAVORITE = create("exception.external_users.favorite.ancestor_already_favorite");
 
 }

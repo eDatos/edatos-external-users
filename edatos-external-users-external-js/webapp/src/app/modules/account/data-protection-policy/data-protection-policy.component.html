@@ -1,16 +1,8 @@
-<div class="page">
-    <div class="page-header page-header-top">
-        <h2 class="page-header-title">
-            <span class="page-header-title-text" translate="dataProtectionPolicy.home.title"></span>
-        </h2>
-        <div class="page-header-btns">
-            <button type="button" class="btn btn-secondary" routerLink="..">
-                <span class="fa fa-arrow-left"></span>
-                <span translate="entity.action.back"></span>
-            </button>
-        </div>
+<div class='page content'>
+    <div class='page-header page-header-top'>
+        <span class='page-header-title-text' translate='dataProtectionPolicy.home.title'></span>
     </div>
-    <div class="page-body">
-        <div class="data-protection-policy" [innerHTML]="dataProtectionPolicy"></div>
+    <div class='page-body'>
+        <div class='data-protection-policy' [innerHTML]='dataProtectionPolicy'></div>
     </div>
 </div>

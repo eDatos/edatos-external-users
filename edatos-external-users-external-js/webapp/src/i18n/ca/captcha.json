@@ -1,10 +1,10 @@
 {
-    "captcha": {
-        "button": {
-            "text": "Enviar"
-        },
-        "label": {
-            "text": "Escrigui el valor de la imatge mostrada damunt"
-        }
+  "captcha": {
+    "button": {
+      "text": "Enviar"
+    },
+    "label": {
+      "text": "Escrigui el valor de la imatge mostrada"
     }
+  }
 }

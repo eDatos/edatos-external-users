@@ -1,23 +1,21 @@
 {
-    "favorite": {
-        "entity": {
-            "email": "Email"
-        },
-        "form": {
-            "cancel": "Cancelar",
-            "edit": "Editar favorito",
-            "goBack": "Volver al listado",
-            "legend": "Detalles del favorito",
-            "new": "Crear un nuevo favorito",
-            "save": "Guardar favorito"
-        },
-        "home": {
-            "createLabel": "Crear favorito",
-            "title": "Suscripciones temáticas"
-        },
-        "name": "Suscripciones temáticas"
+  "favorite": {
+    "title": "Selecciona los temas o actividades estadísticas de las que quieras recibir alertas de actualización",
+    "form": {
+      "cancel": "Cancelar",
+      "edit": "Editar favorito",
+      "goBack": "Volver al listado",
+      "legend": "Detalles del favorito",
+      "new": "Crear un nuevo favorito",
+      "save": "Guardar favorito"
     },
-    "structuralResourcesTree": {
-        "noRecordsFound": "No se ha encontrado ningún tema ni operación"
-    }
+    "home": {
+      "createLabel": "Crear favorito",
+      "title": "Suscripciones temáticas"
+    },
+    "name": "Suscripciones temáticas"
+  },
+  "structuralResourcesTree": {
+    "noRecordsFound": "No se ha encontrado ningún tema ni operación"
+  }
 }

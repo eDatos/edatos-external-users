@@ -48,6 +48,7 @@ import { SafeHtmlPipe } from './pipe/safe-html.pipe';
 import { NbButtonModule, NbCardModule } from '@nebular/theme';
 import { EUsuariosAlertService } from '@app/core/service';
 import { CustomCalendarComponent } from '@app/shared/components/calendar/custom-calendar.component';
+import { CopyClipboardDirective } from '@app/shared/directives/copy-clipboard.directive';
 
 @NgModule({
     imports: [
@@ -89,6 +90,7 @@ import { CustomCalendarComponent } from '@app/shared/components/calendar/custom-
     declarations: [
         PasswordMatchValidatorDirective,
         PasswordNotMatchValidatorDirective,
+        CopyClipboardDirective,
         MultiLanguageEditorComponent,
         MultiLanguageInputComponent,
         StructuralResourcesTreeComponent,
@@ -139,6 +141,7 @@ import { CustomCalendarComponent } from '@app/shared/components/calendar/custom-
         ArteEntityListEmptyModule,
         PasswordMatchValidatorDirective,
         PasswordNotMatchValidatorDirective,
+        CopyClipboardDirective,
         ArteDirectivesModule,
         MultiLanguageEditorComponent,
         StructuralResourcesTreeComponent,

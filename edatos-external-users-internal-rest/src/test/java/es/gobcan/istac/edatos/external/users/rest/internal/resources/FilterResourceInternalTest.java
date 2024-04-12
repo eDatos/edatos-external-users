@@ -1,12 +1,8 @@
 package es.gobcan.istac.edatos.external.users.rest.internal.resources;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -30,10 +26,6 @@ import es.gobcan.istac.edatos.external.users.core.domain.enumeration.PermalinkTy
 import es.gobcan.istac.edatos.external.users.core.errors.ExceptionTranslator;
 import es.gobcan.istac.edatos.external.users.core.repository.ExternalUserRepository;
 import es.gobcan.istac.edatos.external.users.core.repository.FilterRepository;
-import es.gobcan.istac.edatos.external.users.rest.common.dto.FilterDto;
-import es.gobcan.istac.edatos.external.users.rest.common.mapper.ExternalUserMapper;
-import es.gobcan.istac.edatos.external.users.rest.common.mapper.FilterMapper;
-import es.gobcan.istac.edatos.external.users.rest.common.util.TestUtil;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = EdatosExternalUsersRestTestApp.class)
@@ -53,12 +45,6 @@ public class FilterResourceInternalTest {
 
     @Autowired
     private ExternalUserRepository externalUserRepository;
-
-    @Autowired
-    private ExternalUserMapper externalUserMapper;
-
-    @Autowired
-    private FilterMapper filterMapper;
 
     @Autowired
     private ExceptionTranslator exceptionTranslator;
@@ -112,73 +98,6 @@ public class FilterResourceInternalTest {
         filter2.setExternalUser(user1);
         filter2.setPermalinkType(PermalinkType.VISUALIZER);
         filterRepository.saveAndFlush(filter2);
-    }
-
-    @Test
-    public void testSaveTwoFiltersWithTheSameUserAndPermalink() throws Exception {
-        filter2.setPermalink(filter1.getPermalink());
-        this.mockMvc.perform(post(ENDPOINT_URL).contentType(TestUtil.APPLICATION_JSON_UTF8)
-                                               .content(TestUtil.convertObjectToJsonBytes(filterMapper.toDto(filter2))))
-                    .andDo(print())
-                    .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    public void testSaveANonUrlPermalink() throws Exception {
-        filter1.setPermalink("not a url");
-        this.mockMvc.perform(post(ENDPOINT_URL).contentType(TestUtil.APPLICATION_JSON_UTF8)
-                                               .content(TestUtil.convertObjectToJsonBytes(filterMapper.toDto(filter1))))
-                    .andDo(print())
-                    .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    public void testCreateFilterFail() throws Exception {
-        FilterDto dto = new FilterDto();
-        dto.setExternalUser(externalUserMapper.toDto(user2));
-        dto.setPermalink(PERMALINK_1);
-        this.mockMvc.perform(post(ENDPOINT_URL).contentType(TestUtil.APPLICATION_JSON_UTF8)
-                                               .content(TestUtil.convertObjectToJsonBytes(dto)))
-                    .andDo(print())
-                    .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    public void testCreateFilterSucceeds() throws Exception {
-        FilterDto dto = new FilterDto();
-        dto.setExternalUser(externalUserMapper.toDto(user2));
-        dto.setPermalink(PERMALINK_1);
-        dto.setResourceName("resource name");
-        this.mockMvc.perform(post(ENDPOINT_URL).contentType(TestUtil.APPLICATION_JSON_UTF8)
-                                               .content(TestUtil.convertObjectToJsonBytes(dto)))
-                    .andExpect(status().isCreated())
-                    .andExpect(jsonPath("$.name", is("resource name")));
-
-        dto.setName("filter name");
-        dto.setPermalink(PERMALINK_2);
-        this.mockMvc.perform(post(ENDPOINT_URL).contentType(TestUtil.APPLICATION_JSON_UTF8)
-                                               .content(TestUtil.convertObjectToJsonBytes(dto)))
-                    .andExpect(status().isCreated())
-                    .andExpect(jsonPath("$.name", is("filter name")));
-    }
-
-    @Test
-    public void testCanUpdateFilter() throws Exception {
-        FilterDto dto = filterMapper.toDto(filter1);
-        dto.setName("My new filter name");
-
-        this.mockMvc.perform(put(ENDPOINT_URL).contentType(TestUtil.APPLICATION_JSON_UTF8)
-                                              .content(TestUtil.convertObjectToJsonBytes(dto)))
-                    .andExpect(status().isOk())
-                    .andExpect(jsonPath("$.name", is("My new filter name")));
-
-        assertThat(filter1.getLastModifiedDate()).isNotEqualTo(dto.getLastModifiedDate());
-    }
-
-    @Test
-    public void testDeleteFilter() throws Exception {
-        this.mockMvc.perform(delete(ENDPOINT_URL + "/" + filter1.getId())).andExpect(status().isNoContent());
-        assertThat(filterRepository.findOne(filter1.getId())).isNull();
     }
 
     @Test

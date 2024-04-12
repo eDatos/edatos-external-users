@@ -1,159 +1,193 @@
 @import './vendor/index';
 @import 'variables';
 
+
+@media screen and (max-width: 900px) {
+  .router-outlet-content {
+    min-height: $min-height-page-min-with-900;
+  }
+}
+
 .divider {
-    box-sizing: content-box;
+  box-sizing: content-box;
 }
 
 .app {
-    clear: both;
-    padding-bottom: 15px;
+  min-height: calc(100vh - 100px); //$footer-height
+  clear: both;
+  background-color: $color-black-5;
+  position: relative;
+  padding-bottom: $footer-height;
 }
 
+
+.router-outlet-content {
+  min-height: $min-height-page;
+  width: 100%;
+  position: relative;
+}
+
+
 .fa.fa-istac-home {
-    margin-bottom: 5px;
+  margin-bottom: 5px;
+}
+
+.fa-3x {
+  font-size: 3em !important;
 }
 
 /* BEGIN BOOTSTRAP */
 .btn {
-    &.btn-frameless {
-        border: none;
-        background: none;
+  &.btn-frameless {
+    border: none;
+    background: none;
+  }
+
+  &:not(.btn-icon-only) {
+    .btn-icon,
+    .fa-thin {
+      margin-right: 5px;
     }
-    &:not(.btn-icon-only) {
-        .btn-icon,
-        .fa {
-            margin-right: 5px;
-        }
-    }
+  }
 }
 
 .dropdown-actions {
-    .dropdown-toggle::before {
-        content: none;
-    }
+  .dropdown-toggle::before {
+    content: none;
+  }
 
-    &[placement='bottom-right'] {
-        .dropdown-menu {
-            margin-top: 5px;
-        }
+  &[placement='bottom-right'] {
+    .dropdown-menu {
+      margin-top: 5px;
     }
+  }
 }
+
 .nav-link,
 .dropdown-item {
-    .fa {
-        margin-right: 5px;
-    }
+  .fa-thin {
+    margin-right: 5px;
+  }
 }
+
 /* END BOOTSTRAP */
 
 /* BEGIN PRIMENG */
 .ac-ui-unfluid {
-    .ui-button,
-    .ui-buttonset {
-        width: auto;
-    }
+  .ui-button,
+  .ui-buttonset {
+    width: auto;
+  }
 }
+
 .toast-errors {
-    z-index: $zindex-sticky + 1;
+  z-index: $zindex-sticky + 1;
 }
 
 .toast-success {
-    z-index: $zindex-sticky + 1;
+  z-index: $zindex-sticky + 1;
 }
+
 /* END PRIMENG */
 
 html,
 body {
-    height: 100%;
+  height: 100%;
 }
 
 html {
-    font-size: 16px;
+  font-size: $size-14;
+
 }
 
 body {
-    font-family: $font-family-sans-serif;
-    &.has-header-fixed {
-        padding-top: $navbar-height;
-        .app-navbar {
-            position: fixed;
-            top: 0;
-            right: 0;
-            left: 0;
-            z-index: $zindex-fixed;
-        }
+  font-family: $font-family-sans-serif;
+
+  &.has-header-fixed {
+    padding-top: $navbar-height;
+
+    .app-navbar {
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+      z-index: $zindex-fixed;
     }
+  }
 }
 
 h1,
 h2,
 h3,
 h4 {
-    font-weight: 400;
+  font-weight: 400;
 }
 
 .break {
-    white-space: normal;
-    word-break: break-all;
+  white-space: normal;
+  word-break: break-all;
 }
 
 button,
 .btn:disabled {
-    cursor: not-allowed;
+  cursor: not-allowed;
 }
 
 /* BEGIN TABLE */
 table.table-sticky-header {
-    & > thead > tr > th {
-        position: sticky;
-        z-index: 1;
-    }
+  & > thead > tr > th {
+    position: sticky;
+    z-index: 1;
+  }
 }
+
 .table-has-pointer-rows {
-    & > tbody > tr {
-        cursor: pointer;
-    }
+  & > tbody > tr {
+    cursor: pointer;
+  }
 }
+
 .table-layou-fixed {
-    table-layout: fixed;
+  table-layout: fixed;
 }
+
 /* END TABLE */
 
 /* BEGIN .no-content */
 .no-content {
-    padding: 5rem 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    img {
-        width: 200px;
+  padding: 5rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: 200px;
+  }
+
+  .no-content-text {
+    padding: 1rem;
+    margin-left: 2rem;
+
+    .title {
+      font-size: 1.1rem;
+      font-weight: 600;
     }
-    .no-content-text {
-        padding: 1rem;
-        margin-left: 2rem;
-        .title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-    }
+  }
 }
+
 /* END .no-content */
 
 footer.istac-footer {
-    position: fixed !important;
+  position: fixed !important;
 }
 
-.modal-body {
-    padding: 2rem;
-}
+/*  Section */
+@import 'buttons';
+@import 'nav-subsection';
+@import 'information-details';
+@import 'captcha';
+@import 'page';
+@import 'forms';
+@import 'login-forms';
+@import 'dialogs';
 
-.modal-header,
-.modal-footer {
-    background: #f8f8f8;
-}
-
-@import './_captcha';
-@import './_page';
-@import './_forms';

@@ -1,7 +1,7 @@
 import { BaseVersionedAndAuditingEntity } from 'arte-ng/model';
 
 export class Notice extends BaseVersionedAndAuditingEntity {
-    public messages: Messages[];
+    public messages: Messages;
     public subject: string;
     public urn: string;
     public sendingDate: Date;

@@ -4,6 +4,8 @@ public final class AuditConstants {
 
     public static final String CODE = "code";
     public static final String MESSAGE = "message";
+    public static final String EVENT_SUBTYPE = "eventSubtype";
+    public static final String PRINCIPAL_TYPE = "principalType";
 
     public static final String USUARIO_CREACION = "USUARIO_CREACION";
     public static final String USUARIO_EDICION = "USUARIO_EDICION";
@@ -40,6 +42,8 @@ public final class AuditConstants {
     public static final String FAVORITE_CREATION = "FAVORITE_CREATION";
     public static final String FAVORITE_EDITION = "FAVORITE_EDITION";
     public static final String FAVORITE_DELETION = "FAVORITE_DELETION";
+    public static final String FAVORITE_OPERATION_SUBTYPE = "FAVORITE_OPERATION_SUBTYPE";
+    public static final String FAVORITE_CATEGORY_SUBTYPE = "FAVORITE_CATEGORY_SUBTYPE";
 
     public static final String EXTERNAL_OPERATION_EDITION = "EXTERNAL_OPERATION_EDITION";
 

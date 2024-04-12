@@ -85,7 +85,6 @@ export class FilterListComponent implements OnInit {
             ...transitionParams,
         };
         this.router.navigate(['/filter'], { replaceUrl: true, queryParams });
-        this.processUrlParams();
         this.loadAll();
     }
 

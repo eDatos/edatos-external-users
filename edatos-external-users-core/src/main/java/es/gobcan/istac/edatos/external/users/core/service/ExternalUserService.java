@@ -27,6 +27,13 @@ public interface ExternalUserService {
     List<ExternalUserEntity> findAllReceivers();
 
     ExternalUserEntity getUsuarioWithAuthorities();
+
+    Optional<ExternalUserEntity> createEmailModificationRequest(ExternalUserEntity user, String email);
+
+    Optional<ExternalUserEntity> findByEmailModificationRequestKey(String key);
+
+    Optional<ExternalUserEntity> confirmEmailModification(String key);
+
     void updateExternalUserAccountPassword(ExternalUserEntity user, String oldPassword, String password);
 
     void logout(String token);
@@ -37,8 +44,6 @@ public interface ExternalUserService {
 
     ExternalUserEntity confirmUserRegistration(String token);
     ExternalUserEntity getByUserRegistration(String token);
-
-    List<ExternalUserEntity> findByCategoriesAndExternalOperations(List<Long> categoriesIds, List<Long> operationsIds);
 
     boolean isMigratedUser(ExternalUserEntity user);
 

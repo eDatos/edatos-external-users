@@ -19,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import es.gobcan.istac.edatos.external.users.core.domain.DisabledTokenEntity;
+import es.gobcan.istac.edatos.external.users.core.domain.EmailModificationRequest;
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
 import es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType;
 import es.gobcan.istac.edatos.external.users.core.repository.DisabledTokenRepository;
@@ -111,6 +112,9 @@ public class ExternalUserServiceImpl implements ExternalUserService {
 
     @Override
     public List<ExternalUserEntity> findAllByEmailIn(List<String> emails) {
+        if (emails.isEmpty()) {
+            return new ArrayList<>();
+        }
         return externalUserRepository.findAllByLowerCaseEmailIn(emails.stream().map(String::toLowerCase).collect(Collectors.toList()));
     }
 
@@ -145,6 +149,37 @@ public class ExternalUserServiceImpl implements ExternalUserService {
     public ExternalUserEntity getUsuarioWithAuthorities() {
         ExternalUserEntity returnValue = externalUserRepository.findOneWithRolesByEmailIgnoreCase(SecurityUtils.getCurrentUserLogin()).orElse(new ExternalUserEntity());
         return returnValue;
+    }
+
+    @Override
+    public Optional<ExternalUserEntity> createEmailModificationRequest(ExternalUserEntity user, String newEmail) {
+        if (user == null) {
+            return Optional.empty();
+        }
+        return externalUserRepository.findOneByEmailIgnoreCaseAndEnabledTrue(user.getEmail()).map(databaseUser -> {
+            databaseUser.setEmailModificationRequest(new EmailModificationRequest());
+            databaseUser.getEmailModificationRequest().setKey(UUID.randomUUID().toString());
+            databaseUser.getEmailModificationRequest().setNewEmail(newEmail);
+            databaseUser.getEmailModificationRequest().setRequestDate(ZonedDateTime.now());
+            return externalUserRepository.save(databaseUser);
+        });
+    }
+
+    @Override
+    public Optional<ExternalUserEntity> findByEmailModificationRequestKey(String key) {
+        return externalUserRepository.findOneByEmailModificationRequest_Key(key).filter(user -> {
+            ZonedDateTime thirtyMinutesAgo = ZonedDateTime.now().minusMinutes(30);
+            return user.getEmailModificationRequest().getRequestDate().isAfter(thirtyMinutesAgo);
+        });
+    }
+
+    @Override
+    public Optional<ExternalUserEntity> confirmEmailModification(String key) {
+        return findByEmailModificationRequestKey(key).map(user -> {
+            user.setEmail(user.getEmailModificationRequest().getNewEmail());
+            user.setEmailModificationRequest(null);
+            return externalUserRepository.save(user);
+        });
     }
 
     @Override
@@ -200,23 +235,6 @@ public class ExternalUserServiceImpl implements ExternalUserService {
             return user;
         }
         return null;
-    }
-
-    @Override
-    public List<ExternalUserEntity> findByCategoriesAndExternalOperations(List<Long> categoriesIds, List<Long> operationsIds) {
-        if (categoriesIds.isEmpty()) {
-            if (operationsIds.isEmpty()) {
-                return new ArrayList<>();
-            } else {
-                return externalUserRepository.findByExternalOperations(operationsIds, (long) operationsIds.size());
-            }
-        } else {
-            if (operationsIds.isEmpty()) {
-                return externalUserRepository.findByCategories(categoriesIds, (long) categoriesIds.size());
-            } else {
-                return externalUserRepository.findByCategoriesAndExternalOperations(categoriesIds, operationsIds, (long) (categoriesIds.size() + operationsIds.size()));
-            }
-        }
     }
 
     @Override

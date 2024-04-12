@@ -1,7 +1,6 @@
 <div class="page" *ngIf="externalUser">
     <div class="page-header page-header-top">
         <button
-            *ngIf="!editMode"
             type="button"
             routerLink="/external-users"
             class="btn btn-secondary btn-frameless back-arrow"
@@ -20,7 +19,7 @@
         </h2>
         <div class="page-header-btns">
             <ng-container *ngIf="permissionService.canNavigateUserManagement()">
-                <button (click)="delete()" *ngIf="externalUser.id" [disabled]="editMode" class="btn btn-danger" type="button">
+                <button (click)="delete()" *ngIf="externalUser.id" class="btn btn-danger" type="button">
                     <span class="fa fa-remove"></span>
                     <span translate="entity.action.delete"></span>
                 </button>
@@ -28,47 +27,21 @@
         </div>
     </div>
     <div class="page-body">
-        <form #editForm="ngForm" (ngSubmit)="save()" autocomplete="off" class="page-form" id="edit-form" name="editForm" novalidate role="form">
+        <form autocomplete="off" class="page-form" id="edit-form" name="editForm" novalidate role="form">
             <div class="d-flex align-items-center justify-content-between mt-2">
                 <div class="d-flex align-items-baseline flex-column">
                     <h3 class="mt-2 mb-0" translate="externalUser.personalData"></h3>
                     <small class="text-muted">{{'externalUser.createdDate' | translate}} : {{externalUser.createdDate | date: 'd/M/yyyy, H:mm:ss' }}</small>
                 </div>
-                <div class="page-header-btns button-edit">
-                    <ng-container *ngIf="permissionService.canNavigateUserManagement()">
-                        <button (click)="editUserData()" *ngIf="$any(editMode) !== 'user'" [disabled]="editMode && editMode !== 'user'" class="btn btn-secondary" type="button">
-                            <span class="fa fa-pencil"></span>
-                            <span translate="entity.action.edit"></span>
-                        </button>
-                        <button (click)="cancel()" *ngIf="editMode === 'user'" class="btn btn-secondary mr-2" data-dismiss="modal" type="button">
-                            <span class="fa fa-ban"></span>
-                            <span translate="entity.action.cancel"></span>
-                        </button>
-                        <button (click)="save()" *ngIf="editMode === 'user'" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary" form="edit-form" type="submit">
-                            <span class="fa fa-floppy-o"></span>
-                            <span translate="entity.action.save"></span>
-                        </button>
-                    </ng-container>
-                </div>
             </div>
-            <fieldset [disabled]="editMode !== 'user'" arteAutofocus class="page-section">
+            <fieldset [disabled]="true" arteAutofocus class="page-section">
                 <div class="row divider">
                     <div class="form-group form-group-inline col-md-6">
                         <div class="form-row">
                             <label class="col-form-label col-md-4" translate="externalUser.name"></label>
                             <div class="col-md-8">
-                                <arte-input name="nombre" [(ngModel)]="externalUser.name" [maxlength]="255"></arte-input>
+                                <arte-input name="nombre" [(ngModel)]="externalUser.name"></arte-input>
                             </div>
-                        </div>
-
-                        <div *ngIf="editForm.controls.nombre?.dirty && editForm.controls.nombre?.invalid" class="entity-field-error">
-                            <small
-                                class="form-text text-danger"
-                                *ngIf="editForm.controls.nombre?.errors?.maxlength"
-                                translate="entity.validation.maxlength"
-                                [translateParams]="{ max: 255 }"
-                            >
-                            </small>
                         </div>
                     </div>
 
@@ -76,18 +49,8 @@
                         <div class="form-row">
                             <label class="col-form-label col-md-4" translate="externalUser.surname1"></label>
                             <div class="col-md-8">
-                                <arte-input name="surname1" [(ngModel)]="externalUser.surname1" [maxlength]="255"></arte-input>
+                                <arte-input name="surname1" [(ngModel)]="externalUser.surname1"></arte-input>
                             </div>
-                        </div>
-
-                        <div *ngIf="editForm.controls.surname1?.dirty && editForm.controls.surname1?.invalid" class="entity-field-error">
-                            <small
-                                class="form-text text-danger"
-                                *ngIf="editForm.controls.surname1?.errors?.maxlength"
-                                translate="entity.validation.maxlength"
-                                [translateParams]="{ max: 255 }"
-                            >
-                            </small>
                         </div>
                     </div>
 
@@ -95,35 +58,22 @@
                         <div class="form-row">
                             <label class="col-form-label col-md-4" translate="externalUser.surname2"></label>
                             <div class="col-md-8">
-                                <arte-input name="surname2" [(ngModel)]="externalUser.surname2" [maxlength]="255"></arte-input>
+                                <arte-input name="surname2" [(ngModel)]="externalUser.surname2"></arte-input>
                             </div>
-                        </div>
-
-                        <div *ngIf="editForm.controls.surname2?.dirty && editForm.controls.surname2?.invalid" class="entity-field-error">
-                            <small
-                                class="form-text text-danger"
-                                *ngIf="editForm.controls.surname2?.errors?.maxlength"
-                                translate="entity.validation.maxlength"
-                                [translateParams]="{ max: 255 }"
-                            >
-                            </small>
                         </div>
                     </div>
 
                     <div class="form-group form-group-inline col-md-6">
                         <div class="form-row">
                             <label class="form-label col-md-4" translate="externalUser.gender" for="gender"></label>
-                            <div class="col-md-8 form-input-container errors-on-hover">
+                            <div class="col-md-8 form-input-container">
                                 <arte-autocomplete-short-list
-                                    [required]="false"
                                     inputId="gender"
                                     name="gender"
                                     id='gender'
                                     [multiple]="false"
                                     [(ngModel)]="gender"
-                                    [suggestions]="genders"
                                     [properties]="['name']"
-                                    [disabled]="editMode !== 'user'"
                                 >
                                 </arte-autocomplete-short-list>
                             </div>
@@ -133,9 +83,7 @@
                     <div class="form-group form-group-inline col-md-6">
                         <div class="form-row">
                             <label class="form-label col-md-4" translate="externalUser.birthday"></label>
-                            <app-custom-calendar id='birthday' name='birthday' [(ngModel)]='externalUser.birthday'
-                                                 [required]='false'class='calendar'>
-                            </app-custom-calendar>
+                            <app-custom-calendar id='birthday' name='birthday' [(ngModel)]='externalUser.birthday' class='calendar'></app-custom-calendar>
                         </div>
                     </div>
                 </div>
@@ -145,39 +93,16 @@
                         <div class="form-row">
                             <label class="col-form-label col-md-4" translate="externalUser.email"></label>
                             <div class="col-md-8">
-                                <arte-input name="email" [(ngModel)]="externalUser.email" [required]="true" [minlength]="3" [maxlength]="255" [email]="true"></arte-input>
+                                <arte-input name="email" [(ngModel)]="externalUser.email"></arte-input>
                             </div>
-                        </div>
-                        <div *ngIf="(editForm.controls.email?.touched || editForm.controls.email?.dirty) && editForm.controls.email?.invalid" class="entity-field-error">
-                            <small class="form-text text-danger" *ngIf="editForm.controls.email?.errors?.required" translate="entity.validation.required"> </small>
-                            <ng-container *ngIf="editForm.controls.email?.dirty">
-                                <small
-                                    class="form-text text-danger"
-                                    *ngIf="editForm.controls.email?.errors?.maxlength"
-                                    translate="entity.validation.maxlength"
-                                    [translateParams]="{ max: 255 }"
-                                >
-                                </small>
-                                <small
-                                    class="form-text text-danger"
-                                    *ngIf="editForm.controls.email?.errors?.minlength"
-                                    translate="entity.validation.minlength"
-                                    [translateParams]="{ requiredLength: 3}"
-                                >
-                                </small>
-                                <small class="form-text text-danger" *ngIf="editForm.controls.email?.errors?.email" translate="global.messages.validate.email.invalid"> </small>
-                            </ng-container>
                         </div>
                     </div>
 
                     <div class="form-group form-group-inline col-md-6">
                         <div class="form-row">
                             <label class="col-form-label col-md-4" translate="externalUser.phoneNumber" for="phoneNumber"></label>
-                            <div class="col-md-8 form-input-container errors-on-hover">
-                                <arte-input id="phoneNumber" name="phoneNumber" [(ngModel)]="externalUser.phoneNumber" [maxlength]="50"></arte-input>
-                                <div class="form-errors-messages" *hasErrors="let messages">
-                                    <span *ngFor="let m of messages">{{m}}</span>
-                                </div>
+                            <div class="col-md-8 form-input-container">
+                                <arte-input id="phoneNumber" name="phoneNumber" [(ngModel)]="externalUser.phoneNumber"></arte-input>
                             </div>
                         </div>
                     </div>
@@ -192,10 +117,7 @@
                                 inputId='language'
                                 [multiple]='false'
                                 [(ngModel)]='selectedLanguage'
-                                [suggestions]='internationalLanguages'
                                 [properties]="['label']"
-                                [required]='true'
-                                [disabled]="editMode !== 'user'"
                                 >
                                 </arte-autocomplete-short-list>
                             </div>
@@ -207,15 +129,12 @@
                             <label class="form-label col-md-4" translate="externalUser.nationality" for="nationality"></label>
                             <div class="col-md-8 form-input-container">
                                 <arte-autocomplete-short-list
-                                    [required]="false"
                                     inputId="nationality"
                                     name="nationality"
                                     id='nationality'
                                     [multiple]="false"
                                     [(ngModel)]="nationality"
-                                    [suggestions]="countries"
                                     [properties]="['name']"
-                                    [disabled]="editMode !== 'user'"
                                 >
                                 </arte-autocomplete-short-list>
                             </div>
@@ -225,11 +144,8 @@
                     <div class="form-group form-group-inline col-md-6">
                         <div class="form-row">
                             <label class="col-form-label col-md-4" translate="externalUser.organism" for="organism"></label>
-                            <div class="col-md-8 form-input-container errors-on-hover">
-                                <arte-input name="organism" id='organism' [(ngModel)]="externalUser.organism" [maxlength]="255"></arte-input>
-                                <div class="form-errors-messages" *hasErrors="let messages">
-                                    <span *ngFor="let m of messages">{{m}}</span>
-                                </div>
+                            <div class="col-md-8 form-input-container">
+                                <arte-input name="organism" id='organism' [(ngModel)]="externalUser.organism"></arte-input>
                             </div>
                         </div>
                     </div>
@@ -240,7 +156,7 @@
                             <div class="col-md-8">
                                 <arte-tri-input-switch
                                     [(ngModel)]="externalUser.emailNotificationsEnabled"
-                                    [disabled]="editMode !== 'user'"
+                                    [disabled]="true"
                                     [required]="true"
                                     name="emailNotificationsEnabled"
                                 ></arte-tri-input-switch>
@@ -251,30 +167,8 @@
             </fieldset>
         </form>
         <fieldset *ngIf="userId" arteAutofocus class="page-section">
-            <div class="page-header-btns float-right">
-                <ng-container *ngIf="permissionService.canNavigateUserManagement()">
-                    <button
-                        (click)="editFavorites()"
-                        *ngIf="$any(editMode) !== 'favorites'"
-                        [disabled]="editMode && editMode !== 'favorites'"
-                        class="btn btn-secondary"
-                        type="button"
-                    >
-                        <span class="fa fa-pencil"></span>
-                        <span translate="entity.action.edit"></span>
-                    </button>
-                    <button (click)="cancel()" *ngIf="editMode === 'favorites'" class="btn btn-secondary mr-2" data-dismiss="modal" type="button">
-                        <span class="fa fa-ban"></span>
-                        <span translate="entity.action.cancel"></span>
-                    </button>
-                    <button (click)="saveFavorites()" *ngIf="editMode === 'favorites'" [disabled]="editMode !== 'favorites'" class="btn btn-primary btn-save" type="button">
-                        <span class="fa fa-floppy-o"></span>
-                        <span translate="entity.action.save"></span>
-                    </button>
-                </ng-container>
-            </div>
             <h3 class="button-tree" translate="externalUser.home.favorites"></h3>
-            <app-structural-resources-tree [disabled]="editMode !== 'favorites'" [favorites]="favorites"></app-structural-resources-tree>
+            <app-structural-resources-tree-select [disabled]="true" [favorites]="favorites"></app-structural-resources-tree-select>
         </fieldset>
 
         <div *ngIf="userId" class="page-section">

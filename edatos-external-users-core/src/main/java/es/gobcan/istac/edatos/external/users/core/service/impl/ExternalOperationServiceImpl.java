@@ -60,7 +60,7 @@ public class ExternalOperationServiceImpl implements ExternalOperationService {
     @Override
     public ExternalOperationEntity update(ExternalOperationEntity operation) {
         if (!operation.isEnabled()) {
-            deleteSuscriptions(operation);
+            deleteSubscriptions(operation);
         }
 
         return externalOperationRepository.saveAndFlush(operation);
@@ -77,10 +77,6 @@ public class ExternalOperationServiceImpl implements ExternalOperationService {
     }
 
     @Override
-    public List<ExternalOperationEntity> findByExternalCategoryUrnIn(List<String> urns) {
-        return externalOperationRepository.findByExternalCategoryUrnIn(urns);
-    }
-    @Override
     public List<ExternalOperationEntity> findByExternalOperationDatasetUrnIn(List<ExternalDatasetEntity> listDataset) {
         List<String> listUrn = listDataset.stream().map(dt -> dt.getExternalOperationUrn()).collect(Collectors.toList());
 
@@ -88,11 +84,16 @@ public class ExternalOperationServiceImpl implements ExternalOperationService {
     }
 
     @Override
+    public ExternalOperationEntity findOperationById(Long id) {
+        return externalOperationRepository.findOne(id);
+    }
+
+    @Override
     public Optional<ExternalOperationEntity> findByUrn(String urn) {
         return externalOperationRepository.findByUrn(urn);
     }
 
-    private void deleteSuscriptions(ExternalOperationEntity operation) {
-        favoriteService.deleteBySuscription(operation);
+    private void deleteSubscriptions(ExternalOperationEntity operation) {
+        favoriteService.deleteBySubscription(operation);
     }
 }

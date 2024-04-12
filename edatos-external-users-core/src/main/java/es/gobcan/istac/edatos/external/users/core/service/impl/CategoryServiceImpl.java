@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import es.gobcan.istac.edatos.external.users.core.domain.CategoryEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalCategoryEntity;
+import es.gobcan.istac.edatos.external.users.core.domain.ExternalOperationEntity;
 import es.gobcan.istac.edatos.external.users.core.repository.CategoryRepository;
 import es.gobcan.istac.edatos.external.users.core.service.CategoryService;
 import es.gobcan.istac.edatos.external.users.core.service.validator.CategoryValidator;
@@ -128,5 +129,24 @@ public class CategoryServiceImpl implements CategoryService {
             }
         }
         return Optional.empty();
+    }
+
+    @Override
+    public List<CategoryEntity> findOperationAncestors(ExternalOperationEntity operation) {
+        return findCategoryAncestors(categoryRepository.findByExternalCategoriesUrn(operation.getExternalCategoryUrn()));
+    }
+
+    @Override
+    public List<CategoryEntity> findCategoryAncestors(CategoryEntity category) {
+        List<CategoryEntity> operationAncestors = new ArrayList<>();
+        CategoryEntity operationAncestorCategory = category;
+        if (operationAncestorCategory != null) {
+            operationAncestors.add(operationAncestorCategory);
+            while (operationAncestorCategory.getParent() != null) {
+                operationAncestors.add(operationAncestorCategory.getParent());
+                operationAncestorCategory = operationAncestorCategory.getParent();
+            }
+        }
+        return operationAncestors;
     }
 }

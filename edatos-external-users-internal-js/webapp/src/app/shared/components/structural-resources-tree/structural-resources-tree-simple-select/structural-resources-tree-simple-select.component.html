@@ -1,0 +1,12 @@
+<p-tree
+    [(selection)]="selectedResources"
+    [loading]="!tree"
+    selectionMode="checkbox"
+    [emptyMessage]="'structuralResourcesTree.noRecordsFound' | translate"
+    [value]="tree"
+    [propagateSelectionUp]="false"
+    [propagateSelectionDown]="false"
+    [filter]="true"
+    filterMode="strict"
+    arteAutofocus
+></p-tree>

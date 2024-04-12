@@ -1,17 +1,16 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ExternalUser, Language, Role } from '@app/core/model';
+import { ExternalUser, Language } from '@app/core/model';
 import { PermissionService } from '@app/core/service/auth';
 import { CodelistService, ExternalUserService } from '@app/core/service/user';
-import { StructuralResourcesTreeComponent } from '@app/shared/components/structural-resources-tree';
-import { Favorite, FavoriteResource } from '@app/shared/model';
+import { Favorite } from '@app/shared/model';
 import { ItemCode } from '@app/shared/model/external-item-code-response.model';
-import { FavoriteService, LanguageService } from '@app/shared/service';
+import { FavoriteService } from '@app/shared/service';
 import { TranslateService } from '@ngx-translate/core';
 import { ArteEventManager, GenericModalService } from 'arte-ng/services';
 import { Subscription } from 'rxjs';
-import { finalize } from 'rxjs/operators';
 import { ExternalUserDeleteDialogComponent } from '../external-user-delete-dialog.component';
+import { StructuralResourcesTreeSelectComponent } from "@app/shared/components/structural-resources-tree/structural-resources-tree-select/structural-resources-tree-select.component";
 
 @Component({
     selector: 'app-external-user-form',
@@ -20,22 +19,15 @@ import { ExternalUserDeleteDialogComponent } from '../external-user-delete-dialo
 })
 export class ExternalUserFormComponent implements OnInit, OnDestroy {
     public externalUser: ExternalUser;
-    public isSaving: boolean;
     public userId: number;
-    public eventSubscriber: Subscription;
 
-    public internationalLanguages: Language[] = [];
     public selectedLanguage: Language;
-
-    public countries: ItemCode[] = [];
-    public genders: ItemCode[] = [];
     public nationality: ItemCode;
     public gender: ItemCode;
     public favorites: Favorite[];
-    public editMode: 'user' | 'favorites' | null = null;
 
-    @ViewChild(StructuralResourcesTreeComponent)
-    public favoriteTree: StructuralResourcesTreeComponent;
+    @ViewChild(StructuralResourcesTreeSelectComponent)
+    public favoriteTree: StructuralResourcesTreeSelectComponent;
 
     private subscription: Subscription;
 
@@ -48,20 +40,13 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
         private route: ActivatedRoute,
         private router: Router,
         private codeListService: CodelistService,
-        private translateService: TranslateService,
-        private languageService: LanguageService
+        private translateService: TranslateService
     ) {}
 
     public ngOnInit() {
-        this.isSaving = false;
-
         this.subscription = this.route.params.subscribe((params) => {
             this.userId = params['id'];
             this.load(this.userId);
-        });
-
-        this.eventSubscriber = this.eventManager.subscribe(ExternalUserDeleteDialogComponent.EVENT_NAME, (response) => {
-            this.externalUser = Object.assign(new ExternalUser(), response.content);
         });
     }
 
@@ -69,96 +54,21 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
         this.subscription.unsubscribe();
     }
 
-    public createFavorite(resource: FavoriteResource): Favorite {
-        const favorite = new Favorite();
-        favorite.externalUser = this.externalUser;
-        favorite.resource = resource;
-        return favorite;
-    }
-
-    public restore() {
-        this.genericModalService.open(ExternalUserDeleteDialogComponent as Component, { user: this.externalUser }, { container: '.app' });
-    }
-
-    public deleteFavorite(resource: FavoriteResource): void {
-        const favorite = this.favorites.find((fav) => fav.resource?.id === resource.id && fav.resource?.favoriteType === resource.favoriteType)!;
-        this.favoriteService
-            .delete(favorite.id)
-            .pipe(finalize(() => this.updateFavorites()))
-            .subscribe();
-    }
-    public saveFavorites() {
-        if (this.externalUser.id && this.favoriteTree.favorites) {
-            this.favoriteService
-                .updateFavorites(
-                    this.favoriteTree.selectedResources.map((resource) => this.createFavorite(resource.data)),
-                    this.externalUser
-                )
-                .subscribe({
-                    next: (favorites) => (this.favorites = favorites),
-                    error: () => this.updateFavorites(),
-                });
-        } else {
-            this.router.navigate(['..']);
-        }
-        this.disabledEdit();
-    }
-
-    public editUserData() {
-        this.editMode = 'user';
-    }
-
-    public editFavorites() {
-        this.editMode = 'favorites';
-        if (!this.userId) {
-            this.router.navigate(['..']);
-        }
-    }
     public load(id: number) {
         if (id) {
-            if (this.editMode !== 'user') {
-                this.updateFavorites();
-            }
+            this.updateFavorites();
             this.externalUserService.get(id).subscribe((user) => {
                 this.externalUser = user;
-                this.getNationalities(this.externalUser.nationality);
-                this.getGenders(this.externalUser.gender);
-                this.getInternationalLanguages(this.externalUser.language);
+                this.getNationality(this.externalUser.nationality);
+                this.getGender(this.externalUser.gender);
+                this.getInternationalLanguage(this.externalUser.language);
             });
         } else {
             this.externalUser = new ExternalUser();
-            this.getNationalities();
-            this.getGenders();
-            this.getInternationalLanguages();
+            this.getNationality();
+            this.getGender();
+            this.getInternationalLanguage();
         }
-    }
-
-    public cancel() {
-        if (this.userId) {
-            this.load(this.userId);
-        } else {
-            this.router.navigate(['..']);
-        }
-        this.disabledEdit();
-    }
-
-    public save() {
-        this.isSaving = true;
-        this.externalUser.nationality = this.nationality ? this.nationality.id : null;
-        this.externalUser.gender = this.gender ? this.gender.id : null;
-        this.externalUser.language = this.selectedLanguage.locale;
-        if (this.userId) {
-            this.externalUserService.update(this.externalUser).subscribe(
-                (response) => this.onSaveSuccess(response),
-                () => this.onSaveError()
-            );
-        } else {
-            this.externalUserService.create(this.externalUser).subscribe(
-                (response) => this.onSaveSuccess(response),
-                () => this.onSaveError()
-            );
-        }
-        this.disabledEdit();
     }
 
     public delete() {
@@ -172,10 +82,6 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
         }
     }
 
-    private disabledEdit() {
-        this.editMode = null;
-    }
-
     private updateFavorites() {
         this.favoriteService.findByUserId(this.userId).subscribe((favorites) => {
             this.favorites = favorites;
@@ -183,23 +89,7 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
         });
     }
 
-    private onSaveSuccess(result) {
-        this.eventManager.broadcast({ name: 'userListModification', content: 'OK' });
-        this.externalUser = result;
-        this.isSaving = false;
-        this.disabledEdit();
-        this.router.navigate(['/external-users', this.externalUser.id]);
-    }
-
-    private onSaveError() {
-        this.isSaving = false;
-    }
-
-    private getNationalities(code?: any) {
-        this.codeListService.findAllCountries().subscribe((response) => {
-            this.countries = response;
-        });
-
+    private getNationality(code?: any) {
         if (code) {
             this.codeListService.findNationality(code).subscribe((response) => {
                 this.nationality = response;
@@ -207,11 +97,7 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
         }
     }
 
-    private getGenders(code?: any) {
-        this.codeListService.findAllGenders().subscribe((response) => {
-            this.genders = response;
-        });
-
+    private getGender(code?: any) {
         if (code) {
             this.codeListService.findGender(code).subscribe((response) => {
                 this.gender = response;
@@ -219,16 +105,9 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
         }
     }
 
-    private getInternationalLanguages(language?: string) {
+    private getInternationalLanguage(language?: string) {
         if (language) {
             this.selectedLanguage = new Language(language, this.translateService.instant('enum.localeToLanguage.' + language.toUpperCase()));
         }
-
-        this.languageService.getInternationalLanguages().subscribe((response) => {
-            this.internationalLanguages = response.map((lang) => {
-                return new Language(lang, this.translateService.instant('enum.localeToLanguage.' + lang.toUpperCase()));
-            });
-            this.internationalLanguages.sort((a, b) => a.label.localeCompare(b.label));
-        });
     }
 }

@@ -50,6 +50,8 @@ public class MetadataProperties {
 
     private String nationalityUrnKey;
     private String genderUrnKey;
+    private String nationalityRestriction;
+    private String genderRestriction;
 
     private List<String> allowedOrigins;
 
@@ -80,6 +82,8 @@ public class MetadataProperties {
         defaultLanguage = availableLanguages.get(0);
         nationalityUrnKey = configurationService.retrieveNationalityUrnKey();
         genderUrnKey = configurationService.retrieveGenderUrnKey();
+        nationalityRestriction = configurationService.retrieveNationalityRestriction();
+        genderRestriction = configurationService.retrieveGenderRestriction();
         srmExternalEndpoint = configurationService.retrieveSrmExternalApiUrlBase();
         externalOperationsWebUrl = configurationService.retrieveStatisticalOperationsExternalWebApplicationUrlBase();
         try {
@@ -182,9 +186,19 @@ public class MetadataProperties {
     public String getSrmExternalEndpoint() {
         return srmExternalEndpoint;
     }
+
     public String getGenderUrnKey() {
         return genderUrnKey;
     }
+
+    public String getNationalityRestriction() {
+        return nationalityRestriction;
+    }
+
+    public String getGenderRestriction() {
+        return genderRestriction;
+    }
+
     public List<String> getAllowedOrigins() {
         return allowedOrigins;
     }

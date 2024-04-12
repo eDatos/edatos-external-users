@@ -20,6 +20,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -112,6 +113,10 @@ public class ExternalUserEntity extends AbstractVersionedAndAuditingEntity {
 
     @Column(name = "birthday")
     private LocalDate birthday;
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "email_modification_request_fk", referencedColumnName = "id")
+    private EmailModificationRequest emailModificationRequest;
 
     @ManyToOne
     @JoinColumn(name = "data_protection_policy_fk")
@@ -294,5 +299,13 @@ public class ExternalUserEntity extends AbstractVersionedAndAuditingEntity {
 
     public void setDataProtectionPolicyApprovalDate(Instant dataProtectionPolicyApprovalDate) {
         this.dataProtectionPolicyApprovalDate = dataProtectionPolicyApprovalDate;
+    }
+
+    public EmailModificationRequest getEmailModificationRequest() {
+        return emailModificationRequest;
+    }
+
+    public void setEmailModificationRequest(EmailModificationRequest emailModificationRequest) {
+        this.emailModificationRequest = emailModificationRequest;
     }
 }

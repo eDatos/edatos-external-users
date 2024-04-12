@@ -1,0 +1,333 @@
+.general-buttons {
+  height: 60px;
+  align-items: center;
+  padding: 0 20px;
+  gap: 10px;
+
+  &.row {
+    margin: 0;
+    margin-right: 15px;
+
+    .row-large {
+      flex-grow: 1;
+    }
+  }
+
+  button.text-icon-button {
+    width: auto;
+  }
+}
+
+div.row-large > button.text-icon-button-dialog {
+  width: auto;
+  margin-right: 0;
+}
+
+button.text-icon-button, button.menu-text-icon-button {
+  padding: 0 $padding-10px;
+  height: 30px;
+  border: 1px solid $color-blue-dark-100;
+  font-size: $size-16;
+  line-height: 16px;
+  width: 100px;
+
+  span {
+    font-size: $size-14;
+    font-weight: $font-weight-300;
+  }
+
+  display: inline-block;
+  align-self: flex-end;
+
+  &.hidden {
+    display: none;
+  }
+
+  & > span.fa-thin {
+    margin-right: 5px;
+  }
+}
+
+button.text-icon-button:first-child, button.text-icon-button-btwn {
+  margin-right: 10px;
+  border-radius: 5px;
+}
+
+button.text-icon-button {
+  background: $color-black-0;
+  border-radius: 5px;
+}
+
+button.text-icon-button.btn-thin-default {
+  color: $color-blue-dark-100;
+  border-color: $color-blue-dark-100;
+
+  &:hover, &:not(:disabled):not(.disabled):active {
+    color: $color-blue-dark-100;
+    background-color: $color-blue-25;
+    border-color: $color-blue-dark-100;
+  }
+}
+
+button.text-icon-button.btn-thin-first {
+  color: $color-green-100;
+  border-color: $color-green-100;
+
+  &:hover, &:not(:disabled):not(.disabled):active {
+    color: $color-green-100;
+    background-color: $color-green-25;
+    border-color: $color-green-100;
+  }
+}
+
+button.text-icon-button.btn-thin-cancel {
+  color: $color-red-100;
+  border-color: $color-red-100;
+
+  &:hover, &:not(:disabled):not(.disabled):active {
+    color: $color-red-100;
+    background-color: $color-red-25;
+    border-color: $color-red-100;
+  }
+}
+
+button.menu-text-icon-button.text-icon-button {
+  background-color: $color-blue-dark-100;
+  color: $color-black-0;
+  border-radius: 5px 5px 0 0;
+}
+
+.copied-message {
+  color: $color-blue-dark-100;
+  font-weight: bold;
+  font-size: $size-10;
+}
+
+button.btn.btn-first {
+  color: $color-black-0;
+  background-color: $color-green-100;
+  border-color: $color-green-100;
+
+  &:hover, &:not(:disabled):not(.disabled):active {
+    color: $color-black-0;
+    background-color: $color-green-50;
+    border-color: $color-green-50;
+  }
+}
+
+button.btn.btn-scnd {
+  color: $color-black-0;
+  background-color: $color-blue-dark-100;
+  border-color: $color-blue-dark-100;
+
+  &:hover, &:not(:disabled):not(.disabled):active {
+    color: $color-black-0;
+    background-color: $color-blue-dark-50;
+    border-color: $color-blue-dark-50;
+  }
+}
+
+button.btn.btn-cancel {
+  color: $color-black-0;
+  background-color: $color-red-100;
+  border-color: $color-red-100;
+
+  &:hover, &:not(:disabled):not(.disabled):active {
+    color: $color-black-0;
+    background-color: $color-red-50;
+    border-color: $color-red-50;
+  }
+}
+
+div.general-buttons.row.modal-buttons {
+  margin-right: 0;
+  padding-right: 0;
+}
+
+div.general-buttons.row {
+  padding: 15px 20px 20px 0;
+}
+
+.btn-scnd:focus, .captcha-button:focus, .btn-scnd.focus {
+  background-color: $color-blue-dark-50;
+  border-color: $color-blue-dark-50;
+  box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
+}
+
+button.btn-scnd:disabled {
+  background-color: $color-black-40 !important;
+  border-color: $color-black-40 !important;
+}
+
+button.btn.btn-link, button.btn-default {
+  padding-right: 0;
+  font-weight: unset;
+  font-size: $size-12;
+
+  & > span {
+    color: $color-blue-dark-100;
+
+    &:hover {
+      color: $color-blue-dark-50;
+      text-decoration: underline;
+    }
+  }
+}
+
+a.btn.btn-link {
+  color: $color-blue-dark-100;
+  font-size: $size-14;
+  padding-left: 5px;
+  padding-bottom: 13px;
+
+}
+
+.calendar {
+  flex: max-content;
+
+  button.ui-button {
+    z-index: 1;
+    background-color: transparent;
+    box-shadow: none;
+    height: 2.15em;
+    float: inline-end;
+
+    &:hover {
+      box-shadow: none !important;
+    }
+
+    & span {
+      color: $color-blue-dark-100;
+    }
+  }
+
+  div.ui-datepicker {
+    top: 32px !important;
+  }
+
+  .ui-calendar.ui-calendar-w-btn {
+    top: 1px;
+
+    input.ui-inputtext {
+      z-index: 0;
+      position: absolute;
+      width: inherit !important;
+      border-radius: 5px;
+    }
+  }
+
+  button.ui-button:enabled:active, button.ui-button:enabled:hover, button.ui-button:enabled:focus {
+    background-color: transparent;
+    border-color: transparent;
+    box-shadow: 0 0 0.1rem rgba(0, 0, 0, 1);
+  }
+
+  button.btn-scnd:not(:disabled):not(.disabled):active {
+    background-color: $color-blue-dark-50;
+  }
+}
+
+span.pi-search, body .ui-tree .ui-tree-filter-container .ui-tree-filter-icon {
+  color: $color-blue-dark-50;
+}
+
+.fa-folder-plus:before, .fa-folder-minus:before, .fa-cubes:before, .pi.pi-caret-down:before, {
+  color: $color-blue-dark-100;
+  font-size: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pi-check:before {
+  color: $color-black-0;
+  background-color: $color-blue-dark-100;
+  margin: 0;
+}
+
+.pi-sort-alt:before {
+  color: $color-blue-dark-100;
+}
+
+
+.app {
+
+  .ui-tree .ui-tree-container .ui-treenode .ui-treenode-content .ui-chkbox .ui-chkbox-icon {
+    margin: 0;
+    font-size: 19px;
+    border-radius: 2px;
+  }
+
+  .ui-chkbox .ui-chkbox-box {
+    border: 1px solid $color-blue-dark-100;
+    background-color: unset;
+  }
+
+  .text-info {
+    font-size: 30px;
+    color: $color-blue-100 !important;
+  }
+
+  .spinner-border {
+    width: 8rem;
+    height: 8rem;
+  }
+
+  .custom-control-label {
+    padding-top: 7px;
+  }
+
+  .custom-control-input {
+    position: unset;
+    width: 5%;
+  }
+
+  .custom-control-input:focus ~ .custom-control-label::before {
+    box-shadow: unset;
+  }
+
+  .custom-switch .custom-control-label::before {
+    color: $color-blue-dark-100;
+    top: 9px;
+    border: 1px solid $color-blue-dark-100 !important;
+  }
+
+  .custom-switch .custom-control-label::after, input[type=checkbox] {
+    top: 11px;
+    background-color: $color-black-0;
+    border: 1px solid $color-blue-dark-100 !important;
+  }
+
+  .custom-control-input:checked ~ .custom-control-label::before {
+    background-color: $color-blue-dark-100;
+    border-color: $color-blue-dark-100;;
+  }
+
+  .ui-inputswitch-checked:checked ~ .custom-control-label::before {
+    color: $color-black-0;
+    border-color: $color-blue-dark-100;
+    background-color: $color-blue-dark-100;
+
+    &:focus {
+      border: unset;
+    }
+  }
+
+  .custom-switch .custom-control-input:checked ~ .custom-control-label::after {
+    background-color: $color-black-0;
+  }
+
+
+  body .ui-inputtext-focus {
+    border-color: $color-black-0;
+  }
+
+
+  .btn-scnd:focus {
+    background-color: $color-blue-dark-100;
+    border-color: $color-blue-dark-100;
+  }
+}
+
+
+

@@ -60,8 +60,7 @@ export class SignupFormComponent implements OnInit {
         private dataProtectionPolicyService: DataProtectionPolicyService,
         private codeListService: CodelistService,
         private activatedRoute: ActivatedRoute,
-        private languageService: LanguageService
-    ) {
+        private languageService: LanguageService) {
     }
 
     ngOnInit() {

@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { SignupFormComponent } from './signup.component';
 import { ALL_ALLOWED } from '@app/core/service/auth';
+import { NotLoggedUserCanAccessGuard } from '@app/core/guard/not-logged-user-can-access.guard';
 
 export const signupRoutes: Routes = [
     {
@@ -9,13 +10,15 @@ export const signupRoutes: Routes = [
         component: SignupFormComponent,
         data: {
             roles: ALL_ALLOWED,
-            pageTitle: 'signup.home.title',
+            pageTitle: 'signup.home.title'
         },
-    },
+        canActivate: [NotLoggedUserCanAccessGuard]
+    }
 ];
 
 @NgModule({
     imports: [RouterModule.forChild(signupRoutes)],
-    exports: [RouterModule],
+    exports: [RouterModule]
 })
-export class SignupRoutingModule {}
+export class SignupRoutingModule {
+}

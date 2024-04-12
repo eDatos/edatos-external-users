@@ -1,5 +1,7 @@
 package es.gobcan.istac.edatos.external.users.core.domain;
 
+import es.gobcan.istac.edatos.external.users.core.domain.enumeration.AuditPrincipalType;
+
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashMap;
@@ -9,6 +11,8 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -33,6 +37,11 @@ public class AuditEventEntity implements Serializable {
     @NotNull
     @Column(nullable = false)
     private String principal;
+
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    @Column(name = "principal_type", nullable = false)
+    private AuditPrincipalType principalType;
 
     @Column(name = "event_date")
     private Instant auditEventDate;
@@ -59,6 +68,14 @@ public class AuditEventEntity implements Serializable {
 
     public void setPrincipal(String principal) {
         this.principal = principal;
+    }
+
+    public AuditPrincipalType getPrincipalType() {
+        return principalType;
+    }
+
+    public void setPrincipalType(AuditPrincipalType principalType) {
+        this.principalType = principalType;
     }
 
     public Instant getAuditEventDate() {

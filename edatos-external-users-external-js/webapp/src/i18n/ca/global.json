@@ -1,191 +1,194 @@
 {
-    "global": {
-        "title": "eDatos External Users",
-        "version": "Versió",
-        "no": "No",
-        "pageSizeSelector": "Tamany de pàgina",
-        "yes": "Sí",
-        "browsehappy": "Està fent servir un navegador <strong>no actualitzat</strong>. Si us plau, <a href=\"http://browsehappy.com/?locale=en\">actualitzi el seu navegador</a> per millorar la seva experiència.",
-        "form": {
-            "email": "Correu electrònic",
-            "email.placeholder": "El seu correu electrònic"
-        },
-        "item-count": "{{first}} - {{second}} de {{total}}",
-        "loading": "Carregant",
-        "menu": {
-            "entities": {
-                "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
-            },
-            "home": "Inici",
-            "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
-            "account": {
-                "login": "Iniciar sessió",
-                "logout": "Tencar la sessió",
-                "main": "Compte",
-                "myAccount": "El meu compte",
-                "sessions": "Sessions",
-                "notifications": "Notificacions"
-            },
-            "admin": {
-                "main": "Administració",
-                "userManagement": "Gestió d'usuaris",
-                "configuration": "Configuració",
-                "logs": "Logs",
-                "audits": "Auditoria",
-                "apidocs": "API",
-                "jhipster-needle-menu-add-admin-element": "JHipster will add additional menu entries here (do not translate!)",
-                "filter": "Consultes personalitzades",
-                "favorite": "Subscripcions temàtiques"
-            },
-            "administracion": {
-                "main": "Administración"
-            }
-        },
-        "messages": {
-            "validate": {
-                "email": {
-                    "invalid": "El seu correu electrònic no és vàlid.",
-                    "maxlength": "El seu correu electrònic no pot tenir més de 50 caràcters",
-                    "minlength": "Es requereix que el seu correu electrònic tingui almenys 5 caràcters",
-                    "required": "Es requereix un correu electrònic."
-                }
-            },
-            "recoverPasswordEmail": "Email enviat correctament"
-        },
-        "alerts": {
-            "title": {
-                "info": "Informació"
-            }
+  "global": {
+    "title": "eDatos External Users",
+    "version": "Versió",
+    "no": "No",
+    "pageSizeSelector": "Tamany de pàgina",
+    "yes": "Sí",
+    "browsehappy": "Està fent servir un navegador <strong>no actualitzat</strong>. Si us plau, <a href=\"http://browsehappy.com/?locale=en\">actualitzi el seu navegador</a> per millorar la seva experiència.",
+    "form": {
+      "email": "Correu electrònic",
+      "email.placeholder": "El seu correu electrònic"
+    },
+    "item-count": "{{first}} - {{second}} de {{total}}",
+    "loading": "Carregant",
+    "menu": {
+      "entities": {
+        "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
+      },
+      "home": "Inici",
+      "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
+      "account": {
+        "login": "Iniciar sessió",
+        "logout": "Tencar la sessió",
+        "main": "Compte",
+        "myAccount": "El meu compte",
+        "myFolder": "La meva carpeta",
+        "sessions": "Sessions",
+        "notifications": "Notificacions"
+      },
+      "admin": {
+        "main": "Administració",
+        "userManagement": "Gestió d'usuaris",
+        "configuration": "Configuració",
+        "logs": "Logs",
+        "audits": "Auditoria",
+        "apidocs": "API",
+        "jhipster-needle-menu-add-admin-element": "JHipster will add additional menu entries here (do not translate!)",
+        "filter": "Consultes personalitzades",
+        "favorite": "Subscripcions temàtiques"
+      },
+      "administracion": {
+        "main": "Administración"
+      }
+    },
+    "messages": {
+      "requiredFields": "Camps marcats amb un asterisc són obligatoris.",
+      "validate": {
+        "email": {
+          "invalid": "El seu correu electrònic no és vàlid.",
+          "maxlength": "El seu correu electrònic no pot tenir més de 50 caràcters",
+          "minlength": "Es requereix que el seu correu electrònic tingui almenys 5 caràcters",
+          "required": "Es requereix un correu electrònic."
         }
+      },
+      "recoverPasswordEmail": "Email enviat correctament"
     },
-    "entity": {
-        "action": {
-            "back": "Tornar",
-            "cancel": "Cancel·lar",
-            "delete": "Eliminar",
-            "edit": "Editar",
-            "restore": "Restaurar",
-            "open": "Obrir",
-            "save": "Guardar",
-            "view": "Veure",
-            "filtersReset": "Reiniciar filtres",
-            "eliminar": "Eliminar",
-            "recuperar": "Recuperar",
-            "close": "Tancar",
-            "confirm": "Confirmar",
-            "crear": "Crear",
-            "modificar": "Modificar",
-            "publishInternally": "Publicar internament",
-            "publishExternally": "Publicar externament",
-            "change-password": "Canviar contrasenya",
-            "data-protection-policy": "Política de protecció de dades",
-            "unsubscribe": "Donar-se de baixa",
-            "about": "Sobre"
-        },
-        "delete": {
-            "title": "Confirmar operació d'esborrat"
-        },
-        "restore": {
-            "title": "Confirmar restauració"
-        },
-        "recuperar": {
-            "title": "Confirmar recuperació"
-        },
-        "eliminar": {
-            "title": "Confirmar eliminació"
-        },
-        "crear": {
-            "title": "Confirmar creació"
-        },
-        "modificar": {
-            "title": "Confirmar modificació"
-        },
-        "validation": {
-            "required": "Aquest camp és obligatori.",
-            "minlength": "Aquest camp requereix almenys {{requiredLength}} caracteres.",
-            "maxlength": "Aquest camp no pot superar més de {{max}} caracteres.",
-            "min": "Aquest camp ha de ser major que {{min}}.",
-            "max": "Aquest camp no pot ser major que {{max}}.",
-            "minbytes": "Aquest camp ha de tenir com a mínim {{min}} bytes.",
-            "maxbytes": "Aquest camp no pot tenir més de {{max}} bytes.",
-            "pattern": "Aquest camp ha de seguir el patró {{pattern}}.",
-            "number": "Aquest camp ha de ser un número.",
-            "datetimelocal": "Aquest camp ha de ser una data i hora.",
-            "ZonedDateTimelocal": "Aquest camp ha de ser una data i hora.",
-            "not-valid": "El valor d'aquest camp no és vàlid"
-        },
-        "list": {
-            "empty": {
-                "createNewIitem": "(Afegir nou)",
-                "detail": "No s'han obtingut resultats que compleixin els criteris de cerca.",
-                "multiInput": "Escrigui el valor i premi enter per a afegir-lo",
-                "selectOption": "Seleccioni una de les opcions disponibles",
-                "sorry": "Ho sentim.",
-                "writeForSuggestions": "Comenci a escriure per a suggerir resultats"
-            }
-        },
-        "audits": {
-            "title": "Auditoria",
-            "createdBy": "Creat per",
-            "createdDate": "Data de creació",
-            "lastModifiedBy": "Modificat per",
-            "lastModifiedDate": "Data de modificació",
-            "deletedBy": "Eliminat per",
-            "deletionDate": "Data d'eliminació"
-        },
-        "input": {
-            "placeholder": "Introdueixi el text desitjat"
-        },
-        "currency": {
-            "errors": {
-                "notANumber": "El valor introduït ha de ser numèric"
-            }
-        },
-        "calendar": {
-            "placeholder": "Seleccioni en el calendari la data desitjada"
-        }
+    "alerts": {
+      "title": {
+        "info": "Informació"
+      }
+    }
+  },
+  "entity": {
+    "action": {
+      "back": "Tornar",
+      "cancel": "Cancel·lar",
+      "delete": "Eliminar",
+      "edit": "Editar",
+      "restore": "Restaurar",
+      "open": "Obrir",
+      "save": "Guardar",
+      "view": "Veure",
+      "accept": "Acceptar",
+      "filtersReset": "Reiniciar filtres",
+      "eliminar": "Eliminar",
+      "recuperar": "Recuperar",
+      "close": "Tancar",
+      "confirm": "Confirmar",
+      "crear": "Crear",
+      "modificar": "Modificar",
+      "publishInternally": "Publicar internament",
+      "publishExternally": "Publicar externament",
+      "change-password": "Canviar contrasenya",
+      "data-protection-policy": "Política de protecció de dades",
+      "unsubscribe": "Eliminar compte",
+      "about": "Sobre"
     },
-    "enum": {
-        "procStatus": {
-            "label": "Estat del cicle de vida",
-            "DRAFT": "Esborrany",
-            "INTERNALLY_PUBLISHED": "Publicat internament",
-            "EXTERNALLY_PUBLISHED": "Publicat externament"
-        }
+    "delete": {
+      "title": "Confirmar operació d'esborrat"
     },
-    "home": {
-        "detail": "Accedeixi a l'apartat desitjat a través del menú de navegació",
-        "pageTitle": "Benvingut",
-        "title": "Benvingut, {{user}}"
+    "restore": {
+      "title": "Confirmar restauració"
     },
-    "table": {
-        "globalSearchPlaceholder": "Introduir termes de cerca",
-        "pageCount": "{{pageFirst}} - {{pageLast}} de {{total}}",
-        "pageReport": "{first}–{last} de {totalRecords}"
+    "recuperar": {
+      "title": "Confirmar recuperació"
+    },
+    "eliminar": {
+      "title": "Confirmar eliminació"
+    },
+    "crear": {
+      "title": "Confirmar creació"
+    },
+    "modificar": {
+      "title": "Confirmar modificació"
+    },
+    "validation": {
+      "required": "Aquest camp és obligatori.",
+      "minlength": "Aquest camp requereix almenys {{requiredLength}} caracteres.",
+      "maxlength": "Aquest camp no pot superar més de {{max}} caracteres.",
+      "min": "Aquest camp ha de ser major que {{min}}.",
+      "max": "Aquest camp no pot ser major que {{max}}.",
+      "minbytes": "Aquest camp ha de tenir com a mínim {{min}} bytes.",
+      "maxbytes": "Aquest camp no pot tenir més de {{max}} bytes.",
+      "pattern": "Aquest camp ha de seguir el patró {{pattern}}.",
+      "number": "Aquest camp ha de ser un número.",
+      "datetimelocal": "Aquest camp ha de ser una data i hora.",
+      "ZonedDateTimelocal": "Aquest camp ha de ser una data i hora.",
+      "not-valid": "El valor d'aquest camp no és vàlid"
+    },
+    "list": {
+      "empty": {
+        "createNewIitem": "(Afegir nou)",
+        "detail": "No s'han obtingut resultats que compleixin els criteris de cerca.",
+        "multiInput": "Escrigui el valor i premi enter per a afegir-lo",
+        "selectOption": "Seleccioni una de les opcions disponibles",
+        "sorry": "Ho sentim.",
+        "writeForSuggestions": "Comenci a escriure per a suggerir resultats"
+      }
+    },
+    "audits": {
+      "title": "Auditoria",
+      "createdBy": "Creat per",
+      "createdDate": "Data de creació",
+      "lastModifiedBy": "Modificat per",
+      "lastModifiedDate": "Data de modificació",
+      "deletedBy": "Eliminat per",
+      "deletionDate": "Data d'eliminació"
+    },
+    "input": {
+      "placeholder": "Introdueixi el text desitjat"
+    },
+    "currency": {
+      "errors": {
+        "notANumber": "El valor introduït ha de ser numèric"
+      }
     },
     "calendar": {
-        "monthNames": {
-            "january": "Gener",
-            "february": "Fabrer",
-            "march": "Març",
-            "april": "Abril",
-            "may": "Maig",
-            "june": "Juny",
-            "july": "Juliol",
-            "august": "Agost",
-            "september": "Setembre",
-            "october": "Octubre",
-            "november": "Novembre",
-            "december": "Desembre"
-        },
-        "dayNamesMin": {
-            "monday": "Dl",
-            "tuesday": "Dt",
-            "wednesday": "Dc",
-            "thursday": "Dj",
-            "friday": "Dv",
-            "saturday": "Ds",
-            "sunday": "Dg"
-        }
+      "placeholder": "Seleccioni en el calendari la data desitjada"
     }
+  },
+  "enum": {
+    "procStatus": {
+      "label": "Estat del cicle de vida",
+      "DRAFT": "Esborrany",
+      "INTERNALLY_PUBLISHED": "Publicat internament",
+      "EXTERNALLY_PUBLISHED": "Publicat externament"
+    }
+  },
+  "home": {
+    "detail": "Accedeixi a l'apartat desitjat a través del menú de navegació",
+    "pageTitle": "Benvingut",
+    "title": "Benvingut, {{user}}"
+  },
+  "table": {
+    "globalSearchPlaceholder": "Introduir termes de cerca",
+    "pageCount": "{{pageFirst}} - {{pageLast}} de {{total}}",
+    "pageReport": "{first}–{last} de {totalRecords}"
+  },
+  "calendar": {
+    "monthNames": {
+      "january": "Gener",
+      "february": "Fabrer",
+      "march": "Març",
+      "april": "Abril",
+      "may": "Maig",
+      "june": "Juny",
+      "july": "Juliol",
+      "august": "Agost",
+      "september": "Setembre",
+      "october": "Octubre",
+      "november": "Novembre",
+      "december": "Desembre"
+    },
+    "dayNamesMin": {
+      "monday": "Dl",
+      "tuesday": "Dt",
+      "wednesday": "Dc",
+      "thursday": "Dj",
+      "friday": "Dv",
+      "saturday": "Ds",
+      "sunday": "Dg"
+    }
+  }
 }

@@ -5,14 +5,15 @@ import { AccountUserService, ExternalLoginService } from '@app/core/service/user
 import { AuthServerProvider, Principal } from '@app/core/service';
 import { DOCUMENT } from '@angular/common';
 import { addQueryParamToRoute } from '@app/shared/utils/routesUtils';
-import { CaptchaService } from '@app/shared/service';
+import { CaptchaService, SharedRefreshService } from '@app/shared/service';
 import { MessageService } from 'primeng';
 import { TranslateService } from '@ngx-translate/core';
+
 
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
-    styleUrls: ['./login.component.scss'],
+    styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
     credentials: Credentials;
@@ -37,7 +38,8 @@ export class LoginComponent implements OnInit {
         private captchaService: CaptchaService,
         private externalUserService: ExternalLoginService,
         private messageService: MessageService,
-        private translateService: TranslateService
+        private translateService: TranslateService,
+        private sharedService: SharedRefreshService
     ) {
         this.credentials = new Credentials();
         this.route.queryParams.subscribe((queryParams) => {
@@ -63,7 +65,7 @@ export class LoginComponent implements OnInit {
                         severity: 'success',
                         summary: this.translateService.instant('signup.messages.onSuccessSumary'),
                         detail: this.translateService.instant('signup.messages.onSuccess'),
-                        life: 5000,
+                        life: 5000
                     });
                 });
             }
@@ -84,6 +86,8 @@ export class LoginComponent implements OnInit {
 
     private navigateToFilter() {
         this.router.navigate(['filter']);
+        this.sharedService.triggerRefresh();
+        this.sharedService.triggerRefreshForceValue(true);
     }
 
     private navigateToOrigin() {

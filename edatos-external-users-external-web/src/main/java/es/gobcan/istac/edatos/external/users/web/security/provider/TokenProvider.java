@@ -1,6 +1,8 @@
 package es.gobcan.istac.edatos.external.users.web.security.provider;
 
+import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
 import es.gobcan.istac.edatos.external.users.core.service.DisabledTokenService;
+import es.gobcan.istac.edatos.external.users.core.service.ExternalUserService;
 import es.gobcan.istac.edatos.external.users.web.config.JHipsterExtraProperties;
 import io.github.jhipster.config.JHipsterProperties;
 import io.jsonwebtoken.*;
@@ -12,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -22,6 +25,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -45,10 +49,13 @@ public class TokenProvider {
 
     private final DisabledTokenService disabledTokenService;
 
-    public TokenProvider(JHipsterProperties jHipsterProperties, JHipsterExtraProperties jHipsterExtraProperties, DisabledTokenService disabledTokenService) {
+    private final ExternalUserService externalUserService;
+
+    public TokenProvider(JHipsterProperties jHipsterProperties, JHipsterExtraProperties jHipsterExtraProperties, DisabledTokenService disabledTokenService, ExternalUserService externalUserService) {
         this.jHipsterProperties = jHipsterProperties;
         this.jHipsterExtraProperties = jHipsterExtraProperties;
         this.disabledTokenService = disabledTokenService;
+        this.externalUserService = externalUserService;
     }
 
     @PostConstruct
@@ -71,7 +78,14 @@ public class TokenProvider {
             validity = new Date(now + this.tokenValidityInMilliseconds);
         }
 
-        return Jwts.builder().setSubject(authentication.getName()).claim(AUTHORITIES_KEY, authorities).signWith(SignatureAlgorithm.HS512, secretKey).setExpiration(validity).compact();
+        Optional<ExternalUserEntity> user = this.externalUserService.findByEmail(authentication.getName());
+        return Jwts.builder()
+            .setSubject(authentication.getName())
+            .claim(AUTHORITIES_KEY, authorities)
+            .claim("id", user.map(ExternalUserEntity::getId).orElse(null))
+            .signWith(SignatureAlgorithm.HS512, secretKey)
+            .setExpiration(validity)
+            .compact();
     }
 
     public Authentication getAuthentication(String token) {
@@ -86,18 +100,25 @@ public class TokenProvider {
     }
 
     public Jws<Claims> validateToken(String authToken) {
-        Jws<Claims> claimsJws = null;
         try {
             boolean thereIsATokenAndItIsDisabled = StringUtils.hasText(authToken) && disabledTokenService.exists(authToken);
             if(thereIsATokenAndItIsDisabled) {
                 throw new CredentialsExpiredException("The authentication token is disabled. Login again.");
             }
-            return claimsJws = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(authToken);
-        } catch (SignatureException | MalformedJwtException | ExpiredJwtException | UnsupportedJwtException | IllegalArgumentException | CredentialsExpiredException e) {
+
+            Jws<Claims> claimsJws = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(authToken);
+
+            Optional<ExternalUserEntity> externalUserFoundByEmail = externalUserService.findByEmail(claimsJws.getBody().getSubject());
+            if (!externalUserFoundByEmail.isPresent() || externalUserFoundByEmail.get().getId().equals(claimsJws.getBody().get("id"))) {
+                throw new UsernameNotFoundException("The authentication token email and id does not match with any user in database. Probably the user changed the email of the account.");
+            }
+
+            return claimsJws;
+        } catch (SignatureException | MalformedJwtException | ExpiredJwtException | UnsupportedJwtException | IllegalArgumentException | CredentialsExpiredException | UsernameNotFoundException e) {
             log.debug("JWT: token no válido trace: {}", e);
         }
 
-        return claimsJws;
+        return null;
     }
 
     public boolean checkRenewTicketIsRequired(Jws<Claims> claimsJws) {

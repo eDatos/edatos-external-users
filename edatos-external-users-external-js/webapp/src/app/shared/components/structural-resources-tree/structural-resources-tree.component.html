@@ -1,14 +1,14 @@
 <p-tree
-    (onNodeSelect)="onSelect($event.node)"
-    (onNodeUnselect)="onUnselect($event.node)"
-    [(selection)]="selectedResources"
-    [propagateSelectionDown]="false"
-    [propagateSelectionUp]="false"
-    [value]="tree"
-    [filter]="true"
-    filterMode="strict"
-    selectionMode="checkbox"
+    (onNodeSelect)='onSelect($event.node)'
+    (onNodeUnselect)='onUnselect($event.node)'
+    [(selection)]='selectedResources'
+    [propagateSelectionDown]='true'
+    [propagateSelectionUp]='false'
+    [value]='tree'
+    [filter]='true'
+    filterMode='strict'
+    selectionMode='checkbox'
     [emptyMessage]="'structuralResourcesTree.noRecordsFound' | translate">
-    <ng-template *ngIf="mode === 'view'" let-node pTemplate="default"><span class="label">{{node.label}}</span>&nbsp;
+    <ng-template *ngIf="mode === 'view'" let-node pTemplate='default'><span class='label'>{{node.label}}</span>&nbsp;
     </ng-template>
 </p-tree>
