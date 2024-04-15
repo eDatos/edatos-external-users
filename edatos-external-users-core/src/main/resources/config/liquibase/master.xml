@@ -59,4 +59,6 @@
              relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20240402072300_modify_entity_CategoryEntity.xml"
              relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240412093500_modify_entity_InternalEnabledToken.xml"
+             relativeToChangelogFile="false"/>
 </databaseChangeLog>
