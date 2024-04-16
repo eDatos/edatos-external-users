@@ -1,13 +1,17 @@
 package es.gobcan.istac.edatos.external.users.core.aop.logging;
 
 import java.util.Arrays;
+import java.util.List;
 
+import es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.siemac.edatos.core.common.exception.EDatosException;
+import org.siemac.edatos.core.common.exception.EDatosExceptionItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,8 +62,20 @@ public class LoggingAspect {
      */
     @AfterThrowing(pointcut = "applicationPackagePointcut() && springBeanPointcut()", throwing = "e")
     public void logAfterThrowing(JoinPoint joinPoint, Throwable e) {
-        log.error("Exception in {}.{}() with cause = \'{}\' and exception = \'{}\'", joinPoint.getSignature().getDeclaringTypeName(), joinPoint.getSignature().getName(),
-                e.getCause() != null ? e.getCause() : "NULL", e.getMessage(), e);
+        List<String> codesToWarnAndHideStackTrace = Arrays.asList(ServiceExceptionType.LOGIN_FAILED.getCode());
+
+        String message = "Exception in {}.{}() with cause = '{}' and exception = '{}'";
+        Object cause = e.getCause() != null ? e.getCause() : "NULL";
+        EDatosExceptionItem firstExceptionItem = null;
+        if (e instanceof EDatosException && ((EDatosException) e).getExceptionItems().size() > 0) {
+            firstExceptionItem = ((EDatosException) e).getExceptionItems().get(0);
+        }
+
+        if (firstExceptionItem != null && codesToWarnAndHideStackTrace.contains(firstExceptionItem.getCode())) {
+            log.warn(message, joinPoint.getSignature().getDeclaringTypeName(), joinPoint.getSignature().getName(), cause, e.getMessage());
+        } else {
+            log.error(message, joinPoint.getSignature().getDeclaringTypeName(), joinPoint.getSignature().getName(), cause, e.getMessage(), e);
+        }
     }
 
     /**
