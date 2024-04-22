@@ -25,7 +25,7 @@ public class LoginValidator extends AbstractValidator<String> {
 
     private void checkExistsUsuarioWithLogin(String login) {
         if (!externalUserRepository.existsByEmailIgnoreCase(login)) {
-            throw new EDatosException(ServiceExceptionType.LOGIN_FAILED);
+            throw new EDatosException(ServiceExceptionType.LOGIN_FAILED, login);
         }
     }
 
