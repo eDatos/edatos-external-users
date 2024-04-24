@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(PasswordResource.BASE_URL)
@@ -44,8 +45,7 @@ public class PasswordResource extends AbstractResource {
         user = externalUserService.recoverExternalUserAccountPassword(email).orElse(null);
         if (user != null) {
             notificationService.createResetPasswordExternaluserAccountNotification(user);
-
-            auditPublisher.publish(AuditConstants.EXT_USUARIO_EDICION, AuditPrincipalType.ANONYMOUS_EXTERNAL_USER);
+            auditPublisher.publish(AuditConstants.EXT_USER_PASSWORD_RECOVER, AuditPrincipalType.ANONYMOUS_EXTERNAL_USER, user.getId().toString());
         }
         return ResponseEntity.ok().build();
     }
@@ -54,9 +54,11 @@ public class PasswordResource extends AbstractResource {
     @Timed
     public ResponseEntity<Void> finishPasswordReset(@RequestBody KeyAndPasswordDto keyAndPassword) {
         try {
-            externalUserService.completePasswordReset(keyAndPassword.getNewPassword(), keyAndPassword.getKey());
+            Optional<ExternalUserEntity> user = externalUserService.completePasswordReset(keyAndPassword.getNewPassword(), keyAndPassword.getKey());
 
-            auditPublisher.publish(AuditConstants.EXT_USUARIO_EDICION, AuditPrincipalType.ANONYMOUS_EXTERNAL_USER);
+            if (user.isPresent()) {
+                auditPublisher.publish(AuditConstants.EXT_USER_PASSWORD_CONFIRM, AuditPrincipalType.ANONYMOUS_EXTERNAL_USER, user.get().getId().toString());
+            }
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             throw new EDatosException(ServiceExceptionType.GENERIC_ERROR);

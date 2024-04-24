@@ -1,12 +1,10 @@
 package es.gobcan.istac.edatos.external.users.rest.internal.resources;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
-import org.siemac.metamac.rest.notices.v1_0.domain.Receivers;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;

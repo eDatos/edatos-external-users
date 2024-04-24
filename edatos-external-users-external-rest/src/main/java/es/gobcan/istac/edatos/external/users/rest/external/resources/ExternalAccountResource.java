@@ -80,6 +80,7 @@ public class ExternalAccountResource extends AbstractResource {
         if (user == null) {
             user = externalUserService.create(externalUserMapper.toEntity(externalUserDto));
             notificationService.createRegisterExternalUserAccountNotification(user);
+            auditPublisher.publish(AuditConstants.EXT_USER_REGISTRATION, AuditPrincipalType.ANONYMOUS_EXTERNAL_USER, user.getId().toString());
             return ResponseEntity.ok(user);
         }
 
@@ -99,6 +100,7 @@ public class ExternalAccountResource extends AbstractResource {
     private ResponseEntity<ExternalUserEntity> responseToMigratedUser(ExternalUserAccountDto externalUserDto, String token, ExternalUserEntity user) {
         if (user.getRegistrationToken().equals(token)) {
             user = externalUserService.migrate(externalUserMapper.toEntity(externalUserDto));
+            auditPublisher.publish(AuditConstants.EXT_USER_MIGRATION_CONFIRM, AuditPrincipalType.ANONYMOUS_EXTERNAL_USER, user.getId().toString());
             return ResponseEntity.ok(user);
         } else {
             notificationService.createMigratedExternalUserPendingRegistrationNotification(user);
@@ -110,6 +112,7 @@ public class ExternalAccountResource extends AbstractResource {
     @Timed
     public ResponseEntity<ExternalUserAccountDto> create(@QueryParam("token") String token) throws URISyntaxException {
         ExternalUserEntity externalUser = externalUserService.confirmUserRegistration(token);
+        auditPublisher.publish(AuditConstants.EXT_USER_CONFIRM_REGISTRATION, AuditPrincipalType.ANONYMOUS_EXTERNAL_USER, externalUser.getId().toString());
         return ResponseEntity.created(new URI("/api/account/signup/" + externalUser.getEmail())).body(externalUserMapper.toDto(externalUser));
     }
 
@@ -157,7 +160,7 @@ public class ExternalAccountResource extends AbstractResource {
         }
 
         notificationService.createEmailModificationNotice(userWithEmailKey);
-        auditPublisher.publish(AuditConstants.EXT_USUARIO_EDICION, AuditPrincipalType.EXTERNAL_USER);
+        auditPublisher.publish(AuditConstants.EXT_USER_EMAIL_UPDATE, AuditPrincipalType.EXTERNAL_USER);
         return new ResponseEntity<>(externalUserMapper.toBaseDto(userWithEmailKey), HttpStatus.OK);
     }
 
@@ -168,8 +171,9 @@ public class ExternalAccountResource extends AbstractResource {
         if (!user.isPresent() || externalUserService.findByEmail(user.get().getEmailModificationRequest().getNewEmail()).isPresent()) {
             throw new EDatosException(ServiceExceptionType.EXTERNAL_USER_EMAIL_MODIFICATION_ERROR);
         }
-        externalUserService.confirmEmailModification(key);
-        auditPublisher.publish(AuditConstants.EXT_USUARIO_EDICION, AuditPrincipalType.ANONYMOUS_EXTERNAL_USER);
+
+        user = externalUserService.confirmEmailModification(key);
+        auditPublisher.publish(AuditConstants.EXT_USER_EMAIL_CONFIRM, AuditPrincipalType.ANONYMOUS_EXTERNAL_USER, user.get().getId().toString());
         return ResponseEntity.ok().build();
     }
 
@@ -180,7 +184,7 @@ public class ExternalAccountResource extends AbstractResource {
         ExternalUserEntity user = externalUserService.update(externalUserMapper.baseDtoToEntity(userDto));
         Optional<ExternalUserAccountBaseDto> updatedUser = Optional.ofNullable(externalUserMapper.toDto(user));
 
-        auditPublisher.publish(AuditConstants.EXT_USUARIO_EDICION, AuditPrincipalType.EXTERNAL_USER);
+        auditPublisher.publish(AuditConstants.EXT_USER_EDITION, AuditPrincipalType.EXTERNAL_USER);
         return ResponseUtil.wrapOrNotFound(updatedUser);
     }
 
@@ -190,6 +194,7 @@ public class ExternalAccountResource extends AbstractResource {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         try {
             notificationService.createDeleteExternalUserAccountNotification(externalUserService.delete(id));
+            auditPublisher.publish(AuditConstants.EXT_USER_DELETION, AuditPrincipalType.EXTERNAL_USER);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             throw new EDatosException(ServiceExceptionType.EXTERNAL_USER_DELETE_FAILED);
@@ -208,7 +213,7 @@ public class ExternalAccountResource extends AbstractResource {
 
         externalUserService.updateExternalUserAccountPassword(user, passwordDto.getCurrentPassword(), passwordDto.getNewPassword());
 
-        auditPublisher.publish(AuditConstants.EXT_USUARIO_EDICION, AuditPrincipalType.ANONYMOUS_EXTERNAL_USER);
+        auditPublisher.publish(AuditConstants.EXT_USER_PASSWORD_EDITION, AuditPrincipalType.EXTERNAL_USER);
         return ResponseEntity.ok().build();
     }
 
@@ -219,7 +224,7 @@ public class ExternalAccountResource extends AbstractResource {
         byte[] documento = documentService.generatePdfExternalUserInformation(id);
 
         DocumentUtil.download(documento, DocumentConstants.DOC_EXTERNAL_USER_INFORMATION, response);
-        auditPublisher.publish(AuditConstants.EXT_USUARIO_DOWNLOAD_DOCUMENT, AuditPrincipalType.EXTERNAL_USER, DocumentConstants.EXTERNAL_USER_INFORMATION);
+        auditPublisher.publish(AuditConstants.EXT_USER_DOWNLOAD_DOCUMENT, AuditPrincipalType.EXTERNAL_USER, DocumentConstants.EXTERNAL_USER_INFORMATION);
         return ResponseEntity.ok().build();
     }
 

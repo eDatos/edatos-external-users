@@ -27,7 +27,6 @@ import es.gobcan.istac.edatos.external.users.core.domain.ExternalCategoryEntity;
 import es.gobcan.istac.edatos.external.users.core.service.CategoryService;
 import es.gobcan.istac.edatos.external.users.core.service.ExternalCategoryService;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.CategoryDto;
-import es.gobcan.istac.edatos.external.users.rest.common.dto.ExternalCategoryDto;
 import es.gobcan.istac.edatos.external.users.rest.common.mapper.CategoryMapper;
 import es.gobcan.istac.edatos.external.users.rest.common.mapper.ExternalCategoryMapper;
 import es.gobcan.istac.edatos.external.users.rest.common.util.PaginationUtil;
