@@ -171,7 +171,8 @@ public class ExternalAccountResource extends AbstractResource {
         if (!user.isPresent() || externalUserService.findByEmail(user.get().getEmailModificationRequest().getNewEmail()).isPresent()) {
             throw new EDatosException(ServiceExceptionType.EXTERNAL_USER_EMAIL_MODIFICATION_ERROR);
         }
-        externalUserService.confirmEmailModification(key);
+
+        user = externalUserService.confirmEmailModification(key);
         auditPublisher.publish(AuditConstants.EXT_USER_EMAIL_CONFIRM, AuditPrincipalType.ANONYMOUS_EXTERNAL_USER, user.get().getId().toString());
         return ResponseEntity.ok().build();
     }

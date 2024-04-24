@@ -17,13 +17,13 @@ public final class AuditConstants {
     public static final String EXT_USER_EMAIL_UPDATE = "EXT_USER_EMAIL_UPDATE";
     public static final String EXT_USER_EMAIL_CONFIRM = "EXT_USER_EMAIL_CONFIRM";
     public static final String EXT_USER_MIGRATION_CONFIRM = "EXT_USER_MIGRATION_CONFIRM";
+    public static final String EXT_USER_REGISTRATION_UNFINISHED_DELETION = "EXT_USER_REGISTRATION_UNFINISHED_DELETION";
 
     public static final String EXT_USER_DOWNLOAD_DOCUMENT = "EXT_USER_DOWNLOAD_DOCUMENT";
 
     public static final String FILTER_CREATION = "FILTER_CREATION";
     public static final String FILTER_EDITION = "FILTER_EDITION";
     public static final String FILTER_DELETION = "FILTER_DELETION";
-    public static final String FILTER_LAST_ACCESS_EDITION = "FILTER_LAST_ACCESS_EDITION";
 
     public static final String FAVORITE_CREATION = "FAVORITE_CREATION";
     public static final String FAVORITE_DELETION = "FAVORITE_DELETION";
