@@ -91,9 +91,11 @@ export class SignupFormComponent implements OnInit {
             if (this.passwordDoNotMatch()) {
                 this.validUser = false;
             } else {
-                this.user.gender = this.gender ? this.gender.id : null;
-                this.user.nationality = this.nationality ? this.nationality.id : null;
-                this.user.language = this.selectedLanguage.locale;
+                if (!this.isMigratedUser) {
+                    this.user.gender = this.gender ? this.gender.id : null;
+                    this.user.nationality = this.nationality ? this.nationality.id : null;
+                    this.user.language = this.selectedLanguage.locale;
+                }
                 this.accountUserService
                     .create(this.captchaContainerEl, this.user, this.userRegistrationToken)
                     .then((response) => this.onSaveSuccess(response))
