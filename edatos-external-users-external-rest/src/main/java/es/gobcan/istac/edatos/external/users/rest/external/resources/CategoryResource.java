@@ -14,8 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,11 +23,8 @@ import com.codahale.metrics.annotation.Timed;
 import es.gobcan.istac.edatos.external.users.core.domain.CategoryEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalCategoryEntity;
 import es.gobcan.istac.edatos.external.users.core.service.CategoryService;
-import es.gobcan.istac.edatos.external.users.core.service.ExternalCategoryService;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.CategoryDto;
-import es.gobcan.istac.edatos.external.users.rest.common.dto.ExternalCategoryDto;
 import es.gobcan.istac.edatos.external.users.rest.common.mapper.CategoryMapper;
-import es.gobcan.istac.edatos.external.users.rest.common.mapper.ExternalCategoryMapper;
 import es.gobcan.istac.edatos.external.users.rest.common.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 
@@ -42,19 +37,13 @@ public class CategoryResource extends AbstractResource {
 
     private final CategoryService categoryService;
     private final CategoryMapper categoryMapper;
-    private final ExternalCategoryService externalCategoryService;
-    private final ExternalCategoryMapper externalCategoryMapper;
     private final ExternalOperationService externalOperationService;
 
     public CategoryResource(CategoryService categoryService,
-        ExternalCategoryService externalCategoryService,
         CategoryMapper categoryMapper,
-        ExternalCategoryMapper externalCategoryMapper,
         ExternalOperationService externalOperationService) {
         this.categoryService = categoryService;
-        this.externalCategoryService = externalCategoryService;
         this.categoryMapper = categoryMapper;
-        this.externalCategoryMapper = externalCategoryMapper;
         this.externalOperationService = externalOperationService;
     }
 
@@ -85,14 +74,5 @@ public class CategoryResource extends AbstractResource {
         Map<CategoryEntity, List<ExternalCategoryEntity>> externalCategories = categoryService.getCategoryExternalCategories();
         List<ExternalOperationEntity> externalOperations = externalOperationService.findAllEnabled();
         return ResponseEntity.ok(categoryMapper.toDtos(all, tree, externalCategories, externalOperations, new HashMap<>()));
-    }
-
-    @Timed
-    @PutMapping("/tree")
-    @PreAuthorize("@secCheckerExternal.canAccessCategory(authentication)")
-    public ResponseEntity<List<CategoryDto>> updateCategoryTree(@RequestBody List<CategoryDto> tree) {
-        List<CategoryEntity> categories = categoryMapper.toEntities(tree);
-        List<CategoryDto> response = categoryMapper.toDtos(categoryService.updateTree(categories));
-        return ResponseEntity.ok(response);
     }
 }

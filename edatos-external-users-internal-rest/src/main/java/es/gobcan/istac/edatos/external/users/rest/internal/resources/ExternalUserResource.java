@@ -4,6 +4,9 @@ import static es.gobcan.istac.edatos.external.users.rest.internal.resources.Exte
 
 import java.util.List;
 
+import es.gobcan.istac.edatos.external.users.core.config.AuditConstants;
+import es.gobcan.istac.edatos.external.users.core.config.audit.AuditEventPublisher;
+import es.gobcan.istac.edatos.external.users.core.domain.enumeration.AuditPrincipalType;
 import org.siemac.edatos.core.common.exception.EDatosException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,10 +37,12 @@ public class ExternalUserResource extends AbstractResource {
 
     private final ExternalUserService externalUserService;
     private final ExternalUserMapper externalUserMapper;
+    private final AuditEventPublisher auditPublisher;
 
-    public ExternalUserResource(ExternalUserService externalUserService, ExternalUserMapper externalUserMapper) {
+    public ExternalUserResource(ExternalUserService externalUserService, ExternalUserMapper externalUserMapper, AuditEventPublisher auditPublisher) {
         this.externalUserService = externalUserService;
         this.externalUserMapper = externalUserMapper;
+        this.auditPublisher = auditPublisher;
     }
 
     @Timed
@@ -62,6 +67,7 @@ public class ExternalUserResource extends AbstractResource {
     public ResponseEntity<Void> deleteExternalUser(@PathVariable Long id) {
         try {
             externalUserService.delete(id);
+            auditPublisher.publish(AuditConstants.EXT_USER_DELETION, AuditPrincipalType.ADMIN, id.toString());
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             throw new EDatosException(ServiceExceptionType.EXTERNAL_USER_DELETE_FAILED);
