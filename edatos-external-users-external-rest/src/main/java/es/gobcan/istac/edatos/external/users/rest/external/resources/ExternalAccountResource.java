@@ -227,7 +227,7 @@ public class ExternalAccountResource extends AbstractResource {
         byte[] documento = documentService.generatePdfExternalUserInformation(id);
 
         DocumentUtil.download(documento, DocumentConstants.DOC_EXTERNAL_USER_INFORMATION, response);
-        auditPublisher.publish(AuditConstants.EXT_USER_DOWNLOAD_DOCUMENT, AuditPrincipalType.EXTERNAL_USER, DocumentConstants.EXTERNAL_USER_INFORMATION);
+        auditPublisher.publish(AuditConstants.EXT_USER_DOWNLOAD_DOCUMENT, AuditPrincipalType.EXTERNAL_USER);
         return ResponseEntity.ok().build();
     }
 
