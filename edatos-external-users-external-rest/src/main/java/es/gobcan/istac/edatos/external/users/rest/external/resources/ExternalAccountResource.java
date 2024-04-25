@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.ws.rs.QueryParam;
 
+import es.gobcan.istac.edatos.external.users.core.domain.AuditEventEntity;
 import org.siemac.edatos.core.common.exception.EDatosException;
+import org.springframework.boot.actuate.audit.AuditEvent;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -193,8 +195,9 @@ public class ExternalAccountResource extends AbstractResource {
     @PreAuthorize("@secCheckerExternal.canDeleteUser(authentication)")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         try {
+            AuditEvent auditEvent = auditPublisher.createAuditEvent(AuditConstants.EXT_USER_DELETION, AuditPrincipalType.EXTERNAL_USER);
             notificationService.createDeleteExternalUserAccountNotification(externalUserService.delete(id));
-            auditPublisher.publish(AuditConstants.EXT_USER_DELETION, AuditPrincipalType.EXTERNAL_USER);
+            auditPublisher.publish(auditEvent);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             throw new EDatosException(ServiceExceptionType.EXTERNAL_USER_DELETE_FAILED);
