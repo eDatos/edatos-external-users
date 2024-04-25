@@ -54,10 +54,16 @@ public class AuditEventPublisher implements ApplicationEventPublisherAware {
         publish(createAuditEvent(type, map, principalType));
     }
 
-    private void publish(AuditEvent event) {
+    public void publish(AuditEvent event) {
         if (this.publisher != null) {
             this.publisher.publishEvent(new AuditApplicationEvent(event));
         }
+    }
+
+    public AuditEvent createAuditEvent(String type, AuditPrincipalType principalType) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put(AuditConstants.PRINCIPAL_TYPE, principalType);
+        return createAuditEvent(type, map, principalType);
     }
 
     private AuditEvent createAuditEvent(String type, Map<String, Object> map, AuditPrincipalType principalType) {
