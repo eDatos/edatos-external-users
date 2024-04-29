@@ -106,6 +106,7 @@ public class CategoryResource extends AbstractResource {
     public ResponseEntity<List<CategoryDto>> updateCategoryTree(@RequestBody List<CategoryDto> category) {
         List<CategoryEntity> categoryEntity = categoryMapper.toEntities(category);
         List<CategoryEntity> updatedTree = categoryService.updateTree(categoryEntity);
+        auditPublisher.publish(AuditConstants.CATEGORY_TREE_UPDATE, AuditPrincipalType.ADMIN);
         return ResponseEntity.ok(getTreeWithSubscribers(updatedTree));
     }
 
@@ -119,6 +120,7 @@ public class CategoryResource extends AbstractResource {
 
         CategoryEntity categoryEntity = categoryMapper.toEntity(category);
         CategoryEntity updatedCategory = categoryService.updateCategory(categoryEntity);
+        auditPublisher.publish(AuditConstants.CATEGORY_UPDATE, AuditPrincipalType.ADMIN, updatedCategory.getCode());
         return ResponseEntity.ok(categoryMapper.toDto(updatedCategory));
     }
 
@@ -132,6 +134,7 @@ public class CategoryResource extends AbstractResource {
 
         CategoryEntity categoryEntity = categoryMapper.toEntity(category);
         CategoryEntity updatedCategory = categoryService.createCategory(categoryEntity);
+        auditPublisher.publish(AuditConstants.CATEGORY_CREATION, AuditPrincipalType.ADMIN, updatedCategory.getCode());
         return ResponseEntity.ok(categoryMapper.toDto(updatedCategory));
     }
 

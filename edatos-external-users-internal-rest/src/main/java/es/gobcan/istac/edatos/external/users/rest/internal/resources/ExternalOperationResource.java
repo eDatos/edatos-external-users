@@ -57,7 +57,9 @@ public class ExternalOperationResource extends AbstractResource {
     public ResponseEntity<ExternalOperationDto> updateExternalOperation(@RequestBody ExternalOperationDto dto) {
         ExternalOperationEntity externalOperation = externalOperationMapper.toEntity(dto.getId(), dto.isEnabled(), dto.isNotificationsEnabled());
         externalOperation = externalOperationService.update(externalOperation);
-        auditPublisher.publish(AuditConstants.EXTERNAL_OPERATION_EDITION, AuditPrincipalType.ADMIN, externalOperation.getUrn());
+
+        String auditMessage = String.format("{ enabled: %s, notificationsEnabled: %s }", externalOperation.isEnabled(), externalOperation.isNotificationsEnabled());
+        auditPublisher.publish(AuditConstants.EXTERNAL_OPERATION_EDITION, AuditPrincipalType.ADMIN, externalOperation.getUrn(), auditMessage);
         return ResponseEntity.ok(externalOperationMapper.toDto(externalOperation));
     }
 }

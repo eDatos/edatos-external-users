@@ -31,7 +31,7 @@ public class LoginServiceImpl implements LoginService {
 
         //@formatter:off
         ExternalUserEntity usuarioToAuthenticate = externalUserRepository.findOneByEmailIgnoreCaseAndEnabledTrue(login)
-            .filter(usuario -> SecurityUtils.passwordEncoderMatches(password, usuario.getPassword())).orElseThrow( () -> new EDatosException(ServiceExceptionType.LOGIN_FAILED));
+            .filter(usuario -> SecurityUtils.passwordEncoderMatches(password, usuario.getPassword())).orElseThrow( () -> new EDatosException(ServiceExceptionType.LOGIN_FAILED, login));
         //@formatter:on
 
         return usuarioToAuthenticate;

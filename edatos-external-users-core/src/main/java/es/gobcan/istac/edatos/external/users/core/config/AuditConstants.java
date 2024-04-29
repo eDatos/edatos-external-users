@@ -7,47 +7,37 @@ public final class AuditConstants {
     public static final String EVENT_SUBTYPE = "eventSubtype";
     public static final String PRINCIPAL_TYPE = "principalType";
 
-    public static final String USUARIO_CREACION = "USUARIO_CREACION";
-    public static final String USUARIO_EDICION = "USUARIO_EDICION";
-    public static final String USUARIO_DESACTIVACION = "USUARIO_DESACTIVACION";
-    public static final String USUARIO_ACTIVACION = "USUARIO_ACTIVACION";
+    public static final String EXT_USER_EDITION = "EXT_USER_EDITION";
+    public static final String EXT_USER_CONFIRM_REGISTRATION = "EXT_USER_CONFIRM_REGISTRATION";
+    public static final String EXT_USER_REGISTRATION = "EXT_USER_REGISTRATION";
+    public static final String EXT_USER_DELETION = "EXT_USER_DELETION";
+    public static final String EXT_USER_PASSWORD_RECOVER = "EXT_USER_PASSWORD_RECOVER";
+    public static final String EXT_USER_PASSWORD_CONFIRM = "EXT_USER_PASSWORD_CONFIRM";
+    public static final String EXT_USER_PASSWORD_EDITION = "EXT_USER_PASSWORD_EDITION";
+    public static final String EXT_USER_EMAIL_UPDATE = "EXT_USER_EMAIL_UPDATE";
+    public static final String EXT_USER_EMAIL_CONFIRM = "EXT_USER_EMAIL_CONFIRM";
+    public static final String EXT_USER_MIGRATION_CONFIRM = "EXT_USER_MIGRATION_CONFIRM";
+    public static final String EXT_USER_REGISTRATION_UNFINISHED_DELETION = "EXT_USER_REGISTRATION_UNFINISHED_DELETION";
 
-    public static final String EXT_USUARIO_CREACION = "EXT_USUARIO_CREACION";
-    public static final String EXT_USUARIO_EDICION = "EXT_USUARIO_EDICION";
-
-    public static final String EXT_USUARIO_DOWNLOAD_DOCUMENT = "EXT_USUARIO_DOWNLOAD_DOCUMENT";
-    public static final String EXT_USUARIO_DESACTIVACION = "EXT_USUARIO_DESACTIVACION";
-    public static final String EXT_USUARIO_ACTIVACION = "EXT_USUARIO_ACTIVACION";
-
-    public static final String FAMILY_CREATION = "FAMILY_CREATION";
-    public static final String FAMILY_EDITION = "FAMILY_EDITION";
-    public static final String FAMILY_DELETION = "FAMILY_DELETION";
-    public static final String FAMILY_INTERNALLY_PUBLISHED = "FAMILY_INTERNALLY_PUBLISHED";
-    public static final String FAMILY_EXTERNALLY_PUBLISHED = "FAMILY_EXTERNALLY_PUBLISHED";
-
-    public static final String OPERATION_CREATION = "OPERATION_CREATION";
-    public static final String OPERATION_EDITION = "OPERATION_EDITION";
-    public static final String OPERATION_DELETION = "OPERATION_DELETION";
-    public static final String OPERATION_INTERNALLY_PUBLISHED = "OPERATION_INTERNALLY_PUBLISHED";
-    public static final String OPERATION_EXTERNALLY_PUBLISHED = "OPERATION_EXTERNALLY_PUBLISHED";
-
-    public static final String NEED_CREATION = "NEED_CREATION";
-    public static final String NEED_EDITION = "NEED_EDITION";
-    public static final String NEED_DELETION = "NEED_DELETION";
+    public static final String EXT_USER_DOWNLOAD_DOCUMENT = "EXT_USER_DOWNLOAD_DOCUMENT";
 
     public static final String FILTER_CREATION = "FILTER_CREATION";
     public static final String FILTER_EDITION = "FILTER_EDITION";
     public static final String FILTER_DELETION = "FILTER_DELETION";
 
     public static final String FAVORITE_CREATION = "FAVORITE_CREATION";
-    public static final String FAVORITE_EDITION = "FAVORITE_EDITION";
     public static final String FAVORITE_DELETION = "FAVORITE_DELETION";
     public static final String FAVORITE_OPERATION_SUBTYPE = "FAVORITE_OPERATION_SUBTYPE";
     public static final String FAVORITE_CATEGORY_SUBTYPE = "FAVORITE_CATEGORY_SUBTYPE";
 
     public static final String EXTERNAL_OPERATION_EDITION = "EXTERNAL_OPERATION_EDITION";
 
+    public static final String CATEGORY_TREE_UPDATE = "CATEGORY_TREE_UPDATE";
+    public static final String CATEGORY_UPDATE = "CATEGORY_UPDATE";
+    public static final String CATEGORY_CREATION = "CATEGORY_CREATION";
     public static final String CATEGORY_DELETE = "CATEGORY_DELETE";
+
+    public static final String DATA_PROTECTION_POLICY_EDITION = "DATA_PROTECTION_POLICY_EDITION";
 
     private AuditConstants() {
     }

@@ -26,7 +26,7 @@ public interface ExternalUserRepository extends JpaRepository<ExternalUserEntity
 
     Optional<ExternalUserEntity> findOneByEmailIgnoreCaseAndEnabledTrue(String email);
 
-    void deleteAllByEnabledFalseAndPasswordIsNotAndCreatedDateIsBefore(String migrationPassword,Instant date);
+    List<ExternalUserEntity> deleteAllByEnabledFalseAndPasswordIsNotAndCreatedDateIsBefore(String migrationPassword,Instant date);
 
     Boolean existsByEmailIgnoreCase(String email);
 

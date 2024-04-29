@@ -2,6 +2,9 @@ package es.gobcan.istac.edatos.external.users.rest.internal.resources;
 
 import java.util.Optional;
 
+import es.gobcan.istac.edatos.external.users.core.config.AuditConstants;
+import es.gobcan.istac.edatos.external.users.core.config.audit.AuditEventPublisher;
+import es.gobcan.istac.edatos.external.users.core.domain.enumeration.AuditPrincipalType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,10 +29,12 @@ public class DataProtectionPolicyResource extends AbstractResource {
 
     private final DataProtectionPolicyService dataProtectionPolicyService;
     private final DataProtectionPolicyMapper dataProtectionPolicyMapper;
+    private final AuditEventPublisher auditPublisher;
 
-    public DataProtectionPolicyResource(DataProtectionPolicyService dataProtectionPolicyService, DataProtectionPolicyMapper dataProtectionPolicyMapper) {
+    public DataProtectionPolicyResource(DataProtectionPolicyService dataProtectionPolicyService, DataProtectionPolicyMapper dataProtectionPolicyMapper, AuditEventPublisher auditPublisher) {
         this.dataProtectionPolicyService = dataProtectionPolicyService;
         this.dataProtectionPolicyMapper = dataProtectionPolicyMapper;
+        this.auditPublisher = auditPublisher;
     }
 
     @GetMapping
@@ -47,6 +52,7 @@ public class DataProtectionPolicyResource extends AbstractResource {
     public ResponseEntity<DataProtectionPolicyDto> updateDataProtectionPolicy(@RequestBody DataProtectionPolicyDto dataProtectionPolicy) {
         DataProtectionPolicyEntity dataProtectionPolicyEntity = dataProtectionPolicyService.update(dataProtectionPolicyMapper.toEntity(dataProtectionPolicy));
         DataProtectionPolicyDto dataProtectionPolicyDto = dataProtectionPolicyMapper.toDto(dataProtectionPolicyEntity);
+        auditPublisher.publish(AuditConstants.DATA_PROTECTION_POLICY_EDITION, AuditPrincipalType.ADMIN);
         return ResponseEntity.ok().body(dataProtectionPolicyDto);
     }
 }
