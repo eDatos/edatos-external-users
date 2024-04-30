@@ -20,7 +20,7 @@
       "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
       "account": {
         "login": "Iniciar sessió",
-        "logout": "Tencar la sessió",
+        "logout": "Tancar la sessió",
         "main": "Compte",
         "myAccount": "El meu compte",
         "myFolder": "La meva carpeta",

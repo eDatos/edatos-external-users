@@ -591,7 +591,7 @@
         "menu": {
             "account": {
                 "login": "Iniciar sessió",
-                "logout": "Tencar la sessió",
+                "logout": "Tancar la sessió",
                 "main": "Compte",
                 "myAccount": "El meu compte",
                 "sessions": "Sessions"
