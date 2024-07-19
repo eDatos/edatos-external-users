@@ -46,7 +46,7 @@ public class DefaultController {
         log.debug("DefaultController: Contextpath = {}  ServletPath = {}", request.getContextPath(), request.getServletPath());
         Map<String, Object> model = new HashMap<>();
         model.put("faviconUrl", this.faviconUrl);
-        model.put("headerUrl", htmlService.getHeaderUrl());
+        model.put("headerUrl", htmlService.getHeaderUrl(false));
         model.put("footerUrl", metadataService.retrieveAppStyleFooterUrl());
 
         UriBuilder urlBuilder = UriBuilder.fromUri(metadataProperties.getCaptchaUrl());

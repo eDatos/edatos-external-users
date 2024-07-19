@@ -19,11 +19,12 @@ public class HtmlServiceImpl implements HtmlService {
     private MetadataConfigurationService metadataService;
 
     @Override
-    public String getHeaderUrl() {
+    public String getHeaderUrl(boolean isInternal) {
         Locale locale = LocaleContext.getLocale();
         String navbarUrl = metadataService.retrieveAppStyleHeaderUrl();
         String appName = messageSource.getMessage("global.title", null, locale);
+        String appId = "external-users-" + (isInternal ? "INTERNAL" : "EXTERNAL");
 
-        return String.format("%s?appName=%s", navbarUrl, appName);
+        return String.format("%s?appName=%s&appId=%s", navbarUrl, appName, appId);
     }
 }
