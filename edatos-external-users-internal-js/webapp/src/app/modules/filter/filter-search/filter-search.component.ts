@@ -31,7 +31,7 @@ export class FilterSearchComponent implements OnInit, OnDestroy {
             })
         );
 
-        this.externalOperationService.find().subscribe((response) => {
+        this.externalOperationService.find({size: 10000}).subscribe((response) => {
             this.externalOperations = response.body.sort((operation1, operation2) => {
                 return operation1.code.toLowerCase() < operation2.code.toLowerCase() ? -1 : 1;
             });
