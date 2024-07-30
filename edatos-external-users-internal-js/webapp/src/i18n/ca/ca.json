@@ -568,6 +568,7 @@
         "search": {
             "filterExternalUserLabel": "Nom d'usuari extern",
             "filterNameLabel": "Nom de consulta personalitzada",
+            "filterExternalOperationLabel": "Operació estadística",
             "includeFromDeactivatedUsers": "Consultes d'usuaris desactivats",
             "name": "Buscar consultes personalitzades",
             "placeholder": "",

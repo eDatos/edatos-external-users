@@ -50,6 +50,7 @@ public class FilterCriteriaProcessor extends AbstractCriteriaProcessor {
         LAST_MODIFIED_DATE,
         LAST_ACCESS_DATE,
         NOTES,
+        EXTERNAL_OPERATIONS
     }
 
     public FilterCriteriaProcessor() {
@@ -155,6 +156,11 @@ public class FilterCriteriaProcessor extends AbstractCriteriaProcessor {
                 .withQueryProperty(QueryProperty.NOTES).sortable()
                 .withEntityProperty(ENTITY_FIELD_NOTES)
                 .build());
+        registerRestrictionProcessor(RestrictionProcessorBuilder
+                .longRestrictionProcessor()
+                .withQueryProperty(QueryProperty.EXTERNAL_OPERATIONS)
+                .withCriterionConverter(new SqlCriterionBuilder())
+                .build());
         // @formatter:on
     }
 
@@ -165,8 +171,23 @@ public class FilterCriteriaProcessor extends AbstractCriteriaProcessor {
             if (QueryProperty.USER.name().equalsIgnoreCase(property.getLeftExpression())) {
                 return buildCriterion(property.getRightValue());
             }
+            if (QueryProperty.EXTERNAL_OPERATIONS.name().equalsIgnoreCase(property.getLeftExpression())) {
+                return buildExternalOperationsCriterion(property);
+            }
             throw new CustomParameterizedExceptionBuilder().message(String.format("Parámetro de búsqueda no soportado: '%s'", property))
                     .code(ErrorConstants.QUERY_NO_SOPORTADA, property.getLeftExpression(), property.getOperationType().name()).build();
+        }
+
+        private Criterion buildExternalOperationsCriterion(QueryPropertyRestriction property) {
+            // @formatter:off
+            String sql = "{alias}.id IN "
+                       + "(SELECT filter.id "
+                       + "FROM tb_filters filter "
+                       + "         JOIN tb_external_items ext_item on filter.external_operation_urn = ext_item.urn "
+                       + "WHERE ext_item.id IN (" + String.join(",", property.getRightExpressions()) + ")"
+                       + ")";
+            // @formatter:on
+            return Restrictions.sqlRestriction(sql);
         }
 
         private Criterion buildCriterion(String value) {
