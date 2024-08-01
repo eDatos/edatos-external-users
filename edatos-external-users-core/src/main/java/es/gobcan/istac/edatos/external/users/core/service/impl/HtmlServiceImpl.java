@@ -23,7 +23,8 @@ public class HtmlServiceImpl implements HtmlService {
         Locale locale = LocaleContext.getLocale();
         String navbarUrl = metadataService.retrieveAppStyleHeaderUrl();
         String appName = messageSource.getMessage("global.title", null, locale);
+        String appId = "external-users-EXTERNAL";
 
-        return String.format("%s?appName=%s", navbarUrl, appName);
+        return String.format("%s?appName=%s&appId=%s", navbarUrl, appName, appId);
     }
 }
