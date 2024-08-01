@@ -568,6 +568,7 @@
         "search": {
             "filterExternalUserLabel": "External user name",
             "filterNameLabel": "Custom query name",
+            "filterExternalOperationLabel": "Statistical operation",
             "includeFromDeactivatedUsers": "Include disabled user custom queries",
             "name": "Search custom queries",
             "placeholder": "Enter user name or email",

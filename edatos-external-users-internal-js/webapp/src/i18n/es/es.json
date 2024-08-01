@@ -568,6 +568,7 @@
         "search": {
             "filterExternalUserLabel": "Nombre de usuario externo",
             "filterNameLabel": "Nombre de consulta personalizada",
+            "filterExternalOperationLabel": "Operación estadística",
             "includeFromDeactivatedUsers": "Consultas de usuarios desactivados",
             "name": "Buscar consultas personalizadas",
             "placeholder": "",
