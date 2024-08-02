@@ -9,6 +9,7 @@ import { ExternalOperationService } from "@app/shared/service";
 @Component({
     selector: 'app-filter-search',
     templateUrl: 'filter-search.component.html',
+    styleUrls: ['filter-search.component.scss']
 })
 export class FilterSearchComponent implements OnInit, OnDestroy {
     @Input()
