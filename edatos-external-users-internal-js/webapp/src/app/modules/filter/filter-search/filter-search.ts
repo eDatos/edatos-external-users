@@ -38,7 +38,7 @@ export class FilterFilter extends BaseEntityFilter implements EntityFilter {
             criterias.push(`LAST_ACCESS_DATE EQ '%${this.escapeSingleQuotes(this.lastAccessDate.toString())}%'`);
         }
         if (this.externalOperations?.length > 0) {
-            criterias.push(`(${this.externalOperations.map(operation => `EXTERNAL_OPERATIONS EQ '${operation}'`).join(" OR ")})`);
+            criterias.push(`EXTERNAL_OPERATIONS IN ('${this.externalOperations.join("','")}')`);
         }
         return criterias;
     }
