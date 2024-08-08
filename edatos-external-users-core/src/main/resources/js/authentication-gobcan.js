@@ -1,11 +1,11 @@
 var captchaGeneratedId = null;
 
-var showCaptcha = function (options) {	
+var showCaptcha = function (options) {
 	if(isCaptchaEnabled()) {
 		captchaGeneratedId = createCaptchaSessionKey();
 		var imgUrl = new URL(/*[[${captchaPictureUrl}]]*/ "");
 		imgUrl.searchParams.set('sessionKey', captchaGeneratedId);
-		
+
 		if(!options.captchaEl && options.captchaId) {
 			options.captchaEl = document.getElementById(options.captchaId);
 		}
@@ -20,20 +20,43 @@ var showCaptcha = function (options) {
 		options.captchaEl.querySelector("#captcha-container img").className = options.imgClasses ? options.imgClasses : "captcha-img";
 		options.captchaEl.querySelector("#captcha-container input").className = options.inputClasses ? options.inputClasses : "captcha-input";
 		var labelEl = options.captchaEl.querySelector("#captcha-container label");
-		labelEl.innerText = options.labelText ? options.labelText : "Resultado de la operación";
 		labelEl.className = options.labelClasses ? options.labelClasses : "captcha-label";
-	}
+
+        if (!options.labelText) {
+            var chosenLocale = _getCaptchaChosenLocale() || (/*[[${defaultLanguage}]]*/ "es");
+            var labelTranslations = {
+                es: "Escriba el resultado de la operación",
+                en: "Enter the result of the operation",
+                ca: "Escriviu el resultat de l'operació"
+            };
+            options.labelText = labelTranslations[chosenLocale] || labelTranslations[(/*[[${defaultLanguage}]]*/ "es")];
+        }
+        labelEl.innerText = options.labelText;
+    }
 };
 
-var showCaptchaWithButton = function (request, url, options) {	
+var _getCaptchaChosenLocale = function () {
+    return document.cookie.replace(new RegExp("(?:(?:^|.*;\\s*)" + (/*[[${internationalizationCookieId}]]*/ "chosenLocale") + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1");
+}
+
+var showCaptchaWithButton = function (request, url, options) {
     if(isCaptchaEnabled()) {
 		return new Promise((resolve, reject) => {
 			showCaptcha(options);
 			options.withButton = true;
-	
+
 			var $button = document.createElement("button");
 			$button.className = options.buttonClasses ? options.buttonClasses : "captcha-button";
-			$button.textContent = options.buttonText ? options.buttonText : "Enviar";
+
+            if (!options.buttonText) {
+                var chosenLocale = _getCaptchaChosenLocale() || (/*[[${defaultLanguage}]]*/ "es");
+                var buttonTranslations = {
+                    es: "Enviar", en: "Send", ca: "Enviar"
+                };
+                options.buttonText = buttonTranslations[chosenLocale] || buttonTranslations[(/*[[${defaultLanguage}]]*/ "es")];
+            }
+			$button.textContent = options.buttonText;
+
 			options.captchaEl.querySelector("#captcha-container").appendChild($button);
 	        $button.addEventListener("click", function (e) {
 	            e.preventDefault();
@@ -68,8 +91,8 @@ var sendRequestWithCaptcha = function(request, baseUrl, options) {
     var url = new URL(baseUrl);
 	var captchaInput = options.captchaEl && options.captchaEl.querySelector("#captcha-container input");
 	var userValue = captchaInput && captchaInput.value;
-	if(isCaptchaEnabled() && userValue && captchaGeneratedId) {		
-	    url.searchParams.set('userValue', userValue);			
+	if(isCaptchaEnabled() && userValue && captchaGeneratedId) {
+	    url.searchParams.set('userValue', userValue);
 	    url.searchParams.set('sessionKey', captchaGeneratedId);
 	}
     return request(url.href);
@@ -84,13 +107,13 @@ var requestWithCaptcha = function(request, url, options) {
 			removeCaptcha(options);
             resolve(response);
         }).catch(function (error) {
-			if(isCaptchaEnabled()) {	
+			if(isCaptchaEnabled()) {
 				removeCaptcha(options);
 				if(options.withButton) {
 					showCaptchaWithButton(request, url, options).then(val => resolve(val)).catch(error => reject(error));
 				} else {
 					showCaptcha(options);
-					reject(error);				
+					reject(error);
 				}
 			} else {
 				reject(error);

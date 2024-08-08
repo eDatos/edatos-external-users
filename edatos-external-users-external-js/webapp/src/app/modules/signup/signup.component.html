@@ -261,7 +261,7 @@
                 </div>
                 <div class='form-group'>
                     <div class='row divider'>
-                        <div class='form-group col-md-4 external-form'>
+                        <div class='form-group external-form' [class.col-md-12]="isCaptchaProviderRecaptcha" [class.col-md-4]="!isCaptchaProviderRecaptcha">
                             <div #captchaContainer class='form-row'></div>
                         </div>
                     </div>
