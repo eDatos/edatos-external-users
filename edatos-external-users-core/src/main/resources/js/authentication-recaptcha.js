@@ -30,7 +30,7 @@ window.Edatos = window.Edatos || {};
 
     var removeCaptcha = function(options) {
         if (options.captchaEl) {
-            var captchaContainerEl = options.captchaEl.querySelector("#captcha-container");
+            var captchaContainerEl = options.captchaEl.getElementById("captcha-container");
             if (captchaContainerEl) {
                 options.captchaEl.removeChild(captchaContainerEl);
             }
@@ -84,7 +84,7 @@ window.Edatos = window.Edatos || {};
                     }
                     $button.textContent = options.buttonText;
 
-                    options.captchaEl.querySelector("#captcha-container").appendChild($button);
+                    options.captchaEl.getElementById("captcha-container").appendChild($button);
                     $button.addEventListener("click", function (e) {
                         e.preventDefault();
                         Edatos.captcha.requestWithCaptcha(request, url, options).then(val => resolve(val)).catch(error => reject(error));
