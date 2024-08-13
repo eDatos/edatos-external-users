@@ -106,10 +106,6 @@ export class SubNavbarComponent implements OnInit {
         return this.translateService.instant('global.menu.account.myAccount.description');
     }
 
-    public dropdownReverseTitleSection(): string {
-        return this.translateService.instant('global.menu.account.myAccount.title');
-    }
-
     logout() {
         this.isNavbarCollapsed = true;
         this.loginService.logout().then(() => this.router.navigate(['login']));
