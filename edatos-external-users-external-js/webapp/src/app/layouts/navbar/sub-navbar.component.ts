@@ -94,16 +94,20 @@ export class SubNavbarComponent implements OnInit {
 
     public titleTranslate(): string {
         if (this.folderSection) {
-            return this.translateService.instant('global.menu.account.myFolder');
+            return this.translateService.instant('global.menu.account.myFolder.title');
         }
-        return this.translateService.instant('global.menu.account.myAccount');
+        return this.translateService.instant('global.menu.account.myAccount.title');
+    }
+
+    public contentTranslate(): string {
+        if (this.folderSection) {
+            return this.translateService.instant('global.menu.account.myFolder.description');
+        }
+        return this.translateService.instant('global.menu.account.myAccount.description');
     }
 
     public dropdownReverseTitleSection(): string {
-        if (this.folderSection) {
-            return this.translateService.instant('global.menu.account.myAccount');
-        }
-        return this.translateService.instant('global.menu.account.myFolder');
+        return this.translateService.instant('global.menu.account.myAccount.title');
     }
 
     logout() {

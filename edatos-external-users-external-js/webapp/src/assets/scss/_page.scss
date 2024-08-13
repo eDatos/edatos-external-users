@@ -88,6 +88,7 @@ div.page.content {
 
   .page-header {
     z-index: $page-header-zindex;
+    color: $color-black-100;
 
     &.page-header-fixed {
       position: fixed;
@@ -107,6 +108,7 @@ div.page.content {
     .page-header-content {
       margin: 30px 0;
       padding: 29px 0 0 20px;
+      font-weight: 300;
     }
 
     .page-header-btns {

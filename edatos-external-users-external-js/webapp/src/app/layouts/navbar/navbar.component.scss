@@ -9,15 +9,8 @@ div.page {
   position: relative;
 }
 
-.page.sub-navbar {
-  min-height: 175px;
-}
-
 .navbar {
-  button.text-icon-button:first-child {
-    margin-right: 0;
-  }
-
+  
   div.navbar-collapse {
     height: 42px;
     padding-bottom: 10px;
@@ -58,11 +51,6 @@ div.page {
 
 div.general-buttons.row {
   padding-left: 20px;
-}
-
-div.account-section-buttons {
-  z-index: 1;
-  position: absolute;
 }
 
 .nav-item.active {

@@ -4,20 +4,18 @@
             <div class='page-header-top'>
                 <h1 class='page-header-title'>{{titleTranslate()}}</h1>
             </div>
-            <p class='page-header-content'></p>
+            <p class='page-header-content'>{{contentTranslate()}}</p>
             <div class='general-buttons row account-section-buttons'>
                 <ng-container *ngIf='accountSection'>
-                    <div class='row justify-content-start ml-auto'>
-                        <button type='button' class='text-icon-button btn-thin-default' (click)='download($event)'>
-                            <span
-                                [ngClass]="downloadingPdf ? 'fa-thin fa-spinner fa-spin' : 'fa-thin  fa-download'"></span>
-                            <span>{{ 'account.download.myInformation' | translate | uppercase }}</span>
-                        </button>
-                        <button type='button' class='text-icon-button btn-thin-cancel' (click)='openDeleteDialog()'>
-                            <span class='fa-thin fa-trash-can'></span>
-                            <span>{{ 'entity.action.unsubscribe' | translate | uppercase }}</span>
-                        </button>
-                    </div>
+                    <button type='button' class='text-icon-button btn-thin-default' (click)='download($event)'>
+                        <span
+                            [ngClass]="downloadingPdf ? 'fa-thin fa-spinner fa-spin' : 'fa-thin  fa-download'"></span>
+                        <span>{{ 'account.download.myInformation' | translate | uppercase }}</span>
+                    </button>
+                    <button type='button' class='text-icon-button btn-thin-cancel' (click)='openDeleteDialog()'>
+                        <span class='fa-thin fa-trash-can'></span>
+                        <span>{{ 'entity.action.unsubscribe' | translate | uppercase }}</span>
+                    </button>
                 </ng-container>
             </div>
         </div>
@@ -38,7 +36,7 @@
                             </button>
                         </div>
                         <ul class='dropdown-menu dropdown-menu-right' ngbDropdownMenu>
-                            <li>
+                            <li *ngIf="folderSection">
                                 <a class='dropdown-item dialog-btn-pointer' (click)='navigateToSection()'
                                    routerLinkActive='active'>
                                     <i class='fa-thin fa-user' aria-hidden='true'></i>

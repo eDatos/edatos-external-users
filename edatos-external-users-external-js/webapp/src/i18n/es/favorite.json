@@ -11,9 +11,9 @@
     },
     "home": {
       "createLabel": "Crear favorito",
-      "title": "Suscripciones temáticas"
+      "title": "Mis suscripciones"
     },
-    "name": "Suscripciones temáticas"
+    "name": "Mis suscripciones"
   },
   "structuralResourcesTree": {
     "noRecordsFound": "No se ha encontrado ningún tema ni operación"

@@ -11,9 +11,9 @@
     },
     "home": {
       "createLabel": "Crear favorit",
-      "title": "Subscripcions temàtiques"
+      "title": "Les meves subscripcions"
     },
-    "name": "Subscripcions temàtiques"
+    "name": "Les meves subscripcions"
   },
   "structuralResourcesTree": {
     "noRecordsFound": "No s'ha trobat cap tema ni operació"
