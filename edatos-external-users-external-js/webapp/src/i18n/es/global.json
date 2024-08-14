@@ -16,8 +16,14 @@
         "sessions": "Sesiones",
         "login": "Iniciar sesión",
         "logout": "Cerrar la sesión",
-        "myAccount": "Mi cuenta",
-        "myFolder": "Mi carpeta",
+        "myAccount": {
+          "title": "Mi cuenta",
+          "description": "En este espacio puedes guardar tus datos personales, preferencias, configuraciones y elementos favoritos para una experiencia de navegación adaptada a tus intereses. Además, recibir notificaciones para mantenerte actualizado de todas las novedades del ISTAC a través de nuestra plataforma y administrar tu información personal de forma segura, ya que nos preocupamos por tu privacidad y estamos comprometidos a proteger tus datos en todo momento."
+        },
+        "myFolder": {
+          "title": "Mi carpeta",
+          "description": "Tu espacio personalizado en el que puedes acceder a todo el contenido que hayas guardado y gestionar tus suscripciones a tu gusto. Aquí encontrarás tus tablas guardadas y cualquier otro contenido de nuestra web que hayas escogido para acceder a él en el futuro."
+        },
         "notifications": "Notificaciones"
       },
       "admin": {
