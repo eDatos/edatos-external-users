@@ -11,7 +11,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import es.gobcan.istac.edatos.external.users.core.domain.ExternalOperationEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.FilterEntity;
 
@@ -32,7 +31,4 @@ public interface FilterRepository extends JpaRepository<FilterEntity, Long> {
 
     @Query("select new org.apache.commons.lang3.tuple.ImmutablePair(e.externalOperation.urn, count(e)) from FilterEntity e where e.externalOperation is not null group by e.externalOperation.urn")
     List<ImmutablePair<String, Long>> getOperationFilters();
-
-    @Query("select e from FilterEntity e where e.externalOperation in ?1")
-    List<FilterEntity> findAllByExternalOperationIn(List<ExternalOperationEntity> filtersExternalOperations);
 }

@@ -1,9 +1,11 @@
 package es.gobcan.istac.edatos.external.users.core.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import es.gobcan.istac.edatos.external.users.core.domain.ExternalItemEntity;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
@@ -21,6 +23,12 @@ import es.gobcan.istac.edatos.external.users.core.security.SecurityUtils;
 import es.gobcan.istac.edatos.external.users.core.service.FilterService;
 import es.gobcan.istac.edatos.external.users.core.util.QueryUtil;
 
+import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
 @Service
 public class FilterServiceImpl implements FilterService {
 
@@ -28,11 +36,13 @@ public class FilterServiceImpl implements FilterService {
     private final ExternalUserRepository externalUserRepository;
 
     private final QueryUtil queryUtil;
+    private final EntityManager entityManager;
 
-    public FilterServiceImpl(FilterRepository filterRepository, ExternalUserRepository externalUserRepository, QueryUtil queryUtil) {
+    public FilterServiceImpl(FilterRepository filterRepository, ExternalUserRepository externalUserRepository, QueryUtil queryUtil, EntityManager entityManager) {
         this.filterRepository = filterRepository;
         this.externalUserRepository = externalUserRepository;
         this.queryUtil = queryUtil;
+        this.entityManager = entityManager;
     }
 
     @Override
@@ -92,7 +102,9 @@ public class FilterServiceImpl implements FilterService {
 
     @Override
     public List<FilterEntity> findByExternalOperation(List<ExternalOperationEntity> externalOperations) {
-        return filterRepository.findAllByExternalOperationIn(externalOperations);
+        DetachedCriteria criteria = queryUtil.queryToFilterCriteria("", null);
+        criteria.add(Restrictions.in("externalOperation", externalOperations));
+        return filterRepository.findAll(criteria, null).getContent();
     }
 
     @Override
