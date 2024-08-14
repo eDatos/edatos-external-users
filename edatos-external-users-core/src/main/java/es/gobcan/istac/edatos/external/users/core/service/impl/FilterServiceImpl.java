@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import es.gobcan.istac.edatos.external.users.core.domain.ExternalOperationEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.FilterEntity;
 import es.gobcan.istac.edatos.external.users.core.repository.ExternalUserRepository;
@@ -87,6 +88,11 @@ public class FilterServiceImpl implements FilterService {
     @Override
     public List<FilterEntity> findByPermalink(String permalink) {
         return filterRepository.findByPermalink(permalink);
+    }
+
+    @Override
+    public List<FilterEntity> findByExternalOperation(List<ExternalOperationEntity> externalOperations) {
+        return filterRepository.findAllByExternalOperationIn(externalOperations);
     }
 
     @Override
