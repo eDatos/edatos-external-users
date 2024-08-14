@@ -66,6 +66,7 @@
                                     (onUnselect)='onUnselectFiltersExternalOperations($event)'
                                     (onSelect)='onSelectFiltersExternalOperations($event)'
                                     [suggestions]='allowedFiltersExternalOperations'
+                                    [selectedSuggestions]="selectedFiltersExternalOperations"
                                     [properties]="['code']"
                                     [multiple]='true'
                                 >
