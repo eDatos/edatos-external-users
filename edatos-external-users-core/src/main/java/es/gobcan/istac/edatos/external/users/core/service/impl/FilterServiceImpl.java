@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import es.gobcan.istac.edatos.external.users.core.domain.ExternalItemEntity;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
@@ -24,10 +23,6 @@ import es.gobcan.istac.edatos.external.users.core.service.FilterService;
 import es.gobcan.istac.edatos.external.users.core.util.QueryUtil;
 
 import javax.persistence.EntityManager;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 
 @Service
 public class FilterServiceImpl implements FilterService {
