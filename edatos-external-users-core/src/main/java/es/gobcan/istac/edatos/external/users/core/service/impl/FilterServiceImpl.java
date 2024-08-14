@@ -102,9 +102,12 @@ public class FilterServiceImpl implements FilterService {
 
     @Override
     public List<FilterEntity> findByExternalOperation(List<ExternalOperationEntity> externalOperations) {
+        if (externalOperations == null || externalOperations.isEmpty()) {
+            return new ArrayList<>();
+        }
         DetachedCriteria criteria = queryUtil.queryToFilterCriteria("", null);
         criteria.add(Restrictions.in("externalOperation", externalOperations));
-        return filterRepository.findAll(criteria, null).getContent();
+        return filterRepository.findAll(criteria);
     }
 
     @Override
