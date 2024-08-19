@@ -1,7 +1,7 @@
 declare var requestWithCaptcha: <T>(
-    request: (url: String) => Promise<T>, 
+    request: (url: String) => Promise<T>,
     url: string,
-    options: { 
+    options: {
         captchaEl?: any,
         captchaId?: string,
         imgClasses?: string,
@@ -9,12 +9,12 @@ declare var requestWithCaptcha: <T>(
         buttonClasses?: string,
         labelClasses?: string,
         labelText?: string,
-        buttonText?: string, 
+        buttonText?: string,
         action?: string
     }
 ) => Promise<T>;
 
-declare var showCaptcha: (options: { 
+declare var showCaptcha: (options: {
     captchaEl?: any,
     captchaId?: string,
     imgClasses?: string,
@@ -25,3 +25,10 @@ declare var showCaptcha: (options: {
     buttonText?: string,
     action?: string
 }) => void;
+
+declare var Edatos: {
+    UserManagement: {
+        refreshAuthenticationState: () => void,
+        addOnLogoutListener: (callback: () => void) => void
+    }
+}
