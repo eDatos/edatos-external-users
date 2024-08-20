@@ -7,14 +7,12 @@ import { createRequestOption } from 'arte-ng/utils';
 import { convert, ResponseWrapper } from '@app/core/utils/response-utils';
 import { CaptchaService } from '@app/shared/service/captcha/captcha.service';
 import * as FileSaver from 'file-saver';
-import { Router } from "@angular/router";
-import { SharedRefreshService } from "@app/shared/service";
 
 @Injectable()
 export class AccountUserService {
     private resourceUrl = 'api/account';
 
-    constructor(private http: HttpClient, private captchaService: CaptchaService, private router: Router, private sharedService: SharedRefreshService) {
+    constructor(private http: HttpClient, private captchaService: CaptchaService) {
     }
 
     create(el: ElementRef | string, user: User, userRegistrationToken?: string): Promise<User> {
@@ -36,11 +34,6 @@ export class AccountUserService {
     login(el: ElementRef | string, credentials: Credentials): Promise<Credentials> {
         return this.captchaService.postRequestWithCaptcha(el, User, `api/login`, credentials, 'login').then((user) => {
             Edatos.UserManagement.refreshAuthenticationState();
-            Edatos.UserManagement.addOnLogoutListener(() => {
-                this.router.navigate(['login']);
-                this.sharedService.triggerRefresh();
-                this.sharedService.triggerRefreshForceValue(false);
-            });
             return user;
         });
     }
