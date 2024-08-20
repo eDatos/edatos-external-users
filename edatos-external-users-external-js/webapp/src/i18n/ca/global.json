@@ -24,7 +24,7 @@
         "main": "Compte",
         "myAccount": {
           "title": "El meu compte",
-          "description": "En aquest espai podeu desar les vostres dades personals, preferències, configuracions i elements preferits per a una experiència de navegació adaptada als vostres interessos. A més, rebre notificacions per mantenir-te actualitzat de totes les novetats de l'ISTAC a través de la nostra plataforma i administrar la teva informació personal de forma segura, ja que ens preocupem per la teva privadesa i estem compromesos a protegir les teves dades en tot moment."
+          "description": "En aquest espai podeu desar les vostres dades personals, preferències, configuracions i elements preferits per a una experiència de navegació adaptada als vostres interessos. A més, rebre notificacions per mantenir-te actualitzat de totes les novetats a través de la nostra plataforma i administrar la teva informació personal de forma segura, ja que ens preocupem per la teva privadesa i estem compromesos a protegir les teves dades en tot moment."
         },
         "myFolder": {
           "title": "La meva carpeta",
