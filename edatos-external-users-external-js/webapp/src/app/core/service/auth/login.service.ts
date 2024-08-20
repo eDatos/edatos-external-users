@@ -8,7 +8,6 @@ export class LoginService {
 
     logout() {
         return this.http.post<any>(`api/account/logout`, undefined).toPromise().finally(() => {
-            Edatos.UserManagement.refreshAuthenticationState();
             this.authServerProvider
                 .logout()
                 .toPromise()
