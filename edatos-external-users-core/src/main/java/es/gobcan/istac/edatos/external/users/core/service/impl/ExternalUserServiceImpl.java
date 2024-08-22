@@ -271,6 +271,10 @@ public class ExternalUserServiceImpl implements ExternalUserService {
             criterion.add(Restrictions.in("favorites.id", favorites));
         }
 
+        if (criterion.isEmpty()) {
+            return new HashSet<>();
+        }
+
         criteria.add(Restrictions.and(
             Restrictions.or(criterion.toArray(new Criterion[0])),
             Restrictions.eq("enabled", true),
