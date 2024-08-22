@@ -4,14 +4,19 @@ import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
 import org.json.JSONObject;
 import org.siemac.edatos.core.common.exception.EDatosException;
 import org.springframework.data.domain.Page;
@@ -24,7 +29,6 @@ import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
 import es.gobcan.istac.edatos.external.users.core.errors.ServiceExceptionType;
 import es.gobcan.istac.edatos.external.users.core.repository.DisabledTokenRepository;
 import es.gobcan.istac.edatos.external.users.core.repository.ExternalUserRepository;
-import es.gobcan.istac.edatos.external.users.core.repository.FavoriteRepository;
 import es.gobcan.istac.edatos.external.users.core.repository.FilterRepository;
 import es.gobcan.istac.edatos.external.users.core.security.SecurityUtils;
 import es.gobcan.istac.edatos.external.users.core.service.ExternalUserService;
@@ -47,16 +51,14 @@ public class ExternalUserServiceImpl implements ExternalUserService {
     private final QueryUtil queryUtil;
     private final DisabledTokenRepository disabledTokenRepository;
     private final ExternalUserValidator externalUserValidator;
-    private final FavoriteRepository favoriteRepository;
 
     public ExternalUserServiceImpl(ExternalUserRepository externalUserRepository, FilterRepository filterRepository, QueryUtil queryUtil, DisabledTokenRepository disabledTokenRepository,
-            ExternalUserValidator externalUserValidator, FavoriteRepository favoriteRepository) {
+            ExternalUserValidator externalUserValidator) {
         this.externalUserRepository = externalUserRepository;
         this.filterRepository = filterRepository;
         this.queryUtil = queryUtil;
         this.disabledTokenRepository = disabledTokenRepository;
         this.externalUserValidator = externalUserValidator;
-        this.favoriteRepository = favoriteRepository;
     }
 
     @Override
@@ -128,6 +130,7 @@ public class ExternalUserServiceImpl implements ExternalUserService {
     public List<ExternalUserEntity> findAllReceivers() {
         return externalUserRepository.findAllByEnabled(true);
     }
+
     private DetachedCriteria buildExternalUserCriteria(Pageable pageable, Boolean includeDeleted, String query) {
         StringBuilder queryBuilder = new StringBuilder();
         if (StringUtils.isNotBlank(query)) {
@@ -247,5 +250,34 @@ public class ExternalUserServiceImpl implements ExternalUserService {
         user.setEnabled(true);
         user.setRegistrationToken(null);
         return externalUserRepository.saveAndFlush(user);
+    }
+
+
+    @Override
+    public Set<ExternalUserEntity> findByEmailOrFavoritesOrFilterOperationIn(List<String> emails, List<Long> favorites, List<Long> filtersExternalOperations) {
+        DetachedCriteria criteria = queryUtil.queryToUserExternalUserCriteria(null, "");
+        criteria.createAlias("filters", "filters");
+        criteria.createAlias("favorites", "favorites");
+        criteria.createAlias("filters.externalOperation", "filtersExternalOperation");
+
+        List<Criterion> criterion = new ArrayList<>();
+        if (emails != null && !emails.isEmpty()) {
+            criterion.add(Restrictions.in("email", emails));
+        }
+        if (filtersExternalOperations != null && !filtersExternalOperations.isEmpty()) {
+            criterion.add(Restrictions.in("filtersExternalOperation.id", filtersExternalOperations));
+        }
+        if (favorites != null && !favorites.isEmpty()) {
+            criterion.add(Restrictions.in("favorites.id", favorites));
+        }
+
+        criteria.add(Restrictions.and(
+            Restrictions.or(criterion.toArray(new Criterion[0])),
+            Restrictions.eq("enabled", true),
+            Restrictions.eq("emailNotificationsEnabled", true)
+        ));
+
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+        return new HashSet<>(externalUserRepository.findAll(criteria));
     }
 }

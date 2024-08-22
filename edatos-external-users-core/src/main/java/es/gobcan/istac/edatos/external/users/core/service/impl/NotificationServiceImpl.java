@@ -50,7 +50,6 @@ import es.gobcan.istac.edatos.external.users.core.domain.ExternalDatasetEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalOperationEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.FavoriteEntity;
-import es.gobcan.istac.edatos.external.users.core.domain.FilterEntity;
 import es.gobcan.istac.edatos.external.users.core.i18n.LocaleContext;
 import es.gobcan.istac.edatos.external.users.core.service.CategoryService;
 import es.gobcan.istac.edatos.external.users.core.service.DataProtectionPolicyService;
@@ -219,12 +218,13 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public HashMap<String, Receivers> createReceiversGroupedByLanguage(List<String> emails, List<Long> favoritesCategories, List<Long> favoritesExternalOperations, List<Long> filtersExternalOperations) {
-        Set<ExternalUserEntity> allReceivers = new HashSet<>();
-        allReceivers.addAll(getUsersByEmail(emails));
-        allReceivers.addAll(getUsersByFavorites(favoritesCategories, favoritesExternalOperations));
-        allReceivers.addAll(getUsersByFilters(filtersExternalOperations));
+        List<CategoryEntity> favoritesCategoriesEntities = categoryService.findAllById(favoritesCategories);
+        List<ExternalOperationEntity> favoritesExternalOperationsEntities = externalOperationService.findAllById(favoritesExternalOperations);
 
-        Set<ExternalUserEntity> allEnabledReceivers = allReceivers.stream().filter(user -> user.isEnabled() && user.isEmailNotificationsEnabled()).collect(Collectors.toSet());
+        Set<FavoriteEntity> favorites = new HashSet<>(favoriteService.findByExternalOperationOrCategoryAndAncestors(favoritesExternalOperationsEntities, favoritesCategoriesEntities));
+        List<Long> favoritesIds = favorites.stream().map(FavoriteEntity::getId).collect(Collectors.toList());
+
+        Set<ExternalUserEntity> allEnabledReceivers = externalUserService.findByEmailOrFavoritesOrFilterOperationIn(emails, favoritesIds, filtersExternalOperations);
         List<String> languages = metadataProperties.getInternationalizationLanguages().stream().map(String::toLowerCase).collect(Collectors.toList());
         HashMap<String, Receivers> receiversGroupByLanguage = new HashMap<>();
         for (String language : languages) {
@@ -240,37 +240,6 @@ public class NotificationServiceImpl implements NotificationService {
         }
 
         return receiversGroupByLanguage;
-    }
-
-    private Set<ExternalUserEntity> getUsersByEmail(List<String> emails) {
-        return (emails == null || emails.isEmpty()) ? new HashSet<>() : new HashSet<>(externalUserService.findAllByEmailIn(emails));
-    }
-
-    private Set<ExternalUserEntity> getUsersByFavorites(List<Long> favoritesCategories, List<Long> favoritesExternalOperations) {
-        List<CategoryEntity> categoryEntities = new ArrayList<>();
-        if (favoritesCategories != null) {
-            categoryEntities = favoritesCategories.stream().map(categoryService::findCategoryById).collect(Collectors.toList());
-        }
-
-        List<ExternalOperationEntity> externalOperationEntities = new ArrayList<>();
-        if (favoritesExternalOperations != null) {
-            externalOperationEntities = favoritesExternalOperations.stream().map(externalOperationService::findOperationById).collect(Collectors.toList());
-        }
-
-        return favoriteService.findByExternalOperationOrCategoryAndAncestors(externalOperationEntities, categoryEntities).stream()
-            .map(FavoriteEntity::getExternalUser)
-            .collect(Collectors.toSet());
-    }
-
-    private Set<ExternalUserEntity> getUsersByFilters(List<Long> filtersExternalOperations) {
-        if (filtersExternalOperations == null || filtersExternalOperations.isEmpty()) {
-            return new HashSet<>();
-        }
-
-        List<ExternalOperationEntity> filtersExternalOperationEntities = filtersExternalOperations.stream().map(externalOperationService::findOperationById).collect(Collectors.toList());
-        return filterService.findByExternalOperation(filtersExternalOperationEntities).stream()
-            .map(FilterEntity::getExternalUser)
-            .collect(Collectors.toSet());
     }
 
     @Override
