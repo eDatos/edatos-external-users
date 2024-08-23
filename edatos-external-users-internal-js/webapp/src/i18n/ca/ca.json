@@ -476,7 +476,7 @@
         "surname1": "Primer cognom",
         "surname2": "Segon cognom",
         "updated": "S'ha actualitzat l'usuari {{ param }}",
-        "gender": "Gènere",
+        "gender": "Sexe",
         "nationality": "Nacionalitat",
         "birthday": "Data de naixement"
     },
@@ -568,6 +568,7 @@
         "search": {
             "filterExternalUserLabel": "Nom d'usuari extern",
             "filterNameLabel": "Nom de consulta personalitzada",
+            "filterExternalOperationLabel": "Operació estadística",
             "includeFromDeactivatedUsers": "Consultes d'usuaris desactivats",
             "name": "Buscar consultes personalitzades",
             "placeholder": "",

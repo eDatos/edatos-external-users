@@ -155,4 +155,12 @@ span.no-selected-resource, span.input-multilanguage-span {
     }
 }
 
+body {
+    arte-autocomplete-short-list, arte-autocomplete-enum, arte-autocomplete-long-list {
+        .ui-autocomplete.ui-autocomplete-multiple .ui-autocomplete-multiple-container .ui-autocomplete-input-token input {
+            padding-right: 30px;
+        }
+    }
+}
+
 /* END FORMULARIO */

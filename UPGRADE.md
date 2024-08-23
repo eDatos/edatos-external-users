@@ -10,7 +10,7 @@
 
 ## 2.1.1 a 2.2.0
 
-* Se añaden las propiedades `metamac.default.codelist.gender.restriction` y `metamac.default.codelist.nationality.restriction` que hacen referencia a las **restricciones** utilizadas en las peticiones a la API de SRM para conseguir los códigos de los géneros y los paises respectivamente. Para añadir las propiedades hace falta ejecutar el siguiente script SQL:
+* Se añaden las propiedades `metamac.default.codelist.gender.restriction` y `metamac.default.codelist.nationality.restriction` que hacen referencia a las **restricciones** utilizadas en las peticiones a la API de SRM para conseguir los códigos de los sexos y los paises respectivamente. Para añadir las propiedades hace falta ejecutar el siguiente script SQL:
 
 ```
 etc\changes-from-release\2.1.1\db\common-metadata\postgresql\20240216_insert_paises_and_sexo_restriction_configuration.sql
@@ -61,7 +61,7 @@ etc/changes-from-release/1.1.0/db/common-metadata/postgresql/20230516_insert_all
 etc/changes-from-release/1.1.0/db/common-metadata/postgresql/20230601_insert_recaptcha_threshold_configuration.sql
 ```
 
-* Se añaden las propiedades `metamac.default.codelist.nationality.urn` y `metamac.default.codelist.gender.urn`, que hace referencia al URN para obtener los datos de las nacionalidades y géneros de la API externa de stadistical-resources. Para añadir las propiedades hace falta ejecutar el siguiente script SQL:
+* Se añaden las propiedades `metamac.default.codelist.nationality.urn` y `metamac.default.codelist.gender.urn`, que hace referencia al URN para obtener los datos de las nacionalidades y sexos de la API externa de stadistical-resources. Para añadir las propiedades hace falta ejecutar el siguiente script SQL:
 
 ```
 etc/changes-from-release/1.1.0/db/common-metadata/postgresql/20230602_insert_urn_nationalities_and_genders_configuration.sql

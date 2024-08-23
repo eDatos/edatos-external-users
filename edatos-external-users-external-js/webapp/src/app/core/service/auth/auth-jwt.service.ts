@@ -41,6 +41,7 @@ export class AuthServerProvider {
 
     logout(): Observable<any> {
         return new Observable((observer) => {
+            Edatos.UserManagement.refreshAuthenticationState();
             const config = this.configService.getConfig();
             this.$localStorage.clear(TOKEN_AUTH_NAME);
             this.$sessionStorage.clear(TOKEN_AUTH_NAME);

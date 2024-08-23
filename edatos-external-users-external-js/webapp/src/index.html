@@ -2,13 +2,13 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="utf-8" />
-        <title>Usuarios externos</title>
+        <title th:text="${title}">Mi carpeta</title>
         <base href="/" th:href="@{/}" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" type="image/x-icon" th:href="${faviconUrl}" />
         <link rel="manifest" href="manifest.webmanifest" />
     </head>
-    <body>
+    <body class="edatos-external-users">
         <script th:inline="javascript">
             /*<![CDATA[*/
             window.CONFIGURATION = {};

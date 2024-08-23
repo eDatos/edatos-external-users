@@ -16,8 +16,14 @@
         "sessions": "Sessions",
         "login": "Login",
         "logout": "Logout",
-        "myAccount": "My account",
-        "myFolder": "My folder",
+        "myAccount": {
+          "title": "My account",
+          "description": "In this space you can save your personal data, preferences, settings and preferred elements for a browsing experience tailored to your interests. In addition, you can receive notifications to keep you up to date with all the news through our platform and manage your personal information securely, as we care about your privacy and are committed to protecting your data at all times."
+        },
+        "myFolder": {
+          "title": "My folder",
+          "description": "Your personalized space where you can access all the content you have saved and manage your subscriptions as you wish. Here you will find your saved tables and any other content from our website that you have chosen to access in the future."
+        },
         "notifications": "Notifications"
       },
       "admin": {

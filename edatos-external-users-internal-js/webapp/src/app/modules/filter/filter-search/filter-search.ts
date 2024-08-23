@@ -2,7 +2,6 @@ import { DatePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { Params } from '@angular/router';
 import { BaseEntityFilter, EntityFilter } from 'arte-ng/model';
-import * as _ from 'lodash';
 
 @Injectable()
 export class FilterFilter extends BaseEntityFilter implements EntityFilter {
@@ -10,6 +9,7 @@ export class FilterFilter extends BaseEntityFilter implements EntityFilter {
     public user: string | null;
     public userId: number | null;
     public lastAccessDate: Date | null;
+    public externalOperations: string[] = [];
 
     constructor(public datePipe?: DatePipe) {
         super(datePipe);
@@ -20,6 +20,7 @@ export class FilterFilter extends BaseEntityFilter implements EntityFilter {
         this.user = queryParams.user;
         this.userId = queryParams.userId;
         this.lastAccessDate = queryParams.lastAccessDate;
+        this.externalOperations = queryParams.externalOperations ? queryParams.externalOperations.split(",") : [];
     }
 
     public getCriterias() {
@@ -35,6 +36,9 @@ export class FilterFilter extends BaseEntityFilter implements EntityFilter {
         }
         if (this.lastAccessDate) {
             criterias.push(`LAST_ACCESS_DATE EQ '%${this.escapeSingleQuotes(this.lastAccessDate.toString())}%'`);
+        }
+        if (this.externalOperations?.length > 0) {
+            criterias.push(`EXTERNAL_OPERATIONS IN ('${this.externalOperations.join("','")}')`);
         }
         return criterias;
     }
@@ -59,6 +63,11 @@ export class FilterFilter extends BaseEntityFilter implements EntityFilter {
             paramName: 'lastAccessDate',
             updateFilterFromParam: (param) => (this.lastAccessDate = param),
             clearFilter: () => (this.lastAccessDate = null),
+        });
+        this.registerParam({
+            paramName: 'externalOperations',
+            updateFilterFromParam: (param) => (this.externalOperations = param),
+            clearFilter: () => (this.externalOperations = []),
         });
     }
 
