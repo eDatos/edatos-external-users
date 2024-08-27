@@ -145,8 +145,8 @@
                             [ngModel]='notification.subject'
                             [locales]='availableLanguages'
                             [inputType]="'text'"
-                            (input)='validatorValueLanguageInput(languageInputComponent.value)'
-                            [locale]='ALL_LOCALES'
+                            (input)='validateMultiLanguageText(languageInputComponent.value)'
+                            [requiredLocales]='ALL_LOCALES'
                         ></app-multi-language-input>
                         <p-footer>
                             <button type='button' class='btn btn-secondary' (click)='closeSubjectModal()'>
@@ -195,24 +195,21 @@
                         [appendTo]='dialogWrapper'
                         (visibleChange)='closeMessageModal()'
                     >
-                        <app-multi-language-input
-                            pInputTextarea
-                            autoResize='autoResize'
+                        <app-multi-language-editor
                             [ngModel]='notification.message'
                             [locales]='availableLanguages'
-                            [inputType]="'textarea'"
+                            [requiredLocales]='ALL_LOCALES'
                             name='message'
                             id='message'
-                            (input)='validatorValueLanguageInput(languageInputComponent.value)'
-                            [locale]='ALL_LOCALES'
-                        ></app-multi-language-input>
+                            (ngModelChange)='validateMultiLanguageText(languageEditorComponent.value)'
+                        ></app-multi-language-editor>
                         <p-footer>
                             <button type='button' class='btn btn-secondary' (click)='closeMessageModal()'>
                                 <i class='fa fa-times' aria-hidden='true'></i>
                                 <span>{{ 'entity.action.cancel' | translate }}</span>
                             </button>
                             <button type='button' class='btn btn-primary'
-                                    (click)='saveMessageText(notification, languageInputComponent.value)'
+                                    (click)='saveMessageText(notification, languageEditorComponent.value)'
                                     [disabled]='disableValueLanguageInput'>
                                 <i class='fa fa-save' aria-hidden='true'></i>
                                 <span>{{ 'entity.action.save' | translate }}</span>

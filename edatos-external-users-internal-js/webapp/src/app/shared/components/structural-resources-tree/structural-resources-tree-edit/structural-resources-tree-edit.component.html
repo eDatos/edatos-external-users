@@ -46,7 +46,7 @@
                 [ngModel]="node.data.name"
                 [locales]="allowedLanguages"
                 (onEnterKeyDown)="saveNodeName(node, $event)"
-                [locale]="DEFAULT_LOCALE"
+                [requiredLocales]="DEFAULT_LOCALE"
                 [inputType]="'text'"
             ></app-multi-language-input>
             <p-footer>

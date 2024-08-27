@@ -1,9 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
-import { Category, ExternalCategory, InternationalString } from "@app/shared/model";
+import { Category, ExternalCategory, InternationalString, RequiredLocalesEnum } from "@app/shared/model";
 import { StructuralResourcesTreeComponent } from "@app/shared/components/structural-resources-tree/structural-resources-tree.component";
 import { CategoryTreeNode } from "@app/shared/components/structural-resources-tree/category-tree-node.model";
 import { CategoryService, LanguageService } from "@app/shared/service";
-import { DEFAULT_LOCALE } from '@app/shared/components/multi-language-input/multi-language-input.constants';
 import { finalize, shareReplay } from "rxjs/operators";
 import { MultiLanguageInputComponent } from "@app/shared/components/multi-language-input";
 import * as _ from "lodash";
@@ -15,7 +14,7 @@ import * as _ from "lodash";
 })
 export class StructuralResourcesTreeEditComponent extends StructuralResourcesTreeComponent {
 
-    public DEFAULT_LOCALE = DEFAULT_LOCALE;
+    public DEFAULT_LOCALE = RequiredLocalesEnum.DEFAULT_LOCALE;
 
     public loading = false;
     public isNodeSaving = false;
