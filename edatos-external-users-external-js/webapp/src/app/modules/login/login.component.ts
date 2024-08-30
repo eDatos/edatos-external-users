@@ -5,7 +5,7 @@ import { AccountUserService, ExternalLoginService } from '@app/core/service/user
 import { AuthServerProvider, Principal } from '@app/core/service';
 import { DOCUMENT } from '@angular/common';
 import { addQueryParamToRoute } from '@app/shared/utils/routesUtils';
-import { CaptchaService, SharedRefreshService } from '@app/shared/service';
+import { CaptchaService } from '@app/shared/service';
 import { MessageService } from 'primeng';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -38,8 +38,7 @@ export class LoginComponent implements OnInit {
         private captchaService: CaptchaService,
         private externalUserService: ExternalLoginService,
         private messageService: MessageService,
-        private translateService: TranslateService,
-        private sharedService: SharedRefreshService
+        private translateService: TranslateService
     ) {
         this.credentials = new Credentials();
         this.route.queryParams.subscribe((queryParams) => {
@@ -86,8 +85,6 @@ export class LoginComponent implements OnInit {
 
     private navigateToFilter() {
         this.router.navigate(['filter']);
-        this.sharedService.triggerRefresh();
-        this.sharedService.triggerRefreshForceValue(true);
     }
 
     private navigateToOrigin() {
