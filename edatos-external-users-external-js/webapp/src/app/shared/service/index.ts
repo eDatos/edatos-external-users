@@ -5,4 +5,3 @@ export * from './favorite/favorite.service';
 export * from './language.service';
 export * from './captcha/captcha.service';
 export * from './user/codelist.service';
-export * from './shared/shared-refresh.service';
