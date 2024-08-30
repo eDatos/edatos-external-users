@@ -3,7 +3,6 @@ import { ERROR_ALERT_KEY } from './app.constants';
 import 'reflect-metadata';
 import { Principal } from '@app/core/service';
 import { DOCUMENT } from '@angular/common';
-import { SharedRefreshService } from '@app/shared/service';
 import { NavbarRefreshService } from '@app/shared/service/shared/navbar-refresh.service';
 
 @Component({
@@ -12,29 +11,18 @@ import { NavbarRefreshService } from '@app/shared/service/shared/navbar-refresh.
 })
 export class AppComponent implements OnInit {
     public errorAlertKey = ERROR_ALERT_KEY;
-    public isAuthenticated: boolean = false;
     public isMyFolderSection: boolean = false;
     public isMyAccountSection: boolean = false;
 
-
-    constructor(protected principal: Principal, private sharedService: SharedRefreshService,
+    constructor(protected principal: Principal,
                 private navbarRefreshService: NavbarRefreshService, @Inject(DOCUMENT) document: any) {
-        this.sharedService.refreshAppComponent.subscribe(() => {
-            this.checkAuthentication();
-        });
         this.navbarRefreshService.refreshNavbarComponent.subscribe(() => {
             this.checkNavbar();
         });
     }
 
     async ngOnInit() {
-        await this.checkAuthentication();
         await this.checkNavbar();
-    }
-
-    private async checkAuthentication() {
-        const account = await this.principal.identity();
-        this.isAuthenticated = (this.sharedService.getRefreshForceValue() != null) ? this.sharedService.getRefreshForceValue() : !!account;
     }
 
     private async checkNavbar() {

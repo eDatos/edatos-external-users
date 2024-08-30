@@ -4,7 +4,6 @@ import { AccountUserService, LoginService, Principal, ProfileService } from '@ap
 import { GenericModalService } from 'arte-ng/services';
 import { MessageService } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
-import { SharedRefreshService } from '@app/shared/service';
 import { DeleteConfirmDialogComponent } from '@app/modules/account';
 import { User } from '@app/core/model';
 
@@ -35,7 +34,6 @@ export class SubNavbarComponent implements OnInit {
         private genericModalService: GenericModalService,
         private userService: AccountUserService,
         private router: Router,
-        private sharedService: SharedRefreshService,
         private route: ActivatedRoute,
         private messageService: MessageService,
         private translateService: TranslateService
@@ -107,8 +105,6 @@ export class SubNavbarComponent implements OnInit {
     private onDeleteSuccess(isDelete: boolean) {
         if (isDelete) {
             this.loginService.logout().then(() => this.router.navigate(['login']));
-            this.sharedService.triggerRefresh();
-            this.sharedService.triggerRefreshForceValue(false);
         }
     }
 
