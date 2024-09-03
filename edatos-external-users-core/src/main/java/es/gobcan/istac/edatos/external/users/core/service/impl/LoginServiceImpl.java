@@ -27,7 +27,7 @@ public class LoginServiceImpl implements LoginService {
     public ExternalUserEntity authenticate(String login, String password) {
         log.debug("Request to authenticate a user: {}", login);
 
-        loginValidator.validate(login);
+        loginValidator.validate(login, password);
 
         //@formatter:off
         ExternalUserEntity usuarioToAuthenticate = externalUserRepository.findOneByEmailIgnoreCaseAndEnabledTrue(login)
