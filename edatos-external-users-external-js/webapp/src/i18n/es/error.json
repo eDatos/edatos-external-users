@@ -59,7 +59,7 @@
             "query.not_supported": "Parámetro de búsqueda no soportado: {{0}}",
             "login": {
                 "user_disabled": "Usuario desactivado. Contacte con el administrador",
-                "void": "El campo no puedo estar vacío",
+                "void": "El campo no puede estar vacío",
                 "failed": "El usuario y/o contraseña no son correctos o no están en el sistema"
             },
             "register_account.create_notice": "La contraseña nueva no puede ser la misma que la actual",
