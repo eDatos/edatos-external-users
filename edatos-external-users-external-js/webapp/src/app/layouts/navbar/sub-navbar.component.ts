@@ -5,7 +5,8 @@ import { GenericModalService } from 'arte-ng/services';
 import { MessageService } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
 import { DeleteConfirmDialogComponent } from '@app/modules/account';
-import { User } from '@app/core/model';
+import {User, UserAccount} from '@app/core/model';
+import {ERROR_ALERT_KEY} from "@app/app.constants";
 
 @Component({
     selector: 'app-navbar',
@@ -98,13 +99,20 @@ export class SubNavbarComponent implements OnInit {
             .toPromise()
             .then((account) => {
                 const modalRef = this.genericModalService.open(DeleteConfirmDialogComponent as Component, { user: { ...account } }, { container: '.app' });
-                modalRef.result.subscribe((isDelete) => this.onDeleteSuccess(isDelete));
+                modalRef.result.subscribe((isDelete) => this.onDeleteSuccess(isDelete, account));
             });
     }
 
-    private onDeleteSuccess(isDelete: boolean) {
+    private onDeleteSuccess(isDelete: boolean, user: User) {
         if (isDelete) {
-            this.loginService.logout().then(() => this.router.navigate(['login']));
+            this.messageService.add({
+                key: 'customAlertKey',
+                severity: 'success',
+                summary: this.translateService.instant('userManagement.delete.messages.onSuccessSummary'),
+                detail: this.translateService.instant('userManagement.delete.messages.onSuccess', { param: user.email }),
+                life: 5000
+            });
+            this.router.navigate(['login']);
         }
     }
 
