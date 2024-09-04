@@ -18,7 +18,7 @@
         "logout": "Cerrar la sesión",
         "myAccount": {
           "title": "Mi cuenta",
-          "description": "En este espacio puedes guardar tus datos personales, preferencias, configuraciones y elementos favoritos para una experiencia de navegación adaptada a tus intereses. Además, recibir notificaciones para mantenerte actualizado de todas las novedades del ISTAC a través de nuestra plataforma y administrar tu información personal de forma segura, ya que nos preocupamos por tu privacidad y estamos comprometidos a proteger tus datos en todo momento."
+          "description": "En este espacio puedes guardar tus datos personales, preferencias, configuraciones y elementos favoritos para una experiencia de navegación adaptada a tus intereses. Además, recibir notificaciones para mantenerte actualizado de todas las novedades a través de nuestra plataforma y administrar tu información personal de forma segura, ya que nos preocupamos por tu privacidad y estamos comprometidos a proteger tus datos en todo momento."
         },
         "myFolder": {
           "title": "Mi carpeta",

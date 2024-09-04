@@ -22,6 +22,10 @@ export class AuthServerProvider {
         return token;
     }
 
+    isUserAuthenticated() {
+        return !!this.getToken();
+    }
+
     loginWithToken(jwt, rememberMe) {
         if (jwt) {
             this.storeAuthenticationToken(jwt, rememberMe);
@@ -41,10 +45,13 @@ export class AuthServerProvider {
 
     logout(): Observable<any> {
         return new Observable((observer) => {
-            const config = this.configService.getConfig();
-            this.$localStorage.clear(TOKEN_AUTH_NAME);
-            this.$sessionStorage.clear(TOKEN_AUTH_NAME);
-            this.cookieService.delete(TOKEN_AUTH_NAME, this.getLocation(config.endpoint.appUrl).pathname);
+            if (this.isUserAuthenticated()) {
+                Edatos.UserManagement.refreshAuthenticationState();
+                const config = this.configService.getConfig();
+                this.$localStorage.clear(TOKEN_AUTH_NAME);
+                this.$sessionStorage.clear(TOKEN_AUTH_NAME);
+                this.cookieService.delete(TOKEN_AUTH_NAME, this.getLocation(config.endpoint.appUrl).pathname);
+            }
             observer.complete();
         });
     }

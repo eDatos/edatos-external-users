@@ -476,7 +476,7 @@
         "surname1": "Primer apellido",
         "surname2": "Segundo apellido",
         "updated": "Se ha actualizado el usuario {{ param }}",
-        "gender": "Género",
+        "gender": "Sexo",
         "nationality": "Nacionalidad",
         "birthday": "Fecha nacimiento"
     },

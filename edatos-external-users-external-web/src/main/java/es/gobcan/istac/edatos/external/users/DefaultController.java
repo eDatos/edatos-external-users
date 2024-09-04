@@ -10,12 +10,14 @@ import javax.ws.rs.core.UriBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 import es.gobcan.istac.edatos.external.users.core.config.MetadataProperties;
+import es.gobcan.istac.edatos.external.users.core.i18n.LocaleContext;
 import es.gobcan.istac.edatos.external.users.core.service.HtmlService;
 import es.gobcan.istac.edatos.external.users.core.service.MetadataConfigurationService;
 
@@ -30,6 +32,9 @@ public class DefaultController {
 
     @Autowired
     private HtmlService htmlService;
+
+    @Autowired
+    private MessageSource messageSource;
 
     private final Logger log = LoggerFactory.getLogger(DefaultController.class);
 
@@ -48,6 +53,7 @@ public class DefaultController {
         model.put("faviconUrl", this.faviconUrl);
         model.put("headerUrl", htmlService.getHeaderUrl());
         model.put("footerUrl", metadataService.retrieveAppStyleFooterUrl());
+        model.put("title", messageSource.getMessage("global.tabTitle", null, LocaleContext.getLocale()));
 
         UriBuilder urlBuilder = UriBuilder.fromUri(metadataProperties.getCaptchaUrl());
         urlBuilder.path("captcha.js");

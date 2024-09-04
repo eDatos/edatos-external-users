@@ -74,4 +74,8 @@ if(isCaptchaEnabled()) {
 	var recaptchaScript = document.createElement("script");
     recaptchaScript.src = "https://www.google.com/recaptcha/api.js?hl=" + (/*[[${locale}]]*/ "") + "&render=" + (/*[[${recaptchaSiteKey}]]*/ "");
 	document.head.appendChild(recaptchaScript);
+
+    var recaptchaStyle = document.createElement("style");
+    recaptchaStyle.innerText = ".grecaptcha-badge {z-index: 2000;}";
+    document.head.appendChild(recaptchaStyle);
 }
