@@ -211,7 +211,7 @@ public class EdatosExternalUsersMigrationApp {
                                 if (StringUtils.isNotBlank(finalValues[headerIndexMap.get("gender")])) {
                                     String gender = StringUtils.substringAfterLast(finalValues[headerIndexMap.get("gender")], ".");
                                     if (StringUtils.isBlank(gender)) {
-                                        exceptions.add(new RuntimeException("No se ha podido migrar el género porque el formato de la urn no es correcto."));
+                                        exceptions.add(new RuntimeException("No se ha podido migrar el sexo porque el formato de la urn no es correcto."));
                                     } else {
                                         externalUser.setGender(gender);
                                     }
