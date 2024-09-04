@@ -5,8 +5,7 @@ import { GenericModalService } from 'arte-ng/services';
 import { MessageService } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
 import { DeleteConfirmDialogComponent } from '@app/modules/account';
-import {User, UserAccount} from '@app/core/model';
-import {ERROR_ALERT_KEY} from "@app/app.constants";
+import { User } from '@app/core/model';
 
 @Component({
     selector: 'app-navbar',
