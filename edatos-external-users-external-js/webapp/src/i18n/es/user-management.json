@@ -15,13 +15,6 @@
             "createDeactivatedTooltip": "La creación de usuarios está desactivada"
         },
         "updated": "Se ha actualizado el usuario {{ param }}",
-        "delete": {
-            "question": "¿Seguro que quieres eliminar el usuario {{ login }}?",
-            "messages": {
-                "onSuccessSummary": "Usuario eliminado",
-                "onSuccess": "Se ha eliminado el usuario {{ param }}"
-            }
-        },
         "deletionDate": "Fecha de borrado",
         "restore": {
             "question": "¿Seguro que quieres restaurar el usuario {{ login }}?"

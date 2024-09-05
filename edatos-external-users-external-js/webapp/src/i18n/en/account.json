@@ -43,7 +43,9 @@
             },
             "delete": {
                 "label": "Are you sure you want to delete user?",
-                "text": "Deleted information cannot be recovered"
+                "text": "Deleted information cannot be recovered",
+                "onSuccessSummary": "User deleted",
+                "onSuccess": "User {{ param }} has been deleted"
             },
             "onSuccessSumary": "User edit",
             "onSuccess": "User data has been modified correctly."

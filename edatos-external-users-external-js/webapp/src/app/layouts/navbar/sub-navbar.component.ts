@@ -107,8 +107,8 @@ export class SubNavbarComponent implements OnInit {
             this.messageService.add({
                 key: 'customAlertKey',
                 severity: 'success',
-                summary: this.translateService.instant('userManagement.delete.messages.onSuccessSummary'),
-                detail: this.translateService.instant('userManagement.delete.messages.onSuccess', { param: user.email }),
+                summary: this.translateService.instant('account.messages.delete.onSuccessSummary'),
+                detail: this.translateService.instant('account.messages.delete.onSuccess', { param: user.email }),
                 life: 5000
             });
             this.router.navigate(['login']);
