@@ -17,6 +17,7 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
 import org.json.JSONObject;
 import org.siemac.edatos.core.common.exception.EDatosException;
 import org.springframework.data.domain.Page;
@@ -256,9 +257,9 @@ public class ExternalUserServiceImpl implements ExternalUserService {
     @Override
     public Set<ExternalUserEntity> findByEmailOrFavoritesOrFilterOperationIn(List<String> emails, List<Long> favorites, List<Long> filtersExternalOperations) {
         DetachedCriteria criteria = queryUtil.queryToUserExternalUserCriteria(null, "");
-        criteria.createAlias("filters", "filters");
-        criteria.createAlias("favorites", "favorites");
-        criteria.createAlias("filters.externalOperation", "filtersExternalOperation");
+        criteria.createAlias("filters", "filters", JoinType.LEFT_OUTER_JOIN);
+        criteria.createAlias("favorites", "favorites", JoinType.LEFT_OUTER_JOIN);
+        criteria.createAlias("filters.externalOperation", "filtersExternalOperation", JoinType.LEFT_OUTER_JOIN);
 
         List<Criterion> criterion = new ArrayList<>();
         if (emails != null && !emails.isEmpty()) {
