@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DataProtectionPolicy } from '@app/shared/model';
+import {DataProtectionPolicy, RequiredLocalesEnum} from '@app/shared/model';
 import { TranslateService } from '@ngx-translate/core';
 import { DataProtectionPolicyService } from './data-protection-policy.service';
 import { shareReplay } from "rxjs/operators";
@@ -12,6 +12,9 @@ import { LanguageService } from "@app/shared/service";
     styleUrls: [],
 })
 export class DataProtectionPolicyComponent {
+
+    public DEFAULT_LOCALE = RequiredLocalesEnum.DEFAULT_LOCALE;
+
     public dataProtectionPolicy: DataProtectionPolicy = new DataProtectionPolicy();
     public isEditMode = false;
     public isDataProtectionPolicySaving = false;
