@@ -58,6 +58,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     public addedMessageValueLanguageInput = false;
     public addedSubjectValueLanguageInput = false;
 
+    public isSending = false;
 
     constructor(
         private eventManager: ArteEventManager,
@@ -212,6 +213,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     }
 
     private subscribeToSendResponse(result: Observable<Notification>) {
+        this.isSending = true;
         result.subscribe(
             (response: Notification) => {
                 this.onSaveSuccess();
@@ -222,10 +224,12 @@ export class NotificationsComponent implements OnInit, OnDestroy {
                 this.resetCategories();
                 this.addedSubjectValueLanguageInput = false;
                 this.addedMessageValueLanguageInput = false;
+                this.isSending = false;
             },
             () => {
                 this.thereAreFailedReceivers = true;
                 this.failedReceivers = errorErrorMessage['failedReceivers']?.map((receiver) => receiver).join(', ');
+                this.isSending = false;
                 this.onSaveError();
             }
         );

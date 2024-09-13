@@ -6,7 +6,7 @@
             <span class='page-header-title-text'>{{ 'notifications.home.title' | translate }}</span>
         </h2>
         <button class='btn btn-primary mr-2' (click)='send()'
-                [disabled]='notificationForm && notificationForm.form.invalid || isDisabledForSend()'>
+                [disabled]='notificationForm && notificationForm.form.invalid || isDisabledForSend() || isSending'>
             <span class='fa fa-send'></span>
             <span translate='notifications.form.send'></span>
         </button>
