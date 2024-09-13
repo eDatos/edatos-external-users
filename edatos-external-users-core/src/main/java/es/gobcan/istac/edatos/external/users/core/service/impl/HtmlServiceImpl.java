@@ -24,7 +24,8 @@ public class HtmlServiceImpl implements HtmlService {
         String navbarUrl = metadataService.retrieveAppStyleHeaderUrl();
         String appName = messageSource.getMessage("global.title", null, locale);
         String appId = "external-users-EXTERNAL";
+        String appVersion = messageSource.getMessage("appVersion", null, locale);
 
-        return String.format("%s?appName=%s&appId=%s", navbarUrl, appName, appId);
+        return String.format("%s?appName=%s&appId=%s&appVersion=%s", navbarUrl, appName, appId, appVersion);
     }
 }
