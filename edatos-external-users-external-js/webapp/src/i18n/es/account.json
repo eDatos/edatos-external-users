@@ -50,7 +50,7 @@
         }
     },
     "notices": {
-        "title": "Notificaciones",
+        "title": "Mis notificaciones",
         "label": {
             "message": "Mensaje",
             "subject": "Asunto",

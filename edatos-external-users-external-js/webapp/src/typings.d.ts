@@ -37,5 +37,9 @@ declare var Edatos: {
             buttonText?: string,
             action?: string
         }) => void
+    },
+    UserManagement: {
+        refreshAuthenticationState: () => void,
+        addOnLogoutListener: (callback: () => void) => void
     }
 };

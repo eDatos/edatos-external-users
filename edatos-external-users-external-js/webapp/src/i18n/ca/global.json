@@ -22,8 +22,14 @@
         "login": "Iniciar sessió",
         "logout": "Tancar la sessió",
         "main": "Compte",
-        "myAccount": "El meu compte",
-        "myFolder": "La meva carpeta",
+        "myAccount": {
+          "title": "El meu compte",
+          "description": "En aquest espai podeu desar les vostres dades personals, preferències, configuracions i elements preferits per a una experiència de navegació adaptada als vostres interessos. A més, rebre notificacions per mantenir-te actualitzat de totes les novetats a través de la nostra plataforma i administrar la teva informació personal de forma segura, ja que ens preocupem per la teva privadesa i estem compromesos a protegir les teves dades en tot moment."
+        },
+        "myFolder": {
+          "title": "La meva carpeta",
+          "description": "El teu espai personalitzat on pots accedir a tot el contingut que hagis guardat i gestionar les teves subscripcions al teu gust. Aquí trobaràs les teves taules guardades i qualsevol altre contingut de la nostra web que hagis triat per accedir-hi en el futur."
+        },
         "sessions": "Sessions",
         "notifications": "Notificacions"
       },

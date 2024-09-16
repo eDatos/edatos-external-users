@@ -32,7 +32,10 @@ export class AccountUserService {
     }
 
     login(el: ElementRef | string, credentials: Credentials): Promise<Credentials> {
-        return this.captchaService.postRequestWithCaptcha(el, User, `api/login`, credentials, 'login');
+        return this.captchaService.postRequestWithCaptcha(el, User, `api/login`, credentials, 'login').then((user) => {
+            Edatos.UserManagement.refreshAuthenticationState();
+            return user;
+        });
     }
 
     getLogueado(): Observable<User> {

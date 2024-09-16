@@ -11,9 +11,9 @@
     },
     "home": {
       "createLabel": "Crear favorito",
-      "title": "Thematic subscriptions"
+      "title": "My subscriptions"
     },
-    "name": "Thematic subscriptions "
+    "name": "My subscriptions"
   },
   "structuralResourcesTree": {
     "noRecordsFound": "No subject or operation found"

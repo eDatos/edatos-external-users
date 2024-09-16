@@ -4,8 +4,7 @@ import { AccountUserService, LoginService, Principal, ProfileService } from '@ap
 import { GenericModalService } from 'arte-ng/services';
 import { MessageService } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
-import { SharedRefreshService } from '@app/shared/service';
-import { AboutDialogComponent, DeleteConfirmDialogComponent } from '@app/modules/account';
+import { DeleteConfirmDialogComponent } from '@app/modules/account';
 import { User } from '@app/core/model';
 
 @Component({
@@ -16,7 +15,6 @@ import { User } from '@app/core/model';
 export class SubNavbarComponent implements OnInit {
     inProduction: boolean;
     public isCorrectlyLogged: boolean;
-    public isNavbarCollapsed: boolean = true;
     public account: User;
 
     public downloadingPdf = false;
@@ -36,7 +34,6 @@ export class SubNavbarComponent implements OnInit {
         private genericModalService: GenericModalService,
         private userService: AccountUserService,
         private router: Router,
-        private sharedService: SharedRefreshService,
         private route: ActivatedRoute,
         private messageService: MessageService,
         private translateService: TranslateService
@@ -81,45 +78,18 @@ export class SubNavbarComponent implements OnInit {
         this.activeAccountLink = matchingAccountLink ? matchingAccountLink.label : '';
     }
 
-    public navigateTo(route: string) {
-        this.isNavbarCollapsed = true;
-        this.router.navigate([route]);
-    }
-
-    public navigateToSection() {
-        const route = this.folderSection ? 'account-management' : 'filter';
-        this.isNavbarCollapsed = true;
-        this.router.navigate([route]);
-    }
-
     public titleTranslate(): string {
         if (this.folderSection) {
-            return this.translateService.instant('global.menu.account.myFolder');
+            return this.translateService.instant('global.menu.account.myFolder.title');
         }
-        return this.translateService.instant('global.menu.account.myAccount');
+        return this.translateService.instant('global.menu.account.myAccount.title');
     }
 
-    public dropdownReverseTitleSection(): string {
+    public contentTranslate(): string {
         if (this.folderSection) {
-            return this.translateService.instant('global.menu.account.myAccount');
+            return this.translateService.instant('global.menu.account.myFolder.description');
         }
-        return this.translateService.instant('global.menu.account.myFolder');
-    }
-
-    logout() {
-        this.isNavbarCollapsed = true;
-        this.loginService.logout().then(() => this.router.navigate(['login']));
-        this.sharedService.triggerRefresh();
-        this.sharedService.triggerRefreshForceValue(false);
-    }
-
-    toggleNavbar() {
-        this.isNavbarCollapsed = !this.isNavbarCollapsed;
-    }
-
-    public openAboutDialog() {
-        this.genericModalService.open(AboutDialogComponent as Component, { user: this.account }, { container: '.app' });
-        this.toggleNavbar();
+        return this.translateService.instant('global.menu.account.myAccount.description');
     }
 
     public openDeleteDialog() {
@@ -135,8 +105,6 @@ export class SubNavbarComponent implements OnInit {
     private onDeleteSuccess(isDelete: boolean) {
         if (isDelete) {
             this.loginService.logout().then(() => this.router.navigate(['login']));
-            this.sharedService.triggerRefresh();
-            this.sharedService.triggerRefreshForceValue(false);
         }
     }
 

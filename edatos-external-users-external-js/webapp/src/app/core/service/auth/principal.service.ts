@@ -36,10 +36,14 @@ export class Principal {
                     .catch(() => {
                         this.authenticationState.next(false);
                         resolve(null);
+                    })
+                    .finally(() => {
+                        Edatos.UserManagement.refreshAuthenticationState();
                     });
             } else {
                 this.authenticationState.next(false);
                 resolve(null);
+                Edatos.UserManagement.refreshAuthenticationState();
             }
         });
     }
