@@ -104,6 +104,7 @@ window.Edatos = window.Edatos || {};
                         if (!captchaEl.getAttribute(invisibleRecaptchaFailedAttribute)) {
                             grecaptcha.execute(recaptchaSiteKey, options.action ? {action: options.action} : {}).then(function (token) {
                                 sendRequestWithCaptcha(request, url, token, options.action).then(function (response) {
+                                    removeCaptcha(options);
                                     resolve(response);
                                 }).catch(function (error) {
                                     var errorCode;
