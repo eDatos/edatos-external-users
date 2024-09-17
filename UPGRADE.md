@@ -13,7 +13,7 @@
 ### Breaking changes
 
 A partir de esta versión se cambia la manera en la que las aplicaciones acceden al captcha. Por lo tanto, si se sube a esta versión las aplicaciones que usen el captcha deberán estar actualizadas para adaptarse a este cambio. 
-Dichas aplicaciones deberían aparecer en la documentación del captcha: https://confluence.arte.dev/display/ISTAC/Consumir+del+captcha. En el UPGRADE.md de dichos proyectos estará específicada la versión en la que se adaptaron a estos cambios.
+Actualmente dichas aplicaciones son portal e indicadores. En el UPGRADE.md de dichos proyectos estará específicada la versión en la que se adaptaron a estos cambios.
 Los cambios en cuestión es añadir los métodos del captcha bajo el objeto global `Edatos.captcha`.
 
 ## 2.1.1 a 2.2.0
