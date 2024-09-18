@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Params } from '@angular/router';
-import { Language, Service } from '@app/core/model';
+import { Service } from '@app/core/model';
 import { BaseEntityFilter, EntityFilter } from 'arte-ng/model';
 
 export class ExternalUserFilter extends BaseEntityFilter implements EntityFilter {
@@ -9,6 +9,7 @@ export class ExternalUserFilter extends BaseEntityFilter implements EntityFilter
     public includeUnregistered: boolean;
     public categories: string[] = [];
     public externalOperations: string[] = [];
+    public filtersExternalOperations: string[] = [];
     public services: Service[] = [];
 
     constructor(public datePipe?: DatePipe) {
@@ -22,6 +23,7 @@ export class ExternalUserFilter extends BaseEntityFilter implements EntityFilter
         this.categories = queryParams.categories?.split(',') ?? [];
         this.externalOperations = queryParams.externalOperations?.split(',') ?? [];
         this.services = queryParams.services?.split(' ') ?? [];
+        this.filtersExternalOperations = queryParams.filtersExternalOperations?.split(',') ?? [];
     }
 
     public getCriterias() {
@@ -44,6 +46,9 @@ export class ExternalUserFilter extends BaseEntityFilter implements EntityFilter
                 operationsAndCategories.push(`FAVORITE_CATEGORIES EQ '${category}'`);
             });
             criterias.push(`(${operationsAndCategories.join(" OR ")})`);
+        }
+        if (this.filtersExternalOperations?.length > 0) {
+            criterias.push(`FILTER_EXTERNAL_OPERATIONS IN ('${this.filtersExternalOperations.join("','")}')`);
         }
         if (this.services?.length > 0) {
             criterias.push(`SERVICES IN (${this.services.join(',')})`);
@@ -81,6 +86,11 @@ export class ExternalUserFilter extends BaseEntityFilter implements EntityFilter
             paramName: 'services',
             updateFilterFromParam: (param) => (this.services = param),
             clearFilter: () => (this.services = []),
+        });
+        this.registerParam({
+            paramName: 'filtersExternalOperations',
+            updateFilterFromParam: (param) => (this.filtersExternalOperations = param),
+            clearFilter: () => (this.filtersExternalOperations = []),
         });
     }
 }

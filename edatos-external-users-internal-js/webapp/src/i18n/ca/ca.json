@@ -814,6 +814,7 @@
                 "added": "Missatge multidioma afegit"
             },
             "receivers": "Destinataris",
+            "filters": "Consulta personalitzada",
             "send": "Enviar"
         },
         "message": {

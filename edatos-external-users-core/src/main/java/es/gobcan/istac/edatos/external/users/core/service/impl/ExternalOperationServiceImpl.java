@@ -1,5 +1,6 @@
 package es.gobcan.istac.edatos.external.users.core.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import java.util.Optional;
@@ -34,6 +35,14 @@ public class ExternalOperationServiceImpl implements ExternalOperationService {
     @Override
     public List<ExternalOperationEntity> findAll() {
         return externalOperationRepository.findAll();
+    }
+
+    @Override
+    public List<ExternalOperationEntity> findAllById(List<Long> ids) {
+        if (ids == null || ids.isEmpty()) {
+            return new ArrayList<>();
+        }
+        return externalOperationRepository.findAllByIdIn(ids);
     }
 
     @Override

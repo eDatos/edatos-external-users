@@ -99,6 +99,10 @@ public class ExternalUserEntity extends AbstractVersionedAndAuditingEntity {
     private final Set<FavoriteEntity> favorites = new HashSet<>();
 
     @NotNull
+    @OneToMany(mappedBy = "externalUser", orphanRemoval = true, fetch = FetchType.LAZY)
+    private final Set<FilterEntity> filters = new HashSet<>();
+
+    @NotNull
     @Column(columnDefinition = "boolean default true", nullable = false)
     private boolean enabled;
 
@@ -245,6 +249,10 @@ public class ExternalUserEntity extends AbstractVersionedAndAuditingEntity {
         }
         this.favorites.clear();
         this.favorites.addAll(favorites);
+    }
+
+    public Set<FilterEntity> getFilters() {
+        return filters;
     }
 
     public boolean isEnabled() {
