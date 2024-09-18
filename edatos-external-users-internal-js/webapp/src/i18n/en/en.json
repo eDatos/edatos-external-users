@@ -814,6 +814,7 @@
                 "added": "Multi-language message added"
             },
             "receivers": "Receivers",
+            "filters": "Custom queries",
             "send": "Send"
         },
         "message": {

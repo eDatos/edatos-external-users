@@ -43,7 +43,9 @@
             },
             "delete": {
                 "label": "Està segur que vol eliminar a l'usuari?",
-                "text": "La informació eliminada no podrà ser recuperada"
+                "text": "La informació eliminada no podrà ser recuperada",
+                "onSuccessSummary": "Usuari eliminat",
+                "onSuccess": "S'ha eliminat l'usuari {{ param }}"
             },
             "onSuccessSumary": "Usuari editat",
             "onSuccess": "S'han modificat les dades de l'usuari correctament."
