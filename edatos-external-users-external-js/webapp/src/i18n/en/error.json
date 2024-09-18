@@ -59,7 +59,7 @@
             "query.not_supported": "Search parameter not supported in Catalan: {{0}}",
             "login": {
                 "user_disabled": "User disabled. Contact administrator",
-                "void": "Field cannot be empty",
+                "void": "The email field cannot be empty",
                 "failed": "The username and/or password are not correct or are not in the system"
             },
             "register_account.create_notice": "The new password cannot be the same as the current one",
