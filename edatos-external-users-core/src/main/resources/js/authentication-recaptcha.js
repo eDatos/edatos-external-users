@@ -123,7 +123,10 @@ window.Edatos = window.Edatos || {};
                                     if (errorCode === 'exception.external_users.captcha.unsuccessful') {
                                         captchaEl.setAttribute(invisibleRecaptchaFailedAttribute, "true");
                                         removeCaptcha(options);
-                                        grecaptcha.render(captchaEl, {
+                                        captchaEl.insertAdjacentHTML('beforeend', `
+                                            <div id="captcha-container" class="captcha-recaptcha"></div>
+                                        `);
+                                        grecaptcha.render(captchaEl.querySelector("#captcha-container"), {
                                             'sitekey': recaptchaV2SiteKey,
                                             'callback': function () {
                                                 if (options.withButton) {
@@ -143,6 +146,8 @@ window.Edatos = window.Edatos || {};
                             sendRequestWithCaptcha(request, url, grecaptcha.getResponse()).then(function (response) {
                                 resolve(response);
                                 captchaEl.removeAttribute(invisibleRecaptchaFailedAttribute);
+                                removeCaptcha(options);
+                                grecaptcha.reset();
                             }).catch(function (error) {
                                 grecaptcha.reset();
                                 reject(error);
