@@ -22,6 +22,7 @@ public class ServiceExceptionType extends CommonServiceExceptionType {
      ********/
     public static final CommonServiceExceptionType LOGIN_USER_DISABLED = create("exception.external_users.login.user_disabled");
     public static final CommonServiceExceptionType LOGIN_VOID = create("exception.external_users.login.void");
+    public static final CommonServiceExceptionType PASSWORD_VOID = create("exception.external_users.password.void");
     public static final CommonServiceExceptionType LOGIN_FAILED = create("exception.external_users.login.failed");
 
     /********

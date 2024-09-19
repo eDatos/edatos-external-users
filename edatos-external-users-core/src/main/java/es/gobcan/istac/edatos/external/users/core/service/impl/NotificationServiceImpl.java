@@ -57,6 +57,7 @@ import es.gobcan.istac.edatos.external.users.core.service.EDatosApisLocator;
 import es.gobcan.istac.edatos.external.users.core.service.ExternalOperationService;
 import es.gobcan.istac.edatos.external.users.core.service.ExternalUserService;
 import es.gobcan.istac.edatos.external.users.core.service.FavoriteService;
+import es.gobcan.istac.edatos.external.users.core.service.FilterService;
 import es.gobcan.istac.edatos.external.users.core.service.MetadataConfigurationService;
 import es.gobcan.istac.edatos.external.users.core.service.NotificationService;
 
@@ -96,6 +97,9 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Autowired
     private FavoriteService favoriteService;
+
+    @Autowired
+    private FilterService filterService;
 
     @Override
     public void createNewExternalUserAccountNotification(ExternalUserEntity externalUserEntity) {
@@ -212,31 +216,23 @@ public class NotificationServiceImpl implements NotificationService {
         return String.join("\n", datasetLabels);
     }
 
-    public HashMap<String, Receivers> createReceiversGroupedByLanguage(List<String> emails, List<Long> categories, List<Long> externalOperations) {
-        List<String> languages = metadataProperties.getInternationalizationLanguages().stream().map(language -> language.toLowerCase()).collect(Collectors.toList());
+    @Override
+    public HashMap<String, Receivers> createReceiversGroupedByLanguage(List<String> emails, List<Long> favoritesCategories, List<Long> favoritesExternalOperations, List<Long> filtersExternalOperations) {
+        List<CategoryEntity> favoritesCategoriesEntities = categoryService.findAllById(favoritesCategories);
+        List<ExternalOperationEntity> favoritesExternalOperationsEntities = externalOperationService.findAllById(favoritesExternalOperations);
+
+        Set<FavoriteEntity> favorites = new HashSet<>(favoriteService.findByExternalOperationOrCategoryAndAncestors(favoritesExternalOperationsEntities, favoritesCategoriesEntities));
+        List<Long> favoritesIds = favorites.stream().map(FavoriteEntity::getId).collect(Collectors.toList());
+
+        Set<ExternalUserEntity> allEnabledReceivers = externalUserService.findByEmailOrFavoritesOrFilterOperationIn(emails, favoritesIds, filtersExternalOperations);
+        List<String> languages = metadataProperties.getInternationalizationLanguages().stream().map(String::toLowerCase).collect(Collectors.toList());
         HashMap<String, Receivers> receiversGroupByLanguage = new HashMap<>();
-
-        List<ExternalUserEntity> usersByEmails = externalUserService.findAllByEmailIn(emails).stream()
-            .filter(user -> user.isEnabled() && user.isEmailNotificationsEnabled())
-            .collect(Collectors.toList());
-
-        List<ExternalOperationEntity> externalOperationEntities = externalOperations.stream().map(externalOperationService::findOperationById).collect(Collectors.toList());
-        List<CategoryEntity> categoryEntities = categories.stream().map(categoryService::findCategoryById).collect(Collectors.toList());
-        Set<ExternalUserEntity> usersSubscribedToAnyCategoryOrOperationOfList = favoriteService.findByExternalOperationOrCategoryAndAncestors(externalOperationEntities, categoryEntities).stream()
-            .map(FavoriteEntity::getExternalUser)
-            .filter(user -> user.isEnabled() && user.isEmailNotificationsEnabled())
-            .collect(Collectors.toSet());
-
         for (String language : languages) {
-            Set<String> allReceiversEmails = new HashSet<>();
-            List<ExternalUserEntity> usersSubscribedToCategoriesAndOperationsFilterByLanguage = usersSubscribedToAnyCategoryOrOperationOfList.stream()
-                    .filter(user -> user.getLanguage().equals(language)).collect(Collectors.toList());
-            allReceiversEmails.addAll(usersSubscribedToCategoriesAndOperationsFilterByLanguage.stream().map(ExternalUserEntity::getEmail).collect(Collectors.toList()));
-            allReceiversEmails.addAll(usersByEmails.stream().filter(user -> user.getLanguage().equals(language)).map(ExternalUserEntity::getEmail).collect(Collectors.toList()));
-
             Receivers receivers = new Receivers();
-            for (String email : allReceiversEmails) {
-                receivers.getReceivers().add(ReceiverBuilder.receiver().withUsername(email).build());
+            for (ExternalUserEntity receiver : allEnabledReceivers) {
+                if (receiver.getLanguage().equals(language)) {
+                    receivers.getReceivers().add(ReceiverBuilder.receiver().withUsername(receiver.getEmail()).build());
+                }
             }
 
             receivers.setTotal(new BigInteger(String.valueOf(receivers.getReceivers().size())));
@@ -247,8 +243,7 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public List<String> createNotificationWithReceivers(InternationalStringDto message, InternationalStringDto subject, List<String> emails, List<Long> categories, List<Long> externalOperations) {
-        HashMap<String, Receivers> receiversByLanguage = createReceiversGroupedByLanguage(emails, categories, externalOperations);
+    public List<String> createNotificationWithReceivers(InternationalStringDto message, InternationalStringDto subject, HashMap<String, Receivers> receiversByLanguage) {
         List<String> failedNoticeReceivers = new ArrayList<>();
         for (String language : receiversByLanguage.keySet()) {
             Receivers receivers = receiversByLanguage.get(language);

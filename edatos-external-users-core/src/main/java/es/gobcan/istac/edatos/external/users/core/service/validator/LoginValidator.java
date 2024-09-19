@@ -14,12 +14,16 @@ public class LoginValidator extends AbstractValidator<String> {
     @Autowired
     private ExternalUserRepository externalUserRepository;
 
-    public void validate(String login) {
+    public void validate(String login, String password) {
         if (StringUtils.isNotBlank(login)) {
             checkExistsUsuarioWithLogin(login);
             checkUsuarioIsActivated(login);
         } else {
             throw new EDatosException(ServiceExceptionType.LOGIN_VOID);
+        }
+
+        if (StringUtils.isBlank(password)) {
+            throw new EDatosException(ServiceExceptionType.PASSWORD_VOID);
         }
     }
 

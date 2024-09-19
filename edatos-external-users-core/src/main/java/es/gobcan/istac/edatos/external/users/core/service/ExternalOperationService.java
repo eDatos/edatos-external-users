@@ -12,6 +12,9 @@ import es.gobcan.istac.edatos.external.users.core.domain.ExternalOperationEntity
 public interface ExternalOperationService {
 
     List<ExternalOperationEntity> findAll();
+
+    List<ExternalOperationEntity> findAllById(List<Long> ids);
+
     List<ExternalOperationEntity> findAllEnabled();
     Page<ExternalOperationEntity> find(String query, Pageable pageable);
     ExternalOperationEntity findByCode(String code);

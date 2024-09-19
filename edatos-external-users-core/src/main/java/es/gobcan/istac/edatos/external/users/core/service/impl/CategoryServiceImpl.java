@@ -48,6 +48,14 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public List<CategoryEntity> findAllById(List<Long> ids) {
+        if (ids == null || ids.isEmpty()) {
+            return new ArrayList<>();
+        }
+        return categoryRepository.findAllByIdIn(ids);
+    }
+
+    @Override
     public Page<CategoryEntity> find(String query, Pageable pageable) {
         DetachedCriteria criteria = queryUtil.queryToCategoryCriteria(query, pageable);
         return find(criteria, pageable);

@@ -59,7 +59,7 @@
             "query.not_supported": "Paràmetre de cerca no suportat: {{0}}",
             "login": {
                 "user_disabled": "Usuari desactivat. Contacteu amb l'administrador",
-                "void": "El camp no puc estar buit",
+                "void": "El camp de correu electrònic no pot estar buit",
                 "failed": "L'usuari i/o contrasenya no són correctes o no són al sistema"
             },
             "register_account.create_notice": "La nova contrasenya no pot ser la mateixa que l'actual",
