@@ -1,10 +1,10 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ExternalUser } from '@app/core/model';
-import { Notification, Receiver } from '@app/shared/model';
+import { ExternalOperation, Notification, Receiver } from '@app/shared/model';
 import { errorErrorMessage } from '@app/core/service/alert/eusuarios-alert.service';
 import { MultiLanguageInputComponent } from '@app/shared/components/multi-language-input';
 import { ALL_LOCALES } from '@app/shared/components/multi-language-input/multi-language-input.constants';
-import { CategoryService, LanguageService, NotificationService } from '@app/shared/service';
+import { CategoryService, ExternalOperationService, LanguageService, NotificationService } from '@app/shared/service';
 import { TranslateService } from '@ngx-translate/core';
 import { ArteEventManager } from 'arte-ng/services';
 import { MessageService } from 'primeng/api';
@@ -33,6 +33,9 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     public allowedReceivers: Receiver[] = [];
     public notification: Notification;
     public selectedReceivers: string[] = [];
+
+    public allowedFiltersExternalOperations: ExternalOperation[] = [];
+    public selectedFiltersExternalOperations: ExternalOperation[] = [];
 
     public isSelectingResource = false;
     public selectedResources: FavoriteResource[] = [];
@@ -63,7 +66,8 @@ export class NotificationsComponent implements OnInit, OnDestroy {
         public messageService: MessageService,
         public translateService: TranslateService,
         private categoryService: CategoryService,
-        private languageService: LanguageService
+        private languageService: LanguageService,
+        private externalOperationService: ExternalOperationService
     ) {
     }
 
@@ -82,6 +86,12 @@ export class NotificationsComponent implements OnInit, OnDestroy {
             .getInternationalLanguages()
             .pipe(shareReplay({ bufferSize: 1, refCount: true }))
             .subscribe((languages) => (this.availableLanguages = languages));
+
+        this.externalOperationService.find({size: 10000}).subscribe((response) => {
+            this.allowedFiltersExternalOperations = response.body.sort((operation1, operation2) => {
+                return operation1.code.toLowerCase() < operation2.code.toLowerCase() ? -1 : 1;
+            });
+        });
     }
 
     public ngOnDestroy() {
@@ -93,6 +103,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     public send() {
         this.notification.categoriesIds = this.arrStringToArrNumber(this.filters.categories);
         this.notification.externalOperationsIds = this.arrStringToArrNumber(this.filters.externalOperations);
+        this.notification.filtersExternalOperationsIds = this.arrStringToArrNumber(this.filters.filtersExternalOperations);
         this.notification.receivers = this.selectedReceivers;
         this.subscribeToSendResponse(this.notificationService.send(this.notification));
     }
@@ -106,6 +117,19 @@ export class NotificationsComponent implements OnInit, OnDestroy {
         if (index > -1) {
             this.selectedReceivers.splice(index, 1);
         }
+    }
+
+    public onSelectFiltersExternalOperations(operation: ExternalOperation) {
+        this.selectedFiltersExternalOperations.push(operation);
+        this.filters.filtersExternalOperations = this.selectedFiltersExternalOperations.map(operation => operation.id.toString());
+    }
+
+    public onUnselectFiltersExternalOperations(operation: ExternalOperation) {
+        const index = this.selectedFiltersExternalOperations.indexOf(operation);
+        if (index > -1) {
+            this.selectedFiltersExternalOperations.splice(index, 1);
+        }
+        this.filters.filtersExternalOperations = this.selectedFiltersExternalOperations.map(operation => operation.id.toString());
     }
 
     public saveSubjectText(notice: Notification, subject: InternationalString) {
@@ -146,6 +170,11 @@ export class NotificationsComponent implements OnInit, OnDestroy {
         this.selectedResources = [];
     }
 
+    public resetFiltersExternalOperations() {
+        this.selectedFiltersExternalOperations = [];
+        this.filters.filtersExternalOperations = [];
+    }
+
     public updateSelectedResources() {
         this.selectedResources = this.tree.selectedResources.map((node) => node.data);
     }
@@ -159,12 +188,14 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     public thereAreReceivers() {
         return (this.selectedReceivers && this.selectedReceivers.length) ||
             (this.filters.categories && this.filters.categories.length) ||
-            (this.filters.externalOperations && this.filters.externalOperations.length);
+            (this.filters.externalOperations && this.filters.externalOperations.length) ||
+            (this.filters.filtersExternalOperations && this.filters.filtersExternalOperations.length);
     }
 
     public isDisabledForSend() {
         return !this.thereAreReceivers() || !this.thereAreContentMail();
     }
+
     public thereAreContentMail() {
         return (this.notification.subject && this.notification.subject.texts.length) && (this.notification.message && this.notification.message.texts.length);
     }
@@ -227,6 +258,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
                 this.selectedReceiversComponent.writeValue([]);
                 this.notification = new Notification();
                 this.resetCategories();
+                this.resetFiltersExternalOperations();
                 this.addedSubjectValueLanguageInput = false;
                 this.addedMessageValueLanguageInput = false;
             },

@@ -2,6 +2,7 @@ package es.gobcan.istac.edatos.external.users.core.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -48,4 +49,6 @@ public interface ExternalUserService {
     boolean isMigratedUser(ExternalUserEntity user);
 
     ExternalUserEntity migrate(ExternalUserEntity entity);
+
+    Set<ExternalUserEntity> findByEmailOrFavoritesOrFilterOperationIn(List<String> emails, List<Long> favorites, List<Long> filtersExternalOperations);
 }

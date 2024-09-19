@@ -16,6 +16,7 @@ public interface CategoryService {
 
     List<CategoryEntity> findAll();
     CategoryEntity findCategoryById(Long id);
+    List<CategoryEntity> findAllById(List<Long> ids);
     Page<CategoryEntity> find(String query, Pageable pageable);
     Page<CategoryEntity> find(DetachedCriteria criteria, Pageable pageable);
     List<CategoryEntity> getTree();

@@ -98,13 +98,20 @@ export class SubNavbarComponent implements OnInit {
             .toPromise()
             .then((account) => {
                 const modalRef = this.genericModalService.open(DeleteConfirmDialogComponent as Component, { user: { ...account } }, { container: '.app' });
-                modalRef.result.subscribe((isDelete) => this.onDeleteSuccess(isDelete));
+                modalRef.result.subscribe((isDelete) => this.onDeleteSuccess(isDelete, account));
             });
     }
 
-    private onDeleteSuccess(isDelete: boolean) {
+    private onDeleteSuccess(isDelete: boolean, user: User) {
         if (isDelete) {
-            this.loginService.logout().then(() => this.router.navigate(['login']));
+            this.messageService.add({
+                key: 'customAlertKey',
+                severity: 'success',
+                summary: this.translateService.instant('account.messages.delete.onSuccessSummary'),
+                detail: this.translateService.instant('account.messages.delete.onSuccess', { param: user.email }),
+                life: 5000
+            });
+            this.router.navigate(['login']);
         }
     }
 
