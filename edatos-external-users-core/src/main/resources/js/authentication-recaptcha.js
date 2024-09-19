@@ -131,6 +131,9 @@ window.Edatos = window.Edatos || {};
                                                 }
                                             }
                                         });
+                                        if (!options.withButton) {
+                                            reject(error);
+                                        }
                                     } else {
                                         reject(error);
                                     }
