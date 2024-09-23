@@ -142,6 +142,8 @@ public class CaptchaResource extends AbstractResource {
         String captchaProvider = metadataService.getCaptchaProvider();
         boolean captchaEnable = metadataService.isCaptchaEnable();
         model.addAttribute(CaptchaConstants.CAPTCHA_ENABLED_MODEL_ATTR, captchaEnable);
+        model.addAttribute(CaptchaConstants.CAPTCHA_INTERNATIONALIZATION_COOKIE_ID, metadataService.getLanguageCookie());
+        model.addAttribute(CaptchaConstants.CAPTCHA_DEFAULT_LANGUAGE, metadataService.getDefaultLanguage());
 
         UriBuilder captchaPictureUri = UriBuilder.fromUri(metadataService.getCaptchaUrl());
         if (CaptchaConstants.CAPTCHA_PROVIDER_SIMPLE.equals(captchaProvider)) {
