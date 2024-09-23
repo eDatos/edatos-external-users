@@ -11,4 +11,5 @@ export class Notification {
     public receivers?: string[];
     public categoriesIds?: number[];
     public externalOperationsIds?: number[];
+    public filtersExternalOperationsIds?: number[];
 }

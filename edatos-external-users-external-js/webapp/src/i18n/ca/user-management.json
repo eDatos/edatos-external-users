@@ -7,7 +7,6 @@
         "deactivate": {
             "question": "¿Segur que desitja desactivar l'usuari <strong>{{ email }}</strong>?"
         },
-        "deleted": "S'ha eliminat l'usuari {{ param }}",
         "deletionDate": "Data d'esborrat",
         "desactivado": "Desactivat",
         "detail": {
@@ -23,9 +22,6 @@
             "title": "Usuaris"
         },
         "updated": "S'ha actualitzat l'usuari {{ param }}",
-        "delete": {
-            "question": "¿Està segur que desitja eliminar la família <strong>{{title}}</strong>?"
-        },
         "restore": {
             "question": "¿Segur que vols restaurar l'usuari {{ login }}?"
         },

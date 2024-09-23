@@ -46,11 +46,11 @@ export class CaptchaService {
             ...((el instanceof ElementRef) ? { captchaEl: el.nativeElement } : { captchaId: el }),
             action: 'external_users_' + action
         };
-        return requestWithCaptcha(requestMethod, url, options);
+        return Edatos.captcha.requestWithCaptcha(requestMethod, url, options);
     }
 
     buildCaptcha(el: (ElementRef | string)): void {
-        return showCaptcha((el instanceof ElementRef) ? {
+        return Edatos.captcha.showCaptcha((el instanceof ElementRef) ? {
             ...this.defaultOptions,
             captchaEl: el.nativeElement
         } : { ...this.defaultOptions, captchaId: el });

@@ -36,7 +36,9 @@ export class SignupFormComponent implements OnInit {
     public confirmPassword: string;
     public isMigratedUser = false;
 
+    public isCaptchaProviderRecaptcha: boolean = false;
     private captchaContainerEl: ElementRef;
+
     private userRegistrationToken?: string;
 
     private countries$ = this.codeListService.findAllCountries();
@@ -48,6 +50,9 @@ export class SignupFormComponent implements OnInit {
         if (captchaContainerEl && !this.captchaContainerEl) {
             this.captchaContainerEl = captchaContainerEl;
             this.captchaService.buildCaptcha(this.captchaContainerEl);
+
+            const captchaElement = this.captchaContainerEl.nativeElement.getElementById("captcha-container");
+            this.isCaptchaProviderRecaptcha = captchaElement.classList.contains("captcha-recaptcha");
         }
     }
 

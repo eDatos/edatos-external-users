@@ -72,15 +72,25 @@ export class LoginComponent implements OnInit {
     }
 
     login() {
-        this.accountUserService.login(this.captchaContainerEl, this.credentials).then((foo: any) => {
+        this.accountUserService.login(this.captchaContainerEl, this.credentials).then(() => {
             this.principal.identity().then(() => {
-                if (this.origin) {
+                if (this.origin && !this.isOriginFromExternalUsers()) {
                     this.navigateToOrigin();
                 } else {
                     this.navigateToFilter();
                 }
             });
         });
+    }
+
+    private isOriginFromExternalUsers(): boolean {
+        try {
+            let loginUrl = new URL(window.location.href);
+            let originUrl = new URL(this.origin.toString());
+            return loginUrl.host === originUrl.host;
+        } catch (error) {
+            return false;
+        }
     }
 
     private navigateToFilter() {

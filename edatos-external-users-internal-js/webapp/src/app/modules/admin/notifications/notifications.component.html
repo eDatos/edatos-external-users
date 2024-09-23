@@ -56,6 +56,29 @@
                     </div>
                 </div>
                 <div class='row'>
+                    <div class='form-group form-group-inline col-md-6'>
+                        <div class='form-row'>
+                            <label class='form-label col-md-4' translate='notifications.form.filters' for='email'></label>
+                            <div class='col-md-8 form-input-container errors-on-hover'>
+                                <arte-autocomplete-short-list
+                                    id='filter-external-operation'
+                                    dataKey='id'
+                                    (onUnselect)='onUnselectFiltersExternalOperations($event)'
+                                    (onSelect)='onSelectFiltersExternalOperations($event)'
+                                    [suggestions]='allowedFiltersExternalOperations'
+                                    [selectedSuggestions]="selectedFiltersExternalOperations"
+                                    [properties]="['code']"
+                                    [multiple]='true'
+                                >
+                                </arte-autocomplete-short-list>
+                                <div class='form-errors-messages' *hasErrors='let messages'>
+                                    <span *ngFor='let m of messages'>{{m}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class='row'>
                     <div class='form-group form-group-inline col-md-6 thematic-subscriptions'>
                         <div class='form-row'>
                             <label

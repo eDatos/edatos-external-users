@@ -29,6 +29,9 @@ div#captcha-container {
     left: 0;
   }
 
+  a {
+    color: $color-blue-dark-100;
+  }
 
   input.captcha-input {
     border: 1px solid $color-black-60;
@@ -55,6 +58,12 @@ div#captcha-container {
     outline-color: $color-blue-dark-50;
   }
 
+  &.captcha-recaptcha .captcha-label {
+    width: fit-content;
+    position: relative;
+    line-height: normal;
+    font-size: 10px;
+  }
 }
 
 
