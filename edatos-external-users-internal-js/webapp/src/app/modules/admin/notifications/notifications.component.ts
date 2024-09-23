@@ -118,7 +118,17 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     }
 
     public validateMultiLanguageText(value: InternationalString) {
-        this.disableValueLanguageInput = value.texts.some((text) => !text.label) || this.availableLanguages.some(language => !value.texts.some(text => text.locale === language));
+        this.disableValueLanguageInput = value.texts.some((text) => this.isRichTextEmpty(text.label))
+            || this.availableLanguages.some(language => !value.texts.some(text => text.locale === language));
+    }
+
+    private isRichTextEmpty(text?: string | null): boolean {
+        return text === null || text === undefined || !this.removeHtmlTags(text);
+    }
+
+    private removeHtmlTags(text: string): string {
+        const domParser = new DOMParser();
+        return domParser.parseFromString(text, 'text/html').body.textContent?.trim() || '';
     }
 
     public saveMessageText(notice: Notification, message: InternationalString) {
