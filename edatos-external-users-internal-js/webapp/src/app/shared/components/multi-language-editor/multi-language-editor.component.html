@@ -5,26 +5,26 @@
                   [style]="{'height':'500px'}" [modules]="isEditMode ? null : { toolbar: false }" [class.no-toolbar]="!isEditMode" scrollingContainer=".scrolling-editor">
             <p-header>
                 <span class="ql-formats">
-                    <select class="ql-header"></select>
+                    <select [title]="'richEditor.titles.header' | translate" class="ql-header"></select>
                 </span>
                 <span class="ql-formats">
-                    <button class="ql-bold" aria-label="Bold"></button>
-                    <button class="ql-italic" aria-label="Italic"></button>
-                    <button class="ql-underline" aria-label="Underline"></button>
+                    <button [title]="'richEditor.titles.bold' | translate" class="ql-bold" aria-label="Bold"></button>
+                    <button [title]="'richEditor.titles.italic' | translate" class="ql-italic" aria-label="Italic"></button>
+                    <button [title]="'richEditor.titles.underline' | translate" class="ql-underline" aria-label="Underline"></button>
                 </span>
                 <span class="ql-formats">
-                    <select title="Text Color" class="ql-color"></select>
-                    <select title="Background Color" class="ql-background"></select>
+                    <select [title]="'richEditor.titles.color' | translate" class="ql-color"></select>
+                    <select [title]="'richEditor.titles.background' | translate" class="ql-background"></select>
                 </span>
                 <span class="ql-formats">
-                    <button class="ql-list" value="ordered"></button>
-                    <button class="ql-list" value="bullet"></button>
+                    <button [title]="'richEditor.titles.orderedList' | translate" class="ql-list" value="ordered"></button>
+                    <button [title]="'richEditor.titles.bulletList' | translate" class="ql-list" value="bullet"></button>
                 </span>
                 <span class="ql-formats">
-                    <button aria-label="Link" class="ql-link"></button>
+                    <button [title]="'richEditor.titles.link' | translate" aria-label="Link" class="ql-link"></button>
                 </span>
                 <span class="ql-formats">
-                    <button aria-label="Remove Styles" class="ql-clean"></button>
+                    <button [title]="'richEditor.titles.clean' | translate" aria-label="Remove Styles" class="ql-clean"></button>
                 </span>
             </p-header>
         </p-editor>
