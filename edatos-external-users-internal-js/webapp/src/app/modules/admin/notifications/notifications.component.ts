@@ -1,9 +1,8 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ExternalUser } from '@app/core/model';
-import { ExternalOperation, Notification, Receiver } from '@app/shared/model';
+import { ExternalOperation, Notification, Receiver, RequiredLocalesEnum } from '@app/shared/model';
 import { errorErrorMessage } from '@app/core/service/alert/eusuarios-alert.service';
 import { MultiLanguageInputComponent } from '@app/shared/components/multi-language-input';
-import { ALL_LOCALES } from '@app/shared/components/multi-language-input/multi-language-input.constants';
 import { CategoryService, ExternalOperationService, LanguageService, NotificationService } from '@app/shared/service';
 import { TranslateService } from '@ngx-translate/core';
 import { ArteEventManager } from 'arte-ng/services';
@@ -15,6 +14,7 @@ import { ExternalUserFilter } from '@app/modules/external-user/external-user-sea
 import * as _ from 'lodash';
 import { shareReplay } from 'rxjs/operators';
 import { StructuralResourcesTreeSimpleSelectComponent } from "@app/shared/components/structural-resources-tree/structural-resources-tree-simple-select/structural-resources-tree-simple-select.component";
+import { MultiLanguageEditorComponent } from "@app/shared/components/multi-language-editor/multi-language-editor.component";
 
 @Component({
     selector: 'app-notifications',
@@ -23,7 +23,7 @@ import { StructuralResourcesTreeSimpleSelectComponent } from "@app/shared/compon
 })
 export class NotificationsComponent implements OnInit, OnDestroy {
 
-    public ALL_LOCALES = ALL_LOCALES;
+    public ALL_LOCALES = RequiredLocalesEnum.ALL_LOCALES;
 
     @Input()
     public filters: ExternalUserFilter = new ExternalUserFilter();
@@ -51,6 +51,8 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
     @ViewChild(MultiLanguageInputComponent)
     public languageInputComponent: MultiLanguageInputComponent;
+    @ViewChild(MultiLanguageEditorComponent)
+    public languageEditorComponent: MultiLanguageEditorComponent;
     public isSubjectModalVisible = false;
     public isMessageModalVisible = false;
 
@@ -59,6 +61,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     public addedMessageValueLanguageInput = false;
     public addedSubjectValueLanguageInput = false;
 
+    public isSending = false;
 
     constructor(
         private eventManager: ArteEventManager,
@@ -138,8 +141,18 @@ export class NotificationsComponent implements OnInit, OnDestroy {
         this.addedSubjectValueLanguageInput = true;
     }
 
-    public validatorValueLanguageInput(value: InternationalString) {
-        this.disableValueLanguageInput = value.texts.some((text) => !text.label);
+    public validateMultiLanguageText(value: InternationalString) {
+        this.disableValueLanguageInput = value.texts.some((text) => this.isRichTextEmpty(text.label))
+            || this.availableLanguages.some(language => !value.texts.some(text => text.locale === language));
+    }
+
+    private isRichTextEmpty(text?: string | null): boolean {
+        return text === null || text === undefined || !this.removeHtmlTags(text);
+    }
+
+    private removeHtmlTags(text: string): string {
+        const domParser = new DOMParser();
+        return domParser.parseFromString(text, 'text/html').body.textContent?.trim() || '';
     }
 
     public saveMessageText(notice: Notification, message: InternationalString) {
@@ -213,34 +226,25 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     }
 
     public openSubjectModal() {
-        this.disableValueLanguageInput = this.existsSubjectTexts();
+        this.validateMultiLanguageText(this.notification.subject);
         this.isSubjectModalVisible = true;
     }
 
     public closeSubjectModal() {
-        this.disableValueLanguageInput = this.existsSubjectTexts();
         this.isSubjectModalVisible = false;
     }
 
     public openMessageModal() {
-        this.disableValueLanguageInput = this.existsMessageTexts();
+        this.validateMultiLanguageText(this.notification.message);
         this.isMessageModalVisible = true;
     }
 
     public closeMessageModal() {
-        this.disableValueLanguageInput = this.existsMessageTexts();
         this.isMessageModalVisible = false;
     }
 
     public closeFailedReceivers() {
         this.thereAreFailedReceivers = false;
-    }
-
-    private existsMessageTexts(): boolean {
-       return this.notification.message.texts.length === 0;
-    }
-    private existsSubjectTexts(): boolean {
-        return this.notification.subject.texts.length === 0;
     }
 
     private arrStringToArrNumber(arrString: string[]) {
@@ -250,6 +254,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     }
 
     private subscribeToSendResponse(result: Observable<Notification>) {
+        this.isSending = true;
         result.subscribe(
             (response: Notification) => {
                 this.onSaveSuccess();
@@ -261,10 +266,12 @@ export class NotificationsComponent implements OnInit, OnDestroy {
                 this.resetFiltersExternalOperations();
                 this.addedSubjectValueLanguageInput = false;
                 this.addedMessageValueLanguageInput = false;
+                this.isSending = false;
             },
             () => {
                 this.thereAreFailedReceivers = true;
                 this.failedReceivers = errorErrorMessage['failedReceivers']?.map((receiver) => receiver).join(', ');
+                this.isSending = false;
                 this.onSaveError();
             }
         );

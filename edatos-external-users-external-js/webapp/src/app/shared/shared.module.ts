@@ -40,8 +40,6 @@ import { NgArrayPipesModule } from 'ngx-pipes';
 import { QuillModule } from 'ngx-quill';
 
 import { PasswordMatchValidatorDirective, PasswordNotMatchValidatorDirective } from './directives';
-import { MultiLanguageEditorComponent } from './components/multi-language-editor/multi-language-editor.component';
-import { MultiLanguageInputComponent } from './components/multi-language-input/multi-language-input.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { SafeHtmlPipe } from './pipe/safe-html.pipe';
@@ -91,8 +89,6 @@ import { CopyClipboardDirective } from '@app/shared/directives/copy-clipboard.di
         PasswordMatchValidatorDirective,
         PasswordNotMatchValidatorDirective,
         CopyClipboardDirective,
-        MultiLanguageEditorComponent,
-        MultiLanguageInputComponent,
         StructuralResourcesTreeComponent,
         NavbarComponent,
         FooterComponent,
@@ -143,11 +139,9 @@ import { CopyClipboardDirective } from '@app/shared/directives/copy-clipboard.di
         PasswordNotMatchValidatorDirective,
         CopyClipboardDirective,
         ArteDirectivesModule,
-        MultiLanguageEditorComponent,
         StructuralResourcesTreeComponent,
         NbButtonModule,
         NbCardModule,
-        MultiLanguageInputComponent,
         NavbarComponent,
         FooterComponent,
         CustomCalendarComponent,
