@@ -18,6 +18,7 @@ import es.gobcan.istac.edatos.external.users.core.domain.ExternalCategoryEntity;
 public interface CategoryRepository extends JpaRepository<CategoryEntity, Long> {
 
     Page<CategoryEntity> findAll(DetachedCriteria criteria, Pageable pageable);
+    List<CategoryEntity> findAllByIdIn(List<Long> ids);
     List<CategoryEntity> getByParentIsNull();
     Optional<CategoryEntity> findByCode(String code);
 

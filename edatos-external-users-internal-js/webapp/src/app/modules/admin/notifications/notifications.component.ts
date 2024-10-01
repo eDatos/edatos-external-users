@@ -1,10 +1,9 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ExternalUser } from '@app/core/model';
-import { Notification, Receiver } from '@app/shared/model';
+import { ExternalOperation, Notification, Receiver, RequiredLocalesEnum } from '@app/shared/model';
 import { errorErrorMessage } from '@app/core/service/alert/eusuarios-alert.service';
 import { MultiLanguageInputComponent } from '@app/shared/components/multi-language-input';
-import { ALL_LOCALES } from '@app/shared/components/multi-language-input/multi-language-input.constants';
-import { CategoryService, LanguageService, NotificationService } from '@app/shared/service';
+import { CategoryService, ExternalOperationService, LanguageService, NotificationService } from '@app/shared/service';
 import { TranslateService } from '@ngx-translate/core';
 import { ArteEventManager } from 'arte-ng/services';
 import { MessageService } from 'primeng/api';
@@ -15,6 +14,7 @@ import { ExternalUserFilter } from '@app/modules/external-user/external-user-sea
 import * as _ from 'lodash';
 import { shareReplay } from 'rxjs/operators';
 import { StructuralResourcesTreeSimpleSelectComponent } from "@app/shared/components/structural-resources-tree/structural-resources-tree-simple-select/structural-resources-tree-simple-select.component";
+import { MultiLanguageEditorComponent } from "@app/shared/components/multi-language-editor/multi-language-editor.component";
 
 @Component({
     selector: 'app-notifications',
@@ -23,7 +23,7 @@ import { StructuralResourcesTreeSimpleSelectComponent } from "@app/shared/compon
 })
 export class NotificationsComponent implements OnInit, OnDestroy {
 
-    public ALL_LOCALES = ALL_LOCALES;
+    public ALL_LOCALES = RequiredLocalesEnum.ALL_LOCALES;
 
     @Input()
     public filters: ExternalUserFilter = new ExternalUserFilter();
@@ -33,6 +33,9 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     public allowedReceivers: Receiver[] = [];
     public notification: Notification;
     public selectedReceivers: string[] = [];
+
+    public allowedFiltersExternalOperations: ExternalOperation[] = [];
+    public selectedFiltersExternalOperations: ExternalOperation[] = [];
 
     public isSelectingResource = false;
     public selectedResources: FavoriteResource[] = [];
@@ -48,6 +51,8 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
     @ViewChild(MultiLanguageInputComponent)
     public languageInputComponent: MultiLanguageInputComponent;
+    @ViewChild(MultiLanguageEditorComponent)
+    public languageEditorComponent: MultiLanguageEditorComponent;
     public isSubjectModalVisible = false;
     public isMessageModalVisible = false;
 
@@ -56,6 +61,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     public addedMessageValueLanguageInput = false;
     public addedSubjectValueLanguageInput = false;
 
+    public isSending = false;
 
     constructor(
         private eventManager: ArteEventManager,
@@ -63,7 +69,8 @@ export class NotificationsComponent implements OnInit, OnDestroy {
         public messageService: MessageService,
         public translateService: TranslateService,
         private categoryService: CategoryService,
-        private languageService: LanguageService
+        private languageService: LanguageService,
+        private externalOperationService: ExternalOperationService
     ) {
     }
 
@@ -82,6 +89,12 @@ export class NotificationsComponent implements OnInit, OnDestroy {
             .getInternationalLanguages()
             .pipe(shareReplay({ bufferSize: 1, refCount: true }))
             .subscribe((languages) => (this.availableLanguages = languages));
+
+        this.externalOperationService.find({size: 10000}).subscribe((response) => {
+            this.allowedFiltersExternalOperations = response.body.sort((operation1, operation2) => {
+                return operation1.code.toLowerCase() < operation2.code.toLowerCase() ? -1 : 1;
+            });
+        });
     }
 
     public ngOnDestroy() {
@@ -93,6 +106,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     public send() {
         this.notification.categoriesIds = this.arrStringToArrNumber(this.filters.categories);
         this.notification.externalOperationsIds = this.arrStringToArrNumber(this.filters.externalOperations);
+        this.notification.filtersExternalOperationsIds = this.arrStringToArrNumber(this.filters.filtersExternalOperations);
         this.notification.receivers = this.selectedReceivers;
         this.subscribeToSendResponse(this.notificationService.send(this.notification));
     }
@@ -108,14 +122,37 @@ export class NotificationsComponent implements OnInit, OnDestroy {
         }
     }
 
+    public onSelectFiltersExternalOperations(operation: ExternalOperation) {
+        this.selectedFiltersExternalOperations.push(operation);
+        this.filters.filtersExternalOperations = this.selectedFiltersExternalOperations.map(operation => operation.id.toString());
+    }
+
+    public onUnselectFiltersExternalOperations(operation: ExternalOperation) {
+        const index = this.selectedFiltersExternalOperations.indexOf(operation);
+        if (index > -1) {
+            this.selectedFiltersExternalOperations.splice(index, 1);
+        }
+        this.filters.filtersExternalOperations = this.selectedFiltersExternalOperations.map(operation => operation.id.toString());
+    }
+
     public saveSubjectText(notice: Notification, subject: InternationalString) {
         notice.subject = subject;
         this.isSubjectModalVisible = false;
         this.addedSubjectValueLanguageInput = true;
     }
 
-    public validatorValueLanguageInput(value: InternationalString) {
-        this.disableValueLanguageInput = value.texts.some((text) => !text.label);
+    public validateMultiLanguageText(value: InternationalString) {
+        this.disableValueLanguageInput = value.texts.some((text) => this.isRichTextEmpty(text.label))
+            || this.availableLanguages.some(language => !value.texts.some(text => text.locale === language));
+    }
+
+    private isRichTextEmpty(text?: string | null): boolean {
+        return text === null || text === undefined || !this.removeHtmlTags(text);
+    }
+
+    private removeHtmlTags(text: string): string {
+        const domParser = new DOMParser();
+        return domParser.parseFromString(text, 'text/html').body.textContent?.trim() || '';
     }
 
     public saveMessageText(notice: Notification, message: InternationalString) {
@@ -146,6 +183,11 @@ export class NotificationsComponent implements OnInit, OnDestroy {
         this.selectedResources = [];
     }
 
+    public resetFiltersExternalOperations() {
+        this.selectedFiltersExternalOperations = [];
+        this.filters.filtersExternalOperations = [];
+    }
+
     public updateSelectedResources() {
         this.selectedResources = this.tree.selectedResources.map((node) => node.data);
     }
@@ -159,12 +201,14 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     public thereAreReceivers() {
         return (this.selectedReceivers && this.selectedReceivers.length) ||
             (this.filters.categories && this.filters.categories.length) ||
-            (this.filters.externalOperations && this.filters.externalOperations.length);
+            (this.filters.externalOperations && this.filters.externalOperations.length) ||
+            (this.filters.filtersExternalOperations && this.filters.filtersExternalOperations.length);
     }
 
     public isDisabledForSend() {
         return !this.thereAreReceivers() || !this.thereAreContentMail();
     }
+
     public thereAreContentMail() {
         return (this.notification.subject && this.notification.subject.texts.length) && (this.notification.message && this.notification.message.texts.length);
     }
@@ -182,34 +226,25 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     }
 
     public openSubjectModal() {
-        this.disableValueLanguageInput = this.existsSubjectTexts();
+        this.validateMultiLanguageText(this.notification.subject);
         this.isSubjectModalVisible = true;
     }
 
     public closeSubjectModal() {
-        this.disableValueLanguageInput = this.existsSubjectTexts();
         this.isSubjectModalVisible = false;
     }
 
     public openMessageModal() {
-        this.disableValueLanguageInput = this.existsMessageTexts();
+        this.validateMultiLanguageText(this.notification.message);
         this.isMessageModalVisible = true;
     }
 
     public closeMessageModal() {
-        this.disableValueLanguageInput = this.existsMessageTexts();
         this.isMessageModalVisible = false;
     }
 
     public closeFailedReceivers() {
         this.thereAreFailedReceivers = false;
-    }
-
-    private existsMessageTexts(): boolean {
-       return this.notification.message.texts.length === 0;
-    }
-    private existsSubjectTexts(): boolean {
-        return this.notification.subject.texts.length === 0;
     }
 
     private arrStringToArrNumber(arrString: string[]) {
@@ -219,6 +254,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     }
 
     private subscribeToSendResponse(result: Observable<Notification>) {
+        this.isSending = true;
         result.subscribe(
             (response: Notification) => {
                 this.onSaveSuccess();
@@ -227,12 +263,15 @@ export class NotificationsComponent implements OnInit, OnDestroy {
                 this.selectedReceiversComponent.writeValue([]);
                 this.notification = new Notification();
                 this.resetCategories();
+                this.resetFiltersExternalOperations();
                 this.addedSubjectValueLanguageInput = false;
                 this.addedMessageValueLanguageInput = false;
+                this.isSending = false;
             },
             () => {
                 this.thereAreFailedReceivers = true;
                 this.failedReceivers = errorErrorMessage['failedReceivers']?.map((receiver) => receiver).join(', ');
+                this.isSending = false;
                 this.onSaveError();
             }
         );

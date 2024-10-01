@@ -814,6 +814,7 @@
                 "added": "Mensaje multilenguaje añadido"
             },
             "receivers": "Destinatarios",
+            "filters": "Consultas personalizadas",
             "send": "Enviar"
         },
         "message": {
@@ -847,6 +848,20 @@
             "friday": "Vi",
             "saturday": "Sa",
             "sunday": "Do"
+        }
+    },
+    "richEditor": {
+        "titles": {
+            "header": "Título",
+            "bold": "Negrita",
+            "italic": "Cursiva",
+            "underline": "Subrayado",
+            "color": "Color del texto",
+            "background": "Color de fondo",
+            "orderedList": "Lista ordenada",
+            "bulletList": "Lista de viñetas",
+            "link": "Enlace",
+            "clean": "Limpiar formato"
         }
     }
 }

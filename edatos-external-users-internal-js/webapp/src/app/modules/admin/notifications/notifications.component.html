@@ -6,7 +6,7 @@
             <span class='page-header-title-text'>{{ 'notifications.home.title' | translate }}</span>
         </h2>
         <button class='btn btn-primary mr-2' (click)='send()'
-                [disabled]='notificationForm && notificationForm.form.invalid || isDisabledForSend()'>
+                [disabled]='notificationForm && notificationForm.form.invalid || isDisabledForSend() || isSending'>
             <span class='fa fa-send'></span>
             <span translate='notifications.form.send'></span>
         </button>
@@ -45,6 +45,29 @@
                                     [suggestions]='allowedReceivers'
                                     dataKey='email'
                                     [properties]="['email']"
+                                    [multiple]='true'
+                                >
+                                </arte-autocomplete-short-list>
+                                <div class='form-errors-messages' *hasErrors='let messages'>
+                                    <span *ngFor='let m of messages'>{{m}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class='row'>
+                    <div class='form-group form-group-inline col-md-6'>
+                        <div class='form-row'>
+                            <label class='form-label col-md-4' translate='notifications.form.filters' for='email'></label>
+                            <div class='col-md-8 form-input-container errors-on-hover'>
+                                <arte-autocomplete-short-list
+                                    id='filter-external-operation'
+                                    dataKey='id'
+                                    (onUnselect)='onUnselectFiltersExternalOperations($event)'
+                                    (onSelect)='onSelectFiltersExternalOperations($event)'
+                                    [suggestions]='allowedFiltersExternalOperations'
+                                    [selectedSuggestions]="selectedFiltersExternalOperations"
+                                    [properties]="['code']"
                                     [multiple]='true'
                                 >
                                 </arte-autocomplete-short-list>
@@ -145,8 +168,8 @@
                             [ngModel]='notification.subject'
                             [locales]='availableLanguages'
                             [inputType]="'text'"
-                            (input)='validatorValueLanguageInput(languageInputComponent.value)'
-                            [locale]='ALL_LOCALES'
+                            (input)='validateMultiLanguageText(languageInputComponent.value)'
+                            [requiredLocales]='ALL_LOCALES'
                         ></app-multi-language-input>
                         <p-footer>
                             <button type='button' class='btn btn-secondary' (click)='closeSubjectModal()'>
@@ -195,24 +218,21 @@
                         [appendTo]='dialogWrapper'
                         (visibleChange)='closeMessageModal()'
                     >
-                        <app-multi-language-input
-                            pInputTextarea
-                            autoResize='autoResize'
+                        <app-multi-language-editor
                             [ngModel]='notification.message'
                             [locales]='availableLanguages'
-                            [inputType]="'textarea'"
+                            [requiredLocales]='ALL_LOCALES'
                             name='message'
                             id='message'
-                            (input)='validatorValueLanguageInput(languageInputComponent.value)'
-                            [locale]='ALL_LOCALES'
-                        ></app-multi-language-input>
+                            (ngModelChange)='validateMultiLanguageText(languageEditorComponent.value)'
+                        ></app-multi-language-editor>
                         <p-footer>
                             <button type='button' class='btn btn-secondary' (click)='closeMessageModal()'>
                                 <i class='fa fa-times' aria-hidden='true'></i>
                                 <span>{{ 'entity.action.cancel' | translate }}</span>
                             </button>
                             <button type='button' class='btn btn-primary'
-                                    (click)='saveMessageText(notification, languageInputComponent.value)'
+                                    (click)='saveMessageText(notification, languageEditorComponent.value)'
                                     [disabled]='disableValueLanguageInput'>
                                 <i class='fa fa-save' aria-hidden='true'></i>
                                 <span>{{ 'entity.action.save' | translate }}</span>

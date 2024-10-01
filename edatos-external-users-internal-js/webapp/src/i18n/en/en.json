@@ -814,6 +814,7 @@
                 "added": "Multi-language message added"
             },
             "receivers": "Receivers",
+            "filters": "Custom queries",
             "send": "Send"
         },
         "message": {
@@ -847,6 +848,20 @@
             "friday": "Fr",
             "saturday": "Sa",
             "sunday": "Su"
+        }
+    },
+    "richEditor": {
+        "titles": {
+            "header": "Header",
+            "bold": "Bold",
+            "italic": "Italic",
+            "underline": "Underline",
+            "color": "Text color",
+            "background": "Background color",
+            "orderedList": "Ordered list",
+            "bulletList": "Bullet list",
+            "link": "Link",
+            "clean": "Clean format"
         }
     }
 }

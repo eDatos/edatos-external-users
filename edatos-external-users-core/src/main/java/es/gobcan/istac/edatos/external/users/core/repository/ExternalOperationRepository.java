@@ -14,6 +14,7 @@ import es.gobcan.istac.edatos.external.users.core.domain.ExternalOperationEntity
 public interface ExternalOperationRepository extends AbstractExternalItemRepository<ExternalOperationEntity> {
 
     Page<ExternalOperationEntity> findAll(DetachedCriteria criteria, Pageable pageable);
+    List<ExternalOperationEntity> findAllByIdIn(List<Long> ids);
     List<ExternalOperationEntity> findByExternalCategoryUrnIn(List<String> urns);
     List<ExternalOperationEntity> findByUrnIn(List<String> urns);
     Optional<ExternalOperationEntity> findByCode(String code);

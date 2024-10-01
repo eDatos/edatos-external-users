@@ -1,5 +1,6 @@
 package es.gobcan.istac.edatos.external.users.core.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import es.gobcan.istac.edatos.external.users.core.domain.ExternalOperationEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.FilterEntity;
 import es.gobcan.istac.edatos.external.users.core.repository.ExternalUserRepository;
@@ -20,6 +22,8 @@ import es.gobcan.istac.edatos.external.users.core.security.SecurityUtils;
 import es.gobcan.istac.edatos.external.users.core.service.FilterService;
 import es.gobcan.istac.edatos.external.users.core.util.QueryUtil;
 
+import javax.persistence.EntityManager;
+
 @Service
 public class FilterServiceImpl implements FilterService {
 
@@ -27,11 +31,13 @@ public class FilterServiceImpl implements FilterService {
     private final ExternalUserRepository externalUserRepository;
 
     private final QueryUtil queryUtil;
+    private final EntityManager entityManager;
 
-    public FilterServiceImpl(FilterRepository filterRepository, ExternalUserRepository externalUserRepository, QueryUtil queryUtil) {
+    public FilterServiceImpl(FilterRepository filterRepository, ExternalUserRepository externalUserRepository, QueryUtil queryUtil, EntityManager entityManager) {
         this.filterRepository = filterRepository;
         this.externalUserRepository = externalUserRepository;
         this.queryUtil = queryUtil;
+        this.entityManager = entityManager;
     }
 
     @Override
@@ -87,6 +93,16 @@ public class FilterServiceImpl implements FilterService {
     @Override
     public List<FilterEntity> findByPermalink(String permalink) {
         return filterRepository.findByPermalink(permalink);
+    }
+
+    @Override
+    public List<FilterEntity> findByExternalOperation(List<ExternalOperationEntity> externalOperations) {
+        if (externalOperations == null || externalOperations.isEmpty()) {
+            return new ArrayList<>();
+        }
+        DetachedCriteria criteria = queryUtil.queryToFilterCriteria("", null);
+        criteria.add(Restrictions.in("externalOperation", externalOperations));
+        return filterRepository.findAll(criteria);
     }
 
     @Override
