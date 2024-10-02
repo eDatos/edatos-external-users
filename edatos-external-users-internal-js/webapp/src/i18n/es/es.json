@@ -866,6 +866,8 @@
                 "heading": "Título",
                 "normal": "Normal"
             }
-        }
+        },
+        "enterLink": "Introduzca el enlace",
+        "save": "Guardar"
     }
 }

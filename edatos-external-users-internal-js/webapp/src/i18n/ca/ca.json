@@ -865,7 +865,8 @@
             "size": {
                 "heading": "Títol",
                 "normal": "Normal"
-            }
+            },
+            "enter_link": "Introduzca el enlace"
         }
     }
 }
