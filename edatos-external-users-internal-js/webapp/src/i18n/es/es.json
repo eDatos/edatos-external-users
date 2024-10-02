@@ -861,7 +861,11 @@
             "orderedList": "Lista ordenada",
             "bulletList": "Lista de viñetas",
             "link": "Enlace",
-            "clean": "Limpiar formato"
+            "clean": "Limpiar formato",
+            "size": {
+                "heading": "Título",
+                "normal": "Normal"
+            }
         }
     }
 }

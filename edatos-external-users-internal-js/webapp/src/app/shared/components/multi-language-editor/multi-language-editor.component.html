@@ -7,7 +7,12 @@
                       [style]="{'height':'500px'}" [modules]="isEditMode ? null : { toolbar: false }" [class.no-toolbar]="!isEditMode" scrollingContainer=".scrolling-editor">
                 <p-header>
                     <span class="ql-formats">
-                        <select [title]="'richEditor.titles.header' | translate" class="ql-header"></select>
+                        <select [title]="'richEditor.titles.header' | translate" class="ql-header">
+                            <option value="1">{{"richEditor.titles.size.heading" | translate}} 1</option>
+                            <option value="2">{{"richEditor.titles.size.heading" | translate}} 2</option>
+                            <option value="3">{{"richEditor.titles.size.heading" | translate}} 3</option>
+                            <option selected>{{"richEditor.titles.size.normal" | translate}}</option>
+                        </select>
                     </span>
                     <span class="ql-formats">
                         <button [title]="'richEditor.titles.bold' | translate" class="ql-bold" aria-label="Bold"></button>

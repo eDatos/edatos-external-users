@@ -861,7 +861,11 @@
             "orderedList": "Ordered list",
             "bulletList": "Bullet list",
             "link": "Link",
-            "clean": "Clean format"
+            "clean": "Clean format",
+            "size": {
+                "heading": "Heading",
+                "normal": "Normal"
+            }
         }
     }
 }
