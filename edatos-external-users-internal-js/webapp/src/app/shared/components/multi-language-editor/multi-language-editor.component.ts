@@ -74,7 +74,7 @@ export class MultiLanguageEditorComponent implements ControlValueAccessor, OnCha
           static create(value) {
             const node = super.create(value);
             if (!/^https?:\/\//i.test(value)) {
-                value = `http://${value}`;
+                value = `https://${value}`;
             }
             node.setAttribute('href', value);
             return node;
