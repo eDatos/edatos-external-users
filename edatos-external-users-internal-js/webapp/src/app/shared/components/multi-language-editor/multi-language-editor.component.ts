@@ -37,7 +37,6 @@ export class MultiLanguageEditorComponent implements ControlValueAccessor, OnCha
     @Input()
     requiredLocales: RequiredLocalesEnum;
 
-    quillModules;
 
     @ViewChildren(Editor) set setEditors(editors: QueryList<Editor>) {
         if (editors) {
@@ -50,7 +49,7 @@ export class MultiLanguageEditorComponent implements ControlValueAccessor, OnCha
     constructor(translateService: TranslateService) {
         this.translateService = translateService;
         this.value.texts = [];
-        this.defaultLocale = translateService.getDefaultLang()
+        this.defaultLocale = translateService.getDefaultLang();
     }
 
     ngOnInit(): void {
@@ -80,13 +79,7 @@ export class MultiLanguageEditorComponent implements ControlValueAccessor, OnCha
             return node;
           }
         }
-
         Quill.register(MyLink, true);
-        this.quillModules = this.isEditMode ? null : {
-            toolbar: [
-                ['link']
-            ]
-        };
     }
 
     ngOnChanges(changes: SimpleChanges): void {
