@@ -37,7 +37,7 @@ export class MultiLanguageEditorComponent implements ControlValueAccessor, OnCha
     @Input()
     requiredLocales: RequiredLocalesEnum;
 
-    modules;
+    quillModules;
 
     @ViewChildren(Editor) set setEditors(editors: QueryList<Editor>) {
         if (editors) {
@@ -54,7 +54,21 @@ export class MultiLanguageEditorComponent implements ControlValueAccessor, OnCha
     }
 
     ngOnInit(): void {
-        // prevents links to be interpreted as relative
+        this.preventRelativeLinks();
+        this.allowI18nForLinkTooltip();
+    }
+
+    private allowI18nForLinkTooltip() {
+        const style = document.createElement('style');
+        const insertUrlMessage = this.translateService.instant('richEditor.enterLink');
+        const saveMessage = this.translateService.instant('richEditor.save');
+        style.innerHTML = `.ql-snow .ql-tooltip[data-mode="link"]::before { content: "${insertUrlMessage}" !important; }\n`;
+        style.innerHTML += `.ql-snow .ql-tooltip.ql-editing a.ql-action::after { content: "${saveMessage}" !important; }`;
+        style.appendChild(document.createTextNode(''));
+        document.head.appendChild(style);
+    }
+
+    private preventRelativeLinks() {
         const Link = Quill.import('formats/link');
         class MyLink extends Link {
           static create(value) {
@@ -66,21 +80,13 @@ export class MultiLanguageEditorComponent implements ControlValueAccessor, OnCha
             return node;
           }
         }
+
         Quill.register(MyLink, true);
-        this.modules = this.isEditMode ? null : {
+        this.quillModules = this.isEditMode ? null : {
             toolbar: [
                 ['link']
             ]
         };
-
-        // allows i18n of the link tooltip
-         const style = document.createElement('style');
-         const insertUrlMessage = this.translateService.instant('richEditor.enterLink');
-         const saveMessage = this.translateService.instant('richEditor.save');
-         style.innerHTML = `.ql-snow .ql-tooltip[data-mode="link"]::before { content: "${insertUrlMessage}" !important; }\n`;
-         style.innerHTML += `.ql-snow .ql-tooltip.ql-editing a.ql-action::after { content: "${saveMessage}" !important; }`;
-         style.appendChild(document.createTextNode(''));
-         document.head.appendChild(style);
     }
 
     ngOnChanges(changes: SimpleChanges): void {
