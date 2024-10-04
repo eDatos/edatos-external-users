@@ -4,7 +4,7 @@
         <div class="editor"> <!--https://github.com/slab/quill/issues/360#issuecomment-810425327-->
             <p-editor bounds=".editor" [id]="locale" (onTextChange)="onEditorChange($event, locale)" (onInit)="onEditorInit($event, locale)"
                       (onSelectionChange)="onEditorTouched($event)"
-                      [style]="{'height':'500px'}" [modules]="isEditMode ? null : { toolbar: false }" [class.no-toolbar]="!isEditMode" scrollingContainer=".scrolling-editor">
+                      [style]="{'height':'500px'}" [modules]="modules" [class.no-toolbar]="!isEditMode" scrollingContainer=".scrolling-editor">
                 <p-header>
                     <span class="ql-formats">
                         <select [title]="'richEditor.titles.header' | translate" class="ql-header">

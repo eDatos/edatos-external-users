@@ -4,6 +4,7 @@ import { InternationalString, LocalisedString, RequiredLocalesEnum } from '@app/
 import { Editor } from 'primeng/editor';
 import { TranslateService } from "@ngx-translate/core";
 import * as _ from 'lodash';
+import Quill from 'quill';
 
 @Component({
     selector: 'app-multi-language-editor',
@@ -36,6 +37,8 @@ export class MultiLanguageEditorComponent implements ControlValueAccessor, OnCha
     @Input()
     requiredLocales: RequiredLocalesEnum;
 
+    modules;
+
     @ViewChildren(Editor) set setEditors(editors: QueryList<Editor>) {
         if (editors) {
             editors.forEach(editor => {
@@ -51,6 +54,26 @@ export class MultiLanguageEditorComponent implements ControlValueAccessor, OnCha
     }
 
     ngOnInit(): void {
+        // prevents links to be interpreted as relative
+        const Link = Quill.import('formats/link');
+        class MyLink extends Link {
+          static create(value) {
+            const node = super.create(value);
+            if (!/^https?:\/\//i.test(value)) {
+                value = `http://${value}`;
+            }
+            node.setAttribute('href', value);
+            return node;
+          }
+        }
+        Quill.register(MyLink, true);
+        this.modules = this.isEditMode ? null : {
+            toolbar: [
+                ['link']
+            ]
+        };
+
+        // allows i18n of the link tooltip
          const style = document.createElement('style');
          const insertUrlMessage = this.translateService.instant('richEditor.enterLink');
          const saveMessage = this.translateService.instant('richEditor.save');
