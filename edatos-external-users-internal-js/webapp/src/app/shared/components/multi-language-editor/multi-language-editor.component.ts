@@ -61,7 +61,7 @@ export class MultiLanguageEditorComponent implements ControlValueAccessor, OnCha
         const style = document.createElement('style');
         const insertUrlMessage = this.translateService.instant('richEditor.enterLink');
         const saveMessage = this.translateService.instant('richEditor.save');
-        style.innerHTML = `.ql-snow .ql-tooltip[data-mode="link"]::before { content: "${insertUrlMessage}" !important; }\n`;
+        style.innerHTML = `.ql-snow .ql-tooltip::before { content: "${insertUrlMessage}" !important; }\n`;
         style.innerHTML += `.ql-snow .ql-tooltip.ql-editing a.ql-action::after { content: "${saveMessage}" !important; }`;
         style.appendChild(document.createTextNode(''));
         document.head.appendChild(style);
