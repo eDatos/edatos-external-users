@@ -214,7 +214,7 @@
             "crear": "Create",
             "deactivate": "Deactivate",
             "delete": "Remove",
-            "edit": "EDIT",
+            "edit": "Edit",
             "eliminar": "Remove",
             "filtersReset": "Reset filters",
             "modificar": "modify",
@@ -861,7 +861,13 @@
             "orderedList": "Ordered list",
             "bulletList": "Bullet list",
             "link": "Link",
-            "clean": "Clean format"
-        }
+            "clean": "Clean format",
+            "size": {
+                "heading": "Heading",
+                "normal": "Normal"
+            }
+        },
+        "enterLink": "Enter link",
+        "save": "Save"
     }
 }
