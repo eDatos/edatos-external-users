@@ -1,34 +1,5 @@
 {
     "userManagement": {
-        "personalData": "Personal Information",
-        "permissions": "Permissions",
-        "activado": "Activated",
-        "desactivado": "Deactivated",
-        "createdDate": "Creation date",
-        "home": {
-            "title": "Users",
-            "createLabel": "Add new user",
-            "createOrEditLabel": "Create or edit a user",
-            "includeDeleted": "Include deactivated",
-            "favorites": "Favorites",
-            "filters": "Filters",
-            "createDeactivatedTooltip": "User creation is deactivated"
-        },
-        "updated": "User {{ param }} has been updated",
-        "deletionDate": "Deletion date",
-        "restore": {
-            "question": "Are you sure you want to restore user {{ login }}?"
-        },
-        "deactivate": {
-            "question": "Are you sure you want to delete user <strong>{{ login }}</strong>?"
-        },
-        "detail": {
-            "title": "User"
-        },
-        "name": "Name",
-        "surname1": "Surname",
-        "surname2": "Second surname",
-        "email": "Email",
         "password": {
             "new": "New password",
             "confirmNew": "Confirm password",
@@ -47,28 +18,6 @@
                 "onRequestSuccess": "An email has been sent to confirm the modification.",
                 "onConfirmationSuccessSummary": "Email modification confirmed",
                 "onConfirmationSuccess": "From now on you can log in with the new email."
-            }
-        },
-        "activated": "Activated",
-        "deactivated": "Deactivated",
-        "profiles": "Roles",
-        "roles": "Roles",
-        "rol": "Role",
-        "filters": {
-            "name": {
-                "label": "User",
-                "placeholder": "Enter name, username or surnames"
-            },
-            "rolEnum": {
-                "label": "Role"
-            },
-            "rolShort": {
-                "label": "Search by role (ac-autocomplete-short-list)",
-                "placeholder": "Enter role (ac-autocomplete-short-list)"
-            },
-            "rolLong": {
-                "label": "Search by role (ac-autocomplete-long-list)",
-                "placeholder": "Enter role (ac-autocomplete-long-list)"
             }
         }
     }
