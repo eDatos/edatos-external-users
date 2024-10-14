@@ -861,7 +861,13 @@
             "orderedList": "Llista ordenada",
             "bulletList": "Llista de vinyetes",
             "link": "Enllaç",
-            "clean": "Netejar format"
-        }
+            "clean": "Netejar format",
+            "size": {
+                "heading": "Títol",
+                "normal": "Normal"
+            }
+        },
+        "enterLink": "Introduïu l'enllaç",
+        "save": "Guardar"
     }
 }

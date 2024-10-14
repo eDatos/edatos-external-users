@@ -1,9 +1,10 @@
-import { Component, forwardRef, Input, OnChanges, QueryList, SimpleChanges, ViewChildren } from '@angular/core';
+import { Component, forwardRef, Input, OnChanges, QueryList, SimpleChanges, ViewChildren, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { InternationalString, LocalisedString, RequiredLocalesEnum } from '@app/shared/model';
 import { Editor } from 'primeng/editor';
 import { TranslateService } from "@ngx-translate/core";
 import * as _ from 'lodash';
+import Quill from 'quill';
 
 @Component({
     selector: 'app-multi-language-editor',
@@ -17,7 +18,7 @@ import * as _ from 'lodash';
         }
     ]
 })
-export class MultiLanguageEditorComponent implements ControlValueAccessor, OnChanges {
+export class MultiLanguageEditorComponent implements ControlValueAccessor, OnChanges, OnInit {
 
     onTouched: any = () => {};
     onChange: any = () => {};
@@ -31,9 +32,11 @@ export class MultiLanguageEditorComponent implements ControlValueAccessor, OnCha
 
     @Input()
     isEditMode: boolean = true;
+    private translateService: TranslateService;
 
     @Input()
     requiredLocales: RequiredLocalesEnum;
+
 
     @ViewChildren(Editor) set setEditors(editors: QueryList<Editor>) {
         if (editors) {
@@ -44,8 +47,39 @@ export class MultiLanguageEditorComponent implements ControlValueAccessor, OnCha
     }
 
     constructor(translateService: TranslateService) {
+        this.translateService = translateService;
         this.value.texts = [];
-        this.defaultLocale = translateService.getDefaultLang()
+        this.defaultLocale = translateService.getDefaultLang();
+    }
+
+    ngOnInit(): void {
+        this.preventRelativeLinks();
+        this.allowI18nForLinkTooltip();
+    }
+
+    private allowI18nForLinkTooltip() {
+        const style = document.createElement('style');
+        const insertUrlMessage = this.translateService.instant('richEditor.enterLink');
+        const saveMessage = this.translateService.instant('richEditor.save');
+        style.innerHTML = `.ql-snow .ql-tooltip::before { content: "${insertUrlMessage}" !important; }\n`;
+        style.innerHTML += `.ql-snow .ql-tooltip.ql-editing a.ql-action::after { content: "${saveMessage}" !important; }`;
+        style.appendChild(document.createTextNode(''));
+        document.head.appendChild(style);
+    }
+
+    private preventRelativeLinks() {
+        const Link = Quill.import('formats/link');
+        class MyLink extends Link {
+          static create(value) {
+            const node = super.create(value);
+            if (!/^https?:\/\//i.test(value)) {
+                value = `https://${value}`;
+            }
+            node.setAttribute('href', value);
+            return node;
+          }
+        }
+        Quill.register(MyLink, true);
     }
 
     ngOnChanges(changes: SimpleChanges): void {
