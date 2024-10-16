@@ -9,46 +9,6 @@ div.page {
   position: relative;
 }
 
-.navbar {
-  
-  div.navbar-collapse {
-    height: 42px;
-    padding-bottom: 10px;
-  }
-
-  ul.navbar-nav {
-    .nav-item {
-      white-space: nowrap;
-
-      &.active {
-        background: transparent;
-      }
-
-      ul.dropdown-menu-right.show {
-        font-size: $size-14;
-        min-width: 274px;
-        margin: 0;
-        top: 48px;
-        background-color: $color-blue-dark-100;
-        border-radius: 6px 0 6px 6px;
-      }
-
-      .btn {
-        font-size: $size-14;
-      }
-    }
-  }
-
-  div.general-buttons.row {
-    margin: 0;
-    padding: 0 0 10px 0;
-  }
-
-  .dropdown-menu {
-    border: unset;
-  }
-}
-
 div.general-buttons.row {
   padding-left: 20px;
 }
