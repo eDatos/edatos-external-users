@@ -3,37 +3,54 @@
         <div class='col-md-12 justify-content-md-center text-center'>
             <div *ngIf='!filtersLoaded' class='spinner-border text-info' role='status'></div>
         </div>
-        <ng-container *ngIf='filtersLoaded'>
-            <ng-container *ngIf='filters.length > 0;else emptyList'>
-                <div class='page-table-container-fluid table-custom-filter'>
-                    <arte-table
-                        [columns]='columns'
-                        [value]='filters'
-                        [rows]='itemsPerPage'
-                        [totalRecords]='totalItems'
-                        [rowsPerPageOptions]='paginatorOptions'
-                        tableStyleClass='page-table table-has-pointer-rows table-layou-fixed'
-                        (onLazyLoad)='loadData($event)'
-                    >
-                        <ng-template pTemplate='body' let-filter>
-                            <tr [routerLink]="['../filter', filter.id]">
-                                <td>{{filter.name}}</td>
-                                <td>{{filter.createdDate | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
-                                <td>{{filter.lastAccessDate | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
-                            </tr>
-                        </ng-template>
-                    </arte-table>
-                </div>
-            </ng-container>
-            <ng-template #emptyList>
-                <div class='no-content'>
-                    <img src='assets/images/no-results.png' [alt]="'arte.entity-list-empty.detail' | translate" />
-                    <div class='no-content-text'>
-                        <div class='title' translate='filter.list.noFilterCreated'></div>
-                        <div class='detail' translate='filter.list.wouldYouLikeToCreateAFilter'></div>
+        <div class='page-table-container-fluid table-custom-filter'>
+            <p-table
+                scrollHeight="flex"
+                [columns]='columns'
+                [value]='virtualFilters'
+                [rows]='this.itemsPerLoad'
+                [scrollable]="true"
+                [virtualScroll]="true"
+                [virtualRowHeight]="height"
+                [lazy]="true"
+                tableStyleClass='page-table table-has-pointer-rows table-layou-fixed'
+                (onLazyLoad)='loadData($event)'
+            >
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th *ngFor="let col of columns" [pSortableColumn]="col.fieldName" [pSortableColumnDisabled]="!col.sortable">
+                            {{ printHeader(col) }}
+                            <p-sortIcon *ngIf="col.sortable" [field]="col.fieldName"></p-sortIcon>
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-filter>
+                    <tr [style.height]="height + 'px'" [routerLink]="['../filter', filter.id]">
+                        <td>{{ filter.name }}</td>
+                        <td>{{ filter.createdDate | date: 'dd/MM/yyyy HH:mm:ss' }}</td>
+                        <td>{{ filter.lastAccessDate | date: 'dd/MM/yyyy HH:mm:ss' }}</td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="loadingbody">
+                    <tr [style.height]="height + 'px'">
+                        <td *ngFor="let col of columns">
+                                <span>
+                                    <ngx-skeleton-loader count="1" [theme]="{'margin-bottom': '0', height: '1rem'}"></ngx-skeleton-loader>
+                                </span>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <div class='no-content'>
+                        <img src='assets/images/no-results.png' [alt]="'arte.entity-list-empty.detail' | translate" />
+                        <div class='no-content-text'>
+                            <div class='title' translate='filter.list.noFilterCreated'></div>
+                            <div class='detail' translate='filter.list.wouldYouLikeToCreateAFilter'></div>
+                        </div>
                     </div>
-                </div>
-            </ng-template>
-        </ng-container>
+                </ng-template>
+            </p-table>
+        </div>
     </div>
 </div>
+
