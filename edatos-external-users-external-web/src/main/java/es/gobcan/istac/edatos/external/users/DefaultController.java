@@ -50,6 +50,7 @@ public class DefaultController {
     public ModelAndView index(HttpServletRequest request) {
         log.debug("DefaultController: Contextpath = {}  ServletPath = {}", request.getContextPath(), request.getServletPath());
         Map<String, Object> model = new HashMap<>();
+        model.put("lang", metadataService.retrieveLanguageDefault());
         model.put("faviconUrl", this.faviconUrl);
         model.put("headerUrl", htmlService.getHeaderUrl());
         model.put("footerUrl", metadataService.retrieveAppStyleFooterUrl());
