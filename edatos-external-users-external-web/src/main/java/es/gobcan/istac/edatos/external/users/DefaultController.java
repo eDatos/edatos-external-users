@@ -1,9 +1,11 @@
 package es.gobcan.istac.edatos.external.users;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.UriBuilder;
 
@@ -50,7 +52,12 @@ public class DefaultController {
     public ModelAndView index(HttpServletRequest request) {
         log.debug("DefaultController: Contextpath = {}  ServletPath = {}", request.getContextPath(), request.getServletPath());
         Map<String, Object> model = new HashMap<>();
-        model.put("lang", metadataService.retrieveLanguageDefault());
+        String htmlLang = Arrays.stream(request.getCookies())
+            .filter(cookie -> metadataService.retrieveInternationalizationCookieId().equals(cookie.getName()))
+            .findAny()
+            .map(Cookie::getValue)
+            .orElse(metadataService.retrieveLanguageDefault());
+        model.put("lang", htmlLang);
         model.put("faviconUrl", this.faviconUrl);
         model.put("headerUrl", htmlService.getHeaderUrl());
         model.put("footerUrl", metadataService.retrieveAppStyleFooterUrl());
