@@ -9,7 +9,7 @@
 .p-dropdown-custom {
   .p-dropdown-label.p-placeholder {
     color: $color-blue-dark-100;
-    font-weight: 300;
+    font-weight: $font-weight-light;
     padding: 5px 10px;
     font-size: $font-size-m;
   }
@@ -28,7 +28,7 @@
 
     .p-dropdown-label.p-placeholder, .p-dropdown-trigger-icon {
       color: $color-black-0;
-      font-weight: $font-weight-600;
+      font-weight: $font-weight-bold;
     }
   }
 
@@ -73,7 +73,7 @@
     .p-dropdown-item {
       font-size: $font-size-s;
       padding: 3px;
-      font-weight: $font-weight-300;
+      font-weight: $font-weight-light;
       line-height: 24px;
       color: $color-blue-dark-100;
     }
@@ -82,7 +82,7 @@
 
 .p-dropdown-panel .p-dropdown-items .p-dropdown-item {
   .p-highlight {
-    font-weight: $font-weight-600;
+    font-weight: $font-weight-bold;
   }
 }
 
@@ -128,7 +128,7 @@
 
       .p-menuitem-text {
         color: $color-black-0;
-        font-weight: 300;
+        font-weight: $font-weight-light;
         font-size: $font-size-m;
         line-height: 24px;
       }
@@ -156,7 +156,7 @@
   gap: 10px;
 
   label {
-    font-weight: $font-weight-600;
+    font-weight: $font-weight-bold;
     line-height: 25px;
     font-size: $font-size-xl;
   }
@@ -168,7 +168,7 @@
     line-height: 19px;
 
     &.info-id {
-      font-weight: 300;
+      font-weight: $font-weight-light;
       font-size: 28px;
       line-height: 38px;
     }

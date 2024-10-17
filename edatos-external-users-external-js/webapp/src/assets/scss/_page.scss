@@ -96,14 +96,14 @@ div.page.content {
 
     .page-header-title {
       font-size: 36px;
-      font-weight: 600;
+      font-weight: $font-weight-bold;
       line-height: 28px;
       padding-top: 29px;
     }
 
     .page-header-content {
       max-width: $description-max-width;
-      font-weight: 300;
+      font-weight: $font-weight-light;
       font-size: $font-size-l;
       line-height: 26px;
     }
@@ -186,9 +186,9 @@ div.page.content {
     }
 
     & > thead > tr > th {
-      font-size: $font-size-m;
       background-color: $color-black-5;
-      font-weight: 600;
+      font-weight: $font-weight-bold;
+      font-size: $font-size-m;
       line-height: 19px;
 
       .ng-star-inserted {
@@ -202,7 +202,7 @@ div.page.content {
     }
 
     & > tbody > tr > td {
-      font-weight: 400;
+      font-weight: $font-weight-regular;
       font-size: $font-size-s;
       line-height: 16px;
     }

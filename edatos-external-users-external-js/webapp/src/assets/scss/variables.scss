@@ -68,8 +68,6 @@ $navbar-padding-y: 5px;
 $navbar-height: 42px; // TODO: sincronizar con el navbar de bootstrap
 $nav-link-padding: $navbar-padding-y 1em;
 
-$font-weight-light: 300;
-
 $entity-header-height: 48px;
 $entity-search-default-height: 76px;
 
@@ -81,11 +79,10 @@ $side-menu-width: 240px;
 
 $font-family-sans-serif: 'Open Sans', -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 
-$font-weight-300: 300;
-$font-weight-400: 400;
-$font-weight-500: 500;
-$font-weight-600: 600;
-$font-weight-700: 700;
+$font-weight-light: 300;
+$font-weight-regular: 400;
+$font-weight-semibold: 500;
+$font-weight-bold: 600;
 
 $font-size-xs: 10px;
 $font-size-s: 12px;
