@@ -11,7 +11,7 @@
     color: $color-blue-dark-100;
     font-weight: 300;
     padding: 5px 10px;
-    font-size: $size-14;
+    font-size: $font-size-m;
   }
 
   .p-dropdown .p-dropdown-trigger {
@@ -57,7 +57,7 @@
         height: 30px;
         border: 1px solid $color-black-60;
         border-radius: 5px;
-        font-size: $size-12;
+        font-size: $font-size-s;
         color: $color-black-60;
 
         &:focus {
@@ -71,7 +71,7 @@
     }
 
     .p-dropdown-item {
-      font-size: $size-12;
+      font-size: $font-size-s;
       padding: 3px;
       font-weight: $font-weight-300;
       line-height: 24px;
@@ -122,14 +122,14 @@
         display: flex;
         justify-content: center;
         color: $color-black-0;
-        font-size: $size-16;
+        font-size: $font-size-l;
         width: 20px;
       }
 
       .p-menuitem-text {
         color: $color-black-0;
         font-weight: 300;
-        font-size: $size-14;
+        font-size: $font-size-m;
         line-height: 24px;
       }
 
@@ -158,24 +158,21 @@
   label {
     font-weight: $font-weight-600;
     line-height: 25px;
-    font-size: $size-18;
+    font-size: $font-size-xl;
   }
 
   span {
     padding: 0;
     color: $color-black-100;
-    font-size: $size-14;
+    font-size: $font-size-m;
     line-height: 19px;
 
     &.info-id {
       font-weight: 300;
-      font-size: $size-28;
+      font-size: 28px;
       line-height: 38px;
     }
 
-    &.info-agency {
-      color: $color-blue-dark-100;
-    }
   }
 
   input:disabled, input[readonly] {
@@ -207,7 +204,7 @@
 
     & > code {
       color: $color-black-100;
-      font-size: $size-14;
+      font-size: $font-size-m;
       font-weight: 200;
     }
   }
@@ -233,7 +230,7 @@
 
 .info-link, .element-link-actions {
   button {
-    font-size: $size-16;
+    font-size: $font-size-l;
     background: transparent;
     border: none;
     color: $color-blue-dark-100;

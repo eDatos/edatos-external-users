@@ -26,12 +26,12 @@ button.text-icon-button, button.menu-text-icon-button {
   padding: 0 $spacing-s;
   height: 30px;
   border: 1px solid $color-blue-dark-100;
-  font-size: $size-16;
+  font-size: $font-size-l;
   line-height: 16px;
   width: 100px;
 
   span {
-    font-size: $size-14;
+    font-size: $font-size-m;
     font-weight: $font-weight-300;
   }
 
@@ -94,7 +94,7 @@ button.menu-text-icon-button.text-icon-button {
 .copied-message {
   color: $color-blue-dark-100;
   font-weight: bold;
-  font-size: $size-10;
+  font-size: $font-size-xs;
 }
 
 button.btn.btn-first {
@@ -153,7 +153,7 @@ button.btn-scnd:disabled {
 button.btn.btn-link, button.btn-default {
   padding-right: 0;
   font-weight: unset;
-  font-size: $size-12;
+  font-size: $font-size-s;
 
   & > span {
     color: $color-blue-dark-100;
@@ -167,7 +167,7 @@ button.btn.btn-link, button.btn-default {
 
 a.btn.btn-link {
   color: $color-blue-dark-100;
-  font-size: $size-14;
+  font-size: $font-size-m;
   padding-left: 5px;
   padding-bottom: 13px;
 
