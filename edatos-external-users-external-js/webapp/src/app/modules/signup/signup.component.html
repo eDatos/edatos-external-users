@@ -270,17 +270,15 @@
         </form>
         <div class='external-form general-buttons row'>
             <ng-container>
-                <div class='row-large'>
-                    <button type='submit' form='edit-form' [disabled]='editForm.form.invalid || isSaving'
-                            class='text-icon-button btn-thin-first'>
-                        <span class='fa-thin fa-floppy-disk'></span>
-                        <span>{{ 'entity.action.save' | translate | uppercase }}</span>
-                    </button>
-                    <button type='submit' class='text-icon-button btn-thin-cancel' (click)='navigateToLogin()'>
-                        <span class='fa-thin fa-ban'></span>
-                        <span>{{ 'entity.action.cancel' | translate | uppercase }}</span>
-                    </button>
-                </div>
+                <button type='submit' form='edit-form' [disabled]='editForm.form.invalid || isSaving'
+                        class='text-icon-button btn-thin-first'>
+                    <span class='fa-thin fa-floppy-disk'></span>
+                    <span>{{ 'entity.action.save' | translate | uppercase }}</span>
+                </button>
+                 <button type='submit' class='text-icon-button btn-thin-cancel' (click)='navigateToLogin()'>
+                    <span class='fa-thin fa-ban'></span>
+                    <span>{{ 'entity.action.cancel' | translate | uppercase }}</span>
+                </button>
             </ng-container>
         </div>
     </div>

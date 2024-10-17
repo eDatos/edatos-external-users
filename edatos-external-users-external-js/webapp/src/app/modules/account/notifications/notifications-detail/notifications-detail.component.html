@@ -1,7 +1,7 @@
 <div class='page content'>
     <div class='page-header'>
-        <div class='page-no-header-top'>
-            <div class='general-buttons row left-buttons'>
+        <div class='page-header-top'>
+            <div class='general-buttons row'>
                 <div class='row-large'>
                     <button class='text-icon-button btn-thin-default' routerLink='..'>
                         <span class='fa-thin fa-left'></span>
@@ -14,13 +14,13 @@
     <div class='page-body has-detail-info'>
         <div class='detail-info'>
             <label class='title'>{{ 'notices.label.subject' | translate }}</label>
-            <span class='info-id'>{{ notice.subject }}</span>
+            <span>{{ notice.subject }}</span>
 
             <label class='sendingDate'>{{ 'notices.label.receivedDate' | translate }}</label>
             <span>{{ notice.sendingDate | date: 'dd/MM/yyyy HH:mm:ss' }}</span>
 
             <label class='title'>{{ 'notices.label.message' | translate }}</label>
-            <span id='message' [innerHTML]='joinMessagesText(notice.messages)'></span>
+            <span class="info-description" [innerHTML]='joinMessagesText(notice.messages)'></span>
 
         </div>
     </div>

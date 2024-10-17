@@ -97,16 +97,18 @@ $size-28: 28px;
 $height-nav: 45px;
 $height-general-search: 60px;
 
+$spacing-xs: 5px;
+$spacing-s: 10px;
 $spacing-m: 15px;
-$padding-10px: 10px;
-$padding-20px: 20px;
+$spacing-l: 20px;
+$spacing-xl: 30px;
 
 $radius-m: 5px;
 
 $container-max-widths: 1280px;
-$container-2columns-max-width: calc($container-max-widths / 2 - 3 * #{$padding-10px});
-$empty-td-container-width: calc($container-max-widths / 4 + #{$padding-10px});
-$description-max-width: calc(2 * #{$container-max-widths} / 3 - 2 * #{$padding-20px});
+$container-2columns-max-width: calc($container-max-widths / 2 - 3 * #{$spacing-s});
+$empty-td-container-width: calc($container-max-widths / 4 + #{$spacing-s});
+$description-max-width: calc(2 * #{$container-max-widths} / 3 - 2 * #{$spacing-l});
 
 $scroll-width-default: 8px;
 

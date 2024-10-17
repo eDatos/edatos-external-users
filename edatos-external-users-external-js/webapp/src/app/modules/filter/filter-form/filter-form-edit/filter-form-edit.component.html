@@ -1,7 +1,7 @@
 <div class='page content'>
     <div class='page-header'>
         <div class='page-header-top'>
-            <div class='general-buttons row left-buttons'>
+            <div class='general-buttons row'>
                 <ng-container>
                     <div class='row-large'>
                         <button class='text-icon-button btn-thin-default' routerLink='/filter'
@@ -14,20 +14,18 @@
             </div>
             <div class='general-buttons row'>
                 <ng-container>
-                    <div class='row justify-content-end ml-auto'>
-                        <button class='text-icon-button btn-thin-first' type='button'
-                                (click)='submit()' [disabled]='isSaving || isLoading || !filterForm.form.valid'>
-                            <arte-spinner class='spinner-btn' *ngIf='isSaving' aria-hidden='true'></arte-spinner>
-                            <span *ngIf='!isSaving' class='fa-thin fa-save'></span>
-                            <span>{{ 'filter.form.save' | translate | uppercase }}</span>
-                        </button>
-                        <button class='text-icon-button btn-thin-cancel' (click)='cancel()'
-                                [disabled]='isSaving || isLoading'>
-                            <arte-spinner class='spinner-btn' *ngIf='isLoading' aria-hidden='true'></arte-spinner>
-                            <span *ngIf='!isLoading' class='fa-thin fa-ban'></span>
-                            <span>{{ 'entity.action.cancel' | translate | uppercase }}</span>
-                        </button>
-                    </div>
+                    <button class='text-icon-button btn-thin-first' type='button'
+                            (click)='submit()' [disabled]='isSaving || isLoading || !filterForm.form.valid'>
+                        <arte-spinner class='spinner-btn' *ngIf='isSaving' aria-hidden='true'></arte-spinner>
+                        <span *ngIf='!isSaving' class='fa-thin fa-save'></span>
+                        <span>{{ 'filter.form.save' | translate | uppercase }}</span>
+                    </button>
+                    <button class='text-icon-button btn-thin-cancel' (click)='cancel()'
+                            [disabled]='isSaving || isLoading'>
+                        <arte-spinner class='spinner-btn' *ngIf='isLoading' aria-hidden='true'></arte-spinner>
+                        <span *ngIf='!isLoading' class='fa-thin fa-ban'></span>
+                        <span>{{ 'entity.action.cancel' | translate | uppercase }}</span>
+                    </button>
                 </ng-container>
             </div>
         </div>

@@ -184,7 +184,7 @@
   }
 
   .info-description {
-    max-width: $container-max-width-descriptions;
+    max-width: $description-max-width;
   }
 }
 
@@ -198,7 +198,7 @@
   &.background {
     background: $color-blue-10;
     height: 40px;
-    padding: $padding-10px;
+    padding: $spacing-s;
     border-radius: 5px;
   }
 

@@ -214,8 +214,8 @@ div.information-section {
 }
 
 .custom-control.custom-switch {
-  padding: 15px 0 5px 0;
-  margin-left: -17px;
+  padding: $spacing-l 0 $spacing-xs 0;
+  margin-left: 24px;
   font-size: $size-12;
   font-weight: 300;
   color: $color-blue-dark-100;
