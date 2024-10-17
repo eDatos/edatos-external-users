@@ -102,7 +102,7 @@ div.page.content {
     }
 
     .page-header-content {
-      max-width: $container-max-width-descriptions;
+      max-width: $description-max-width;
       font-weight: 300;
       font-size: 16px;
       line-height: 26px;
@@ -150,7 +150,7 @@ div.page.content {
   }
 
   .page-table-container-fluid {
-    padding: 15px 0;
+    padding: $spacing-m 0;
     width: inherit;
     min-width: 100%;
 
@@ -233,12 +233,12 @@ div.page.content {
   }
 
   .page-table thead tr th:first-child {
-    border-radius: 5px 0 0 5px;
+    border-radius: $radius-m 0 0 $radius-m;
     border-bottom: none;
   }
 
   .page-table thead tr th:last-child {
-    border-radius: 0 5px 5px 0;
+    border-radius: 0 $radius-m $radius-m 0;
   }
 
   .table-count {
@@ -266,7 +266,7 @@ jhi-footer {
 
 /* includes */
 @include media-breakpoint-down(sm) {
-  $page-padding-x: $padding-15px;
+  $page-padding-x: $spacing-m;
   .page {
     &.menu-is-visible {
       padding-left: 0;

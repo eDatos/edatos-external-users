@@ -76,6 +76,6 @@ Logo styles
 
 @include media-breakpoint-down(sm) {
   .app-navbar {
-    padding: 0 $padding-15px;
+    padding: 0 $spacing-m;
   }
 }
