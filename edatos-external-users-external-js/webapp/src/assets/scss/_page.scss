@@ -89,7 +89,7 @@ div.page.content {
   .page-header {
     z-index: $page-header-zindex;
     color: $color-black-100;
-    padding: 0 20px;
+    padding: 0 $spacing-l;
     display: flex;
     flex-direction: column;
     gap: 29px;
@@ -209,8 +209,8 @@ div.page.content {
   }
 
   .page-table thead tr th {
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: $spacing-s;
+    padding-bottom: $spacing-s;
     font-weight: 600;
     font-size: 14px;
     line-height: 19px;
@@ -218,8 +218,8 @@ div.page.content {
   }
 
   .page-table tbody tr td {
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: $spacing-s;
+    padding-bottom: $spacing-s;
     font-weight: 400;
     font-size: 12px;
     line-height: 16px;
