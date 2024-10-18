@@ -86,8 +86,11 @@ export class LoginComponent implements OnInit {
     private isOriginFromExternalUsers(): boolean {
         try {
             let loginUrl = new URL(window.location.href);
+            let loginBaseUrlString = (loginUrl.origin + loginUrl.pathname).replace(/\/$/, "");
+
             let originUrl = new URL(this.origin.toString());
-            return loginUrl.host === originUrl.host;
+            let originBaseUrlString = (originUrl.origin + originUrl.pathname).replace(/\/$/, "");
+            return loginBaseUrlString === originBaseUrlString;
         } catch (error) {
             return false;
         }
