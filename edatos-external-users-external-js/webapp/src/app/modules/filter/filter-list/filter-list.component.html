@@ -13,9 +13,15 @@
                 [virtualScroll]="true"
                 [virtualRowHeight]="height"
                 [lazy]="true"
+                columnResizeMode="expand"
                 tableStyleClass='page-table table-has-pointer-rows table-layou-fixed'
                 (onLazyLoad)='loadData($event)'
             >
+                <ng-template pTemplate="colgroup" let-columns>
+                    <colgroup>
+                        <col *ngFor="let col of columns" [style.width]="col.width">
+                    </colgroup>
+                </ng-template>
                 <ng-template pTemplate="header" let-columns>
                     <tr>
                         <th *ngFor="let col of columns" [pSortableColumn]="col.fieldName" [pSortableColumnDisabled]="!col.sortable">
