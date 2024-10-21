@@ -1,11 +1,9 @@
 package es.gobcan.istac.edatos.external.users;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.UriBuilder;
 
