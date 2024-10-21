@@ -22,7 +22,7 @@ export class FilterListComponent implements OnInit {
         {
             fieldName: 'name',
             sortable: true,
-            width: '70%',
+            width: '60%',
             header: {
                 handler: 'translate',
                 translatePath: 'filter.entity.name'
@@ -31,7 +31,7 @@ export class FilterListComponent implements OnInit {
         {
             fieldName: 'createdDate',
             sortable: true,
-            width: '25%',
+            width: '20%',
             header: {
                 handler: 'translate',
                 translatePath: 'filter.entity.createdDate'
@@ -40,7 +40,7 @@ export class FilterListComponent implements OnInit {
         {
             fieldName: 'lastAccessDate',
             sortable: true,
-            width: '25%',
+            width: '20%',
             header: {
                 handler: 'translate',
                 translatePath: 'filter.entity.lastAccessDate'
