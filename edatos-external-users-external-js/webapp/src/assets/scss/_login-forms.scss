@@ -28,6 +28,7 @@ fieldset.page-section {
 }
 
 div.login-container {
+    margin-top: 50px;
     margin-bottom: 10rem;
     height: 636.586px;
 
@@ -192,7 +193,7 @@ div.col-md-3.external-form-information {
 
 @media (min-width: 768px) {
     fieldset.page-section {
-        margin-top: 25px;
+        margin-top: $spacing-l;
     }
 }
 

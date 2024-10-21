@@ -136,6 +136,10 @@ ul {
   }
 }
 
+.page-body > .page-form > .page-section {
+  margin-top: 0;
+}
+
 
 fieldset.page-section {
   div.row {
@@ -169,16 +173,8 @@ fieldset.page-section {
     box-shadow: 0 0 0 0.2em $color-blue-dark-50;
   }
 
-  div.page-body.has-detail-info {
-    padding: 0;
-
-    div.form-group {
-      padding-right: 0;
-    }
-
-    div.detail-info {
-      padding: 0;
-    }
+  .div.form-group {
+    margin-top: $spacing-s;
   }
 }
 
@@ -211,7 +207,7 @@ div.information-section {
 }
 
 .custom-control.custom-switch {
-  padding: $spacing-l 0 $spacing-xs 0;
+  padding: $spacing-l 0 $spacing-s 0;
   margin-left: 24px;
   font-size: $font-size-s;
   font-weight: $font-weight-light;

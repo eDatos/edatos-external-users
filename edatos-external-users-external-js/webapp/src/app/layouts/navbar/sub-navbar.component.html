@@ -5,8 +5,8 @@
                 <h1 class='page-header-title'>{{titleTranslate()}}</h1>
             </div>
             <div class='page-header-content'>{{contentTranslate()}}</div>
-            <div class='general-buttons row account-section-buttons'>
-                <ng-container *ngIf='accountSection'>
+            <div *ngIf='accountSection' class='general-buttons row account-section-buttons'>
+                <ng-container>
                     <button type='button' class='text-icon-button btn-thin-default' (click)='download($event)'>
                         <span
                             [ngClass]="downloadingPdf ? 'fa-thin fa-spinner fa-spin' : 'fa-thin  fa-download'"></span>

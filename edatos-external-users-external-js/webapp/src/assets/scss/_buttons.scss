@@ -5,7 +5,7 @@
 
   &.row {
     margin: 0;
-    padding: $spacing-m 0;
+    padding: $spacing-l 0;
 
     .row-large {
       flex-grow: 1;
@@ -222,7 +222,7 @@ span.pi-search, body .ui-tree .ui-tree-filter-container .ui-tree-filter-icon {
   color: $color-blue-dark-50;
 }
 
-.fa-folder-plus:before, .fa-folder-minus:before, .fa-cubes:before, .pi.pi-caret-down:before, {
+.fa-folder-plus:before, .fa-folder-minus:before, .fa-cubes:before, .pi.pi-caret-down:before {
   color: $color-blue-dark-100;
   font-size: 20px;
   display: flex;
@@ -265,7 +265,7 @@ span.pi-search, body .ui-tree .ui-tree-filter-container .ui-tree-filter-icon {
   }
 
   .custom-control-label {
-    padding-top: 7px;
+    padding-top: $spacing-s;
   }
 
   .custom-control-input {

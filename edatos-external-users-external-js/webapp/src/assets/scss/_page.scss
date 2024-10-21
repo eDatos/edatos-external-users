@@ -99,6 +99,7 @@ div.page.content {
       font-weight: $font-weight-bold;
       line-height: 28px;
       padding-top: 29px;
+      margin-bottom: 0;
     }
 
     .page-header-content {
@@ -150,7 +151,7 @@ div.page.content {
   }
 
   .page-table-container-fluid {
-    padding: $spacing-m 0;
+    padding: $spacing-l 0;
     width: inherit;
     min-width: 100%;
 
@@ -247,9 +248,6 @@ div.ui-table .ui-paginator {
   border: none
 }
 
-.page-body.has-detail-info {
-  padding: 0 20px 20px 20px;
-}
 
 /* FOOTER */
 jhi-footer {
