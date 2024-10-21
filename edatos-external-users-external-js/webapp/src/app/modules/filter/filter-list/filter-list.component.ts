@@ -67,11 +67,13 @@ export class FilterListComponent implements OnInit {
             query: this.filterSearch.toQuery()
         };
 
+        const onComplete = () => this.filtersLoaded = true;
         this.filterService
             .find(params)
             .subscribe({
                 next: (responseWrapper) => this.onSuccess(responseWrapper, page),
-                complete: () => this.filtersLoaded = true
+                error: onComplete,
+                complete: onComplete
             });
     }
 
