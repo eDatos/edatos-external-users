@@ -17,7 +17,7 @@ export class FilterListComponent implements OnInit {
     public filtersLoaded: boolean = false;
     public totalItems: number | null = null;
     public itemsPerLoad: number = 20;
-    public height = 45;
+    public rowHeight = 45;
     public columns: any = [
         {
             fieldName: 'name',

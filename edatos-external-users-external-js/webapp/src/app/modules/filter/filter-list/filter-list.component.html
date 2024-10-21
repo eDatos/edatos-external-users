@@ -11,7 +11,7 @@
                 [rows]='this.itemsPerLoad'
                 [scrollable]="true"
                 [virtualScroll]="true"
-                [virtualRowHeight]="height"
+                [virtualRowHeight]="rowHeight"
                 [lazy]="true"
                 columnResizeMode="expand"
                 tableStyleClass='page-table table-has-pointer-rows table-layou-fixed'
@@ -31,14 +31,14 @@
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-filter>
-                    <tr [style.height]="height + 'px'" [routerLink]="['../filter', filter.id]">
+                    <tr [style.height]="rowHeight + 'px'" [routerLink]="['../filter', filter.id]">
                         <td>{{ filter.name }}</td>
                         <td>{{ filter.createdDate | date: 'dd/MM/yyyy HH:mm:ss' }}</td>
                         <td>{{ filter.lastAccessDate | date: 'dd/MM/yyyy HH:mm:ss' }}</td>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="loadingbody">
-                    <tr [style.height]="height + 'px'">
+                    <tr [style.height]="rowHeight + 'px'">
                         <td *ngFor="let col of columns">
                                 <span>
                                     <ngx-skeleton-loader count="1" [theme]="{'margin-bottom': '0', height: '1rem'}"></ngx-skeleton-loader>
