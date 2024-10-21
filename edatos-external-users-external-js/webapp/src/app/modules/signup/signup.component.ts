@@ -16,8 +16,7 @@ const REGISTRATION_TOKEN_QUERY_PARAM_ID = 'registration-token';
 
 @Component({
     selector: 'app-signup',
-    templateUrl: './signup.component.html',
-    styleUrls: ['signup.component.scss']
+    templateUrl: './signup.component.html'
 })
 export class SignupFormComponent implements OnInit {
     public internationalLanguages: Language[] = [];
