@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ITEMS_PER_PAGE, PAGINATION_OPTIONS } from '@app/app.constants';
 import { Filter } from '@app/core/model';
 import { FilterFilter } from '@app/modules/filter/filter-search/filter-search';
 import { FilterService } from '@app/shared/service/filter/filter.service';
 import { ResponseWrapper } from '@app/core/utils/response-utils';
 import { LazyLoadEvent } from 'primeng/api';
-import { NavbarRefreshService } from '@app/shared/service/shared/navbar-refresh.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-filter-list',
@@ -14,15 +13,16 @@ import { NavbarRefreshService } from '@app/shared/service/shared/navbar-refresh.
     styleUrls: ['filter-list.component.scss']
 })
 export class FilterListComponent implements OnInit {
-    public filters: Filter[] = [];
+    public virtualFilters: Filter[] = [];
     public filtersLoaded: boolean = false;
     public totalItems: number | null = null;
-    public paginatorOptions = PAGINATION_OPTIONS;
-    public itemsPerPage?: number;
+    public itemsPerLoad: number = 20;
+    public rowHeight = 45;
     public columns: any = [
         {
             fieldName: 'name',
             sortable: true,
+            width: '60%',
             header: {
                 handler: 'translate',
                 translatePath: 'filter.entity.name'
@@ -31,6 +31,7 @@ export class FilterListComponent implements OnInit {
         {
             fieldName: 'createdDate',
             sortable: true,
+            width: '20%',
             header: {
                 handler: 'translate',
                 translatePath: 'filter.entity.createdDate'
@@ -39,52 +40,58 @@ export class FilterListComponent implements OnInit {
         {
             fieldName: 'lastAccessDate',
             sortable: true,
+            width: '20%',
             header: {
                 handler: 'translate',
                 translatePath: 'filter.entity.lastAccessDate'
             }
         }
     ];
-    private page: any;
     private reverse?: boolean;
     private predicate: any;
 
     constructor(private filterService: FilterService, private activatedRoute: ActivatedRoute, private router: Router,
-                private filterSearch: FilterFilter, private navbarRefreshService: NavbarRefreshService) {
-        this.activatedRoute.data.subscribe((data) => {
-            this.page = data['pagingParams'].page;
-            this.reverse = data['pagingParams'].ascending;
-            this.predicate = data['pagingParams'].predicate;
-            this.itemsPerPage = data['pagingParams'].itemsPerPage;
-        });
-    }
+                private filterSearch: FilterFilter, private translateService: TranslateService) {}
 
     public ngOnInit(): void {
-        this.activatedRoute.queryParams.subscribe((params) => {
-            this.filterSearch.fromQueryParams(params).subscribe(() =>
-                this.filterService
-                    .find({
-                        page: this.page - 1,
-                        size: PAGINATION_OPTIONS.indexOf(Number(this.itemsPerPage)) > -1 ? this.itemsPerPage : ITEMS_PER_PAGE,
-                        sort: this.sort(),
-                        query: this.filterSearch.toQuery()
-                    })
-                    .subscribe(
-                        (rw) => this.onSuccess(rw),
-                        () => {
-                        },
-                        () => {
-                            this.filtersLoaded = true;
-                        }
-                    )
-            );
-        });
+        const { pagingParams } = this.activatedRoute.snapshot.data;
+        this.reverse = pagingParams.ascending;
+        this.predicate = pagingParams.predicate;
     }
 
-    public transition() {
+    private searchFilters(page: number) {
+        const params = {
+            page: page,
+            size: this.itemsPerLoad,
+            sort: this.sort(),
+            query: this.filterSearch.toQuery()
+        };
+
+        const onComplete = () => this.filtersLoaded = true;
+        this.filterService
+            .find(params)
+            .subscribe({
+                next: (responseWrapper) => this.onSuccess(responseWrapper, page),
+                error: onComplete,
+                complete: onComplete
+            });
+    }
+
+    public printHeader(col: any): string {
+        const header = col.header;
+        if (typeof header === 'string') {
+            return header;
+        } else {
+            if (header instanceof Function) {
+                return header(col);
+            } else if (header.handler === "translate") {
+                return this.translateService.instant(header.translatePath);
+            }
+        }
+    }
+
+    public transition(page: number) {
         const transitionParams = {
-            page: this.page,
-            size: PAGINATION_OPTIONS.indexOf(Number(this.itemsPerPage)) > -1 ? this.itemsPerPage : ITEMS_PER_PAGE,
             sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
         };
         const queryParams = {
@@ -92,16 +99,16 @@ export class FilterListComponent implements OnInit {
             ...transitionParams
         };
         this.router.navigate(['/filter'], { replaceUrl: true, queryParams });
+        this.searchFilters(page);
     }
 
     public loadData(e: LazyLoadEvent) {
-        this.page = e.first! / e.rows! + 1;
-        this.itemsPerPage = e.rows;
+        const page = e.first / this.itemsPerLoad;
         if (e.sortField != null) {
             this.predicate = this.filterSearch.fromCamelCaseToSnakeCase(e.sortField);
             this.reverse = e.sortOrder === 1;
         }
-        this.transition();
+        this.transition(page);
     }
 
     public sort() {
@@ -112,19 +119,16 @@ export class FilterListComponent implements OnInit {
         return result;
     }
 
-    public clear() {
-        this.page = 0;
-        this.router.navigate([
-            '/filter',
-            {
-                page: this.page,
-                sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
-            }
-        ]);
-    }
-
-    public onSuccess(response: ResponseWrapper<Filter[]>) {
+    public onSuccess(response: ResponseWrapper<Filter[]>, page: number) {
         this.totalItems = response.totalCount();
-        this.filters = response.body;
+
+        if (this.virtualFilters.length !== this.totalItems) {
+            this.virtualFilters = Array.from({ length: this.totalItems });
+        }
+
+        const first = page * this.itemsPerLoad;
+        this.virtualFilters.splice(first, this.itemsPerLoad, ...response.body);
+
+        this.virtualFilters = [...this.virtualFilters];
     }
 }
