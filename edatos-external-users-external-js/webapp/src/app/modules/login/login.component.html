@@ -41,7 +41,8 @@
                                                 name='password'
                                                 [(ngModel)]='credentials.password'
                                                 [maxlength]='255'
-                                                [placeholder]="'login.form.password.format'"
+                                                [placeholder]="'login.form.password.format' | translate"
+                                                [feedback]="false"
                                                 pPassword
                                                 class="form-control"
                                             />
