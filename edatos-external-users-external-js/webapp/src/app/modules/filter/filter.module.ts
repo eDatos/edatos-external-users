@@ -8,10 +8,11 @@ import { ArteEntityListEmptyModule, ArteSpinnerModule, ArteTableModule } from 'a
 import { ArteDirectivesModule } from 'arte-ng/directives';
 import { FilterFormComponent } from './filter-form/filter-form.component';
 import { FilterFormEditComponent } from '@app/modules/filter/filter-form/filter-form-edit/filter-form-edit.component';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 @NgModule({
     declarations: [FilterListComponent, FilterFormComponent, FilterFormEditComponent],
-    imports: [CommonModule, FilterRoutingModule, ArteSpinnerModule, ArteEntityListEmptyModule, ArteTableModule, SharedModule, ArteDirectivesModule],
+    imports: [CommonModule, FilterRoutingModule, ArteSpinnerModule, ArteEntityListEmptyModule, ArteTableModule, SharedModule, ArteDirectivesModule, NgxSkeletonLoaderModule],
     providers: [FilterFilter]
 })
 export class FilterModule {

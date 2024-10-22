@@ -35,7 +35,7 @@ import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
 import { EditorModule } from 'primeng/editor';
 import { TreeModule } from 'primeng/tree';
-import { DropdownModule } from 'primeng';
+import { DropdownModule, VirtualScrollerModule } from 'primeng';
 import { NgArrayPipesModule } from 'ngx-pipes';
 import { QuillModule } from 'ngx-quill';
 
@@ -145,7 +145,8 @@ import { CopyClipboardDirective } from '@app/shared/directives/copy-clipboard.di
         NavbarComponent,
         FooterComponent,
         CustomCalendarComponent,
-        SafeHtmlPipe
+        SafeHtmlPipe,
+        VirtualScrollerModule
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

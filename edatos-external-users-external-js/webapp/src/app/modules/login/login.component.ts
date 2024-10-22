@@ -18,6 +18,7 @@ export class LoginComponent implements OnInit {
     credentials: Credentials;
     origin: String;
     captchaContainerEl: ElementRef;
+    passwordVisible: boolean = false;
 
     @ViewChild('captchaContainer')
     set captchaContainer(captchaContainerEl: ElementRef) {
@@ -114,5 +115,9 @@ export class LoginComponent implements OnInit {
 
     public navigateToResetPassword() {
         this.router.navigate(['reset-password']);
+    }
+
+    public togglePasswordVisibility() {
+        this.passwordVisible = !this.passwordVisible;
     }
 }
