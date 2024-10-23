@@ -23,7 +23,7 @@ import es.gobcan.istac.edatos.external.users.core.config.Constants;
 import es.gobcan.istac.edatos.external.users.core.config.DefaultProfileUtil;
 import io.github.jhipster.config.JHipsterConstants;
 
-@ComponentScan
+@ComponentScan(basePackages = {"es.gobcan.istac.edatos.external.users", "org.siemac.edatos.core.common.util"})
 @EnableAutoConfiguration(exclude = {MetricFilterAutoConfiguration.class, MetricRepositoryAutoConfiguration.class})
 @EnableConfigurationProperties({LiquibaseProperties.class, JHipsterExtraProperties.class})
 public class EdatosExternalUsersExternalApp {
