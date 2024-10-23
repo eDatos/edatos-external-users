@@ -7,6 +7,7 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.UriBuilder;
 
+import org.siemac.edatos.core.common.util.InternationalizationUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,9 @@ public class DefaultController {
     @Autowired
     private MessageSource messageSource;
 
+    @Autowired
+    private InternationalizationUtils internationalizationUtils;
+
     private final Logger log = LoggerFactory.getLogger(DefaultController.class);
 
     private String faviconUrl;
@@ -50,6 +54,7 @@ public class DefaultController {
     public ModelAndView index(HttpServletRequest request) {
         log.debug("DefaultController: Contextpath = {}  ServletPath = {}", request.getContextPath(), request.getServletPath());
         Map<String, Object> model = new HashMap<>();
+        model.put("lang", internationalizationUtils.getCurrentLocale(request));
         model.put("faviconUrl", this.faviconUrl);
         model.put("headerUrl", htmlService.getHeaderUrl());
         model.put("footerUrl", metadataService.retrieveAppStyleFooterUrl());
