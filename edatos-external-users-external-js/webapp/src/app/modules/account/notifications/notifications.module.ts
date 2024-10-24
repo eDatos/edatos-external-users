@@ -18,6 +18,7 @@ import { InputSwitchModule } from 'primeng';
 import {
     NotificationsDetailComponent
 } from '@app/modules/account/notifications/notifications-detail/notifications-detail.component';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 @NgModule({
     imports: [
@@ -32,7 +33,8 @@ import {
         ArteEntityListEmptyModule,
         CommonModule,
         ArteCalendarModule,
-        InputSwitchModule
+        InputSwitchModule,
+        NgxSkeletonLoaderModule
     ],
     providers: [NoticeFilter],
     declarations: [NotificationsComponent, NotificationsDetailComponent],
