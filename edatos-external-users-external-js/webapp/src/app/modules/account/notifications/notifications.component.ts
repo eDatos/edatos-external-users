@@ -6,9 +6,8 @@ import { ResponseWrapper } from '@app/core/utils/response-utils';
 import { NoticeFilter } from '@app/modules/account/notifications/notifications-search/notice-search';
 import { NoticeService } from '@app/shared/service/user/notice.service';
 import { Notice } from '@app/core/model/notice.model';
-import { throwError } from 'rxjs';
 import { AccountUserService } from '@app/core/service';
-import { User } from '@app/core/model';
+import { User, Filter } from '@app/core/model';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -17,11 +16,11 @@ import { TranslateService } from '@ngx-translate/core';
     styleUrls: ['./notifications.component.scss']
 })
 export class NotificationsComponent implements OnInit {
-    public notices: Notice[] = [];
+    public virtualNotices: Notice[] = [];
     public noticesLoaded: boolean = false;
     public totalItems: number | null = null;
-    public paginatorOptions = PAGINATION_OPTIONS;
-    public itemsPerPage?: number;
+    public itemsPerLoad: number = 20;
+    public rowHeight = 35;
 
     public markedEmailNotificationsEnabled = false;
     public account: User;
@@ -30,6 +29,7 @@ export class NotificationsComponent implements OnInit {
         {
             fieldName: 'receivedDate',
             sortable: false,
+            width: '20%',
             header: {
                 handler: 'translate',
                 translatePath: 'notices.label.receivedDate'
@@ -38,83 +38,68 @@ export class NotificationsComponent implements OnInit {
         {
             fieldName: 'subject',
             sortable: false,
+            width: '80%',
             header: {
                 handler: 'translate',
                 translatePath: 'notices.label.subject'
             }
         }
     ];
-    private page: any;
-    private reverse?: boolean;
-    private predicate: any;
 
     constructor(private noticeService: NoticeService, private activatedRoute: ActivatedRoute, private router: Router,
-                private noticeSearch: NoticeFilter, private userService: AccountUserService, private messageService: MessageService,
-                private translateService: TranslateService) {
-        this.activatedRoute.data.subscribe((data) => {
-            this.page = data['pagingParams'].page;
-            this.reverse = data['pagingParams'].ascending;
-            this.predicate = data['pagingParams'].predicate;
-            this.itemsPerPage = data['pagingParams'].itemsPerPage;
-        });
+        private noticeSearch: NoticeFilter, private userService: AccountUserService, private messageService: MessageService,
+        private translateService: TranslateService) {
     }
 
-    ngOnInit() {
-        this.activatedRoute.queryParams.subscribe((params) => {
-            this.noticeSearch.fromQueryParams(params).subscribe(() =>
-                this.noticeService
-                    .find({
-                        page: this.page - 1,
-                        size: PAGINATION_OPTIONS.indexOf(Number(this.itemsPerPage)) > -1 ? this.itemsPerPage : ITEMS_PER_PAGE,
-                        query: this.noticeSearch.toQuery()
-                    })
-                    .subscribe(
-                        (response) => this.onSuccess(response),
-                        (error) => {
-                            return throwError(error);
-                        },
-                        () => {
-                            this.noticesLoaded = true;
-                        }
-                    )
-            );
-        });
+    ngOnInit(): void {
         this.account = this.activatedRoute.snapshot.data.user;
         this.markedEmailNotificationsEnabled = this.account.emailNotificationsEnabled;
     }
 
-    public transition() {
-        const transitionParams = {
-            page: this.page,
-            size: PAGINATION_OPTIONS.indexOf(Number(this.itemsPerPage)) > -1 ? this.itemsPerPage : ITEMS_PER_PAGE
+    searchNotices(page: number): void {
+        const params = {
+            page: page,
+            size: this.itemsPerLoad
         };
-        const queryParams = {
-            ...this.noticeSearch.toUrl(this.activatedRoute.snapshot.queryParams),
-            ...transitionParams
-        };
-        this.router.navigate(['/notifications'], { replaceUrl: true, queryParams });
+        const onComplete = () => this.noticesLoaded = true;
+        this.noticeService
+            .find(params)
+            .subscribe({
+                next: (responseWrapper) => this.onSuccess(responseWrapper, page),
+                error: onComplete,
+                complete: onComplete
+            });
+    }
+
+    public printHeader(col: any): string {
+        const header = col.header;
+        if (typeof header === 'string') {
+            return header;
+        } else {
+            if (header instanceof Function) {
+                return header(col);
+            } else if (header.handler === "translate") {
+                return this.translateService.instant(header.translatePath);
+            }
+        }
     }
 
     public loadData(e: LazyLoadEvent) {
-        this.page = e.first! / e.rows! + 1;
-        this.itemsPerPage = e.rows;
-        this.transition();
+        const page = e.first / this.itemsPerLoad;
+        this.searchNotices(page);
     }
 
-
-    public clear() {
-        this.page = 0;
-        this.router.navigate([
-            '/notifications',
-            {
-                page: this.page
-            }
-        ]);
-    }
-
-    public onSuccess(response: ResponseWrapper<Notice[]>) {
+    public onSuccess(response: ResponseWrapper<Notice[]>, page: number) {
         this.totalItems = response.totalCount();
-        this.notices = response.body;
+
+        if (this.virtualNotices.length !== this.totalItems) {
+            this.virtualNotices = Array.from({ length: this.totalItems });
+        }
+
+        const first = page * this.itemsPerLoad;
+        this.virtualNotices.splice(first, this.itemsPerLoad, ...response.body);
+
+        this.virtualNotices = [...this.virtualNotices];
     }
 
     public toggleVisibility() {
