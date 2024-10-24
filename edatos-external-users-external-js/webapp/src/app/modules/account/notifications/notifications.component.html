@@ -1,17 +1,18 @@
 <div class='page content'>
     <div class='page-header'>
-        <div class='page-no-header-top'></div>
+        <div class="page-header-top">
+            <div class='custom-control custom-switch'>
+                <input type='checkbox' class='custom-control-input' ngModel
+                       id='emailNotificationsEnabled'
+                       [(ngModel)]='account.emailNotificationsEnabled'
+                       (change)='toggleVisibility()'
+                       name='emailNotificationsEnabled'>
+                <label class='custom-control-label' for='emailNotificationsEnabled'
+                       [ngClass]="markedEmailNotificationsEnabled?'label-inputswitch-checked':''">{{ 'account.form.emailNotificationsEnabled' | translate }}</label>
+            </div>
+        </div>
     </div>
     <div class='page-body'>
-        <div class='custom-control custom-switch'>
-            <input type='checkbox' class='custom-control-input' ngModel
-                   id='emailNotificationsEnabled'
-                   [(ngModel)]='account.emailNotificationsEnabled'
-                   (change)='toggleVisibility()'
-                   name='emailNotificationsEnabled'>
-            <label class='custom-control-label' for='emailNotificationsEnabled'
-                   [ngClass]="markedEmailNotificationsEnabled?'label-inputswitch-checked':''">{{ 'account.form.emailNotificationsEnabled' | translate }}</label>
-        </div>
         <div class="table-custom-filter">
             <p-table
                 scrollHeight="flex"

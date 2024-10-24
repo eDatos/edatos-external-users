@@ -74,8 +74,8 @@
 
   @each $breakpoint in map-keys($gutters) {
     @include media-breakpoint-up($breakpoint) {
-      padding-right: $page-padding-right;
-      padding-left: $page-padding-left;
+      padding-right: $page-padding-x;
+      padding-left: $page-padding-x;
     }
   }
 }
@@ -86,8 +86,8 @@
 
   @each $breakpoint in map-keys($gutters) {
     @include media-breakpoint-up($breakpoint) {
-      margin-right: -$page-padding-right;
-      margin-left: -$page-padding-left;
+      margin-right: -$page-padding-x;
+      margin-left: -$page-padding-x;
     }
   }
 }

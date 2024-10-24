@@ -1,34 +1,5 @@
 {
     "userManagement": {
-        "personalData": "Datos personales",
-        "permissions": "Permisos",
-        "activado": "Activado",
-        "desactivado": "Desactivado",
-        "createdDate": "Fecha de creación",
-        "home": {
-            "title": "Usuarios",
-            "createLabel": "Añadir nuevo usuario",
-            "createOrEditLabel": "Crear o editar un usuario",
-            "includeDeleted": "Incluir desactivados",
-            "favorites": "Favoritos",
-            "filters": "Filtros",
-            "createDeactivatedTooltip": "La creación de usuarios está desactivada"
-        },
-        "updated": "Se ha actualizado el usuario {{ param }}",
-        "deletionDate": "Fecha de borrado",
-        "restore": {
-            "question": "¿Seguro que quieres restaurar el usuario {{ login }}?"
-        },
-        "deactivate": {
-            "question": "¿Seguro que desea eliminar el usuario <strong>{{ login }}</strong>?"
-        },
-        "detail": {
-            "title": "Usuario"
-        },
-        "name": "Nombre",
-        "surname1": "Primer apellido",
-        "surname2": "Segundo apellido",
-        "email": "Email",
         "password": {
             "new": "Nueva contraseña",
             "confirmNew": "Confirmar contraseña",
@@ -47,28 +18,6 @@
                 "onRequestSuccess": "Se ha enviado un correo para confirmar el cambio.",
                 "onConfirmationSuccessSummary": "Modificación de correo confirmada",
                 "onConfirmationSuccess": "A partir de ahora podrás iniciar sesión con el nuevo correo."
-            }
-        },
-        "activated": "Activado",
-        "deactivated": "Desactivado",
-        "profiles": "Roles",
-        "roles": "Roles",
-        "rol": "Rol",
-        "filters": {
-            "name": {
-                "label": "Usuario",
-                "placeholder": "Introduzca nombre, usuario o apellidos"
-            },
-            "rolEnum": {
-                "label": "Rol"
-            },
-            "rolShort": {
-                "label": "Búsqueda por rol (ac-autocomplete-short-list)",
-                "placeholder": "Introduzca rol (ac-autocomplete-short-list)"
-            },
-            "rolLong": {
-                "label": "Búsqueda por rol (ac-autocomplete-long-list)",
-                "placeholder": "Introduzca rol (ac-autocomplete-long-list)"
             }
         }
     }

@@ -22,7 +22,8 @@
 
   .ui-tree-container .ui-treenode .ui-treenode-content {
     display: flex;
-    align-items: baseline;
+    align-items: center;
+    padding: 2px 0;
   }
 
   .ui-tree-filter-container {

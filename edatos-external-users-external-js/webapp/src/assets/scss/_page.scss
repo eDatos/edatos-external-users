@@ -89,66 +89,38 @@ div.page.content {
   .page-header {
     z-index: $page-header-zindex;
     color: $color-black-100;
-
-    &.page-header-fixed {
-      position: fixed;
-      top: $navbar-height;
-      left: 0;
-      right: 0;
-    }
+    padding: 0 $spacing-l;
+    display: flex;
+    flex-direction: column;
+    gap: 29px;
 
     .page-header-title {
       font-size: 36px;
-      font-style: normal;
-      font-weight: 600;
+      font-weight: $font-weight-bold;
       line-height: 28px;
-      margin-top: 30px;
+      padding-top: 29px;
+      margin-bottom: 0;
     }
 
     .page-header-content {
-      margin: 30px 0;
-      padding: 29px 20px 0 20px;
-      font-weight: 300;
+      max-width: $description-max-width;
+      font-weight: $font-weight-light;
+      font-size: $font-size-l;
+      line-height: 26px;
     }
-
-    .page-header-btns {
-      display: flex;
-      align-items: center;
-
-      .btn {
-        margin-right: 5px;
-
-        &:last-child {
-          margin-right: 0;
-        }
-      }
+    
+    &>.general-buttons.row {
+      padding: 0;
     }
-
-    .back-arrow {
-      color: inherit;
-      font-size: 1rem;
-      padding-left: 0;
-      margin-right: 7px;
-    }
-  }
-
-  .page-no-header-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-left: 20px;
   }
 
   .page-header-top {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 5px;
-    padding: 25px 0 0 20px;
-    margin-bottom: 10px;
 
     & span.page-header-title-text {
-      font-size: $size-16;
+      font-size: $font-size-l;
     }
   }
 
@@ -162,8 +134,7 @@ div.page.content {
   }
 
   .page-body {
-    padding-left: $page-padding-left;
-    padding-right: $page-padding-right;
+    padding: 0 $page-padding-x;
   }
 
   .page-section {
@@ -173,14 +144,12 @@ div.page.content {
   }
 
   .page-table-container-fluid {
-    margin-left: -$page-padding-left;
-    margin-right: -$page-padding-right;
-    padding: 18px 18px 0 18px;
+    padding: $spacing-l 0;
     width: inherit;
     min-width: 100%;
 
     .table-count {
-      padding-left: $page-padding-left;
+      padding-left: $page-padding-x;
     }
   }
 
@@ -206,11 +175,16 @@ div.page.content {
     & > tbody > tr > td {
       border-top: none;
       border-color: $color-black-5;
+      padding-top: $spacing-s;
+      padding-bottom: $spacing-s;
+      color: $color-black-100;
     }
 
     & > thead > tr > th {
-      font-size: $size-14;
       background-color: $color-black-5;
+      font-weight: $font-weight-bold;
+      font-size: $font-size-m;
+      line-height: 19px;
 
       .ng-star-inserted {
         float: inline-start;
@@ -220,6 +194,12 @@ div.page.content {
           color: $color-blue-dark-100;
         }
       }
+    }
+
+    & > tbody > tr > td {
+      font-weight: $font-weight-regular;
+      font-size: $font-size-s;
+      line-height: 16px;
     }
   }
 
@@ -234,15 +214,6 @@ div.page.content {
     }
   }
 
-  .page-table thead tr th {
-    padding-top: 5px;
-    padding-bottom: 5px;
-  }
-
-  .page-table tbody tr td {
-    padding-top: 10px;
-    padding-bottom: 10px;
-  }
 
   .page-table tbody.ui-table-tbody tr:hover td {
     background-color: $color-blue-10 !important;
@@ -251,12 +222,12 @@ div.page.content {
   }
 
   .page-table thead tr th:first-child {
-    border-radius: 6px 0 0 6px;
+    border-radius: $radius-m 0 0 $radius-m;
     border-bottom: none;
   }
 
   .page-table thead tr th:last-child {
-    border-radius: 0 6px 6px 0;
+    border-radius: 0 $radius-m $radius-m 0;
   }
 
   .table-count {
@@ -271,9 +242,6 @@ div.ui-table .ui-paginator {
   border: none
 }
 
-.page-body.has-detail-info {
-  padding: 0 20px 20px 20px;
-}
 
 /* FOOTER */
 jhi-footer {
@@ -284,8 +252,7 @@ jhi-footer {
 
 /* includes */
 @include media-breakpoint-down(sm) {
-  $page-padding-left: $padding-15px;
-  $page-padding-right: $padding-15px;
+  $page-padding-x: $spacing-m;
   .page {
     &.menu-is-visible {
       padding-left: 0;
@@ -296,29 +263,29 @@ jhi-footer {
     }
 
     .page-header, .page-body {
-      padding-left: $page-padding-left;
-      padding-right: $page-padding-right;
+      padding-left: $page-padding-x;
+      padding-right: $page-padding-x;
     }
 
     .page-table-container-fluid {
-      margin-left: -$page-padding-left;
-      margin-right: -$page-padding-right;
+      margin-left: -$page-padding-x;
+      margin-right: -$page-padding-x;
 
       .page-table {
         & > thead > tr > th,
         & > tbody > tr > td {
           &:first-child {
-            padding-left: $page-padding-left;
+            padding-left: $page-padding-x;
           }
 
           &:last-child {
-            padding-right: $page-padding-right;
+            padding-right: $page-padding-x;
           }
         }
       }
 
       .table-count {
-        padding-left: $page-padding-left;
+        padding-left: $page-padding-x;
       }
     }
   }

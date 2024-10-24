@@ -96,7 +96,7 @@ body {
 }
 
 html {
-  font-size: $size-14;
+  font-size: $font-size-m;
 
 }
 
@@ -120,7 +120,7 @@ h1,
 h2,
 h3,
 h4 {
-  font-weight: 400;
+  font-weight: $font-weight-regular;
 }
 
 .break {
@@ -170,7 +170,7 @@ table.table-sticky-header {
 
     .title {
       font-size: 1.1rem;
-      font-weight: 600;
+      font-weight: $font-weight-bold;
     }
   }
 }

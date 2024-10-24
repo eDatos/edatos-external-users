@@ -1,12 +1,11 @@
 .general-buttons {
-  height: 60px;
   align-items: center;
   padding: 0 20px;
   gap: 10px;
 
   &.row {
     margin: 0;
-    margin-right: 15px;
+    padding: $spacing-l 0;
 
     .row-large {
       flex-grow: 1;
@@ -24,16 +23,16 @@ div.row-large > button.text-icon-button-dialog {
 }
 
 button.text-icon-button, button.menu-text-icon-button {
-  padding: 0 $padding-10px;
+  padding: 0 $spacing-s;
   height: 30px;
   border: 1px solid $color-blue-dark-100;
-  font-size: $size-16;
+  font-size: $font-size-l;
   line-height: 16px;
   width: 100px;
 
   span {
-    font-size: $size-14;
-    font-weight: $font-weight-300;
+    font-size: $font-size-m;
+    font-weight: $font-weight-light;
   }
 
   display: inline-block;
@@ -46,11 +45,6 @@ button.text-icon-button, button.menu-text-icon-button {
   & > span.fa-thin {
     margin-right: 5px;
   }
-}
-
-button.text-icon-button-btwn {
-  margin-right: 10px;
-  border-radius: 5px;
 }
 
 button.text-icon-button {
@@ -100,7 +94,7 @@ button.menu-text-icon-button.text-icon-button {
 .copied-message {
   color: $color-blue-dark-100;
   font-weight: bold;
-  font-size: $size-10;
+  font-size: $font-size-xs;
 }
 
 button.btn.btn-first {
@@ -144,9 +138,6 @@ div.general-buttons.row.modal-buttons {
   padding-right: 0;
 }
 
-div.general-buttons.row {
-  padding: 15px 20px 20px 0;
-}
 
 .btn-scnd:focus, .captcha-button:focus, .btn-scnd.focus {
   background-color: $color-blue-dark-50;
@@ -159,10 +150,10 @@ button.btn-scnd:disabled {
   border-color: $color-black-40 !important;
 }
 
-button.btn.btn-link, button.btn-default {
+button.btn.btn-link {
   padding-right: 0;
   font-weight: unset;
-  font-size: $size-12;
+  font-size: $font-size-s;
 
   & > span {
     color: $color-blue-dark-100;
@@ -176,7 +167,7 @@ button.btn.btn-link, button.btn-default {
 
 a.btn.btn-link {
   color: $color-blue-dark-100;
-  font-size: $size-14;
+  font-size: $font-size-m;
   padding-left: 5px;
   padding-bottom: 13px;
 
@@ -231,9 +222,9 @@ span.pi-search, body .ui-tree .ui-tree-filter-container .ui-tree-filter-icon {
   color: $color-blue-dark-50;
 }
 
-.fa-folder-plus:before, .fa-folder-minus:before, .fa-cubes:before, .pi.pi-caret-down:before, {
+.fa-folder-plus:before, .fa-folder-minus:before, .fa-cubes:before, .pi.pi-caret-down:before {
   color: $color-blue-dark-100;
-  font-size: 20px;
+  font-size: $font-size-2xl;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -242,7 +233,6 @@ span.pi-search, body .ui-tree .ui-tree-filter-container .ui-tree-filter-icon {
 .pi-check:before {
   color: $color-black-0;
   background-color: $color-blue-dark-100;
-  margin: 0;
 }
 
 .pi-sort-alt:before {
@@ -254,8 +244,6 @@ span.pi-search, body .ui-tree .ui-tree-filter-container .ui-tree-filter-icon {
 
   .ui-tree .ui-tree-container .ui-treenode .ui-treenode-content .ui-chkbox .ui-chkbox-icon {
     margin: 0;
-    font-size: 19px;
-    border-radius: 2px;
   }
 
   .ui-chkbox .ui-chkbox-box {
@@ -274,12 +262,11 @@ span.pi-search, body .ui-tree .ui-tree-filter-container .ui-tree-filter-icon {
   }
 
   .custom-control-label {
-    padding-top: 7px;
+    padding-top: $spacing-s;
   }
 
   .custom-control-input {
     position: unset;
-    width: 5%;
   }
 
   .custom-control-input:focus ~ .custom-control-label::before {
@@ -328,6 +315,5 @@ span.pi-search, body .ui-tree .ui-tree-filter-container .ui-tree-filter-icon {
     border-color: $color-blue-dark-100;
   }
 }
-
 
 

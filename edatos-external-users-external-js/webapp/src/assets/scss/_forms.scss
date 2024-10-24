@@ -80,7 +80,7 @@ body .ui-calendar.ui-calendar-w-btn .ui-inputtext:enabled:hover:not(.ui-state-er
   transform: translateX(-50%);
   padding: 5px 10px;
   border-radius: 5px;
-  font-size: $size-12;
+  font-size: $font-size-s;
   background-color: $color-red-100;
   color: $color-black-0;
   margin-top: 5px;
@@ -125,7 +125,7 @@ body .ui-calendar.ui-calendar-w-btn .ui-inputtext:enabled:hover:not(.ui-state-er
 
 ul {
   li.ng-star-inserted.ui-autocomplete-list-item.ui-corner-all {
-    font-size: $size-14;
+    font-size: $font-size-m;
     margin: 5px;
   }
 
@@ -136,9 +136,10 @@ ul {
   }
 }
 
-label.label-h2 {
-  font-size: $size-28;
+.page-body > .page-form > .page-section {
+  margin-top: 0;
 }
+
 
 fieldset.page-section {
   div.row {
@@ -155,7 +156,7 @@ fieldset.page-section {
     border-radius: 0.3rem;
     border: 1px solid $color-black-60;
     padding: 7px;
-    font-size: $size-14;
+    font-size: $font-size-m;
     background: $color-black-0 !important;
     width: 100%;
   }
@@ -172,16 +173,8 @@ fieldset.page-section {
     box-shadow: 0 0 0 0.2em $color-blue-dark-50;
   }
 
-  div.page-body.has-detail-info {
-    padding: 0;
-
-    div.form-group {
-      padding-right: 0;
-    }
-
-    div.detail-info {
-      padding: 0;
-    }
+  .div.form-group {
+    margin-top: $spacing-s;
   }
 }
 
@@ -203,21 +196,21 @@ fieldset.page-section {
 
 div.information-section {
   background-color: $color-black-5;
-  border-radius: 5px 5px 0 0;
+  border-radius: $radius-m $radius-m 0 0;
 
   label.label-title {
-    padding: 15px 0 0 15px;
-    font-size: $size-18;
-    font-weight: 600;
+    padding: $spacing-m 0 0 $spacing-m;
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
     margin: 0;
   }
 }
 
 .custom-control.custom-switch {
-  padding: 15px 0 5px 0;
-  margin-left: -17px;
-  font-size: $size-12;
-  font-weight: 300;
+  padding: $spacing-l 0 $spacing-s 0;
+  margin-left: 24px;
+  font-size: $font-size-s;
+  font-weight: $font-weight-light;
   color: $color-blue-dark-100;
 }
 
@@ -226,7 +219,7 @@ div.information-section {
 }
 
 .label-inputswitch-checked {
-  font-weight: $font-weight-600;
+  font-weight: $font-weight-bold;
 }
 
 
