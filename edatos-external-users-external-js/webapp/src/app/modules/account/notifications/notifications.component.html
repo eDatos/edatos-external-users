@@ -12,9 +12,6 @@
             <label class='custom-control-label' for='emailNotificationsEnabled'
                    [ngClass]="markedEmailNotificationsEnabled?'label-inputswitch-checked':''">{{ 'account.form.emailNotificationsEnabled' | translate }}</label>
         </div>
-        <div class='col-md-12 justify-content-md-center text-center'>
-            <div *ngIf='!noticesLoaded' class='spinner-border text-info' role='status'></div>
-        </div>
         <div class="table-custom-filter">
             <p-table
                 scrollHeight="flex"
@@ -58,12 +55,19 @@
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="emptymessage">
-                    <div class='no-content'>
-                        <img src='assets/images/no-results.png' [alt]="'arte.entity-list-empty.detail' | translate" />
-                        <div class='no-content-text'>
-                            <div class='title' translate='notices.list.noNotice'></div>
-                        </div>
-                    </div>
+                    <tr>
+                        <td [colSpan]="columns.length">
+                            <div *ngIf='!noticesLoaded' class="col-md-12 justify-content-md-center text-center">
+                                <div class='spinner-border text-info' role='status'></div>
+                            </div>
+                            <div *ngIf='noticesLoaded' class='no-content'>
+                                <img src='assets/images/no-results.png' [alt]="'arte.entity-list-empty.detail' | translate" />
+                                <div class='no-content-text'>
+                                    <div class='title' translate='notices.list.noNotice'></div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
                 </ng-template>
             </p-table>
         </div>

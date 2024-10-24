@@ -1,8 +1,5 @@
 <div class='page content'>
     <div class='page-body'>
-        <div class='col-md-12 justify-content-md-center text-center'>
-            <div *ngIf='!filtersLoaded' class='spinner-border text-info' role='status'></div>
-        </div>
         <div class='page-table-container-fluid table-custom-filter'>
             <p-table
                 scrollHeight="flex"
@@ -47,13 +44,20 @@
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="emptymessage">
-                    <div class='no-content'>
-                        <img src='assets/images/no-results.png' [alt]="'arte.entity-list-empty.detail' | translate" />
-                        <div class='no-content-text'>
-                            <div class='title' translate='filter.list.noFilterCreated'></div>
-                            <div class='detail' translate='filter.list.wouldYouLikeToCreateAFilter'></div>
-                        </div>
-                    </div>
+                    <tr>
+                        <td [colSpan]="columns.length">
+                            <div *ngIf='!filtersLoaded' class='col-md-12 justify-content-md-center text-center'>
+                                <div class='spinner-border text-info' role='status'></div>
+                            </div>
+                            <div *ngIf='filtersLoaded' class='no-content'>
+                                <img src='assets/images/no-results.png' [alt]="'arte.entity-list-empty.detail' | translate" />
+                                <div class='no-content-text'>
+                                    <div class='title' translate='filter.list.noFilterCreated'></div>
+                                    <div class='detail' translate='filter.list.wouldYouLikeToCreateAFilter'></div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
                 </ng-template>
             </p-table>
         </div>
