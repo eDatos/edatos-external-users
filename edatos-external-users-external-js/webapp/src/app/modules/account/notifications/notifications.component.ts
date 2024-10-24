@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LazyLoadEvent, MessageService } from 'primeng/api';
-import { ITEMS_PER_PAGE, PAGINATION_OPTIONS } from '@app/app.constants';
 import { ResponseWrapper } from '@app/core/utils/response-utils';
 import { NoticeFilter } from '@app/modules/account/notifications/notifications-search/notice-search';
 import { NoticeService } from '@app/shared/service/user/notice.service';
 import { Notice } from '@app/core/model/notice.model';
 import { AccountUserService } from '@app/core/service';
-import { User, Filter } from '@app/core/model';
+import { User } from '@app/core/model';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -46,8 +45,8 @@ export class NotificationsComponent implements OnInit {
         }
     ];
 
-    constructor(private noticeService: NoticeService, private activatedRoute: ActivatedRoute, private router: Router,
-        private noticeSearch: NoticeFilter, private userService: AccountUserService, private messageService: MessageService,
+    constructor(private noticeService: NoticeService, private activatedRoute: ActivatedRoute,
+        private userService: AccountUserService, private messageService: MessageService,
         private translateService: TranslateService) {
     }
 
