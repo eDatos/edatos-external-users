@@ -1,20 +1,22 @@
 <div class='page content' *ngIf='account'>
-    <div class='page-header page-header-top'>
-        <span class='page-header-title-text'></span>
-        <div class='general-buttons row justify-content-end ml-auto'>
-            <button type='button' class='text-icon-button btn-thin-default'
-                    routerLink='/account-management/edit'>
-                <span class='fa-thin fa-pen-to-square'></span>
-                <span>{{ 'entity.action.edit' | translate | uppercase }}</span>
-            </button>
-            <button type='button' class='text-icon-button text-icon-button-btwn btn-thin-default'
-                    routerLink='/change-password'>
-                <i class='fa' aria-hidden='true'></i>
-                <span>{{ 'entity.action.change-password' | translate | uppercase }}</span>
-            </button>
+    <div class='page-header'>
+        <div class='page-header-top'>
+            <span class='page-header-title-text'></span>
+            <div class='general-buttons row justify-content-end ml-auto'>
+                <button type='button' class='text-icon-button btn-thin-default'
+                        routerLink='/account-management/edit'>
+                    <span class='fa-thin fa-pen-to-square'></span>
+                    <span>{{ 'entity.action.edit' | translate | uppercase }}</span>
+                </button>
+                <button type='button' class='text-icon-button btn-thin-default'
+                        routerLink='/change-password'>
+                    <i class='fa' aria-hidden='true'></i>
+                    <span>{{ 'entity.action.change-password' | translate | uppercase }}</span>
+                </button>
+            </div>
         </div>
     </div>
-    <div class='page-body has-detail-info'>
+    <div class='page-body'>
         <div class='detail-info'>
             <label for='name' class='title' translate='account.basicInformation'></label>
             <span id='name' class='info-id'>{{ account.name }} {{ account.surname1 }} {{ account.surname2 }}</span>
@@ -24,7 +26,7 @@
                     <div class='row'>
                         <div class='form-group form-group-inline col-md-4'>
                             <div class='form-row'>
-                                <strong class='form-label col-md-10' translate='signup.form.gender'></strong>
+                                <strong class='form-label col-md-10' translate='account.form.gender'></strong>
                                 <div class='col-md-12'>
                                     <span id='gender'>{{ gender }}</span>
                                 </div>
@@ -32,7 +34,7 @@
                         </div>
                         <div class='form-group form-group-inline col-md-4'>
                             <div class='form-row'>
-                                <strong class='form-label col-md-10' translate='signup.form.birthday'></strong>
+                                <strong class='form-label col-md-10' translate='account.form.birthday'></strong>
                                 <div class='col-md-12'>
                                     <span id='birthday'>{{ account.birthday }}</span>
 
@@ -49,7 +51,7 @@
                     <div class='row'>
                         <div class='form-group form-group-inline col-md-4'>
                             <div class='form-row'>
-                                <strong class='form-label col-md-10' translate='signup.form.email'></strong>
+                                <strong class='form-label col-md-10' translate='account.form.email'></strong>
                                 <div class='col-md-12'>
                                     <span id='email'>{{ account.email }}</span>
                                 </div>
@@ -57,7 +59,7 @@
                         </div>
                         <div class='form-group form-group-inline col-md-4'>
                             <div class='form-row'>
-                                <strong class='form-label col-md-10' translate='signup.form.phoneNumber'></strong>
+                                <strong class='form-label col-md-10' translate='account.form.phoneNumber'></strong>
                                 <div class='col-md-12'>
                                     <span id='phoneNumber'>{{ account.phoneNumber }}</span>
                                 </div>
@@ -65,7 +67,7 @@
                         </div>
                         <div class='form-group form-group-inline col-md-4'>
                             <div class='form-row'>
-                                <strong class='form-label col-md-10' translate='signup.form.organism'></strong>
+                                <strong class='form-label col-md-10' translate='account.form.organism'></strong>
                                 <div class='col-md-12'>
                                     <span id='organism'>{{ account.organism }}</span>
                                 </div>
@@ -79,7 +81,7 @@
                     <div class='row'>
                         <div class='form-group form-group-inline col-md-4'>
                             <div class='form-row'>
-                                <strong class='form-label col-md-10' translate='signup.form.nationality'></strong>
+                                <strong class='form-label col-md-10' translate='account.form.nationality'></strong>
                                 <div class='col-md-12'>
                                     <span id='nationality'>{{ nationality }}</span>
                                 </div>
@@ -95,7 +97,7 @@
                     <div class='row'>
                         <div class='form-group form-group-inline col-md-4'>
                             <div class='form-row'>
-                                <strong class='form-label col-md-10' translate='signup.form.language'></strong>
+                                <strong class='form-label col-md-10' translate='account.form.language'></strong>
                                 <div class='col-md-12'>
                                     <span id='language'>{{ language }}</span>
                                 </div>

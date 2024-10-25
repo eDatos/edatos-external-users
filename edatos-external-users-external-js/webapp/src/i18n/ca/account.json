@@ -6,14 +6,22 @@
         "contactInformation": "Informació de contacte",
         "generalPreferences": "Preferències generals",
         "form": {
-            "nombre": "Nom",
-            "nombre.placeholder": "El seu nom",
-            "apellido1": "Primer cognom",
-            "apellido2": "Segon cognom",
-            "apellido1.placeholder": "El seu primer cognom",
-            "apellido2.placeholder": "El seu segon cognom",
-            "button": "Guardar",
-            "emailNotificationsEnabled": "Rebre notificacions"
+            "name": "Nom",
+            "surname1": "Primer cognom",
+            "surname2": "Segon cognom",
+            "password": "Contrasenya",
+            "confirmPassword": "Confirmar contrasenya",
+            "email": "Correu electrònic",
+            "language": "Idioma",
+            "phoneNumber": "Número telèfon",
+            "organism": "Organisme",
+            "gender": "Sexe",
+            "nationality": "Nacionalitat",
+            "birthday": "Data naixement",
+            "enableEmailNotifications": "Habilitar notificacions a través de correu electrònic per a aquest usuari",
+            "emailNotificationsEnabled": "Rebre notificacions",
+            "captchaModal": "Resolgui el captcha per a acabar el registre",
+            "termsAndConditions": "Accepto política de privacitat"
         },
         "download": {
             "myInformation": "Descarregar la meva informació"

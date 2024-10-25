@@ -6,14 +6,22 @@
         "contactInformation": "Contact information",
         "generalPreferences": "General preferences",
         "form": {
-            "nombre": "Name",
-            "nombre.placeholder": "Your name",
-            "apellido1": "First surname",
-            "apellido2": "Second surname",
-            "apellido1.placeholder": "Your first surname",
-            "apellido2.placeholder": "Your second surname",
-            "button": "Save",
-            "emailNotificationsEnabled": "Receive notifications"
+            "name": "Name",
+            "surname1": "First surname",
+            "surname2": "Second surname",
+            "password": "Password",
+            "confirmPassword": "Confirm password",
+            "email": "Email",
+            "language": "Language",
+            "phoneNumber": "Phone number",
+            "organism": "Organism",
+            "gender": "Gender",
+            "nationality": "Nationality",
+            "birthday": "Birthday",
+            "enableEmailNotifications": "Enable email notifications",
+            "emailNotificationsEnabled": "Receive notifications",
+            "captchaModal": "Solve the captcha to finish the registration",
+            "termsAndConditions": "Agree to the Privacy Policy"
         },
         "download": {
             "myInformation": "Download my information"

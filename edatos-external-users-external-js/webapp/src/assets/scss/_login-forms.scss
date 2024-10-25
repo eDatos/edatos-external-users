@@ -2,8 +2,8 @@ fieldset.page-section {
 
     & label.form-label.col-md-10 {
         padding-left: 5px;
-        font-size: $size-14;
-        font-weight: $font-weight-500;
+        font-size: $font-size-m;
+        font-weight: $font-weight-semibold;
         width: 100%;
     }
 
@@ -18,7 +18,7 @@ fieldset.page-section {
 
     [class^="ng-tns-c"] input::placeholder, input.ng-pristine::placeholder {
         color: $color-black-40;
-        font-size: $size-12;
+        font-size: $font-size-s;
         padding-left: 5px;
         width: 100%;
         position: relative;
@@ -28,6 +28,7 @@ fieldset.page-section {
 }
 
 div.login-container {
+    margin-top: 50px;
     margin-bottom: 10rem;
     height: 636.586px;
 
@@ -79,7 +80,7 @@ div.login-container {
             font-family: $font-family-sans-serif;
             font-size: 23px;
             font-style: normal;
-            font-weight: 600;
+            font-weight: $font-weight-bold;
             line-height: 27.678px;
             margin: 0;
         }
@@ -117,14 +118,14 @@ p.content-paragraph {
 
 p.content-paragraph.p-title {
     margin-bottom: 0;
-    font-weight: 400;
-    font-size: $size-16;
+    font-weight: $font-weight-regular;
+    font-size: $font-size-l;
     padding: 0 10px;
 }
 
 p.content-paragraph.p-text, p.content-label-paragraph.p-text {
     margin-bottom: 20px;
-    font-size: $size-14;
+    font-size: $font-size-m;
     text-align: center;
 }
 
@@ -140,7 +141,7 @@ div.success-sending {
 
     div.row.success-sending-message {
         width: 400px;
-        font-size: $size-16;
+        font-size: $font-size-l;
 
 
         .col-md-12.justify-content-md-center {
@@ -179,7 +180,7 @@ div.col-md-3.external-form-information {
 
     p {
         padding-left: 10px;
-        font-size: $size-12;
+        font-size: $font-size-s;
     }
 }
 
@@ -192,7 +193,7 @@ div.col-md-3.external-form-information {
 
 @media (min-width: 768px) {
     fieldset.page-section {
-        margin-top: 25px;
+        margin-top: $spacing-l;
     }
 }
 

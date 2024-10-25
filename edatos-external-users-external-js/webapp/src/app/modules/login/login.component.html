@@ -34,14 +34,24 @@
                                     <label class='form-label col-md-10'
                                            translate='login.form.password'></label>
                                     <div class='col-md-12 form-input-container errors-on-hover'>
-                                        <arte-input
-                                            type='password'
-                                            id='password'
-                                            name='password'
-                                            [(ngModel)]='credentials.password'
-                                            [maxlength]='255'
-                                            [placeholder]="'login.form.password.format'"
-                                        ></arte-input>
+                                        <div class="input-group">
+                                            <input
+                                                [type]='passwordVisible ? "text" : "password"'
+                                                id='password'
+                                                name='password'
+                                                [(ngModel)]='credentials.password'
+                                                [maxlength]='255'
+                                                [placeholder]="'login.form.password.format' | translate"
+                                                [feedback]="false"
+                                                pPassword
+                                                class="form-control"
+                                            />
+                                            <div class="input-group-append">
+                                                <button type="button" class="btn btn-outline-secondary" (click)="togglePasswordVisibility()">
+                                                    <i class="fa fa-fw" [ngClass]="passwordVisible ? 'fa-eye-slash' : 'fa-eye'"></i>
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

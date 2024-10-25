@@ -19,6 +19,7 @@ export class LoginComponent implements OnInit {
     credentials: Credentials;
     origin: String;
     captchaContainerEl: ElementRef;
+    passwordVisible: boolean = false;
 
     @ViewChild('captchaContainer')
     set captchaContainer(captchaContainerEl: ElementRef) {
@@ -86,8 +87,11 @@ export class LoginComponent implements OnInit {
     private isOriginFromExternalUsers(): boolean {
         try {
             let loginUrl = new URL(window.location.href);
+            let loginBaseUrlString = (loginUrl.origin + loginUrl.pathname).replace(/\/$/, "");
+
             let originUrl = new URL(this.origin.toString());
-            return loginUrl.host === originUrl.host;
+            let originBaseUrlString = (originUrl.origin + originUrl.pathname).replace(/\/$/, "");
+            return loginBaseUrlString === originBaseUrlString;
         } catch (error) {
             return false;
         }
@@ -112,5 +116,9 @@ export class LoginComponent implements OnInit {
 
     public navigateToResetPassword() {
         this.router.navigate(['reset-password']);
+    }
+
+    public togglePasswordVisibility() {
+        this.passwordVisible = !this.passwordVisible;
     }
 }
