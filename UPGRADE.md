@@ -8,6 +8,21 @@
 
 *Se deberá realizar primero la actualización de la versión 1.0.0 a la 2.0.0 y luego desde la 2.0.0 a la 3.0.0*
 
+## 2.3.1 a 3.0.0
+
+### Breaking changes
+
+A partir de esta versión se cambia la manera en la que las aplicaciones acceden al captcha. Por lo tanto, si se sube a esta versión las aplicaciones que usen el captcha deberán estar actualizadas para adaptarse a este cambio. 
+Actualmente dichas aplicaciones son portal e indicadores. En el UPGRADE.md de dichos proyectos estará específicada la versión en la que se adaptaron a estos cambios.
+
+Los cambios en cuestión es añadir los métodos del captcha bajo el objeto global `Edatos.captcha`:
+
+- `showCaptcha()` pasa a ser `Edatos.captcha.showCaptcha()`.
+- `showCaptchaWithButton()` pasa a ser `Edatos.captcha.showCaptchaWithButton()`.
+- `requestWithCaptcha()` pasa a ser `Edatos.captcha.requestWithCaptcha()`.
+
+Para más información, consultar la documentación del uso del captcha en el confluence.
+
 ## 2.1.1 a 2.2.0
 
 * Se añaden las propiedades `metamac.default.codelist.gender.restriction` y `metamac.default.codelist.nationality.restriction` que hacen referencia a las **restricciones** utilizadas en las peticiones a la API de SRM para conseguir los códigos de los sexos y los paises respectivamente. Para añadir las propiedades hace falta ejecutar el siguiente script SQL:

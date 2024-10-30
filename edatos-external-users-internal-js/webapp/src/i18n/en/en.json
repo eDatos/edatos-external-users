@@ -214,7 +214,7 @@
             "crear": "Create",
             "deactivate": "Deactivate",
             "delete": "Remove",
-            "edit": "EDIT",
+            "edit": "Edit",
             "eliminar": "Remove",
             "filtersReset": "Reset filters",
             "modificar": "modify",
@@ -849,5 +849,25 @@
             "saturday": "Sa",
             "sunday": "Su"
         }
+    },
+    "richEditor": {
+        "titles": {
+            "header": "Header",
+            "bold": "Bold",
+            "italic": "Italic",
+            "underline": "Underline",
+            "color": "Text color",
+            "background": "Background color",
+            "orderedList": "Ordered list",
+            "bulletList": "Bullet list",
+            "link": "Link",
+            "clean": "Clean format",
+            "size": {
+                "heading": "Heading",
+                "normal": "Normal"
+            }
+        },
+        "enterLink": "Enter link",
+        "save": "Save"
     }
 }

@@ -21,7 +21,7 @@
     </div>
     <div class="page-body">
         <form class="page-form page-section" (ngSubmit)="save()" id="data-protection-policy-form" #dataProtectionPolicyForm="ngForm">
-            <app-multi-language-editor [(ngModel)]="dataProtectionPolicy.value" name="dataProtectionPolicyValue" [locales]="locales" [isEditMode]="isEditMode"></app-multi-language-editor>
+            <app-multi-language-editor [(ngModel)]="dataProtectionPolicy.value" name="dataProtectionPolicyValue" [locales]="locales" [requiredLocales]="DEFAULT_LOCALE" [isEditMode]="isEditMode"></app-multi-language-editor>
         </form>
     </div>
 </div>

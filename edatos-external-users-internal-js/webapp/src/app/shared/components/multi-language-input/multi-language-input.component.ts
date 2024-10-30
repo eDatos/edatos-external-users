@@ -1,7 +1,6 @@
 import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { ALL_LOCALES, DEFAULT_LOCALE } from '@app/shared/components/multi-language-input/multi-language-input.constants';
-import { InternationalString, LocalisedString } from '@app/shared/model';
+import { InternationalString, LocalisedString, RequiredLocalesEnum } from '@app/shared/model';
 import * as _ from 'lodash';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -28,7 +27,7 @@ export class MultiLanguageInputComponent implements ControlValueAccessor {
     public isEditMode = true;
 
     @Input()
-    public locale: string;
+    public requiredLocales: RequiredLocalesEnum;
 
     @Input()
     public inputType: 'text' | 'textarea' = 'text';
@@ -51,10 +50,10 @@ export class MultiLanguageInputComponent implements ControlValueAccessor {
     public onChange: any = () => {};
 
     public isRequiredLocale(typeOfLocale: string): boolean {
-        if (this.locale === ALL_LOCALES) {
+        if (this.requiredLocales === RequiredLocalesEnum.ALL_LOCALES) {
             return this.isEditMode;
         }
-        if (this.locale === DEFAULT_LOCALE) {
+        if (this.requiredLocales === RequiredLocalesEnum.DEFAULT_LOCALE) {
             return typeOfLocale === this.defaultLocale && this.isEditMode;
         }
         return false;

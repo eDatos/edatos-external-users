@@ -3,23 +3,6 @@
     "home": {
       "title": "Crea el teu compte"
     },
-    "form": {
-      "name": "Nom",
-      "surname1": "Primer cognom",
-      "surname2": "Segon cognom",
-      "password": "Contrasenya",
-      "confirmPassword": "Confirmar contrasenya",
-      "email": "Correu electrònic",
-      "language": "Idioma",
-      "phoneNumber": "Número telèfon",
-      "organism": "Organisme",
-      "enableEmailNotifications": "Habilitar notificacions a través de correu electrònic per a aquest usuari",
-      "captchaModal": "Resolgui el captcha per a acabar el registre",
-      "gender": "Sexe",
-      "nationality": "Nacionalitat",
-      "birthday": "Data naixement",
-      "termsAndConditions": "Accepto política de privacitat"
-    },
     "messages": {
       "onSuccessSumary": "Registre de nou usuari",
       "onSuccess": "L'usuari s'ha registrat amb èxit",

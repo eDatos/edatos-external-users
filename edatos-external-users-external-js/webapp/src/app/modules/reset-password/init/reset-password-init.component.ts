@@ -7,8 +7,7 @@ import { MessageService } from 'primeng/api';
 
 @Component({
     selector: 'app-reset-password-init',
-    templateUrl: './reset-password-init.component.html',
-    styleUrls: ['../reset-password.component.scss']
+    templateUrl: './reset-password-init.component.html'
 })
 export class ResetPasswordInitComponent implements OnInit {
     public email: string;

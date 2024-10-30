@@ -8,6 +8,8 @@ public final class CaptchaConstants {
     public static final String CAPTCHA_PROVIDER_SIMPLE = "simple";
 
     // CONSTANTS FOR ALL PROVIDERS
+    public static final String CAPTCHA_INTERNATIONALIZATION_COOKIE_ID = "internationalizationCookieId";
+    public static final String CAPTCHA_DEFAULT_LANGUAGE = "defaultLanguage";
     public static final String CAPTCHA_PICTURE_MODEL_ATTR = "captchaPictureUrl";
     public static final String CAPTCHA_ENABLED_MODEL_ATTR = "captchaEnabled";
     public static final long CAPTCHA_LIFESPAN = 1800000;

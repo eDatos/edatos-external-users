@@ -3,7 +3,7 @@
         <div class='page-header-top'>
             <h1 class='page-header-title' translate='signup.home.title'></h1>
         </div>
-        <p class='page-header-content'></p>
+        <p class='page-header-content' translate="global.menu.account.myAccount.description"></p>
     </div>
     <div class='page-body'>
         <form class='page-form' id='edit-form' name='editForm' role='form' novalidate (ngSubmit)='save()'
@@ -18,7 +18,7 @@
                                 <div class='form-group form-group-inline col-md-4 required'
                                      [formControlStatus]='editForm.controls.name'>
                                     <div class='form-row'>
-                                        <label class='form-label col-md-10' translate='signup.form.name'
+                                        <label class='form-label col-md-10' translate='account.form.name'
                                                for='name'></label>
                                         <div class='col-md-12 form-input-container errors-on-hover'>
                                             <arte-input id='name' name='name' [(ngModel)]='user.name' [maxlength]='255'
@@ -32,7 +32,7 @@
                                 <div class='form-group form-group-inline col-md-4 required'
                                      [formControlStatus]='editForm.controls.surname1'>
                                     <div class='form-row'>
-                                        <label class='form-label col-md-10' translate='signup.form.surname1'
+                                        <label class='form-label col-md-10' translate='account.form.surname1'
                                                for='surname1'></label>
                                         <div class='col-md-12 form-input-container errors-on-hover'>
                                             <arte-input id='surname1' name='surname1' [(ngModel)]='user.surname1'
@@ -47,7 +47,7 @@
                                 <div class='form-group form-group-inline col-md-4'
                                      [formControlStatus]='editForm.controls.surname2'>
                                     <div class='form-row'>
-                                        <label class='form-label col-md-10' translate='signup.form.surname2'
+                                        <label class='form-label col-md-10' translate='account.form.surname2'
                                                for='surname2'></label>
                                         <div class='col-md-12 form-input-container errors-on-hover'>
                                             <arte-input id='surname2' name='surname2' [(ngModel)]='user.surname2'
@@ -69,7 +69,7 @@
                                 <div class='form-group form-group-inline col-md-4'
                                      [formControlStatus]='editForm.controls.gender'>
                                     <div class='form-row'>
-                                        <label class='form-label col-md-10' translate='signup.form.gender'
+                                        <label class='form-label col-md-10' translate='account.form.gender'
                                                for='gender'></label>
                                         <div class='col-md-12 form-input-container errors-on-hover'>
                                             <arte-autocomplete-short-list
@@ -87,7 +87,7 @@
                                 </div>
                                 <div class='form-group form-group-inline col-md-4'>
                                     <div class='form-row'>
-                                        <label class='form-label col-md-10' translate='signup.form.birthday'
+                                        <label class='form-label col-md-10' translate='account.form.birthday'
                                                for='birthday'></label>
                                         <div class='col-md-12 form-input-container errors-on-hover'>
                                             <app-custom-calendar id='birthday' name='birthday'
@@ -100,7 +100,7 @@
                                 <div class='form-group form-group-inline col-md-4'
                                      [formControlStatus]='editForm.controls.nationality'>
                                     <div class='form-row'>
-                                        <label class='form-label col-md-10' translate='signup.form.nationality'
+                                        <label class='form-label col-md-10' translate='account.form.nationality'
                                                for='nationality'></label>
                                         <div class='col-md-12 form-input-container'>
                                             <arte-autocomplete-short-list
@@ -127,7 +127,7 @@
                                 <div class='form-group form-group-inline col-md-4'
                                      [formControlStatus]='editForm.controls.organism'>
                                     <div class='form-row'>
-                                        <label class='form-label col-md-10' translate='signup.form.organism'
+                                        <label class='form-label col-md-10' translate='account.form.organism'
                                                for='organism'></label>
                                         <div class='col-md-12 form-input-container errors-on-hover'>
                                             <arte-input id='organism' name='organism' [(ngModel)]='user.organism'
@@ -150,7 +150,7 @@
                                 <div class='form-group form-group-inline col-md-4 required'
                                      [formControlStatus]='editForm.controls.email'>
                                     <div class='form-row'>
-                                        <label class='form-label col-md-10' translate='signup.form.email'
+                                        <label class='form-label col-md-10' translate='account.form.email'
                                                for='email'></label>
                                         <div class='col-md-12 form-input-container errors-on-hover'>
                                             <arte-input [disabled]='isMigratedUser' id='email' name='email'
@@ -166,7 +166,7 @@
                                 <div class='form-group form-group-inline col-md-4'
                                      [formControlStatus]='editForm.controls.phoneNumber'>
                                     <div class='form-row'>
-                                        <label class='form-label col-md-10' translate='signup.form.phoneNumber'
+                                        <label class='form-label col-md-10' translate='account.form.phoneNumber'
                                                for='phoneNumber'></label>
                                         <div class='col-md-12 form-input-container errors-on-hover'>
                                             <arte-input id='phoneNumber' name='phoneNumber'
@@ -181,7 +181,7 @@
                                 <div class='form-group form-group-inline col-md-4 required'
                                      [formControlStatus]='editForm.controls.language'>
                                     <div class='form-row'>
-                                        <label class='form-label col-md-10' translate='signup.form.language'
+                                        <label class='form-label col-md-10' translate='account.form.language'
                                                for='language'></label>
                                         <div class='col-md-12 form-input-container errors-on-hover'>
                                             <arte-autocomplete-short-list
@@ -208,7 +208,7 @@
                                 <div class='form-group form-group-inline col-md-4 required'
                                      [formControlStatus]='editForm.controls.password'>
                                     <div class='form-row'>
-                                        <label class='form-label col-md-10' translate='signup.form.password'
+                                        <label class='form-label col-md-10' translate='account.form.password'
                                                for='password'></label>
                                         <div class='col-md-12 form-input-container errors-on-hover'>
                                             <arte-input type='password' id='password' name='password'
@@ -226,7 +226,7 @@
                                 <div class='form-group form-group-inline col-md-4 required'
                                      [formControlStatus]='editForm.controls.confirmPassword'>
                                     <div class='form-row'>
-                                        <label class='form-label col-md-10' translate='signup.form.confirmPassword'
+                                        <label class='form-label col-md-10' translate='account.form.confirmPassword'
                                                for='confirmPassword'></label>
                                         <div class='col-md-12 form-input-container errors-on-hover'>
                                             <arte-input type='password' id='confirmPassword' name='confirmPassword'
@@ -252,7 +252,7 @@
                             <input type='checkbox' name='active' ngModel required />
                             <a class='btn btn-link' target='_blank' routerLink='/data-protection-policy'
                                routerLinkActive='active'
-                               translate='signup.form.termsAndConditions'></a>
+                               translate='account.form.termsAndConditions'></a>
                         </div>
                         <div class='form-group col-md-3 external-form-information'>
                             <p>{{ 'global.messages.requiredFields' | translate }}</p>
@@ -261,7 +261,7 @@
                 </div>
                 <div class='form-group'>
                     <div class='row divider'>
-                        <div class='form-group col-md-4 external-form'>
+                        <div class='form-group external-form' [class.col-md-12]="isCaptchaProviderRecaptcha" [class.col-md-4]="!isCaptchaProviderRecaptcha">
                             <div #captchaContainer class='form-row'></div>
                         </div>
                     </div>
@@ -270,17 +270,15 @@
         </form>
         <div class='external-form general-buttons row'>
             <ng-container>
-                <div class='row-large'>
-                    <button type='submit' form='edit-form' [disabled]='editForm.form.invalid || isSaving'
-                            class='text-icon-button btn-thin-first'>
-                        <span class='fa-thin fa-floppy-disk'></span>
-                        <span>{{ 'entity.action.save' | translate | uppercase }}</span>
-                    </button>
-                    <button type='submit' class='text-icon-button btn-thin-cancel' (click)='navigateToLogin()'>
-                        <span class='fa-thin fa-ban'></span>
-                        <span>{{ 'entity.action.cancel' | translate | uppercase }}</span>
-                    </button>
-                </div>
+                <button type='submit' form='edit-form' [disabled]='editForm.form.invalid || isSaving'
+                        class='text-icon-button btn-thin-first'>
+                    <span class='fa-thin fa-floppy-disk'></span>
+                    <span>{{ 'entity.action.save' | translate | uppercase }}</span>
+                </button>
+                 <button type='submit' class='text-icon-button btn-thin-cancel' (click)='navigateToLogin()'>
+                    <span class='fa-thin fa-ban'></span>
+                    <span>{{ 'entity.action.cancel' | translate | uppercase }}</span>
+                </button>
             </ng-container>
         </div>
     </div>

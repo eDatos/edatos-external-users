@@ -1,0 +1,15 @@
+.input-group {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    width: 100%;
+
+    input {
+        width: unset;
+    }
+
+    button {
+        padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+}

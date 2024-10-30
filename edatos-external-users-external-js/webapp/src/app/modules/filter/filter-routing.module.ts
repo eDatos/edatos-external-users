@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ITEMS_PER_PAGE } from '@app/app.constants';
 import { UserRouteAccessGuard } from '@app/core/guard';
 import { UserResolver } from '@app/core/resolver';
 import { USER } from '@app/core/service';
@@ -22,9 +21,7 @@ export const FILTER_ROUTES: Routes = [
             roles: USER,
             pageTitle: 'filter.home.title',
             defaultPagingParams: {
-                page: '1',
                 sort: 'created_date,desc',
-                size: ITEMS_PER_PAGE
             }
         },
         canActivate: [UserRouteAccessGuard]

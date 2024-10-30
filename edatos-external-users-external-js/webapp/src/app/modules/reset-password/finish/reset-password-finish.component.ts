@@ -5,8 +5,7 @@ import { ResetPasswordService } from '@app/core/service';
 
 @Component({
     selector: 'app-reset-password-finish',
-    templateUrl: './reset-password-finish.component.html',
-    styleUrls: ['../reset-password.component.scss'],
+    templateUrl: './reset-password-finish.component.html'
 })
 export class ResetPasswordFinishComponent implements OnInit {
     public isSaving: boolean;

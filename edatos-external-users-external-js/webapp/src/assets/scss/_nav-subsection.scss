@@ -3,25 +3,9 @@
   justify-content: space-between;
 }
 
-nav.navbar {
-  align-items: baseline !important;
-  min-height: $navbar-height;
-  background-color: $color-black-0;
-  padding: 15px $page-padding-left 15px 19px;
-  z-index: 99;
-
-  .dropdown-item.active,
-  .dropdown-item.active:focus,
-  .dropdown-item.active:hover {
-    background-color: $color-blue-25;
-    color: $color-black-100;
-  }
-}
-
 div.subsection-tab {
-  padding-bottom: 15px;
-  height: 45px;
-  font-size: $size-14;
+  padding-top: $spacing-l;
+  font-size: $font-size-m;
 }
 
 .section-tab .nav {
@@ -62,12 +46,12 @@ div.subsection-tab {
 }
 
 .section-tab .nav-pills .nav-link, .subsection-tab .nav-tabs .nav-link {
-  font-weight: $font-weight-300;
+  font-weight: $font-weight-light;
   color: $color-blue-dark-100 !important;
 }
 
 .section-tab .nav-pills .nav-link.active {
-  font-weight: $font-weight-600;
+  font-weight: $font-weight-bold;
   box-shadow: 0px 5px $color-blue-100;
 }
 
@@ -80,7 +64,7 @@ div.subsection-tab {
 }
 
 .subsection-tab .nav-tabs .nav-link.active {
-  font-weight: $font-weight-600;
+  font-weight: $font-weight-bold;
   border-radius: $border-radius-5px-0;
 }
 
@@ -104,32 +88,4 @@ div.subsection-tab {
   z-index: 1;
 }
 
-/*  @media  */
-@media screen and (max-width: 991px) {
-  #navbarResponsive {
-    display: flex;
-    justify-content: flex-end;
-  }
 
-  .navbar-nav {
-    right: 18px;
-    padding-top: 18px;
-    position: absolute;
-    z-index: 1;
-    top: -14px;
-    justify-content: flex-end;
-    left: 0 !important;
-    flex-direction: row !important;
-  }
-
-  .navbar {
-    .dropdown-menu {
-      margin-top: -11px !important;
-    }
-
-    .general-buttons.row {
-      justify-content: end !important;
-    }
-
-  }
-}

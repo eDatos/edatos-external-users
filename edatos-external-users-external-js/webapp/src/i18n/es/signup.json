@@ -3,23 +3,6 @@
     "home": {
       "title": "Crea tu cuenta"
     },
-    "form": {
-      "name": "Nombre",
-      "surname1": "Primer apellido",
-      "surname2": "Segundo apellido",
-      "password": "Contraseña",
-      "confirmPassword": "Confirmar contraseña",
-      "email": " Correo electrónico",
-      "language": "Idioma",
-      "phoneNumber": "Número teléfono",
-      "organism": "Organismo",
-      "enableEmailNotifications": "Habilitar notificaciones a través de correo electrónico",
-      "captchaModal": "Resuelva el captcha para terminar el registro",
-      "gender": "Sexo",
-      "nationality": "Nacionalidad",
-      "birthday": "Fecha nacimiento",
-      "termsAndConditions": "Acepto la política de privacidad"
-    },
     "messages": {
       "onSuccessSumary": "Registro de nuevo usuario",
       "onSuccess": "El usuario se ha registrado con éxito",

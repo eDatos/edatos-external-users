@@ -1,100 +1,120 @@
-var captchaGeneratedId = null;
+window.Edatos = window.Edatos || {};
 
-var showCaptcha = function (options) {	
-	if(isCaptchaEnabled()) {
-		captchaGeneratedId = createCaptchaSessionKey();
-		var imgUrl = new URL(/*[[${captchaPictureUrl}]]*/ "");
-		imgUrl.searchParams.set('sessionKey', captchaGeneratedId);
-		
-		if(!options.captchaEl && options.captchaId) {
-			options.captchaEl = document.getElementById(options.captchaId);
-		}
-		removeCaptcha(options);
-	    options.captchaEl.insertAdjacentHTML('beforeend', `
-			<div id="captcha-container" class="captcha captcha-simple">
-				<img src="${imgUrl.href}">
-				<label for="code"></label>
-				<input type="text" name="code" id="code"/>
-			</div>`);
+(function () {
+    var internationalizationCookieId = /*[[${internationalizationCookieId}]]*/ "chosenLocale";
+    var defaultLanguage = /*[[${defaultLanguage}]]*/ "es";
+    var chosenLocale = document.cookie.replace(new RegExp("(?:(?:^|.*;\\s*)" + internationalizationCookieId + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1") || defaultLanguage;
+    var captchaEnabled = /*[[${captchaEnabled}]]*/ false;
+    var captchaGeneratedId = null;
+    var labelTranslations = {
+        es: "Escriba el texto que aparece en la imagen superior",
+        en: "Enter the text that appears in the image above",
+        ca: "Escriviu el text que apareix a la imatge superior"
+    };
+    var buttonTranslations = {
+        es: "Enviar", en: "Send", ca: "Enviar"
+    };
 
-		options.captchaEl.querySelector("#captcha-container img").className = options.imgClasses ? options.imgClasses : "captcha-img";
-		options.captchaEl.querySelector("#captcha-container input").className = options.inputClasses ? options.inputClasses : "captcha-input";
-		var labelEl = options.captchaEl.querySelector("#captcha-container label");
-		labelEl.innerText = options.labelText ? options.labelText : "Escriba el texto que aparece en la imagen superior";
-		labelEl.className = options.labelClasses ? options.labelClasses : "captcha-label";
-	}
-};
+    var createCaptchaSessionKey = function() {
+      return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c => (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+      )
+    };
 
-var showCaptchaWithButton = function (request, url, options) {	
-    if(isCaptchaEnabled()) {
-		return new Promise((resolve, reject) => {
-			showCaptcha(options);
-			options.withButton = true;
-	
-			var $button = document.createElement("button");
-			$button.className = options.buttonClasses ? options.buttonClasses : "captcha-button";
-			$button.textContent = options.buttonText ? options.buttonText : "Enviar";
-			options.captchaEl.querySelector("#captcha-container").appendChild($button);
-	        $button.addEventListener("click", function (e) {
-	            e.preventDefault();
-	            requestWithCaptcha(request, url, options).then(val => resolve(val)).catch(error => reject(error));
-	        }, false);
-	    });
-	} else {
-		return requestWithCaptcha(request, url, options);
-	}
-};
+    var removeCaptcha = function(options) {
+        if(options.captchaEl) {
+            var captchaContainerEl = options.captchaEl.querySelector("#captcha-container");
+            if(captchaContainerEl) {
+                 options.captchaEl.removeChild(captchaContainerEl);
+            }
+        }
+    }
 
-var createCaptchaSessionKey = function() {
-  return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
-    (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
-  )
-};
+    var sendRequestWithCaptcha = function(request, baseUrl, options) {
+        var url = new URL(baseUrl);
+        var captchaInput = options.captchaEl && options.captchaEl.querySelector("#captcha-container input");
+        var userValue = captchaInput && captchaInput.value;
+        if(captchaEnabled && userValue && captchaGeneratedId) {
+            url.searchParams.set('userValue', userValue);
+            url.searchParams.set('sessionKey', captchaGeneratedId);
+        }
+        return request(url.href);
+    };
 
-var removeCaptcha = function(options) {
-	if(options.captchaEl) {
-		var captchaContainerEl = options.captchaEl.querySelector("#captcha-container");
-		if(captchaContainerEl) {
-			 options.captchaEl.removeChild(captchaContainerEl);
-		}
-	}
-}
+    Edatos.captcha = {
+        showCaptcha: function (options) {
+            if(captchaEnabled) {
+                captchaGeneratedId = createCaptchaSessionKey();
+                var imgUrl = new URL(/*[[${captchaPictureUrl}]]*/ "");
+                imgUrl.searchParams.set('sessionKey', captchaGeneratedId);
 
-var isCaptchaEnabled = function() {
-	return /*[[${captchaEnabled}]]*/ false;
-}
+                if(!options.captchaEl && options.captchaId) {
+                    options.captchaEl = document.getElementById(options.captchaId);
+                }
+                removeCaptcha(options);
+                options.captchaEl.insertAdjacentHTML('beforeend', `
+                <div id="captcha-container" class="captcha captcha-simple">
+                    <img src="${imgUrl.href}">
+                    <label for="code"></label>
+                    <input type="text" name="code" id="code"/>
+                </div>`);
 
-var sendRequestWithCaptcha = function(request, baseUrl, options) {
-    var url = new URL(baseUrl);
-	var captchaInput = options.captchaEl && options.captchaEl.querySelector("#captcha-container input");
-	var userValue = captchaInput && captchaInput.value;
-	if(isCaptchaEnabled() && userValue && captchaGeneratedId) {		
-	    url.searchParams.set('userValue', userValue);			
-	    url.searchParams.set('sessionKey', captchaGeneratedId);
-	}
-    return request(url.href);
-};
+                options.captchaEl.querySelector("#captcha-container img").className = options.imgClasses ? options.imgClasses : "captcha-img";
+                options.captchaEl.querySelector("#captcha-container input").className = options.inputClasses ? options.inputClasses : "captcha-input";
+                var labelEl = options.captchaEl.querySelector("#captcha-container label");
+                labelEl.className = options.labelClasses ? options.labelClasses : "captcha-label";
 
-var requestWithCaptcha = function(request, url, options) {
-	if(!options.captchaEl && options.captchaId) {
-		options.captchaEl = document.getElementById(options.captchaId);
-	}
-    return new Promise((resolve, reject) => {
-        sendRequestWithCaptcha(request, url, options).then(function (response) {
-			removeCaptcha(options);
-            resolve(response);
-        }).catch(function (error) {
-			if(isCaptchaEnabled()) {	
-				removeCaptcha(options);
-				if(options.withButton) {
-					showCaptchaWithButton(request, url, options).then(val => resolve(val)).catch(error => reject(error));
-				} else {
-					showCaptcha(options);
-					reject(error);				
-				}
-			} else {
-				reject(error);
-			}
-        });
-    });
-};
+                if (!options.labelText) {
+                    options.labelText = labelTranslations[chosenLocale] || labelTranslations[defaultLanguage];
+                }
+                labelEl.innerText = options.labelText;
+            }
+        },
+        showCaptchaWithButton: function (request, url, options) {
+            if(captchaEnabled) {
+                return new Promise((resolve, reject) => {
+                    Edatos.captcha.showCaptcha(options);
+                    options.withButton = true;
+
+                    var $button = document.createElement("button");
+                    $button.className = options.buttonClasses ? options.buttonClasses : "captcha-button";
+
+                    if (!options.buttonText) {
+                        options.buttonText = buttonTranslations[chosenLocale] || buttonTranslations[defaultLanguage];
+                    }
+                    $button.textContent = options.buttonText;
+
+                    options.captchaEl.querySelector("#captcha-container").appendChild($button);
+                    $button.addEventListener("click", function (e) {
+                        e.preventDefault();
+                        Edatos.captcha.requestWithCaptcha(request, url, options).then(val => resolve(val)).catch(error => reject(error));
+                    }, false);
+                });
+            } else {
+                return Edatos.captcha.requestWithCaptcha(request, url, options);
+            }
+        },
+        requestWithCaptcha: function(request, url, options) {
+            if(!options.captchaEl && options.captchaId) {
+                options.captchaEl = document.getElementById(options.captchaId);
+            }
+            return new Promise((resolve, reject) => {
+                sendRequestWithCaptcha(request, url, options).then(function (response) {
+                    removeCaptcha(options);
+                    resolve(response);
+                }).catch(function (error) {
+                    if(captchaEnabled) {
+                        removeCaptcha(options);
+                        if(options.withButton) {
+                            Edatos.captcha.showCaptchaWithButton(request, url, options).then(val => resolve(val)).catch(error => reject(error));
+                        } else {
+                            Edatos.captcha.showCaptcha(options);
+                            reject(error);
+                        }
+                    } else {
+                        reject(error);
+                    }
+                });
+            });
+        }
+    };
+})();

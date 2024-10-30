@@ -11,7 +11,7 @@
 
     <groupId>es.gobcan.istac.edatos-external-users</groupId>
     <artifactId>edatos-external-users</artifactId>
-    <version>2.3.2-SNAPSHOT</version>
+    <version>3.1.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>eDatos External Users</name>
@@ -142,7 +142,7 @@
         <commons-lang.version>3.5</commons-lang.version>
         <commons-collections4.version>4.4</commons-collections4.version>
 
-        <edatos-core-common.version>1.5.0</edatos-core-common.version>
+        <edatos-core-common.version>1.7.0</edatos-core-common.version>
         <edatos-rest-common.version>1.0.0</edatos-rest-common.version>
 
         <metamac-notifications-rest-internal-api.version>3.7.0</metamac-notifications-rest-internal-api.version>

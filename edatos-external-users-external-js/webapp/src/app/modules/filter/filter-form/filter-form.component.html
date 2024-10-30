@@ -1,7 +1,7 @@
 <div class='page content'>
     <div class='page-header'>
         <div class='page-header-top'>
-            <div class='general-buttons row left-buttons'>
+            <div class='general-buttons row'>
                 <ng-container>
                     <div class='row-large'>
                         <button class='text-icon-button btn-thin-default' routerLink='..'>
@@ -12,24 +12,22 @@
                 </ng-container>
             </div>
             <div class='general-buttons row'>
-                <div class='row justify-content-end ml-auto'>
-                    <button class='text-icon-button btn-thin-default' (click)='edit()'>
-                        <span class='fa-thin fa-pen-to-square'></span>
-                        <span>{{ 'filter.form.edit' | translate | uppercase }}</span>
-                    </button>
-                    <button class='text-icon-button btn-thin-cancel' (click)='openDeleteDialog()'>
-                        <span class='fa-thin fa-trash-can'></span>
-                        <span>{{ 'filter.form.delete' | translate | uppercase }}</span>
-                    </button>
-                </div>
+                <button class='text-icon-button btn-thin-default' (click)='edit()'>
+                    <span class='fa-thin fa-pen-to-square'></span>
+                    <span>{{ 'filter.form.edit' | translate | uppercase }}</span>
+                </button>
+                <button class='text-icon-button btn-thin-cancel' (click)='openDeleteDialog()'>
+                    <span class='fa-thin fa-trash-can'></span>
+                    <span>{{ 'filter.form.delete' | translate | uppercase }}</span>
+                </button>
             </div>
         </div>
     </div>
 
-    <div class='page-body has-detail-info'>
+    <div class='page-body'>
         <div class='detail-info'>
-            <label for='name' class='title'>{{ 'filter.entity.name' | translate }}</label>
-            <span id='name' class='info-id'>{{ filter.name }}</span>
+            <label class='title'>{{ 'filter.entity.name' | translate }}</label>
+            <span class="info-description">{{ filter.name }}</span>
 
             <label class='title'>{{ 'filter.form.audit' | translate }}</label>
             <span>{{ "filter.entity.createdDate" | translate }}
@@ -55,8 +53,8 @@
                 <div class='copied-message' *ngIf='urlPermalink'>{{ 'copy' | translate }}</div>
             </div>
 
-            <label for='notes' class='title'>{{ 'filter.entity.notes' | translate }}</label>
-            <span id='notes'>{{ filter.notes }}</span>
+            <label class='title'>{{ 'filter.entity.notes' | translate }}</label>
+            <span class="info-description">{{ filter.notes }}</span>
 
         </div>
     </div>
