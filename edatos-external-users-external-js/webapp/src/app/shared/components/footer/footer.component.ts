@@ -1,5 +1,5 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
-import { reinsertScripts } from "@app/shared/utils/htmlUtils";
+import { Component, OnInit } from '@angular/core';
+import { appendContextualFragment } from "@app/shared/utils/htmlUtils";
 import { HtmlService } from "@app/core/service";
 
 @Component({
@@ -10,17 +10,13 @@ export class FooterComponent implements OnInit {
 
     public footer = '';
 
-    constructor(
-        private elementRef: ElementRef,
-        private htmlService: HtmlService
-    ) { }
+    constructor(private htmlService: HtmlService) {
+    }
 
     ngOnInit() {
         this.htmlService.getFooter().subscribe(data => {
             this.footer = data.toString();
-            setTimeout(() => {
-                reinsertScripts(this.elementRef);
-            });
-        })
+            appendContextualFragment(this.footer, "footer");
+        });
     }
 }
