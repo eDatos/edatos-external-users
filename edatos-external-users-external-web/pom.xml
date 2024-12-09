@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>es.gobcan.istac.edatos-external-users</groupId>
 		<artifactId>edatos-external-users</artifactId>
-		<version>3.1.1-SNAPSHOT</version>
+		<version>3.2.0</version>
 	</parent>
 
 	<artifactId>edatos-external-users-external-web</artifactId>
