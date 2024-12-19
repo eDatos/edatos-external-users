@@ -8,6 +8,15 @@
 
 *Se deberá realizar primero la actualización de la versión 1.0.0 a la 2.0.0 y luego desde la 2.0.0 a la 3.0.0*
 
+
+## 3.10.0 a 3.10.1-SNAPSHOT
+* OJO! Hablar con equipo de auditoría la necesidad de ejecutar este script. En las pruebas se ha terminado desactivando las notificaciones a través de la aplicación manualmente.
+* Se añade script asociado a la tarea edatos-4447 (EDATOS-4760) relacionada con la incorporación de datasets JAXI al catálogo de datos abiertos (ckan) En el reenvío masivo que debe hacer IBESTAT, se deben deshabilitar las notificaciones a los usuarios temporalmente. 
+
+``` * etc\changes-from-release\3.10.0\db\helper-reenvío-datasets-ckan\postgresql\20240715_disabled_notifications_by_operations_for_datasets.sql
+
+```
+
 ## 3.9.0 a 3.10.0 
 
 * A partir de esta versión se empieza a usar un nuevo método de la versión 3.10.0 de metamac-notifications-rest-internal-api. Por lo tanto, no se puede subir la versión 3.10.0 de eUsuarios sin haber subido la versión 3.10.0 de metamac-notifications-rest-internal-api.
