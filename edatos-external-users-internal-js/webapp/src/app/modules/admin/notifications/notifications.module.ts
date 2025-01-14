@@ -7,6 +7,9 @@ import { TranslateModule } from "@ngx-translate/core";
 import { SharedModule } from "@app/shared";
 import { RouterModule } from "@angular/router";
 import { NotificationsRoutingModule } from "@app/modules/admin/notifications/notifications.route";
+import { ArteAutocompleteModule } from "arte-ng";
+import { DialogModule } from "primeng";
+import { MultiLanguageInputModule } from "@app/shared/components/multi-language-input";
 
 @NgModule({
     declarations: [NotificationsComponent, NotificationsDetailComponent, NotificationsTableComponent],
@@ -15,7 +18,10 @@ import { NotificationsRoutingModule } from "@app/modules/admin/notifications/not
         TranslateModule,
         NgxSkeletonLoaderModule,
         SharedModule,
-        RouterModule
+        RouterModule,
+        ArteAutocompleteModule,
+        DialogModule,
+        MultiLanguageInputModule
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
