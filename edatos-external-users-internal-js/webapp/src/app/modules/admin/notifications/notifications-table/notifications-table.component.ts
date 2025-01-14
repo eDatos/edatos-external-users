@@ -69,6 +69,11 @@ export class NotificationsTableComponent {
         return "";
     }
 
+    public getFormattedSubject(subject: string): string {
+        // Removing the name of the app at the beginning of the subject
+        return subject.replace(/^\[[^\]]+] */, "");
+    }
+
     public loadData(e: LazyLoadEvent) {
         const page = (e.first || 0) / this.itemsPerLoad;
         this.searchNotifications(page);
