@@ -145,15 +145,15 @@
         <edatos-core-common.version>1.7.0</edatos-core-common.version>
         <edatos-rest-common.version>1.0.0</edatos-rest-common.version>
 
-        <metamac-notifications-rest-internal-api.version>3.7.0</metamac-notifications-rest-internal-api.version>
-        <metamac-statistical-operations-rest-internal-api.version>2.6.0</metamac-statistical-operations-rest-internal-api.version>
+        <metamac-notifications-rest-internal-api.version>3.8.0</metamac-notifications-rest-internal-api.version>
+        <metamac-statistical-operations-rest-internal-api.version>2.8.1</metamac-statistical-operations-rest-internal-api.version>
 
         <metamac-statistical-operations-rest-external-api.version>3.2.0</metamac-statistical-operations-rest-external-api.version>
         <metamac-statistical-operations.version>2.6.0</metamac-statistical-operations.version>
         <metamac-statistical-resources.version>7.0.0</metamac-statistical-resources.version>
         <metamac-common-metadata-rest-external-api.version>2.3.0</metamac-common-metadata-rest-external-api.version>
-        <metamac-srm-rest-external-api.version>3.0.0</metamac-srm-rest-external-api.version>
-        <metamac-srm-rest-internal-api.version>3.0.0</metamac-srm-rest-internal-api.version>
+        <metamac-srm-rest-external-api.version>3.2.1</metamac-srm-rest-external-api.version>
+        <metamac-srm-rest-internal-api.version>3.2.1</metamac-srm-rest-internal-api.version>
 
         <hibernate-types.version>2.10.4</hibernate-types.version>
         <h2.version>1.4.200</h2.version>

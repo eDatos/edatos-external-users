@@ -823,6 +823,14 @@
             "onErrorSumary": "Notificación <strong>NO</strong> enviada",
             "onError": "La notificación no se ha podido enviar correctamente. Inténtelo de nuevo.\n",
             "onErrorMessage": "La notificación no se ha podido enviar a los siguientes destinatarios:\n"
+        },
+        "label": {
+            "message": "Mensaje",
+            "subject": "Asunto",
+            "receivedDate": "Recibido"
+        },
+        "list": {
+            "noNotice": "Parece que todavía no se ha enviado ningún mensaje."
         }
     },
     "calendar": {

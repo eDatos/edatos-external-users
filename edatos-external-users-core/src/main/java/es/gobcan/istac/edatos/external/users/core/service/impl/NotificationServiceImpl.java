@@ -355,11 +355,15 @@ public class NotificationServiceImpl implements NotificationService {
         String limit = String.valueOf(pageable.getPageSize());
         String orderBy = "desc";
 
-        Notices result = eDatosApisLocator.getNoticesRestInternalFacadeV10().findNoticesByReceiver(receiver, orderBy, offset, limit);
+        Notices result = eDatosApisLocator.getNoticesRestInternalFacadeV10().findNotices(receiver, orderBy, offset, limit, MetamacApplicationsEnum.GESTOR_USUARIOS_EXTERNOS.getName());
 
         return new PageImpl<Notice>(result.getNotices(), pageable, result.getTotal().intValue());
     }
 
+    @Override
+    public Page<Notice> findNotices(Pageable pageable) {
+        return findNoticesByReceiver(null, pageable);
+    }
 
     public Notice findNoticeByUrn(String urn) {
         return eDatosApisLocator.getNoticesRestInternalFacadeV10().retrieveNoticeByUrn(urn);

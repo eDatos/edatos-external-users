@@ -823,6 +823,14 @@
             "onErrorSumary": "Notification <strong>NOT</strong> sent",
             "onError": "The notification has not been sent correctly. Try again later.\n",
             "onErrorMessage": "The notification has not been sent correctly to the following users:\n"
+        },
+        "label": {
+            "message": "Message",
+            "subject": "Subject",
+            "receivedDate": "Received"
+        },
+        "list": {
+            "noNotice": "Looks like no message has been sent yet."
         }
     },
     "calendar": {

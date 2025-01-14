@@ -8,7 +8,6 @@ import { dataProtectionPolicyConfigurationRoute } from './data-protection-policy
 import { healthRoute } from './health/health.route';
 import { logsRoute } from './logs/logs.route';
 import { metricsRoute } from './metrics/metrics.route';
-import { notificationsRoutes } from './notifications/notifications.route';
 
 export const adminRoutes: Routes = [
     auditsRoute,
@@ -20,7 +19,10 @@ export const adminRoutes: Routes = [
     categoryMasterTreeRoutes,
     auditsRoute,
     externalOperationsListRoutes,
-    notificationsRoutes,
+    {
+        path: 'notifications',
+        loadChildren: () => import('./notifications/notifications.module').then((m) => m.NotificationsModule)
+    }
 ];
 
 @NgModule({

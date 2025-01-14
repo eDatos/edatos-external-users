@@ -1,0 +1,26 @@
+<div class='page content'>
+    <div class='page-header'>
+        <div class='page-header-top'>
+            <div class='general-buttons row'>
+                <div class='row-large'>
+                    <button class='text-icon-button btn-thin-default' routerLink='..'>
+                        <span class='fa-thin fa-left'></span>
+                        <span>{{ 'filter.form.goBack' | translate | uppercase }}</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class='page-body'>
+        <div class='detail-info'>
+            <label class='title'>{{ 'notifications.label.subject' | translate }}</label>
+            <span>{{ notification.subject }}</span>
+
+            <label class='sendingDate'>{{ 'notifications.label.receivedDate' | translate }}</label>
+            <span>{{ notification.sendingDate | date: 'dd/MM/yyyy HH:mm:ss' }}</span>
+
+            <label class='title'>{{ 'notifications.label.message' | translate }}</label>
+            <span class="info-description" [innerHTML]='joinMessagesText(notification.messages)'></span>
+        </div>
+    </div>
+</div>
