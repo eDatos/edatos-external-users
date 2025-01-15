@@ -20,7 +20,7 @@
             <span>{{ notification.sendingDate | date: 'dd/MM/yyyy HH:mm:ss' }}</span>
 
             <label class='title'>{{ 'notifications.label.message' | translate }}</label>
-            <span class="info-description" [innerHTML]='joinMessagesText(notification.messages)'></span>
+            <span class="info-description" [innerHTML]='getNotificationMessage(notification.messages)'></span>
         </div>
     </div>
 </div>

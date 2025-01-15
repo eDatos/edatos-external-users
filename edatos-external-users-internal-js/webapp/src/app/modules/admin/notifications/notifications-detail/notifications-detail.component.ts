@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { NotificationService } from "@app/shared/service";
 import { Messages, NotificationRecord } from "@app/shared/model";
 import { formatNotification } from "@app/shared/utils/notificationUtils";
+import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 
 @Component({
     selector: 'app-notification-details',
@@ -14,7 +15,7 @@ export class NotificationsDetailComponent implements OnInit, OnDestroy {
     public notification: NotificationRecord;
     private notificationSubscription: Subscription;
 
-    constructor(private notificationService: NotificationService, private activatedRoute: ActivatedRoute) {
+    constructor(private notificationService: NotificationService, private activatedRoute: ActivatedRoute, private domSanitizer: DomSanitizer) {
     }
 
     ngOnInit() {
@@ -38,11 +39,11 @@ export class NotificationsDetailComponent implements OnInit, OnDestroy {
         }
     }
 
-    public joinMessagesText(messages: Messages): string {
+    public getNotificationMessage(messages: Messages): SafeHtml {
         let text = '';
         for (const message of messages.messages) {
             text += message.text;
         }
-        return text;
+        return this.domSanitizer.bypassSecurityTrustHtml(text);
     }
 }
