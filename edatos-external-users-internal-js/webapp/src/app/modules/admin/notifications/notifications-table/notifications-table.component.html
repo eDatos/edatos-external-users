@@ -27,7 +27,7 @@
     <ng-template pTemplate='body' let-notice>
         <tr [routerLink]="[notice.urn]">
             <td>{{ notice.sendingDate | date: 'dd/MM/yyyy HH:mm:ss' }}</td>
-            <td>{{ getFormattedSubject(notice.subject) }}</td>
+            <td>{{ notice.subject }}</td>
         </tr>
     </ng-template>
     <ng-template pTemplate="loadingbody">

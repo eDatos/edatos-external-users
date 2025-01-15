@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { NotificationService } from "@app/shared/service";
 import { Messages, NotificationRecord } from "@app/shared/model";
+import { formatNotification } from "@app/shared/utils/notificationUtils";
 
 @Component({
     selector: 'app-notification-details',
@@ -27,7 +28,7 @@ export class NotificationsDetailComponent implements OnInit, OnDestroy {
     private subscribeToNotification() {
         const urn: string = this.activatedRoute.snapshot.params.id;
         this.notificationSubscription = this.notificationService.getNotification(urn).subscribe((notification) => {
-            this.notification = notification;
+            this.notification = formatNotification(notification);
         });
     }
 

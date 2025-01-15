@@ -4,6 +4,7 @@ import { ResponseWrapper } from '@app/core/utils/response-utils';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from "@app/shared/service";
 import { NotificationRecord } from "@app/shared/model";
+import { formatNotifications } from "@app/shared/utils/notificationUtils";
 
 @Component({
     selector: 'app-notifications-table',
@@ -69,11 +70,6 @@ export class NotificationsTableComponent {
         return "";
     }
 
-    public getFormattedSubject(subject: string): string {
-        // Removing the name of the app at the beginning of the subject
-        return subject.replace(/^\[[^\]]+] */, "");
-    }
-
     public loadData(e: LazyLoadEvent) {
         const page = (e.first || 0) / this.itemsPerLoad;
         this.searchNotifications(page);
@@ -87,7 +83,7 @@ export class NotificationsTableComponent {
         }
 
         const first = page * this.itemsPerLoad;
-        this.virtualNotifications.splice(first, this.itemsPerLoad, ...response.body);
+        this.virtualNotifications.splice(first, this.itemsPerLoad, ...formatNotifications(response.body));
 
         this.virtualNotifications = [...this.virtualNotifications];
     }
