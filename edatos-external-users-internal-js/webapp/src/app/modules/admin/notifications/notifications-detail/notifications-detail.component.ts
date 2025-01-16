@@ -8,7 +8,8 @@ import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 
 @Component({
     selector: 'app-notification-details',
-    templateUrl: './notifications-detail.component.html'
+    templateUrl: './notifications-detail.component.html',
+    styleUrls: ['./notifications-detail.component.scss']
 })
 export class NotificationsDetailComponent implements OnInit, OnDestroy {
 

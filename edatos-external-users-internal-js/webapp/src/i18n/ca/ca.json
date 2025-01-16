@@ -800,9 +800,11 @@
     },
     "notifications": {
         "home": {
-            "title": "Notificacions"
+            "title": "Notificacions",
+            "new": "Crear notificació"
         },
         "form": {
+            "title": "Nova notificació",
             "subject": {
                 "label": "Assumpte",
                 "placeholder": "Afageix l'assumpte multidioma",

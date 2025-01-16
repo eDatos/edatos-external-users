@@ -800,9 +800,11 @@
     },
     "notifications": {
         "home": {
-            "title": "Notifications"
+            "title": "Notifications",
+            "new": "Create notification"
         },
         "form": {
+            "title": "New notification",
             "subject": {
                 "label": "Subject",
                 "placeholder": "Enter the multi-language subject",
