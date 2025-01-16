@@ -1,21 +1,21 @@
 import { RouterModule, Routes } from '@angular/router';
-import { NotificationsComponent } from './notifications.component';
+import { NotificationsFormComponent } from './notifications-form/notifications-form.component';
 import { NotificationsDetailComponent } from "./notifications-detail/notifications-detail.component";
 import { NgModule } from "@angular/core";
-import { NotificationsTableComponent } from "@app/modules/admin/notifications/notifications-table/notifications-table.component";
+import { NotificationsRecordComponent } from "@app/modules/admin/notifications/notifications-table/notifications-record.component";
 
 export const notificationsRoutes: Routes = [
     {
         path: '',
         pathMatch: 'full',
-        component: NotificationsTableComponent,
+        component: NotificationsRecordComponent,
         data: {
             pageTitle: 'notifications.home.title',
         },
     },
     {
         path: 'new',
-        component: NotificationsComponent,
+        component: NotificationsFormComponent,
         data: {
             pageTitle: 'notifications.home.title',
         }

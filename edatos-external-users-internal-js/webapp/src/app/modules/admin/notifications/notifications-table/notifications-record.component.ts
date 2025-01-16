@@ -7,11 +7,11 @@ import { NotificationRecord } from "@app/shared/model";
 import { formatNotifications } from "@app/shared/utils/notificationUtils";
 
 @Component({
-    selector: 'app-notifications-table',
-    templateUrl: './notifications-table.component.html',
-    styleUrls: ['./notifications-table.component.scss']
+    selector: 'app-notifications-record',
+    templateUrl: './notifications-record.component.html',
+    styleUrls: ['./notifications-record.component.scss']
 })
-export class NotificationsTableComponent {
+export class NotificationsRecordComponent {
     public virtualNotifications: NotificationRecord[] = [];
     public notificationsLoaded: boolean = false;
     public totalItems: number = 0;
