@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { NotificationService } from "@app/shared/service";
 import { Messages, NotificationRecord } from "@app/shared/model";
 import { formatNotification } from "@app/shared/utils/notificationUtils";
-import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
+import { SafeHtml } from "@angular/platform-browser";
 
 @Component({
     selector: 'app-notification-details',
@@ -20,7 +20,7 @@ export class NotificationsDetailComponent implements OnInit, OnDestroy {
     public notification: NotificationRecord;
     private notificationSubscription: Subscription;
 
-    constructor(private notificationService: NotificationService, private activatedRoute: ActivatedRoute, private domSanitizer: DomSanitizer) {
+    constructor(private notificationService: NotificationService, private activatedRoute: ActivatedRoute) {
     }
 
     ngOnInit() {
@@ -51,7 +51,7 @@ export class NotificationsDetailComponent implements OnInit, OnDestroy {
         for (const message of messages.messages) {
             text += message.text;
         }
-        return this.domSanitizer.bypassSecurityTrustHtml(text);
+        return text;
     }
 
     public toggleDisplayedUsers() {
