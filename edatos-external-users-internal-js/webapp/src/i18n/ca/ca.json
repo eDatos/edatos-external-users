@@ -635,7 +635,11 @@
         "no": "No",
         "pageSizeSelector": "Tamany de pàgina",
         "title": "eDatos External Users",
-        "yes": "Sí"
+        "yes": "Sí",
+        "button": {
+            "see-more": "Veure més",
+            "see-less": "Veure menys"
+        }
     },
     "health": {
         "details": {
@@ -829,7 +833,8 @@
         "label": {
             "message": "Missatge",
             "subject": "Assumpte",
-            "receivedDate": "Rebut"
+            "receivedDate": "Rebut",
+            "receivers": "Receptors"
         },
         "list": {
             "noNotice": "Sembla que encara no s'ha enviat cap missatge."

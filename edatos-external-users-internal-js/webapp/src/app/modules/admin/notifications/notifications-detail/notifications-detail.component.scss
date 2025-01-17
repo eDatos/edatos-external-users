@@ -6,3 +6,13 @@
     padding: $input-padding-y $input-padding-x;
     overflow: auto;
 }
+
+.receivers-list {
+    column-count: auto;
+    column-gap: 1em;
+    column-width: 250px;
+}
+
+.see-more-button {
+    width: 100%;
+}

@@ -40,6 +40,11 @@
                     <tr [routerLink]="[notice.urn]">
                         <td>{{ notice.sendingDate | date: 'dd/MM/yyyy HH:mm:ss' }}</td>
                         <td>{{ notice.subject }}</td>
+                        <td>
+                            <div class="receivers-cell">
+                                <span class="badge badge-secondary" *ngFor="let receiver of notice.receivers">{{receiver}}</span>
+                            </div>
+                        </td>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="loadingbody">

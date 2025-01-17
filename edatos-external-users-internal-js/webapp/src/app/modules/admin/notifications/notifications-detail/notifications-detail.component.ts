@@ -13,6 +13,10 @@ import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 })
 export class NotificationsDetailComponent implements OnInit, OnDestroy {
 
+    private static MAX_DISPLAYED_RECEIVERS: number = 60;
+
+    public thereAreTooManyReceivers: boolean = false;
+    public displayedReceivers: string[] = [];
     public notification: NotificationRecord;
     private notificationSubscription: Subscription;
 
@@ -31,6 +35,8 @@ export class NotificationsDetailComponent implements OnInit, OnDestroy {
         const urn: string = this.activatedRoute.snapshot.params.id;
         this.notificationSubscription = this.notificationService.getNotification(urn).subscribe((notification) => {
             this.notification = formatNotification(notification);
+            this.displayedReceivers = this.notification.receivers.slice(0, NotificationsDetailComponent.MAX_DISPLAYED_RECEIVERS);
+            this.thereAreTooManyReceivers = this.notification.receivers.length > NotificationsDetailComponent.MAX_DISPLAYED_RECEIVERS;
         });
     }
 
@@ -46,5 +52,13 @@ export class NotificationsDetailComponent implements OnInit, OnDestroy {
             text += message.text;
         }
         return this.domSanitizer.bypassSecurityTrustHtml(text);
+    }
+
+    public toggleDisplayedUsers() {
+        if (this.notification.receivers.length === this.displayedReceivers.length) {
+            this.displayedReceivers = this.notification.receivers.slice(0, NotificationsDetailComponent.MAX_DISPLAYED_RECEIVERS);
+        } else {
+            this.displayedReceivers = this.notification.receivers;
+        }
     }
 }

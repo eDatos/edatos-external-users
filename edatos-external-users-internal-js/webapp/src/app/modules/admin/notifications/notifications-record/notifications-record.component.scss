@@ -20,3 +20,9 @@
 .page-table-container-fluid {
     height: calc(100vh - #{$primary-navbar-height} - #{$secondary-navbar-height} - #{$page-header-height} - #{$page-margin-bottom});
 }
+
+.receivers-cell {
+    display: flex;
+    gap: 0.5em;
+    flex-direction: row;
+}

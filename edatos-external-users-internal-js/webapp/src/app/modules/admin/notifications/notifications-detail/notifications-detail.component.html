@@ -19,6 +19,15 @@
     <div class='page-body'>
         <div class='detail-info'>
             <div class="page-section">
+                <h3>{{ 'notifications.label.receivers' | translate }}</h3>
+                <ul class="receivers-list">
+                    <li *ngFor="let receiver of displayedReceivers">{{receiver}}</li>
+                </ul>
+                <button *ngIf="thereAreTooManyReceivers" (click)="toggleDisplayedUsers()" class="btn btn-light see-more-button">
+                    {{ (displayedReceivers.length === notification.receivers.length ? 'global.button.see-less' : 'global.button.see-more') | translate }}
+                </button>
+            </div>
+            <div class="page-section">
                 <h3>{{ 'notifications.label.receivedDate' | translate }}</h3>
                 <span>{{ notification.sendingDate | date: 'dd/MM/yyyy HH:mm:ss' }}</span>
             </div>

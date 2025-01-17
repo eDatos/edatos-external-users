@@ -30,10 +30,19 @@ export class NotificationsRecordComponent {
         {
             fieldName: 'subject',
             sortable: false,
-            width: '80%',
+            width: '40%',
             header: {
                 handler: 'translate',
                 translatePath: 'notifications.label.subject'
+            }
+        },
+        {
+            fieldName: 'receivers',
+            sortable: false,
+            width: '40%',
+            header: {
+                handler: 'translate',
+                translatePath: 'notifications.label.receivers'
             }
         }
     ];

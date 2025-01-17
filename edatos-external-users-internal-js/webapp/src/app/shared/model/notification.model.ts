@@ -20,6 +20,7 @@ export class NotificationRecord extends BaseVersionedAndAuditingEntity {
     public subject: string;
     public urn: string;
     public sendingDate: Date;
+    public receivers: string[];
 }
 
 export class Messages {

@@ -635,7 +635,11 @@
         "no": "DO NOT",
         "pageSizeSelector": "Page Size",
         "title": "eData External Users",
-        "yes": "Yes"
+        "yes": "Yes",
+        "button": {
+            "see-more": "See more",
+            "see-less": "See less"
+        }
     },
     "health": {
         "details": {
@@ -829,7 +833,8 @@
         "label": {
             "message": "Message",
             "subject": "Subject",
-            "receivedDate": "Received"
+            "receivedDate": "Received",
+            "receivers": "Receivers"
         },
         "list": {
             "noNotice": "Looks like no message has been sent yet."
