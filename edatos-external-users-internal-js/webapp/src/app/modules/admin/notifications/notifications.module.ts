@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { NotificationsDetailComponent } from "@app/modules/admin/notifications/notifications-detail/notifications-detail.component";
-import { NotificationsRecordComponent } from "@app/modules/admin/notifications/notifications-table/notifications-record.component";
+import { NotificationsRecordComponent } from "@app/modules/admin/notifications/notifications-record/notifications-record.component";
 import { NgxSkeletonLoaderModule } from "ngx-skeleton-loader";
 import { NotificationsFormComponent } from "@app/modules/admin/notifications/notifications-form/notifications-form.component";
 import { TranslateModule } from "@ngx-translate/core";
