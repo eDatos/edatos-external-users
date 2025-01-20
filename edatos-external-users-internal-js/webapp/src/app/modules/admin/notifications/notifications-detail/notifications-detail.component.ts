@@ -46,10 +46,12 @@ export class NotificationsDetailComponent implements OnInit, OnDestroy {
         }
     }
 
-    public getNotificationMessage(messages: Messages): SafeHtml {
+    public getNotificationMessage(): SafeHtml {
         let text = '';
-        for (const message of messages.messages) {
-            text += message.text;
+        if (this.notification) {
+            for (const message of this.notification.messages.messages) {
+                text += message.text;
+            }
         }
         return text;
     }

@@ -11,7 +11,7 @@
             </button>
             <h2 class="page-header-title">
                 <span class="page-header-title-text">
-                    {{ notification.subject }}
+                    {{ notification?.subject }}
                 </span>
             </h2>
         </div>
@@ -24,18 +24,18 @@
                     <li *ngFor="let receiver of displayedReceivers">{{receiver}}</li>
                 </ul>
                 <button *ngIf="thereAreTooManyReceivers" (click)="toggleDisplayedUsers()" class="btn btn-light see-more-button">
-                    {{ (displayedReceivers.length === notification.receivers.length ? 'global.button.see-less' : 'global.button.see-more') | translate }}
+                    {{ (displayedReceivers.length === notification?.receivers.length ? 'global.button.see-less' : 'global.button.see-more') | translate }}
                 </button>
             </div>
             <div class="page-section">
                 <h3>{{ 'notifications.label.receivedDate' | translate }}</h3>
-                <span>{{ notification.sendingDate | date: 'dd/MM/yyyy HH:mm:ss' }}</span>
+                <span>{{ notification?.sendingDate | date: 'dd/MM/yyyy HH:mm:ss' }}</span>
             </div>
 
             <div class="page-section">
                 <h3>{{ 'notifications.label.message' | translate }}</h3>
                 <div class="notification-content">
-                    <span [innerHTML]='getNotificationMessage(notification.messages)'></span>
+                    <span [innerHTML]='getNotificationMessage()'></span>
                 </div>
             </div>
         </div>
