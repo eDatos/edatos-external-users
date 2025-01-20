@@ -1,24 +1,13 @@
 @import '../../../../../assets/scss/variables';
 
-:host ::ng-deep th:nth-child(1) {
-  width: 20%;
-}
-
-:host ::ng-deep td > div.message-content-notice {
-  max-height: 300px;
-  overflow: auto;
-}
-
-:host ::ng-deep .table-has-pointer-rows {
-  & a {
-    pointer-events: none;
-    cursor: not-allowed;
-    color: #333333;
-  }
-}
-
 .page-table-container-fluid {
     height: calc(100vh - #{$primary-navbar-height} - #{$secondary-navbar-height} - #{$page-header-height} - #{$page-margin-bottom});
+}
+
+.subject-cell {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .receivers-cell {
