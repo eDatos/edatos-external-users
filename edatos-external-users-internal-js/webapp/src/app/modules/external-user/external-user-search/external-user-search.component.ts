@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Language, Service} from '@app/core/model';
-import { FavoriteResource } from '@app/shared/model';
+import { Category, FavoriteResource } from '@app/shared/model';
 import { CategoryService, LanguageService } from '@app/shared/service';
 import { ArteEventManager } from 'arte-ng/services';
 import * as _ from 'lodash';
@@ -41,14 +41,19 @@ export class ExternalUserSearchComponent implements OnInit, OnDestroy {
                 content: this.filters,
             })
         );
-        this.categoryService.findAll({ size: 100000000 }).subscribe((response) => {
-            this.selectedResources = response.body.filter((category) => this.filters.categories.includes(category.id.toString()));
-            for (const category of response.body) {
-                this.selectedResources.push(...category.externalOperations.filter((externalOp) => this.filters.externalOperations.includes(externalOp.id.toString())));
-            }
+        this.categoryService.getTree().subscribe((treeBaseCategories) => {
+            this.setSelectedResources(treeBaseCategories);
         });
 
         this.getInternationalLanguages();
+    }
+
+    private setSelectedResources(categories: Category[]) {
+        this.selectedResources.push(...categories.filter((category) => this.filters.categories.includes(category.id.toString())));
+        for (const category of categories) {
+            this.selectedResources.push(...category.externalOperations.filter((externalOp) => this.filters.externalOperations.includes(externalOp.id.toString())));
+            this.setSelectedResources(category.children);
+        }
     }
 
     public ngOnDestroy() {
