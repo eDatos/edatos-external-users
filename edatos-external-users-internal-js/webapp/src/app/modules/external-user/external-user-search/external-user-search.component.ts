@@ -21,7 +21,7 @@ export class ExternalUserSearchComponent implements OnInit, OnDestroy {
 
     public subscription: Subscription;
     public internationalLanguages: Language[] = [];
-    public selectedLanguage: string[] = [];
+    public selectedLanguage: Language[] = [];
     public selectedResources: FavoriteResource[] = [];
     public isSelectingResource = false;
     public serviceEnum = Service;
@@ -96,23 +96,23 @@ export class ExternalUserSearchComponent implements OnInit, OnDestroy {
     }
 
     public onUnselectLanguages(language) {
-        const index = this.selectedLanguage.indexOf(language.locale);
+        const index = this.selectedLanguage.indexOf(language);
         if (index > -1) {
             this.selectedLanguage.splice(index, 1);
         }
-        this.filters.languages = this.selectedLanguage;
+        this.filters.languages = this.selectedLanguage.map(language => language.locale);
         this.filter();
     }
 
     private resetLanguages() {
         this.selectedLanguage = [];
-        this.filters.languages = this.selectedLanguage;
+        this.filters.languages = this.selectedLanguage.map(language => language.locale);
         this.filter();
     }
 
     public onSelectLanguages(language) {
-        this.selectedLanguage.push(language.locale);
-        this.filters.languages = this.selectedLanguage;
+        this.selectedLanguage.push(language);
+        this.filters.languages = this.selectedLanguage.map(language => language.locale);
         this.filter();
     }
 
@@ -140,6 +140,7 @@ export class ExternalUserSearchComponent implements OnInit, OnDestroy {
                 return new Language(lang, this.translateService.instant('enum.localeToLanguage.' + lang.toUpperCase()));
             });
             this.internationalLanguages.sort((a, b) => a.label.localeCompare(b.label));
+            this.selectedLanguage = this.internationalLanguages.filter((language) => this.filters.languages.includes(language.locale));
         });
     }
 }
