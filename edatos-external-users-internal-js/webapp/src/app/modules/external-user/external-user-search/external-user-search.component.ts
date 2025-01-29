@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Language, Service} from '@app/core/model';
-import { FavoriteResource } from '@app/shared/model';
+import { Category, FavoriteResource } from '@app/shared/model';
 import { CategoryService, LanguageService } from '@app/shared/service';
 import { ArteEventManager } from 'arte-ng/services';
 import * as _ from 'lodash';
@@ -21,7 +21,7 @@ export class ExternalUserSearchComponent implements OnInit, OnDestroy {
 
     public subscription: Subscription;
     public internationalLanguages: Language[] = [];
-    public selectedLanguage: string[] = [];
+    public selectedLanguage: Language[] = [];
     public selectedResources: FavoriteResource[] = [];
     public isSelectingResource = false;
     public serviceEnum = Service;
@@ -41,14 +41,19 @@ export class ExternalUserSearchComponent implements OnInit, OnDestroy {
                 content: this.filters,
             })
         );
-        this.categoryService.findAll({ size: 100000000 }).subscribe((response) => {
-            this.selectedResources = response.body.filter((category) => this.filters.categories.includes(category.id.toString()));
-            for (const category of response.body) {
-                this.selectedResources.push(...category.externalOperations.filter((externalOp) => this.filters.externalOperations.includes(externalOp.id.toString())));
-            }
+        this.categoryService.getTree().subscribe((treeBaseCategories) => {
+            this.setSelectedResources(treeBaseCategories);
         });
 
         this.getInternationalLanguages();
+    }
+
+    private setSelectedResources(categories: Category[]) {
+        this.selectedResources.push(...categories.filter((category) => this.filters.categories.includes(category.id.toString())));
+        for (const category of categories) {
+            this.selectedResources.push(...category.externalOperations.filter((externalOp) => this.filters.externalOperations.includes(externalOp.id.toString())));
+            this.setSelectedResources(category.children);
+        }
     }
 
     public ngOnDestroy() {
@@ -96,23 +101,23 @@ export class ExternalUserSearchComponent implements OnInit, OnDestroy {
     }
 
     public onUnselectLanguages(language) {
-        const index = this.selectedLanguage.indexOf(language.locale);
+        const index = this.selectedLanguage.indexOf(language);
         if (index > -1) {
             this.selectedLanguage.splice(index, 1);
         }
-        this.filters.languages = this.selectedLanguage;
+        this.filters.languages = this.selectedLanguage.map(language => language.locale);
         this.filter();
     }
 
     private resetLanguages() {
         this.selectedLanguage = [];
-        this.filters.languages = this.selectedLanguage;
+        this.filters.languages = this.selectedLanguage.map(language => language.locale);
         this.filter();
     }
 
     public onSelectLanguages(language) {
-        this.selectedLanguage.push(language.locale);
-        this.filters.languages = this.selectedLanguage;
+        this.selectedLanguage.push(language);
+        this.filters.languages = this.selectedLanguage.map(language => language.locale);
         this.filter();
     }
 
@@ -140,6 +145,7 @@ export class ExternalUserSearchComponent implements OnInit, OnDestroy {
                 return new Language(lang, this.translateService.instant('enum.localeToLanguage.' + lang.toUpperCase()));
             });
             this.internationalLanguages.sort((a, b) => a.label.localeCompare(b.label));
+            this.selectedLanguage = this.internationalLanguages.filter((language) => this.filters.languages.includes(language.locale));
         });
     }
 }

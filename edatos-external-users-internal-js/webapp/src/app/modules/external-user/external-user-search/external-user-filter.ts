@@ -22,7 +22,7 @@ export class ExternalUserFilter extends BaseEntityFilter implements EntityFilter
         this.languages = queryParams.languages?.split(',') ?? [];
         this.categories = queryParams.categories?.split(',') ?? [];
         this.externalOperations = queryParams.externalOperations?.split(',') ?? [];
-        this.services = queryParams.services?.split(' ') ?? [];
+        this.services = queryParams.services?.split(',') ?? [];
         this.filtersExternalOperations = queryParams.filtersExternalOperations?.split(',') ?? [];
     }
 
