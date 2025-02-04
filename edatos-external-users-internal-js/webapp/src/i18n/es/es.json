@@ -635,7 +635,11 @@
         "no": "No",
         "pageSizeSelector": "Tamaño de página",
         "title": "eDatos External Users",
-        "yes": "Sí"
+        "yes": "Sí",
+        "button": {
+            "see-more": "Ver más",
+            "see-less": "Ver menos"
+        }
     },
     "health": {
         "details": {
@@ -800,9 +804,11 @@
     },
     "notifications": {
         "home": {
-            "title": "Notificaciones"
+            "title": "Notificaciones",
+            "new": "Crear notificación"
         },
         "form": {
+            "title": "Nueva notificación",
             "subject": {
                 "label": "Asunto",
                 "placeholder": "Introduzca el asunto multilenguaje",
@@ -823,6 +829,15 @@
             "onErrorSumary": "Notificación <strong>NO</strong> enviada",
             "onError": "La notificación no se ha podido enviar correctamente. Inténtelo de nuevo.\n",
             "onErrorMessage": "La notificación no se ha podido enviar a los siguientes destinatarios:\n"
+        },
+        "label": {
+            "message": "Mensaje",
+            "subject": "Asunto",
+            "receivedDate": "Recibido",
+            "receivers": "Receptores"
+        },
+        "list": {
+            "noNotice": "Parece que todavía no se ha enviado ningún mensaje."
         }
     },
     "calendar": {

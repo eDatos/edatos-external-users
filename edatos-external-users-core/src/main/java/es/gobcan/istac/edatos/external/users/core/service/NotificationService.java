@@ -28,6 +28,7 @@ public interface NotificationService {
                                                                 List<Long> favoritesExternalOperations, List<Long> filtersExternalOperations);
     List<String> createNotificationWithReceivers(InternationalStringDto message, InternationalStringDto subject, HashMap<String, Receivers> receiversByLanguage);
     Page<Notice> findNoticesByReceiver(String receiver, Pageable pageable);
+    Page<Notice> findNotices(Pageable pageable);
     Notice findNoticeByUrn(String urn);
     void createContinueUserMigrationNotification(ExternalUserEntity user);
     void createResetPasswordMigratedUserNotification(ExternalUserEntity user);

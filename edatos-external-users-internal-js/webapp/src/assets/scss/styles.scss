@@ -81,9 +81,12 @@ body {
 
 h1,
 h2,
-h3,
 h4 {
     font-weight: 400;
+}
+
+h3 {
+    font-weight: 500;
 }
 
 .break {
@@ -133,6 +136,15 @@ table.table-sticky-header {
     }
 }
 /* END .no-content */
+
+/* BEGIN FONTS */
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    src: local("Open Sans"), local("Open-Sans"), url("../fonts/OpenSans-VariableFont_wdth,wght.woff2")
+    format("woff2");
+}
+/* END FONTS */
 
 @import './_page';
 @import './_forms';

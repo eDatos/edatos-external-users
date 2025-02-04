@@ -2,8 +2,16 @@
 
 <div class='page'>
     <div class='page-header page-header-top'>
+        <button
+            type="button"
+            routerLink="../"
+            class="btn btn-secondary btn-frameless back-arrow"
+            [attr.aria-label]="'entity.action.back' | translate"
+        >
+            <i class="material-icons">arrow_back</i>
+        </button>
         <h2 class='page-header-title'>
-            <span class='page-header-title-text'>{{ 'notifications.home.title' | translate }}</span>
+            <span class='page-header-title-text'>{{ 'notifications.form.title' | translate }}</span>
         </h2>
         <button class='btn btn-primary mr-2' (click)='send()'
                 [disabled]='notificationForm && notificationForm.form.invalid || isDisabledForSend() || isSending'>
@@ -54,8 +62,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class='row'>
                     <div class='form-group form-group-inline col-md-6'>
                         <div class='form-row'>
                             <label class='form-label col-md-4' translate='notifications.form.filters' for='email'></label>
@@ -129,8 +135,6 @@
                             </p-dialog>
                         </div>
                     </div>
-                </div>
-                <div class='row'>
                     <div class='form-group form-group-inline col-md-6 required'>
                         <div class='form-row'>
                             <label class='form-label col-md-4' translate='notifications.form.subject.label'></label>
@@ -185,7 +189,6 @@
                         </p-footer>
                     </p-dialog>
                 </div>
-
                 <div class='row'>
                     <div class='form-group form-group-inline col-md-6 required'>
                         <div class='form-row'>
