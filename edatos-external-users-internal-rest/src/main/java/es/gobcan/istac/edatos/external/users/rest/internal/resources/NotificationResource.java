@@ -6,17 +6,25 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import org.siemac.metamac.rest.notices.v1_0.domain.Notice;
 import org.siemac.metamac.rest.notices.v1_0.domain.Receivers;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.Timed;
 
+import es.gobcan.istac.edatos.external.users.core.domain.vo.NotificationBaseVO;
+import es.gobcan.istac.edatos.external.users.rest.common.mapper.NotificationBaseMapper;
+import es.gobcan.istac.edatos.external.users.rest.common.util.PaginationUtil;
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
 import es.gobcan.istac.edatos.external.users.core.service.ExternalUserService;
 import es.gobcan.istac.edatos.external.users.core.service.NotificationService;
@@ -30,11 +38,12 @@ public class NotificationResource extends AbstractResource {
     public static final String BASE_URL = "/api";
 
     private final NotificationService notificationService;
-
+    private final NotificationBaseMapper notificationBaseMapper;
     private final ExternalUserService externalUserService;
 
-    public NotificationResource(NotificationService notificationService, ExternalUserService externalUserService) {
+    public NotificationResource(NotificationService notificationService, NotificationBaseMapper notificationBaseMapper, ExternalUserService externalUserService) {
         this.notificationService = notificationService;
+        this.notificationBaseMapper = notificationBaseMapper;
         this.externalUserService = externalUserService;
     }
 
@@ -69,5 +78,27 @@ public class NotificationResource extends AbstractResource {
             return receiverDto;
         }).collect(Collectors.toList());
         return ResponseEntity.ok().body(receivers);
+    }
+
+    @Timed
+    @GetMapping("/notifications")
+    @PreAuthorize("@secChecker.canAccessNotifications(authentication)")
+    public ResponseEntity<List<NotificationBaseVO>> getNoticesByReceiver(Pageable pageable) {
+        Page<Notice> notices = notificationService.findNotices(pageable);
+        List<NotificationBaseVO> noticesDto = notificationBaseMapper.toDtos(notices.getContent());
+
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(notices, "/api/notices");
+
+        return ResponseEntity.ok().headers(headers).body(noticesDto);
+    }
+
+    @Timed
+    @GetMapping("/notifications/{urn}")
+    @PreAuthorize("@secChecker.canAccessNotifications(authentication)")
+    public ResponseEntity<NotificationBaseVO> getNoticesByReceiver(@RequestParam String urn) {
+        Notice notice = notificationService.findNoticeByUrn(urn);
+        NotificationBaseVO noticesDto = notificationBaseMapper.toDto(notice);
+
+        return ResponseEntity.ok().body(noticesDto);
     }
 }

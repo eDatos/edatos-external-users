@@ -17,11 +17,11 @@ import { StructuralResourcesTreeSimpleSelectComponent } from "@app/shared/compon
 import { MultiLanguageEditorComponent } from "@app/shared/components/multi-language-editor/multi-language-editor.component";
 
 @Component({
-    selector: 'app-notifications',
-    templateUrl: './notifications.component.html',
-    styleUrls: ['./notifications.component.scss']
+    selector: 'app-notifications-form',
+    templateUrl: './notifications-form.component.html',
+    styleUrls: ['./notifications-form.component.scss']
 })
-export class NotificationsComponent implements OnInit, OnDestroy {
+export class NotificationsFormComponent implements OnInit, OnDestroy {
 
     public ALL_LOCALES = RequiredLocalesEnum.ALL_LOCALES;
 

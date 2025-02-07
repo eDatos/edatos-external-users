@@ -1,0 +1,77 @@
+<div class='page'>
+    <div class='page-header page-header-top'>
+        <h2 class='page-header-title'>
+            <span class='page-header-title-text'>{{ 'notifications.home.title' | translate }}</span>
+        </h2>
+        <button class='btn btn-secondary mr-2' routerLink='new'>
+            <span class='fa fa-envelope'></span>
+            <span translate='notifications.home.new'></span>
+        </button>
+    </div>
+    <div class='page-body'>
+        <div class="page-table-container-fluid">
+            <p-table
+                scrollHeight="flex"
+                [columns]='columns'
+                [value]='virtualNotifications'
+                [rows]='this.itemsPerLoad'
+                [scrollable]="true"
+                [virtualScroll]="true"
+                [virtualRowHeight]="rowHeight"
+                [lazy]="true"
+                columnResizeMode="expand"
+                tableStyleClass='page-table table-has-pointer-rows table-layou-fixed'
+                (onLazyLoad)='loadData($event)'
+            >
+                <ng-template pTemplate="colgroup" let-columns>
+                    <colgroup>
+                        <col *ngFor="let col of columns" [style.width]="col.width">
+                    </colgroup>
+                </ng-template>
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th *ngFor="let col of columns" [pSortableColumn]="col.fieldName" [pSortableColumnDisabled]="!col.sortable">
+                            {{ printHeader(col) }}
+                            <p-sortIcon *ngIf="col.sortable" [field]="col.fieldName"></p-sortIcon>
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate='body' let-notice>
+                    <tr [routerLink]="[notice.urn]">
+                        <td>{{ notice.sendingDate | date: 'dd/MM/yyyy HH:mm:ss' }}</td>
+                        <td class="subject-cell">{{ notice.subject }}</td>
+                        <td>
+                            <div class="receivers-cell">
+                                <span class="badge badge-secondary" *ngFor="let receiver of notice.receivers">{{receiver}}</span>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="loadingbody">
+                    <tr [style.height]="rowHeight + 'px'">
+                        <td *ngFor="let col of columns">
+                            <span>
+                                <ngx-skeleton-loader count="1" [theme]="{'margin-bottom': '0', height: '1rem'}"></ngx-skeleton-loader>
+                            </span>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td [colSpan]="columns.length">
+                            <div *ngIf='!notificationsLoaded' class="col-md-12 justify-content-md-center text-center">
+                                <div class='spinner-border text-info' role='status'></div>
+                            </div>
+                            <div *ngIf='notificationsLoaded' class='no-content'>
+                                <img src='assets/images/no-results.png' [alt]="'arte.entity-list-empty.detail' | translate" />
+                                <div class='no-content-text'>
+                                    <div class='title' translate='notifications.list.noNotice'></div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>

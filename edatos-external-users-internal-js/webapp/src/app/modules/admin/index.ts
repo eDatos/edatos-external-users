@@ -23,4 +23,4 @@ export * from '../external-user/external-user-list/external-user-list.component'
 export * from '../external-user/external-user-search/external-user-search.component';
 export * from '../external-user/external-user-delete-dialog.component';
 export * from './admin-routing.module';
-export * from './notifications/notifications.component';
+export * from './notifications/notifications.module';

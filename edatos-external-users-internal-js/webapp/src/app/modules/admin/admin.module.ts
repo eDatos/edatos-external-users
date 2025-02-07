@@ -27,7 +27,6 @@ import { CategoryMasterTreeComponent } from './category-master-tree/category-mas
 import { DataProtectionPolicyComponent } from './data-protection-policy/data-protection-policy.component';
 import { DataProtectionPolicyService } from './data-protection-policy/data-protection-policy.service';
 import { ExternalOperationsListComponent } from './external-operations-list/external-operations-list.component';
-import { NotificationsComponent } from './notifications/notifications.component';
 
 @NgModule({
     imports: [
@@ -57,7 +56,6 @@ import { NotificationsComponent } from './notifications/notifications.component'
         DataProtectionPolicyComponent,
         CategoryMasterTreeComponent,
         ExternalOperationsListComponent,
-        NotificationsComponent,
     ],
     entryComponents: [HealthModalComponent, MetricsMonitoringModalComponent],
     providers: [AuditsService, ConfigurationService, HealthService, MetricsService, LogsService, DataProtectionPolicyService],
