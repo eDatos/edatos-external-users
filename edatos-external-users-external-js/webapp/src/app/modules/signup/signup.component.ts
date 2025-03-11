@@ -50,7 +50,7 @@ export class SignupFormComponent implements OnInit {
             this.captchaContainerEl = captchaContainerEl;
             this.captchaService.buildCaptcha(this.captchaContainerEl);
 
-            const captchaElement = this.captchaContainerEl.nativeElement.getElementById("captcha-container");
+            const captchaElement = this.captchaContainerEl.nativeElement.querySelector("#captcha-container");
             this.isCaptchaProviderRecaptcha = captchaElement.classList.contains("captcha-recaptcha");
         }
     }
