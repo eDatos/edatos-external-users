@@ -8,6 +8,7 @@ import { CodelistService, LanguageService } from '@app/shared/service';
 import { ItemCode } from '@app/shared';
 import { EmailModificationConfirmDialogComponent } from "@app/modules/email-modification/email-modification-confirm-dialog/email-modification-confirm-dialog.component";
 import { GenericModalService } from "arte-ng/services";
+import { ConfigService } from '@app/config';
 
 @Component({
     selector: 'ac-account-management',
@@ -28,6 +29,8 @@ export class AccountManagementEditComponent implements OnInit {
     public countries: ItemCode[] = [];
     public genders: ItemCode[] = [];
 
+    public simplifiedSignUp = false;
+
     private email: string;
 
     constructor(
@@ -38,11 +41,13 @@ export class AccountManagementEditComponent implements OnInit {
         private messageService: MessageService,
         private translateService: TranslateService,
         private languageService: LanguageService,
-        private genericModalService: GenericModalService
+        private genericModalService: GenericModalService,
+        private configService: ConfigService
     ) {
     }
 
     ngOnInit() {
+        this.simplifiedSignUp = this.configService.getConfig().metadata.simplifiedSignUp;
         this.isSaving = false;
         this.account = this.route.snapshot.data.user;
         this.email = this.account.email;
