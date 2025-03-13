@@ -10,6 +10,7 @@ import { ExternalUserFilter } from '@app/modules/external-user/external-user-sea
 import { ArteEventManager } from 'arte-ng/services';
 import { LazyLoadEvent } from 'primeng/api';
 import { Subscription } from 'rxjs';
+import { ConfigService } from '@app/config';
 
 @Component({
     selector: 'app-external-user-list',
@@ -25,6 +26,7 @@ export class ExternalUserListComponent implements OnInit, OnDestroy {
     public reverse: any;
     public filters: ExternalUserFilter;
     public users: ExternalUser[];
+    public simplifiedSignUp = false;
     public columns = [
         {
             fieldName: 'name',
@@ -67,6 +69,24 @@ export class ExternalUserListComponent implements OnInit, OnDestroy {
             },
         },
     ];
+    public simplifiedSignUpColumns = [
+        {
+            fieldName: 'email',
+            sortable: true,
+            header: {
+                handler: 'translate',
+                translatePath: 'externalUser.email',
+            },
+        },
+        {
+            fieldName: 'language',
+            sortable: true,
+            header: {
+                handler: 'translate',
+                translatePath: 'externalUser.language',
+            },
+        },
+    ];
     private eventSubscriber: Subscription;
     private searchSubscription: Subscription;
 
@@ -75,9 +95,11 @@ export class ExternalUserListComponent implements OnInit, OnDestroy {
         private userService: ExternalUserService,
         private eventManager: ArteEventManager,
         private activatedRoute: ActivatedRoute,
-        private router: Router
+        private router: Router,
+        private configService: ConfigService,
     ) {
         this.filters = new ExternalUserFilter();
+        this.simplifiedSignUp = this.configService.getConfig().metadata.simplifiedSignUp;
     }
 
     public ngOnInit() {

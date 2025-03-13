@@ -12,7 +12,7 @@
             <ng-container *ngIf="users.length > 0; else emptyList">
                 <div class="page-table-container-fluid">
                     <arte-table
-                        [columns]="columns"
+                        [columns]="simplifiedSignUp ? simplifiedSignUpColumns : columns"
                         [value]="users"
                         [rows]="itemsPerPage"
                         [totalRecords]="totalItems"
@@ -28,9 +28,9 @@
                     >
                         <ng-template pTemplate="body" let-user>
                             <tr [ngClass]="{'entity-deleted': !isActivo(user) }" [routerLink]="['../external-users', user.id]">
-                                <td>{{user.name}}</td>
-                                <td>{{user.surname1}}</td>
-                                <td>{{user.surname2}}</td>
+                                <td *ngIf="!simplifiedSignUp">{{user.name}}</td>
+                                <td *ngIf="!simplifiedSignUp">{{user.surname1}}</td>
+                                <td *ngIf="!simplifiedSignUp">{{user.surname2}}</td>
                                 <td>{{user.email}}</td>
                                 <td>{{ 'enum.localeToLanguage.' + user.language.toUpperCase() | translate }}</td>
                             </tr>
