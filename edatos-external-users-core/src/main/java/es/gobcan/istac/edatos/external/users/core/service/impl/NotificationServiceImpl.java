@@ -268,7 +268,7 @@ public class NotificationServiceImpl implements NotificationService {
 
 
     private String[] argsByExternalUser(ExternalUserEntity externalUserEntity) {
-        return new String[]{externalUserEntity.getName(), externalUserEntity.getSurname1(), externalUserEntity.getEmail()};
+        return new String[]{externalUserEntity.getEmail()};
     }
 
     private void createNotificationWithReceiver(String codeSubject, String messageCode, ExternalUserEntity receiver, String[] args, CommonServiceExceptionType serviceExceptionTypeIfError,
