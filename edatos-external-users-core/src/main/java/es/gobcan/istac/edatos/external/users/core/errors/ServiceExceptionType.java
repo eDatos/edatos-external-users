@@ -49,6 +49,7 @@ public class ServiceExceptionType extends CommonServiceExceptionType {
     public static final CommonServiceExceptionType EXTERNAL_USER_REGISTRATION_CONFIRMATION = create("exception.external_users.registration_confirmation");
     public static final CommonServiceExceptionType EXTERNAL_USER_EMAIL_IS_THE_SAME = create("exception.external_users.email_is_the_same");
     public static final CommonServiceExceptionType EXTERNAL_USER_EMAIL_MODIFICATION_ERROR = create("exception.external_users.email_modification_error");
+    public static final CommonServiceExceptionType EXTERNAL_USER_NAME_IS_NULL = create("exception.external_users.name_is_null");
 
     /********
      * PASSWORD
