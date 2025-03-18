@@ -29,7 +29,7 @@ public class MetadataProperties {
 
     private List<String> internationalizationLanguages;
     private String       languageCookie;
-    private String       simplifiedSignUp;
+    private boolean simplifiedSignUp;
 
 
     private boolean captchaEnable;
@@ -218,7 +218,7 @@ public class MetadataProperties {
         return externalOperationsWebUrl;
     }
 
-    public String getSimplifiedSignUp() {
+    public boolean getSimplifiedSignUp() {
         return simplifiedSignUp;
     }
 }

@@ -74,7 +74,7 @@ public class MetadataConfigurationServiceMockImpl extends ConfigurationServiceMo
     }
 
     @Override
-    public String retrieveSimplifiedSignUp() throws EDatosException {
-        return retrieveProperty(ExternalUsersConfigurationConstants.SIMPLIFIED_SIGN_UP);
+    public boolean retrieveSimplifiedSignUp() throws EDatosException {
+        return retrievePropertyBoolean(ExternalUsersConfigurationConstants.SIMPLIFIED_SIGN_UP);
     }
 }
