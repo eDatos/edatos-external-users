@@ -20,10 +20,10 @@
         </div>
     </div>
 
-    <ng-container *ngIf="simplifiedSignUp; else normalSignUp">
-        <div class='page-body'>
-            <form class='page-form' name='settingsForm' role='form' id='settings-form' (ngSubmit)='save()'
-                  #settingsForm='ngForm' novalidate autocomplete='off'>
+    <div class='page-body'>
+        <form class='page-form' name='settingsForm' role='form' id='settings-form' (ngSubmit)='save()'
+              #settingsForm='ngForm' novalidate autocomplete='off'>
+            <ng-container *ngIf="simplifiedSignUp; else normalSignUp">
                 <fieldset class='page-section' [disabled]='!isEditMode()' arteAutofocus>
                     <div class='form-group form-group-block'>
                         <div class='row divider'>
@@ -39,7 +39,7 @@
                                                             [required]='true'
                                                             [minlength]='3' [maxlength]='255' [email]='true'></arte-input>
                                                 <div class='form-errors-messages' *hasErrors='let messages'>
-                                                    <li *ngFor='let m of messages'>{{m}}</li>
+                                                    <li *ngFor='let m of messages'>{{ m }}</li>
                                                 </div>
                                             </div>
                                         </div>
@@ -70,7 +70,7 @@
                                                 >
                                                 </arte-autocomplete-short-list>
                                                 <div class='form-errors-messages' *hasErrors='let messages'>
-                                                    <span *ngFor='let m of messages'>{{m}}</span>
+                                                    <span *ngFor='let m of messages'>{{ m }}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -80,13 +80,9 @@
                         </div>
                     </div>
                 </fieldset>
-            </form>
-        </div>
-    </ng-container>
-    <ng-template #normalSignUp>
-        <div class='page-body'>
-            <form class='page-form' name='settingsForm' role='form' id='settings-form' (ngSubmit)='save()'
-                  #settingsForm='ngForm' novalidate autocomplete='off'>
+            </ng-container>
+            #settingsForm='ngForm' novalidate autocomplete='off'>
+            <ng-template #normalSignUp>
                 <fieldset class='page-section' [disabled]='!isEditMode()' arteAutofocus>
                     <!-- Primer bloque -->
                     <div class='form-group form-group-block'>
@@ -103,7 +99,7 @@
                                                             [maxlength]='255'
                                                             [required]='true'></arte-input>
                                                 <div class='form-errors-messages' *hasErrors='let messages'>
-                                                    <span *ngFor='let m of messages'>{{m}}</span>
+                                                    <span *ngFor='let m of messages'>{{ m }}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -117,7 +113,7 @@
                                                 <arte-input id='surname1' name='surname1' [(ngModel)]='account.surname1'
                                                             [maxlength]='255' [required]='true'></arte-input>
                                                 <div class='form-errors-messages' *hasErrors='let messages'>
-                                                    <span *ngFor='let m of messages'>{{m}}</span>
+                                                    <span *ngFor='let m of messages'>{{ m }}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -131,7 +127,7 @@
                                                 <arte-input id='surname2' name='surname2' [(ngModel)]='account.surname2'
                                                             [maxlength]='255'></arte-input>
                                                 <div class='form-errors-messages' *hasErrors='let messages'>
-                                                    <span *ngFor='let m of messages'>{{m}}</span>
+                                                    <span *ngFor='let m of messages'>{{ m }}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -217,7 +213,7 @@
                                                 <arte-input name='organism' id='organism' [(ngModel)]='account.organism'
                                                             [maxlength]='255'></arte-input>
                                                 <div class='form-errors-messages' *hasErrors='let messages'>
-                                                    <span *ngFor='let m of messages'>{{m}}</span>
+                                                    <span *ngFor='let m of messages'>{{ m }}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -240,7 +236,7 @@
                                                 >
                                                 </arte-autocomplete-short-list>
                                                 <div class='form-errors-messages' *hasErrors='let messages'>
-                                                    <span *ngFor='let m of messages'>{{m}}</span>
+                                                    <span *ngFor='let m of messages'>{{ m }}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -266,7 +262,7 @@
                                                             [required]='true'
                                                             [minlength]='3' [maxlength]='255' [email]='true'></arte-input>
                                                 <div class='form-errors-messages' *hasErrors='let messages'>
-                                                    <li *ngFor='let m of messages'>{{m}}</li>
+                                                    <li *ngFor='let m of messages'>{{ m }}</li>
                                                 </div>
                                             </div>
                                         </div>
@@ -281,7 +277,7 @@
                                                             [(ngModel)]='account.phoneNumber'
                                                             [maxlength]='50'></arte-input>
                                                 <div class='form-errors-messages' *hasErrors='let messages'>
-                                                    <span *ngFor='let m of messages'>{{m}}</span>
+                                                    <span *ngFor='let m of messages'>{{ m }}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -291,7 +287,7 @@
                         </div>
                     </div>
                 </fieldset>
-            </form>
-        </div>
-    </ng-template>
+            </ng-template>
+        </form>
+    </div>
 </div>
