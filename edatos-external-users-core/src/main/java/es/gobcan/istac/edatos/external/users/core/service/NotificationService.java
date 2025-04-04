@@ -8,6 +8,7 @@ import es.gobcan.istac.edatos.external.users.core.domain.ExternalDatasetEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalOperationEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalUserEntity;
 import org.siemac.edatos.core.common.dto.InternationalStringDto;
+import org.siemac.edatos.core.common.exception.CommonServiceExceptionType;
 import org.siemac.metamac.rest.notices.v1_0.domain.Notice;
 import org.siemac.metamac.rest.notices.v1_0.domain.Receivers;
 import org.springframework.data.domain.Page;

@@ -193,27 +193,59 @@ public class NotificationServiceImpl implements NotificationService {
         String codeSubject = "notice.subject.subscrition_job.title";
         String messageCode = "notice.message.subscrition_job.text";
 
-        for (ExternalUserEntity user : users) {
-            ArrayList<String> argsList = new ArrayList<>(Arrays.asList(argsByExternalUser(user)));
-            argsList.add(operation.getName().getLocalisedLabel(user.getLanguage(), getDefaultLocale()));
-            argsList.add(createListOfDatasetsForNotification(user, datasets));
-            if (operation.isNotificationsEnabled()) {
-                createNotificationWithReceiver(codeSubject, messageCode, user, argsList.toArray(new String[0]), SUBSCRIPTION_JOB_NOTICE_FAILED, true, true);
-            }
+        if (operation.isNotificationsEnabled()) {
+            createNotificationWithMultipleReceivers(codeSubject, messageCode, users, operation, datasets, SUBSCRIPTION_JOB_NOTICE_FAILED, true, true);
         }
     }
-
-    private String createListOfDatasetsForNotification(ExternalUserEntity user, List<ExternalDatasetEntity> datasets) {
+    private String createListOfDatasetsForNotification(List<ExternalDatasetEntity> datasets, String language) {
         List<String> datasetLabels = new ArrayList<>();
         for (ExternalDatasetEntity dataset : datasets) {
             String url = dataset.getVisualizerHtmlLink();
             String code = dataset.getCode();
-            String label = dataset.getName().getLocalisedLabel(user.getLanguage(), getDefaultLocale());
+            String label = dataset.getName().getLocalisedLabel(language, getDefaultLocale());
             String line = MessageFormat.format("<li><a href=\"{0}\">{1} - {2}</a></li>", url, code, label);
             datasetLabels.add(line);
         }
 
         return String.join("\n", datasetLabels);
+    }
+
+    private void createNotificationWithMultipleReceivers(String codeSubject, String messageCode, Set<ExternalUserEntity> users, ExternalOperationEntity operation, List<ExternalDatasetEntity> datasets, CommonServiceExceptionType subscriptionJobNoticeFailed,
+        boolean userMustBeEnabled, boolean userNotificationsMustBeEnabled) {
+        Set<ExternalUserEntity> usersToNotify = users.stream()
+            .filter(receiver -> ((!userMustBeEnabled || receiver.isEnabled()) && (!userNotificationsMustBeEnabled || receiver.isEmailNotificationsEnabled()))).collect(Collectors.toSet());
+        Set<String> languages = usersToNotify.stream().map(ExternalUserEntity::getLanguage).collect(Collectors.toSet());
+
+        for (String language : languages) {
+            Receivers receivers = new Receivers();
+            for (ExternalUserEntity receiver : usersToNotify) {
+                if (receiver.getLanguage().equals(language)) {
+                    receivers.getReceivers().add(ReceiverBuilder.receiver().withUsername(receiver.getEmail()).build());
+                }
+            }
+
+            receivers.setTotal(new BigInteger(String.valueOf(receivers.getReceivers().size())));
+
+            ArrayList<String> argsList = new ArrayList<>();
+            argsList.add(operation.getName().getLocalisedLabel(language, getDefaultLocale()));
+            argsList.add(createListOfDatasetsForNotification(datasets, language));
+            createNotificationWithReceivers(codeSubject, messageCode, receivers, language, argsList.toArray(new String[0]), subscriptionJobNoticeFailed);
+        }
+
+    }
+
+    private void createNotificationWithReceivers(String codeSubject, String messageCode, Receivers receivers, String language, String[] args, CommonServiceExceptionType serviceExceptionTypeIfError) {
+        Response createNoticeResponse;
+        try {
+            Notice notice = createNotice(codeSubject, messageCode, receivers, args, Locale.forLanguageTag(language));
+            createNoticeResponse = eDatosApisLocator.getNoticesRestInternalFacadeV10().createNotice(notice);
+        } catch (Exception e) {
+            log.debug("Error al enviar notificacion : {}", e);
+            throw new EDatosException(e, serviceExceptionTypeIfError);
+        }
+        if (createNoticeResponse != null && createNoticeResponse.getStatusInfo().getStatusCode() >= 400) {
+            throw new EDatosException(serviceExceptionTypeIfError);
+        }
     }
 
     @Override
@@ -302,6 +334,20 @@ public class NotificationServiceImpl implements NotificationService {
         return NoticeBuilder.notification()
             .withMessages(message, MessageBuilder.message().withText(getLopd(locale.getLanguage())).build())
             .withReceivers(receiver)
+            .withSendingApplication(MetamacApplicationsEnum.GESTOR_USUARIOS_EXTERNOS.getName())
+            .withSubject(subject)
+            .build();
+        // @formatter:on
+    }
+
+    private Notice createNotice(String codeSubject, String messageCode, Receivers receivers, String[] args, Locale locale) {
+        String subject = generateTextI18n(codeSubject, args, locale);
+        Message message = createMessage(messageCode, args, locale);
+
+        // @formatter:off
+        return NoticeBuilder.notification()
+            .withMessages(message, MessageBuilder.message().withText(getLopd(locale.getLanguage())).build())
+            .withReceivers(receivers)
             .withSendingApplication(MetamacApplicationsEnum.GESTOR_USUARIOS_EXTERNOS.getName())
             .withSubject(subject)
             .build();

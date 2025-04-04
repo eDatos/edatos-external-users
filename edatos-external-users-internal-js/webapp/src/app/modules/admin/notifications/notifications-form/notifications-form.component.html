@@ -73,7 +73,7 @@
                                     (onSelect)='onSelectFiltersExternalOperations($event)'
                                     [suggestions]='allowedFiltersExternalOperations'
                                     [selectedSuggestions]="selectedFiltersExternalOperations"
-                                    [properties]="['code']"
+                                    [itemTemplate]="operationTemplate"
                                     [multiple]='true'
                                 >
                                 </arte-autocomplete-short-list>

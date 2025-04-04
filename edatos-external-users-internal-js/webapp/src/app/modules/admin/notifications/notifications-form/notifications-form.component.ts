@@ -302,4 +302,8 @@ export class NotificationsFormComponent implements OnInit, OnDestroy {
             life: 5000
         });
     }
+
+    operationTemplate(operation: ExternalOperation): string {
+        return operation.code + " - " + (operation.name.getLocalisedLabel(this.translateService.currentLang) || operation.name.texts[0].label);
+    }
 }
