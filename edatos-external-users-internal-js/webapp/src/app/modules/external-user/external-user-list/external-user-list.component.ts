@@ -11,6 +11,7 @@ import { ArteEventManager } from 'arte-ng/services';
 import { LazyLoadEvent } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { ConfigService } from '@app/config';
+import { ITableColumn } from 'arte-ng';
 
 @Component({
     selector: 'app-external-user-list',
@@ -27,7 +28,7 @@ export class ExternalUserListComponent implements OnInit, OnDestroy {
     public filters: ExternalUserFilter;
     public users: ExternalUser[];
     public simplifiedSignUp = false;
-    public columns = [
+    public columns: ITableColumn[] = [
         {
             fieldName: 'name',
             sortable: true,
@@ -69,7 +70,7 @@ export class ExternalUserListComponent implements OnInit, OnDestroy {
             },
         },
     ];
-    public simplifiedSignUpColumns = [
+    public simplifiedSignUpColumns: ITableColumn[] = [
         {
             fieldName: 'email',
             sortable: true,
