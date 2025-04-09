@@ -418,13 +418,15 @@
                 "fullname": "Nom o cognoms",
                 "language": "Idioma",
                 "service": "Servei",
-                "registration": "Inclou els no registrats"
+                "registration": "Inclou els no registrats",
+                "email": "Correu electrònic"
             },
             "placeholders": {
                 "fullname": "Introdueixi nom o cognoms",
                 "language": "Introdueixi idiomes de l'usuari",
                 "noResourceSelected": "No hi ha cap recurs seleccionat",
-                "service": "Introdueixi els serveis usats per l'usuari"
+                "service": "Introdueixi els serveis usats per l'usuari",
+                "email": "Introdueixi el correu electrònic de l'usuari"
             },
             "rolEnum": {
                 "label": "Rol"

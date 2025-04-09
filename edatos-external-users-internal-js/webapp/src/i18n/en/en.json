@@ -418,13 +418,15 @@
                 "fullname": "Name or surname",
                 "language": "Language",
                 "service": "Service",
-                "registration": "Include unregistered"
+                "registration": "Include unregistered",
+                "email": "Email"
             },
             "placeholders": {
                 "fullname": "Enter name or surname",
                 "language": "Enter user languages",
                 "noResourceSelected": "No resource selected",
-                "service": "Enter the services used by the user"
+                "service": "Enter the services used by the user",
+                "email": "Enter user email"
             },
             "rolEnum": {
                 "label": "Role"
