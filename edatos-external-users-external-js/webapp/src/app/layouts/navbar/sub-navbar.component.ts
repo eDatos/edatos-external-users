@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AccountUserService, LoginService, Principal, ProfileService } from '@app/core/service';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
+import { AccountUserService, Principal, ProfileService } from '@app/core/service';
 import { GenericModalService } from 'arte-ng/services';
 import { MessageService } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
@@ -28,13 +28,11 @@ export class SubNavbarComponent implements OnInit {
     public activeAccountLink: string;
 
     constructor(
-        private loginService: LoginService,
         private principal: Principal,
         private profileService: ProfileService,
         private genericModalService: GenericModalService,
         private userService: AccountUserService,
         private router: Router,
-        private route: ActivatedRoute,
         private messageService: MessageService,
         private translateService: TranslateService
     ) {
@@ -117,7 +115,7 @@ export class SubNavbarComponent implements OnInit {
 
     public download(event: Event) {
         this.downloadingPdf = true;
-        this.userService.download(this.account.id).subscribe(
+        this.userService.download().subscribe(
             (response) => this.userService.saveToFileSystem(response),
             (error) =>
                 this.messageService.add({

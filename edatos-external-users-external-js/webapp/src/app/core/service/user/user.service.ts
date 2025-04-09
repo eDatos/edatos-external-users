@@ -74,9 +74,9 @@ export class AccountUserService {
         return this.http.get<User>(`${this.resourceUrl}/${id}`).pipe(map((res) => convert(User, res)));
     }
 
-    download(id: number, opts?: any): Observable<any> {
+    download(opts?: any): Observable<any> {
         const options = Object.assign({}, opts, { observe: 'response', responseType: 'blob' });
-        return this.http.get(`${this.resourceUrl}/${id}/document/my-information`, options);
+        return this.http.get(`${this.resourceUrl}/document/my-information`, options);
     }
 
     saveToFileSystem(response) {
