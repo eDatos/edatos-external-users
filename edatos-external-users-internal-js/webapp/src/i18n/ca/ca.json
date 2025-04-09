@@ -568,14 +568,15 @@
         },
         "name": "Consulta personalitzada",
         "search": {
-            "filterExternalUserLabel": "Nom d'usuari extern",
+            "filterExternalUserLabel": "Dades d'usuari extern",
             "filterNameLabel": "Nom de consulta personalitzada",
             "filterExternalOperationLabel": "Operació estadística",
             "includeFromDeactivatedUsers": "Consultes d'usuaris desactivats",
             "name": "Buscar consultes personalitzades",
             "placeholder": "",
             "placeholderForFilterNameSearch": "Buscar consultes per nom",
-            "placeholderForUserSearch": "Buscar consultes per dades de l'usuari (nom, cognoms, email)"
+            "placeholderForUserSearch": "Buscar consultes per dades de l'usuari (nom, cognoms, email)",
+            "placeholderForOperationSearch": "Buscar consultes per email de l'usuari"
         }
     },
     "global": {

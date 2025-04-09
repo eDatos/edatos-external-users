@@ -568,14 +568,15 @@
         },
         "name": "Consulta personalizada",
         "search": {
-            "filterExternalUserLabel": "Nombre de usuario externo",
+            "filterExternalUserLabel": "Datos del usuario externo",
             "filterNameLabel": "Nombre de consulta personalizada",
             "filterExternalOperationLabel": "Operación estadística",
             "includeFromDeactivatedUsers": "Consultas de usuarios desactivados",
             "name": "Buscar consultas personalizadas",
             "placeholder": "",
             "placeholderForFilterNameSearch": "Buscar consultas por nombre",
-            "placeholderForUserSearch": "Buscar consultas por datos del usuario (nombre, apellidos, email)"
+            "placeholderForUserSearch": "Buscar consultas por datos del usuario (nombre, apellidos, email)",
+            "placeholderForUserEmailSearch": "Buscar consultas por email del usuario"
         }
     },
     "global": {
