@@ -11,7 +11,7 @@
 ## 3.0.0 a 3.5.1-SNAPSHOT
 
 * Se añaden las propiedades `metamac.edatos_external_users.simplifiedSignUp` que permite habilitar y deshabilitar el formulario
-de registro simplficado. Para añadir la propiedad hace falta ejecutar el siguiente script SQL:
+de registro simplificado. Para añadir la propiedad hace falta ejecutar el siguiente script SQL:
 
 ```
 etc\changes-from-release\3.5.1\db\common-metadata\postgresql\20250314_insert_simplified_sign_up_configuration.sql
