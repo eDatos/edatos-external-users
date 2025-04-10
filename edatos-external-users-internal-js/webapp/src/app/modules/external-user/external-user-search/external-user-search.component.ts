@@ -9,6 +9,7 @@ import { debounceTime } from 'rxjs/operators';
 import { ExternalUserFilter } from './external-user-filter';
 import { TranslateService } from "@ngx-translate/core";
 import { StructuralResourcesTreeSimpleSelectComponent } from "@app/shared/components/structural-resources-tree/structural-resources-tree-simple-select/structural-resources-tree-simple-select.component";
+import { ConfigService } from '@app/config';
 
 @Component({
     selector: 'app-external-user-search',
@@ -25,6 +26,7 @@ export class ExternalUserSearchComponent implements OnInit, OnDestroy {
     public selectedResources: FavoriteResource[] = [];
     public isSelectingResource = false;
     public serviceEnum = Service;
+    public simplifiedSignUp: boolean = false;
 
     @ViewChild(StructuralResourcesTreeSimpleSelectComponent)
     public tree: StructuralResourcesTreeSimpleSelectComponent;
@@ -32,9 +34,10 @@ export class ExternalUserSearchComponent implements OnInit, OnDestroy {
     private filterChangesSubject: Subject<any> = new Subject<any>();
 
     constructor(private eventManager: ArteEventManager, public categoryService: CategoryService,  private translateService: TranslateService,
-                private languageService: LanguageService) {}
+                private languageService: LanguageService, private configService: ConfigService) {}
 
     public ngOnInit() {
+        this.simplifiedSignUp = this.configService.getConfig().metadata.simplifiedSignUp;
         this.subscription = this.filterChangesSubject.pipe(debounceTime(300)).subscribe(() =>
             this.eventManager.broadcast({
                 name: 'userSearch',

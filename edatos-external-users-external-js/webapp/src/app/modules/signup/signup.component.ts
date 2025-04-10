@@ -9,6 +9,7 @@ import {
     DataProtectionPolicyService
 } from '@app/modules/account/data-protection-policy/data-protection-policy.service';
 import { ItemCode } from '@app/shared';
+import { ConfigService } from '@app/config';
 
 type SignUp = Omit<User, 'id' | 'roles'>;
 
@@ -36,6 +37,7 @@ export class SignupFormComponent implements OnInit {
     public isMigratedUser = false;
 
     public isCaptchaProviderRecaptcha: boolean = false;
+    public simplifiedSignUp: boolean = false;
     private captchaContainerEl: ElementRef;
 
     private userRegistrationToken?: string;
@@ -50,7 +52,7 @@ export class SignupFormComponent implements OnInit {
             this.captchaContainerEl = captchaContainerEl;
             this.captchaService.buildCaptcha(this.captchaContainerEl);
 
-            const captchaElement = this.captchaContainerEl.nativeElement.getElementById("captcha-container");
+            const captchaElement = this.captchaContainerEl.nativeElement.querySelector("#captcha-container");
             this.isCaptchaProviderRecaptcha = captchaElement.classList.contains("captcha-recaptcha");
         }
     }
@@ -64,11 +66,13 @@ export class SignupFormComponent implements OnInit {
         private dataProtectionPolicyService: DataProtectionPolicyService,
         private codeListService: CodelistService,
         private activatedRoute: ActivatedRoute,
-        private languageService: LanguageService) {
+        private languageService: LanguageService,
+        private configService: ConfigService,) {
     }
 
     ngOnInit() {
         this.isSaving = false;
+        this.simplifiedSignUp = this.configService.getConfig().metadata.simplifiedSignUp;
         this.getNationalities();
         this.getGenders();
         this.getInternationalLanguages();

@@ -14,7 +14,9 @@
             </span>
             <div class="page-header-title-text">
                 <span *ngIf="!externalUser.id" translate="externalUser.home.createLabel"></span>
-                <span *ngIf="externalUser.id" [title]="externalUser.getFullName()">{{externalUser.getFullName()}}</span>
+                <span *ngIf="externalUser.id" [title]="simplifiedSignUp ? externalUser.email : externalUser.getFullName()">
+                    {{ simplifiedSignUp ? externalUser.email : externalUser.getFullName() }}
+                </span>
             </div>
         </h2>
         <div class="page-header-btns">
@@ -26,144 +28,191 @@
             </ng-container>
         </div>
     </div>
+
+
     <div class="page-body">
         <form autocomplete="off" class="page-form" id="edit-form" name="editForm" novalidate role="form">
             <div class="d-flex align-items-center justify-content-between mt-2">
                 <div class="d-flex align-items-baseline flex-column">
                     <h3 class="mt-2 mb-0" translate="externalUser.personalData"></h3>
-                    <small class="text-muted">{{'externalUser.createdDate' | translate}} : {{externalUser.createdDate | date: 'd/M/yyyy, H:mm:ss' }}</small>
+                    <small class="text-muted">{{ 'externalUser.createdDate' | translate }} : {{ externalUser.createdDate | date: 'd/M/yyyy, H:mm:ss' }}</small>
                 </div>
             </div>
             <fieldset [disabled]="true" arteAutofocus class="page-section">
-                <div class="row divider">
-                    <div class="form-group form-group-inline col-md-6">
-                        <div class="form-row">
-                            <label class="col-form-label col-md-4" translate="externalUser.name"></label>
-                            <div class="col-md-8">
-                                <arte-input name="nombre" [(ngModel)]="externalUser.name"></arte-input>
+                <ng-container *ngIf="simplifiedSignUp; else normalSignUp">
+                    <div class="row divider">
+                        <div class="form-group form-group-inline col-md-6">
+                            <div class="form-row">
+                                <label class="col-form-label col-md-4" translate="externalUser.email"></label>
+                                <div class="col-md-8">
+                                    <arte-input name="email" [(ngModel)]="externalUser.email"></arte-input>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group form-group-inline col-md-6">
+                            <div class="form-row">
+                                <label class="col-form-label col-md-4" translate="externalUser.language"></label>
+                                <div class="col-md-8">
+                                    <arte-autocomplete-short-list
+                                        id='language'
+                                        name='language'
+                                        inputId='language'
+                                        [multiple]='false'
+                                        [(ngModel)]='selectedLanguage'
+                                        [properties]="['label']"
+                                    >
+                                    </arte-autocomplete-short-list>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group form-group-inline col-md-6">
+                            <div class="form-row">
+                                <label class="col-form-label col-md-4" translate="externalUser.enableEmailNotifications"></label>
+                                <div class="col-md-8">
+                                    <arte-tri-input-switch
+                                        [(ngModel)]="externalUser.emailNotificationsEnabled"
+                                        [disabled]="true"
+                                        [required]="true"
+                                        name="emailNotificationsEnabled"
+                                    ></arte-tri-input-switch>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+                <ng-template #normalSignUp>
+                    <div class="row divider">
+                        <div class="form-group form-group-inline col-md-6">
+                            <div class="form-row">
+                                <label class="col-form-label col-md-4" translate="externalUser.name"></label>
+                                <div class="col-md-8">
+                                    <arte-input name="nombre" [(ngModel)]="externalUser.name"></arte-input>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group form-group-inline col-md-6">
+                            <div class="form-row">
+                                <label class="col-form-label col-md-4" translate="externalUser.surname1"></label>
+                                <div class="col-md-8">
+                                    <arte-input name="surname1" [(ngModel)]="externalUser.surname1"></arte-input>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group form-group-inline col-md-6">
+                            <div class="form-row">
+                                <label class="col-form-label col-md-4" translate="externalUser.surname2"></label>
+                                <div class="col-md-8">
+                                    <arte-input name="surname2" [(ngModel)]="externalUser.surname2"></arte-input>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group form-group-inline col-md-6">
+                            <div class="form-row">
+                                <label class="form-label col-md-4" translate="externalUser.gender" for="gender"></label>
+                                <div class="col-md-8 form-input-container">
+                                    <arte-autocomplete-short-list
+                                        inputId="gender"
+                                        name="gender"
+                                        id='gender'
+                                        [multiple]="false"
+                                        [(ngModel)]="gender"
+                                        [properties]="['name']"
+                                    >
+                                    </arte-autocomplete-short-list>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group form-group-inline col-md-6">
+                            <div class="form-row">
+                                <label class="form-label col-md-4" translate="externalUser.birthday"></label>
+                                <app-custom-calendar id='birthday' name='birthday' [(ngModel)]='externalUser.birthday' class='calendar'></app-custom-calendar>
                             </div>
                         </div>
                     </div>
 
-                    <div class="form-group form-group-inline col-md-6">
-                        <div class="form-row">
-                            <label class="col-form-label col-md-4" translate="externalUser.surname1"></label>
-                            <div class="col-md-8">
-                                <arte-input name="surname1" [(ngModel)]="externalUser.surname1"></arte-input>
+                    <div class="row divider">
+                        <div class="form-group form-group-inline col-md-6">
+                            <div class="form-row">
+                                <label class="col-form-label col-md-4" translate="externalUser.email"></label>
+                                <div class="col-md-8">
+                                    <arte-input name="email" [(ngModel)]="externalUser.email"></arte-input>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group form-group-inline col-md-6">
+                            <div class="form-row">
+                                <label class="col-form-label col-md-4" translate="externalUser.phoneNumber" for="phoneNumber"></label>
+                                <div class="col-md-8 form-input-container">
+                                    <arte-input id="phoneNumber" name="phoneNumber" [(ngModel)]="externalUser.phoneNumber"></arte-input>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group form-group-inline col-md-6">
+                            <div class="form-row">
+                                <label class="col-form-label col-md-4" translate="externalUser.language"></label>
+                                <div class="col-md-8">
+                                    <arte-autocomplete-short-list
+                                        id='language'
+                                        name='language'
+                                        inputId='language'
+                                        [multiple]='false'
+                                        [(ngModel)]='selectedLanguage'
+                                        [properties]="['label']"
+                                    >
+                                    </arte-autocomplete-short-list>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group form-group-inline col-md-6">
+                            <div class="form-row">
+                                <label class="form-label col-md-4" translate="externalUser.nationality" for="nationality"></label>
+                                <div class="col-md-8 form-input-container">
+                                    <arte-autocomplete-short-list
+                                        inputId="nationality"
+                                        name="nationality"
+                                        id='nationality'
+                                        [multiple]="false"
+                                        [(ngModel)]="nationality"
+                                        [properties]="['name']"
+                                    >
+                                    </arte-autocomplete-short-list>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group form-group-inline col-md-6">
+                            <div class="form-row">
+                                <label class="col-form-label col-md-4" translate="externalUser.organism" for="organism"></label>
+                                <div class="col-md-8 form-input-container">
+                                    <arte-input name="organism" id='organism' [(ngModel)]="externalUser.organism"></arte-input>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group form-group-inline col-md-6">
+                            <div class="form-row">
+                                <label class="col-form-label col-md-4" translate="externalUser.enableEmailNotifications"></label>
+                                <div class="col-md-8">
+                                    <arte-tri-input-switch
+                                        [(ngModel)]="externalUser.emailNotificationsEnabled"
+                                        [disabled]="true"
+                                        [required]="true"
+                                        name="emailNotificationsEnabled"
+                                    ></arte-tri-input-switch>
+                                </div>
                             </div>
                         </div>
                     </div>
-
-                    <div class="form-group form-group-inline col-md-6">
-                        <div class="form-row">
-                            <label class="col-form-label col-md-4" translate="externalUser.surname2"></label>
-                            <div class="col-md-8">
-                                <arte-input name="surname2" [(ngModel)]="externalUser.surname2"></arte-input>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group form-group-inline col-md-6">
-                        <div class="form-row">
-                            <label class="form-label col-md-4" translate="externalUser.gender" for="gender"></label>
-                            <div class="col-md-8 form-input-container">
-                                <arte-autocomplete-short-list
-                                    inputId="gender"
-                                    name="gender"
-                                    id='gender'
-                                    [multiple]="false"
-                                    [(ngModel)]="gender"
-                                    [properties]="['name']"
-                                >
-                                </arte-autocomplete-short-list>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group form-group-inline col-md-6">
-                        <div class="form-row">
-                            <label class="form-label col-md-4" translate="externalUser.birthday"></label>
-                            <app-custom-calendar id='birthday' name='birthday' [(ngModel)]='externalUser.birthday' class='calendar'></app-custom-calendar>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row divider">
-                    <div class="form-group form-group-inline col-md-6">
-                        <div class="form-row">
-                            <label class="col-form-label col-md-4" translate="externalUser.email"></label>
-                            <div class="col-md-8">
-                                <arte-input name="email" [(ngModel)]="externalUser.email"></arte-input>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group form-group-inline col-md-6">
-                        <div class="form-row">
-                            <label class="col-form-label col-md-4" translate="externalUser.phoneNumber" for="phoneNumber"></label>
-                            <div class="col-md-8 form-input-container">
-                                <arte-input id="phoneNumber" name="phoneNumber" [(ngModel)]="externalUser.phoneNumber"></arte-input>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group form-group-inline col-md-6">
-                        <div class="form-row">
-                            <label class="col-form-label col-md-4" translate="externalUser.language"></label>
-                            <div class="col-md-8">
-                                <arte-autocomplete-short-list
-                                id='language'
-                                name='language'
-                                inputId='language'
-                                [multiple]='false'
-                                [(ngModel)]='selectedLanguage'
-                                [properties]="['label']"
-                                >
-                                </arte-autocomplete-short-list>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group form-group-inline col-md-6">
-                        <div class="form-row">
-                            <label class="form-label col-md-4" translate="externalUser.nationality" for="nationality"></label>
-                            <div class="col-md-8 form-input-container">
-                                <arte-autocomplete-short-list
-                                    inputId="nationality"
-                                    name="nationality"
-                                    id='nationality'
-                                    [multiple]="false"
-                                    [(ngModel)]="nationality"
-                                    [properties]="['name']"
-                                >
-                                </arte-autocomplete-short-list>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group form-group-inline col-md-6">
-                        <div class="form-row">
-                            <label class="col-form-label col-md-4" translate="externalUser.organism" for="organism"></label>
-                            <div class="col-md-8 form-input-container">
-                                <arte-input name="organism" id='organism' [(ngModel)]="externalUser.organism"></arte-input>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group form-group-inline col-md-6">
-                        <div class="form-row">
-                            <label class="col-form-label col-md-4" translate="externalUser.enableEmailNotifications"></label>
-                            <div class="col-md-8">
-                                <arte-tri-input-switch
-                                    [(ngModel)]="externalUser.emailNotificationsEnabled"
-                                    [disabled]="true"
-                                    [required]="true"
-                                    name="emailNotificationsEnabled"
-                                ></arte-tri-input-switch>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                </ng-template>
             </fieldset>
         </form>
         <fieldset *ngIf="userId" arteAutofocus class="page-section">

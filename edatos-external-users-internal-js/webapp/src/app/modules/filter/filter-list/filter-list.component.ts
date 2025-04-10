@@ -8,6 +8,7 @@ import { FilterService } from '@app/shared/service';
 import { ArteEventManager } from 'arte-ng/services';
 import { LazyLoadEvent } from 'primeng/api';
 import { Subscription } from 'rxjs';
+import { ConfigService } from '@app/config';
 
 @Component({
     selector: 'app-filter-list',
@@ -53,13 +54,15 @@ export class FilterListComponent implements OnInit {
             },
         },
     ];
+    public simplifiedSignUp: boolean;
     private eventSubscriber?: Subscription;
     private searchSubscription?: Subscription;
     private page: any;
     private reverse?: boolean;
     private predicate: any;
 
-    constructor(private filterService: FilterService, private activatedRoute: ActivatedRoute, private router: Router, private eventManager: ArteEventManager) {
+    constructor(private filterService: FilterService, private activatedRoute: ActivatedRoute, private router: Router, private eventManager: ArteEventManager, private configService: ConfigService) {
+        this.simplifiedSignUp = this.configService.getConfig().metadata.simplifiedSignUp;
         this.activatedRoute.data.subscribe((data) => {
             this.page = data['pagingParams'].page;
             this.reverse = data['pagingParams'].ascending;

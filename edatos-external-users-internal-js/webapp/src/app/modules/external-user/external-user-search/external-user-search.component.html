@@ -2,14 +2,26 @@
 <div class="page-filters">
     <div class="form-row">
         <div class="form-group col-md-4">
-            <label translate="externalUser.filters.labels.fullname"></label>
-            <arte-input
-                [(ngModel)]="filters.fullname"
-                [attr.aria-label]="'externalUser.filters.placeholders.fullname' | translate"
-                name="name"
-                placeholder="externalUser.filters.placeholders.fullname"
-                (keyup)="filter()"
-            ></arte-input>
+            <ng-container *ngIf="simplifiedSignUp; else normalSignUp">
+                <label translate="externalUser.filters.labels.email"></label>
+                <arte-input
+                    [(ngModel)]="filters.email"
+                    [attr.aria-label]="'externalUser.filters.placeholders.email' | translate"
+                    name="email"
+                    placeholder="externalUser.filters.placeholders.email"
+                    (keyup)="filter()"
+                ></arte-input>
+            </ng-container>
+            <ng-template #normalSignUp>
+                <label translate="externalUser.filters.labels.fullname"></label>
+                <arte-input
+                    [(ngModel)]="filters.fullname"
+                    [attr.aria-label]="'externalUser.filters.placeholders.fullname' | translate"
+                    name="name"
+                    placeholder="externalUser.filters.placeholders.fullname"
+                    (keyup)="filter()"
+                ></arte-input>
+            </ng-template>
         </div>
         <div class="form-group col-md-4">
             <label translate="externalUser.filters.labels.language"></label>

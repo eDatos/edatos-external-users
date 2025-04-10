@@ -11,6 +11,7 @@ import { ArteEventManager, GenericModalService } from 'arte-ng/services';
 import { Subscription } from 'rxjs';
 import { ExternalUserDeleteDialogComponent } from '../external-user-delete-dialog.component';
 import { StructuralResourcesTreeSelectComponent } from "@app/shared/components/structural-resources-tree/structural-resources-tree-select/structural-resources-tree-select.component";
+import { ConfigService } from '@app/config';
 
 @Component({
     selector: 'app-external-user-form',
@@ -25,6 +26,7 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
     public nationality: ItemCode;
     public gender: ItemCode;
     public favorites: Favorite[];
+    public simplifiedSignUp = false;
 
     @ViewChild(StructuralResourcesTreeSelectComponent)
     public favoriteTree: StructuralResourcesTreeSelectComponent;
@@ -40,10 +42,12 @@ export class ExternalUserFormComponent implements OnInit, OnDestroy {
         private route: ActivatedRoute,
         private router: Router,
         private codeListService: CodelistService,
-        private translateService: TranslateService
+        private translateService: TranslateService,
+        private configService: ConfigService,
     ) {}
 
     public ngOnInit() {
+        this.simplifiedSignUp = this.configService.getConfig().metadata.simplifiedSignUp;
         this.subscription = this.route.params.subscribe((params) => {
             this.userId = params['id'];
             this.load(this.userId);

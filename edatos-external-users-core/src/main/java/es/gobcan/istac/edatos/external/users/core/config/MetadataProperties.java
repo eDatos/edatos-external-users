@@ -29,6 +29,8 @@ public class MetadataProperties {
 
     private List<String> internationalizationLanguages;
     private String       languageCookie;
+    private boolean simplifiedSignUp;
+
 
     private boolean captchaEnable;
     private String captchaProvider;
@@ -97,6 +99,7 @@ public class MetadataProperties {
             LOGGER.info("Optional property SieExternalWebApplicationUrl is not filled ");
         }
         allowedOrigins = configurationService.retrieveAllowedOrigins();
+        simplifiedSignUp = configurationService.retrieveSimplifiedSignUp();
     }
 
     public String getMetamacNavbar() {
@@ -213,5 +216,9 @@ public class MetadataProperties {
 
     public String getExternalOperationsWebUrl() {
         return externalOperationsWebUrl;
+    }
+
+    public boolean getSimplifiedSignUp() {
+        return simplifiedSignUp;
     }
 }
