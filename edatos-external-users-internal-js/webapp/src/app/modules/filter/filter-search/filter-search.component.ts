@@ -5,6 +5,7 @@ import { Subject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { ExternalOperation } from "@app/shared/model";
 import { ExternalOperationService } from "@app/shared/service";
+import { ConfigService } from '@app/config';
 
 @Component({
     selector: 'app-filter-search',
@@ -21,10 +22,12 @@ export class FilterSearchComponent implements OnInit, OnDestroy {
 
     public externalOperations: ExternalOperation[] = [];
     public selectedOperations: ExternalOperation[] = [];
+    public simplifiedSignUp: boolean;
 
-    constructor(private eventManager: ArteEventManager, private externalOperationService: ExternalOperationService) {}
+    constructor(private eventManager: ArteEventManager, private externalOperationService: ExternalOperationService, private configService: ConfigService) {}
 
     public ngOnInit() {
+        this.simplifiedSignUp = this.configService.getConfig().metadata.simplifiedSignUp;
         this.subscription = this.filterChangesSubject.pipe(debounceTime(300)).subscribe(() =>
             this.eventManager.broadcast({
                 name: 'filterSearch',

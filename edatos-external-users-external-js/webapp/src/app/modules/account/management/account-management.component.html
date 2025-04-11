@@ -16,7 +16,45 @@
             </div>
         </div>
     </div>
-    <div class='page-body'>
+
+    <ng-container *ngIf="simplifiedSignUp; else normalSignUp">
+        <div class='page-body'>
+            <div class='detail-info'>
+                <label class='title' translate='account.contactInformation'></label>
+                <div class='row divider'>
+                    <div class='col-md-12 form-section'>
+                        <div class='row'>
+                            <div class='form-group form-group-inline col-md-4'>
+                                <div class='form-row'>
+                                    <strong class='form-label col-md-10' translate='account.form.email'></strong>
+                                    <div class='col-md-12'>
+                                        <span id='email'>{{ account.email }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <label class='title' translate='account.generalPreferences'></label>
+                <div class='row divider'>
+                    <div class='col-md-12 form-section'>
+                        <div class='row'>
+                            <div class='form-group form-group-inline col-md-4'>
+                                <div class='form-row'>
+                                    <strong class='form-label col-md-10' translate='account.form.language'></strong>
+                                    <div class='col-md-12'>
+                                        <span id='language'>{{ language }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+    <ng-template #normalSignUp>
+        <div class='page-body'>
         <div class='detail-info'>
             <label for='name' class='title' translate='account.basicInformation'></label>
             <span id='name' class='info-id'>{{ account.name }} {{ account.surname1 }} {{ account.surname2 }}</span>
@@ -108,4 +146,5 @@
             </div>
         </div>
     </div>
+    </ng-template>
 </div>

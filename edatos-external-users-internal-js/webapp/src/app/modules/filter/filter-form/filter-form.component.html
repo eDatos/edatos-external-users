@@ -52,7 +52,8 @@
                         <div class="form-row">
                             <label class="form-label col-md-4">{{ "filter.entity.owner" | translate }}</label>
                             <div class="col-md-8 form-input-container">
-                                <label class="form-label">{{filter.externalUser.name}} {{filter.externalUser.surname1}} {{filter.externalUser.surname2}}</label>
+                                <label *ngIf="!simplifiedSignUp" class="form-label">{{filter.externalUser.name}} {{filter.externalUser.surname1}} {{filter.externalUser.surname2}}</label>
+                                <label *ngIf="simplifiedSignUp" class="form-label">{{filter.externalUser.email}}</label>
                             </div>
                         </div>
                     </div>

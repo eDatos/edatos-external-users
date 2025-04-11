@@ -6,6 +6,7 @@ import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.annotation.Nullable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -45,14 +46,10 @@ public class ExternalUserEntity extends AbstractVersionedAndAuditingEntity {
     @SequenceGenerator(name = "seq_tb_external_users", sequenceName = "seq_tb_external_users", allocationSize = 50, initialValue = 1)
     private Long id;
 
-    @NotNull
     @Size(max = 255)
-    @Column(nullable = false)
     private String name;
 
-    @NotNull
     @Size(max = 255)
-    @Column(nullable = false)
     private String surname1;
 
     @Size(max = 255)

@@ -9,6 +9,7 @@ export interface GenericConfig {
         srmExternalEndpoint: string;
     };
     metadata: {
+        simplifiedSignUp: boolean;
         navbarScriptUrl: string;
         language: string;
         defaultLanguage: string;

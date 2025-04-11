@@ -23,7 +23,8 @@
                         <ng-template pTemplate="body" let-filter>
                             <tr [routerLink]="['../filter', filter.id]">
                                 <td>{{filter.name}}</td>
-                                <td>{{filter.externalUser.name}} {{filter.externalUser.surname1}} {{filter.externalUser.surname2}}</td>
+                                <td *ngIf="!simplifiedSignUp">{{filter.externalUser.name}} {{filter.externalUser.surname1}} {{filter.externalUser.surname2}}</td>
+                                <td *ngIf="simplifiedSignUp">{{filter.externalUser.email}}</td>
                                 <td>{{filter.lastAccessDate | date: 'd/M/yyyy H:mm:ss' }}</td>
                                 <td>{{filter.createdDate | date: 'd/M/yyyy H:mm:ss' }}</td>
                             </tr>

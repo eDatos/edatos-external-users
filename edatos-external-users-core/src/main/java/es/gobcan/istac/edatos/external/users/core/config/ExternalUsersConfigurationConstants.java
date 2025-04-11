@@ -23,6 +23,7 @@ public final class ExternalUsersConfigurationConstants extends ConfigurationCons
     public static final String GENDER_URN_KEY = "metamac.default.codelist.gender.urn";
     public static final String NATIONALITY_RESTRICTION = "metamac.default.codelist.nationality.restriction";
     public static final String GENDER_RESTRICTION = "metamac.default.codelist.gender.restriction";
+    public static final String SIMPLIFIED_SIGN_UP = "metamac.edatos_external_users.simplifiedSignUp";
 
     private ExternalUsersConfigurationConstants() {
 
