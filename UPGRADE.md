@@ -8,7 +8,7 @@
 
 *Se deberá realizar primero la actualización de la versión 1.0.0 a la 2.0.0 y luego desde la 2.0.0 a la 3.0.0*
 
-## 3.5.0 a 3.5.1-SNAPSHOT
+## 3.5.0 a 3.6.0
 
 * Se añaden las propiedades `metamac.edatos_external_users.simplifiedSignUp` que permite habilitar y deshabilitar el formulario
 de registro simplificado. Para añadir la propiedad hace falta ejecutar el siguiente script SQL:
