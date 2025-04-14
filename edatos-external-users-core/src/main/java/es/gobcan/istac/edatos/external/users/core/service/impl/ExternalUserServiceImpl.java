@@ -64,6 +64,7 @@ public class ExternalUserServiceImpl implements ExternalUserService {
 
     @Override
     public ExternalUserEntity create(ExternalUserEntity user) {
+        externalUserValidator.checkNameAndSurnameArePresentIfMandatory(user);
         user.setEnabled(false);
         user.setRegistrationToken(UUID.randomUUID().toString());
         return externalUserRepository.saveAndFlush(user);
@@ -92,6 +93,7 @@ public class ExternalUserServiceImpl implements ExternalUserService {
 
     @Override
     public ExternalUserEntity update(ExternalUserEntity user) {
+        externalUserValidator.checkNameAndSurnameArePresentIfMandatory(user);
         return externalUserRepository.saveAndFlush(user);
     }
 
@@ -248,6 +250,7 @@ public class ExternalUserServiceImpl implements ExternalUserService {
 
     @Override
     public ExternalUserEntity migrate(ExternalUserEntity user) {
+        externalUserValidator.checkNameAndSurnameArePresentIfMandatory(user);
         user.setEnabled(true);
         user.setRegistrationToken(null);
         return externalUserRepository.saveAndFlush(user);

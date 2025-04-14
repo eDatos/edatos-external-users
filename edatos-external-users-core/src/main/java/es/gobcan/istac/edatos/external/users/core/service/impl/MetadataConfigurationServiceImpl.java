@@ -74,4 +74,9 @@ public class MetadataConfigurationServiceImpl extends ConfigurationServiceImpl i
     public String retrieveGenderRestriction() throws EDatosException {
         return retrieveProperty(ExternalUsersConfigurationConstants.GENDER_RESTRICTION);
     }
+
+    @Override
+    public boolean retrieveSimplifiedSignUp() throws EDatosException {
+        return retrievePropertyBoolean(ExternalUsersConfigurationConstants.SIMPLIFIED_SIGN_UP);
+    }
 }

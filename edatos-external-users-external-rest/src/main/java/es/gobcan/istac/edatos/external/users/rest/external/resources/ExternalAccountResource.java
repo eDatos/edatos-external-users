@@ -220,11 +220,12 @@ public class ExternalAccountResource extends AbstractResource {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/account/{id}/document/my-information")
+    @GetMapping("/account/document/my-information")
     @Timed
     @PreAuthorize("@secCheckerExternal.canUpdateUser(authentication)")
-    public ResponseEntity<Void> downloadMyInformation(@PathVariable Long id, HttpServletResponse response) {
-        byte[] documento = documentService.generatePdfExternalUserInformation(id);
+    public ResponseEntity<Void> downloadMyInformation(HttpServletResponse response) {
+        ExternalUserEntity user = externalUserService.getUsuarioWithAuthorities();
+        byte[] documento = documentService.generatePdfExternalUserInformation(user.getId());
 
         DocumentUtil.download(documento, DocumentConstants.DOC_EXTERNAL_USER_INFORMATION, response);
         auditPublisher.publish(AuditConstants.EXT_USER_DOWNLOAD_DOCUMENT, AuditPrincipalType.EXTERNAL_USER);

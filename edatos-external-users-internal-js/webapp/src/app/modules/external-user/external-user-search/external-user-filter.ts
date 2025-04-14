@@ -5,6 +5,7 @@ import { BaseEntityFilter, EntityFilter } from 'arte-ng/model';
 
 export class ExternalUserFilter extends BaseEntityFilter implements EntityFilter {
     public fullname: string | null;
+    public email: string | null;
     public languages: string[] = [];
     public includeUnregistered: boolean;
     public categories: string[] = [];
@@ -19,6 +20,7 @@ export class ExternalUserFilter extends BaseEntityFilter implements EntityFilter
     public processUrlParams(queryParams: Params) {
         this.includeUnregistered = queryParams.hasOwnProperty('includeUnregistered');
         this.fullname = queryParams.fullname;
+        this.email = queryParams.email;
         this.languages = queryParams.languages?.split(',') ?? [];
         this.categories = queryParams.categories?.split(',') ?? [];
         this.externalOperations = queryParams.externalOperations?.split(',') ?? [];
@@ -30,6 +32,9 @@ export class ExternalUserFilter extends BaseEntityFilter implements EntityFilter
         const criterias: string[] = [];
         if (this.fullname) {
             criterias.push(`FULLNAME ILIKE '%${this.escapeSingleQuotes(this.fullname)}%'`);
+        }
+        if (this.email) {
+            criterias.push(`EMAIL ILIKE '%${this.escapeSingleQuotes(this.email)}%'`);
         }
         if (this.languages?.length > 0) {
             criterias.push(`LANGUAGE IN (${this.languages.join(',')})`);
@@ -61,6 +66,11 @@ export class ExternalUserFilter extends BaseEntityFilter implements EntityFilter
             paramName: 'fullname',
             updateFilterFromParam: (param) => (this.fullname = param),
             clearFilter: () => (this.fullname = null),
+        });
+        this.registerParam({
+            paramName: 'email',
+            updateFilterFromParam: (param) => (this.email = param),
+            clearFilter: () => (this.email = null),
         });
         this.registerParam({
             paramName: 'languages',

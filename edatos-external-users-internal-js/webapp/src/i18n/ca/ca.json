@@ -418,13 +418,15 @@
                 "fullname": "Nom o cognoms",
                 "language": "Idioma",
                 "service": "Servei",
-                "registration": "Inclou els no registrats"
+                "registration": "Inclou els no registrats",
+                "email": "Correu electrònic"
             },
             "placeholders": {
                 "fullname": "Introdueixi nom o cognoms",
                 "language": "Introdueixi idiomes de l'usuari",
                 "noResourceSelected": "No hi ha cap recurs seleccionat",
-                "service": "Introdueixi els serveis usats per l'usuari"
+                "service": "Introdueixi els serveis usats per l'usuari",
+                "email": "Introdueixi el correu electrònic de l'usuari"
             },
             "rolEnum": {
                 "label": "Rol"
@@ -566,14 +568,15 @@
         },
         "name": "Consulta personalitzada",
         "search": {
-            "filterExternalUserLabel": "Nom d'usuari extern",
+            "filterExternalUserLabel": "Dades d'usuari extern",
             "filterNameLabel": "Nom de consulta personalitzada",
             "filterExternalOperationLabel": "Operació estadística",
             "includeFromDeactivatedUsers": "Consultes d'usuaris desactivats",
             "name": "Buscar consultes personalitzades",
             "placeholder": "",
             "placeholderForFilterNameSearch": "Buscar consultes per nom",
-            "placeholderForUserSearch": "Buscar consultes per dades de l'usuari (nom, cognoms, email)"
+            "placeholderForUserSearch": "Buscar consultes per dades de l'usuari (nom, cognoms, email)",
+            "placeholderForOperationSearch": "Buscar consultes per email de l'usuari"
         }
     },
     "global": {

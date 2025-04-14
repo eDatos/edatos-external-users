@@ -7,6 +7,7 @@ export interface GenericConfig {
         visualizerPath: string;
     };
     metadata: {
+        simplifiedSignUp: boolean;
         defaultLanguage: string;
         languageCookie: string;
         nationalities: string;

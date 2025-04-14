@@ -418,13 +418,15 @@
                 "fullname": "Name or surname",
                 "language": "Language",
                 "service": "Service",
-                "registration": "Include unregistered"
+                "registration": "Include unregistered",
+                "email": "Email"
             },
             "placeholders": {
                 "fullname": "Enter name or surname",
                 "language": "Enter user languages",
                 "noResourceSelected": "No resource selected",
-                "service": "Enter the services used by the user"
+                "service": "Enter the services used by the user",
+                "email": "Enter user email"
             },
             "rolEnum": {
                 "label": "Role"
@@ -566,14 +568,15 @@
         },
         "name": "Custom query",
         "search": {
-            "filterExternalUserLabel": "External user name",
+            "filterExternalUserLabel": "External user data",
             "filterNameLabel": "Custom query name",
             "filterExternalOperationLabel": "Statistical operation",
             "includeFromDeactivatedUsers": "Include disabled user custom queries",
             "name": "Search custom queries",
             "placeholder": "Enter user name or email",
             "placeholderForFilterNameSearch": "",
-            "placeholderForUserSearch": ""
+            "placeholderForUserSearch": "",
+            "placeholderForUserEmailSearch": "Find queries by user email"
         }
     },
     "global": {
