@@ -35,6 +35,7 @@ import org.siemac.metamac.rest.notices.v1_0.domain.enume.MetamacApplicationsEnum
 import org.siemac.metamac.rest.notices.v1_0.domain.utils.MessageBuilder;
 import org.siemac.metamac.rest.notices.v1_0.domain.utils.NoticeBuilder;
 import org.siemac.metamac.rest.notices.v1_0.domain.utils.ReceiverBuilder;
+import org.siemac.metamac.rest.notices.v1_0.domain.utils.ReceiversUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -327,17 +328,7 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     private Notice createNotice(String codeSubject, String messageCode, String receiver, String[] args, Locale locale) {
-        String subject = generateTextI18n(codeSubject, args, locale);
-        Message message = createMessage(messageCode, args, locale);
-
-        // @formatter:off
-        return NoticeBuilder.notification()
-            .withMessages(message, MessageBuilder.message().withText(getLopd(locale.getLanguage())).build())
-            .withReceivers(receiver)
-            .withSendingApplication(MetamacApplicationsEnum.GESTOR_USUARIOS_EXTERNOS.getName())
-            .withSubject(subject)
-            .build();
-        // @formatter:on
+        return createNotice(codeSubject, messageCode, ReceiversUtils.createReceiversList(receiver), args, locale);
     }
 
     private Notice createNotice(String codeSubject, String messageCode, Receivers receivers, String[] args, Locale locale) {
