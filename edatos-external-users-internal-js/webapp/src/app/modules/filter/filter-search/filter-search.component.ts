@@ -6,6 +6,7 @@ import { debounceTime } from 'rxjs/operators';
 import { ExternalOperation } from "@app/shared/model";
 import { ExternalOperationService } from "@app/shared/service";
 import { ConfigService } from '@app/config';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-filter-search',
@@ -24,7 +25,7 @@ export class FilterSearchComponent implements OnInit, OnDestroy {
     public selectedOperations: ExternalOperation[] = [];
     public simplifiedSignUp: boolean;
 
-    constructor(private eventManager: ArteEventManager, private externalOperationService: ExternalOperationService, private configService: ConfigService) {}
+    constructor(private eventManager: ArteEventManager, private externalOperationService: ExternalOperationService, private configService: ConfigService, private translateService: TranslateService) {}
 
     public ngOnInit() {
         this.simplifiedSignUp = this.configService.getConfig().metadata.simplifiedSignUp;
@@ -71,5 +72,9 @@ export class FilterSearchComponent implements OnInit, OnDestroy {
         this.filters.reset();
         this.selectedOperations = [];
         this.filter();
+    }
+
+    operationTemplate(operation: ExternalOperation): string {
+        return operation.code + " - " + (operation.name.getLocalisedLabel(this.translateService.currentLang) || operation.name.texts[0].label);
     }
 }
