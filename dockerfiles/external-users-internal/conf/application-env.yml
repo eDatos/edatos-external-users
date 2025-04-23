@@ -1,0 +1,36 @@
+# ===================================================================
+# Spring Boot configuration for the "env" profile.
+#
+# This configuration overrides the application.yml file.
+# ===================================================================
+
+# ===================================================================
+# Standard Spring Boot properties.
+# Full reference is available at:
+# http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# ===================================================================
+
+spring:
+    jpa:
+        show-sql: false
+
+# ===================================================================
+# Application specific properties
+# Add your own application properties here.
+# ===================================================================
+environment:
+    edatos:
+        configuration:
+            db:                           # Datos de conexión contra la base de datos common_metadata
+                driverName: FILL_ME       # Ejemplo: org.postgresql.Driver
+                url: FILL_ME              # Ejemplo: postgresql://localhost:5432/metamac_common_metadata_bd
+                username: FILL_ME         # Ejemplo: metamac_common_metadata_bd
+                password: FILL_ME_WITH_ENCRYPTED_PASSWORD
+
+# ===================================================================
+# Application debug properties
+#
+# Uncomment if debug mode needed
+# ===================================================================
+
+# debug
