@@ -1,0 +1,131 @@
+{
+    "code": "I208002_1111",
+    "urn": "urn:siemac:es.caib.ibestat.infomodel.jaxi.Dataset=IBESTAT:I208002_1111",
+    "statisticalOperation": {
+        "code": null,
+        "codeNested": null,
+        "urn": "urn:siemac:org.siemac.metamac.infomodel.statisticaloperations.Operation=null",
+        "title": {"localisedStrings": [{"locale": "es", "label": null}, {"locale": "ca", "label": null}]},
+        "type": "STATISTICAL_OPERATION"
+    },
+    "title": {
+        "localisedStrings": [
+            {"locale": "es", "label": "Turistas extranjeros con destino principal las Illes Balears por periodo, tipo de alojamiento y motivo principal del viaje. Desde 2004M01 a 2008M12."},
+            {"locale": "ca", "label": "Turistes estrangers amb destinació principal les Illes Balears per període, tipus d'allotjament i motiu principal del viatge. Des de 2004M01 a 2008M12."}
+        ]
+    },
+    "subtitle": {
+        "localisedStrings": [
+            {"locale": "es", "label": "Turistas extranjeros con destino principal las Illes Balears por periodo, tipo de alojamiento y motivo principal del viaje."},
+            {"locale": "ca", "label": "Turistes estrangers amb destinació principal les Illes Balears per període, tipus d'allotjament i motiu principal del viatge."}
+        ]
+    },
+    "titleAlternative": null,
+    "publicationDate": null,
+    "archivationDate": {"instant": 1413544560000, "timezone": null},
+    "lastVersion": true,
+    "procStatus": "ARCHIVED",
+    "geographicCoverage": [
+        {
+            "code": "CCAA_ILLES_BALEARS",
+            "codeNested": null,
+            "urn": "urn:siemac:org.siemac.metamac.infomodel.structuralresources.VariableElement=VR_TERRITORIO.CCAA_ILLES_BALEARS",
+            "title": {"localisedStrings": [{"locale": "es", "label": "Illes Balears"}, {"locale": "ca", "label": "Islas Baleares / Illes Balears"}]},
+            "type": "VARIABLE_ELEMENT"
+        }
+    ],
+    "temporalCoverage": [
+        {"identifier": "2008", "title": "2008"},
+        {"identifier": "2008M12", "title": "2008M12"},
+        {"identifier": "2008M11", "title": "2008M11"},
+        {"identifier": "2008M10", "title": "2008M10"},
+        {"identifier": "2008M09", "title": "2008M09"},
+        {"identifier": "2008M08", "title": "2008M08"},
+        {"identifier": "2008M07", "title": "2008M07"},
+        {"identifier": "2008M06", "title": "2008M06"},
+        {"identifier": "2008M05", "title": "2008M05"},
+        {"identifier": "2008M04", "title": "2008M04"},
+        {"identifier": "2008M03", "title": "2008M03"},
+        {"identifier": "2008M02", "title": "2008M02"},
+        {"identifier": "2008M01", "title": "2008M01"},
+        {"identifier": "2007", "title": "2007"},
+        {"identifier": "2007M12", "title": "2007M12"},
+        {"identifier": "2007M11", "title": "2007M11"},
+        {"identifier": "2007M10", "title": "2007M10"},
+        {"identifier": "2007M09", "title": "2007M09"},
+        {"identifier": "2007M08", "title": "2007M08"},
+        {"identifier": "2007M07", "title": "2007M07"},
+        {"identifier": "2007M06", "title": "2007M06"},
+        {"identifier": "2007M05", "title": "2007M05"},
+        {"identifier": "2007M04", "title": "2007M04"},
+        {"identifier": "2007M03", "title": "2007M03"},
+        {"identifier": "2007M02", "title": "2007M02"},
+        {"identifier": "2007M01", "title": "2007M01"},
+        {"identifier": "2006", "title": "2006"},
+        {"identifier": "2006M12", "title": "2006M12"},
+        {"identifier": "2006M11", "title": "2006M11"},
+        {"identifier": "2006M10", "title": "2006M10"},
+        {"identifier": "2006M09", "title": "2006M09"},
+        {"identifier": "2006M08", "title": "2006M08"},
+        {"identifier": "2006M07", "title": "2006M07"},
+        {"identifier": "2006M06", "title": "2006M06"},
+        {"identifier": "2006M05", "title": "2006M05"},
+        {"identifier": "2006M04", "title": "2006M04"},
+        {"identifier": "2006M03", "title": "2006M03"},
+        {"identifier": "2006M02", "title": "2006M02"},
+        {"identifier": "2006M01", "title": "2006M01"},
+        {"identifier": "2005", "title": "2005"},
+        {"identifier": "2005M12", "title": "2005M12"},
+        {"identifier": "2005M11", "title": "2005M11"},
+        {"identifier": "2005M10", "title": "2005M10"},
+        {"identifier": "2005M09", "title": "2005M09"},
+        {"identifier": "2005M08", "title": "2005M08"},
+        {"identifier": "2005M07", "title": "2005M07"},
+        {"identifier": "2005M06", "title": "2005M06"},
+        {"identifier": "2005M05", "title": "2005M05"},
+        {"identifier": "2005M04", "title": "2005M04"},
+        {"identifier": "2005M03", "title": "2005M03"},
+        {"identifier": "2005M02", "title": "2005M02"},
+        {"identifier": "2005M01", "title": "2005M01"},
+        {"identifier": "2004", "title": "2004"},
+        {"identifier": "2004M12", "title": "2004M12"},
+        {"identifier": "2004M11", "title": "2004M11"},
+        {"identifier": "2004M10", "title": "2004M10"},
+        {"identifier": "2004M09", "title": "2004M09"},
+        {"identifier": "2004M08", "title": "2004M08"},
+        {"identifier": "2004M07", "title": "2004M07"},
+        {"identifier": "2004M06", "title": "2004M06"},
+        {"identifier": "2004M05", "title": "2004M05"},
+        {"identifier": "2004M04", "title": "2004M04"},
+        {"identifier": "2004M03", "title": "2004M03"},
+        {"identifier": "2004M02", "title": "2004M02"},
+        {"identifier": "2004M01", "title": "2004M01"}
+    ],
+    "geographicGranularities": [
+        {
+            "code": "REGIONS",
+            "codeNested": null,
+            "urn": "urn:sdmx:org.sdmx.infomodel.codelist.Code=ISTAC:CL_GRANULARIDADES_GEOGRAFICAS(02.001).REGIONS",
+            "title": {"localisedStrings": [{"locale": "es", "label": "Comunidades autónomas"}, {"locale": "ca", "label": "Comunitats autònomes"}]},
+            "type": "CODE"
+        }
+    ],
+    "temporalGranularities": [
+        {
+            "code": "A",
+            "codeNested": null,
+            "urn": "urn:sdmx:org.sdmx.infomodel.codelist.Code=ISTAC:CL_FREQ(01.002).A",
+            "title": {"localisedStrings": [{"locale": "es", "label": "Anual"}, {"locale": "ca", "label": "Anual"}]},
+            "type": "CODE"
+        },
+        {
+            "code": "M",
+            "codeNested": null,
+            "urn": "urn:sdmx:org.sdmx.infomodel.codelist.Code=ISTAC:CL_FREQ(01.002).M",
+            "title": {"localisedStrings": [{"locale": "es", "label": "Mensual"}, {"locale": "ca", "label": "Mensual"}]},
+            "type": "CODE"
+        }
+    ],
+    "htmlLink": "https://intranet.caib.es/ibestat-jaxi/tabla.do?px=2a40b142-bef3-450e-80df-4c14b3fcef36&pag=1&nodeId=043d7774-cd6c-4363-929a-703aaa0cb9e0&pxName=I208002_1111.px",
+    "jsonLink": "https://intranet.caib.es/ibestat-jaxi/tabla.do?typeDownload=7&px=2a40b142-bef3-450e-80df-4c14b3fcef36"
+}
