@@ -73,8 +73,10 @@ export class SignupFormComponent implements OnInit {
     ngOnInit() {
         this.isSaving = false;
         this.simplifiedSignUp = this.configService.getConfig().metadata.simplifiedSignUp;
-        this.getNationalities();
-        this.getGenders();
+        if (!this.simplifiedSignUp) {
+            this.getNationalities();
+            this.getGenders();
+        }
         this.getInternationalLanguages();
 
         this.userRegistrationToken = this.activatedRoute.snapshot.queryParams[REGISTRATION_TOKEN_QUERY_PARAM_ID];
