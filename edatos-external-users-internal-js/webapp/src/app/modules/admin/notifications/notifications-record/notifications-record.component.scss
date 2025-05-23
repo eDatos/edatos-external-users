@@ -10,8 +10,25 @@
     overflow: hidden;
 }
 
+$user-quantity-to-show-more: 5;
+
 .receivers-cell {
     display: flex;
     gap: 0.5em;
     flex-direction: row;
+    flex-wrap: wrap;
+    overflow-x: auto;
+}
+
+.receivers-cell .badge:nth-child(n + #{$user-quantity-to-show-more}) {
+  display: none;
+}
+
+.receivers-cell .more-indicator {
+  display: none;
+}
+
+.receivers-cell .badge:nth-child(n + #{$user-quantity-to-show-more + 1}).more-indicator {
+  display: inline-flex;
+  align-items: center;
 }
