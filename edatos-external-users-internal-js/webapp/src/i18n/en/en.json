@@ -810,6 +810,21 @@
             "title": "Notifications",
             "new": "Create notification"
         },
+        "filters": {
+            "creation_date": {
+                "label": {
+                    "min": "From",
+                    "max": "To"
+                }
+            },
+            "subject": {
+                "label": "Subject",
+                "placeholder": "Enter the notification subject"
+            },
+            "receivers": {
+                "label": "Receivers"
+            }
+        },
         "form": {
             "title": "New notification",
             "subject": {

@@ -1,12 +1,15 @@
 <div class='page'>
-    <div class='page-header page-header-top'>
-        <h2 class='page-header-title'>
-            <span class='page-header-title-text'>{{ 'notifications.home.title' | translate }}</span>
-        </h2>
-        <button class='btn btn-secondary mr-2' routerLink='new'>
-            <span class='fa fa-envelope'></span>
-            <span translate='notifications.home.new'></span>
-        </button>
+    <div class='page-header'>
+        <div class="page-header-title-container">
+            <h2 class='page-header-title'>
+                <span class='page-header-title-text'>{{ 'notifications.home.title' | translate }}</span>
+            </h2>
+            <button class='btn btn-secondary' routerLink='new'>
+                <span class='fa fa-envelope'></span>
+                <span translate='notifications.home.new'></span>
+            </button>
+        </div>
+        <app-notifications-search [filters]="filters"></app-notifications-search>
     </div>
     <div class='page-body'>
         <div class="page-table-container-fluid">

@@ -1,5 +1,16 @@
 @import '../../../../../assets/scss/variables';
 
+.page-header-title-container {
+    display: inline-flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+
+    button {
+        height: fit-content;
+    }
+}
+
 .page-table-container-fluid {
     height: calc(100vh - #{$primary-navbar-height} - #{$secondary-navbar-height} - #{$page-header-height} - #{$page-margin-bottom});
 }

@@ -810,6 +810,21 @@
             "title": "Notificaciones",
             "new": "Crear notificación"
         },
+        "filters": {
+            "creation_date": {
+                "label": {
+                    "min": "Desde",
+                    "max": "Hasta"
+                }
+            },
+            "subject": {
+                "label": "Asunto",
+                "placeholder": "Introduzca el asunto de la notificación"
+            },
+            "receivers": {
+                "label": "Receptores"
+            }
+        },
         "form": {
             "title": "Nueva notificación",
             "subject": {

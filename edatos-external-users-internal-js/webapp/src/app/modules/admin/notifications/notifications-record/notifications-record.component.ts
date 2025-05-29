@@ -1,17 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LazyLoadEvent } from 'primeng/api';
 import { ResponseWrapper } from '@app/core/utils/response-utils';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from "@app/shared/service";
 import { NotificationRecord } from "@app/shared/model";
 import { formatNotifications } from "@app/shared/utils/notificationUtils";
+import { NotificationsFilter } from "@app/modules/admin/notifications/notifications-search/notifications-filter";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Subscription } from "rxjs";
+import { ArteEventManager } from "arte-ng/services";
 
 @Component({
     selector: 'app-notifications-record',
     templateUrl: './notifications-record.component.html',
     styleUrls: ['./notifications-record.component.scss']
 })
-export class NotificationsRecordComponent {
+export class NotificationsRecordComponent implements OnInit {
     public virtualNotifications: NotificationRecord[] = [];
     public notificationsLoaded: boolean = false;
     public totalItems: number = 0;
@@ -46,14 +50,24 @@ export class NotificationsRecordComponent {
             }
         }
     ];
+    public filters: NotificationsFilter;
+    private searchSubscription?: Subscription;
 
-    constructor(private notificationService: NotificationService, private translateService: TranslateService) {
+    constructor(private notificationService: NotificationService, private translateService: TranslateService, private router: Router,
+                private activatedRoute: ActivatedRoute, private eventManager: ArteEventManager) {
+        this.filters = new NotificationsFilter();
+    }
+
+    public ngOnInit() {
+        this.filters.processUrlParams(this.activatedRoute.snapshot.queryParams);
+        this.registerChangeInNotifications();
     }
 
     searchNotifications(page: number): void {
         const params = {
             page: page,
-            size: this.itemsPerLoad
+            size: this.itemsPerLoad,
+            query: this.filters.toQuery()
         };
         const onComplete = () => this.notificationsLoaded = true;
         this.notificationService
@@ -79,8 +93,8 @@ export class NotificationsRecordComponent {
         return "";
     }
 
-    public loadData(e: LazyLoadEvent) {
-        const page = (e.first || 0) / this.itemsPerLoad;
+    public loadData(e?: LazyLoadEvent) {
+        const page = (e?.first || 0) / this.itemsPerLoad;
         this.searchNotifications(page);
     }
 
@@ -95,5 +109,13 @@ export class NotificationsRecordComponent {
         this.virtualNotifications.splice(first, this.itemsPerLoad, ...formatNotifications(response.body));
 
         this.virtualNotifications = [...this.virtualNotifications];
+    }
+
+    public registerChangeInNotifications() {
+        this.searchSubscription = this.eventManager.subscribe('notificationSearch', () => {
+            const queryParams = Object.assign({}, this.filters.toUrl(this.activatedRoute.snapshot.queryParams));
+            this.router.navigate([], { relativeTo: this.activatedRoute, queryParams });
+            this.loadData();
+        });
     }
 }

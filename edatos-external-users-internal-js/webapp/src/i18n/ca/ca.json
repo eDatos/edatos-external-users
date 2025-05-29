@@ -810,6 +810,21 @@
             "title": "Notificacions",
             "new": "Crear notificació"
         },
+        "filters": {
+            "creation_date": {
+                "label": {
+                    "min": "Des de",
+                    "max": "Fins a"
+                }
+            },
+            "subject": {
+                "label": "Assumpte",
+                "placeholder": "Afageix l'assumpte de la notificació"
+            },
+            "receivers": {
+                "label": "Receptors"
+            }
+        },
         "form": {
             "title": "Nova notificació",
             "subject": {

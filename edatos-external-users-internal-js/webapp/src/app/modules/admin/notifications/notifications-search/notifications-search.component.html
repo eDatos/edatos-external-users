@@ -1,0 +1,51 @@
+<div class="page-filters">
+    <div class="form-row">
+        <div class="form-group col-md-2">
+            <label for="minDate">{{ 'notifications.filters.creation_date.label.min' | translate }}</label>
+            <app-custom-calendar id='minDate' name='minDate'
+                                 [(ngModel)]='filters.minDate'
+                                 class='calendar'
+                                 (ngModelChange)="filter()"
+                                 [required]='false'></app-custom-calendar> <!-- selectionMode="range" -->
+        </div>
+        <div class="form-group col-md-2">
+            <label for="maxDate">{{ 'notifications.filters.creation_date.label.max' | translate }}</label>
+            <app-custom-calendar id='maxDate' name='maxDate'
+                                 [(ngModel)]='filters.maxDate'
+                                 class='calendar'
+                                 (ngModelChange)="filter()"
+                                 [required]='false'></app-custom-calendar>
+        </div>
+        <div class="form-group col-md-4">
+            <label for="subject">{{ 'notifications.filters.subject.label' | translate }}</label>
+            <arte-input
+                id="subject"
+                name="subject"
+                [(ngModel)]="filters.subject"
+                [attr.aria-label]="'notifications.filters.subject.placeholder' | translate"
+                placeholder="notifications.filters.subject.placeholder"
+                (keyup)="filter()"
+            ></arte-input>
+        </div>
+        <div class="form-group col-md-4">
+            <label for="receiver">{{ 'notifications.filters.receivers.label' | translate }}</label>
+            <arte-autocomplete-long-list
+                id='receiver'
+                inputId='field_receiver'
+                (onUnselect)='onUnselectReceiver($event)'
+                (onSelect)='onSelectReceiver($event)'
+                [suggestions]='allowedReceivers'
+                [selectedSuggestions]="selectedReceivers"
+                [properties]="['email']"
+                [multiple]='true'
+            >
+            </arte-autocomplete-long-list>
+        </div>
+        <div class="page-filters-btns col-lg-12">
+            <button (click)="resetFilters()" class="btn btn-light">
+                <em class="btn-icon fa fa-times"></em>
+                <span translate="entity.action.filtersReset"></span>
+            </button>
+        </div>
+    </div>
+</div>
