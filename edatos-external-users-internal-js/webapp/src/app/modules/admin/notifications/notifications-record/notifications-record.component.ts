@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { LazyLoadEvent } from 'primeng/api';
 import { ResponseWrapper } from '@app/core/utils/response-utils';
 import { TranslateService } from '@ngx-translate/core';
@@ -9,6 +9,7 @@ import { NotificationsFilter } from "@app/modules/admin/notifications/notificati
 import { ActivatedRoute, Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { ArteEventManager } from "arte-ng/services";
+import { Table } from "primeng/table";
 
 @Component({
     selector: 'app-notifications-record',
@@ -52,6 +53,9 @@ export class NotificationsRecordComponent implements OnInit {
     ];
     public filters: NotificationsFilter;
     private searchSubscription?: Subscription;
+
+    @ViewChild(Table)
+    private table: Table;
 
     constructor(private notificationService: NotificationService, private translateService: TranslateService, private router: Router,
                 private activatedRoute: ActivatedRoute, private eventManager: ArteEventManager) {
@@ -115,7 +119,8 @@ export class NotificationsRecordComponent implements OnInit {
         this.searchSubscription = this.eventManager.subscribe('notificationSearch', () => {
             const queryParams = Object.assign({}, this.filters.toUrl(this.activatedRoute.snapshot.queryParams));
             this.router.navigate([], { relativeTo: this.activatedRoute, queryParams });
-            this.loadData();
+            this.table.reset(); // To start loading data from page 0 again
+            this.table.clearCache(); // Without this, requests for pages that have already been requested will not be made again even if the filters have changed
         });
     }
 }
