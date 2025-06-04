@@ -32,10 +32,11 @@
             <arte-autocomplete-long-list
                 id='receiver'
                 inputId='field_receiver'
-                (onUnselect)='onUnselectReceiver($event)'
-                (onSelect)='onSelectReceiver($event)'
+                [(ngModel)]="selectedReceivers"
                 [suggestions]='allowedReceivers'
-                [selectedSuggestions]="selectedReceivers"
+                (onSelect)='onSelectReceiver()'
+                (onUnselect)='onUnselectReceiver()'
+                (completeMethod)="searchReceivers($event)"
                 [properties]="['email']"
                 [multiple]='true'
             >

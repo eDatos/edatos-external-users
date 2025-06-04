@@ -70,8 +70,8 @@ public class NotificationResource extends AbstractResource {
     @Timed
     @GetMapping("/receivers")
     @PreAuthorize("@secChecker.canAccessUser(authentication)")
-    public ResponseEntity<List<ReceiverDto>> findAllReceivers() {
-        List<ExternalUserEntity> externalUsersDto = externalUserService.findAllReceivers();
+    public ResponseEntity<List<ReceiverDto>> findAllReceivers(String query) {
+        List<ExternalUserEntity> externalUsersDto = externalUserService.findReceivers(query);
         List<ReceiverDto> receivers = externalUsersDto.stream().map(externalUser -> {
             ReceiverDto receiverDto = new ReceiverDto();
             receiverDto.setEmail(externalUser.getEmail());

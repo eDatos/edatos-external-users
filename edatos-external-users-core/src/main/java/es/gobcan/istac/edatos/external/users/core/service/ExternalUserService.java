@@ -25,7 +25,7 @@ public interface ExternalUserService {
 
     Page<ExternalUserEntity> find(Pageable pageable, Boolean includeDeleted, String query);
 
-    List<ExternalUserEntity> findAllReceivers();
+    List<ExternalUserEntity> findReceivers(String query);
 
     ExternalUserEntity getUsuarioWithAuthorities();
 

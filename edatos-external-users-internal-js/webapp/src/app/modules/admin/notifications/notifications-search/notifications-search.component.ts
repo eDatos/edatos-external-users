@@ -34,13 +34,18 @@ export class NotificationsSearchComponent implements OnInit, OnDestroy {
                 content: this.filters,
             })
         );
-        this.searchReceivers();
+        this.selectedReceivers = this.filters.receivers.map(receiverEmail => {
+            let receiver = new Receiver();
+            receiver.email = receiverEmail;
+            return receiver;
+        })
     }
 
-    private searchReceivers() {
-        this.notificationService.findReceivers().subscribe((results: Receiver[]) => {
+    public searchReceivers(event) {
+        this.notificationService.findReceivers({
+            query: "EMAIL ILIKE '%" + event.query + "%'"
+        }).subscribe((results: Receiver[]) => {
             this.allowedReceivers = results;
-            this.selectedReceivers = this.allowedReceivers.filter(receiver => this.filters.receivers.includes(receiver.email));
         });
     }
 
@@ -58,17 +63,12 @@ export class NotificationsSearchComponent implements OnInit, OnDestroy {
         this.filter();
     }
 
-    public onSelectReceiver(receiver: ExternalUser) {
-        this.selectedReceivers.push(receiver);
+    public onSelectReceiver() {
         this.filters.receivers = this.selectedReceivers.map(selectedReceiver => selectedReceiver.email);
         this.filter();
     }
 
-    public onUnselectReceiver(receiver: ExternalUser) {
-        const index = this.selectedReceivers.indexOf(receiver);
-        if (index > -1) {
-            this.selectedReceivers.splice(index, 1);
-        }
+    public onUnselectReceiver() {
         this.filters.receivers = this.selectedReceivers.map(selectedReceiver => selectedReceiver.email);
         this.filter();
     }

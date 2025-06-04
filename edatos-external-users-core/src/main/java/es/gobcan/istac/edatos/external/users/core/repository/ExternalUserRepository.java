@@ -40,7 +40,4 @@ public interface ExternalUserRepository extends JpaRepository<ExternalUserEntity
 
     @Query("select u from ExternalUserEntity as u WHERE lower(u.email) IN ?1")
     List<ExternalUserEntity> findAllByLowerCaseEmailIn(List<String> emails);
-
-    @Query("select u from ExternalUserEntity as u WHERE u.enabled = ?1")
-    List<ExternalUserEntity> findAllByEnabled(Boolean enabled);
 }
