@@ -32,6 +32,7 @@
             <arte-autocomplete-long-list
                 id='receiver'
                 inputId='field_receiver'
+                dataKey="email"
                 [(ngModel)]="selectedReceivers"
                 [suggestions]='allowedReceivers'
                 (onSelect)='onSelectReceiver()'
