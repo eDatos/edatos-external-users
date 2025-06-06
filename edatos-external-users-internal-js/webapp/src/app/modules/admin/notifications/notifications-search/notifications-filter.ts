@@ -35,7 +35,7 @@ export class NotificationsFilter extends BaseEntityFilter implements EntityFilte
             }
         }
         if (!!this.subject?.trim()) {
-            criterias.push(`SUBJECT ILIKE "%${this.escapeSingleQuotes(this.subject)}%"`);
+            criterias.push(`SUBJECT ILIKE "${this.escapeSingleQuotes(this.subject)}"`);
         }
         return criterias;
     }
