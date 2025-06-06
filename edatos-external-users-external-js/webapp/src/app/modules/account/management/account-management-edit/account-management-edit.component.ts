@@ -51,8 +51,10 @@ export class AccountManagementEditComponent implements OnInit {
         this.isSaving = false;
         this.account = this.route.snapshot.data.user;
         this.email = this.account.email;
-        this.getNationalities(this.account.nationality);
-        this.getGenders(this.account.gender);
+        if (!this.simplifiedSignUp) {
+            this.getNationalities(this.account.nationality);
+            this.getGenders(this.account.gender);
+        }
         this.getInternationalLanguages(this.account.language);
     }
 
