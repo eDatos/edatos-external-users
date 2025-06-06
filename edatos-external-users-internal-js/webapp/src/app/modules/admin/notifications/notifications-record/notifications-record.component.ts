@@ -10,6 +10,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { ArteEventManager } from "arte-ng/services";
 import { Table } from "primeng/table";
+import { DatePipe } from "@angular/common";
 
 @Component({
     selector: 'app-notifications-record',
@@ -58,8 +59,8 @@ export class NotificationsRecordComponent implements OnInit {
     private table: Table;
 
     constructor(private notificationService: NotificationService, private translateService: TranslateService, private router: Router,
-                private activatedRoute: ActivatedRoute, private eventManager: ArteEventManager) {
-        this.filters = new NotificationsFilter();
+                private activatedRoute: ActivatedRoute, private eventManager: ArteEventManager, private datePipe: DatePipe) {
+        this.filters = new NotificationsFilter(datePipe);
     }
 
     public ngOnInit() {

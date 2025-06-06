@@ -812,10 +812,7 @@
         },
         "filters": {
             "creation_date": {
-                "label": {
-                    "min": "Desde",
-                    "max": "Hasta"
-                }
+                "label": "Fecha"
             },
             "subject": {
                 "label": "Asunto",

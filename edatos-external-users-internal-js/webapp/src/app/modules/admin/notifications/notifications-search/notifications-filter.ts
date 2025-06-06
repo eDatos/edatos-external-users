@@ -1,20 +1,19 @@
 import { Params } from '@angular/router';
 import { BaseEntityFilter, EntityFilter } from 'arte-ng/model';
+import { DatePipe } from "@angular/common";
 
 export class NotificationsFilter extends BaseEntityFilter implements EntityFilter {
     public subject: string | null;
-    public minDate: string | null;
-    public maxDate: string | null;
+    public date: Date[] | null = null; // null because in this version of Primeng an empty array cause an error in the initialization of the p-calendar
     public receivers: string[] = [];
 
-    constructor() {
-        super();
+    constructor(datePipe: DatePipe) {
+        super(datePipe);
     }
 
     public processUrlParams(queryParams: Params) {
         this.receivers = queryParams.receivers?.split(',') ?? [];
-        this.minDate = queryParams.minDate;
-        this.maxDate = queryParams.maxDate;
+        this.date = queryParams.date?.split(',').filter(date => !!date).map(date => new Date(date)) ?? null;
         this.subject = queryParams.subject;
     }
 
@@ -23,14 +22,14 @@ export class NotificationsFilter extends BaseEntityFilter implements EntityFilte
         if (this.receivers?.length > 0) {
             criterias.push(`RECEIVER_USERNAME IN ("${this.receivers.join('","')}")`);
         }
-        if (!!this.minDate?.trim()) {
-            let formattedMinDate = this.displayStringDateToQueryStringDate(this.minDate);
+        if (!!this.date && !!this.date[0]) {
+            let formattedMinDate = this.dateToQueryStringDate(this.date[0]);
             if (formattedMinDate) {
                 criterias.push(`CREATED_DATE GE "${formattedMinDate}"`);
             }
         }
-        if (!!this.maxDate?.trim()) {
-            let formattedMaxDate = this.displayStringDateToQueryStringDate(this.maxDate);
+        if (!!this.date && !!this.date[1]) {
+            let formattedMaxDate = this.dateToQueryStringDate(this.date[1]);
             if (formattedMaxDate) {
                 criterias.push(`CREATED_DATE LE "${formattedMaxDate}"`);
             }
@@ -41,13 +40,8 @@ export class NotificationsFilter extends BaseEntityFilter implements EntityFilte
         return criterias;
     }
 
-    // From dd/MM/yyyy to yyyy-MM-dd
-    private displayStringDateToQueryStringDate(date: string): string | undefined {
-        const DATE_REGEX = /^(\d{2})\/(\d{2})\/(\d{4})$/;
-        let dateGroups = DATE_REGEX.exec(date);
-        if (dateGroups) {
-            return `${dateGroups[3]}-${dateGroups[2]}-${dateGroups[1]}`;
-        }
+    private dateToQueryStringDate(date: Date): string | null | undefined {
+        return this.datePipe?.transform(date, "yyyy-MM-dd");
     }
 
     protected registerParameters() {
@@ -57,19 +51,26 @@ export class NotificationsFilter extends BaseEntityFilter implements EntityFilte
             clearFilter: () => (this.receivers = []),
         });
         this.registerParam({
-            paramName: 'minDate',
-            updateFilterFromParam: (param) => (this.minDate = param),
-            clearFilter: () => (this.minDate = null),
-        });
-        this.registerParam({
-            paramName: 'maxDate',
-            updateFilterFromParam: (param) => (this.maxDate = param),
-            clearFilter: () => (this.maxDate = null),
+            paramName: 'date',
+            updateFilterFromParam: (param) => (this.date = param),
+            clearFilter: () => (this.date = null),
         });
         this.registerParam({
             paramName: 'subject',
             updateFilterFromParam: (param) => (this.subject = param),
             clearFilter: () => (this.subject = null),
         });
+    }
+
+    // Override of BaseEntityFilter
+    getItemOrId(item: any, field?: string) {
+        field = field || 'id';
+        let result = item && item[field] ? item[field] : item;
+        return result instanceof Date ? this.dateToString(result) : result;
+    }
+
+    // Override of BaseEntityFilter
+    protected dateToString(date: Date): string {
+        return date.toDateString();
     }
 }

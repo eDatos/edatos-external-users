@@ -48,6 +48,12 @@ export class CustomCalendarComponent extends Calendar implements ControlValueAcc
     public maxDate: Date;
 
     @Input()
+    public selectionMode: 'single' | 'range' | 'multiple' = 'single';
+
+    @Input()
+    public dataType: 'string' | 'date' = 'string';
+
+    @Input()
     public showTime: boolean;
 
     @Input()

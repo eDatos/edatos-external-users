@@ -812,10 +812,7 @@
         },
         "filters": {
             "creation_date": {
-                "label": {
-                    "min": "From",
-                    "max": "To"
-                }
+                "label": "Date"
             },
             "subject": {
                 "label": "Subject",

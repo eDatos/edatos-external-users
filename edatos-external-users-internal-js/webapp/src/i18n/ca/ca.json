@@ -812,10 +812,7 @@
         },
         "filters": {
             "creation_date": {
-                "label": {
-                    "min": "Des de",
-                    "max": "Fins a"
-                }
+                "label": "Data"
             },
             "subject": {
                 "label": "Assumpte",

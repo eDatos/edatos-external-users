@@ -1,20 +1,17 @@
 <div class="page-filters">
     <div class="form-row">
-        <div class="form-group col-md-2">
-            <label for="minDate">{{ 'notifications.filters.creation_date.label.min' | translate }}</label>
-            <app-custom-calendar id='minDate' name='minDate'
-                                 [(ngModel)]='filters.minDate'
-                                 class='calendar'
-                                 (ngModelChange)="filter()"
-                                 [required]='false'></app-custom-calendar> <!-- selectionMode="range" -->
-        </div>
-        <div class="form-group col-md-2">
-            <label for="maxDate">{{ 'notifications.filters.creation_date.label.max' | translate }}</label>
-            <app-custom-calendar id='maxDate' name='maxDate'
-                                 [(ngModel)]='filters.maxDate'
-                                 class='calendar'
-                                 (ngModelChange)="filter()"
-                                 [required]='false'></app-custom-calendar>
+        <div class="form-group col-md-4">
+            <label for="date">{{ 'notifications.filters.creation_date.label' | translate }}</label>
+            <app-custom-calendar
+                id='date'
+                name='date'
+                class='calendar'
+                selectionMode="range"
+                dataType="date"
+                [(ngModel)]='filters.date'
+                (ngModelChange)="filter()"
+                [required]='false'
+            ></app-custom-calendar>
         </div>
         <div class="form-group col-md-4">
             <label for="subject">{{ 'notifications.filters.subject.label' | translate }}</label>
