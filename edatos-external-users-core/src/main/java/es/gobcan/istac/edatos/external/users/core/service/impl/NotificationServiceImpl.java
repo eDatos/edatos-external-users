@@ -404,7 +404,7 @@ public class NotificationServiceImpl implements NotificationService {
             queryWithSendingApplication = queryWithSendingApplication + " AND " + query;
         }
 
-        Notices result = eDatosApisLocator.getNoticesRestInternalFacadeV10().findNoticesByQuery(orderBy, offset, limit, queryWithSendingApplication);
+        Notices result = eDatosApisLocator.getNoticesRestInternalFacadeV10().findNotices(orderBy, offset, limit, queryWithSendingApplication);
         return new PageImpl<Notice>(result.getNotices(), pageable, result.getTotal().intValue());
     }
 

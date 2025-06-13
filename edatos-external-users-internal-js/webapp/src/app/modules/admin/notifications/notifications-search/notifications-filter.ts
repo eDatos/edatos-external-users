@@ -1,14 +1,13 @@
 import { Params } from '@angular/router';
 import { BaseEntityFilter, EntityFilter } from 'arte-ng/model';
-import { DatePipe } from "@angular/common";
 
 export class NotificationsFilter extends BaseEntityFilter implements EntityFilter {
     public subject: string | null;
     public date: Date[] | null = null; // null because in this version of Primeng an empty array cause an error in the initialization of the p-calendar
     public receivers: string[] = [];
 
-    constructor(datePipe: DatePipe) {
-        super(datePipe);
+    constructor() {
+        super();
     }
 
     public processUrlParams(queryParams: Params) {
@@ -23,25 +22,19 @@ export class NotificationsFilter extends BaseEntityFilter implements EntityFilte
             criterias.push(`RECEIVER_USERNAME IN ("${this.receivers.join('","')}")`);
         }
         if (!!this.date && !!this.date[0]) {
-            let formattedMinDate = this.dateToQueryStringDate(this.date[0]);
-            if (formattedMinDate) {
-                criterias.push(`CREATED_DATE GE "${formattedMinDate}"`);
-            }
+            let startDate = new Date(this.date[0].getTime());
+            startDate.setHours(0, 0, 0, 0);
+            criterias.push(`CREATED_DATE GE "${startDate.toISOString()}"`);
         }
         if (!!this.date && !!this.date[1]) {
-            let formattedMaxDate = this.dateToQueryStringDate(this.date[1]);
-            if (formattedMaxDate) {
-                criterias.push(`CREATED_DATE LE "${formattedMaxDate}"`);
-            }
+            let endDate = new Date(this.date[1].getTime());
+            endDate.setHours(23, 59, 59, 999);
+            criterias.push(`CREATED_DATE LE "${endDate.toISOString()}"`);
         }
         if (!!this.subject?.trim()) {
             criterias.push(`SUBJECT ILIKE "${this.escapeSingleQuotes(this.subject)}"`);
         }
         return criterias;
-    }
-
-    private dateToQueryStringDate(date: Date): string | null | undefined {
-        return this.datePipe?.transform(date, "yyyy-MM-dd");
     }
 
     protected registerParameters() {
