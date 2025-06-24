@@ -11,7 +11,7 @@
 
     <groupId>es.gobcan.istac.edatos-external-users</groupId>
     <artifactId>edatos-external-users</artifactId>
-    <version>3.8.2-SNAPSHOT</version>
+    <version>3.8.3-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>eDatos External Users</name>
