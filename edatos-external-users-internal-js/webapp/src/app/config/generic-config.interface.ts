@@ -1,4 +1,5 @@
 export interface GenericConfig {
+    timeZone: string,
     cas: {
         login: any;
         logout: any;

@@ -1,12 +1,15 @@
 import { Params } from '@angular/router';
 import { BaseEntityFilter, EntityFilter } from 'arte-ng/model';
+import { ConfigService } from "@app/config";
+import * as luxon from "luxon"
+const { DateTime } = luxon;
 
 export class NotificationsFilter extends BaseEntityFilter implements EntityFilter {
     public subject: string | null;
     public date: Date[] | null = null; // null because in this version of Primeng an empty array cause an error in the initialization of the p-calendar
     public receivers: string[] = [];
 
-    constructor() {
+    constructor(private configService: ConfigService) {
         super();
     }
 
@@ -22,14 +25,14 @@ export class NotificationsFilter extends BaseEntityFilter implements EntityFilte
             criterias.push(`RECEIVER_USERNAME IN ("${this.receivers.join('","')}")`);
         }
         if (!!this.date && !!this.date[0]) {
-            let startDate = new Date(this.date[0].getTime());
-            startDate.setHours(0, 0, 0, 0);
-            criterias.push(`CREATED_DATE GE "${startDate.toISOString()}"`);
+            criterias.push(`CREATED_DATE GE "${DateTime
+                .fromJSDate(this.date[0], { zone: this.configService.getConfig().timeZone })
+                .startOf('day').toUTC().toISO()}"`);
         }
         if (!!this.date && !!this.date[1]) {
-            let endDate = new Date(this.date[1].getTime());
-            endDate.setHours(23, 59, 59, 999);
-            criterias.push(`CREATED_DATE LE "${endDate.toISOString()}"`);
+            criterias.push(`CREATED_DATE LE "${DateTime
+                .fromJSDate(this.date[1], { zone: this.configService.getConfig().timeZone })
+                .endOf('day').toUTC().toISO()}"`);
         }
         if (!!this.subject?.trim()) {
             criterias.push(`SUBJECT ILIKE "${this.escapeSingleQuotes(this.subject)}"`);

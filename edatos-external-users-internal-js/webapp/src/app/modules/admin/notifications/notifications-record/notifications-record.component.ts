@@ -10,6 +10,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { ArteEventManager } from "arte-ng/services";
 import { Table } from "primeng/table";
+import { ConfigService } from "@app/config";
 
 @Component({
     selector: 'app-notifications-record',
@@ -57,9 +58,12 @@ export class NotificationsRecordComponent implements OnInit {
     @ViewChild(Table)
     private table: Table;
 
+    public timeZone: string;
+
     constructor(private notificationService: NotificationService, private translateService: TranslateService, private router: Router,
-                private activatedRoute: ActivatedRoute, private eventManager: ArteEventManager) {
-        this.filters = new NotificationsFilter();
+                private activatedRoute: ActivatedRoute, private eventManager: ArteEventManager, private configService: ConfigService) {
+        this.filters = new NotificationsFilter(configService);
+        this.timeZone = this.configService.getConfig().timeZone;
     }
 
     public ngOnInit() {

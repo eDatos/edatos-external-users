@@ -2,9 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { NotificationService } from "@app/shared/service";
-import { Messages, NotificationRecord } from "@app/shared/model";
+import { NotificationRecord } from "@app/shared/model";
 import { formatNotification } from "@app/shared/utils/notificationUtils";
 import { SafeHtml } from "@angular/platform-browser";
+import { ConfigService } from "@app/config";
 
 @Component({
     selector: 'app-notification-details',
@@ -19,8 +20,10 @@ export class NotificationsDetailComponent implements OnInit, OnDestroy {
     public displayedReceivers: string[] = [];
     public notification: NotificationRecord;
     private notificationSubscription: Subscription;
+    public timeZone: string;
 
-    constructor(private notificationService: NotificationService, private activatedRoute: ActivatedRoute) {
+    constructor(private notificationService: NotificationService, private activatedRoute: ActivatedRoute, private configService: ConfigService) {
+        this.timeZone = this.configService.getConfig().timeZone;
     }
 
     ngOnInit() {
