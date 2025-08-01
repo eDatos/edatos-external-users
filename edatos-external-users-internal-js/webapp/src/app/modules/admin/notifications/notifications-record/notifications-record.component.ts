@@ -121,6 +121,10 @@ export class NotificationsRecordComponent implements OnInit {
 
     public registerChangeInNotifications() {
         this.searchSubscription = this.eventManager.subscribe('notificationSearch', () => {
+            this.totalItems = 0;
+            this.virtualNotifications = [];
+            this.notificationsLoaded = false;
+
             const queryParams = Object.assign({}, this.filters.toUrl(this.activatedRoute.snapshot.queryParams));
             this.router.navigate([], { relativeTo: this.activatedRoute, queryParams });
             this.table.reset(); // To start loading data from page 0 again
