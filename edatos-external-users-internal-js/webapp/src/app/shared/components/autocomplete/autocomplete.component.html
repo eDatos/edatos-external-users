@@ -1,0 +1,27 @@
+<p-autoComplete
+    [inputId]="inputId"
+    [multiple]="multiple"
+    [(ngModel)]="selectedSuggestions"
+    [suggestions]="filteredSuggestions"
+    (completeMethod)="onCompleteMethod($event)"
+    [dropdown]="!debouncedMode"
+    (onBlur)="handleOnFocusOutSuggestions($event)"
+    [minLength]="minLength"
+    [emptyMessage]="filteredSuggestions?.length > 0 ? '' : emptyMessage"
+    [forceSelection]="!multiple"
+    [field]="field"
+    [placeholder]="placeholder"
+    (onSelect)="onSelectMethod($event)"
+    (onUnselect)="onUnselectMethod($event)"
+    (onClear)="onClearMethod($event)"
+    [required]="required"
+    [disabled]="disabled"
+    [dataKey]="dataKey"
+    #autocompleteInput="ngModel">
+    <ng-template let-item pTemplate="item"> {{internalItemTemplate(item)}} <span class="create-new-item-label">{{itsNewSuggestion(item)}}</span> </ng-template>
+    <ng-template let-item pTemplate="selectedItem">
+        <span class="ui-autocomplete-token-label">
+            {{internalItemTemplate(item)}}
+        </span>
+    </ng-template>
+</p-autoComplete>

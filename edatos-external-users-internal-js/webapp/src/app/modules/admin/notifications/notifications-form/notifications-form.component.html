@@ -44,7 +44,7 @@
                             <label class='form-label col-md-4' translate='notifications.form.receivers'
                                    for='email'></label>
                             <div class='col-md-8 form-input-container errors-on-hover'>
-                                <arte-autocomplete-long-list
+                                <app-autocomplete-long-list
                                     id='email'
                                     inputId='field_email'
                                     dataKey="email"
@@ -55,7 +55,7 @@
                                     [properties]="['email']"
                                     [multiple]='true'
                                 >
-                                </arte-autocomplete-long-list>
+                                </app-autocomplete-long-list>
                                 <div class='form-errors-messages' *hasErrors='let messages'>
                                     <span *ngFor='let m of messages'>{{m}}</span>
                                 </div>
