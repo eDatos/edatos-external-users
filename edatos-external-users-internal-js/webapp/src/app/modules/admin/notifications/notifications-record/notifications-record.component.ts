@@ -121,14 +121,19 @@ export class NotificationsRecordComponent implements OnInit {
 
     public registerChangeInNotifications() {
         this.searchSubscription = this.eventManager.subscribe('notificationSearch', () => {
-            this.totalItems = 0;
-            this.virtualNotifications = [];
-            this.notificationsLoaded = false;
+            this.resetTable();
 
             const queryParams = Object.assign({}, this.filters.toUrl(this.activatedRoute.snapshot.queryParams));
             this.router.navigate([], { relativeTo: this.activatedRoute, queryParams });
-            this.table.reset(); // To start loading data from page 0 again
-            this.table.clearCache(); // Without this, requests for pages that have already been requested will not be made again even if the filters have changed
         });
+    }
+
+    private resetTable() {
+        this.totalItems = 0;
+        this.virtualNotifications = [];
+        this.notificationsLoaded = false;
+
+        this.table.reset(); // To start loading data from page 0 again
+        this.table.clearCache(); // Without this, requests for pages that have already been requested will not be made again even if the filters have changed
     }
 }
