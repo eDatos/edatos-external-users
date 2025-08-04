@@ -46,6 +46,9 @@ window.Edatos = window.Edatos || {};
                 captchaGeneratedId = createCaptchaSessionKey();
                 var imgUrl = new URL(/*[[${captchaPictureUrl}]]*/ "");
                 imgUrl.searchParams.set('sessionKey', captchaGeneratedId);
+                if (options && options.apiKey) {
+                    imgUrl.searchParams.set('api-key', options.apiKey);
+                }
 
                 if(!options.captchaEl && options.captchaId) {
                     options.captchaEl = document.getElementById(options.captchaId);
