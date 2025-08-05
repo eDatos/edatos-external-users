@@ -26,12 +26,24 @@ export class NotificationsFilter extends BaseEntityFilter implements EntityFilte
         }
         if (!!this.date && !!this.date[0]) {
             criterias.push(`CREATED_DATE GE "${DateTime
-                .fromJSDate(this.date[0], { zone: this.configService.getConfig().timeZone })
+                .fromObject({
+                    year: this.date[0].getFullYear(),
+                    month: this.date[0].getMonth() + 1,
+                    day: this.date[0].getDate()
+                }, {
+                    zone: this.configService.getConfig().timeZone
+                })
                 .startOf('day').toUTC().toISO()}"`);
         }
         if (!!this.date && !!this.date[1]) {
             criterias.push(`CREATED_DATE LE "${DateTime
-                .fromJSDate(this.date[1], { zone: this.configService.getConfig().timeZone })
+                .fromObject({
+                    year: this.date[1].getFullYear(),
+                    month: this.date[1].getMonth() + 1,
+                    day: this.date[1].getDate()
+                }, {
+                    zone: this.configService.getConfig().timeZone
+                })
                 .endOf('day').toUTC().toISO()}"`);
         }
         if (!!this.subject?.trim()) {
