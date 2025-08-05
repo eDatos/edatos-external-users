@@ -8,7 +8,7 @@
     (onBlur)="handleOnFocusOutSuggestions($event)"
     [minLength]="minLength"
     [emptyMessage]="filteredSuggestions?.length > 0 ? '' : emptyMessage"
-    [forceSelection]="!multiple"
+    [forceSelection]="forceSelection !== undefined ? forceSelection : !multiple"
     [field]="field"
     [placeholder]="placeholder"
     (onSelect)="onSelectMethod($event)"

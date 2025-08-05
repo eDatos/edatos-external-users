@@ -83,6 +83,9 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit {
     public multiple = false;
 
     @Input()
+    public forceSelection?: boolean;
+
+    @Input()
     public itemTemplate: Function;
 
     // Parametros obligatorios
