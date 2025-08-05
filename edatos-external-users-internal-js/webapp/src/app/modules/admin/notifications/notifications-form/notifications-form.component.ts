@@ -8,13 +8,13 @@ import { TranslateService } from '@ngx-translate/core';
 import { ArteEventManager } from 'arte-ng/services';
 import { MessageService } from 'primeng/api';
 import { Observable, Subscription } from 'rxjs';
-import { AutocompleteLongListComponent } from 'arte-ng';
 import { FavoriteResource, InternationalString } from '@app/shared/model';
 import { ExternalUserFilter } from '@app/modules/external-user/external-user-search/external-user-filter';
 import * as _ from 'lodash';
 import { shareReplay } from 'rxjs/operators';
 import { StructuralResourcesTreeSimpleSelectComponent } from "@app/shared/components/structural-resources-tree/structural-resources-tree-simple-select/structural-resources-tree-simple-select.component";
 import { MultiLanguageEditorComponent } from "@app/shared/components/multi-language-editor/multi-language-editor.component";
+import { AutocompleteLongListComponent } from "@app/shared/components/autocomplete/autocomplete-long-list.component";
 
 @Component({
     selector: 'app-notifications-form',
