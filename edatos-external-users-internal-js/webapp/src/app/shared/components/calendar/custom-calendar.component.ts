@@ -63,6 +63,9 @@ export class CustomCalendarComponent extends Calendar implements ControlValueAcc
     @HostBinding('class.disabled')
     public disabled = false;
 
+    @Input()
+    public placeholder = '';
+
     @Output()
     public onSelect: EventEmitter<any> = new EventEmitter();
 

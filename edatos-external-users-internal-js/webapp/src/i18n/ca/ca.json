@@ -812,7 +812,8 @@
         },
         "filters": {
             "creation_date": {
-                "label": "Data"
+                "label": "Data",
+                "placeholder": "Afageix un rang de dates"
             },
             "subject": {
                 "label": "Assumpte",

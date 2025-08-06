@@ -812,7 +812,8 @@
         },
         "filters": {
             "creation_date": {
-                "label": "Fecha"
+                "label": "Fecha",
+                "placeholder": "Introduzca un rango de fechas"
             },
             "subject": {
                 "label": "Asunto",

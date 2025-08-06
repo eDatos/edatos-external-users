@@ -812,7 +812,8 @@
         },
         "filters": {
             "creation_date": {
-                "label": "Date"
+                "label": "Date",
+                "placeholder": "Enter a date range"
             },
             "subject": {
                 "label": "Subject",
