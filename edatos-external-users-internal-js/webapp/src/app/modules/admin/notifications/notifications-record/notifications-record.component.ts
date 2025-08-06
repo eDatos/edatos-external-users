@@ -81,7 +81,7 @@ export class NotificationsRecordComponent implements OnInit {
         this.notificationService
             .find(params)
             .subscribe({
-                next: (responseWrapper) => this.onSuccess(responseWrapper, page),
+                next: (responseWrapper) => this.onSuccess(responseWrapper, page, params.query),
                 error: onComplete,
                 complete: onComplete
             });
@@ -106,7 +106,11 @@ export class NotificationsRecordComponent implements OnInit {
         this.searchNotifications(page);
     }
 
-    public onSuccess(response: ResponseWrapper<NotificationRecord[]>, page: number) {
+    public onSuccess(response: ResponseWrapper<NotificationRecord[]>, page: number, query: string) {
+        if (this.filters.toQuery() !== query) {
+            return;
+        }
+
         this.totalItems = response.totalCount() || 0;
 
         if (this.virtualNotifications.length !== this.totalItems) {
