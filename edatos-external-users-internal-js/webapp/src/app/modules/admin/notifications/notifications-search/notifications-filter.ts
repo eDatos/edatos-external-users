@@ -47,7 +47,7 @@ export class NotificationsFilter extends BaseEntityFilter implements EntityFilte
                 .endOf('day').toUTC().toISO()}"`);
         }
         if (!!this.subject?.trim()) {
-            criterias.push(`SUBJECT ILIKE "${this.escapeSingleQuotes(this.subject)}"`);
+            criterias.push(`SUBJECT ILIKE "[GESTOR DE USUARIOS EXTERNOS]%${this.escapeSingleQuotes(this.subject)}"`);
         }
         return criterias;
     }
