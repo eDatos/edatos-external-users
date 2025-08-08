@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { NotificationService } from "@app/shared/service";
 import { NotificationRecord } from "@app/shared/model";
@@ -21,9 +21,11 @@ export class NotificationsDetailComponent implements OnInit, OnDestroy {
     public notification: NotificationRecord;
     private notificationSubscription: Subscription;
     public timeZone: string;
+    private state: any;
 
-    constructor(private notificationService: NotificationService, private activatedRoute: ActivatedRoute, private configService: ConfigService) {
+    constructor(private notificationService: NotificationService, private activatedRoute: ActivatedRoute, private configService: ConfigService, private router: Router) {
         this.timeZone = this.configService.getConfig().timeZone;
+        this.state = this.router.getCurrentNavigation()?.extras.state;
     }
 
     ngOnInit() {
@@ -65,5 +67,12 @@ export class NotificationsDetailComponent implements OnInit, OnDestroy {
         } else {
             this.displayedReceivers = this.notification.receivers;
         }
+    }
+
+    public goBack() {
+        this.router.navigate(['..'], {
+            queryParams: this.state?.fromParams ? this.state.fromParams : {},
+            relativeTo: this.activatedRoute
+        });
     }
 }

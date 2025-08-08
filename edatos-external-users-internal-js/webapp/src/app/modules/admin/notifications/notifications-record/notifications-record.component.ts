@@ -140,4 +140,13 @@ export class NotificationsRecordComponent implements OnInit {
         this.table.reset(); // To start loading data from page 0 again
         this.table.clearCache(); // Without this, requests for pages that have already been requested will not be made again even if the filters have changed
     }
+
+    public onNotificationRowClick(notice: NotificationRecord) {
+        this.router.navigate([notice.urn], {
+            relativeTo: this.activatedRoute,
+            state: {
+                fromParams: this.activatedRoute.snapshot.queryParams
+            }
+        });
+    }
 }

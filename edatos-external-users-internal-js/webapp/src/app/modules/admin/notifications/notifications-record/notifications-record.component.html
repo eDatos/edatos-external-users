@@ -40,7 +40,7 @@
                     </tr>
                 </ng-template>
                 <ng-template pTemplate='body' let-notice>
-                    <tr [routerLink]="[notice.urn]">
+                    <tr (click)="onNotificationRowClick(notice)">
                         <td>{{ notice.sendingDate | date: 'dd/MM/yyyy HH:mm:ss':timeZone }}</td>
                         <td class="subject-cell">{{ notice.subject }}</td>
                         <td>
