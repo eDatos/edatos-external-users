@@ -389,7 +389,7 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public Page<Notice> findNoticesByReceiver(String receiver, Pageable pageable) {
-        String query = "RECEIVER_USERNAME EQ " + receiver;
+        String query = "RECEIVER_USERNAME EQ \"" + receiver + "\"";
         return this.findNotices(query, pageable);
     }
 
