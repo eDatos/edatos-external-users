@@ -851,9 +851,6 @@
             "subject": "Subject",
             "receivedDate": "Received",
             "receivers": "Receivers"
-        },
-        "list": {
-            "noNotice": "Looks like no message has been sent yet."
         }
     },
     "calendar": {

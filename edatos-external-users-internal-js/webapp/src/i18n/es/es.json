@@ -851,9 +851,6 @@
             "subject": "Asunto",
             "receivedDate": "Recibido",
             "receivers": "Receptores"
-        },
-        "list": {
-            "noNotice": "Parece que todavía no se ha enviado ningún mensaje."
         }
     },
     "calendar": {

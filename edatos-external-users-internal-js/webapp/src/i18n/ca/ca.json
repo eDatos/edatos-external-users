@@ -851,9 +851,6 @@
             "subject": "Assumpte",
             "receivedDate": "Rebut",
             "receivers": "Receptors"
-        },
-        "list": {
-            "noNotice": "Sembla que encara no s'ha enviat cap missatge."
         }
     },
     "calendar": {
