@@ -1,0 +1,52 @@
+<div class="page-filters">
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            <label for="date">{{ 'notifications.filters.creation_date.label' | translate }}</label>
+            <app-custom-calendar
+                id='date'
+                name='date'
+                class='calendar'
+                selectionMode="range"
+                dataType="date"
+                [(ngModel)]='filters.date'
+                (ngModelChange)="filter()"
+                [required]='false'
+                [placeholder]="'notifications.filters.creation_date.placeholder' | translate"
+            ></app-custom-calendar>
+        </div>
+        <div class="form-group col-md-4">
+            <label for="subject">{{ 'notifications.filters.subject.label' | translate }}</label>
+            <arte-input
+                id="subject"
+                name="subject"
+                [(ngModel)]="filters.subject"
+                [attr.aria-label]="'notifications.filters.subject.placeholder' | translate"
+                placeholder="notifications.filters.subject.placeholder"
+                (keyup)="filter()"
+            ></arte-input>
+        </div>
+        <div class="form-group col-md-4">
+            <label for="receiver">{{ 'notifications.filters.receivers.label' | translate }}</label>
+            <app-autocomplete-long-list
+                id='receiver'
+                inputId='field_receiver'
+                dataKey="email"
+                [(ngModel)]="selectedReceivers"
+                [suggestions]='allowedReceivers'
+                (onSelect)='onSelectReceiver()'
+                (onUnselect)='onUnselectReceiver()'
+                (completeMethod)="searchReceivers($event)"
+                [properties]="['email']"
+                [multiple]='true'
+                [forceSelection]="true"
+            >
+            </app-autocomplete-long-list>
+        </div>
+        <div class="page-filters-btns col-lg-12">
+            <button (click)="resetFilters()" class="btn btn-light">
+                <em class="btn-icon fa fa-times"></em>
+                <span translate="entity.action.filtersReset"></span>
+            </button>
+        </div>
+    </div>
+</div>

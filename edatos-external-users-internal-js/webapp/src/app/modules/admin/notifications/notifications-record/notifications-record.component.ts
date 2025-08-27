@@ -1,20 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { LazyLoadEvent } from 'primeng/api';
 import { ResponseWrapper } from '@app/core/utils/response-utils';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from "@app/shared/service";
 import { NotificationRecord } from "@app/shared/model";
 import { formatNotifications } from "@app/shared/utils/notificationUtils";
+import { NotificationsFilter } from "@app/modules/admin/notifications/notifications-search/notifications-filter";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Subscription } from "rxjs";
+import { ArteEventManager } from "arte-ng/services";
+import { Table } from "primeng/table";
+import { ConfigService } from "@app/config";
 
 @Component({
     selector: 'app-notifications-record',
     templateUrl: './notifications-record.component.html',
     styleUrls: ['./notifications-record.component.scss']
 })
-export class NotificationsRecordComponent {
+export class NotificationsRecordComponent implements OnInit {
     public virtualNotifications: NotificationRecord[] = [];
     public notificationsLoaded: boolean = false;
-    public totalItems: number = 0;
+    public totalItems: number = 20; // Necessary to show the loading body at the beginning instead of the empty message
     public itemsPerLoad: number = 20;
     public rowHeight = 35;
     public columns: any = [
@@ -46,20 +52,37 @@ export class NotificationsRecordComponent {
             }
         }
     ];
+    public filters: NotificationsFilter;
+    private searchSubscription?: Subscription;
 
-    constructor(private notificationService: NotificationService, private translateService: TranslateService) {
+    @ViewChild(Table)
+    private table: Table;
+
+    public timeZone: string;
+
+    constructor(private notificationService: NotificationService, private translateService: TranslateService, private router: Router,
+                private activatedRoute: ActivatedRoute, private eventManager: ArteEventManager, private configService: ConfigService) {
+        this.filters = new NotificationsFilter(configService);
+        this.timeZone = this.configService.getConfig().timeZone;
+        this.virtualNotifications = Array.from({ length: this.totalItems });
+    }
+
+    public ngOnInit() {
+        this.filters.processUrlParams(this.activatedRoute.snapshot.queryParams);
+        this.registerChangeInNotifications();
     }
 
     searchNotifications(page: number): void {
         const params = {
             page: page,
-            size: this.itemsPerLoad
+            size: this.itemsPerLoad,
+            query: this.filters.toQuery()
         };
         const onComplete = () => this.notificationsLoaded = true;
         this.notificationService
             .find(params)
             .subscribe({
-                next: (responseWrapper) => this.onSuccess(responseWrapper, page),
+                next: (responseWrapper) => this.onSuccess(responseWrapper, page, params.query),
                 error: onComplete,
                 complete: onComplete
             });
@@ -79,12 +102,16 @@ export class NotificationsRecordComponent {
         return "";
     }
 
-    public loadData(e: LazyLoadEvent) {
-        const page = (e.first || 0) / this.itemsPerLoad;
+    public loadData(e?: LazyLoadEvent) {
+        const page = (e?.first || 0) / this.itemsPerLoad;
         this.searchNotifications(page);
     }
 
-    public onSuccess(response: ResponseWrapper<NotificationRecord[]>, page: number) {
+    public onSuccess(response: ResponseWrapper<NotificationRecord[]>, page: number, query: string) {
+        if (this.filters.toQuery() !== query) {
+            return;
+        }
+
         this.totalItems = response.totalCount() || 0;
 
         if (this.virtualNotifications.length !== this.totalItems) {
@@ -95,5 +122,31 @@ export class NotificationsRecordComponent {
         this.virtualNotifications.splice(first, this.itemsPerLoad, ...formatNotifications(response.body));
 
         this.virtualNotifications = [...this.virtualNotifications];
+    }
+
+    public registerChangeInNotifications() {
+        this.searchSubscription = this.eventManager.subscribe('notificationSearch', () => {
+            this.resetTable();
+
+            const queryParams = Object.assign({}, this.filters.toUrl(this.activatedRoute.snapshot.queryParams));
+            this.router.navigate([], { relativeTo: this.activatedRoute, queryParams });
+        });
+    }
+
+    private resetTable() {
+        this.notificationsLoaded = false;
+        this.virtualNotifications = Array.from({ length: this.totalItems });
+
+        this.table.reset(); // To start loading data from page 0 again
+        this.table.clearCache(); // Without this, requests for pages that have already been requested will not be made again even if the filters have changed
+    }
+
+    public onNotificationRowClick(notice: NotificationRecord) {
+        this.router.navigate([notice.urn], {
+            relativeTo: this.activatedRoute,
+            state: {
+                fromParams: this.activatedRoute.snapshot.queryParams
+            }
+        });
     }
 }

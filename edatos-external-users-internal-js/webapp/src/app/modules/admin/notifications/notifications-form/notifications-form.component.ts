@@ -8,13 +8,13 @@ import { TranslateService } from '@ngx-translate/core';
 import { ArteEventManager } from 'arte-ng/services';
 import { MessageService } from 'primeng/api';
 import { Observable, Subscription } from 'rxjs';
-import { AutocompleteShortListComponent } from 'arte-ng';
 import { FavoriteResource, InternationalString } from '@app/shared/model';
 import { ExternalUserFilter } from '@app/modules/external-user/external-user-search/external-user-filter';
 import * as _ from 'lodash';
 import { shareReplay } from 'rxjs/operators';
 import { StructuralResourcesTreeSimpleSelectComponent } from "@app/shared/components/structural-resources-tree/structural-resources-tree-simple-select/structural-resources-tree-simple-select.component";
 import { MultiLanguageEditorComponent } from "@app/shared/components/multi-language-editor/multi-language-editor.component";
+import { AutocompleteLongListComponent } from "@app/shared/components/autocomplete/autocomplete-long-list.component";
 
 @Component({
     selector: 'app-notifications-form',
@@ -43,8 +43,8 @@ export class NotificationsFormComponent implements OnInit, OnDestroy {
     public failedReceivers = '';
     public thereAreFailedReceivers = false;
 
-    @ViewChild(AutocompleteShortListComponent)
-    public selectedReceiversComponent: AutocompleteShortListComponent;
+    @ViewChild(AutocompleteLongListComponent)
+    public selectedReceiversComponent: AutocompleteLongListComponent;
 
     @ViewChild(StructuralResourcesTreeSimpleSelectComponent)
     public tree: StructuralResourcesTreeSimpleSelectComponent;
@@ -76,7 +76,6 @@ export class NotificationsFormComponent implements OnInit, OnDestroy {
 
     public ngOnInit() {
         this.notification = new Notification();
-        this.searchReceivers();
 
         this.categoryService.findAll({ size: 100000000 }).subscribe((response) => {
             this.selectedResources = response.body.filter((category) => this.filters.categories.includes(category.id.toString()));
@@ -277,8 +276,10 @@ export class NotificationsFormComponent implements OnInit, OnDestroy {
         );
     }
 
-    private searchReceivers() {
-        this.notificationService.findReceivers().subscribe((results) => {
+    public searchReceivers(event) {
+        this.notificationService.findReceivers({
+            query: "EMAIL ILIKE '%" + event.query + "%'"
+        }).subscribe((results) => {
             this.allowedReceivers = results;
         });
     }

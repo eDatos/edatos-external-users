@@ -1,7 +1,28 @@
 @import '../../../../../assets/scss/variables';
 
-.page-table-container-fluid {
-    height: calc(100vh - #{$primary-navbar-height} - #{$secondary-navbar-height} - #{$page-header-height} - #{$page-margin-bottom});
+.page-header-title-container {
+    display: inline-flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+
+    button {
+        height: fit-content;
+    }
+}
+
+.page {
+    height: calc(100vh - #{$primary-navbar-height} - #{$secondary-navbar-height} - #{$page-margin-bottom});
+    display: flex;
+    flex-direction: column;
+
+    .page-body {
+        flex: 1;
+
+        .page-table-container-fluid {
+            height: 100%;
+        }
+    }
 }
 
 .subject-cell {

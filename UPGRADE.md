@@ -8,6 +8,10 @@
 
 *Se deberá realizar primero la actualización de la versión 1.0.0 a la 2.0.0 y luego desde la 2.0.0 a la 3.0.0*
 
+## 3.8.0 a 3.8.1-SNAPSHOT 
+
+* A partir de esta versión se empieza a usar un nuevo método de la versión 3.9.1-SNAPSHOT de metamac-notifications-rest-internal-api. Por lo tanto, no se puede subir la versión 3.8.1-SNAPSHOT de eUsuarios sin haber subido la versión 3.9.1-SNAPSHOT de metamac-notifications-rest-internal-api.
+
 ## 3.5.0 a 3.6.0
 
 * Se añaden las propiedades `metamac.edatos_external_users.simplifiedSignUp` que permite habilitar y deshabilitar el formulario

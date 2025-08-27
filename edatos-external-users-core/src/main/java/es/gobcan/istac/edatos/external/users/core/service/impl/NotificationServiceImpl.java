@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.lang.StringUtils;
 import org.siemac.edatos.core.common.dto.InternationalStringDto;
 import org.siemac.edatos.core.common.exception.CommonServiceExceptionType;
 import org.siemac.edatos.core.common.exception.EDatosException;
@@ -388,18 +389,23 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public Page<Notice> findNoticesByReceiver(String receiver, Pageable pageable) {
-        String offset = String.valueOf(pageable.getOffset());
-        String limit = String.valueOf(pageable.getPageSize());
-        String orderBy = "desc";
-
-        Notices result = eDatosApisLocator.getNoticesRestInternalFacadeV10().findNotices(receiver, orderBy, offset, limit, MetamacApplicationsEnum.GESTOR_USUARIOS_EXTERNOS.getName());
-
-        return new PageImpl<Notice>(result.getNotices(), pageable, result.getTotal().intValue());
+        String query = "RECEIVER_USERNAME EQ \"" + receiver + "\"";
+        return this.findNotices(query, pageable);
     }
 
     @Override
-    public Page<Notice> findNotices(Pageable pageable) {
-        return findNoticesByReceiver(null, pageable);
+    public Page<Notice> findNotices(String query, Pageable pageable) {
+        String offset = String.valueOf(pageable.getOffset());
+        String limit = String.valueOf(pageable.getPageSize());
+        String orderBy = "CREATED_DATE DESC";
+        String queryWithSendingApplication = "SENDING_APPLICATION EQ \"" + MetamacApplicationsEnum.GESTOR_USUARIOS_EXTERNOS.getName() + "\"";
+
+        if (StringUtils.isNotBlank(query)) {
+            queryWithSendingApplication = queryWithSendingApplication + " AND " + query;
+        }
+
+        Notices result = eDatosApisLocator.getNoticesRestInternalFacadeV10().findNotices(orderBy, offset, limit, queryWithSendingApplication);
+        return new PageImpl<Notice>(result.getNotices(), pageable, result.getTotal().intValue());
     }
 
     public Notice findNoticeByUrn(String urn) {

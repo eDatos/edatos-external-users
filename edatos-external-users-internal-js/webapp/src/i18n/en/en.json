@@ -810,6 +810,19 @@
             "title": "Notifications",
             "new": "Create notification"
         },
+        "filters": {
+            "creation_date": {
+                "label": "Date",
+                "placeholder": "Enter a date range"
+            },
+            "subject": {
+                "label": "Subject",
+                "placeholder": "Enter the notification subject"
+            },
+            "receivers": {
+                "label": "Receivers"
+            }
+        },
         "form": {
             "title": "New notification",
             "subject": {
@@ -838,9 +851,6 @@
             "subject": "Subject",
             "receivedDate": "Received",
             "receivers": "Receivers"
-        },
-        "list": {
-            "noNotice": "Looks like no message has been sent yet."
         }
     },
     "calendar": {
