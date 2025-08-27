@@ -20,7 +20,7 @@ import { ConfigService } from "@app/config";
 export class NotificationsRecordComponent implements OnInit {
     public virtualNotifications: NotificationRecord[] = [];
     public notificationsLoaded: boolean = false;
-    public totalItems: number = 0;
+    public totalItems: number = 20; // Necessary to show the loading body at the beginning instead of the empty message
     public itemsPerLoad: number = 20;
     public rowHeight = 35;
     public columns: any = [
@@ -64,6 +64,7 @@ export class NotificationsRecordComponent implements OnInit {
                 private activatedRoute: ActivatedRoute, private eventManager: ArteEventManager, private configService: ConfigService) {
         this.filters = new NotificationsFilter(configService);
         this.timeZone = this.configService.getConfig().timeZone;
+        this.virtualNotifications = Array.from({ length: this.totalItems });
     }
 
     public ngOnInit() {
