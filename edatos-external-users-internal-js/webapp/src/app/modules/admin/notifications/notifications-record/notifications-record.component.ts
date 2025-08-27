@@ -133,9 +133,8 @@ export class NotificationsRecordComponent implements OnInit {
     }
 
     private resetTable() {
-        this.totalItems = 0;
-        this.virtualNotifications = [];
         this.notificationsLoaded = false;
+        this.virtualNotifications = Array.from({ length: this.totalItems });
 
         this.table.reset(); // To start loading data from page 0 again
         this.table.clearCache(); // Without this, requests for pages that have already been requested will not be made again even if the filters have changed
