@@ -13,6 +13,9 @@
             /*<![CDATA[*/
             window.CONFIGURATION = {};
 
+            window.CONFIGURATION.timeZone = /*[[${timeZone}]]*/ '+01:00';
+            window.CONFIGURATION.timeZoneOffset = /*[[${timeZoneOffset}]]*/ 0;
+
             window.CONFIGURATION.endpoint = {};
             window.CONFIGURATION.endpoint.appUrl = /*[[${@metadataProperties.internalAppUrl}]]*/ 'http://localhost:4200';
             window.CONFIGURATION.endpoint.srmExternalEndpoint = /*[[${@metadataProperties.srmExternalEndpoint}]]*/ 'https://estadisticas.arte-consultores.com/structural-resources';

@@ -44,18 +44,18 @@
                             <label class='form-label col-md-4' translate='notifications.form.receivers'
                                    for='email'></label>
                             <div class='col-md-8 form-input-container errors-on-hover'>
-                                <arte-autocomplete-short-list
+                                <app-autocomplete-long-list
                                     id='email'
                                     inputId='field_email'
-                                    name='email'
+                                    dataKey="email"
+                                    [suggestions]='allowedReceivers'
                                     (onUnselect)='onUnselectReceivers($event)'
                                     (onSelect)='onSelectReceivers($event)'
-                                    [suggestions]='allowedReceivers'
-                                    dataKey='email'
+                                    (completeMethod)="searchReceivers($event)"
                                     [properties]="['email']"
                                     [multiple]='true'
                                 >
-                                </arte-autocomplete-short-list>
+                                </app-autocomplete-long-list>
                                 <div class='form-errors-messages' *hasErrors='let messages'>
                                     <span *ngFor='let m of messages'>{{m}}</span>
                                 </div>

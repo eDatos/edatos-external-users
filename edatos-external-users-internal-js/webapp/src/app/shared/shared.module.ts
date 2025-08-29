@@ -31,6 +31,8 @@ import { TooltipModule } from 'primeng/tooltip';
 import { AppAuditInfoComponent } from './components/audit-info/audit-info.component';
 import { MultiLanguageEditorComponent } from './components/multi-language-editor/multi-language-editor.component';
 import { ConfirmationModal } from "@app/shared/components/confirmation-modal/confirmation-modal.component";
+import { AutocompleteComponent } from './components/autocomplete/autocomplete.component';
+import { AutocompleteLongListComponent } from "@app/shared/components/autocomplete/autocomplete-long-list.component";
 
 @NgModule({
     imports: [
@@ -102,10 +104,11 @@ import { ConfirmationModal } from "@app/shared/components/confirmation-modal/con
         AppAuditInfoComponent,
         MultiLanguageEditorComponent,
         CustomCalendarComponent,
-        ConfirmationModal
+        ConfirmationModal,
+        AutocompleteLongListComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    declarations: [AppAuditInfoComponent, MultiLanguageEditorComponent, CustomCalendarComponent, ConfirmationModal],
+    declarations: [AppAuditInfoComponent, MultiLanguageEditorComponent, CustomCalendarComponent, ConfirmationModal, AutocompleteComponent, AutocompleteLongListComponent],
     entryComponents: [ConfirmationModal],
 })
 export class SharedModule {}

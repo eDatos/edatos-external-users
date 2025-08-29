@@ -13,5 +13,7 @@
             [minDate]='minDate'
             (onYearChange)='checkYear($event)'
             (onMonthChange)='checkYear($event)'
-            dataType='string'>
+            [selectionMode]="selectionMode"
+            [placeholder]="placeholder"
+            [dataType]='dataType'>
 </p-calendar>

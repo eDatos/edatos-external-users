@@ -70,8 +70,8 @@ public class NotificationResource extends AbstractResource {
     @Timed
     @GetMapping("/receivers")
     @PreAuthorize("@secChecker.canAccessUser(authentication)")
-    public ResponseEntity<List<ReceiverDto>> findAllReceivers() {
-        List<ExternalUserEntity> externalUsersDto = externalUserService.findAllReceivers();
+    public ResponseEntity<List<ReceiverDto>> findAllReceivers(String query) {
+        List<ExternalUserEntity> externalUsersDto = externalUserService.findReceivers(query);
         List<ReceiverDto> receivers = externalUsersDto.stream().map(externalUser -> {
             ReceiverDto receiverDto = new ReceiverDto();
             receiverDto.setEmail(externalUser.getEmail());
@@ -83,8 +83,8 @@ public class NotificationResource extends AbstractResource {
     @Timed
     @GetMapping("/notifications")
     @PreAuthorize("@secChecker.canAccessNotifications(authentication)")
-    public ResponseEntity<List<NotificationBaseVO>> getNoticesByReceiver(Pageable pageable) {
-        Page<Notice> notices = notificationService.findNotices(pageable);
+    public ResponseEntity<List<NotificationBaseVO>> getNoticesByReceiver(Pageable pageable, @RequestParam(required = false) String query) {
+        Page<Notice> notices = notificationService.findNotices(query, pageable);
         List<NotificationBaseVO> noticesDto = notificationBaseMapper.toDtos(notices.getContent());
 
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(notices, "/api/notices");

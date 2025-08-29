@@ -1,8 +1,11 @@
 package es.gobcan.istac.edatos.external.users;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -44,6 +47,7 @@ public class DefaultController {
         Map<String, Object> model = new HashMap<>();
         model.put("faviconUrl", this.faviconUrl);
         model.put("language", LocaleContext.getLocale() != null ? LocaleContext.getLocale().toString() : LocaleContext.getDefaultLocale().toString());
+        model.put("timeZone", ZonedDateTime.now(ZoneId.systemDefault()).getOffset().getId());
 
         Map<String, Object> flashMap = (Map<String, Object>) RequestContextUtils.getInputFlashMap(request);
         if (flashMap != null) {

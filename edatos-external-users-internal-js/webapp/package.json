@@ -41,6 +41,7 @@
         "font-awesome": "^4.7.0",
         "jwt-decode": "^2.2.0",
         "lodash": "^4.17.21",
+        "luxon": "^3.7.1",
         "material-design-icons": "^3.0.1",
         "ngx-cookie": "^4.1.2",
         "ngx-cookie-service": "^3.1.3",

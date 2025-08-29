@@ -810,6 +810,19 @@
             "title": "Notificacions",
             "new": "Crear notificació"
         },
+        "filters": {
+            "creation_date": {
+                "label": "Data",
+                "placeholder": "Afageix un rang de dates"
+            },
+            "subject": {
+                "label": "Assumpte",
+                "placeholder": "Afageix l'assumpte de la notificació"
+            },
+            "receivers": {
+                "label": "Receptors"
+            }
+        },
         "form": {
             "title": "Nova notificació",
             "subject": {
@@ -838,9 +851,6 @@
             "subject": "Assumpte",
             "receivedDate": "Rebut",
             "receivers": "Receptors"
-        },
-        "list": {
-            "noNotice": "Sembla que encara no s'ha enviat cap missatge."
         }
     },
     "calendar": {
