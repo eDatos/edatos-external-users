@@ -2,6 +2,7 @@ package es.gobcan.istac.edatos.external.users.core.config;
 
 import javax.sql.DataSource;
 
+import org.siemac.edatos.core.common.datasource.EdatosHikariDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
@@ -28,7 +29,7 @@ import liquibase.integration.spring.SpringLiquibase;
 @EnableTransactionManagement
 public class DatabaseConfiguration {
 
-    private final Logger log = LoggerFactory.getLogger(DatabaseConfiguration.class);
+    private final Logger      log = LoggerFactory.getLogger(DatabaseConfiguration.class);
 
     private final Environment env;
 
@@ -46,7 +47,7 @@ public class DatabaseConfiguration {
                 url(metadataConfigurationService.retrieveProperty(DataConfigurationConstants.DB_URL)).
                 username(metadataConfigurationService.findProperty(DataConfigurationConstants.DB_USERNAME)).
                 password(metadataConfigurationService.findProperty(DataConfigurationConstants.DB_PASSWORD)).
-                type(HikariDataSource.class).
+                type(EdatosHikariDataSource.class).
                 build();
         // @formatter:on
 
