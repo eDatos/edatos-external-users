@@ -9,11 +9,12 @@
 *Se deberá realizar primero la actualización de la versión 1.0.0 a la 2.0.0 y luego desde la 2.0.0 a la 3.0.0*
 
 
-## 3.10.0 a 3.10.1-SNAPSHOT
+## 3.10.0 a 3.11.0
 * OJO! Hablar con equipo de auditoría la necesidad de ejecutar este script. En las pruebas se ha terminado desactivando las notificaciones a través de la aplicación manualmente.
 * Se añade script asociado a la tarea edatos-4447 (EDATOS-4760) relacionada con la incorporación de datasets JAXI al catálogo de datos abiertos (ckan) En el reenvío masivo que debe hacer IBESTAT, se deben deshabilitar las notificaciones a los usuarios temporalmente. 
 
-``` * etc\changes-from-release\3.10.0\db\helper-reenvío-datasets-ckan\postgresql\20240715_disabled_notifications_by_operations_for_datasets.sql
+``` 
+etc\changes-from-release\3.10.0\db\helper-reenvío-datasets-ckan\postgresql\20240715_disabled_notifications_by_operations_for_datasets.sql
 
 ```
 
