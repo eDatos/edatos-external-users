@@ -11,7 +11,7 @@
 
     <groupId>es.gobcan.istac.edatos-external-users</groupId>
     <artifactId>edatos-external-users</artifactId>
-    <version>3.11.2-SNAPSHOT</version>
+    <version>3.11.3-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>eDatos External Users</name>
@@ -149,7 +149,7 @@
         <metamac-statistical-operations-rest-internal-api.version>2.8.1</metamac-statistical-operations-rest-internal-api.version>
 
         <metamac-statistical-operations-rest-external-api.version>3.2.0</metamac-statistical-operations-rest-external-api.version>
-        <metamac-statistical-operations.version>4.8.2-SNAPSHOT</metamac-statistical-operations.version>
+        <metamac-statistical-operations.version>4.9.0</metamac-statistical-operations.version>
         <metamac-statistical-resources.version>7.0.0</metamac-statistical-resources.version>
         <metamac-common-metadata-rest-external-api.version>2.3.0</metamac-common-metadata-rest-external-api.version>
         <metamac-srm-rest-external-api.version>3.2.1</metamac-srm-rest-external-api.version>

@@ -8,8 +8,8 @@
 
 *Se deberá realizar primero la actualización de la versión 1.0.0 a la 2.0.0 y luego desde la 2.0.0 a la 3.0.0*
 
-## 3.11.1 a 3.11.2-SNAPSHOT
-* Esta versión depende de la versión 4.8.2-SNAPSHOT de metamac-statistical-operations. Por lo tanto, no se puede subir la versión 3.11.2-SNAPSHOT de eUsuarios sin haber subido la versión 4.8.2-SNAPSHOT de metamac-statistical-operations y viceversa.
+## 3.11.1 a 3.11.2
+* Esta versión depende de la versión 4.9.0 de metamac-statistical-operations. Por lo tanto, no se puede subir la versión 3.11.2 de eUsuarios sin haber subido la versión 4.9.0 de metamac-statistical-operations y viceversa.
 
 ## 3.10.0 a 3.11.0
 * OJO! Hablar con equipo de auditoría la necesidad de ejecutar este script. En las pruebas se ha terminado desactivando las notificaciones a través de la aplicación manualmente.
