@@ -32,7 +32,6 @@ public class ServiceExceptionType extends CommonServiceExceptionType {
     public static final CommonServiceExceptionType UNSUBSCRIBE_ACCOUNT_NOTICE_FAILED = create("exception.external_users.unsubscribe_account.create_notice");
     public static final CommonServiceExceptionType RESET_PASSWORD_NOTICE_FAILED = create("exception.external_users.reset_password.create_notice");
     public static final CommonServiceExceptionType CONFIRM_SIGNUP_NOTICE_FAILED = create("exception.external_users.confirm_signup.create_notice");
-    public static final CommonServiceExceptionType COMPLETE_SIGNUP_NOTICE_FAILED = create("exception.external_users.complete_signup.create_notice");
     public static final CommonServiceExceptionType EMAIL_IN_USE_NOTICE_FAILED = create("exception.external_users.email_in_use.create_notice");
     public static final CommonServiceExceptionType REPEATED_SIGNUP_NOTICE_FAILED = create("exception.external_users.repeated_signup.create_notice");
     public static final CommonServiceExceptionType MIGRATED_USER_SIGNUP_NOTICE_FAILED = create("exception.external_users.migrated_user_signup.create_notice");
@@ -44,7 +43,6 @@ public class ServiceExceptionType extends CommonServiceExceptionType {
     public static final CommonServiceExceptionType EXTERNAL_USER_DELETE_FAILED = create("exception.external_users.delete.failed");
 
     public static final CommonServiceExceptionType EXTERNAL_USER_PASSWORD_CHANGE_FAILED = create("exception.external_users.password_change.failed");
-    public static final CommonServiceExceptionType EXTERNAL_USER_DEACTIVATE = create("exception.external_users.deactivate");
     public static final CommonServiceExceptionType EXTERNAL_USER_DEAUTHENTICATED = create("exception.external_users.deauthenticated");
     public static final CommonServiceExceptionType EXTERNAL_USER_REGISTRATION_CONFIRMATION = create("exception.external_users.registration_confirmation");
     public static final CommonServiceExceptionType EXTERNAL_USER_EMAIL_IS_THE_SAME = create("exception.external_users.email_is_the_same");

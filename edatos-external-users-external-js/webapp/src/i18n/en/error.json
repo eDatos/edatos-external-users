@@ -64,18 +64,21 @@
             },
             "register_account.create_notice": "The new password cannot be the same as the current one",
             "unsubscribe_account.create_notice": "Error sending unsubscribe request email. Please try again later",
-            "change_password.create_notice": "The password change was successful, but there was an error sending the confirmation email",
             "reset_password.create_notice": "Error sending password recovery email. Please check email address or try again later",
             "confirm_signup.create_notice": "Error sending signup confirmation email. Please check email address or try again later",
             "email_in_use.create_notice": "Error sending registration confirmation email. Please check email address or try again later",
             "repeated_signup.create_notice": "Error sending signup confirmation email. Please check email address or try again later",
             "subscription_job.create_notice": "Error sending mail to users subscribed to a statistical operation",
-            "deleted": "The user has been deleted from the system",
-            "deactivate": "User has been deactivated",
+            "delete.failed": "User has not been removed from the system",
             "deauthenticated": "User does not have access permissions",
             "registration_confirmation": "User registration could not be confirmed",
-            "password.not_match": "The new password cannot be the same as the current one",
-            "jasperreports.generating": "Error generating document"
+            "password": {
+                "not_match": "The new password cannot be the same as the current one",
+                "void": "The password field cannot be empty"
+            },
+            "password_change.failed": "Password has not been changed. The current password is not correct",
+            "jasperreports.generating": "Error generating document",
+            "name_is_null": "The name or first surname are mandatory and not present"
         }
     }
 }

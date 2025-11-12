@@ -86,16 +86,16 @@ export class EUsuariosAlertService {
     }
 
     private parseError(error: any): string {
-        if (!!error.message) {
-            return error.message;
-        } else if (!this.hasErrorCode(error)) {
+        if (!this.hasErrorCode(error)) {
             return this.DEFAULT_MESSAGE;
         } else if (!!error.errorItems && error.errorItems.length > 0) {
             return this.parseErrorList(error);
         } else if (error.params && error.params.length > 0) {
             return this.translateService.instant(error.code, error.params);
-        } else {
+        } else if (error.code) {
             return this.translateService.instant(error.code);
+        } else {
+            return error.message;
         }
     }
 
