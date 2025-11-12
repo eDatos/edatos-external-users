@@ -92,10 +92,8 @@ export class EUsuariosAlertService {
             return this.parseErrorList(error);
         } else if (error.params && error.params.length > 0) {
             return this.translateService.instant(error.code, error.params);
-        } else if (error.code) {
-            return this.translateService.instant(error.code);
         } else {
-            return error.message;
+            return this.translateService.instant(error.code);
         }
     }
 
