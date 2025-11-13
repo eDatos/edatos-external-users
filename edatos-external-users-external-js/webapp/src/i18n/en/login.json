@@ -20,7 +20,11 @@
         "title": "Recover password",
         "email": "Email",
         "send": "Send",
-        "successSending": "Email sent successfully. Please check your inbox."
+        "content": "You will receive an email with instructions to recover your password",
+        "successSending": {
+          "title": "Email sent successfully",
+          "text": "Please check your inbox and follow the steps"
+        }
       },
       "finish": {
         "title": "Change password"

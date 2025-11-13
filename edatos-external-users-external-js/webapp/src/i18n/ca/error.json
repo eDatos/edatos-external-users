@@ -64,18 +64,21 @@
             },
             "register_account.create_notice": "La nova contrasenya no pot ser la mateixa que l'actual",
             "unsubscribe_account.create_notice": "Error enviant correu de sol·licitud de baixa. Prova més tard",
-            "change_password.create_notice": "El canvi de contrasenya s'ha realitzat amb èxit, però hi ha hagut un error enviant el correu de confirmació",
             "reset_password.create_notice": "Error enviant correu de recuperació de contrasenya. Comprova l'adreça de correu o prova més tard",
             "confirm_signup.create_notice": "Error enviant correu de confirmació de registre. Comprova l'adreça de correu o prova més tard",
             "email_in_use.create_notice": "Error enviant correu de confirmació de registre. Comprova l'adreça de correu o prova més tard",
             "repeated_signup.create_notice": "Error enviant correu de confirmació de registre. Comprova l'adreça de correu o prova més tard",
             "subscrition_job.create_notice": "Error enviant correu a usuaris subscrits a una operació estadística",
-            "deleted": "L'usuari ha estat eliminat del sistema",
-            "deactivate": "L'usuari ha estat deshabilitat",
+            "delete.failed": "L'usuari no s'ha eliminat del sistema.",	
             "deauthenticated": "L'usuari no té permisos d'accés",
             "registration_confirmation": "El registre de l'usuari no s'ha pogut confirmar",
-            "password.not_match": "La nova contrasenya no pot ser la mateixa que l'actual",
-            "jasperreports.generating": "Error al generar el document"
+            "password": {
+                "not_match": "La nova contrasenya no pot ser la mateixa que l'actual",
+                "void": "El camp de contrasenya no pot estar buit"
+            },
+            "password_change.failed": "No s'ha pogut canviar la contrasenya. La contrasenya actual no és correcta",
+            "jasperreports.generating": "Error al generar el document",
+            "name_is_null": "El nom o el primer cognom són obligatoris i no estan presents"
         }
     }
 }

@@ -86,9 +86,7 @@ export class EUsuariosAlertService {
     }
 
     private parseError(error: any): string {
-        if (!!error.message) {
-            return error.message;
-        } else if (!this.hasErrorCode(error)) {
+        if (!this.hasErrorCode(error)) {
             return this.DEFAULT_MESSAGE;
         } else if (!!error.errorItems && error.errorItems.length > 0) {
             return this.parseErrorList(error);
