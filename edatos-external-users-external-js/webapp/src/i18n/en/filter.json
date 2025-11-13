@@ -11,7 +11,7 @@
             "lastModifiedDate": "Modification date"
         },
         "form": {
-            "audit": "Auditoria",
+            "audit": "Audit",
             "cancel": "Cancel",
             "delete": "Delete Custom Query",
             "edit": "Edit Custom Query",
