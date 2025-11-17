@@ -1,6 +1,7 @@
 import { BaseVersionedAndAuditingEntity } from 'arte-ng/model';
 import { Type } from 'class-transformer';
 import { User } from './user.model';
+import { ExternalOperation } from '@app/shared';
 
 export class Filter extends BaseVersionedAndAuditingEntity {
     public name: string;
@@ -12,4 +13,7 @@ export class Filter extends BaseVersionedAndAuditingEntity {
 
     @Type(() => User)
     public externalUser: User;
+
+    @Type(() => ExternalOperation)
+    public externalOperation: ExternalOperation;
 }

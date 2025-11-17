@@ -54,11 +54,11 @@ export class FilterFormComponent implements OnInit {
         }, 3000);
     }
 
-    public openSelfLink(selfLink: string) {
+    public openSelfLink(filter: Filter) {
         if (window._paq && window._paq.push) {
-            window._paq.push(["trackEvent", "eUsuarios", "ClickOperationLink", selfLink]);
+            window._paq.push(["trackEvent", "eUsuarios", "ClickOperationLink", filter.externalOperation?.code]);
         }
-        window.open(selfLink, '_blank');
+        window.open(filter.urlPermalink, '_blank');
     }
 
     public openDeleteDialog() {
