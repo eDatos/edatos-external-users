@@ -64,18 +64,21 @@
             },
             "register_account.create_notice": "La contraseña nueva no puede ser la misma que la actual",
             "unsubscribe_account.create_notice": "Error enviando correo de solicitud de baja. Prueba más tarde",
-            "change_password.create_notice": "El cambio de contraseña se ha realizado con éxito, pero ha habido un error enviando el correo de confirmación",
             "reset_password.create_notice": "Error enviando correo de recuperación de contraseña. Comprueba la dirección de correo o prueba más tarde",
             "confirm_signup.create_notice": "Error enviando correo de confirmación de registro. Comprueba la dirección de correo o prueba más tarde",
             "email_in_use.create_notice": "Error enviando correo de confirmación de registro. Comprueba la dirección de correo o prueba más tarde",
             "repeated_signup.create_notice": "Error enviando correo de confirmación de registro. Comprueba la dirección de correo o prueba más tarde",
             "subscrition_job.create_notice": "Error enviando correo a usuarios suscritos a una operación estadística",
-            "deleted": "El usuario ha sido eliminado del sistema",
-            "deactivate": "El usuario ha sido deshabilitado",
+            "delete.failed": "El usuario no ha sido eliminado del sistema",
             "deauthenticated": "El usuario no tiene permisos de acceso",
             "registration_confirmation": "El registro del usuario no se pudo confirmar",
-            "password.not_match": "La contraseña nueva no puede ser la misma que la actual",
-            "jasperreports.generating": "Error al generar el documento"
+            "password": {
+                "not_match": "La contraseña nueva no puede ser la misma que la actual",
+                "void": "El campo contraseña no puede estar vacío"
+            },
+            "password_change.failed": "La contraseña no ha sido cambiada. La contraseña actual no es correcta",
+            "jasperreports.generating": "Error al generar el documento",
+            "name_is_null": "El nombre o el primer apellido son obligatorios y no están presentes"
         }
     }
 }
