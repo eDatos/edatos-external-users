@@ -98,11 +98,11 @@ window.Edatos = window.Edatos || {};
         requestWithCaptcha: function(request, url, options) {
             return new Promise((resolve, reject) => {
                 if(captchaEnabled) {
-                    grecaptcha.ready(function() {
+                    grecaptcha.enterprise.ready(function() {
                         var captchaEl = options.captchaEl || document.getElementById(options.captchaId);
                         const invisibleRecaptchaFailedAttribute = "invisible-recaptcha-failed";
                         if (!captchaEl.getAttribute(invisibleRecaptchaFailedAttribute)) {
-                            grecaptcha.execute(recaptchaSiteKey, options.action ? {action: options.action} : {}).then(function (token) {
+                            grecaptcha.enterprise.execute(recaptchaSiteKey, options.action ? {action: options.action} : {}).then(function (token) {
                                 sendRequestWithCaptcha(request, url, token, options.action).then(function (response) {
                                     removeCaptcha(options);
                                     resolve(response);
@@ -126,7 +126,7 @@ window.Edatos = window.Edatos || {};
                                         captchaEl.insertAdjacentHTML('beforeend', `
                                             <div id="captcha-container" class="captcha-recaptcha"></div>
                                         `);
-                                        grecaptcha.render(captchaEl.querySelector("#captcha-container"), {
+                                        grecaptcha.enterprise.render(captchaEl.querySelector("#captcha-container"), {
                                             'sitekey': recaptchaV2SiteKey,
                                             'callback': function () {
                                                 if (options.withButton) {
@@ -143,13 +143,13 @@ window.Edatos = window.Edatos || {};
                                 });
                             });
                         } else {
-                            sendRequestWithCaptcha(request, url, grecaptcha.getResponse()).then(function (response) {
+                            sendRequestWithCaptcha(request, url, grecaptcha.enterprise.getResponse()).then(function (response) {
                                 resolve(response);
                                 captchaEl.removeAttribute(invisibleRecaptchaFailedAttribute);
                                 removeCaptcha(options);
-                                grecaptcha.reset();
+                                grecaptcha.enterprise.reset();
                             }).catch(function (error) {
-                                grecaptcha.reset();
+                                grecaptcha.enterprise.reset();
                                 reject(error);
                             });
                         }
@@ -170,7 +170,7 @@ window.Edatos = window.Edatos || {};
 
     if(captchaEnabled) {
         var recaptchaScript = document.createElement("script");
-        recaptchaScript.src = "https://www.google.com/recaptcha/api.js?hl=" + chosenLocale + "&render=" + recaptchaSiteKey;
+        recaptchaScript.src = "https://www.google.com/recaptcha/enterprise.js?hl=" + chosenLocale + "&render=" + recaptchaSiteKey;
         document.head.appendChild(recaptchaScript);
 
         var recaptchaStyle = document.createElement("style");

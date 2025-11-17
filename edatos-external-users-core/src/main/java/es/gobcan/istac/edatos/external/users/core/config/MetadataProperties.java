@@ -35,10 +35,10 @@ public class MetadataProperties {
     private boolean captchaEnable;
     private String captchaProvider;
     private String recaptchaSiteKey;
-    private String recaptchaSecretKey;
     private String recaptchaV2SiteKey;
-    private String recaptchaV2SecretKey;
     private double recaptchaThreshold;
+    private String recaptchaCredentials;
+    private String recaptchaProjectName;
     private String captchaUrl;
 
     private String externalAppUrl;
@@ -69,10 +69,10 @@ public class MetadataProperties {
         captchaProvider = configurationService.retrieveCaptchaProvider();
         if (CaptchaConstants.CAPTCHA_PROVIDER_RECAPTCHA.equals(captchaProvider)) {
             recaptchaSiteKey = configurationService.retrieveRecaptchaSiteKey();
-            recaptchaSecretKey = configurationService.retrieveRecaptchaSecretKey();
             recaptchaThreshold = configurationService.retrieveRecaptchaThreshold();
             recaptchaV2SiteKey = configurationService.retrieveRecaptchaV2SiteKey();
-            recaptchaV2SecretKey = configurationService.retrieveRecaptchaV2SecretKey();
+            recaptchaCredentials = configurationService.retrieveRecaptchaCredentials();
+            recaptchaProjectName = configurationService.retrieveRecaptchaProjectName();
         }
         captchaUrl = normalizeUrl(configurationService.retrieveCaptchaExternalApiUrlBase());
         availableLanguages = configurationService.retrieveLanguages();
@@ -134,16 +134,16 @@ public class MetadataProperties {
         return recaptchaSiteKey;
     }
 
-    public String getRecaptchaSecretKey() {
-        return recaptchaSecretKey;
-    }
-
     public String getRecaptchaV2SiteKey() {
         return recaptchaV2SiteKey;
     }
 
-    public String getRecaptchaV2SecretKey() {
-        return recaptchaV2SecretKey;
+    public String getRecaptchaCredentials() {
+        return recaptchaCredentials;
+    }
+
+    public String getRecaptchaProjectName() {
+        return recaptchaProjectName;
     }
 
     public String getCaptchaUrl() {

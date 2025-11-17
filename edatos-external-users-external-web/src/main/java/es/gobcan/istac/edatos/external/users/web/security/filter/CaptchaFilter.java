@@ -26,11 +26,8 @@ public class CaptchaFilter extends OncePerRequestFilter {
 
     private MetadataProperties metadataProperties;
 
-    private final ObjectMapper objectMapper;
-
     public CaptchaFilter(MetadataProperties metadataProperties, ObjectMapper objectMapper) {
         this.metadataProperties = metadataProperties;
-        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -43,7 +40,7 @@ public class CaptchaFilter extends OncePerRequestFilter {
         URI url = urlBuilder.build();
         RestTemplate restTemplate = new RestTemplate();
         try {
-            restTemplate.getForEntity(url, Object.class);
+            restTemplate.getForEntity(url, Void.class);
             chain.doFilter(req, res);
         } catch (HttpClientErrorException e) {
             res.setStatus(e.getRawStatusCode());
