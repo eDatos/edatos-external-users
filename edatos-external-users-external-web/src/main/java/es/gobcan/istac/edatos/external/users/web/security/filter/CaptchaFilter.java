@@ -13,7 +13,7 @@ import javax.ws.rs.core.UriBuilder;
 
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -42,7 +42,7 @@ public class CaptchaFilter extends OncePerRequestFilter {
         try {
             restTemplate.getForEntity(url, Void.class);
             chain.doFilter(req, res);
-        } catch (HttpClientErrorException e) {
+        } catch (HttpStatusCodeException e) {
             res.setStatus(e.getRawStatusCode());
             res.getWriter().print(e.getResponseBodyAsString());
             res.getWriter().flush();

@@ -10,6 +10,8 @@ import es.gobcan.istac.edatos.external.users.core.errors.InternalCaptchaExceptio
 import es.gobcan.istac.edatos.external.users.core.repository.CaptchaResponseRepository;
 import es.gobcan.istac.edatos.external.users.core.service.CaptchaService;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,8 @@ import java.io.IOException;
 
 @Service
 public class CaptchaServiceImpl implements CaptchaService {
+
+    private final Logger log = LoggerFactory.getLogger(CaptchaServiceImpl.class);
 
     @Autowired
     private MetadataProperties metadataProperties;
@@ -47,25 +51,41 @@ public class CaptchaServiceImpl implements CaptchaService {
 
     @Override
     public boolean validateRecaptcha(String userResponse, String recaptchaAction) {
+        log.debug("Request to validate reCAPTCHA for action: {}", recaptchaAction);
+
         try {
             RecaptchaEnterpriseServiceSettings recaptchaSettings = createRecaptchaSettings();
             try (RecaptchaEnterpriseServiceClient client = RecaptchaEnterpriseServiceClient.create(recaptchaSettings)) {
                 Assessment response = createAssessment(client, userResponse, metadataProperties.getRecaptchaSiteKey());
-                if (!response.getTokenProperties().getValid()) {
-                    if (response.getTokenProperties().getInvalidReason() == TokenProperties.InvalidReason.INVALID_REASON_UNSPECIFIED) {
-                        return validateRecaptchaV2(client, userResponse);
-                    } else {
-                        throw new InternalCaptchaException();
-                    }
-                }
 
-                if (!response.getTokenProperties().getAction().equals(recaptchaAction)) {
+                if (!response.getTokenProperties().getValid()) {
+                    TokenProperties.InvalidReason invalidReason = response.getTokenProperties().getInvalidReason();
+
+                    if (invalidReason == TokenProperties.InvalidReason.INVALID_REASON_UNSPECIFIED) {
+                        log.debug("Falling back to reCAPTCHA v2 validation");
+                        return validateRecaptchaV2(client, userResponse);
+                    }
+
+                    log.error("reCAPTCHA token is invalid. Reason: {}", invalidReason);
                     throw new InternalCaptchaException();
                 }
 
-                return response.getRiskAnalysis().getScore() >= metadataProperties.getRecaptchaThreshold();
+                if (!response.getTokenProperties().getAction().equals(recaptchaAction)) {
+                    log.error("reCAPTCHA action mismatch. Expected: {}, Received: {}", recaptchaAction, response.getTokenProperties().getAction());
+                    throw new InternalCaptchaException();
+                }
+
+                float score = response.getRiskAnalysis().getScore();
+                double threshold = metadataProperties.getRecaptchaThreshold();
+                boolean validationResult = score >= threshold;
+
+                log.debug("reCAPTCHA score: {}, threshold: {}, validation result: {}", score, threshold, validationResult);
+                return validationResult;
             }
-        } catch (IOException e) {
+        } catch (InternalCaptchaException e) {
+            throw e;
+        } catch (Exception e) {
+            log.error("Error communicating with reCAPTCHA service: {}", e.getMessage(), e);
             throw new InternalCaptchaException();
         }
     }
@@ -101,10 +121,9 @@ public class CaptchaServiceImpl implements CaptchaService {
 
     private boolean validateRecaptchaV2(RecaptchaEnterpriseServiceClient recaptchaEnterpriseServiceClient, String token) {
         Assessment response = createAssessment(recaptchaEnterpriseServiceClient, token, metadataProperties.getRecaptchaV2SiteKey());
-        if (!response.getTokenProperties().getValid()) {
-            throw new InternalCaptchaException();
-        }
-        return true;
+        boolean isValid = response.getTokenProperties().getValid();
+        log.debug("reCAPTCHA v2 validation result: {}", isValid);
+        return isValid;
     }
 
     @Override
