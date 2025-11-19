@@ -15,7 +15,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
@@ -29,9 +28,6 @@ public class CaptchaServiceImpl implements CaptchaService {
 
     @Autowired
     private CaptchaResponseRepository captchaResponseRepository;
-
-    @Autowired
-    private HttpServletRequest request;
 
     @Override
     public void saveResponse(String key, String response) {
@@ -110,43 +106,10 @@ public class CaptchaServiceImpl implements CaptchaService {
     }
 
     private Event createEvent(String token, String siteKey) {
-        Event.Builder eventBuilder = Event.newBuilder()
+        return Event.newBuilder()
             .setSiteKey(siteKey)
-            .setToken(token);
-
-        String userAgent = request.getHeader("User-Agent");
-        if (userAgent != null && !userAgent.isEmpty()) {
-            eventBuilder.setUserAgent(userAgent);
-        }
-
-        String clientIp = getClientIpAddress();
-        if (clientIp != null && !clientIp.isEmpty()) {
-            eventBuilder.setUserIpAddress(clientIp);
-        }
-
-        return eventBuilder.build();
-    }
-
-    private String getClientIpAddress() {
-        String[] headersToCheck = {
-            "X-Forwarded-For",
-            "Proxy-Client-IP",
-            "WL-Proxy-Client-IP",
-            "HTTP_CLIENT_IP",
-            "HTTP_X_FORWARDED_FOR"
-        };
-
-        for (String header : headersToCheck) {
-            String ip = request.getHeader(header);
-            if (StringUtils.isNotBlank(ip) && !"unknown".equalsIgnoreCase(ip)) {
-                if (ip.contains(",")) {
-                    ip = ip.split(",")[0].trim();
-                }
-                return ip;
-            }
-        }
-
-        return request.getRemoteAddr();
+            .setToken(token)
+            .build();
     }
 
     private CreateAssessmentRequest createAssessmentRequest(Event event) {
