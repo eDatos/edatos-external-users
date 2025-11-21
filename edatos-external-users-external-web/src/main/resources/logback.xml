@@ -16,7 +16,7 @@
 		</encoder>
 	</appender>
 
-	<logger name="es.gobcan.istac.edatos.external.users" level="#logback.loglevel#" />
+	<logger name="es.gobcan.istac.edatos.external.users" level="debug" />
 
 	<logger name="io.github.jhipster" level="#logback.loglevel#" />
 
