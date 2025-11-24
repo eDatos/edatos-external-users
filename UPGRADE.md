@@ -21,7 +21,7 @@
   restTemplate.getForEntity(captchaValidationUrl, Void.class);
   ```
 
-  Por lo tanto, las aplicaciones que hagan peticiones a la validación del captcha deberán adaptarse a este cambio si se actualizan a esta versión. En la documentación del Confluence sobre el captcha se encuentra un listado de las aplicaciones que hacen uso del captcha y que deberán adaptarse a este cambio si hacen la petición de esa manera.
+  Por lo tanto, las aplicaciones que hagan peticiones a la validación del captcha deberán adaptarse a este cambio si se despliega esta versión de eUsuarios. En la documentación del Confluence sobre el captcha se encuentra un listado de las aplicaciones que hacen uso del captcha y que deberán adaptarse a este cambio si hacen la petición de esa manera.
 
 * Se eliminan algunas propiedades y se añaden otras relacionadas con el reCAPTCHA debido a la migración de las claves a Google Cloud. Para aplicar los cambios de las propiedades hace falta ejecutar el siguiente script SQL:
 
