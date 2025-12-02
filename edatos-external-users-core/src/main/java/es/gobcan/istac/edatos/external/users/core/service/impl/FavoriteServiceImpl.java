@@ -174,7 +174,7 @@ public class FavoriteServiceImpl implements FavoriteService {
     }
 
     @Override
-    public List<FavoriteEntity> findByExternalUserAndExternalOperationOrCategory(List<ExternalOperationEntity> listOperations, List<CategoryEntity> listCategories) {
+    public FavoriteEntity findByExternalUserAndExternalOperationOrCategory(List<ExternalOperationEntity> listOperations, List<CategoryEntity> listCategories) {
         ExternalUserEntity externalUser = externalUserRepository.findOneByEmailIgnoreCase(SecurityUtils.getCurrentUserLogin()).get();
 
         return favoriteRepository.findByExternalUserAndExternalOperationInOrExternalUserAndCategoryIn(
@@ -182,11 +182,11 @@ public class FavoriteServiceImpl implements FavoriteService {
             listOperations,
             externalUser,
             listCategories
-        );
+        ).orElse(null);
     }
 
     @Override
-    public List<FavoriteEntity> findByExternalUserAndExternalOperationOrCategoryAndAncestors(List<ExternalOperationEntity> listOperations, List<CategoryEntity> listCategories) {
+    public FavoriteEntity findByExternalUserAndExternalOperationOrCategoryAndAncestors(List<ExternalOperationEntity> listOperations, List<CategoryEntity> listCategories) {
         List<CategoryEntity> categoriesWithAncestors = getCategoriesIncludingAncestors(listOperations, listCategories);
         return findByExternalUserAndExternalOperationOrCategory(listOperations, categoriesWithAncestors);
     }

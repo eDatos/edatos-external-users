@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.Timed;
@@ -32,6 +33,8 @@ import es.gobcan.istac.edatos.external.users.core.service.FavoriteService;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.FavoriteDto;
 import es.gobcan.istac.edatos.external.users.rest.common.mapper.FavoriteMapper;
 import es.gobcan.istac.edatos.external.users.rest.common.util.HeaderUtil;
+
+import javax.ws.rs.QueryParam;
 
 @RestController
 @RequestMapping(FavoriteResource.BASE_URL)
@@ -61,21 +64,19 @@ public class FavoriteResource extends AbstractResource {
         return ResponseEntity.ok(favoriteMapper.toDto(favoriteService.find(id)));
     }
 
-    @GetMapping("/operation/{operationCode}")
+    @RequestMapping(method = RequestMethod.HEAD)
     @Timed
     @PreAuthorize("@secCheckerExternal.canAccessFavorites(authentication)")
-    public ResponseEntity<List<FavoriteDto>> getFavoriteByOperationId(@PathVariable String operationCode) {
+    public ResponseEntity<Void> isOperationMarkedAsFavorite(@QueryParam("operationCode") String operationCode) {
         ExternalOperationEntity operation = externalOperationService.findByCode(operationCode);
         if (operation != null) {
-            List<FavoriteDto> result = favoriteService
-                .findByExternalUserAndExternalOperationOrCategoryAndAncestors(Collections.singletonList(operation), Collections.emptyList())
-                .stream()
-                .map(favoriteMapper::toDto)
-                .collect(Collectors.toList());
-            return ResponseEntity.ok(result);
+            FavoriteEntity favorite = favoriteService.findByExternalUserAndExternalOperationOrCategoryAndAncestors(Collections.singletonList(operation), Collections.emptyList());
+            if (favorite != null) {
+                return ResponseEntity.ok().build();
+            }
         }
 
-        return ResponseEntity.ok(Collections.emptyList());
+        return ResponseEntity.notFound().build();
     }
 
     @GetMapping

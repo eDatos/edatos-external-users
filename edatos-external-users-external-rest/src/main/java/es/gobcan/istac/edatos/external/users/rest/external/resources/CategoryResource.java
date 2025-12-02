@@ -14,13 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.codahale.metrics.annotation.Timed;
 
@@ -93,13 +87,13 @@ public class CategoryResource extends AbstractResource {
     }
 
     @Timed
-    @GetMapping("/tree/operation/{operationCode}")
-    public ResponseEntity<ExternalOperationDto> getEnabledOperation(@PathVariable String operationCode) {
+    @RequestMapping(value = "/operation/{operationCode}", method = RequestMethod.HEAD)
+    public ResponseEntity<Void> isTheOperationIncludedInAnyCategory(@PathVariable String operationCode) {
         ExternalOperationEntity operation = externalOperationService.findByCode(operationCode);
         if (operation != null && operation.isEnabled()) {
             List<CategoryEntity> operationAncestors = categoryService.findOperationAncestors(operation);
             if (!operationAncestors.isEmpty()) {
-                return ResponseEntity.ok(externalOperationMapper.toDto(operation));
+                return ResponseEntity.ok().build();
             }
         }
         return ResponseEntity.notFound().build();
