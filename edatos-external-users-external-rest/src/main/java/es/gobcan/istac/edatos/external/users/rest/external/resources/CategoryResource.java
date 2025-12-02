@@ -7,6 +7,8 @@ import java.util.Optional;
 
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalOperationEntity;
 import es.gobcan.istac.edatos.external.users.core.service.ExternalOperationService;
+import es.gobcan.istac.edatos.external.users.rest.common.dto.ExternalOperationDto;
+import es.gobcan.istac.edatos.external.users.rest.common.mapper.ExternalOperationMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -25,10 +27,8 @@ import com.codahale.metrics.annotation.Timed;
 import es.gobcan.istac.edatos.external.users.core.domain.CategoryEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalCategoryEntity;
 import es.gobcan.istac.edatos.external.users.core.service.CategoryService;
-import es.gobcan.istac.edatos.external.users.core.service.ExternalCategoryService;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.CategoryDto;
 import es.gobcan.istac.edatos.external.users.rest.common.mapper.CategoryMapper;
-import es.gobcan.istac.edatos.external.users.rest.common.mapper.ExternalCategoryMapper;
 import es.gobcan.istac.edatos.external.users.rest.common.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 
@@ -41,20 +41,17 @@ public class CategoryResource extends AbstractResource {
 
     private final CategoryService categoryService;
     private final CategoryMapper categoryMapper;
-    private final ExternalCategoryService externalCategoryService;
-    private final ExternalCategoryMapper externalCategoryMapper;
     private final ExternalOperationService externalOperationService;
+    private final ExternalOperationMapper externalOperationMapper;
 
     public CategoryResource(CategoryService categoryService,
-        ExternalCategoryService externalCategoryService,
         CategoryMapper categoryMapper,
-        ExternalCategoryMapper externalCategoryMapper,
-        ExternalOperationService externalOperationService) {
+        ExternalOperationService externalOperationService,
+        ExternalOperationMapper externalOperationMapper) {
         this.categoryService = categoryService;
-        this.externalCategoryService = externalCategoryService;
         this.categoryMapper = categoryMapper;
-        this.externalCategoryMapper = externalCategoryMapper;
         this.externalOperationService = externalOperationService;
+        this.externalOperationMapper = externalOperationMapper;
     }
 
     @GetMapping("/{id}")
@@ -93,5 +90,18 @@ public class CategoryResource extends AbstractResource {
         List<CategoryEntity> categories = categoryMapper.toEntities(tree);
         List<CategoryDto> response = categoryMapper.toDtos(categoryService.updateTree(categories));
         return ResponseEntity.ok(response);
+    }
+
+    @Timed
+    @GetMapping("/tree/operation/{operationCode}")
+    public ResponseEntity<ExternalOperationDto> getEnabledOperation(@PathVariable String operationCode) {
+        ExternalOperationEntity operation = externalOperationService.findByCode(operationCode);
+        if (operation != null && operation.isEnabled()) {
+            List<CategoryEntity> operationAncestors = categoryService.findOperationAncestors(operation);
+            if (!operationAncestors.isEmpty()) {
+                return ResponseEntity.ok(externalOperationMapper.toDto(operation));
+            }
+        }
+        return ResponseEntity.notFound().build();
     }
 }

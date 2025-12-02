@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import es.gobcan.istac.edatos.external.users.core.domain.enumeration.AuditPrincipalType;
+import es.gobcan.istac.edatos.external.users.rest.common.dto.ExternalOperationDto;
+import es.gobcan.istac.edatos.external.users.rest.common.mapper.ExternalOperationMapper;
 import org.siemac.edatos.core.common.exception.CommonServiceExceptionType;
 import org.siemac.edatos.core.common.exception.EDatosException;
 import org.springframework.data.domain.Page;
@@ -46,6 +48,7 @@ public class CategoryResource extends AbstractResource {
     private final ExternalCategoryService externalCategoryService;
     private final ExternalCategoryMapper externalCategoryMapper;
     private final ExternalOperationService externalOperationService;
+    private final ExternalOperationMapper externalOperationMapper;
     private final FavoriteService favoriteService;
     private final AuditEventPublisher auditPublisher;
 
@@ -54,6 +57,7 @@ public class CategoryResource extends AbstractResource {
         ExternalCategoryService externalCategoryService,
         ExternalCategoryMapper externalCategoryMapper,
         ExternalOperationService externalOperationService,
+        ExternalOperationMapper externalOperationMapper,
         FavoriteService favoriteService,
         AuditEventPublisher auditPublisher) {
         this.categoryService = categoryService;
@@ -61,6 +65,7 @@ public class CategoryResource extends AbstractResource {
         this.externalCategoryService = externalCategoryService;
         this.externalCategoryMapper = externalCategoryMapper;
         this.externalOperationService = externalOperationService;
+        this.externalOperationMapper = externalOperationMapper;
         this.favoriteService = favoriteService;
         this.auditPublisher = auditPublisher;
     }
@@ -108,6 +113,20 @@ public class CategoryResource extends AbstractResource {
         List<CategoryEntity> updatedTree = categoryService.updateTree(categoryEntity);
         auditPublisher.publish(AuditConstants.CATEGORY_TREE_UPDATE, AuditPrincipalType.ADMIN);
         return ResponseEntity.ok(getTreeWithSubscribers(updatedTree));
+    }
+
+    @Timed
+    @GetMapping("/tree/operation/{operationCode}")
+    @PreAuthorize("@secChecker.canAccessExternalOperation(authentication)")
+    public ResponseEntity<ExternalOperationDto> getEnabledOperation(@PathVariable String operationCode) {
+        ExternalOperationEntity operation = externalOperationService.findByCode(operationCode);
+        if (operation != null && operation.isEnabled()) {
+            List<CategoryEntity> operationAncestors = categoryService.findOperationAncestors(operation);
+            if (!operationAncestors.isEmpty()) {
+                return ResponseEntity.ok(externalOperationMapper.toDto(operation));
+            }
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @Timed
