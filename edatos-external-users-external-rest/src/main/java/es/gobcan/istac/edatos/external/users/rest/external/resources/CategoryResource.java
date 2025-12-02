@@ -7,7 +7,6 @@ import java.util.Optional;
 
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalOperationEntity;
 import es.gobcan.istac.edatos.external.users.core.service.ExternalOperationService;
-import es.gobcan.istac.edatos.external.users.rest.common.dto.ExternalOperationDto;
 import es.gobcan.istac.edatos.external.users.rest.common.mapper.ExternalOperationMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -87,8 +86,8 @@ public class CategoryResource extends AbstractResource {
     }
 
     @Timed
-    @RequestMapping(value = "/operation/{operationCode}", method = RequestMethod.HEAD)
-    public ResponseEntity<Void> isTheOperationIncludedInAnyCategory(@PathVariable String operationCode) {
+    @RequestMapping(value = "/exists", method = RequestMethod.HEAD)
+    public ResponseEntity<Void> isTheOperationIncludedInAnyCategory(@RequestParam("operationCode") String operationCode) {
         ExternalOperationEntity operation = externalOperationService.findByCode(operationCode);
         if (operation != null && operation.isEnabled()) {
             List<CategoryEntity> operationAncestors = categoryService.findOperationAncestors(operation);

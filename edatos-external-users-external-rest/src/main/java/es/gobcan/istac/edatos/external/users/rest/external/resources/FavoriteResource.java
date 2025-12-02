@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.Timed;
@@ -33,8 +34,6 @@ import es.gobcan.istac.edatos.external.users.core.service.FavoriteService;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.FavoriteDto;
 import es.gobcan.istac.edatos.external.users.rest.common.mapper.FavoriteMapper;
 import es.gobcan.istac.edatos.external.users.rest.common.util.HeaderUtil;
-
-import javax.ws.rs.QueryParam;
 
 @RestController
 @RequestMapping(FavoriteResource.BASE_URL)
@@ -64,10 +63,10 @@ public class FavoriteResource extends AbstractResource {
         return ResponseEntity.ok(favoriteMapper.toDto(favoriteService.find(id)));
     }
 
-    @RequestMapping(method = RequestMethod.HEAD)
+    @RequestMapping(value = "/exists", method = RequestMethod.HEAD)
     @Timed
     @PreAuthorize("@secCheckerExternal.canAccessFavorites(authentication)")
-    public ResponseEntity<Void> isOperationMarkedAsFavorite(@QueryParam("operationCode") String operationCode) {
+    public ResponseEntity<Void> isOperationMarkedAsFavorite(@RequestParam("operationCode") String operationCode) {
         ExternalOperationEntity operation = externalOperationService.findByCode(operationCode);
         if (operation != null) {
             FavoriteEntity favorite = favoriteService.findByExternalUserAndExternalOperationOrCategoryAndAncestors(Collections.singletonList(operation), Collections.emptyList());
@@ -75,7 +74,6 @@ public class FavoriteResource extends AbstractResource {
                 return ResponseEntity.ok().build();
             }
         }
-
         return ResponseEntity.notFound().build();
     }
 
