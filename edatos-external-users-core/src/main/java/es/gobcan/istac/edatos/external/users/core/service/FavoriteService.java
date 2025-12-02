@@ -25,4 +25,6 @@ public interface FavoriteService {
     void deleteBySubscription(ExternalOperationEntity operation);
     List<FavoriteEntity> findByExternalOperationOrCategory(List<ExternalOperationEntity> listOperations, List<CategoryEntity> listCategories);
     List<FavoriteEntity> findByExternalOperationOrCategoryAndAncestors(List<ExternalOperationEntity> listOperations, List<CategoryEntity> listCategories);
+    List<FavoriteEntity> findByExternalUserAndExternalOperationOrCategory(List<ExternalOperationEntity> listOperations, List<CategoryEntity> listCategories);
+    List<FavoriteEntity> findByExternalUserAndExternalOperationOrCategoryAndAncestors(List<ExternalOperationEntity> listOperations, List<CategoryEntity> listCategories);
 }

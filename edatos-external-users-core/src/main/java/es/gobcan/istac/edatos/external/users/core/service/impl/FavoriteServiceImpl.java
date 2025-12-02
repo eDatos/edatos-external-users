@@ -169,6 +169,29 @@ public class FavoriteServiceImpl implements FavoriteService {
 
     @Override
     public List<FavoriteEntity> findByExternalOperationOrCategoryAndAncestors(List<ExternalOperationEntity> listOperations, List<CategoryEntity> listCategories) {
+        List<CategoryEntity> categoriesWithAncestors = getCategoriesIncludingAncestors(listOperations, listCategories);
+        return findByExternalOperationOrCategory(listOperations, categoriesWithAncestors);
+    }
+
+    @Override
+    public List<FavoriteEntity> findByExternalUserAndExternalOperationOrCategory(List<ExternalOperationEntity> listOperations, List<CategoryEntity> listCategories) {
+        ExternalUserEntity externalUser = externalUserRepository.findOneByEmailIgnoreCase(SecurityUtils.getCurrentUserLogin()).get();
+
+        return favoriteRepository.findByExternalUserAndExternalOperationInOrExternalUserAndCategoryIn(
+            externalUser,
+            listOperations,
+            externalUser,
+            listCategories
+        );
+    }
+
+    @Override
+    public List<FavoriteEntity> findByExternalUserAndExternalOperationOrCategoryAndAncestors(List<ExternalOperationEntity> listOperations, List<CategoryEntity> listCategories) {
+        List<CategoryEntity> categoriesWithAncestors = getCategoriesIncludingAncestors(listOperations, listCategories);
+        return findByExternalUserAndExternalOperationOrCategory(listOperations, categoriesWithAncestors);
+    }
+
+    private List<CategoryEntity> getCategoriesIncludingAncestors(List<ExternalOperationEntity> listOperations, List<CategoryEntity> listCategories) {
         Set<CategoryEntity> categoryEntities = new HashSet<>();
         for (ExternalOperationEntity operation : listOperations) {
             categoryEntities.addAll(categoryService.findOperationAncestors(operation));
@@ -176,6 +199,6 @@ public class FavoriteServiceImpl implements FavoriteService {
         for (CategoryEntity category : listCategories) {
             categoryEntities.addAll(categoryService.findCategoryAncestors(category));
         }
-        return findByExternalOperationOrCategory(listOperations, new ArrayList<>(categoryEntities));
+        return new ArrayList<>(categoryEntities);
     }
 }

@@ -2,11 +2,14 @@ package es.gobcan.istac.edatos.external.users.rest.external.resources;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import es.gobcan.istac.edatos.external.users.core.domain.ExternalOperationEntity;
+import es.gobcan.istac.edatos.external.users.core.service.ExternalOperationService;
 import org.siemac.edatos.core.common.exception.CommonServiceExceptionType;
 import org.siemac.edatos.core.common.exception.EDatosException;
 import org.springframework.http.ResponseEntity;
@@ -38,15 +41,17 @@ public class FavoriteResource extends AbstractResource {
     public static final String BASE_URL = "/api/favorites";
 
     private final FavoriteService favoriteService;
+    private final ExternalOperationService externalOperationService;
 
     private final FavoriteMapper favoriteMapper;
 
     private final AuditEventPublisher auditPublisher;
 
-    public FavoriteResource(FavoriteService favoriteService, FavoriteMapper favoriteMapper, AuditEventPublisher auditPublisher) {
+    public FavoriteResource(FavoriteService favoriteService, FavoriteMapper favoriteMapper, AuditEventPublisher auditPublisher, ExternalOperationService externalOperationService) {
         this.favoriteService = favoriteService;
         this.favoriteMapper = favoriteMapper;
         this.auditPublisher = auditPublisher;
+        this.externalOperationService = externalOperationService;
     }
 
     @GetMapping("/{id}")
@@ -54,6 +59,23 @@ public class FavoriteResource extends AbstractResource {
     @PreAuthorize("@secCheckerExternal.canAccessFavorites(authentication)")
     public ResponseEntity<FavoriteDto> getFavoriteById(@PathVariable Long id) {
         return ResponseEntity.ok(favoriteMapper.toDto(favoriteService.find(id)));
+    }
+
+    @GetMapping("/operation/{operationCode}")
+    @Timed
+    @PreAuthorize("@secCheckerExternal.canAccessFavorites(authentication)")
+    public ResponseEntity<List<FavoriteDto>> getFavoriteByOperationId(@PathVariable String operationCode) {
+        ExternalOperationEntity operation = externalOperationService.findByCode(operationCode);
+        if (operation != null) {
+            List<FavoriteDto> result = favoriteService
+                .findByExternalUserAndExternalOperationOrCategoryAndAncestors(Collections.singletonList(operation), Collections.emptyList())
+                .stream()
+                .map(favoriteMapper::toDto)
+                .collect(Collectors.toList());
+            return ResponseEntity.ok(result);
+        }
+
+        return ResponseEntity.ok(Collections.emptyList());
     }
 
     @GetMapping
