@@ -86,7 +86,7 @@ public class CategoryResource extends AbstractResource {
     }
 
     @Timed
-    @RequestMapping(value = "/exists", method = RequestMethod.HEAD)
+    @RequestMapping(method = RequestMethod.HEAD)
     public ResponseEntity<Void> isTheOperationIncludedInAnyCategory(@RequestParam("operationCode") String operationCode) {
         ExternalOperationEntity operation = externalOperationService.findByCode(operationCode);
         if (operation != null && operation.isEnabled()) {

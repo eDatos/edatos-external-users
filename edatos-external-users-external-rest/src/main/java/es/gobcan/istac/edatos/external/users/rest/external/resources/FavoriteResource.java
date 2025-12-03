@@ -63,7 +63,7 @@ public class FavoriteResource extends AbstractResource {
         return ResponseEntity.ok(favoriteMapper.toDto(favoriteService.find(id)));
     }
 
-    @RequestMapping(value = "/exists", method = RequestMethod.HEAD)
+    @RequestMapping(method = RequestMethod.HEAD)
     @Timed
     @PreAuthorize("@secCheckerExternal.canAccessFavorites(authentication)")
     public ResponseEntity<Void> isOperationMarkedAsFavorite(@RequestParam("operationCode") String operationCode) {
