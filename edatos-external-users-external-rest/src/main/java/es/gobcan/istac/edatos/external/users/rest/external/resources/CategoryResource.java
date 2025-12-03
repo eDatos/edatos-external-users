@@ -47,6 +47,19 @@ public class CategoryResource extends AbstractResource {
         this.externalOperationMapper = externalOperationMapper;
     }
 
+    @Timed
+    @RequestMapping(value = "/exists", method = RequestMethod.HEAD)
+    public ResponseEntity<Void> isTheOperationIncludedInAnyCategory(@RequestParam("operationCode") String operationCode) {
+        ExternalOperationEntity operation = externalOperationService.findByCode(operationCode);
+        if (operation != null && operation.isEnabled()) {
+            List<CategoryEntity> operationAncestors = categoryService.findOperationAncestors(operation);
+            if (!operationAncestors.isEmpty()) {
+                return ResponseEntity.ok().build();
+            }
+        }
+        return ResponseEntity.notFound().build();
+    }
+
     @GetMapping("/{id}")
     @Timed
     @PreAuthorize("@secCheckerExternal.canAccessCategory(authentication)")
@@ -83,18 +96,5 @@ public class CategoryResource extends AbstractResource {
         List<CategoryEntity> categories = categoryMapper.toEntities(tree);
         List<CategoryDto> response = categoryMapper.toDtos(categoryService.updateTree(categories));
         return ResponseEntity.ok(response);
-    }
-
-    @Timed
-    @RequestMapping(value = "/exists", method = RequestMethod.HEAD)
-    public ResponseEntity<Void> isTheOperationIncludedInAnyCategory(@RequestParam("operationCode") String operationCode) {
-        ExternalOperationEntity operation = externalOperationService.findByCode(operationCode);
-        if (operation != null && operation.isEnabled()) {
-            List<CategoryEntity> operationAncestors = categoryService.findOperationAncestors(operation);
-            if (!operationAncestors.isEmpty()) {
-                return ResponseEntity.ok().build();
-            }
-        }
-        return ResponseEntity.notFound().build();
     }
 }
