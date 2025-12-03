@@ -56,6 +56,13 @@ public class FavoriteResource extends AbstractResource {
         this.externalOperationService = externalOperationService;
     }
 
+    @GetMapping("/{id}")
+    @Timed
+    @PreAuthorize("@secCheckerExternal.canAccessFavorites(authentication)")
+    public ResponseEntity<FavoriteDto> getFavoriteById(@PathVariable Long id) {
+        return ResponseEntity.ok(favoriteMapper.toDto(favoriteService.find(id)));
+    }
+
     @RequestMapping(value = "/exists", method = RequestMethod.HEAD)
     @Timed
     @PreAuthorize("@secCheckerExternal.canAccessFavorites(authentication)")
@@ -68,13 +75,6 @@ public class FavoriteResource extends AbstractResource {
             }
         }
         return ResponseEntity.notFound().build();
-    }
-
-    @GetMapping("/{id}")
-    @Timed
-    @PreAuthorize("@secCheckerExternal.canAccessFavorites(authentication)")
-    public ResponseEntity<FavoriteDto> getFavoriteById(@PathVariable Long id) {
-        return ResponseEntity.ok(favoriteMapper.toDto(favoriteService.find(id)));
     }
 
     @GetMapping
