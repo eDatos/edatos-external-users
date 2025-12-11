@@ -24,6 +24,8 @@ SELECT permalink.code,
 FROM tb_permalinks AS permalink
 WHERE permalink.content::jsonb -> 'queryParams' ->> 'type' IN ('query', 'dataset', 'indicatorInstance');
 
+GRANT SELECT ON TABLE metamac_portal_bd.temp_mig_permalinks TO metamac_portal_bd;
+
 -- Paso 3: Exportar los datos de la tabla temporal a un archivo con pg_dump desde la terminal
 
 -- Powershell

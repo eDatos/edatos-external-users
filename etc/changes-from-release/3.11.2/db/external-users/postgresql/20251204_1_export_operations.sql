@@ -33,6 +33,8 @@ FROM tb_operations operations
 WHERE proc_status = 'PUBLISH_EXTERNALLY'
 GROUP BY operations.urn, operations.code, operations.inventory_date, sub_area.urn;
 
+GRANT SELECT ON TABLE metamac_statistical_operations_bd.temp_mig_permalinks TO metamac_statistical_operations_bd;
+
 -- Paso 3: Exportar los datos de la tabla temporal a un archivo con pg_dump desde la terminal
 
 -- Powershell
