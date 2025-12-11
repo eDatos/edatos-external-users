@@ -22,7 +22,8 @@ SELECT permalink.code,
            '\2'
        )
 FROM tb_permalinks AS permalink
-WHERE permalink.content::jsonb -> 'queryParams' ->> 'type' IN ('query', 'dataset', 'indicatorInstance');
+WHERE permalink.content ~ '^\s*[\{\[]'
+  AND permalink.content::jsonb -> 'queryParams' ->> 'type' IN ('query', 'dataset', 'indicatorInstance');
 
 GRANT SELECT ON TABLE metamac_portal_bd.temp_mig_permalinks TO metamac_portal_bd;
 
