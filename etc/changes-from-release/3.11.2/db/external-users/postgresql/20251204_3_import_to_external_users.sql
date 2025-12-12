@@ -18,7 +18,19 @@ CREATE TABLE temp_mig_permalinks
     code           VARCHAR(255) NOT NULL
 );
 
--- Paso 2: Importar los datos generados en EXTERNAL-USERS
+-- Paso 2: Actualiza el esquema de las tablas temporales
+
+-- Powershell
+-- ----------
+-- (Get-Content temp_mig_operations.sql) -replace 'COPY metamac_statistical_operations_bd\.temp_mig_operations', 'COPY "external_users-bd".temp_mig_operations' | Set-Content temp_mig_operations.sql
+-- (Get-Content temp_mig_permalinks.sql) -replace 'COPY metamac_portal_bd\.temp_mig_permalinks', 'COPY "external_users-bd".temp_mig_permalinks' | Set-Content temp_mig_permalinks.sql
+
+-- Bash
+-- ----------
+-- sed -i 's/COPY metamac_statistical_operations_bd\.temp_mig_operations/COPY "external_users-bd".temp_mig_operations/g' temp_mig_operations.sql
+-- sed -i 's/COPY metamac_portal_bd\.temp_mig_permalinks/COPY "external_users-bd".temp_mig_permalinks/g' temp_mig_permalinks.sql
+
+-- Paso 3: Importar los datos generados en EXTERNAL-USERS
 
 -- Powershell
 -- ----------
@@ -36,7 +48,7 @@ CREATE TABLE temp_mig_permalinks
 -- psql -h $CLIENT -p 5432 -U external_users-bd -d external_users-bd -f temp_mig_operations.sql
 -- psql -h $CLIENT -p 5432 -U external_users-bd -d external_users-bd -f temp_mig_permalinks.sql
 
--- Paso 3: Insertar los datos de las operaciones desde la tabla temporal a las tablas de EXTERNAL-USERS
+-- Paso 4: Insertar los datos de las operaciones desde la tabla temporal a las tablas de EXTERNAL-USERS
 
 INSERT INTO tb_external_items (id, opt_lock, code, name, type, urn)
 SELECT nextval('seq_tb_external_items'), 0, operation.code, operation.name, 'statisticalOperations#operation', operation.urn
@@ -49,7 +61,7 @@ FROM temp_mig_operations operation
          JOIN tb_external_items external_item ON operation.urn = external_item.urn
 ON CONFLICT DO NOTHING;
 
--- Paso 4: Asignación de las operaciones a los filtros que no lo tengan todavía
+-- Paso 5: Asignación de las operaciones a los filtros que no lo tengan todavía
 
 UPDATE tb_filters filter
 SET external_operation_urn = (SELECT operation_ext_item.urn
@@ -58,7 +70,7 @@ SET external_operation_urn = (SELECT operation_ext_item.urn
                               WHERE operation_ext_item.code LIKE permalink.code)
 WHERE filter.external_operation_urn IS NULL;
 
--- Paso 5: Eliminar la tabla temporal en la base de datos postgresql de EXTERNAL-USERS
+-- Paso 6: Eliminar la tabla temporal en la base de datos postgresql de EXTERNAL-USERS
 DROP TABLE temp_mig_operations;
 DROP TABLE temp_mig_permalinks;
- 
+
