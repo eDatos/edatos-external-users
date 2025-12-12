@@ -41,15 +41,15 @@ GRANT SELECT ON TABLE metamac_statistical_operations_bd.temp_mig_operations TO m
 -- Powershell
 -- ----------
 -- Recuerda setear las variables de entorno antes de ejecutar el comando
--- $env:PGPASSWORD="admin"
--- $CLIENT="localhost"
+-- $env:PGPASSWORD="FILL_ME"
+-- $CLIENT="FILL_ME" # ejemplo: localhost
 -- pg_dump -h $CLIENT -p 5432 -U metamac_statistical_operations_bd -t 'metamac_statistical_operations_bd.temp_mig_operations' --data-only -f temp_mig_operations.sql metamac_statistical_operations_bd
 
 -- Bash
 -- ----------
 -- Recuerda setear las variables de entorno antes de ejecutar el comando
--- export PGPASSWORD="admin"
--- CLIENT="localhost"
+-- export PGPASSWORD="FILL_ME"
+-- CLIENT="FILL_ME" # ejemplo: localhost
 -- pg_dump -h $CLIENT -p 5432 -U metamac_statistical_operations_bd -t 'metamac_statistical_operations_bd.temp_mig_operations' --data-only -f temp_mig_operations.sql metamac_statistical_operations_bd
 
 -- Paso 4: Eliminar la tabla temporal en la base de datos postgresql de STATISTICAL-OPERATIONS

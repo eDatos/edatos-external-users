@@ -25,15 +25,15 @@ GRANT SELECT ON TABLE indicators_bd.temp_mig_indicators TO indicators_bd;
 -- Powershell
 -- ----------
 -- Recuerda setear las variables de entorno antes de ejecutar el comando
--- $env:PGPASSWORD="admin"
--- $CLIENT="localhost"
+-- $env:PGPASSWORD="FILL_ME"
+-- $CLIENT="FILL_ME" # ejemplo: localhost
 -- pg_dump -h $CLIENT -p 5432 -U indicators_bd -t 'indicators_bd.temp_mig_indicators' --data-only -f temp_mig_indicators.sql indicators_bd
 
 -- Bash
 -- ----------
 -- Recuerda setear las variables de entorno antes de ejecutar el comando
--- export PGPASSWORD="admin"
--- CLIENT="localhost"
+-- export PGPASSWORD="FILL_ME"
+-- CLIENT="FILL_ME" # ejemplo: localhost
 -- pg_dump -h $CLIENT -p 5432 -U indicators_bd -t 'indicators_bd.temp_mig_indicators' --data-only -f temp_mig_indicators.sql indicators_bd
 
 -- Paso 4: Eliminar la tabla temporal en la base de datos postgresql de METAMAC_PORTAL

@@ -49,8 +49,8 @@ CREATE TABLE temp_mig_indicators
 -- Powershell
 -- ----------
 -- Recuerda setear las variables de entorno antes de ejecutar el comando
--- $env:PGPASSWORD="admin"
--- $CLIENT="localhost"
+-- $env:PGPASSWORD="FILL_ME"
+-- $CLIENT="FILL_ME" # ejemplo: localhost
 -- psql -h $CLIENT -p 5432 -U external_users-bd -d external_users-bd -f temp_mig_operations.sql
 -- psql -h $CLIENT -p 5432 -U external_users-bd -d external_users-bd -f temp_mig_permalinks.sql
 -- psql -h $CLIENT -p 5432 -U external_users-bd -d external_users-bd -f temp_mig_indicators.sql
@@ -58,8 +58,8 @@ CREATE TABLE temp_mig_indicators
 -- Bash
 -- ----------
 -- Recuerda setear las variables de entorno antes de ejecutar el comando
--- export PGPASSWORD="admin"
--- CLIENT="localhost"
+-- export PGPASSWORD="FILL_ME"
+-- CLIENT="FILL_ME" # ejemplo: localhost
 -- psql -h $CLIENT -p 5432 -U external_users-bd -d external_users-bd -f temp_mig_operations.sql
 -- psql -h $CLIENT -p 5432 -U external_users-bd -d external_users-bd -f temp_mig_permalinks.sql
 -- psql -h $CLIENT -p 5432 -U external_users-bd -d external_users-bd -f temp_mig_indicators.sql
