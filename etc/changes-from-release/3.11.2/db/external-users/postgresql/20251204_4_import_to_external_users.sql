@@ -72,7 +72,7 @@ FROM temp_mig_operations operation
 ON CONFLICT DO NOTHING;
 
 INSERT INTO tb_external_operations (external_category_urn, enabled, notifications_enabled, publication_date, external_item_fk)
-SELECT operation.external_category_urn, FALSE, FALSE, operation.publication_date, external_item.id
+SELECT operation.external_category_urn, FALSE, TRUE, operation.publication_date, external_item.id
 FROM temp_mig_operations operation
          JOIN tb_external_items external_item ON operation.urn = external_item.urn
 ON CONFLICT DO NOTHING;
