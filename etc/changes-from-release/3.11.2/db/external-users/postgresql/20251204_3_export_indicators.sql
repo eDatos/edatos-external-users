@@ -11,7 +11,7 @@ CREATE TABLE temp_mig_indicators
 
 -- Paso 2: Actualiza la tabla temporal con los datos
 INSERT INTO temp_mig_indicators (indicator_code, operation_code)
-SELECT code, data_source.source_survey_code
+SELECT DISTINCT indicator.code, data_source.source_survey_code
 FROM tb_indicators indicator
          JOIN tb_indicators_versions indicator_version ON indicator.id = indicator_version.indicator_fk
          JOIN tb_data_sources data_source ON indicator_version.id = data_source.indicator_version_fk
