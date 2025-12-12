@@ -36,7 +36,7 @@ CREATE TABLE temp_mig_indicators
 -- ----------
 -- (Get-Content temp_mig_operations.sql) -replace 'COPY metamac_statistical_operations_bd', 'COPY "external_users-bd"' | Set-Content temp_mig_operations.sql
 -- (Get-Content temp_mig_permalinks.sql) -replace 'COPY metamac_portal_bd', 'COPY "external_users-bd"' | Set-Content temp_mig_permalinks.sql
--- (Get-Content temp_mig_permalinks.sql) -replace 'COPY indicators_bd', 'COPY "external_users-bd"' | Set-Content temp_mig_indicators.sql
+-- (Get-Content temp_mig_indicators.sql) -replace 'COPY indicators_bd', 'COPY "external_users-bd"' | Set-Content temp_mig_indicators.sql
 
 -- Bash
 -- ----------
