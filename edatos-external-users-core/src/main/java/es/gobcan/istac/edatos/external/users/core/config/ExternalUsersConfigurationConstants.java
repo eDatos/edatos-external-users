@@ -25,6 +25,9 @@ public final class ExternalUsersConfigurationConstants extends ConfigurationCons
     public static final String GENDER_RESTRICTION = "metamac.default.codelist.gender.restriction";
     public static final String SIMPLIFIED_SIGN_UP = "metamac.edatos_external_users.simplifiedSignUp";
 
+    // API KEY
+    public static final String EXTERNAL_USERS_REST_API_KEY     = "edatos.external_users.rest.api_key";
+
     private ExternalUsersConfigurationConstants() {
 
     }
