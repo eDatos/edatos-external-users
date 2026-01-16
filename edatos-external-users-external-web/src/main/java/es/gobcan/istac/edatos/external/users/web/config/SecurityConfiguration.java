@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -138,8 +139,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             "/api/languages/internationalization",
             "/captcha/**",
             "/api/filters/last-access/**",
-            "/api/account/email/confirm",
-            "/api/categories/tree/operation/**"
+            "/api/account/email/confirm"
         };
 
         //@formatter:off
@@ -162,6 +162,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .and()
             .authorizeRequests()
                 .antMatchers(UNAUTHORIZED_REQUESTS).permitAll()
+                .antMatchers(HttpMethod.HEAD, "/api/categories").permitAll()
                 .antMatchers("/**").authenticated();
         //@formatter:on
     }
