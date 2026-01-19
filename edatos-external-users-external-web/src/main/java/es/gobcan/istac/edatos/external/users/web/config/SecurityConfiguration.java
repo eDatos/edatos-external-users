@@ -113,7 +113,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 //@formatter:off
                 registry.addMapping("/api/**") // As the doc says, just adding the mapping is super permissive, so is needed to securize it
                         .allowedOrigins(metadataProperties.getAllowedOrigins().toArray(new String[0])) // https://stackoverflow.com/a/4042464
-                        .allowedMethods("GET", "POST", "PUT")
+                        .allowedMethods("GET", "POST", "PUT", "HEAD")
                         .allowedHeaders("authorization", "content-type", "x-xsrf-token", "api-key")
                         .exposedHeaders("x-xsrf-token") // We need to be able to read it from the response
                         .allowCredentials(true) // Needed for sending cookies on the requests
