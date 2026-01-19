@@ -13,14 +13,17 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import es.gobcan.istac.edatos.external.users.core.config.MetadataProperties;
 import es.gobcan.istac.edatos.external.users.core.service.MetadataConfigurationService;
 
 @Component
 public class NoticesInternalHealthIndicator extends AbstractHealthIndicator {
     private final MetadataConfigurationService metadataConfigurationService;
+    private final MetadataProperties           metadataProperties;
 
-    public NoticesInternalHealthIndicator(MetadataConfigurationService metadataConfigurationService) {
+    public NoticesInternalHealthIndicator(MetadataConfigurationService metadataConfigurationService, MetadataProperties metadataProperties) {
         this.metadataConfigurationService = metadataConfigurationService;
+        this.metadataProperties = metadataProperties;
     }
 
     @Override
@@ -31,7 +34,7 @@ public class NoticesInternalHealthIndicator extends AbstractHealthIndicator {
         factory.setReadTimeout(HEALTH_INDICATOR_REQUEST_TIMEOUT_MS);
         RestTemplate restTemplate = new RestTemplate(factory);
         HttpHeaders headers = new HttpHeaders();
-        String apiKey = metadataConfigurationService.retrieveApiKey();
+        String apiKey = metadataProperties.getApiKey();
         if (StringUtils.isNotBlank(apiKey)) {
             headers.set(CoreCommonConstants.API_KEY_PARAMETER, apiKey);
         }

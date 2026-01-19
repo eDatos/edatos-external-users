@@ -13,6 +13,6 @@ export class HtmlService {
     }
 
     getHeader(): Observable<String> {
-        return this.http.get(this.configService.getConfig().template.headerUrl.concat('&apiKey=' + this.configService.getConfig().metadata.apiKey), {responseType: 'text', withCredentials: true});
+        return this.http.get(this.configService.getConfig().template.headerUrl, {params: {apiKey: this.configService.getConfig().metadata.apiKey}, responseType: 'text', withCredentials: true});
     }
 }

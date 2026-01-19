@@ -99,12 +99,7 @@ public class MetadataProperties {
         } catch (EDatosException e) {
             LOGGER.info("Optional property SieExternalWebApplicationUrl is not filled ");
         }
-        try {
-            apiKey = configurationService.retrieveApiKey();
-            LOGGER.info("Property ExternalUsersApiKey is " + apiKey);
-        } catch (EDatosException e) {
-            LOGGER.info("Property ExternalUsersApiKey is not filled ");
-        }
+        apiKey = configurationService.retrieveApiKey();
         allowedOrigins = configurationService.retrieveAllowedOrigins();
         simplifiedSignUp = configurationService.retrieveSimplifiedSignUp();
     }
