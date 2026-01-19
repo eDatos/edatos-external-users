@@ -76,8 +76,4 @@ public class CaptchaServiceImpl implements CaptchaService {
         return recaptchaVerification.getScore() != null && recaptchaVerification.getScore() >= metadataProperties.getRecaptchaThreshold();
     }
 
-    @Override
-    public boolean validateCaptchaGobcan(String userResponse, String key) {
-        return userResponse != null && StringUtils.equals(getResponse(key), userResponse);
-    }
 }
