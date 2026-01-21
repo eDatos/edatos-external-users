@@ -8,7 +8,7 @@
 
 *Se deberá realizar primero la actualización de la versión 1.0.0 a la 2.0.0 y luego desde la 2.0.0 a la 3.0.0*
 
-# 3.11.3 a 3.11.4-SNAPSHOT
+# 3.12.0 a 3.12.1-SNAPSHOT
 
 ### Breaking changes
 
@@ -26,7 +26,7 @@
 * Se eliminan algunas propiedades y se añaden otras relacionadas con el reCAPTCHA debido a la migración de las claves a Google Cloud. Para aplicar los cambios de las propiedades hace falta ejecutar el siguiente script SQL:
 
   ```
-  etc\changes-from-release\3.11.3\db\common-metadata\postgresql\20251117_update_recaptcha_enterprise_configuration.sql
+  etc\changes-from-release\3.12.0\db\common-metadata\postgresql\20251117_update_recaptcha_enterprise_configuration.sql
   ```
 ## 3.11.1 a 3.11.2
 * Esta versión depende de la versión 4.9.0 de metamac-statistical-operations. Por lo tanto, no se puede subir la versión 3.11.2 de eUsuarios sin haber subido la versión 4.9.0 de metamac-statistical-operations y viceversa.
