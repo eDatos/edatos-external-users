@@ -1,27 +1,27 @@
 package es.gobcan.istac.edatos.external.users.core.service.impl;
 
-import javax.ws.rs.core.UriBuilder;
-
-import es.gobcan.istac.edatos.external.users.core.errors.InternalCaptchaException;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-
-import es.gobcan.istac.edatos.external.users.core.config.CaptchaConstants;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.recaptchaenterprise.v1.RecaptchaEnterpriseServiceClient;
+import com.google.cloud.recaptchaenterprise.v1.RecaptchaEnterpriseServiceSettings;
+import com.google.recaptchaenterprise.v1.*;
 import es.gobcan.istac.edatos.external.users.core.config.MetadataProperties;
 import es.gobcan.istac.edatos.external.users.core.domain.CaptchaResponseEntity;
-import es.gobcan.istac.edatos.external.users.core.domain.vo.RecaptchaVerificationVO;
+import es.gobcan.istac.edatos.external.users.core.errors.InternalCaptchaException;
 import es.gobcan.istac.edatos.external.users.core.repository.CaptchaResponseRepository;
 import es.gobcan.istac.edatos.external.users.core.service.CaptchaService;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 
 @Service
 public class CaptchaServiceImpl implements CaptchaService {
 
-    private RestTemplate restTemplate = new RestTemplate();
+    private final Logger log = LoggerFactory.getLogger(CaptchaServiceImpl.class);
 
     @Autowired
     private MetadataProperties metadataProperties;
@@ -50,30 +50,80 @@ public class CaptchaServiceImpl implements CaptchaService {
     }
 
     @Override
-    public boolean validateRecaptcha(String userResponse, String captchaAction) {
-        UriBuilder urlBuilder = UriBuilder.fromUri(CaptchaConstants.RECAPTCHA_VERIFICATION_API);
-        urlBuilder.queryParam("secret", metadataProperties.getRecaptchaSecretKey());
-        urlBuilder.queryParam("response", userResponse);
+    public boolean validateRecaptcha(String userResponse, String recaptchaAction) {
+        log.debug("Request to validate reCAPTCHA for action: {}", recaptchaAction);
 
-        ResponseEntity<RecaptchaVerificationVO> recaptchaVerificationResponse = restTemplate.getForEntity(urlBuilder.build(), RecaptchaVerificationVO.class);
-        RecaptchaVerificationVO recaptchaVerification = recaptchaVerificationResponse.getBody();
+        try {
+            RecaptchaEnterpriseServiceSettings recaptchaSettings = createRecaptchaSettings();
+            try (RecaptchaEnterpriseServiceClient client = RecaptchaEnterpriseServiceClient.create(recaptchaSettings)) {
+                Assessment response = createAssessment(client, userResponse, metadataProperties.getRecaptchaSiteKey());
 
-        if (!recaptchaVerification.wasASuccess()) {
-            if (Arrays.asList(recaptchaVerification.getErrorCodes()).contains(RecaptchaVerificationVO.ErrorCode.INVALID_KEYS)) {
-                urlBuilder.replaceQueryParam("secret", metadataProperties.getRecaptchaV2SecretKey());
-                RecaptchaVerificationVO recaptchaV2Verification = restTemplate.getForEntity(urlBuilder.build(), RecaptchaVerificationVO.class).getBody();
-                if (!recaptchaV2Verification.hasClientError() && recaptchaV2Verification.getErrorCodes() != null && recaptchaV2Verification.getErrorCodes().length > 0) {
+                if (!response.getTokenProperties().getValid()) {
+                    TokenProperties.InvalidReason invalidReason = response.getTokenProperties().getInvalidReason();
+
+                    if (invalidReason == TokenProperties.InvalidReason.INVALID_REASON_UNSPECIFIED) {
+                        log.debug("Falling back to reCAPTCHA v2 validation");
+                        return validateRecaptchaV2(client, userResponse);
+                    }
+
+                    log.error("reCAPTCHA token is invalid. Reason: {}", invalidReason);
                     throw new InternalCaptchaException();
                 }
-                return recaptchaV2Verification.wasASuccess();
-            } else if (!recaptchaVerification.hasClientError() && recaptchaVerification.getErrorCodes() != null && recaptchaVerification.getErrorCodes().length > 0) {
-                throw new InternalCaptchaException();
+
+                if (!response.getTokenProperties().getAction().equals(recaptchaAction)) {
+                    log.error("reCAPTCHA action mismatch. Expected: {}, Received: {}", recaptchaAction, response.getTokenProperties().getAction());
+                    throw new InternalCaptchaException();
+                }
+
+                float score = response.getRiskAnalysis().getScore();
+                double threshold = metadataProperties.getRecaptchaThreshold();
+                boolean validationResult = score >= threshold;
+
+                log.debug("reCAPTCHA score: {}, threshold: {}, validation result: {}", score, threshold, validationResult);
+                return validationResult;
             }
-        } else if (!recaptchaVerification.getAction().equals(captchaAction)) {
+        } catch (InternalCaptchaException e) {
+            throw e;
+        } catch (Exception e) {
+            log.error("Error communicating with reCAPTCHA service: {}", e.getMessage(), e);
             throw new InternalCaptchaException();
         }
+    }
 
-        return recaptchaVerification.getScore() != null && recaptchaVerification.getScore() >= metadataProperties.getRecaptchaThreshold();
+    private RecaptchaEnterpriseServiceSettings createRecaptchaSettings() throws IOException {
+        GoogleCredentials googleCredentials = GoogleCredentials.fromStream(
+            new ByteArrayInputStream(metadataProperties.getRecaptchaCredentials().getBytes())
+        );
+        return RecaptchaEnterpriseServiceSettings.newBuilder()
+            .setCredentialsProvider(() -> googleCredentials)
+            .build();
+    }
+
+    private Assessment createAssessment(RecaptchaEnterpriseServiceClient recaptchaEnterpriseServiceClient, String token, String siteKey) {
+        Event event = createEvent(token, siteKey);
+        CreateAssessmentRequest request = createAssessmentRequest(event);
+        return recaptchaEnterpriseServiceClient.createAssessment(request);
+    }
+
+    private Event createEvent(String token, String siteKey) {
+        return Event.newBuilder()
+            .setSiteKey(siteKey)
+            .setToken(token)
+            .build();
+    }
+
+    private CreateAssessmentRequest createAssessmentRequest(Event event) {
+        return CreateAssessmentRequest.newBuilder()
+            .setParent(ProjectName.of(metadataProperties.getRecaptchaProjectName()).toString())
+            .setAssessment(Assessment.newBuilder().setEvent(event).build())
+            .build();
+    }
+
+    private boolean validateRecaptchaV2(RecaptchaEnterpriseServiceClient recaptchaEnterpriseServiceClient, String token) {
+        Assessment response = createAssessment(recaptchaEnterpriseServiceClient, token, metadataProperties.getRecaptchaV2SiteKey());
+        boolean isValid = response.getTokenProperties().getValid();
+        log.debug("reCAPTCHA v2 validation result: {}", isValid);
+        return isValid;
     }
 
 }

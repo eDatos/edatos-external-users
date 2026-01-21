@@ -4,7 +4,7 @@
     <parent>
         <groupId>es.gobcan.istac.edatos-external-users</groupId>
         <artifactId>edatos-external-users</artifactId>
-        <version>3.11.4-SNAPSHOT</version>
+        <version>3.12.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>edatos-external-users-core</artifactId>
@@ -347,6 +347,15 @@
             <groupId>nl.captcha</groupId>
             <artifactId>simple-captcha</artifactId>
             <version>${simple-captcha.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.cloud</groupId>
+            <artifactId>google-cloud-recaptchaenterprise</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
         </dependency>
     </dependencies>
 
