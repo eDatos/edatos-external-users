@@ -5,5 +5,4 @@ public interface CaptchaService {
     Object getResponse(String key);
     boolean validateSimple(String userResponse, String key);
     boolean validateRecaptcha(String userResponse, String captchaAction);
-    boolean validateCaptchaGobcan(String userResponse, String key);
 }

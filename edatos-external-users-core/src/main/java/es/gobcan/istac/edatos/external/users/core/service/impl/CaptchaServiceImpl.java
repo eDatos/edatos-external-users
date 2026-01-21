@@ -126,8 +126,4 @@ public class CaptchaServiceImpl implements CaptchaService {
         return isValid;
     }
 
-    @Override
-    public boolean validateCaptchaGobcan(String userResponse, String key) {
-        return userResponse != null && StringUtils.equals(getResponse(key), userResponse);
-    }
 }
