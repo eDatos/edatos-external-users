@@ -13,7 +13,7 @@
 * Es necesario ejecutar el siguiente script SQL, donde se incluye la api-key para llamadas a apis:
 
 ```
-etc/changes-from-release/3.11.3/db/common-metadata/postgresql/20260113_create_external_users_api_key.sql
+etc/changes-from-release/3.12.0/db/common-metadata/postgresql/20260113_create_external_users_api_key.sql
 ```
 
 ### Breaking changes
