@@ -14,6 +14,7 @@ export interface GenericConfig {
         gender: string;
         nationalitiesRestriction: string;
         genderRestriction: string;
+        apiKey: string;
     };
     template: {
         headerUrl: string;

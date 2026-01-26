@@ -10,6 +10,12 @@
 
 # 3.12.0 a 3.12.1-SNAPSHOT
 
+* Es necesario ejecutar el siguiente script SQL, donde se incluye la api-key para llamadas a apis:
+
+```
+etc/changes-from-release/3.12.0/db/common-metadata/postgresql/20260113_create_external_users_api_key.sql
+```
+
 ### Breaking changes
 
 * A partir de esta versión se hacen cambios que provocan que las peticiones a la validación del captcha de la siguiente forma fallen:

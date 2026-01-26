@@ -32,4 +32,6 @@ public interface MetadataConfigurationService extends ConfigurationService {
     String retrieveGenderRestriction() throws EDatosException;
 
     boolean retrieveSimplifiedSignUp() throws EDatosException;
+
+    String retrieveApiKey() throws EDatosException;
 }

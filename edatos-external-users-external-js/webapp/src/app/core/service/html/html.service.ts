@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ConfigService } from "@app/config";
 
 @Injectable()
@@ -13,6 +13,6 @@ export class HtmlService {
     }
 
     getHeader(): Observable<String> {
-        return this.http.get(this.configService.getConfig().template.headerUrl, {responseType: 'text', withCredentials: true});
+        return this.http.get(this.configService.getConfig().template.headerUrl, {params: {apiKey: this.configService.getConfig().metadata.apiKey}, responseType: 'text', withCredentials: true});
     }
 }

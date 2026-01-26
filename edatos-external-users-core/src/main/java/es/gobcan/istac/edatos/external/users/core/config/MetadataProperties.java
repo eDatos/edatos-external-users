@@ -58,6 +58,7 @@ public class MetadataProperties {
     private List<String> allowedOrigins;
 
     private String externalOperationsWebUrl;
+    private String apiKey;
 
     @PostConstruct
     public void setValues() {
@@ -98,6 +99,7 @@ public class MetadataProperties {
         } catch (EDatosException e) {
             LOGGER.info("Optional property SieExternalWebApplicationUrl is not filled ");
         }
+        apiKey = configurationService.retrieveApiKey();
         allowedOrigins = configurationService.retrieveAllowedOrigins();
         simplifiedSignUp = configurationService.retrieveSimplifiedSignUp();
     }
@@ -216,6 +218,10 @@ public class MetadataProperties {
 
     public String getExternalOperationsWebUrl() {
         return externalOperationsWebUrl;
+    }
+
+    public String getApiKey() {
+        return apiKey;
     }
 
     public boolean getSimplifiedSignUp() {

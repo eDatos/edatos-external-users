@@ -77,4 +77,9 @@ public class MetadataConfigurationServiceMockImpl extends ConfigurationServiceMo
     public boolean retrieveSimplifiedSignUp() throws EDatosException {
         return retrievePropertyBoolean(ExternalUsersConfigurationConstants.SIMPLIFIED_SIGN_UP);
     }
+
+    @Override
+    public String retrieveApiKey() throws EDatosException {
+        return retrieveProperty(ExternalUsersConfigurationConstants.EXTERNAL_USERS_REST_API_KEY);
+    }
 }
