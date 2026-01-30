@@ -26,23 +26,23 @@ public class MetadataConfigurationServiceImpl extends ConfigurationServiceImpl i
     }
 
     @Override
-    public String retrieveRecaptchaSecretKey() throws EDatosException {
-        return retrieveProperty(ExternalUsersConfigurationConstants.CAPTCHA_RECAPTCHA_SECRET_KEY);
-    }
-
-    @Override
     public String retrieveRecaptchaV2SiteKey() throws EDatosException {
         return retrieveProperty(ExternalUsersConfigurationConstants.CAPTCHA_RECAPTCHA_V2_SITE_KEY);
     }
 
     @Override
-    public String retrieveRecaptchaV2SecretKey() throws EDatosException {
-        return retrieveProperty(ExternalUsersConfigurationConstants.CAPTCHA_RECAPTCHA_V2_SECRET_KEY);
+    public double retrieveRecaptchaThreshold() throws EDatosException {
+        return Double.parseDouble(retrieveProperty(ExternalUsersConfigurationConstants.CAPTCHA_RECAPTCHA_THRESHOLD));
     }
 
     @Override
-    public double retrieveRecaptchaThreshold() throws EDatosException {
-        return Double.parseDouble(retrieveProperty(ExternalUsersConfigurationConstants.CAPTCHA_RECAPTCHA_THRESHOLD));
+    public String retrieveRecaptchaCredentials() throws EDatosException {
+        return retrieveProperty(ExternalUsersConfigurationConstants.CAPTCHA_RECAPTCHA_CREDENTIALS);
+    }
+
+    @Override
+    public String retrieveRecaptchaProjectName() throws EDatosException {
+        return retrieveProperty(ExternalUsersConfigurationConstants.CAPTCHA_RECAPTCHA_PROJECT_NAME);
     }
 
     @Override
@@ -78,5 +78,10 @@ public class MetadataConfigurationServiceImpl extends ConfigurationServiceImpl i
     @Override
     public boolean retrieveSimplifiedSignUp() throws EDatosException {
         return retrievePropertyBoolean(ExternalUsersConfigurationConstants.SIMPLIFIED_SIGN_UP);
+    }
+
+    @Override
+    public String retrieveApiKey() throws EDatosException {
+        return retrieveProperty(ExternalUsersConfigurationConstants.EXTERNAL_USERS_REST_API_KEY);
     }
 }

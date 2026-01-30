@@ -6,17 +6,24 @@ import { TOKEN_AUTH_NAME } from '@app/app.constants';
 import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
 import { CookieService } from 'ngx-cookie-service';
 import { map } from 'rxjs/operators';
+import { ConfigService } from "@app/config";
 
 @Injectable({
     providedIn: 'root',
 })
 export class AuthInterceptor implements HttpInterceptor {
-    constructor(private localStorage: LocalStorageService, private sessionStorage: SessionStorageService, private cookieService: CookieService) {}
+    constructor(private localStorage: LocalStorageService, private sessionStorage: SessionStorageService, private cookieService: CookieService, private configService: ConfigService) {}
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        const apiKey = this.configService.getConfig().metadata.apiKey;
+
         let headers: HttpHeaders = req.headers;
 
         const token = this.localStorage.retrieve(TOKEN_AUTH_NAME) || this.sessionStorage.retrieve(TOKEN_AUTH_NAME);
+
+        if (apiKey) {
+            headers = headers.append('api-key', apiKey);
+        }
 
         if (headers.get('X-Public-Request') == "1") {
             // Bypassing authentication for those requests that are marked as public because of CORS problems

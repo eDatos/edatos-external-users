@@ -11,10 +11,10 @@ public final class ExternalUsersConfigurationConstants extends ConfigurationCons
     public static final String CAPTCHA_ENABLE = "metamac.portal.rest.external.authentication.captcha.enable";
     public static final String CAPTCHA_PROVIDER = "metamac.portal.rest.external.authentication.captcha.provider";
     public static final String CAPTCHA_RECAPTCHA_SITE_KEY = "metamac.portal.rest.external.authentication.captcha.public_key";
-    public static final String CAPTCHA_RECAPTCHA_SECRET_KEY = "metamac.portal.rest.external.authentication.captcha.private_key";
     public static final String CAPTCHA_RECAPTCHA_V2_SITE_KEY = "metamac.portal.rest.external.authentication.captcha.v2.public_key";
-    public static final String CAPTCHA_RECAPTCHA_V2_SECRET_KEY = "metamac.portal.rest.external.authentication.captcha.v2.private_key";
     public static final String CAPTCHA_RECAPTCHA_THRESHOLD = "metamac.portal.rest.external.authentication.captcha.threshold";
+    public static final String CAPTCHA_RECAPTCHA_CREDENTIALS = "metamac.portal.rest.external.authentication.captcha.credentials";
+    public static final String CAPTCHA_RECAPTCHA_PROJECT_NAME = "metamac.portal.rest.external.authentication.captcha.project_name";
 
     // OTHER PROPERTIES
     public static final String BASE_URL = "metamac.edatos_external_users.rest.external.base";
@@ -24,6 +24,9 @@ public final class ExternalUsersConfigurationConstants extends ConfigurationCons
     public static final String NATIONALITY_RESTRICTION = "metamac.default.codelist.nationality.restriction";
     public static final String GENDER_RESTRICTION = "metamac.default.codelist.gender.restriction";
     public static final String SIMPLIFIED_SIGN_UP = "metamac.edatos_external_users.simplifiedSignUp";
+
+    // API KEY
+    public static final String EXTERNAL_USERS_REST_API_KEY     = "edatos.external_users.rest.api_key";
 
     private ExternalUsersConfigurationConstants() {
 
