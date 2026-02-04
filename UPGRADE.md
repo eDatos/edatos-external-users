@@ -8,6 +8,32 @@
 
 *Se deberá realizar primero la actualización de la versión 1.0.0 a la 2.0.0 y luego desde la 2.0.0 a la 3.0.0*
 
+# 3.12.0 a 4.0.0
+
+* Es necesario ejecutar el siguiente script SQL, donde se incluye la api-key para llamadas a apis:
+
+```
+etc/changes-from-release/3.12.0/db/common-metadata/postgresql/20260113_create_external_users_api_key.sql
+```
+
+### Breaking changes
+
+* A partir de esta versión se hacen cambios que provocan que las peticiones a la validación del captcha de la siguiente forma fallen:
+  ```
+  restTemplate.getForEntity(captchaValidationUrl, Object.class);
+  ```
+  Ahora la forma de hacerlo es con `Void`:
+  ```
+  restTemplate.getForEntity(captchaValidationUrl, Void.class);
+  ```
+
+  Por lo tanto, las aplicaciones que hagan peticiones a la validación del captcha deberán adaptarse a este cambio si se despliega esta versión de eUsuarios. En la documentación del Confluence sobre el captcha se encuentra un listado de las aplicaciones que hacen uso del captcha y que deberán adaptarse a este cambio si hacen la petición de esa manera.
+
+* Se eliminan algunas propiedades y se añaden otras relacionadas con el reCAPTCHA debido a la migración de las claves a Google Cloud. Para aplicar los cambios de las propiedades hace falta ejecutar el siguiente script SQL:
+
+  ```
+  etc\changes-from-release\3.12.0\db\common-metadata\postgresql\20251117_update_recaptcha_enterprise_configuration.sql
+  ```
 ## 3.11.1 a 3.11.2
 * Esta versión depende de la versión 4.9.0 de metamac-statistical-operations. Por lo tanto, no se puede subir la versión 3.11.2 de eUsuarios sin haber subido la versión 4.9.0 de metamac-statistical-operations y viceversa.
 

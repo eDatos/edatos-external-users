@@ -11,7 +11,7 @@
 
     <groupId>es.gobcan.istac.edatos-external-users</groupId>
     <artifactId>edatos-external-users</artifactId>
-    <version>3.11.4-SNAPSHOT</version>
+    <version>4.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>eDatos External Users</name>
@@ -302,6 +302,22 @@
 
     <dependencyManagement>
         <dependencies>
+
+            <!-- Guava version override - MUST be declared BEFORE BOM imports -->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>33.3.1-jre</version>
+            </dependency>
+
+            <!-- Google Cloud BOM for dependency management -->
+            <dependency>
+                <groupId>com.google.cloud</groupId>
+                <artifactId>libraries-bom</artifactId>
+                <version>26.70.0</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
 
             <!-- eDatos External Users -->
 
