@@ -8,7 +8,7 @@
 
 *Se deberá realizar primero la actualización de la versión 1.0.0 a la 2.0.0 y luego desde la 2.0.0 a la 3.0.0*
 
-# 3.12.0 a 3.12.1-SNAPSHOT
+# 3.12.0 a 4.0.0
 
 * Es necesario ejecutar el siguiente script SQL, donde se incluye la api-key para llamadas a apis:
 
