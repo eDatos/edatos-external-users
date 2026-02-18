@@ -11,6 +11,7 @@ import es.gobcan.istac.edatos.external.users.core.repository.CategoryRepository;
 import es.gobcan.istac.edatos.external.users.core.repository.ExternalOperationRepository;
 import es.gobcan.istac.edatos.external.users.core.repository.ExternalUserRepository;
 import es.gobcan.istac.edatos.external.users.core.security.SecurityUtils;
+import es.gobcan.istac.edatos.external.users.rest.common.dto.ExternalOperationDto;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.ExternalUserAccountBaseDto;
 import es.gobcan.istac.edatos.external.users.rest.common.dto.FavoriteDto;
 import es.gobcan.istac.edatos.external.users.rest.common.mapper.config.AuditingMapperConfig;
@@ -38,7 +39,7 @@ public abstract class FavoriteMapper implements EntityMapper<FavoriteDto, Favori
     @Named(value = "mappingMethodForCollections")
     @Mapping(target = "externalUser", source = "externalUser.id", qualifiedByName = "externalUserFromId")
     @Mapping(target = "category", source = "category.id", qualifiedByName = "categoryFromId")
-    @Mapping(target = "externalOperation", source = "externalOperation.id", qualifiedByName = "externalOperationFromId")
+    @Mapping(target = "externalOperation", source = "externalOperation", qualifiedByName = "externalOperationFromIdOrCode")
     public abstract FavoriteEntity toEntity(FavoriteDto dto);
 
     @Override
@@ -48,7 +49,7 @@ public abstract class FavoriteMapper implements EntityMapper<FavoriteDto, Favori
     @Named(value = "mappingMethodForCollectionsWithAuthenticatedUser")
     @Mapping(target = "externalUser", source = "externalUser", qualifiedByName = "externalUserFromAuthenticationEmail")
     @Mapping(target = "category", source = "category.id", qualifiedByName = "categoryFromId")
-    @Mapping(target = "externalOperation", source = "externalOperation.id", qualifiedByName = "externalOperationFromId")
+    @Mapping(target = "externalOperation", source = "externalOperation", qualifiedByName = "externalOperationFromIdOrCode")
     public abstract FavoriteEntity toEntityWithAuthenticatedUser(FavoriteDto dto);
 
     @IterableMapping(qualifiedByName = "mappingMethodForCollectionsWithAuthenticatedUser")
@@ -79,11 +80,20 @@ public abstract class FavoriteMapper implements EntityMapper<FavoriteDto, Favori
         return categoryRepository.findOne(id);
     }
 
-    @Named("externalOperationFromId")
-    public ExternalOperationEntity externalOperationFromId(Long id) {
-        if (id == null) {
+    @Named("externalOperationFromIdOrCode")
+    public ExternalOperationEntity externalOperationFromIdOrCode(ExternalOperationDto externalOperation) {
+        if (externalOperation == null) {
             return null;
         }
-        return externalOperationRepository.findOne(id);
+
+        if (externalOperation.getId() != null) {
+            return externalOperationRepository.findOne(externalOperation.getId());
+        }
+
+        if (externalOperation.getCode() != null) {
+            return externalOperationRepository.findByCode(externalOperation.getCode()).orElse(null);
+        }
+
+        return null;
     }
 }
