@@ -39,8 +39,8 @@ WHERE permalink.content ~ '^\s*[\{\[]'
   AND permalink.content::jsonb -> 'queryParams' ->> 'type' IN ('indicator');
 
 -- Requerido para poder exportar la tabla
-GRANT SELECT ON TABLE metamac_portal_bd.temp_mig_permalinks TO metamac_portal_bd;
-GRANT SELECT ON TABLE metamac_portal_bd.temp_mig_permalinks_indicators TO metamac_portal_bd;
+GRANT SELECT ON TABLE temp_mig_permalinks TO metamac_portal_bd; -- RECUERDA ACTUALIZAR AL USUARIO CORRESPONDIENTE
+GRANT SELECT ON TABLE temp_mig_permalinks_indicators TO metamac_portal_bd; -- RECUERDA ACTUALIZAR AL USUARIO CORRESPONDIENTE
 
 -- Paso 3: Exportar los datos de la tabla temporal a un archivo con pg_dump desde la terminal
 
@@ -49,14 +49,14 @@ GRANT SELECT ON TABLE metamac_portal_bd.temp_mig_permalinks_indicators TO metama
 -- Recuerda setear las variables de entorno antes de ejecutar el comando
 -- $env:PGPASSWORD="FILL_ME"
 -- $CLIENT="FILL_ME" # ejemplo: localhost
--- pg_dump -h $CLIENT -p 5432 -U metamac_portal_bd -t 'metamac_portal_bd.temp_mig_permalinks' -t 'metamac_portal_bd.temp_mig_permalinks_indicators' --data-only -f temp_mig_permalinks.sql metamac_portal_bd
+-- pg_dump -h $CLIENT -p 5432 -U metamac_portal_bd -t 'temp_mig_permalinks' -t 'temp_mig_permalinks_indicators' --data-only -f temp_mig_permalinks.sql metamac_portal_bd
 
 -- Bash
 -- ----------
 -- Recuerda setear las variables de entorno antes de ejecutar el comando
 -- export PGPASSWORD="FILL_ME"
 -- CLIENT="FILL_ME" # ejemplo: localhost
--- pg_dump -h $CLIENT -p 5432 -U metamac_portal_bd -t 'metamac_portal_bd.temp_mig_permalinks' -t 'metamac_portal_bd.temp_mig_permalinks_indicators' --data-only -f temp_mig_permalinks.sql metamac_portal_bd
+-- pg_dump -h $CLIENT -p 5432 -U metamac_portal_bd -t 'temp_mig_permalinks' -t 'temp_mig_permalinks_indicators' --data-only -f temp_mig_permalinks.sql metamac_portal_bd
 
 -- Paso 4: Eliminar la tabla temporal en la base de datos postgresql de METAMAC_PORTAL
 DROP TABLE temp_mig_permalinks;

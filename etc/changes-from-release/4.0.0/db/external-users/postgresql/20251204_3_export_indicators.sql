@@ -18,7 +18,7 @@ FROM tb_indicators indicator
 WHERE indicator_version.proc_status = 'PUBLISHED';
 
 -- Requerido para poder exportar la tabla
-GRANT SELECT ON TABLE indicators_bd.temp_mig_indicators TO indicators_bd;
+GRANT SELECT ON TABLE temp_mig_indicators TO indicators_bd; -- RECUERDA ACTUALIZAR AL USUARIO CORRESPONDIENTE
 
 -- Paso 3: Exportar los datos de la tabla temporal a un archivo con pg_dump desde la terminal
 
@@ -27,14 +27,14 @@ GRANT SELECT ON TABLE indicators_bd.temp_mig_indicators TO indicators_bd;
 -- Recuerda setear las variables de entorno antes de ejecutar el comando
 -- $env:PGPASSWORD="FILL_ME"
 -- $CLIENT="FILL_ME" # ejemplo: localhost
--- pg_dump -h $CLIENT -p 5432 -U indicators_bd -t 'indicators_bd.temp_mig_indicators' --data-only -f temp_mig_indicators.sql indicators_bd
+-- pg_dump -h $CLIENT -p 5432 -U indicators_bd -t 'temp_mig_indicators' --data-only -f temp_mig_indicators.sql indicators_bd
 
 -- Bash
 -- ----------
 -- Recuerda setear las variables de entorno antes de ejecutar el comando
 -- export PGPASSWORD="FILL_ME"
 -- CLIENT="FILL_ME" # ejemplo: localhost
--- pg_dump -h $CLIENT -p 5432 -U indicators_bd -t 'indicators_bd.temp_mig_indicators' --data-only -f temp_mig_indicators.sql indicators_bd
+-- pg_dump -h $CLIENT -p 5432 -U indicators_bd -t 'temp_mig_indicators' --data-only -f temp_mig_indicators.sql indicators_bd
 
 -- Paso 4: Eliminar la tabla temporal en la base de datos postgresql de METAMAC_PORTAL
 DROP TABLE temp_mig_indicators;
