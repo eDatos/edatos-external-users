@@ -2,11 +2,14 @@ package es.gobcan.istac.edatos.external.users.rest.external.resources;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import es.gobcan.istac.edatos.external.users.core.domain.ExternalOperationEntity;
+import es.gobcan.istac.edatos.external.users.core.service.ExternalOperationService;
 import org.siemac.edatos.core.common.exception.CommonServiceExceptionType;
 import org.siemac.edatos.core.common.exception.EDatosException;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +20,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.Timed;
@@ -38,15 +43,17 @@ public class FavoriteResource extends AbstractResource {
     public static final String BASE_URL = "/api/favorites";
 
     private final FavoriteService favoriteService;
+    private final ExternalOperationService externalOperationService;
 
     private final FavoriteMapper favoriteMapper;
 
     private final AuditEventPublisher auditPublisher;
 
-    public FavoriteResource(FavoriteService favoriteService, FavoriteMapper favoriteMapper, AuditEventPublisher auditPublisher) {
+    public FavoriteResource(FavoriteService favoriteService, FavoriteMapper favoriteMapper, AuditEventPublisher auditPublisher, ExternalOperationService externalOperationService) {
         this.favoriteService = favoriteService;
         this.favoriteMapper = favoriteMapper;
         this.auditPublisher = auditPublisher;
+        this.externalOperationService = externalOperationService;
     }
 
     @GetMapping("/{id}")
@@ -54,6 +61,20 @@ public class FavoriteResource extends AbstractResource {
     @PreAuthorize("@secCheckerExternal.canAccessFavorites(authentication)")
     public ResponseEntity<FavoriteDto> getFavoriteById(@PathVariable Long id) {
         return ResponseEntity.ok(favoriteMapper.toDto(favoriteService.find(id)));
+    }
+
+    @RequestMapping(method = RequestMethod.HEAD)
+    @Timed
+    @PreAuthorize("@secCheckerExternal.canAccessFavorites(authentication)")
+    public ResponseEntity<Void> isOperationMarkedAsFavorite(@RequestParam("operationCode") String operationCode) {
+        ExternalOperationEntity operation = externalOperationService.findByCode(operationCode);
+        if (operation != null) {
+            FavoriteEntity favorite = favoriteService.findByExternalUserAndExternalOperationOrCategoryAndAncestors(Collections.singletonList(operation), Collections.emptyList());
+            if (favorite != null) {
+                return ResponseEntity.ok().build();
+            }
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @GetMapping
