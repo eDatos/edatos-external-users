@@ -11,7 +11,7 @@
 
     <groupId>es.gobcan.istac.edatos-external-users</groupId>
     <artifactId>edatos-external-users</artifactId>
-    <version>4.1.0</version>
+    <version>4.1.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>eDatos External Users</name>
@@ -19,7 +19,7 @@
     <scm>
         <connection>scm:git:https://git.arte-consultores.com/istac/edatos-external-users/</connection>
         <developerConnection>scm:git:https://git.arte-consultores.com/istac/edatos-external-users/</developerConnection>
-        <tag>20260223-0903-v4.1.0</tag>
+        <tag>HEAD</tag>
         <url>https://git.arte-consultores.com/istac/edatos-external-users</url>
     </scm>
     <issueManagement>
