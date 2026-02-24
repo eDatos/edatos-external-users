@@ -30,19 +30,9 @@ CREATE TABLE temp_mig_indicators
     operation_code VARCHAR(255) NOT NULL
 );
 
--- Paso 2: Actualiza el esquema de las tablas temporales
-
--- Powershell
--- ----------
--- (Get-Content temp_mig_operations.sql) -replace 'COPY metamac_statistical_operations_bd', 'COPY "external_users-bd"' | Set-Content temp_mig_operations.sql
--- (Get-Content temp_mig_permalinks.sql) -replace 'COPY metamac_portal_bd', 'COPY "external_users-bd"' | Set-Content temp_mig_permalinks.sql
--- (Get-Content temp_mig_indicators.sql) -replace 'COPY indicators_bd', 'COPY "external_users-bd"' | Set-Content temp_mig_indicators.sql
-
--- Bash
--- ----------
--- sed -i 's/COPY metamac_statistical_operations_bd\./COPY "external_users-bd"/g' temp_mig_operations.sql
--- sed -i 's/COPY metamac_portal_bd\./COPY "external_users-bd"/g' temp_mig_permalinks.sql
--- sed -i 's/COPY indicators_bd\./COPY "external_users-bd"/g' temp_mig_indicators.sql
+-- Paso 2: Actualiza el esquema de las tablas temporales. Se debe hacer manualmente, eliminando el esquema que está
+-- después del COPY al esquema de correspondiente de la BD de external-users. Debe hacerse para las 3 tablas:
+-- temp_mig_operations.sql, temp_mig_permalinks.sql y temp_mig_indicators.sql
 
 -- Paso 3: Importar los datos generados en EXTERNAL-USERS
 
