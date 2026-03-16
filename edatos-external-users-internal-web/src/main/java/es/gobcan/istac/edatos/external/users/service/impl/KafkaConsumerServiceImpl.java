@@ -69,6 +69,9 @@ public class KafkaConsumerServiceImpl implements KafkaConsumerService {
         String urn = consumerRecord.value().getUrn();
         LOGGER.info("Kafka external publication dataset message received. Code: '{}'", urn);
         DatasetAvro datasetRecord = SpecificData.get().deepCopy(DatasetAvro.SCHEMA$, consumerRecord.value());
+        if (!hasValidStatisticalOperation(datasetRecord)) {
+            return;
+        }
         ExternalDatasetEntity dataset = externalDatasetMapper.toEntity(datasetRecord);
 
         Optional<ExternalDatasetEntity> inDbDataset = externalDatasetService.findByUrn(urn);
@@ -85,6 +88,14 @@ public class KafkaConsumerServiceImpl implements KafkaConsumerService {
                 externalDatasetService.create(dataset);
              }
         }
+    }
+
+    private boolean hasValidStatisticalOperation(DatasetAvro datasetRecord) {
+        if (datasetRecord.getStatisticalOperation() == null || datasetRecord.getStatisticalOperation().getCode() == null) {
+            LOGGER.error("[external-users] Jaxi dataset with null statistical operation received from Kafka. Dataset URN: {}", datasetRecord.getUrn());
+            return false;
+        }
+        return true;
     }
 
     @KafkaListener(id = "operationPublicationTopicId", topics = "#{kafkaProperties.getOperationPublicationTopic()}")
