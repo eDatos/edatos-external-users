@@ -53,6 +53,14 @@ public class KafkaConsumerServiceImpl implements KafkaConsumerService {
                                    .getIdentifiableStatisticalResource()
                                    .getUrn();
         LOGGER.info("Kafka dataset message received. Code: '{}'", urn);
+
+        // Datasets with patch > 0 are ignored because minor modifications to datasets
+        // do not get notified to users.
+        if (consumerRecord.value().getPatch() != 0) {
+            LOGGER.info("Ignoring dataset {} because is a patch version. No notification will be sent", urn);
+            return;
+        }
+
         ExternalDatasetEntity dataset = externalDatasetMapper.toEntity(consumerRecord.value());
         Optional<ExternalDatasetEntity> inDbDataset = externalDatasetService.findByUrn(urn);
         if (inDbDataset.isPresent()) {
