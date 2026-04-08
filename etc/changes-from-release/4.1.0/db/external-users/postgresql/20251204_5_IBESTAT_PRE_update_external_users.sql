@@ -8,3 +8,5 @@ DELETE
 FROM tb_filters
 WHERE external_operation_urn IS NULL
   AND permalink ILIKE '%generarUrlSocial.do%';
+
+COMMIT;

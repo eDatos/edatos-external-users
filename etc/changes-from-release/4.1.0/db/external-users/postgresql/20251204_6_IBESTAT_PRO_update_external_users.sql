@@ -15,3 +15,5 @@ WHERE permalink = 'https://intranet.caib.es/ibestat-jaxi/generarUrlSocial.do?cod
 UPDATE tb_filters
 SET external_operation_urn = 'urn:siemac:org.siemac.metamac.infomodel.statisticaloperations.Operation=000049A'
 WHERE permalink = 'https://intranet.caib.es/ibestat-jaxi/generarUrlSocial.do?cod=22483'; -- kafka offset 66475
+
+COMMIT;
