@@ -4,10 +4,11 @@
 
 -- ESTE SCRIPT SOLO DEBE EJECUTARSE EN IBESTAT *PRE*, EN LA BASE DE DATOS DE EXTERNAL-USERS
 
+-- Elimina todos los filtros que sigan teniendo la operación a null dado que hay múltiples filtros
+-- que apuntan a permalinks inexistentes.
 DELETE
 FROM tb_filters
-WHERE external_operation_urn IS NULL
-  AND permalink ILIKE '%generarUrlSocial.do%';
+WHERE external_operation_urn IS NULL;
 
 COMMIT;
 
