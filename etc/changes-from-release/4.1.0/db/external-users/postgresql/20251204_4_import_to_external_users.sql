@@ -30,31 +30,22 @@ CREATE TABLE temp_mig_indicators
     operation_code VARCHAR(255) NOT NULL
 );
 
--- Paso 2: Actualiza el esquema de las tablas temporales. Se debe hacer manualmente, eliminando el esquema que está
--- después del COPY al esquema de correspondiente de la BD de external-users. Debe hacerse para las 3 tablas:
--- temp_mig_operations.sql, temp_mig_permalinks.sql y temp_mig_indicators.sql
+-- Paso 2: Importar los datos generados en EXTERNAL-USERS
 
--- Paso 3: Importar los datos generados en EXTERNAL-USERS
+-- La plantilla del comando es la siguiente:
+-- psql -U "<usuario>"
+--      -d "<bd>"
+--      -h "<host>"
+--      -f "<fichero SQL>"
+--      -W # Fuerza la solicitud de la contraseña
 
--- Powershell
--- ----------
--- Recuerda setear las variables de entorno antes de ejecutar el comando
--- $env:PGPASSWORD="FILL_ME"
--- $CLIENT="FILL_ME" # ejemplo: localhost
--- psql -h $CLIENT -p 5432 -U external_users-bd -d external_users-bd -f temp_mig_operations.sql
--- psql -h $CLIENT -p 5432 -U external_users-bd -d external_users-bd -f temp_mig_permalinks.sql
--- psql -h $CLIENT -p 5432 -U external_users-bd -d external_users-bd -f temp_mig_indicators.sql
+-- Ejemplos para los tres ficheros:
+-- psql -U "external_users_bd" -d "external_users_bd" -h localhost -f "./export_operations.sql" -W
+-- psql -U "external_users_bd" -d "external_users_bd" -h localhost -f "./export_permalinks.sql" -W
+-- psql -U "external_users_bd" -d "external_users_bd" -h localhost -f "./export_permalinks_indicators.sql" -W
+-- psql -U "external_users_bd" -d "external_users_bd" -h localhost -f "./export_indicators.sql" -W
 
--- Bash
--- ----------
--- Recuerda setear las variables de entorno antes de ejecutar el comando
--- export PGPASSWORD="FILL_ME"
--- CLIENT="FILL_ME" # ejemplo: localhost
--- psql -h $CLIENT -p 5432 -U external_users-bd -d external_users-bd -f temp_mig_operations.sql
--- psql -h $CLIENT -p 5432 -U external_users-bd -d external_users-bd -f temp_mig_permalinks.sql
--- psql -h $CLIENT -p 5432 -U external_users-bd -d external_users-bd -f temp_mig_indicators.sql
-
--- Paso 4: Insertar los datos de las operaciones desde la tabla temporal a las tablas de EXTERNAL-USERS
+-- Paso 3: Insertar los datos de las operaciones desde la tabla temporal a las tablas de EXTERNAL-USERS
 
 INSERT INTO tb_external_items (id, opt_lock, code, name, type, urn)
 SELECT nextval('seq_tb_external_items'), 0, operation.code, operation.name, 'statisticalOperations#operation', operation.urn
@@ -67,7 +58,7 @@ FROM temp_mig_operations operation
          JOIN tb_external_items external_item ON operation.urn = external_item.urn
 ON CONFLICT DO NOTHING;
 
--- Paso 5: Asignación de las operaciones a los filtros que no lo tengan todavía
+-- Paso 4: Asignación de las operaciones a los filtros que no lo tengan todavía
 
 -- Primero con los recursos estadísticos que tienen la operación directamente extraíble de su permalink
 UPDATE tb_filters filter
@@ -86,7 +77,7 @@ SET external_operation_urn = (SELECT operation_ext_item.urn
                               WHERE operation_ext_item.code = indicator.operation_code)
 WHERE filter.external_operation_urn IS NULL;
 
--- Paso 6: Eliminar la tabla temporal en la base de datos postgresql de EXTERNAL-USERS
+-- Paso 6: Eliminar las tablas temporales de la base de datos de EXTERNAL-USERS
 DROP TABLE temp_mig_operations;
 DROP TABLE temp_mig_permalinks;
 DROP TABLE temp_mig_permalinks_indicators;

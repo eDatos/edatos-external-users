@@ -38,26 +38,17 @@ FROM tb_permalinks AS permalink
 WHERE permalink.content ~ '^\s*[\{\[]'
   AND permalink.content::jsonb -> 'queryParams' ->> 'type' IN ('indicator');
 
--- Requerido para poder exportar la tabla
-GRANT SELECT ON TABLE temp_mig_permalinks TO metamac_portal_bd; -- RECUERDA ACTUALIZAR AL USUARIO CORRESPONDIENTE
-GRANT SELECT ON TABLE temp_mig_permalinks_indicators TO metamac_portal_bd; -- RECUERDA ACTUALIZAR AL USUARIO CORRESPONDIENTE
+-- Paso 3: Exportar los datos de la tabla temporal
 
--- Paso 3: Exportar los datos de la tabla temporal a un archivo con pg_dump desde la terminal
+-- Para la exportación es necesario utilizar DBeaver. Se han de seguir los siguientes pasos:
+-- 1. Hacer clic derecho sobre la tabla temporal "temp_mig_permalinks" y seleccionar "Export Data"
+-- 2. En la ventana de exportación seleccionar "SQL" como formato de exportación
+-- 3. En la ventana de formato asegurarse de que la opción "Omit schema name" está marcada
+-- 4. Exportar el resultado a un fichero con el nombre "export_permalinks.sql". El nombre puede ser cualquier otro,
+--    pero es el que se usará en los comandos posteriores.
+-- 5. Repetir los pasos anteriores para la tabla "temp_mig_permalinks_indicators",
+--    exportando el resultado a un fichero con el nombre "export_permalinks_indicators.sql"
 
--- Powershell
--- ----------
--- Recuerda setear las variables de entorno antes de ejecutar el comando
--- $env:PGPASSWORD="FILL_ME"
--- $CLIENT="FILL_ME" # ejemplo: localhost
--- pg_dump -h $CLIENT -p 5432 -U metamac_portal_bd -t 'temp_mig_permalinks' -t 'temp_mig_permalinks_indicators' --data-only -f temp_mig_permalinks.sql metamac_portal_bd
-
--- Bash
--- ----------
--- Recuerda setear las variables de entorno antes de ejecutar el comando
--- export PGPASSWORD="FILL_ME"
--- CLIENT="FILL_ME" # ejemplo: localhost
--- pg_dump -h $CLIENT -p 5432 -U metamac_portal_bd -t 'temp_mig_permalinks' -t 'temp_mig_permalinks_indicators' --data-only -f temp_mig_permalinks.sql metamac_portal_bd
-
--- Paso 4: Eliminar la tabla temporal en la base de datos postgresql de METAMAC_PORTAL
+-- Paso 4: Eliminar las tablas temporales de la base de datos PORTAL
 DROP TABLE temp_mig_permalinks;
 DROP TABLE temp_mig_permalinks_indicators;

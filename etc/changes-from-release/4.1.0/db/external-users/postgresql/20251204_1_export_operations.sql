@@ -33,24 +33,14 @@ FROM tb_operations operations
 WHERE proc_status = 'PUBLISH_EXTERNALLY'
 GROUP BY operations.urn, operations.code, operations.inventory_date, sub_area.urn;
 
--- Requerido para poder exportar la tabla
-GRANT SELECT ON TABLE temp_mig_operations TO metamac_statistical_operations_bd; -- RECUERDA ACTUALIZAR AL USUARIO CORRESPONDIENTE
+-- Paso 3: Exportar los datos de la tabla temporal
 
--- Paso 3: Exportar los datos de la tabla temporal a un archivo con pg_dump desde la terminal
+-- Para la exportación es necesario utilizar DBeaver. Se han de seguir los siguientes pasos:
+-- 1. Hacer clic derecho sobre la tabla temporal "temp_mig_operations" y seleccionar "Export Data"
+-- 2. En la ventana de exportación seleccionar "SQL" como formato de exportación
+-- 3. En la ventana de formato asegurarse de que la opción "Omit schema name" está marcada
+-- 4. Exportar el resultado a un fichero con el nombre "export_operations.sql". El nombre puede ser cualquier otro,
+--    pero es el que se usará en los comandos posteriores.
 
--- Powershell
--- ----------
--- Recuerda setear las variables de entorno antes de ejecutar el comando
--- $env:PGPASSWORD="FILL_ME"
--- $CLIENT="FILL_ME" # ejemplo: localhost
--- pg_dump -h $CLIENT -p 5432 -U metamac_statistical_operations_bd -t 'temp_mig_operations' --data-only -f temp_mig_operations.sql metamac_statistical_operations_bd
-
--- Bash
--- ----------
--- Recuerda setear las variables de entorno antes de ejecutar el comando
--- export PGPASSWORD="FILL_ME"
--- CLIENT="FILL_ME" # ejemplo: localhost
--- pg_dump -h $CLIENT -p 5432 -U metamac_statistical_operations_bd -t 'temp_mig_operations' --data-only -f temp_mig_operations.sql metamac_statistical_operations_bd
-
--- Paso 4: Eliminar la tabla temporal en la base de datos postgresql de STATISTICAL-OPERATIONS
+-- Paso 4: Eliminar la tabla temporal de la base de datos de STATISTICAL-OPERATIONS
 DROP TABLE temp_mig_operations;
