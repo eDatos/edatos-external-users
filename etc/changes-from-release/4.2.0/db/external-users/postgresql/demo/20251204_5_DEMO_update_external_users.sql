@@ -11,3 +11,5 @@ FROM tb_filters
 WHERE external_operation_urn IS NULL;
 
 COMMIT;
+
+-- Fecha de última revisión: 2026-04-08

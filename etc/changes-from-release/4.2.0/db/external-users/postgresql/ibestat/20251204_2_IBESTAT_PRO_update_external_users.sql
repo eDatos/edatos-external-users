@@ -18,6 +18,8 @@ WHERE permalink = 'https://intranet.caib.es/ibestat-jaxi/generarUrlSocial.do?cod
 
 COMMIT;
 
+-- Fecha de última revisión: 2026-04-08
+
 -- ¿Cómo se han averiguado las operaciones de estos recursos?
 -- 1. Se acccede al enlace del permalink, que lleva al visualizador Jaxi, en donde se ve el nombre la operación a la que corresponde el recurso.
 -- 2. Se busca la operación en el catálogo de operaciones de eUsuarios, y se obtiene su URN, que es la que se asigna al filtro.

@@ -10,3 +10,5 @@ WHERE external_operation_urn IS NULL
   AND permalink ILIKE '%generarUrlSocial.do%';
 
 COMMIT;
+
+-- Fecha de última revisión: 2026-04-08
