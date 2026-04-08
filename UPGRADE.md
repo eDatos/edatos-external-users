@@ -8,11 +8,13 @@
 
 *Se deberá realizar primero la actualización de la versión 1.0.0 a la 2.0.0 y luego desde la 2.0.0 a la 3.0.0*
 
-## 4.1.0 a 4.1.1-SNAPSHOT
+## 4.2.0 a 4.2.1-SNAPSHOT
 
 Se debe realizar una adecuación de los datos. Para ello han de ejecutarse los scripts en el
-  orden en que figuran y siguiendo las instrucciones contenidas en ellos:
-  * [etc/changes-from-release/4.1.0/db](etc/changes-from-release/4.1.0/db)
+orden en que figuran y siguiendo las instrucciones contenidas en ellos, **previamente a levantar
+la aplicación**:
+
+* [etc/changes-from-release/4.2.0/db](etc/changes-from-release/4.2.0/db)
 
 # 3.12.0 a 4.0.0
 
