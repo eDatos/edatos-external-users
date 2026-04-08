@@ -50,13 +50,15 @@ CREATE TABLE temp_mig_indicators
 INSERT INTO tb_external_items (id, opt_lock, code, name, type, urn)
 SELECT nextval('seq_tb_external_items'), 0, operation.code, operation.name, 'statisticalOperations#operation', operation.urn
 FROM temp_mig_operations operation
-ON CONFLICT DO NOTHING;
+WHERE NOT EXISTS (SELECT 1 FROM tb_external_items existing
+                  WHERE existing.urn = operation.urn);
 
 INSERT INTO tb_external_operations (external_category_urn, enabled, notifications_enabled, publication_date, external_item_fk)
 SELECT operation.external_category_urn, FALSE, TRUE, operation.publication_date, external_item.id
 FROM temp_mig_operations operation
          JOIN tb_external_items external_item ON operation.urn = external_item.urn
-ON CONFLICT DO NOTHING;
+WHERE NOT EXISTS (SELECT 1 FROM tb_external_operations existing
+                  WHERE existing.external_item_fk = external_item.id);
 
 -- Paso 4: Asignación de las operaciones a los filtros que no lo tengan todavía
 
