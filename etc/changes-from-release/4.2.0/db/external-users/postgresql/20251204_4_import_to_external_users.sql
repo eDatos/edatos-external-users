@@ -39,7 +39,7 @@ CREATE TABLE temp_mig_indicators
 --      -f "<fichero SQL>"
 --      -W # Fuerza la solicitud de la contraseña
 
--- Ejemplos para los tres ficheros:
+-- Ejemplos:
 -- psql -U "external_users_bd" -d "external_users_bd" -h localhost -f "./export_operations.sql" -W
 -- psql -U "external_users_bd" -d "external_users_bd" -h localhost -f "./export_permalinks.sql" -W
 -- psql -U "external_users_bd" -d "external_users_bd" -h localhost -f "./export_permalinks_indicators.sql" -W
@@ -79,7 +79,7 @@ SET external_operation_urn = (SELECT operation_ext_item.urn
                               WHERE operation_ext_item.code = indicator.operation_code)
 WHERE filter.external_operation_urn IS NULL;
 
--- Paso 6: Eliminar las tablas temporales de la base de datos de EXTERNAL-USERS
+-- Paso 5: Eliminar las tablas temporales de la base de datos de EXTERNAL-USERS
 DROP TABLE temp_mig_operations;
 DROP TABLE temp_mig_permalinks;
 DROP TABLE temp_mig_permalinks_indicators;
