@@ -21,7 +21,7 @@ COMMIT;
 -- Fecha de última revisión: 2026-04-08
 
 -- ¿Cómo se han averiguado las operaciones de estos recursos?
--- 1. Se acccede al enlace del permalink, que lleva al visualizador Jaxi, en donde se ve el nombre la operación a la que corresponde el recurso.
+-- 1. Se accede al enlace del permalink, que lleva al visualizador Jaxi, en donde se ve el nombre de la operación a la que corresponde el recurso.
 -- 2. Se busca la operación en el catálogo de operaciones de eUsuarios, y se obtiene su URN, que es la que se asigna al filtro.
 -- 3. Adicionalmente, el nombre del dataset se puede buscar en eTerritorios, que devuelve el enlace del visualizador
 --    donde se muestra el código del dataset Jaxi (p. ej.: pxName=I3061_evo3.px)
