@@ -65,6 +65,4 @@
              relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20250311121701_modify_urn_length.xml"
              relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20251216142700_modify_entity_Filter.xml"
-             relativeToChangelogFile="false"/>
 </databaseChangeLog>

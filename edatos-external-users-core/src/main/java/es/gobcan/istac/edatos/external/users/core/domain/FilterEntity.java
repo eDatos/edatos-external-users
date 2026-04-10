@@ -53,9 +53,8 @@ public class FilterEntity extends AbstractVersionedAndAuditingEntity implements 
     @Column(length = 4000)
     private String notes;
 
-    @NotNull
     @ManyToOne(targetEntity = ExternalItemEntity.class)
-    @JoinColumn(columnDefinition = "external_operation_fk", referencedColumnName = "urn", nullable = false)
+    @JoinColumn(columnDefinition = "external_operation_fk", referencedColumnName = "urn")
     private ExternalOperationEntity externalOperation;
 
     @Enumerated(EnumType.STRING)
