@@ -55,8 +55,8 @@ export class FilterFormComponent implements OnInit {
     }
 
     public openSelfLink(filter: Filter) {
-        if (window._paq && window._paq.push) {
-            window._paq.push(["trackEvent", "eUsuarios", "ClickOperationLink", filter.externalOperation?.code]);
+        if (window._paq && window._paq.push && filter.externalOperation) {
+            window._paq.push(["trackEvent", "eUsuarios", "ClickOperationLink", filter.externalOperation.code]);
         }
         window.open(filter.urlPermalink, '_blank');
     }
