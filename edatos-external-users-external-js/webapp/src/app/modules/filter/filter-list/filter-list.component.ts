@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Filter } from '@app/core/model';
+import { Filter } from '@app/shared/model';
 import { FilterFilter } from '@app/modules/filter/filter-search/filter-search';
 import { FilterService } from '@app/shared/service/filter/filter.service';
 import { ResponseWrapper } from '@app/core/utils/response-utils';

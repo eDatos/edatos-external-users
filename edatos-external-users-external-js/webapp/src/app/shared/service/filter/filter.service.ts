@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Filter } from '@app/core/model';
+import { Filter } from '@app/shared/model';
 import { convert, ResponseWrapper } from '@app/core/utils/response-utils';
 import { createRequestOption, ResponseUtils } from 'arte-ng/utils';
 import { Observable } from 'rxjs';
