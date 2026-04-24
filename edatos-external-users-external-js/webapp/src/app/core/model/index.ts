@@ -3,4 +3,3 @@ export * from './user.model';
 export * from './profile-info.model';
 export * from './language.model';
 export * from './credentials.model';
-export * from './filter.model';

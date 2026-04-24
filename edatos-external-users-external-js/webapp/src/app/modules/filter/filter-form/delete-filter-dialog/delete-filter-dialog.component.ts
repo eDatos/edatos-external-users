@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Filter } from '@app/core/model';
+import { Filter } from '@app/shared/model';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FilterService } from '@app/shared/service';
