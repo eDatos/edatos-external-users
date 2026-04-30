@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfigService } from '@app/config';
-import { Filter } from '@app/core/model';
+import { Filter } from '@app/shared/model';
 import { FilterService } from '@app/shared/service';
 import {
     DeleteFilterDialogComponent
@@ -54,8 +54,11 @@ export class FilterFormComponent implements OnInit {
         }, 3000);
     }
 
-    public openSelfLink(selfLink: string) {
-        window.open(selfLink, '_blank');
+    public openSelfLink(filter: Filter) {
+        if (window._paq && window._paq.push && filter.externalOperation) {
+            window._paq.push(["trackEvent", "eUsuarios", "ClickOperationLink", filter.externalOperation.code]);
+        }
+        window.open(filter.urlPermalink, '_blank');
     }
 
     public openDeleteDialog() {

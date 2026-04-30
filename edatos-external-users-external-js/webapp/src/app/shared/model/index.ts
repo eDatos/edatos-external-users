@@ -4,6 +4,7 @@ export * from './operation.model';
 export * from './external-item.model';
 export * from './localised-string.model';
 export * from './proc-status-enum.model';
+export * from './filter.model';
 export * from './international-string.model';
 export * from './external-item-code-response.model';
 export * from './data-protection-policy.model';
