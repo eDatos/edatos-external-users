@@ -56,7 +56,11 @@ public class KafkaConsumerServiceImpl implements KafkaConsumerService {
 
         // Datasets with patch > 0 are ignored because minor modifications to datasets
         // do not get notified to users.
-        if (consumerRecord.value().getPatch() != 0) {
+        if (consumerRecord.value()
+                          .getSiemacMetadataStatisticalResource()
+                          .getLifecycleStatisticalResource()
+                          .getVersionableStatisticalResource()
+                          .getPatch() != 0) {
             LOGGER.info("Ignoring dataset {} because is a patch version. No notification will be sent", urn);
             return;
         }
