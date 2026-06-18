@@ -20,6 +20,8 @@ import es.ibestat.jaxi.stream.messages.DatasetAvro;
 import es.ibestat.jaxi.stream.messages.ProcStatusEnumAvro;
 import java.util.Optional;
 
+import static org.siemac.metamac.statistical.operations.core.stream.messages.ProcStatusEnumAvro.PUBLISH_EXTERNALLY;
+
 @Service
 public class KafkaConsumerServiceImpl implements KafkaConsumerService {
 
@@ -101,6 +103,10 @@ public class KafkaConsumerServiceImpl implements KafkaConsumerService {
     @KafkaListener(id = "operationPublicationTopicId", topics = "#{kafkaProperties.getOperationPublicationTopic()}")
     public void processOperationPublicationEvent(ConsumerRecord<String, OperationAvro> consumerRecord) {
         LOGGER.info("Kafka operation message received. Code: '{}'", consumerRecord.value().getUrn());
+        if (consumerRecord.value().getProcStatus() != PUBLISH_EXTERNALLY) {
+            LOGGER.info("Operation {} is not published externally so it will be ignored", consumerRecord.value().getUrn());
+            return;
+        }
         ExternalOperationEntity operation = externalOperationMapper.toEntity(consumerRecord.value());
         Optional<ExternalOperationEntity> inDbOperation = externalOperationService.findByUrn(operation.getUrn());
         if (inDbOperation.isPresent()) {
