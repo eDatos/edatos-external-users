@@ -20,6 +20,8 @@ import es.ibestat.jaxi.stream.messages.DatasetAvro;
 import es.ibestat.jaxi.stream.messages.ProcStatusEnumAvro;
 import java.util.Optional;
 
+import static org.siemac.metamac.statistical.operations.core.stream.messages.ProcStatusEnumAvro.PUBLISH_EXTERNALLY;
+
 @Service
 public class KafkaConsumerServiceImpl implements KafkaConsumerService {
 
@@ -51,6 +53,18 @@ public class KafkaConsumerServiceImpl implements KafkaConsumerService {
                                    .getIdentifiableStatisticalResource()
                                    .getUrn();
         LOGGER.info("Kafka dataset message received. Code: '{}'", urn);
+
+        // Datasets with patch > 0 are ignored because minor modifications to datasets
+        // do not get notified to users.
+        if (consumerRecord.value()
+                          .getSiemacMetadataStatisticalResource()
+                          .getLifecycleStatisticalResource()
+                          .getVersionableStatisticalResource()
+                          .getPatch() != 0) {
+            LOGGER.info("Ignoring dataset {} because is a patch version. No notification will be sent", urn);
+            return;
+        }
+
         ExternalDatasetEntity dataset = externalDatasetMapper.toEntity(consumerRecord.value());
         Optional<ExternalDatasetEntity> inDbDataset = externalDatasetService.findByUrn(urn);
         if (inDbDataset.isPresent()) {
@@ -101,6 +115,10 @@ public class KafkaConsumerServiceImpl implements KafkaConsumerService {
     @KafkaListener(id = "operationPublicationTopicId", topics = "#{kafkaProperties.getOperationPublicationTopic()}")
     public void processOperationPublicationEvent(ConsumerRecord<String, OperationAvro> consumerRecord) {
         LOGGER.info("Kafka operation message received. Code: '{}'", consumerRecord.value().getUrn());
+        if (consumerRecord.value().getProcStatus() != PUBLISH_EXTERNALLY) {
+            LOGGER.info("Operation {} is not published externally so it will be ignored", consumerRecord.value().getUrn());
+            return;
+        }
         ExternalOperationEntity operation = externalOperationMapper.toEntity(consumerRecord.value());
         Optional<ExternalOperationEntity> inDbOperation = externalOperationService.findByUrn(operation.getUrn());
         if (inDbOperation.isPresent()) {
