@@ -112,7 +112,7 @@ public class KafkaInitializeTopics {
             String topicNameDatasetExternalPublication = metadataConfigurationService.retrieveKafkaTopicExternalDatasetPublication();
             return createTopic(topicNameDatasetExternalPublication);
         } catch (Exception e) {
-            LOGGER.error("It is not possible create external publication topic");
+            LOGGER.error("It is not possible create external publication topic", e);
         }
         return null;
     }
@@ -129,7 +129,7 @@ public class KafkaInitializeTopics {
                 }
             }
         } catch (Exception e) {
-            LOGGER.info("error to get list available topics");
+            LOGGER.error("error to get list available topics", e);
         }
         return availableTopics;
     }

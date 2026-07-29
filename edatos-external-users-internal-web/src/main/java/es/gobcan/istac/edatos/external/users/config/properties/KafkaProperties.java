@@ -34,7 +34,7 @@ public class KafkaProperties {
         try {
             return metadataConfigurationService.retrieveKafkaTopicExternalDatasetPublication();
         } catch (Exception e) {
-            LOGGER.info("*** External publication topic name not found ***");
+            LOGGER.info("*** External publication topic name not found ***", e);
         }
         return TOPIC_NAME_UNUSED;
     }
