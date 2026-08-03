@@ -54,6 +54,16 @@ public class KafkaConsumerServiceImpl implements KafkaConsumerService {
                                    .getUrn();
         LOGGER.info("Kafka dataset message received. Code: '{}'", urn);
 
+        // Reload messages are intended only for the search indexer; ignore them here.
+        if (consumerRecord.value()
+                          .getSiemacMetadataStatisticalResource()
+                          .getLifecycleStatisticalResource()
+                          .getVersionableStatisticalResource()
+                          .getReload()) {
+            LOGGER.info("External-users. Ignoring dataset {} because reload flag is true", urn);
+            return;
+        }
+
         // Datasets with patch > 0 are ignored because minor modifications to datasets
         // do not get notified to users.
         if (consumerRecord.value()
