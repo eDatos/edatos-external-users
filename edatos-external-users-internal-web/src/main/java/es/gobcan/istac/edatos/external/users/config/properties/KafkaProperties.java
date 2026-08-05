@@ -10,7 +10,7 @@ import es.gobcan.istac.edatos.external.users.core.service.MetadataConfigurationS
 public class KafkaProperties {
     private static final Logger LOGGER = LoggerFactory.getLogger(KafkaProperties.class);
 
-    private static final String GROUP_ID = "edatos-external-users";
+    public static final String GROUP_ID = "edatos-external-users";
 
     private static final String CLIENT_ID = "edatos-external-users-client";
     
@@ -34,7 +34,7 @@ public class KafkaProperties {
         try {
             return metadataConfigurationService.retrieveKafkaTopicExternalDatasetPublication();
         } catch (Exception e) {
-            LOGGER.info("*** External publication topic name not found ***");
+            LOGGER.info("*** External publication topic name not found ***", e);
         }
         return TOPIC_NAME_UNUSED;
     }
