@@ -24,6 +24,7 @@ import org.springframework.kafka.config.KafkaListenerEndpointRegistry;
 import org.springframework.kafka.listener.MessageListenerContainer;
 import org.springframework.stereotype.Component;
 
+import es.gobcan.istac.edatos.external.users.config.properties.KafkaProperties;
 import es.gobcan.istac.edatos.external.users.core.service.MetadataConfigurationService;
 
 @Component
@@ -64,11 +65,11 @@ public class KafkaInitializeTopics {
     }
     
     private void startAvailableConsumers() {
-        runConsumer("datasetPublicationTopicId");
-        runConsumer("operationPublicationTopicId");
+        runConsumer(KafkaProperties.GROUP_ID + "-datasetPublicationTopicId");
+        runConsumer(KafkaProperties.GROUP_ID + "-operationPublicationTopicId");
         NewTopic externalPublicationTopic = getExternalDatasetsPublicationTopic();
         if (externalPublicationTopic != null) {
-            runConsumer("externalPublicationTopicId");
+            runConsumer(KafkaProperties.GROUP_ID + "-externalPublicationTopicId");
         }
 
     }
@@ -111,7 +112,7 @@ public class KafkaInitializeTopics {
             String topicNameDatasetExternalPublication = metadataConfigurationService.retrieveKafkaTopicExternalDatasetPublication();
             return createTopic(topicNameDatasetExternalPublication);
         } catch (Exception e) {
-            LOGGER.error("It is not possible create external publication topic");
+            LOGGER.error("It is not possible create external publication topic", e);
         }
         return null;
     }
@@ -128,7 +129,7 @@ public class KafkaInitializeTopics {
                 }
             }
         } catch (Exception e) {
-            LOGGER.info("error to get list available topics");
+            LOGGER.error("error to get list available topics", e);
         }
         return availableTopics;
     }

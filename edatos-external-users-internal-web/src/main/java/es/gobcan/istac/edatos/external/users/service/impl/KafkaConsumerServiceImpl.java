@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
+import es.gobcan.istac.edatos.external.users.config.properties.KafkaProperties;
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalDatasetEntity;
 import es.gobcan.istac.edatos.external.users.core.domain.ExternalOperationEntity;
 import es.gobcan.istac.edatos.external.users.core.service.ExternalDatasetService;
@@ -43,7 +44,7 @@ public class KafkaConsumerServiceImpl implements KafkaConsumerService {
     /**
      * Handles datasets coming from eDatos.
      */
-    @KafkaListener(id = "datasetPublicationTopicId", topics = "#{kafkaProperties.getDatasetPublicationTopic()}")
+    @KafkaListener(id = KafkaProperties.GROUP_ID + "-datasetPublicationTopicId", groupId = KafkaProperties.GROUP_ID, topics = "#{kafkaProperties.getDatasetPublicationTopic()}")
     public void processDatasetPublicationEvent(ConsumerRecord<String, DatasetVersionAvro> consumerRecord) {
         String urn = consumerRecord.value()
                                    .getSiemacMetadataStatisticalResource()
@@ -53,6 +54,16 @@ public class KafkaConsumerServiceImpl implements KafkaConsumerService {
                                    .getIdentifiableStatisticalResource()
                                    .getUrn();
         LOGGER.info("Kafka dataset message received. Code: '{}'", urn);
+
+        // Reload messages are intended only for the search indexer; ignore them here.
+        if (consumerRecord.value()
+                          .getSiemacMetadataStatisticalResource()
+                          .getLifecycleStatisticalResource()
+                          .getVersionableStatisticalResource()
+                          .getReload()) {
+            LOGGER.info("External-users. Ignoring dataset {} because reload flag is true", urn);
+            return;
+        }
 
         // Datasets with patch > 0 are ignored because minor modifications to datasets
         // do not get notified to users.
@@ -78,7 +89,7 @@ public class KafkaConsumerServiceImpl implements KafkaConsumerService {
     /**
      * Handles datasets coming from GPE/Jaxi.
      */
-    @KafkaListener(id = "externalPublicationTopicId", topics = "#{kafkaProperties.getDatasetExternalPublicationTopic()}")
+    @KafkaListener(id = KafkaProperties.GROUP_ID + "-externalPublicationTopicId", groupId = KafkaProperties.GROUP_ID, topics = "#{kafkaProperties.getDatasetExternalPublicationTopic()}")
     public void processDatasetExternalPublicationEvent(ConsumerRecord<String, DatasetAvro> consumerRecord) {
         String urn = consumerRecord.value().getUrn();
         LOGGER.info("Kafka external publication dataset message received. Code: '{}'", urn);
@@ -112,7 +123,7 @@ public class KafkaConsumerServiceImpl implements KafkaConsumerService {
         return true;
     }
 
-    @KafkaListener(id = "operationPublicationTopicId", topics = "#{kafkaProperties.getOperationPublicationTopic()}")
+    @KafkaListener(id = KafkaProperties.GROUP_ID + "-operationPublicationTopicId", groupId = KafkaProperties.GROUP_ID, topics = "#{kafkaProperties.getOperationPublicationTopic()}")
     public void processOperationPublicationEvent(ConsumerRecord<String, OperationAvro> consumerRecord) {
         LOGGER.info("Kafka operation message received. Code: '{}'", consumerRecord.value().getUrn());
         if (consumerRecord.value().getProcStatus() != PUBLISH_EXTERNALLY) {
