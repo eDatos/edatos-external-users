@@ -8,6 +8,13 @@
 
 *Se deberá realizar primero la actualización de la versión 1.0.0 a la 2.0.0 y luego desde la 2.0.0 a la 3.0.0*
 
+# 4.5.0 a 4.5.1-SNAPSHOT
+
+* Es necesario ejecutar el siguiente script SQL, donde se incluye la api-key para llamadas a apis desde la aplicación interna:
+
+```
+etc/changes-from-release/4.5.0/db/common-metadata/postgresql/20260901_create_external_users_internal_api_key.sql
+```
 ## 4.2.0 a 4.3.0
 
 Se debe realizar una adecuación de los datos. Para ello han de ejecutarse los scripts en el
