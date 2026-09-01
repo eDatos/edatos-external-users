@@ -21,10 +21,16 @@ export class AuthInterceptor implements HttpInterceptor {
     ) {}
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        const apiKey = this.configService.getConfig().metadata.internalApiKey;
+        
         let headers: HttpHeaders = req.headers;
 
         const token = this.localStorage.retrieve(TOKEN_AUTH_NAME) || this.sessionStorage.retrieve(TOKEN_AUTH_NAME);
 
+        if (apiKey) {
+            headers = headers.append('api-key', apiKey);
+        }
+        
         if (headers.get('X-Public-Request') == "1") {
             // Bypassing authentication for those requests that are marked as public because of CORS problems
             headers = headers.delete('X-Public-Request');
