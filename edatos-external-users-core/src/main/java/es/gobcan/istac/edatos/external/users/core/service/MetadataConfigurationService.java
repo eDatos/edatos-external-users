@@ -34,4 +34,6 @@ public interface MetadataConfigurationService extends ConfigurationService {
     boolean retrieveSimplifiedSignUp() throws EDatosException;
 
     String retrieveApiKey() throws EDatosException;
+
+    String retrieveInternalApiKey() throws EDatosException;
 }

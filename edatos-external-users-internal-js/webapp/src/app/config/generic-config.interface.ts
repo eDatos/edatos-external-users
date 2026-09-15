@@ -18,5 +18,6 @@ export interface GenericConfig {
         gender: string;
         nationalitiesRestriction: string;
         genderRestriction: string;
+        internalApiKey: string;
     };
 }
