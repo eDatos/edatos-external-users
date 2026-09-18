@@ -59,6 +59,7 @@ public class MetadataProperties {
 
     private String externalOperationsWebUrl;
     private String apiKey;
+    private String internalApiKey;
 
     @PostConstruct
     public void setValues() {
@@ -100,6 +101,7 @@ public class MetadataProperties {
             LOGGER.info("Optional property SieExternalWebApplicationUrl is not filled ");
         }
         apiKey = configurationService.retrieveApiKey();
+        internalApiKey = configurationService.retrieveInternalApiKey();
         allowedOrigins = configurationService.retrieveAllowedOrigins();
         simplifiedSignUp = configurationService.retrieveSimplifiedSignUp();
     }
@@ -222,6 +224,10 @@ public class MetadataProperties {
 
     public String getApiKey() {
         return apiKey;
+    }
+
+    public String getInternalApiKey() {
+        return internalApiKey;
     }
 
     public boolean getSimplifiedSignUp() {
